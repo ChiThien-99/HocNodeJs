@@ -1,7 +1,6 @@
 const http = require("http");
 const server = http.createServer((req, res) => {
-  const baseUrl = "http://" + req.headers.host + "/";
-  const url = new URL(req.url, baseUrl);
+  const url = new URL(req.url, `http://${req.headers.host}`);
   const hostname = url.hostname;
   const pathname = url.pathname;
   const id = url.searchParams.get("id");
