@@ -19,7 +19,7 @@
             <p><%=item.task%></p>
             <div class="btnGroup">
               <button class="btnComplete"><i class="fa-solid fa-check"></i></button>
-              <button class="btnDelete"><i class="fa-solid fa-xmark"></i></button>
+              <button class="btnDelete" data-id="<%=item.id%>"><i class="fa-solid fa-xmark"></i></button>
             </div>
         </div>
         <%})%>
@@ -53,6 +53,29 @@
         .catch((err)=>{
             console.error(`Lỗi kết nối ${err}`);
         });
+    })
+    const btnDeletes=document.querySelectorAll(".btnDelete");
+    btnDeletes.forEach(btn=>{
+        btn.addEventListener("click",(event)=>{
+          const id=event.currentTarget.getAttribute("data-id");
+          console.log(id);
+          fetch(`http://localhost:3000/todo/delete/${id}`,{
+            method:"DELETE",
+            headers:{"Content-Type":"application/json;charset=UTF-8"},
+          })
+          .then(res=>res.json())
+          .then(({mess,status,error})=>{
+            if(status){
+                alert(mess);
+                window.location.href="/todo";
+            }else{
+                alert(mess,error);
+            }
+          })
+          .catch((err)=>{
+            console.error(`Lỗi kết nối ${err}`)
+          });
+        })
     })
 </script>
 </html>
