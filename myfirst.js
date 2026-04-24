@@ -1,24 +1,43 @@
-const http = require("http");
-const server = http.createServer((req, res) => {
-  const url = new URL(req.url, `http://${req.headers.host}`);
-  const hostname = url.hostname;
-  const pathname = url.pathname;
-  const id = url.searchParams.get("id");
-  res.writeHead(200, { "content-type": "text/html" });
-  res.end(
-    JSON.stringify({
-      hostname,
-      pathname,
-      id,
-    }),
-  );
-});
-server.listen(8080, "localhost", () => {
+// const http = require("http");
+// const server = http.createServer((req, res) => {
+//   const url = new URL(req.url, `http://${req.headers.host}`);
+//   const hostname = url.hostname;
+//   const pathname = url.pathname;
+//   const id = url.searchParams.get("id");
+//   res.writeHead(200, { "content-type": "text/html" });
+//   res.end(
+//     JSON.stringify({
+//       hostname,
+//       pathname,
+//       id,
+//     }),
+//   );
+// });
+// server.listen(8080, "localhost", () => {
+//   console.log("Server running at http://localhost:8080");
+// });
+const http=require("http");
+const server=http.createServer((req,res)=>{
+  // const {url,method}=req;
+  // res.writeHead(200,{"content-type":"text/plain"});
+  // res.end(`You made a ${method} to ${url}`);
+  const url=new URL(req.url,`http://${req.headers.host}`);
+  const hostname=url.hostname;
+  const pathname=url.pathname;
+  const id=url.searchParams.get("id");
+  res.writeHead(200,{"content-type":"text/html"});
+  res.end(JSON.stringify({
+    hostname,
+    pathname,
+    id
+  }))
+})
+server.listen(8080,()=>{
   console.log("Server running at http://localhost:8080");
-});
-
+})
 const fs=require("fs/promises");
 const { error } = require("console");
+const { URL } = require("url");
 // console.log("Before");
 // const data=fs.readFileSync("baitho.txt","utf-8");
 // console.log(`Nội dung file\n${data}`);

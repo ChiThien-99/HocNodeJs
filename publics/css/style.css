@@ -1,0 +1,63 @@
+* {
+  box-sizing: border-box;
+}
+
+#addTask {
+  width: 70%;
+  height: 40px;
+  margin: 10px auto 20px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+#addTask input {
+  width: 80%;
+  height: inherit;
+  font-size: 20px;
+}
+#addTask button {
+  background-color: #027e1f;
+  color: #fafafa;
+  width: 15%;
+  height: inherit;
+  padding: 5px;
+  margin: 0 5px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+#todolist {
+  width: 70%;
+  margin: auto;
+}
+#todolist .item {
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  background-color: rgba(2, 126, 31, 0.6784313725);
+  color: #fafafa;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+#todolist .item p {
+  font-size: 20px;
+  font-weight: bold;
+}
+#todolist .item .btnComplete {
+  background-color: #027e1f;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 8px;
+}
+#todolist .item .btnDelete {
+  background-color: red;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 8px;
+}/*# sourceMappingURL=style.css.map */

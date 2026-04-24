@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDoList</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="https://kit.fontawesome.com/c1f12001f0.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div id="addTask">
+        <input type="text" placeholder="Điền công việc của bạn" id="inpTask">
+        <button id="btnTask">Thêm công việc</button>
+    </div>
+    
+    <div id="todolist">
+        <%todolist.forEach(item=>{%>
+        <div class="item">
+            <p><%=item.task%></p>
+            <div class="btnGroup">
+              <button class="btnComplete"><i class="fa-solid fa-check"></i></button>
+              <button class="btnDelete"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+        </div>
+        <%})%>
+    </div>
+    
+</body>
+<script>
+    const inpTask=document.getElementById("inpTask");
+    const btnTask=document.getElementById("btnTask");
+    btnTask.addEventListener("click",()=>{
+        const body=JSON.stringify({
+            id:0,
+            task:inpTask.value,
+            complete:false,
+        })
+        fetch("http://localhost:3000/todo/create",{
+            method:"POST",
+            headers:{"Content-type":"application/json;charset=UTF-8"},
+            body,
+        })
+        .then(res=>res.json())
+        .then((data)=>{
+           if(data&&data.id){
+            alert("Đã thêm task");
+            window.location.href="/todo";
+           }else{
+            alert("Không thể thêm task");
+           }
+           
+        })
+        .catch((err)=>{
+            console.error(`Lỗi kết nối ${err}`);
+        });
+    })
+</script>
+</html>

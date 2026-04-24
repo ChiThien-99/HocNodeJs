@@ -1,0 +1,66 @@
+$colorCTA: #027e1f;
+$colorPrimaryBG: #fafafa;
+$colorSecondaryBG: #027e1fad;
+$colorPrimaryText: #1a1a1a;
+$colorSecondaryText: #fafafa;
+@mixin button{
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 8px;
+}
+*{
+    box-sizing: border-box;
+}
+#addTask{
+    width: 70%;
+    height: 40px;
+    margin: 10px auto 20px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    input{
+        width: 80%;
+        height: inherit;
+        font-size: 20px;
+    }
+    button{
+        background-color: $colorCTA;
+        color: $colorSecondaryText;
+        width: 15%;
+        height: inherit;
+        padding: 5px;
+        margin: 0 5px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        font-weight: bold;
+    }
+}
+#todolist{
+    width: 70%;
+    margin: auto;
+    .item{
+        width: 100%;
+        margin: 10px 0;
+        padding: 10px;
+        background-color: $colorSecondaryBG;
+        color: $colorSecondaryText;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        align-items: center;
+        p{
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .btnComplete{
+            background-color: $colorCTA;
+            @include button();
+        }
+        .btnDelete{
+            background-color: red;
+            @include button();
+        }
+    }
+}
