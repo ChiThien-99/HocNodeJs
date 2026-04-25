@@ -50,6 +50,7 @@ $colorSecondaryText: #fafafa;
         flex-flow: row nowrap;
         justify-content: space-between;
         align-items: center;
+        cursor: pointer;
         p{
             font-size: 20px;
             font-weight: bold;
@@ -62,5 +63,9 @@ $colorSecondaryText: #fafafa;
             background-color: red;
             @include button();
         }
+    }
+    .complete{
+        opacity: 0.6;
+        pointer-events: none;
     }
 }

@@ -42,6 +42,7 @@
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
 }
 #todolist .item p {
   font-size: 20px;
@@ -60,4 +61,8 @@
   border-radius: 5px;
   cursor: pointer;
   padding: 8px;
+}
+#todolist .complete {
+  opacity: 0.6;
+  pointer-events: none;
 }/*# sourceMappingURL=style.css.map */
