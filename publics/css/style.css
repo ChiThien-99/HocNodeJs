@@ -1,5 +1,142 @@
+@font-face {
+  font-family: "fontLogo";
+  src: url("/Minecraft.woff2") format("woff2"), url("/Minecraft.woff") format("woff");
+  font-display: swap;
+}
+@font-face {
+  font-family: "fontWebsite";
+  src: url("/OpenSans-Regular.woff2") format("woff2"), url("/OpenSans-Regular.woff") format("woff");
+  font-display: swap;
+}
 * {
   box-sizing: border-box;
+}
+
+body {
+  background: url("/img/logo.webp") center no-repeat fixed;
+  position: relative;
+}
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  z-index: 1;
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  font-family: "fontWebsite";
+}
+
+header {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  border-bottom: 1px solid #027e1f;
+}
+header div:first-child {
+  width: 30%;
+  height: inherit;
+}
+header div:first-child h1 {
+  margin-left: 1rem;
+}
+header div:first-child h1 a {
+  color: #027e1f;
+  text-decoration: none;
+  font-size: 3.5rem;
+  font-family: "fontLogo";
+  letter-spacing: 0.3rem;
+}
+header div:last-child {
+  width: 70%;
+  height: inherit;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: end;
+  align-items: center;
+}
+header div:last-child nav {
+  width: 70%;
+}
+header div:last-child nav ul {
+  list-style: none;
+  text-align: center;
+  height: inherit;
+}
+header div:last-child nav li {
+  display: inline-block;
+  width: 8rem;
+  padding: 0.5rem;
+  border-bottom: 2px solid #027e1f;
+  margin: 0.5rem;
+  cursor: pointer;
+}
+header div:last-child nav li:hover {
+  background-color: rgba(2, 126, 31, 0.6784313725);
+  border: none;
+  border-radius: 5px;
+}
+header div:last-child nav li:hover a:only-child {
+  color: #fafafa;
+}
+header div:last-child nav li a {
+  text-decoration: none;
+  color: #027e1f;
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+header div:last-child nav li:nth-child(2) {
+  position: relative;
+}
+header div:last-child nav li:nth-child(2):hover #navCongCu {
+  color: #fafafa;
+}
+header div:last-child nav li:nth-child(2) div {
+  width: 100%;
+  position: absolute;
+  border: 1px solid #027e1f;
+  border-radius: 5px;
+  box-shadow: 2px 2px rgba(78, 78, 78, 0.76);
+  background-color: #fafafa;
+  display: none;
+  top: 2.6rem;
+  right: 0;
+}
+header div:last-child nav li:nth-child(2) div a {
+  display: inline-block;
+  font-size: 1.1rem;
+  padding: 0.25rem;
+  margin: 0.5rem 0;
+}
+header div:last-child nav li:nth-child(2) div a:hover {
+  background-color: rgba(2, 126, 31, 0.6784313725);
+  border: none;
+  border-radius: 5px;
+  color: #fafafa;
+}
+header div:last-child #groupBtn {
+  width: 30%;
+}
+header div:last-child #groupBtn button {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.7rem;
+  color: #fafafa;
+  font-weight: bold;
+  font-size: 1rem;
+  background-color: #027e1f;
+  margin: 0 0.3rem;
+  width: 40%;
+  height: 50%;
 }
 
 #addTask {
@@ -20,12 +157,12 @@
   color: #fafafa;
   width: 15%;
   height: inherit;
-  padding: 5px;
   margin: 0 5px;
-  cursor: pointer;
+  font-weight: bold;
   border: none;
   border-radius: 5px;
-  font-weight: bold;
+  cursor: pointer;
+  padding: 0.3rem;
 }
 
 #todolist {
@@ -53,16 +190,66 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  padding: 8px;
+  padding: 0.5rem;
 }
 #todolist .item .btnDelete {
   background-color: red;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  padding: 8px;
+  padding: 0.5rem;
 }
 #todolist .complete {
   opacity: 0.6;
   pointer-events: none;
+}
+
+footer {
+  width: 100%;
+  height: auto;
+  border-top: 1px solid #027e1f;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+footer div {
+  border-right: 1px solid #027e1f;
+  padding: 0.5rem;
+  width: 25%;
+}
+footer div h3 {
+  color: #027e1f;
+}
+footer div img[alt=logo_bocongthuong] {
+  width: 4.3rem;
+  height: 2.2rem;
+}
+footer div img {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: 0 0.2rem;
+}
+footer div a {
+  text-decoration: none;
+  color: black;
+  margin: 0.2rem 0;
+}
+footer div a:hover {
+  color: #027e1f;
+}
+footer div button {
+  background-color: #027e1f;
+  color: #fafafa;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+footer div:last-child p,
+footer div:last-child button {
+  margin: 0.5rem 0;
+}
+footer div:last-child input {
+  width: 90%;
+  height: 1.5rem;
 }/*# sourceMappingURL=style.css.map */

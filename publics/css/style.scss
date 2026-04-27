@@ -3,69 +3,253 @@ $colorPrimaryBG: #fafafa;
 $colorSecondaryBG: #027e1fad;
 $colorPrimaryText: #1a1a1a;
 $colorSecondaryText: #fafafa;
-@mixin button{
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    padding: 8px;
+@mixin button($pd) {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: $pd;
 }
-*{
-    box-sizing: border-box;
+@font-face {
+  font-family: "fontLogo";
+  src:
+    url("/Minecraft.woff2") format("woff2"),
+    url("/Minecraft.woff") format("woff");
+  font-display: swap;
 }
-#addTask{
+@font-face {
+  font-family: "fontWebsite";
+  src:
+    url("/OpenSans-Regular.woff2") format("woff2"),
+    url("/OpenSans-Regular.woff") format("woff");
+  font-display: swap;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  background: url("/img/logo.webp") center no-repeat fixed;
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    z-index: 1;
+  }
+}
+.content {
+  position: relative;
+  z-index: 2;
+  font-family: "fontWebsite";
+}
+
+header {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  border-bottom: 1px solid $colorCTA;
+  div:first-child {
+    width: 30%;
+    height: inherit;
+    h1 {
+      margin-left: 1rem;
+      a {
+        color: $colorCTA;
+        text-decoration: none;
+        font-size: 3.5rem;
+        font-family: "fontLogo";
+        letter-spacing: 0.3rem;
+      }
+    }
+  }
+  div:last-child {
     width: 70%;
-    height: 40px;
-    margin: 10px auto 20px;
+    height: inherit;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: end;
+    align-items: center;
+    nav {
+      width: 70%;
+      ul {
+        list-style: none;
+        text-align: center;
+        height: inherit;
+      }
+      li {
+        display: inline-block;
+        width: 8rem;
+        padding: 0.5rem;
+        border-bottom: 2px solid $colorCTA;
+        margin: 0.5rem;
+        cursor: pointer;
+        &:hover {
+          background-color: $colorSecondaryBG;
+          border: none;
+          border-radius: 5px;
+          a:only-child {
+            color: $colorSecondaryText;
+          }
+        }
+        a {
+          text-decoration: none;
+          color: $colorCTA;
+          font-weight: bold;
+          font-size: 1.3rem;
+        }
+      }
+      li:nth-child(2) {
+        position: relative;
+        &:hover {
+          #navCongCu {
+            color: $colorSecondaryText;
+          }
+        }
+        div {
+          width: 100%;
+          position: absolute;
+          border: 1px solid $colorCTA;
+          border-radius: 5px;
+          box-shadow: 2px 2px rgba(78, 78, 78, 0.76);
+          background-color: $colorPrimaryBG;
+          display: none;
+          top: 2.6rem;
+          right: 0;
+          a {
+            display: inline-block;
+            font-size: 1.1rem;
+            padding: 0.25rem;
+            margin: 0.5rem 0;
+            &:hover {
+              background-color: $colorSecondaryBG;
+              border: none;
+              border-radius: 5px;
+              color: $colorSecondaryText;
+            }
+          }
+        }
+      }
+    }
+    #groupBtn {
+      width: 30%;
+      button {
+        @include button(0.7rem);
+        color: $colorSecondaryText;
+        font-weight: bold;
+        font-size: 1rem;
+        background-color: $colorCTA;
+        margin: 0 0.3rem;
+        width: 40%;
+        height: 50%;
+      }
+    }
+  }
+}
+
+#addTask {
+  width: 70%;
+  height: 40px;
+  margin: 10px auto 20px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  input {
+    width: 80%;
+    height: inherit;
+    font-size: 20px;
+  }
+  button {
+    background-color: $colorCTA;
+    color: $colorSecondaryText;
+    width: 15%;
+    height: inherit;
+    margin: 0 5px;
+    font-weight: bold;
+    @include button(0.3rem);
+  }
+}
+#todolist {
+  width: 70%;
+  margin: auto;
+  .item {
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    background-color: $colorSecondaryBG;
+    color: $colorSecondaryText;
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
-    input{
-        width: 80%;
-        height: inherit;
-        font-size: 20px;
+    align-items: center;
+    cursor: pointer;
+    p {
+      font-size: 20px;
+      font-weight: bold;
     }
-    button{
-        background-color: $colorCTA;
-        color: $colorSecondaryText;
-        width: 15%;
-        height: inherit;
-        padding: 5px;
-        margin: 0 5px;
-        cursor: pointer;
-        border: none;
-        border-radius: 5px;
-        font-weight: bold;
+    .btnComplete {
+      background-color: $colorCTA;
+      @include button(0.5rem);
     }
+    .btnDelete {
+      background-color: red;
+      @include button(0.5rem);
+    }
+  }
+  .complete {
+    opacity: 0.6;
+    pointer-events: none;
+  }
 }
-#todolist{
-    width: 70%;
-    margin: auto;
-    .item{
-        width: 100%;
-        margin: 10px 0;
-        padding: 10px;
-        background-color: $colorSecondaryBG;
-        color: $colorSecondaryText;
-        display: flex;
-        flex-flow: row nowrap;
-        justify-content: space-between;
-        align-items: center;
-        cursor: pointer;
-        p{
-            font-size: 20px;
-            font-weight: bold;
-        }
-        .btnComplete{
-            background-color: $colorCTA;
-            @include button();
-        }
-        .btnDelete{
-            background-color: red;
-            @include button();
-        }
+footer {
+  width: 100%;
+  height: auto;
+  border-top: 1px solid $colorCTA;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  div {
+    border-right: 1px solid $colorCTA;
+    padding: 0.5rem;
+    width: 25%;
+    h3 {
+      color: $colorCTA;
     }
-    .complete{
-        opacity: 0.6;
-        pointer-events: none;
+    img[alt="logo_bocongthuong"] {
+      width: 4.3rem;
+      height: 2.2rem;
     }
+    img {
+      width: 1.5rem;
+      height: 1.5rem;
+      margin: 0 0.2rem;
+    }
+    a {
+      text-decoration: none;
+      color: black;
+      margin: 0.2rem 0;
+      &:hover {
+        color: $colorCTA;
+      }
+    }
+    button {
+      background-color: $colorCTA;
+      color: $colorSecondaryText;
+      @include button(0.5rem);
+    }
+    &:last-child {
+      p,
+      button {
+        margin: 0.5rem 0;
+      }
+      input {
+        width: 90%;
+        height: 1.5rem;
+      }
+    }
+  }
 }
