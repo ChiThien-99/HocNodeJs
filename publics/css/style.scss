@@ -205,6 +205,35 @@ header {
     pointer-events: none;
   }
 }
+// #dataFile{
+//   white-space: pre-wrap;//Giữ nguyên format và tự động xuống dòng
+//   word-wrap: break-word;//Từ dài không bị tràn khung
+// }
+#areaTransUppper{
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  gap: 0.5rem;
+  textarea{
+    width: 40%;
+    height: 15rem;
+  }
+  button{
+    width: 20%;
+    height: 3rem;
+    @include button(0.5rem);
+    background-color: $colorCTA;
+    color: $colorSecondaryText;
+  }
+}
+#btnDownloadFileUpper{
+    @include button(0.5rem);
+    background-color: $colorCTA;
+    color: $colorSecondaryText;
+    margin: 1rem 0;
+}
 footer {
   width: 100%;
   height: auto;

@@ -1,12 +1,22 @@
-const express = require("express");
-const cors = require("cors");
-const crypto = require("crypto");
-const https = require("https");
-const fs = require("fs");
-const path = require("path");
-const helmet = require("helmet");
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+// Khôi phục __filename và __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Bây giờ bạn có thể sử dụng __dirname bình thường
+// Ví dụ: express.static(path.join(__dirname, "publics"), { ... });
+import express from "express";
+import cors from "cors";
+import crypto from "crypto";
+import https from "https";
+import fs from "fs";
+import path from "path";
+import helmet from "helmet";
 const app = express();
-const todoRouter = require("./routers/todo.router");
+import {routerTodo} from "./routers/todo.router.js";
+import {routerFile} from "./routers/file.router.js";
 
 app.use(
   helmet({
@@ -54,7 +64,8 @@ app.get("/api/status", (req, res) => {
     nodeVersion: process.version,
   });
 });
-app.use("/", todoRouter);
+app.use("/", routerTodo);
+app.use("/",routerFile);
 // Xử lý lỗi middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
