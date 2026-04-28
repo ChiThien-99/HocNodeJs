@@ -1,4 +1,4 @@
-import {scriptHeader} from "../publics/script.js";
+import { scriptHeader } from "/script.js";
 scriptHeader();
 const inpTask = document.getElementById("inpTask");
 const btnTask = document.getElementById("btnTask");
