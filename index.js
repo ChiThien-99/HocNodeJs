@@ -17,6 +17,8 @@ import helmet from "helmet";
 const app = express();
 import {routerTodo} from "./routers/todo.router.js";
 import {routerFile} from "./routers/file.router.js";
+import {dashboardRouter} from "./routers/dashboard.router.js";
+import {routerLoginAdmin} from "./routers/loginAdmin.router.js";
 
 app.use(
   helmet({
@@ -66,6 +68,8 @@ app.get("/api/status", (req, res) => {
 });
 app.use("/", routerTodo);
 app.use("/",routerFile);
+app.use("/",dashboardRouter);
+app.use("/",routerLoginAdmin);
 // Xử lý lỗi middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);

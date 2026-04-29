@@ -237,6 +237,84 @@ header div:last-child #groupBtn button {
   margin: 1rem 0;
 }
 
+#mainDashboard {
+  display: flex;
+  width: 100%;
+  height: auto;
+  flex-flow: row nowrap;
+}
+#mainDashboard #navDashboard {
+  width: 20%;
+  border: 1px solid #027e1f;
+}
+#mainDashboard #navDashboard div {
+  padding: 1rem;
+}
+#mainDashboard #navDashboard div h2, #mainDashboard #navDashboard div h3 {
+  color: #027e1f;
+}
+#mainDashboard #navDashboard .navBtnDB {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid #027e1f;
+  color: #027e1f;
+  cursor: pointer;
+  background-color: white;
+}
+#mainDashboard #navDashboard .navBtnDB.active {
+  background-color: #027e1f;
+  color: #fafafa;
+}
+#mainDashboard #contentDashboard {
+  width: 80%;
+  border: 1px solid #027e1f;
+}
+#mainDashboard #contentDashboard .tabContent {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out;
+  position: absolute;
+  padding: 1rem;
+}
+#mainDashboard #contentDashboard .tabContent.active {
+  opacity: 1;
+  visibility: visible;
+  position: relative;
+}
+
+#loginContainer {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+}
+#loginContainer #loginForm {
+  width: 50%;
+  height: auto;
+  padding: 1rem;
+  border: 1px solid #027e1f;
+  border-radius: 5px;
+}
+#loginContainer #loginForm input {
+  width: 100%;
+  height: 2rem;
+  font-size: 1rem;
+}
+#loginContainer #loginForm input:focus {
+  border: 2px solid #027e1f;
+  outline: none;
+}
+#loginContainer #loginForm button {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #027e1f;
+  color: #fafafa;
+  margin: 1rem 0;
+}
+
 footer {
   width: 100%;
   height: auto;

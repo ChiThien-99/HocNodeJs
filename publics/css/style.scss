@@ -45,7 +45,7 @@ body {
   z-index: 2;
   font-family: "fontWebsite";
 }
-
+//**CSS Header
 header {
   width: 100%;
   height: auto;
@@ -150,7 +150,7 @@ header {
     }
   }
 }
-
+//**CSS Todolist
 #addTask {
   width: 70%;
   height: 40px;
@@ -209,6 +209,7 @@ header {
 //   white-space: pre-wrap;//Giữ nguyên format và tự động xuống dòng
 //   word-wrap: break-word;//Từ dài không bị tràn khung
 // }
+//**CSS File
 #areaTransUppper{
   width: 100%;
   height: auto;
@@ -233,6 +234,81 @@ header {
     background-color: $colorCTA;
     color: $colorSecondaryText;
     margin: 1rem 0;
+}
+//**CSS Dashboard
+#mainDashboard{
+  display: flex;
+  width: 100%;
+  height: auto;
+  flex-flow: row nowrap;
+  #navDashboard{
+    width: 20%;
+    border: 1px solid $colorCTA;
+    div{
+      padding: 1rem;
+       h2,h3{
+      color: $colorCTA;
+    }
+    }
+    .navBtnDB{
+      width: 100%;
+      padding: 1rem;
+      border: 1px solid $colorCTA;
+      color: $colorCTA;
+      cursor: pointer;
+      background-color: white;
+    }
+    .navBtnDB.active{
+      background-color: $colorCTA;
+      color: $colorSecondaryText;
+    }
+  }
+  #contentDashboard{
+    width: 80%;
+    border: 1px solid $colorCTA;
+    .tabContent{
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease-in-out;
+      position: absolute;
+      padding: 1rem;
+    }
+    .tabContent.active{
+      opacity: 1;
+      visibility: visible;
+      position: relative;
+    }
+  }
+}
+//**CSS Login
+#loginContainer{
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  #loginForm{
+    width: 50%;
+    height: auto;
+    padding: 1rem;
+    border: 1px solid $colorCTA;
+    border-radius: 5px;
+    input{
+      width: 100%;
+      height: 2rem;
+      font-size: 1rem;
+      &:focus{
+        border: 2px solid $colorCTA;
+        outline: none;
+      }
+    }
+    button{
+      @include button(0.5rem);
+      background-color: $colorCTA;
+      color: $colorSecondaryText;
+      margin: 1rem 0;
+    }
+  }
 }
 footer {
   width: 100%;

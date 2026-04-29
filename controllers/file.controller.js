@@ -1,4 +1,5 @@
 import fs from "fs/promises";
+import os from "os";
 export const getFile = async (req, res) => {
   // try {
   //     const data=await fs.readFile("baitho.txt","utf-8");
@@ -40,3 +41,16 @@ export const downloadFile = (req, res) => {
     fs.unlink(pathFile);
   });
 };
+console.log(`OS platform: ${os.platform()}`);
+console.log(`OS type: ${os.type()}`);
+console.log(`OS release: ${os.release()}`);
+console.log(`CPU Architure: ${os.arch()}`);
+console.log(`OS hostname: ${os.hostname()}`);
+const totalMemGB=(os.totalmem()/(1024*1024*1024)).toFixed(2);
+const freeMemGB=(os.freemem()/(1024*1024*1024)).toFixed(2);
+console.log(`Memory: ${freeMemGB} free of ${totalMemGB}`);
+const userInfo=os.userInfo();
+console.log(`User info: ${userInfo.username}`);
+console.log(`Home directory: ${os.homedir}`);
+
+

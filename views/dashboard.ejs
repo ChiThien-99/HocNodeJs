@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ToDoList</title>
+    <title>Dashboard</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
     <link rel="preload" href="/Minecraft.woff2" as="font" type="font/woff2" crossorigin>
@@ -39,23 +39,25 @@
             
         </div>
     </header>
-    <div id="addTask">
-        <p style="display: none;" id="idTask"></p>
-        <input type="text" placeholder="Điền công việc của bạn" id="inpTask">
-        <button id="btnTask">Thêm công việc</button>
-    </div>
-    
-    <div id="todolist">
-        <%todolist.forEach(item=>{%>
-        <div class="item <%=item.complete?'complete':''%>" data-id="<%=item.id%>">
-            <p><%=item.task%></p>
-            <div class="btnGroup">
-              <button class="btnComplete" data-id="<%=item.id%>"><i class="fa-solid fa-check"></i></button>
-              <button class="btnDelete" data-id="<%=item.id%>"><i class="fa-solid fa-xmark"></i></button>
+    <main id="mainDashboard">
+        <div id="navDashboard">
+            <div>
+               <h2>Tên user</h2>
+               <h3>Chức vụ</h3>
+            </div>
+            <button data-target="workMng" class="navBtnDB active">Quản lý công việc</button>
+            <button data-target="serverMng" class="navBtnDB">Quản lý server</button>
+        </div>
+        <div id="contentDashboard">
+            <div id="workMng" class="tabContent active">
+                <h1>Nội dung quản lý công việc</h1>
+            </div>
+            <div id="serverMng" class="tabContent">
+                <h1>Thông tin server</h1>
+                <pre><%=jsonSystemInfo%></pre>
             </div>
         </div>
-        <%})%>
-    </div>
+    </main>
     <footer>
         <div>
             <h3>Thông tin doanh nghiệp</h3>
@@ -99,7 +101,6 @@
         </div>
     </footer>
     </div>
-    
 </body>
-<script type="module" src="/todo.js" defer></script>
+<script type="module" src="/dashboard.js" defer></script>
 </html>

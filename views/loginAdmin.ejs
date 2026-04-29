@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+    <link rel="preload" href="/Minecraft.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/OpenSans-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <script src="https://kit.fontawesome.com/c1f12001f0.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="content">
+        <div id="loginContainer">
+            <form action="" id="loginForm">
+                <h2>Đăng nhập dành cho quản trị viên</h2>
+                <div>
+                    <label for="emailAdmin">Email</label><br>
+                    <input type="email" name="emailAdmin" id="emailAdmin">
+                </div>
+                <div>
+                    <label for="pwAdmin">Mật khẩu</label><br>
+                    <input type="email" name="pwAdmin" id="pwAdmin">
+                </div>
+                <button type="submit">Đăng nhập</button>
+                <p id="messLoginAdmin"></p>
+            </form>
+        </div>
+    </div>
+</body>
+<script type="module" src="/loginAdmin.js" defer></script>
+</html>
