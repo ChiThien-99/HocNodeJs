@@ -1,106 +1,197 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
-    <link rel="preload" href="/Minecraft.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/OpenSans-Regular.woff2" as="font" type="font/woff2" crossorigin>
-    <script src="https://kit.fontawesome.com/c1f12001f0.js" crossorigin="anonymous"></script>
-</head>
-<body>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link
+      rel="preload"
+      href="/Minecraft.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/OpenSans-Regular.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <script
+      src="https://kit.fontawesome.com/c1f12001f0.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
     <div class="content">
-<header>
+      <header>
         <div>
-            <h1><a href="/">IMZ.AI</a></h1>
+          <h1><a href="/">IMZ.AI</a></h1>
         </div>
         <div>
-            <nav>
-                <ul>
-                    <li><a href="#">Trang chủ</a></li>
-                    <li>
-                        <a href="#" id="navCongCu">Công cụ <i class="fa-solid fa-caret-down"></i></a>
-                        <div id="listNavCongCu">
-                            <a href="/todo">To Do List</a><br>
-                            <a href="/file">Upper Text</a><br>
-                            <a href="#">Ứng dụng 3</a><br>
-                        </div>
-                    </li>
-                    <li><a href="#">Tin tức</a></li>
-                    <li><a href="#">Góp ý</a></li>
-                </ul>
-            </nav>
-            <div id="groupBtn">
-                <button>Đăng ký</button>
-                <button>Đăng nhập</button>
-            </div>
-            
+          <nav>
+            <ul>
+              <li><a href="#">Trang chủ</a></li>
+              <li>
+                <a href="#" id="navCongCu"
+                  >Công cụ <i class="fa-solid fa-caret-down"></i
+                ></a>
+                <div id="listNavCongCu">
+                  <a href="/todo">To Do List</a><br />
+                  <a href="/file">Upper Text</a><br />
+                  <a href="#">Ứng dụng 3</a><br />
+                </div>
+              </li>
+              <li><a href="#">Tin tức</a></li>
+              <li><a href="#">Góp ý</a></li>
+            </ul>
+          </nav>
+          <div id="groupBtn">
+            <button>Đăng ký</button>
+            <button>Đăng nhập</button>
+          </div>
         </div>
-    </header>
-    <main id="mainDashboard">
+      </header>
+      <main id="mainDashboard">
         <div id="navDashboard">
-            <div>
-               <h2>Tên user</h2>
-               <h3>Chức vụ</h3>
-            </div>
-            <button data-target="workMng" class="navBtnDB active">Quản lý công việc</button>
-            <button data-target="serverMng" class="navBtnDB">Quản lý server</button>
+          <div>
+            <h2>Tên user</h2>
+            <h3>Chức vụ</h3>
+          </div>
+          <button data-target="workMng" class="navBtnDB active">
+            <i class="fa-regular fa-clipboard"></i> Quản lý công việc
+          </button>
+          <button data-target="serverMng" class="navBtnDB">
+            <i class="fa-solid fa-server"></i> Quản lý server
+          </button>
+          <button data-target="userMng" class="navBtnDB">
+            <i class="fa-solid fa-user"></i> Quản lý user
+          </button>
         </div>
         <div id="contentDashboard">
-            <div id="workMng" class="tabContent active">
-                <h1>Nội dung quản lý công việc</h1>
-            </div>
-            <div id="serverMng" class="tabContent">
-                <h1>Thông tin server</h1>
-                <pre><%=jsonSystemInfo%></pre>
-            </div>
+          <div id="workMng" class="tabContent active">
+            <h2>Nội dung quản lý công việc</h2>
+          </div>
+          <div id="serverMng" class="tabContent">
+            <h2>1.Thông tin server</h2>
+            <pre><%=jsonSystemInfo%></pre>
+          </div>
+          <div id="userMng" class="tabContent">
+            <h2>1.Thêm tài khoản quản trị</h2>
+            <form id="registerAdmin">
+              <label for="emailAdminDB">Email</label><br />
+              <input type="email" name="emailAdmin" id="emailAdminDB" /><br />
+              <label for="pwAdminDB">Password</label><br />
+              <input type="text" name="pwAdminDB" id="pwAdminDB" /><br />
+              <p>Phân quyền</p>
+              <div id="formDecentralize">
+                <input
+                  type="checkbox"
+                  name="decentAdmin"
+                  id="decentWork"
+                  value="work"
+                />
+                <label for="decentWork">Quản lý công việc</label><br />
+                <input
+                  type="checkbox"
+                  name="decentAdmin"
+                  id="decentServer"
+                  value="server"
+                />
+                <label for="decentServer">Quản lý server</label><br />
+                <input
+                  type="checkbox"
+                  name="decentAdmin"
+                  id="decentUser"
+                  value="user"
+                />
+                <label for="decentUser">Quản lý user</label><br />
+                <input
+                  type="checkbox"
+                  name="decentAdmin"
+                  id="decentTool"
+                  value="tool"
+                />
+                <label for="decentTool">Quản lý công cụ</label><br />
+                <input
+                  type="checkbox"
+                  name="decentAdmin"
+                  id="decentProduct"
+                  value="product"
+                />
+                <label for="decentProduct">Quản lý sản phẩm</label><br />
+                <input
+                  type="checkbox"
+                  name="decentAdmin"
+                  id="decentNews"
+                  value="news"
+                />
+                <label for="decentNews">Quản lý tin tức</label><br />
+                <input
+                  type="checkbox"
+                  name="decentAdmin"
+                  id="decentFeedBack"
+                  value="feedback"
+                />
+                <label for="decentFeedBack">Quản lý góp ý</label><br />
+              </div>
+              <button type="submit">Đăng ký</button>
+            </form>
+          </div>
         </div>
-    </main>
-    <footer>
+      </main>
+      <footer>
         <div>
-            <h3>Thông tin doanh nghiệp</h3>
-            <p>Công Ty TNHH Công Nghệ IMZ</p>
-            <p>MST:......</p>
-            <p>Địa chỉ:...... <a href="/">Xem bản đồ</a></p>
-            <p>Email:......</p>
-            <a href="/"><img src="/img/bocongthuong.webp" alt="logo_bocongthuong"></a>
-            <a href="/"><img src="/img/chung_chi_ssl.webp" alt="logo_chung_chi_ssl"></a>
-            <a href="/"><img src="/img/pci_dss.png" alt="logo_pci_dss"></a> 
-            <h3>Mạng xã hội</h3>
-            <a href="/"><img src="/img/logo_fb.webp" alt="logo_fb"></a>
-            <a href="/"><img src="/img/logo_zalo.webp" alt="logo_zalo"></a>
-            <a href="/"><img src="/img/logo_tiktok.avif" alt="logo_youtube"></a>
-            <a href="/"><img src="/img/logo_youtube.webp" alt="logo_youtube"></a>   
+          <h3>Thông tin doanh nghiệp</h3>
+          <p>Công Ty TNHH Công Nghệ IMZ</p>
+          <p>MST:......</p>
+          <p>Địa chỉ:...... <a href="/">Xem bản đồ</a></p>
+          <p>Email:......</p>
+          <a href="/"
+            ><img src="/img/bocongthuong.webp" alt="logo_bocongthuong"
+          /></a>
+          <a href="/"
+            ><img src="/img/chung_chi_ssl.webp" alt="logo_chung_chi_ssl"
+          /></a>
+          <a href="/"><img src="/img/pci_dss.png" alt="logo_pci_dss" /></a>
+          <h3>Mạng xã hội</h3>
+          <a href="/"><img src="/img/logo_fb.webp" alt="logo_fb" /></a>
+          <a href="/"><img src="/img/logo_zalo.webp" alt="logo_zalo" /></a>
+          <a href="/"><img src="/img/logo_tiktok.avif" alt="logo_youtube" /></a>
+          <a href="/"
+            ><img src="/img/logo_youtube.webp" alt="logo_youtube"
+          /></a>
         </div>
         <div>
-            <h3>Chính sách</h3>
-            <a href="/">AI Privacy & Trust</a><br>
-            <a href="/">Điều khoản dịch vụ</a><br>
-            <a href="/">Tuyên bố từ chối trách nhiệm</a><br>
-            <h3>Cổng thanh toán</h3>
-            <a href="/"><img src="/img/logo_paypal.webp" alt="logo_paypal"></a>
-            <a href="/"><img src="/img/logo_momo.webp" alt="logo_momo"></a>
-            <a href="/"><img src="/img/logo_vnpay.webp" alt="logo_vnpay"></a>
-            <a href="/"><img src="/img/logo_bank.webp" alt="logo_bank"></a>
+          <h3>Chính sách</h3>
+          <a href="/">AI Privacy & Trust</a><br />
+          <a href="/">Điều khoản dịch vụ</a><br />
+          <a href="/">Tuyên bố từ chối trách nhiệm</a><br />
+          <h3>Cổng thanh toán</h3>
+          <a href="/"><img src="/img/logo_paypal.webp" alt="logo_paypal" /></a>
+          <a href="/"><img src="/img/logo_momo.webp" alt="logo_momo" /></a>
+          <a href="/"><img src="/img/logo_vnpay.webp" alt="logo_vnpay" /></a>
+          <a href="/"><img src="/img/logo_bank.webp" alt="logo_bank" /></a>
         </div>
         <div>
-            <h3>Công cụ</h3>
-            <a href="/">To Do List</a><br>
-            <a href="/">Ứng dụng 2</a><br>
-            <a href="/">Ứng dụng 3</a><br>
+          <h3>Công cụ</h3>
+          <a href="/">To Do List</a><br />
+          <a href="/">Ứng dụng 2</a><br />
+          <a href="/">Ứng dụng 3</a><br />
         </div>
         <div>
-            <h3>Đăng ký nhận tin khuyến mãi</h3>
-            <p>Email</p>
-            <input type="text"><br>
-            <p>Số điện thoại</p>
-            <input type="text"><br>
-            <button>Đăng ký</button>
+          <h3>Đăng ký nhận tin khuyến mãi</h3>
+          <p>Email</p>
+          <input type="text" /><br />
+          <p>Số điện thoại</p>
+          <input type="text" /><br />
+          <button>Đăng ký</button>
         </div>
-    </footer>
+      </footer>
     </div>
-</body>
-<script type="module" src="/dashboard.js" defer></script>
+  </body>
+  <script type="module" src="/dashboard.js" defer></script>
 </html>

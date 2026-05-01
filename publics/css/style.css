@@ -250,7 +250,8 @@ header div:last-child #groupBtn button {
 #mainDashboard #navDashboard div {
   padding: 1rem;
 }
-#mainDashboard #navDashboard div h2, #mainDashboard #navDashboard div h3 {
+#mainDashboard #navDashboard div h2,
+#mainDashboard #navDashboard div h3 {
   color: #027e1f;
 }
 #mainDashboard #navDashboard .navBtnDB {
@@ -260,6 +261,8 @@ header div:last-child #groupBtn button {
   color: #027e1f;
   cursor: pointer;
   background-color: white;
+  font-size: 1rem;
+  text-align: start;
 }
 #mainDashboard #navDashboard .navBtnDB.active {
   background-color: #027e1f;
@@ -280,6 +283,38 @@ header div:last-child #groupBtn button {
   opacity: 1;
   visibility: visible;
   position: relative;
+}
+#mainDashboard #contentDashboard #registerAdmin {
+  border: 1px solid #027e1f;
+  width: 50%;
+  height: auto;
+  padding: 1rem;
+}
+#mainDashboard #contentDashboard #registerAdmin input[type=email],
+#mainDashboard #contentDashboard #registerAdmin input[type=text] {
+  width: 100%;
+  height: 2rem;
+  font-size: 1rem;
+}
+#mainDashboard #contentDashboard #registerAdmin input[type=email]:focus,
+#mainDashboard #contentDashboard #registerAdmin input[type=text]:focus {
+  outline: none;
+  border: 2px solid #027e1f;
+}
+#mainDashboard #contentDashboard #registerAdmin button {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #027e1f;
+  color: #fafafa;
+  margin: 1rem 0;
+}
+#mainDashboard #contentDashboard #registerAdmin #formDecentralize {
+  width: 100%;
+  height: auto;
+  border: 1px solid #027e1f;
+  padding: 0.5rem;
 }
 
 #loginContainer {

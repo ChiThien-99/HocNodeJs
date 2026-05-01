@@ -1,5 +1,5 @@
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
 // Khôi phục __filename và __dirname
 const __filename = fileURLToPath(import.meta.url);
@@ -14,11 +14,13 @@ import https from "https";
 import fs from "fs";
 import path from "path";
 import helmet from "helmet";
+import { connectDB } from "./database.js";
+connectDB();
 const app = express();
-import {routerTodo} from "./routers/todo.router.js";
-import {routerFile} from "./routers/file.router.js";
-import {dashboardRouter} from "./routers/dashboard.router.js";
-import {routerLoginAdmin} from "./routers/loginAdmin.router.js";
+import { routerTodo } from "./routers/todo.router.js";
+import { routerFile } from "./routers/file.router.js";
+import { dashboardRouter } from "./routers/dashboard.router.js";
+import { routerLoginAdmin } from "./routers/loginAdmin.router.js";
 
 app.use(
   helmet({
@@ -38,7 +40,15 @@ app.use(
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(
+  cors({
+    exposedHeaders: [
+      "RateLimit-Limit",
+      "RateLimit-Remaining",
+      "RateLimit-Reset",
+    ],
+  }),
+);
 // Cấu hình file public
 app.use(
   express.static(path.join(__dirname, "publics"), {
@@ -67,9 +77,9 @@ app.get("/api/status", (req, res) => {
   });
 });
 app.use("/", routerTodo);
-app.use("/",routerFile);
-app.use("/",dashboardRouter);
-app.use("/",routerLoginAdmin);
+app.use("/", routerFile);
+app.use("/", dashboardRouter);
+app.use("/", routerLoginAdmin);
 // Xử lý lỗi middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
