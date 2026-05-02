@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard Admin</title>
+    <title>Login Admin</title>
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
     <link
@@ -24,11 +24,21 @@
       src="https://kit.fontawesome.com/c1f12001f0.js"
       crossorigin="anonymous"
     ></script>
+    <script type="importmap">
+  {
+    "imports": {
+      "axios": "/axios.js"
+    }
+  }
+</script>
   </head>
   <body>
     <div class="content">
+      <div id="alert">
+        <p>Thông báo lần 1</p>
+      </div>
       <div id="loginContainer">
-        <form action="" id="loginForm">
+        <form id="loginForm" method="post">
           <h2>Đăng nhập dành cho quản trị viên</h2>
           <div>
             <label for="emailAdmin">Email</label><br />
@@ -38,13 +48,17 @@
             <label for="pwAdmin">Mật khẩu</label><br />
             <input type="password" name="pwAdmin" id="pwAdmin" />
           </div>
-          <button type="submit">Đăng nhập</button>
+          <button type="submit" id="btnSubmitAdmin">Đăng nhập</button>
           <p id="messLoginAdmin">
             Số lần đăng nhập còn lại <span id="remainingRate">--</span>/<span
               id="limitRate"
               >--</span
             >
           </p>
+          <div id="rateLimitAlert">
+            <strong>Quá nhiều lần thử!</strong>
+            <p id="remainingTime">Vui lòng chờ...</p>
+          </div>
         </form>
       </div>
     </div>

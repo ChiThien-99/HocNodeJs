@@ -10,8 +10,8 @@ document.querySelectorAll(".navBtnDB").forEach((button) => {
 });
 document.getElementById("registerAdmin").addEventListener("submit", (e) => {
   e.preventDefault();
-  const emailAdminDB = document.getElementById("emailAdminDB").value;
-  const pwAdminDB = document.getElementById("pwAdminDB").value;
+  const emailAdmin = document.getElementById("emailAdmin").value;
+  const pwAdmin = document.getElementById("pwAdmin").value;
   const listDecentAdmin = document.querySelectorAll(
     "input[name='decentAdmin']:checked",
   );
@@ -21,7 +21,7 @@ document.getElementById("registerAdmin").addEventListener("submit", (e) => {
   fetch("/dashboard/registerAdmin", {
     method: "POST",
     headers: { "Content-Type": "application/json;charset=UTF-8" },
-    body: JSON.stringify({ emailAdminDB, pwAdminDB, valueDecentAdmin }),
+    body: JSON.stringify({ emailAdmin, pwAdmin, valueDecentAdmin }),
   })
     .then((res) => res.json())
     .then(({ mess, status, err }) => {

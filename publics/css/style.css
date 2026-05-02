@@ -33,6 +33,24 @@ body::before {
   font-family: "fontWebsite";
 }
 
+#alert {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translate(-50%, -150%);
+  opacity: 1;
+  width: auto;
+  height: auto;
+  padding: 1rem;
+  background-color: #027e1f;
+  color: #fafafa;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 1rem;
+  z-index: 1000;
+}
+
 header {
   width: 100%;
   height: auto;
@@ -348,6 +366,16 @@ header div:last-child #groupBtn button {
   background-color: #027e1f;
   color: #fafafa;
   margin: 1rem 0;
+}
+#loginContainer #loginForm #rateLimitAlert {
+  width: 100%;
+  height: auto;
+  border: none;
+  border-radius: 5px;
+  padding: 1rem;
+  background-color: rgba(255, 0, 0, 0.5);
+  color: #fafafa;
+  display: none;
 }
 
 footer {

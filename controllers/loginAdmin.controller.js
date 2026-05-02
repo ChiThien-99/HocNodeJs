@@ -6,16 +6,21 @@ export const getLoginAdmin = (req, res) => {
   res.render("loginAdmin.ejs");
 };
 export const postLoginAdmin = async (req, res) => {
-  const { emailAdmin, pwAdmin } = req.body;
+  try {
+    const { emailAdmin, pwAdmin } = req.body;
   const user = await adminEntity.findOne({ email: emailAdmin });
-  const isMatch = await bcrypt.compare(pwAdmin, user.password);
-  if (!user || !isMatch) {
-    res.json({ mess: "Sai thông tin đăng nhập" });
+  if (!user || !(await bcrypt.compare(pwAdmin, user.password))) {
+    return res.status(401).json({mess:"Sai thông tin đăng nhập", success:false});
   }
   const token = jwt.sign(
     { id: user.id, role: user.role },
     process.env.JWT_SECRET,
     { expiresIn: "15m" },
   );
-  res.json({ mess: "Đăng nhập thành công", status: 200, token });
+  res.status(200).json({ mess: "Đăng nhập thành công", success: true, token });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({mess:"Lỗi máy chủ nội bộ", success:false});
+  }
+  
 };

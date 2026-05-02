@@ -2,7 +2,7 @@ import express from "express";
 export const dashboardRouter = express.Router();
 import * as dashboardController from "../controllers/dashboard.controller.js";
 import { generalLimit, authLimit } from "./middleware/rateLimiter.js";
-import { validateLogin } from "./middleware/validateLogin.js";
+import { validate } from "./middleware/validate.js";
 const prefix = "/dashboard";
 dashboardRouter.get(
   `${prefix}`,
@@ -12,6 +12,6 @@ dashboardRouter.get(
 dashboardRouter.post(
   `${prefix}/registerAdmin`,
   authLimit,
-  validateLogin,
+  validate,
   dashboardController.postRegisterAdmin,
 );

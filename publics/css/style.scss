@@ -45,6 +45,23 @@ body {
   z-index: 2;
   font-family: "fontWebsite";
 }
+#alert{
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translate(-50%,-150%);
+  opacity: 1;
+  width: auto;
+  height: auto;
+  padding: 1rem;
+  background-color: $colorCTA;
+  color: $colorSecondaryText;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 1rem;
+  z-index: 1000;
+}
 //**CSS Header
 header {
   width: 100%;
@@ -338,6 +355,16 @@ header {
       background-color: $colorCTA;
       color: $colorSecondaryText;
       margin: 1rem 0;
+    }
+    #rateLimitAlert{
+      width: 100%;
+      height: auto;
+      border: none;
+      border-radius: 5px;
+      padding: 1rem;
+      background-color: rgba(255, 0, 0, 0.5);
+      color: $colorSecondaryText;
+      display: none;
     }
   }
 }

@@ -52,12 +52,12 @@ export const getDashboard = (req, res) => {
 };
 export const postRegisterAdmin = async (req, res) => {
   try {
-    let { emailAdminDB, pwAdminDB, valueDecentAdmin } = req.body;
+    let { emailAdmin, pwAdmin, valueDecentAdmin } = req.body;
     const salt = await bcrypt.genSalt(10);
-    pwAdminDB = await bcrypt.hash(pwAdminDB, salt);
+    pwAdmin = await bcrypt.hash(pwAdmin, salt);
     let registerAdmin = new adminEntity({
-      email: emailAdminDB,
-      password: pwAdminDB,
+      email: emailAdmin,
+      password: pwAdmin,
       role: valueDecentAdmin,
     });
     registerAdmin.save();

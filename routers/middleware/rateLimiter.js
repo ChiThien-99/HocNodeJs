@@ -16,4 +16,6 @@ export const authLimit = rateLimit({
     success: false,
     message: "Bạn đã gửi quá nhiều yêu cầu, vui lòng thử lại sau 1 tiếng",
   },
+  standardHeaders: true,
+  legacyHeaders: false,
 });

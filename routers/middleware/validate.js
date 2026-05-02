@@ -1,5 +1,5 @@
 import { body, validationResult } from "express-validator";
-export const validateLogin = [
+export const validate = [
   body("emailAdmin")
     .isEmail()
     .withMessage("Email không đúng định dạng")
@@ -18,7 +18,7 @@ export const validateLogin = [
     if (!errors.isEmpty()) {
       return res.status(400).json({
         success: false,
-        errors: errors.array().map((err) => err.msg),
+        mess: errors.array().map((err) => err.msg),
       });
     }
     next();
