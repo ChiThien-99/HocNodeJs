@@ -45,7 +45,6 @@ function formatByte(bytes) {
 }
 const systemInfo = getSystemInfo();
 const jsonSystemInfo = JSON.stringify(systemInfo, null, 2);
-console.log(jsonSystemInfo);
 
 export const getDashboard = (req, res) => {
   res.render("dashboard.ejs", { jsonSystemInfo });
@@ -61,8 +60,12 @@ export const postRegisterAdmin = async (req, res) => {
       role: valueDecentAdmin,
     });
     registerAdmin.save();
-    res.json({ mess: "Đăng ký tài khoản admin thành công", status: 200 });
+    res.json({ mess: "Đăng ký tài khoản admin thành công", success: true });
   } catch (error) {
-    res.json({ mess: "Đăng ký tài khoản admin thất bại", err: error.message });
+    res.json({
+      mess: "Đăng ký tài khoản admin thất bại",
+      success: false,
+      err: error.message,
+    });
   }
 };

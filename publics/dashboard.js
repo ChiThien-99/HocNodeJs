@@ -1,5 +1,7 @@
 import { scriptHeader } from "/script.js";
 scriptHeader();
+import { alert } from "./alert.js";
+import { jwtDecode } from "https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/+esm";
 document.querySelectorAll(".navBtnDB").forEach((button) => {
   button.addEventListener("click", () => {
     document.querySelector(".navBtnDB.active").classList.remove("active");
@@ -24,11 +26,48 @@ document.getElementById("registerAdmin").addEventListener("submit", (e) => {
     body: JSON.stringify({ emailAdmin, pwAdmin, valueDecentAdmin }),
   })
     .then((res) => res.json())
-    .then(({ mess, status, err }) => {
-      if (status) {
-        alert(mess);
+    .then(({ mess, success, err }) => {
+      if (success) {
+        alert("Thông báo", mess, "#027e1f");
+        document.getElementById("emailAdmin").value = "";
+        document.getElementById("pwAdmin").value = "";
+        const allCheckbox = document.querySelectorAll(
+          "input[name='decentAdmin']",
+        );
+        allCheckbox.forEach((item) => (item.checked = false));
       } else {
-        alert(`${mess}\n${err}`);
+        alert("Lỗi", `${mess}\n${err ? err : ""}`, "red");
+        document.getElementById("emailAdmin").value = "";
+        document.getElementById("pwAdmin").value = "";
+        const allCheckbox = document.querySelectorAll(
+          "input[name='decentAdmin']",
+        );
+        allCheckbox.forEach((item) => (item.checked = false));
       }
     });
 });
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) {
+    return parts.pop().split(";").shift();
+  }
+  return null;
+}
+function getUserFromCookie() {
+  const token = getCookie("token");
+  if (token) {
+    try {
+      const decodedUser = jwtDecode(token);
+      console.log(`Thông tin user: ${decodedUser.id}`);
+      return decodedUser;
+    } catch (error) {
+      console.error(`Token không hợp lệ hoặc đã bị can thiệp ${error}`);
+      return null;
+    }
+  } else {
+    console.error("Không thấy token trong cookie");
+    return null;
+  }
+}
+window.onload = getUserFromCookie;

@@ -18,7 +18,10 @@ export const validate = [
     if (!errors.isEmpty()) {
       return res.status(400).json({
         success: false,
-        mess: errors.array().map((err) => err.msg),
+        mess: errors
+          .array()
+          .map((err) => err.msg)
+          .join("\n"),
       });
     }
     next();

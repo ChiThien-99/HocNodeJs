@@ -27,6 +27,10 @@
   </head>
   <body>
     <div class="content">
+      <div id="alert">
+        <h4 id="headingAlert">Tiêu đề thông báo</h4>
+        <p id="contentAlert">Thông báo lần 1</p>
+      </div>
       <header>
         <div>
           <h1><a href="/">IMZ.AI</a></h1>
@@ -37,7 +41,7 @@
               <li><a href="#">Trang chủ</a></li>
               <li>
                 <a href="#" id="navCongCu"
-                  >Công cụ <i class="fa-solid fa-caret-down"></i
+                  >Phần mềm <i class="fa-solid fa-caret-down"></i
                 ></a>
                 <div id="listNavCongCu">
                   <a href="/todo">To Do List</a><br />
@@ -45,8 +49,9 @@
                   <a href="#">Ứng dụng 3</a><br />
                 </div>
               </li>
+              <li><a href="#">Thiết bị</a></li>
               <li><a href="#">Tin tức</a></li>
-              <li><a href="#">Góp ý</a></li>
+              <li><a href="#">Q&A</a></li>
             </ul>
           </nav>
           <div id="groupBtn">
@@ -70,6 +75,18 @@
           <button data-target="userMng" class="navBtnDB">
             <i class="fa-solid fa-user"></i> Quản lý user
           </button>
+          <button data-target="softwareMng" class="navBtnDB">
+            <i class="fa-solid fa-code"></i> Quản lý phần mềm
+          </button>
+          <button data-target="deviceMng" class="navBtnDB">
+            <i class="fa-solid fa-screwdriver-wrench"></i> Quản lý thiết bị
+          </button>
+          <button data-target="newsMng" class="navBtnDB">
+            <i class="fa-regular fa-newspaper"></i> Quản lý tin tức
+          </button>
+          <button data-target="qaMng" class="navBtnDB">
+            <i class="fa-solid fa-circle-question"></i> Quản lý Q&A
+          </button>
         </div>
         <div id="contentDashboard">
           <div id="workMng" class="tabContent active">
@@ -82,10 +99,12 @@
           <div id="userMng" class="tabContent">
             <h2>1.Thêm tài khoản quản trị</h2>
             <form id="registerAdmin">
-              <label for="emailAdminDB">Email</label><br />
+              <label for="emailAdminDB">Email (abc123@imz.ai)</label><br />
               <input type="email" name="emailAdmin" id="emailAdmin" /><br />
               <label for="pwAdminDB">Password</label><br />
               <input type="text" name="pwAdmin" id="pwAdmin" /><br />
+              <em>*Mật khẩu tối thiểu 8 ký tự</em><br />
+              <em>*Mật khẩu tối thiểu 1 chữ cái, 1 chữ số, 1 ký tự đặc biệt</em>
               <p>Phân quyền</p>
               <div id="formDecentralize">
                 <input
@@ -136,10 +155,22 @@
                   id="decentFeedBack"
                   value="feedback"
                 />
-                <label for="decentFeedBack">Quản lý góp ý</label><br />
+                <label for="decentFeedBack">Quản lý Q&A</label><br />
               </div>
               <button type="submit">Đăng ký</button>
             </form>
+          </div>
+          <div id="softwareMng" class="tabContent">
+            <h2>Nội dung quản lý phần mềm</h2>
+          </div>
+          <div id="deviceMng" class="tabContent">
+            <h2>Nội dung quản lý thiết bị</h2>
+          </div>
+          <div id="newsMng" class="tabContent">
+            <h2>Nội dung quản lý tin tức</h2>
+          </div>
+          <div id="qaMng" class="tabContent">
+            <h2>Nội dung quản lý Q&A</h2>
           </div>
         </div>
       </main>

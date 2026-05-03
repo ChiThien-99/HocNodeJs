@@ -21,6 +21,7 @@ import { routerTodo } from "./routers/todo.router.js";
 import { routerFile } from "./routers/file.router.js";
 import { dashboardRouter } from "./routers/dashboard.router.js";
 import { routerLoginAdmin } from "./routers/loginAdmin.router.js";
+import cookieParser from "cookie-parser";
 
 app.use(
   helmet({
@@ -31,8 +32,13 @@ app.use(
           "'self'",
           "'unsafe-inline'",
           "https://kit.fontawesome.com",
+          "https://cdn.jsdelivr.net",
         ],
-        "connect-src": ["'self'", "https://ka-f.fontawesome.com"],
+        "connect-src": [
+          "'self'",
+          "https://ka-f.fontawesome.com",
+          "https://cdn.jsdelivr.net",
+        ],
       },
     },
   }),
@@ -40,13 +46,15 @@ app.use(
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use(
   cors({
     exposedHeaders: [
-      "RateLimit-Limit",
-      "RateLimit-Remaining",
-      "RateLimit-Reset",
+      "ratelimit-limit",
+      "ratelimit-remaining",
+      "ratelimit-reset",
     ],
+    allowedHeaders: ["Authorization", "Content-Type"],
   }),
 );
 // Cấu hình file public

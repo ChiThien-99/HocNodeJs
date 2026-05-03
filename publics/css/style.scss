@@ -45,22 +45,24 @@ body {
   z-index: 2;
   font-family: "fontWebsite";
 }
-#alert{
+#alert {
   position: fixed;
   top: 1rem;
   left: 50%;
-  transform: translate(-50%,-150%);
-  opacity: 1;
+  transform: translate(-50%, -150%);
+  transition: transform 1s;
+  opacity: 0.9;
   width: auto;
   height: auto;
-  padding: 1rem;
+  padding: 0.7rem;
   background-color: $colorCTA;
   color: $colorSecondaryText;
   border: none;
   border-radius: 5px;
-  font-weight: bold;
-  font-size: 1rem;
   z-index: 1000;
+  h4 {
+    margin: 0.5rem 0;
+  }
 }
 //**CSS Header
 header {
@@ -71,7 +73,7 @@ header {
   justify-content: space-between;
   border-bottom: 1px solid $colorCTA;
   div:first-child {
-    width: 30%;
+    width: 20%;
     height: inherit;
     h1 {
       margin-left: 1rem;
@@ -85,7 +87,7 @@ header {
     }
   }
   div:last-child {
-    width: 70%;
+    width: 80%;
     height: inherit;
     display: flex;
     flex-flow: row nowrap;
@@ -101,9 +103,9 @@ header {
       li {
         display: inline-block;
         width: 8rem;
-        padding: 0.5rem;
+        padding: 0.2rem;
         border-bottom: 2px solid $colorCTA;
-        margin: 0.5rem;
+        margin: 0.2rem;
         cursor: pointer;
         &:hover {
           background-color: $colorSecondaryBG;
@@ -117,7 +119,9 @@ header {
           text-decoration: none;
           color: $colorCTA;
           font-weight: bold;
-          font-size: 1.3rem;
+          font-size: 1.2rem;
+          display: inline-block;
+          width: 100%;
         }
       }
       li:nth-child(2) {
@@ -137,6 +141,7 @@ header {
           display: none;
           top: 2.6rem;
           right: 0;
+          z-index: 100;
           a {
             display: inline-block;
             font-size: 1.1rem;
@@ -324,6 +329,10 @@ header {
         height: auto;
         border: 1px solid $colorCTA;
         padding: 0.5rem;
+        input[type="checkbox"],
+        label {
+          cursor: pointer;
+        }
       }
     }
   }
@@ -342,7 +351,12 @@ header {
     border: 1px solid $colorCTA;
     border-radius: 5px;
     input {
-      width: 100%;
+      &[id="emailAdmin"] {
+        width: 100%;
+      }
+      &[id="pwAdmin"] {
+        width: 89%;
+      }
       height: 2rem;
       font-size: 1rem;
       &:focus {
@@ -355,14 +369,21 @@ header {
       background-color: $colorCTA;
       color: $colorSecondaryText;
       margin: 1rem 0;
+      &[id="togglePwAdmin"] {
+        width: 10%;
+        margin: 0;
+      }
     }
-    #rateLimitAlert{
+    #messLoginAdmin {
+      display: none;
+    }
+    #rateLimitAlert {
       width: 100%;
       height: auto;
       border: none;
       border-radius: 5px;
-      padding: 1rem;
-      background-color: rgba(255, 0, 0, 0.5);
+      padding: 0.8rem;
+      background-color: rgba(255, 0, 0, 0.8);
       color: $colorSecondaryText;
       display: none;
     }

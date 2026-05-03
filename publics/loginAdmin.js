@@ -1,84 +1,111 @@
-import * as axios from "axios";
-document.getElementById("loginForm").addEventListener("submit", (e) => {
-  e.preventDefault();
-  const emailAdmin = document.getElementById("emailAdmin").value;
-  const pwAdmin = document.getElementById("pwAdmin").value;
-  fetch("/loginAdmin/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json;charset=UTF-8" },
-    body: JSON.stringify({ emailAdmin, pwAdmin }),
-  })
-    .then((res) => res.json())
-    .then(({ mess, success, token }) => {
-      if (success && token) {
-        localStorage.setItem("token", token);
-        alert(mess);
-        // window.location.href="/dashboard";
-      } else {
-        alert(mess);
-      }
-    });
-});
-let limit = 0;
-let remaining = 0;
-axios.interceptors.response.use(
-  (response) => {
-    const limitHeader = response.headers["ratelimit-limit"];
-    const remainingHeader = response.headers["ratelimit-remaining"];
-    const resetTime=response.headers["ratelimit-reset"];
-    if (limitHeader && remainingHeader) {
-      updateRateLimitUI(limitHeader, remainingHeader);
-      startCountdown(parseInt(resetTime));
-    }
-    return response;
-  },
-  (error) => {
-    const response=error?.response;
-    if(!response){
-      console.error("Lỗi mạng hoặc server không phản hồi");
-      return Promise.reject(error);
-    }
-    if(response&&response.status===400){}
-    const limitHeader = response.headers["ratelimit-limit"];
-    const remainingHeader = response.headers["ratelimit-remaining"];
-    const resetTime=response.headers["ratelimit-reset"];
-    if (limitHeader && remainingHeader && resetTime) {
-      updateRateLimitUI(limitHeader, remainingHeader);
-      startCountdown(parseInt(resetTime));
-    }
-    return Promise.reject(error);
-  },
-);
+import axios from "https://cdn.jsdelivr.net/npm/axios@1.6.7/+esm";
+import { alert } from "./alert.js";
+
 const updateRateLimitUI = (limitHeader, remainingHeader) => {
+  document.getElementById("messLoginAdmin").style.display = "inline";
   document.getElementById("limitRate").innerText = limitHeader;
   document.getElementById("remainingRate").innerText = remainingHeader;
   if (remainingHeader <= 2) {
     document.getElementById("messLoginAdmin").style.color = "red";
   }
 };
-let countdownTimer=0;
-const startCountdown=(resetTimestamp)=>{
+// updateRateLimitUI(20, 2);
+let countdownTimer = 0;
+const startCountdown = (resetTimestamp) => {
   clearInterval(countdownTimer);
-  const rateLimitAlert=document.getElementById("rateLimitAlert");
-  const remainingTime=document.getElementById("remainingTime");
-  const btnSubmitAdmin=document.getElementById("btnSubmitAdmin");
-  btnSubmitAdmin.disabled=true;
-  btnSubmitAdmin.style.opacity=0.5;
-  btnSubmitAdmin.style.cursor="not-allowed";
-  countdownTimer=setInterval(()=>{
-    const now=Math.floor(Date.now()/1000);
-    const secondsLeft=resetTimestamp-now;
-    if(secondsLeft<=0){
+  const rateLimitAlert = document.getElementById("rateLimitAlert");
+  const remainingTime = document.getElementById("remainingTime");
+  const btnSubmitAdmin = document.getElementById("btnSubmitAdmin");
+  rateLimitAlert.style.display = "block";
+  btnSubmitAdmin.disabled = true;
+  btnSubmitAdmin.style.opacity = 0.5;
+  btnSubmitAdmin.style.cursor = "not-allowed";
+  countdownTimer = setInterval(() => {
+    const now = Math.floor(Date.now() / 1000);
+    const secondsLeft = resetTimestamp - now;
+    if (secondsLeft <= 0) {
       clearInterval(countdownTimer);
-      remainingTime.innerText="Bạn có thể thử lại ngay bây giờ";
-      btnSubmitAdmin.disabled=false;
-      btnSubmitAdmin.style.opacity=1;
-      btnSubmitAdmin.style.cursor="pointer";
+      remainingTime.innerText = "Bạn có thể thử lại ngay bây giờ";
+      btnSubmitAdmin.disabled = false;
+      btnSubmitAdmin.style.opacity = 1;
+      btnSubmitAdmin.style.cursor = "pointer";
       return;
     }
-    const minutes=Math.floor(secondsLeft/60);
-    const seconds=secondsLeft%60;
-    remainingTime.innerText=`Thử lại sau: ${minutes}p ${seconds<10 ? "0":""}${seconds}`;
-    
-  })
-}
+    const minutes = Math.floor(secondsLeft / 60);
+    const seconds = secondsLeft % 60;
+    remainingTime.innerText = `Thử lại sau: ${minutes}p ${seconds < 10 ? "0" : ""}${seconds}s`;
+  }, 1000);
+};
+axios.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");
+    console.log(token);
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
+axios.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    const response = error.response;
+    if (response) {
+      const limitHeader = response.headers["ratelimit-limit"];
+      const remainingHeader = response.headers["ratelimit-remaining"];
+      const resetTime = response.headers["ratelimit-reset"];
+      console.log(`${limitHeader},${remainingHeader},${resetTime}`);
+      if (limitHeader && remainingHeader) {
+        updateRateLimitUI(limitHeader, remainingHeader);
+      }
+      if (response.status === 429 && resetTime) {
+        const secondsToWait = parseInt(resetTime);
+        const unlockTimeStamp = Math.floor(Date.now() / 1000) + secondsToWait;
+        startCountdown(unlockTimeStamp);
+      }
+      if (response.status === 401 || response.status === 403) {
+        localStorage.removeItem("token");
+      }
+    } else {
+      console.error("Lỗi mạng hoặc server không phản hồi");
+    }
+
+    return Promise.reject(error);
+  },
+);
+document.getElementById("loginForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const emailAdmin = document.getElementById("emailAdmin").value;
+  const pwAdmin = document.getElementById("pwAdmin").value;
+  axios
+    .post("/loginAdmin/login", { emailAdmin, pwAdmin })
+    .then((res) => {
+      const { mess, success, token } = res.data;
+      if (success && token) {
+        window.location.href = "/dashboard";
+      } else {
+        alert("Lỗi", mess, "red");
+      }
+    })
+    .catch((err) => {
+      const mess = err.response?.data?.mess || "Có lỗi xảy ra";
+      alert("Lỗi", mess, "red");
+    });
+});
+const pwAdmin = document.getElementById("pwAdmin");
+const togglePwAdmin = document.getElementById("togglePwAdmin");
+togglePwAdmin.addEventListener("click", function (e) {
+  e.preventDefault();
+  const type =
+    pwAdmin.getAttribute("type") === "password" ? "text" : "password";
+  pwAdmin.setAttribute("type", type);
+  this.innerHTML =
+    type === "password"
+      ? "<i class='fa-solid fa-eye'></i>"
+      : "<i class='fa-solid fa-eye-slash'></i>";
+});

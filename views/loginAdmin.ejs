@@ -24,18 +24,12 @@
       src="https://kit.fontawesome.com/c1f12001f0.js"
       crossorigin="anonymous"
     ></script>
-    <script type="importmap">
-  {
-    "imports": {
-      "axios": "/axios.js"
-    }
-  }
-</script>
   </head>
   <body>
     <div class="content">
       <div id="alert">
-        <p>Thông báo lần 1</p>
+        <h4 id="headingAlert">Tiêu đề thông báo</h4>
+        <p id="contentAlert">Thông báo lần 1</p>
       </div>
       <div id="loginContainer">
         <form id="loginForm" method="post">
@@ -47,16 +41,19 @@
           <div>
             <label for="pwAdmin">Mật khẩu</label><br />
             <input type="password" name="pwAdmin" id="pwAdmin" />
+            <button id="togglePwAdmin">
+              <i class="fa-solid fa-eye"></i>
+            </button>
           </div>
-          <button type="submit" id="btnSubmitAdmin">Đăng nhập</button>
-          <p id="messLoginAdmin">
+          <button type="submit" id="btnSubmitAdmin">Đăng nhập</button><br />
+          <em id="messLoginAdmin">
             Số lần đăng nhập còn lại <span id="remainingRate">--</span>/<span
               id="limitRate"
               >--</span
             >
-          </p>
+          </em>
           <div id="rateLimitAlert">
-            <strong>Quá nhiều lần thử!</strong>
+            <strong>Quá nhiều lần thử !</strong>
             <p id="remainingTime">Vui lòng chờ...</p>
           </div>
         </form>
