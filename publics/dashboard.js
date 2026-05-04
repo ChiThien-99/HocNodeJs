@@ -12,6 +12,8 @@ document.querySelectorAll(".navBtnDB").forEach((button) => {
 });
 document.getElementById("registerAdmin").addEventListener("submit", (e) => {
   e.preventDefault();
+  const fullnameAdmin=document.getElementById("fullnameAdmin").value;
+  const roleAdmin=document.getElementById("roleAdmin").value;
   const emailAdmin = document.getElementById("emailAdmin").value;
   const pwAdmin = document.getElementById("pwAdmin").value;
   const listDecentAdmin = document.querySelectorAll(
@@ -23,12 +25,14 @@ document.getElementById("registerAdmin").addEventListener("submit", (e) => {
   fetch("/dashboard/registerAdmin", {
     method: "POST",
     headers: { "Content-Type": "application/json;charset=UTF-8" },
-    body: JSON.stringify({ emailAdmin, pwAdmin, valueDecentAdmin }),
+    body: JSON.stringify({ fullnameAdmin,roleAdmin,emailAdmin, pwAdmin, valueDecentAdmin }),
   })
     .then((res) => res.json())
     .then(({ mess, success, err }) => {
       if (success) {
         alert("Thông báo", mess, "#027e1f");
+        document.getElementById("fullnameAdmin").value="";
+        document.getElementById("roleAdmin").value="";
         document.getElementById("emailAdmin").value = "";
         document.getElementById("pwAdmin").value = "";
         const allCheckbox = document.querySelectorAll(
@@ -37,6 +41,8 @@ document.getElementById("registerAdmin").addEventListener("submit", (e) => {
         allCheckbox.forEach((item) => (item.checked = false));
       } else {
         alert("Lỗi", `${mess}\n${err ? err : ""}`, "red");
+        document.getElementById("fullnameAdmin").value="";
+        document.getElementById("roleAdmin").value="";
         document.getElementById("emailAdmin").value = "";
         document.getElementById("pwAdmin").value = "";
         const allCheckbox = document.querySelectorAll(
@@ -59,7 +65,19 @@ function getUserFromCookie() {
   if (token) {
     try {
       const decodedUser = jwtDecode(token);
-      console.log(`Thông tin user: ${decodedUser.id}`);
+      document.getElementById("fullnameAd").innerText=decodedUser.fullname;
+      document.getElementById("roleAd").innerText=`Chức vụ: ${decodedUser.role}`;
+      const decent=decodedUser.decent;
+      function applyPermission(){
+        const buttons=document.querySelectorAll(".navBtnDB");
+        buttons.forEach(btn=>{
+          const target=btn.getAttribute("data-target");
+          if(!decent.includes(target)){
+            btn.remove();
+          }
+        })
+      }
+      applyPermission();
       return decodedUser;
     } catch (error) {
       console.error(`Token không hợp lệ hoặc đã bị can thiệp ${error}`);

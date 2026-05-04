@@ -15,9 +15,9 @@ export const postLoginAdmin = async (req, res) => {
         .json({ mess: "Sai thông tin đăng nhập", success: false });
     }
     const token = jwt.sign(
-      { id: user.id, role: user.role },
+      { email: user.email, fullname:user.fullname, role: user.role, decent:user.decent },
       process.env.JWT_SECRET,
-      { expiresIn: "15m" },
+      { expiresIn: "1h" },
     );
     res.cookie("token", token, {
       httpOnly: false,

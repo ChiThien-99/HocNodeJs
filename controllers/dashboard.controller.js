@@ -51,13 +51,15 @@ export const getDashboard = (req, res) => {
 };
 export const postRegisterAdmin = async (req, res) => {
   try {
-    let { emailAdmin, pwAdmin, valueDecentAdmin } = req.body;
+    let { fullnameAdmin,roleAdmin,emailAdmin, pwAdmin, valueDecentAdmin } = req.body;
     const salt = await bcrypt.genSalt(10);
     pwAdmin = await bcrypt.hash(pwAdmin, salt);
     let registerAdmin = new adminEntity({
+      fullname:fullnameAdmin,
+      role:roleAdmin,
       email: emailAdmin,
       password: pwAdmin,
-      role: valueDecentAdmin,
+      decent: valueDecentAdmin,
     });
     registerAdmin.save();
     res.json({ mess: "Đăng ký tài khoản admin thành công", success: true });

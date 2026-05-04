@@ -1,5 +1,13 @@
 import mongoose from "mongoose";
 const adminSchema = mongoose.Schema({
+  fullname:{
+    type:String,
+    require:true,
+  },
+  role:{
+    type:String,
+    require:true,
+  },
   email: {
     type: String,
     require: true,
@@ -11,7 +19,7 @@ const adminSchema = mongoose.Schema({
     type: String,
     require: true,
   },
-  role: {
+  decent: {
     type: Array,
     require: true,
   },
