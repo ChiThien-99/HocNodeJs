@@ -1,5 +1,6 @@
 import axios from "https://cdn.jsdelivr.net/npm/axios@1.6.7/+esm";
 import { alert } from "./alert.js";
+import { authFetch } from "./authFetch.js";
 
 const updateRateLimitUI = (limitHeader, remainingHeader) => {
   document.getElementById("messLoginAdmin").style.display = "inline";
@@ -87,7 +88,7 @@ document.getElementById("loginForm").addEventListener("submit", (e) => {
     .then((res) => {
       const { mess, success, token } = res.data;
       if (success && token) {
-        window.location.href = "/dashboard";
+        authFetch("/dashboard");
       } else {
         alert("Lỗi", mess, "red");
       }

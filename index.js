@@ -14,6 +14,7 @@ import https from "https";
 import fs from "fs";
 import path from "path";
 import helmet from "helmet";
+import * as jwt from "jsonwebtoken";
 import { connectDB } from "./database.js";
 connectDB();
 const app = express();
@@ -88,6 +89,32 @@ app.use("/", routerTodo);
 app.use("/", routerFile);
 app.use("/", dashboardRouter);
 app.use("/", routerLoginAdmin);
+app.post("/api/auth/refresh", async (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+  if (!refreshToken) {
+    res.status(401).json("Chưa đăng nhập");
+  }
+  const admin = await adminEntity.findOne({ refreshToken: refreshToken });
+  if (!admin) {
+    res.status(403).json("Refresh Token không hợp lệ");
+  }
+  jwt.verify(refreshToken, process.env.REFRESH_SECRET, (err, decodes) => {
+    if (err) {
+      res.status(403).json("Token đã hết hạn hoặc sai");
+    }
+    const newAccessToken = jwt.sign(
+      {
+        fullname: admin.fullname,
+        role: admin.role,
+        email: admin.email,
+        decent: admin.decent,
+      },
+      process.env.ACCESS_SECRET,
+      { expiresIn: "15m" },
+    );
+    res.json({ accessToken: newAccessToken });
+  });
+});
 // Xử lý lỗi middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
