@@ -14,21 +14,38 @@ export const postLoginAdmin = async (req, res) => {
         .status(401)
         .json({ mess: "Sai thông tin đăng nhập", success: false });
     }
-    const token = jwt.sign(
-      { id:user._id,email: user.email, fullname:user.fullname, role: user.role, decent:user.decent },
-      process.env.JWT_SECRET,
-      { expiresIn: "1h" },
+    const accessToken = jwt.sign(
+      {
+        id: user._id,
+        email: user.email,
+        fullname: user.fullname,
+        role: user.role,
+        decent: user.decent,
+      },
+      process.env.ACCESS_SECRET,
+      { expiresIn: "10s" },
     );
-    res.cookie("refreshToken", token, {
+    const refreshToken = jwt.sign(
+      {
+        id: user._id,
+      },
+      process.env.REFRESH_SECRET,
+      { expiresIn: "7d" },
+    );
+    await adminEntity.updateOne(
+      { _id: user._id },
+      { $set: { refreshToken: refreshToken } },
+    );
+    res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: true,
-      maxAge: 7*24*60*60*1000,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
       sameSite: "none",
-      path:"/",
+      path: "/",
     });
     res
       .status(200)
-      .json({ mess: "Đăng nhập thành công", success: true, token });
+      .json({ mess: "Đăng nhập thành công", success: true, accessToken });
   } catch (error) {
     console.error(error);
     res.status(500).json({ mess: "Lỗi máy chủ nội bộ", success: false });

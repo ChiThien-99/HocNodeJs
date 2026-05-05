@@ -1,6 +1,6 @@
 import axios from "https://cdn.jsdelivr.net/npm/axios@1.6.7/+esm";
 import { alert } from "./alert.js";
-import { setAccessToken, authFetch } from "./authFetch.js";
+import { authFetch, setAccessToken } from "./authFetch.js";
 
 const updateRateLimitUI = (limitHeader, remainingHeader) => {
   document.getElementById("messLoginAdmin").style.display = "inline";
@@ -73,11 +73,12 @@ document.getElementById("loginForm").addEventListener("submit", (e) => {
   axios
     .post("/loginAdmin/login", { emailAdmin, pwAdmin })
     .then((res) => {
-      const { mess, success, token } = res.data;
-      if (success && token) {
-        setAccessToken(token);
+      const { mess, success, accessToken } = res.data;
+      if (success && accessToken) {
+        localStorage.setItem("accessToken", accessToken);
+        setAccessToken(accessToken);
         authFetch("/dashboard");
-        // window.location.href="/dashboard";
+        window.location.href = "/dashboard";
       } else {
         alert("Lỗi", mess, "red");
       }

@@ -4,7 +4,7 @@ import * as dashboardController from "../controllers/dashboard.controller.js";
 import { generalLimit, authLimit } from "./middleware/rateLimiter.js";
 import { validate } from "./middleware/validate.js";
 import { authenticateToken } from "./middleware/authenticateToken.js";
-import {checkTokens}from "./middleware/checkTokens.js";
+import { checkTokens } from "./middleware/checkTokens.js";
 const prefix = "/dashboard";
 dashboardRouter.get(
   `${prefix}`,

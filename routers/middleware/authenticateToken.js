@@ -1,8 +1,9 @@
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 export const authenticateToken = (req, res, next) => {
-  const token = req.cookies ? req.cookies.token : null;
-  console.log(token);
+  const authHeader = req.headers["authorization"];
+  let token = authHeader && authHeader.split(" ")[1];
+  console.log(`Token: ${token}`);
   if (!token) {
     return res.status(401).json({
       success: false,
