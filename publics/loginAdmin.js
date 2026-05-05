@@ -1,6 +1,6 @@
 import axios from "https://cdn.jsdelivr.net/npm/axios@1.6.7/+esm";
 import { alert } from "./alert.js";
-import { authFetch } from "./authFetch.js";
+import { setAccessToken, authFetch } from "./authFetch.js";
 
 const updateRateLimitUI = (limitHeader, remainingHeader) => {
   document.getElementById("messLoginAdmin").style.display = "inline";
@@ -37,19 +37,6 @@ const startCountdown = (resetTimestamp) => {
     remainingTime.innerText = `Thử lại sau: ${minutes}p ${seconds < 10 ? "0" : ""}${seconds}s`;
   }, 1000);
 };
-axios.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("token");
-    console.log(token);
-    if (token) {
-      config.headers["Authorization"] = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  },
-);
 axios.interceptors.response.use(
   (response) => {
     return response;
@@ -88,7 +75,9 @@ document.getElementById("loginForm").addEventListener("submit", (e) => {
     .then((res) => {
       const { mess, success, token } = res.data;
       if (success && token) {
+        setAccessToken(token);
         authFetch("/dashboard");
+        // window.location.href="/dashboard";
       } else {
         alert("Lỗi", mess, "red");
       }

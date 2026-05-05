@@ -15,15 +15,16 @@ export const postLoginAdmin = async (req, res) => {
         .json({ mess: "Sai thông tin đăng nhập", success: false });
     }
     const token = jwt.sign(
-      { email: user.email, fullname:user.fullname, role: user.role, decent:user.decent },
+      { id:user._id,email: user.email, fullname:user.fullname, role: user.role, decent:user.decent },
       process.env.JWT_SECRET,
       { expiresIn: "1h" },
     );
-    res.cookie("token", token, {
-      httpOnly: false,
-      secure: false,
-      maxAge: 3600000,
-      sameSite: "Lax",
+    res.cookie("refreshToken", token, {
+      httpOnly: true,
+      secure: true,
+      maxAge: 7*24*60*60*1000,
+      sameSite: "none",
+      path:"/",
     });
     res
       .status(200)
