@@ -29,7 +29,7 @@ export const authTokens = async (req, res) => {
           decent: admin.decent,
         },
         process.env.ACCESS_SECRET,
-        { expiresIn: "10s" },
+        { expiresIn: "15m" },
       );
       console.log(`newAccessToken: ${newAccessToken}`);
       const newRefreshToken = jwt.sign(
@@ -53,3 +53,25 @@ export const authTokens = async (req, res) => {
     },
   );
 };
+export const getme=async (req,res)=>{
+  try {
+    const adminId=req.user.id;
+    const admin=await adminEntity.findById(adminId).select("-password");
+    if (!admin) {
+      return res.status(404).json({
+        success:false,
+        mess:"Không tìm thấy người dùng"
+      })
+    }
+    res.status(200).json({
+      success:true,
+      data:admin,
+    })
+  } catch (error) {
+    res.status(500).json({
+      success:false,
+      mess:"Lỗi máy chủ",
+      error:error.message,
+    })
+  }
+}

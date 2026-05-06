@@ -2,13 +2,12 @@ import jwt from "jsonwebtoken";
 import "dotenv/config";
 export const authenticateToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
-  let token = authHeader && authHeader.split(" ")[1];
+  const tokenFromHeader = authHeader && authHeader.split(" ")[1];
+  const tokenFromCookie=req.cookies?req.cookies.accessToken:null;
+  const token=tokenFromHeader||tokenFromCookie;
   console.log(`Token: ${token}`);
   if (!token) {
-    return res.status(401).json({
-      success: false,
-      mess: "Truy cập bị từ chối, không tìm thấy token xác thực",
-    });
+    return res.status(401).json({success:false,mess:"Không tìm thấy token"});
   }
   jwt.verify(token, process.env.ACCESS_SECRET, (err, decodedUser) => {
     if (err) {

@@ -9,7 +9,6 @@ const prefix = "/dashboard";
 dashboardRouter.get(
   `${prefix}`,
   generalLimit,
-  authenticateToken,
   checkTokens,
   dashboardController.getDashboard,
 );

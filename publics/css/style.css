@@ -343,6 +343,38 @@ header div:last-child #groupBtn button {
 #mainDashboard #contentDashboard #registerAdmin #formDecentralize label {
   cursor: pointer;
 }
+#mainDashboard #contentDashboard #divTableUserAdmin {
+  width: 100%;
+  overflow: scroll;
+  margin: 1rem 0;
+}
+#mainDashboard #contentDashboard #tableUserAdmin, #mainDashboard #contentDashboard tr, #mainDashboard #contentDashboard th, #mainDashboard #contentDashboard td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 0.5rem;
+  text-align: left;
+}
+#mainDashboard #contentDashboard #tableUserAdmin td:nth-child(5), #mainDashboard #contentDashboard tr td:nth-child(5), #mainDashboard #contentDashboard th td:nth-child(5), #mainDashboard #contentDashboard td td:nth-child(5) {
+  display: flex;
+  flex-direction: row nowrap;
+  gap: 0.5rem;
+}
+#mainDashboard #contentDashboard #tableUserAdmin #btnEditUserAdmin, #mainDashboard #contentDashboard tr #btnEditUserAdmin, #mainDashboard #contentDashboard th #btnEditUserAdmin, #mainDashboard #contentDashboard td #btnEditUserAdmin {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #027e1f;
+  color: #fafafa;
+}
+#mainDashboard #contentDashboard #tableUserAdmin #btnDeleteUserAdmin, #mainDashboard #contentDashboard tr #btnDeleteUserAdmin, #mainDashboard #contentDashboard th #btnDeleteUserAdmin, #mainDashboard #contentDashboard td #btnDeleteUserAdmin {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: red;
+  color: #fafafa;
+}
 
 #loginContainer {
   width: 100%;

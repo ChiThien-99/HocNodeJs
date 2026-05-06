@@ -2,6 +2,20 @@ import { scriptHeader } from "/script.js";
 scriptHeader();
 import { alert } from "./alert.js";
 import { jwtDecode } from "https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/+esm";
+import { authFetch } from "./authFetch.js";
+async function verifySession() {
+        try {
+          const response=await authFetch("/api/auth/me");
+          if(!response.ok){
+            throw new Error("Session Expired");
+          }
+          console.log("Phiên làm việc hợp lệ");
+        } catch (error) {
+          console.error("Không thể refresh token, quay về login");
+          window.location.href="/loginAdmin";
+        }
+      }
+verifySession()
 document.querySelectorAll(".navBtnDB").forEach((button) => {
   button.addEventListener("click", () => {
     document.querySelector(".navBtnDB.active").classList.remove("active");
@@ -61,7 +75,7 @@ function getCookie(name) {
   return null;
 }
 function getUserFromCookie() {
-  const token = getCookie("token");
+  const token = getCookie("accessToken");
   if (token) {
     try {
       const decodedUser = jwtDecode(token);

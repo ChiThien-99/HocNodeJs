@@ -75,9 +75,7 @@ document.getElementById("loginForm").addEventListener("submit", (e) => {
     .then((res) => {
       const { mess, success, accessToken } = res.data;
       if (success && accessToken) {
-        localStorage.setItem("accessToken", accessToken);
         setAccessToken(accessToken);
-        authFetch("/dashboard");
         window.location.href = "/dashboard";
       } else {
         alert("Lỗi", mess, "red");

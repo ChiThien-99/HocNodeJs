@@ -1,4 +1,5 @@
-let accessToken = localStorage.getItem("accessToken") || null;
+
+let accessToken = null;
 let isRefreshing = false;
 let refreshSubcribers = [];
 
@@ -10,27 +11,29 @@ const onRefresh = (token) => {
   refreshSubcribers = [];
 };
 export const setAccessToken = (token) => {
-  accessToken = token;
   if (token) {
-    localStorage.setItem("accessToken", token);
+   accessToken=token;
+   document.cookie=`accessToken=${token};path=/;max-age=900;SameSite=none;Secure"`;
   } else {
-    localStorage.removeItem("accessToken");
+    accessToken=null;
+    document.cookie="accessToken=;path=/;max-age=0";
   }
 };
-export const getAccessToken = () => accessToken;
 export const authFetch = async (url, options = {}) => {
-  let currentToken = getAccessToken();
-  options.headers = {
-    ...options.headers,
-    Authorization: `Bearer ${currentToken}`,
+  let currentToken = accessToken;
+  options= {
+    ...options,
+    credentials: "include",
+    headers:{
+    "Authorization": `Bearer ${currentToken}`,
     "Content-Type": "application/json",
+    }, 
   };
-  options.credentials = "include";
   let response = await fetch(url, options);
   if (response.status === 401) {
     const retryOriginalRequest = new Promise((resolve) => {
       subcribeTokenRefresh((currentToken) => {
-        options.headers["Authorization"] = `Bearer ${currentToken}`;
+        options.headers["authorization"] = `Bearer ${currentToken}`;
         resolve(fetch(url, options));
       });
     });
@@ -44,16 +47,14 @@ export const authFetch = async (url, options = {}) => {
           method: "POST",
           credentials: "include",
         });
-        console.log(refreshRes);
         if (refreshRes.ok) {
           const data = await refreshRes.json();
           setAccessToken(data.accessToken);
-          console.log(`Access token: ${accessToken}`);
-          options.headers["Authorization"] = `Bearer ${accessToken}`;
-          return fetch(url, options);
+          options.headers["authorization"] = `Bearer ${accessToken}`;
+          return authFetch(url, options);
         } else {
           console.error("Refresh token failed. Redirecting to login...");
-          // window.location.href = "/loginAdmin";
+          window.location.href = "/loginAdmin";
         }
       } catch (error) {
         isRefreshing = false;
