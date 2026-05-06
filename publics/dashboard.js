@@ -4,18 +4,18 @@ import { alert } from "./alert.js";
 import { jwtDecode } from "https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/+esm";
 import { authFetch } from "./authFetch.js";
 async function verifySession() {
-        try {
-          const response=await authFetch("/api/auth/me");
-          if(!response.ok){
-            throw new Error("Session Expired");
-          }
-          console.log("Phiên làm việc hợp lệ");
-        } catch (error) {
-          console.error("Không thể refresh token, quay về login");
-          window.location.href="/loginAdmin";
-        }
-      }
-verifySession()
+  try {
+    const response = await authFetch("/api/auth/me");
+    if (!response.ok) {
+      throw new Error("Session Expired");
+    }
+    console.log("Phiên làm việc hợp lệ");
+  } catch (error) {
+    console.error("Không thể refresh token, quay về login");
+    window.location.href = "/loginAdmin";
+  }
+}
+verifySession();
 document.querySelectorAll(".navBtnDB").forEach((button) => {
   button.addEventListener("click", () => {
     document.querySelector(".navBtnDB.active").classList.remove("active");
@@ -26,8 +26,8 @@ document.querySelectorAll(".navBtnDB").forEach((button) => {
 });
 document.getElementById("registerAdmin").addEventListener("submit", (e) => {
   e.preventDefault();
-  const fullnameAdmin=document.getElementById("fullnameAdmin").value;
-  const roleAdmin=document.getElementById("roleAdmin").value;
+  const fullnameAdmin = document.getElementById("fullnameAdmin").value;
+  const roleAdmin = document.getElementById("roleAdmin").value;
   const emailAdmin = document.getElementById("emailAdmin").value;
   const pwAdmin = document.getElementById("pwAdmin").value;
   const listDecentAdmin = document.querySelectorAll(
@@ -39,14 +39,20 @@ document.getElementById("registerAdmin").addEventListener("submit", (e) => {
   fetch("/dashboard/registerAdmin", {
     method: "POST",
     headers: { "Content-Type": "application/json;charset=UTF-8" },
-    body: JSON.stringify({ fullnameAdmin,roleAdmin,emailAdmin, pwAdmin, valueDecentAdmin }),
+    body: JSON.stringify({
+      fullnameAdmin,
+      roleAdmin,
+      emailAdmin,
+      pwAdmin,
+      valueDecentAdmin,
+    }),
   })
     .then((res) => res.json())
     .then(({ mess, success, err }) => {
       if (success) {
         alert("Thông báo", mess, "#027e1f");
-        document.getElementById("fullnameAdmin").value="";
-        document.getElementById("roleAdmin").value="";
+        document.getElementById("fullnameAdmin").value = "";
+        document.getElementById("roleAdmin").value = "";
         document.getElementById("emailAdmin").value = "";
         document.getElementById("pwAdmin").value = "";
         const allCheckbox = document.querySelectorAll(
@@ -55,8 +61,8 @@ document.getElementById("registerAdmin").addEventListener("submit", (e) => {
         allCheckbox.forEach((item) => (item.checked = false));
       } else {
         alert("Lỗi", `${mess}\n${err ? err : ""}`, "red");
-        document.getElementById("fullnameAdmin").value="";
-        document.getElementById("roleAdmin").value="";
+        document.getElementById("fullnameAdmin").value = "";
+        document.getElementById("roleAdmin").value = "";
         document.getElementById("emailAdmin").value = "";
         document.getElementById("pwAdmin").value = "";
         const allCheckbox = document.querySelectorAll(
@@ -79,17 +85,18 @@ function getUserFromCookie() {
   if (token) {
     try {
       const decodedUser = jwtDecode(token);
-      document.getElementById("fullnameAd").innerText=decodedUser.fullname;
-      document.getElementById("roleAd").innerText=`Chức vụ: ${decodedUser.role}`;
-      const decent=decodedUser.decent;
-      function applyPermission(){
-        const buttons=document.querySelectorAll(".navBtnDB");
-        buttons.forEach(btn=>{
-          const target=btn.getAttribute("data-target");
-          if(!decent.includes(target)){
+      document.getElementById("fullnameAd").innerText = decodedUser.fullname;
+      document.getElementById("roleAd").innerText =
+        `Chức vụ: ${decodedUser.role}`;
+      const decent = decodedUser.decent;
+      function applyPermission() {
+        const buttons = document.querySelectorAll(".navBtnDB");
+        buttons.forEach((btn) => {
+          const target = btn.getAttribute("data-target");
+          if (!decent.includes(target)) {
             btn.remove();
           }
-        })
+        });
       }
       applyPermission();
       return decodedUser;
@@ -103,3 +110,38 @@ function getUserFromCookie() {
   }
 }
 window.onload = getUserFromCookie;
+const fullnameAdmin = document.getElementById("fullnameAdmin");
+const roleAdmin = document.getElementById("roleAdmin");
+const emailAdmin = document.getElementById("emailAdmin");
+const btnRegister = document.getElementById("btnRegister");
+document.querySelectorAll(".btnEditUserAdmin").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const idAdmin = btn.getAttribute("data-idAdmin");
+    fetch(`/dashboard/getUserAdmin/${idAdmin}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
+    })
+      .then((res) => res.json())
+      .then(({ data, success, error }) => {
+        if (success) {
+          fullnameAdmin.value = data.fullname;
+          roleAdmin.value = data.role;
+          emailAdmin.value = data.email;
+          btnRegister.innerText = "Cập nhật";
+          const decent = data.decent;
+          const listDecentAdmin = document.querySelectorAll(
+            "input[name='decentAdmin']",
+          );
+          listDecentAdmin.forEach((item) => {
+            item.checked = false;
+            const valueItem = item.value;
+            if (decent.includes(valueItem)) {
+              item.checked = true;
+            }
+          });
+        } else {
+          console.error(error);
+        }
+      });
+  });
+});

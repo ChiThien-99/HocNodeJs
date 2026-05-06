@@ -12,6 +12,10 @@ dashboardRouter.get(
   checkTokens,
   dashboardController.getDashboard,
 );
+dashboardRouter.get(
+  `${prefix}/getUserAdmin/:id`,
+  dashboardController.getUserAdminById,
+);
 dashboardRouter.post(
   `${prefix}/registerAdmin`,
   authLimit,

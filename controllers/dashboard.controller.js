@@ -48,8 +48,8 @@ const systemInfo = getSystemInfo();
 const jsonSystemInfo = JSON.stringify(systemInfo, null, 2);
 
 export const getDashboard = async (req, res) => {
-  const admins=await adminEntity.find();
-  res.render("dashboard.ejs", { jsonSystemInfo,admins });
+  const admins = await adminEntity.find();
+  res.render("dashboard.ejs", { jsonSystemInfo, admins });
 };
 export const postRegisterAdmin = async (req, res) => {
   try {
@@ -72,5 +72,14 @@ export const postRegisterAdmin = async (req, res) => {
       success: false,
       err: error.message,
     });
+  }
+};
+export const getUserAdminById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const admin = await adminEntity.findById(id);
+    res.json({ data: admin, success: true });
+  } catch (error) {
+    res.json({ success: false, error: error.message });
   }
 };

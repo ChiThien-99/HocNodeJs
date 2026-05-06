@@ -335,27 +335,30 @@ header {
         }
       }
     }
-    #divTableUserAdmin{
+    #divTableUserAdmin {
       width: 100%;
       overflow: scroll;
-      margin:1rem 0;
+      margin: 1rem 0;
     }
-    #tableUserAdmin,tr,th,td{
+    #tableUserAdmin,
+    tr,
+    th,
+    td {
       border: 1px solid black;
       border-collapse: collapse;
       padding: 0.5rem;
       text-align: left;
-      td:nth-child(5){
+      td:nth-child(5) {
         display: flex;
         flex-direction: row nowrap;
-        gap:0.5rem;
+        gap: 0.5rem;
       }
-      #btnEditUserAdmin{
+      .btnEditUserAdmin {
         @include button(0.5rem);
         background-color: $colorCTA;
         color: $colorSecondaryText;
       }
-      #btnDeleteUserAdmin{
+      .btnDeleteUserAdmin {
         @include button(0.5rem);
         background-color: red;
         color: $colorSecondaryText;

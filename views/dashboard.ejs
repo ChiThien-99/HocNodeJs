@@ -101,7 +101,7 @@
             <pre><%=jsonSystemInfo%></pre>
           </div>
           <div id="userMng" class="tabContent">
-            <h2>1.Thêm tài khoản quản trị</h2>
+            <h2>1.Tài khoản quản trị</h2>
             <form id="registerAdmin">
               <label for="fullnameAdmin">Họ và tên</label>
               <input type="text" name="fullnameAdmin" id="fullnameAdmin">
@@ -165,7 +165,7 @@
                 />
                 <label for="decentFeedBack">Quản lý Q&A</label><br />
               </div>
-              <button type="submit">Đăng ký</button>
+              <button type="submit" id="btnRegister">Đăng ký</button>
             </form>
             <div id="divTableUserAdmin">
               <table id="tableUserAdmin">
@@ -183,8 +183,8 @@
                 <td><%=admin.email%></td>
                 <td><%=admin.decent%></td>
                 <td>
-                  <button id="btnEditUserAdmin">Cập nhật</button>
-                  <button id="btnDeleteUserAdmin">Xóa</button>
+                  <button class="btnEditUserAdmin" data-idAdmin="<%=admin._id%>">Cập nhật</button>
+                  <button class="btnDeleteUserAdmin" data-idAdmin="<%=admin._id%>">Xóa</button>
                 </td>
               </tr>
               <%})%>
