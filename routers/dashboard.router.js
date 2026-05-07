@@ -22,3 +22,6 @@ dashboardRouter.post(
   validate,
   dashboardController.postRegisterAdmin,
 );
+dashboardRouter.put(`${prefix}/updateAdmin/:idUpdate`,authenticateToken,dashboardController.putUpdateAdminById)
+dashboardRouter.put(`${prefix}/updatePWAdmin/:idUpdate`,authenticateToken,dashboardController.putUpdatePWAdmin)
+dashboardRouter.delete(`${prefix}/deleteUserAdmin/:idDelete`,authenticateToken,dashboardController.deleteUserAdminById)

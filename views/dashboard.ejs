@@ -32,6 +32,14 @@
         <h4 id="headingAlert">Tiêu đề thông báo</h4>
         <p id="contentAlert">Thông báo lần 1</p>
       </div>
+      <div id="confirm">
+        <h4 id="headingConfirm">Tiêu đề thông báo</h4>
+        <p id="contentConfirm">Thông báo lần 1</p>
+        <div>
+          <button id="btnConfirm"><i class="fa-solid fa-check"></i> Xác nhận</button>
+          <button id="btnDeny"><i class="fa-solid fa-xmark"></i> Từ chối</button>
+        </div>
+      </div>
       <header>
         <div>
           <h1><a href="/">IMZ.AI</a></h1>
@@ -66,6 +74,7 @@
           <div>
             <h2 id="fullnameAd">Tên user</h2>
             <h3 id="roleAd">Chức vụ</h3>
+            <em id="idAd"></em>
           </div>
           <button data-target="workMng" class="navBtnDB active">
             <i class="fa-regular fa-clipboard"></i> Quản lý công việc
@@ -103,6 +112,7 @@
           <div id="userMng" class="tabContent">
             <h2>1.Tài khoản quản trị</h2>
             <form id="registerAdmin">
+              <input type="hidden" name="idAdmin" id="idAdminHidden">
               <label for="fullnameAdmin">Họ và tên</label>
               <input type="text" name="fullnameAdmin" id="fullnameAdmin">
               <label for="roleAdmin">Chức vụ</label>
@@ -164,6 +174,13 @@
                   value="qaMng"
                 />
                 <label for="decentFeedBack">Quản lý Q&A</label><br />
+                <input
+                  type="checkbox"
+                  name="decentAdmin"
+                  id="decentChangePW"
+                  value="passwordMng"
+                />
+                <label for="decentChangePW">Thay đổi mật khẩu</label><br />
               </div>
               <button type="submit" id="btnRegister">Đăng ký</button>
             </form>
@@ -205,7 +222,13 @@
             <h2>Nội dung quản lý Q&A</h2>
           </div>
           <div id="passwordMng" class="tabContent">
-            <h2>Nội dung cập nhật mật khẩu</h2>
+            <h2>Thay đổi mật khẩu</h2>
+            <from>
+              <label for="pwAdminNew">Mật khẩu mới</label><br>
+              <input type="password" id="pwAdminNew">
+              <button id="btnTogglePW"><i class="fa-solid fa-eye"></i></button><br>
+              <button id="btnUpdatePW">Cập nhật</button>
+            </from>
           </div>
         </div>
       </main>

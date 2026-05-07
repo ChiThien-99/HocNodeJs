@@ -64,6 +64,39 @@ body {
     margin: 0.5rem 0;
   }
 }
+#confirm{
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translate(-50%, -150%);
+  transition: transform 1s;
+  opacity: 0.9;
+  width: auto;
+  height: auto;
+  padding: 0.7rem;
+  background-color: $colorCTA;
+  color: $colorSecondaryText;
+  border: none;
+  border-radius: 5px;
+  z-index: 1000;
+  h4 {
+    margin: 0.5rem 0;
+  }
+  div{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: end;
+    gap: 0.5rem;
+    button:first-child{
+      @include button(0.5rem);
+      background-color: $colorPrimaryBG;
+    }
+    button:last-child{
+      @include button(0.5rem);
+      background-color: red;
+    }
+  }
+}
 //**CSS Header
 header {
   width: 100%;
@@ -267,9 +300,9 @@ header {
     width: 20%;
     border: 1px solid $colorCTA;
     div {
-      padding: 1rem;
+      padding: 0.5rem;
       h2,
-      h3 {
+      h3,em {
         color: $colorCTA;
       }
     }
@@ -333,6 +366,18 @@ header {
         label {
           cursor: pointer;
         }
+      }
+    }
+    #passwordMng{
+      input{
+        height: 2rem;
+        width: 20%;
+      }
+      button{
+        @include button(0.5rem);
+        background-color: $colorCTA;
+        color: $colorSecondaryText;
+        margin-top: 1rem;
       }
     }
     #divTableUserAdmin {

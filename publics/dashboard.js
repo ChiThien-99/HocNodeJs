@@ -1,8 +1,8 @@
 import { scriptHeader } from "/script.js";
 scriptHeader();
-import { alert } from "./alert.js";
+import { alert, confirm } from "./alert.js";
 import { jwtDecode } from "https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/+esm";
-import { authFetch } from "./authFetch.js";
+import { authFetch, setAccessToken } from "./authFetch.js";
 async function verifySession() {
   try {
     const response = await authFetch("/api/auth/me");
@@ -26,6 +26,7 @@ document.querySelectorAll(".navBtnDB").forEach((button) => {
 });
 document.getElementById("registerAdmin").addEventListener("submit", (e) => {
   e.preventDefault();
+  const idAdminHidden=document.getElementById("idAdminHidden").value;
   const fullnameAdmin = document.getElementById("fullnameAdmin").value;
   const roleAdmin = document.getElementById("roleAdmin").value;
   const emailAdmin = document.getElementById("emailAdmin").value;
@@ -36,7 +37,45 @@ document.getElementById("registerAdmin").addEventListener("submit", (e) => {
   const valueDecentAdmin = Array.from(listDecentAdmin).map(
     (item) => item.value,
   );
-  fetch("/dashboard/registerAdmin", {
+  if (idAdminHidden) {
+    fetch(`/dashboard/updateAdmin/${idAdminHidden}`,{
+      method:"PUT",
+      headers:{"Content-Type":"application/json;charset=UTF-8"},
+      body:JSON.stringify({fullnameAdmin,roleAdmin,emailAdmin,pwAdmin,valueDecentAdmin})
+    })
+    .then(res=>res.json())
+    .then(({mess,accessToken,id,success,error})=>{
+      if (success) {
+        console.log(id);
+        if(id==="69f98d958b238a769b7080a2"){
+          setAccessToken(accessToken);
+        }
+        document.getElementById("idAdminHidden").value="";
+        document.getElementById("fullnameAdmin").value = "";
+        document.getElementById("roleAdmin").value = "";
+        document.getElementById("emailAdmin").value = "";
+        document.getElementById("pwAdmin").value = "";
+        const allCheckbox = document.querySelectorAll(
+          "input[name='decentAdmin']",
+        );
+        allCheckbox.forEach((item) => (item.checked = false));
+        alert("Thông báo",mess,"#027e1f");
+        window.location.reload();
+      } else {
+        document.getElementById("idAdminHidden").value="";
+        document.getElementById("fullnameAdmin").value = "";
+        document.getElementById("roleAdmin").value = "";
+        document.getElementById("emailAdmin").value = "";
+        document.getElementById("pwAdmin").value = "";
+        const allCheckbox = document.querySelectorAll(
+          "input[name='decentAdmin']",
+        );
+        allCheckbox.forEach((item) => (item.checked = false));
+        alert("Lỗi",`${mess}\n${error}`,"red");
+      }
+    });
+  } else {
+    fetch("/dashboard/registerAdmin", {
     method: "POST",
     headers: { "Content-Type": "application/json;charset=UTF-8" },
     body: JSON.stringify({
@@ -59,6 +98,7 @@ document.getElementById("registerAdmin").addEventListener("submit", (e) => {
           "input[name='decentAdmin']",
         );
         allCheckbox.forEach((item) => (item.checked = false));
+        window.location.reload();
       } else {
         alert("Lỗi", `${mess}\n${err ? err : ""}`, "red");
         document.getElementById("fullnameAdmin").value = "";
@@ -71,6 +111,8 @@ document.getElementById("registerAdmin").addEventListener("submit", (e) => {
         allCheckbox.forEach((item) => (item.checked = false));
       }
     });
+  }
+  
 });
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -85,10 +127,12 @@ function getUserFromCookie() {
   if (token) {
     try {
       const decodedUser = jwtDecode(token);
+      document.getElementById("idAd").innerText=`ID:${decodedUser.id}`;
       document.getElementById("fullnameAd").innerText = decodedUser.fullname;
       document.getElementById("roleAd").innerText =
         `Chức vụ: ${decodedUser.role}`;
       const decent = decodedUser.decent;
+      console.log(decent);
       function applyPermission() {
         const buttons = document.querySelectorAll(".navBtnDB");
         buttons.forEach((btn) => {
@@ -110,6 +154,7 @@ function getUserFromCookie() {
   }
 }
 window.onload = getUserFromCookie;
+const idAdminHidden=document.getElementById("idAdminHidden");
 const fullnameAdmin = document.getElementById("fullnameAdmin");
 const roleAdmin = document.getElementById("roleAdmin");
 const emailAdmin = document.getElementById("emailAdmin");
@@ -124,6 +169,7 @@ document.querySelectorAll(".btnEditUserAdmin").forEach((btn) => {
       .then((res) => res.json())
       .then(({ data, success, error }) => {
         if (success) {
+          idAdminHidden.value=data._id;
           fullnameAdmin.value = data.fullname;
           roleAdmin.value = data.role;
           emailAdmin.value = data.email;
@@ -145,3 +191,54 @@ document.querySelectorAll(".btnEditUserAdmin").forEach((btn) => {
       });
   });
 });
+document.querySelectorAll(".btnDeleteUserAdmin").forEach(btn=>{
+  btn.addEventListener("click",async ()=>{
+    const confirmDelete=await confirm("Thông báo","Bạn có chắc chắn muốn xóa user admin này?","#027e1f");
+    console.log(confirmDelete);
+    if (confirmDelete) {
+      const idAdmin=btn.getAttribute("data-idAdmin");
+      fetch(`/dashboard/deleteUserAdmin/${idAdmin}`,{
+      method:"DELETE",
+      headers:{"Content-Type":"application/json;charser=UTF-8"}
+    })
+    .then(res=>res.json())
+    .then(({mess,success,error})=>{
+      if (success) {
+        alert("Thông báo",mess,"#027e1f");
+      } else {
+        alert("Lỗi",`${mess}\n${error}`,"red");
+      }
+    });
+    }
+  })
+})
+const pwAdminNew=document.getElementById("pwAdminNew");
+const btnTogglePW=document.getElementById("btnTogglePW");
+btnTogglePW.addEventListener("click",function(e){
+  e.preventDefault();
+  const type=pwAdminNew.getAttribute("type")==="password"?"text":"password";
+  pwAdminNew.setAttribute("type",type);
+  this.innerHTML=pwAdminNew.getAttribute("type")==="password"? "<i class='fa-solid fa-eye'></i>"
+      : "<i class='fa-solid fa-eye-slash'></i>";
+})
+const btnUpdatePW=document.getElementById("btnUpdatePW");
+btnUpdatePW.addEventListener("click",(e)=>{
+  e.preventDefault();
+  let idAd=document.getElementById("idAd").innerHTML;
+  idAd=idAd.slice(3);
+  console.log(idAd);
+  const valuePwAdminNew=pwAdminNew.value;
+  fetch(`/dashboard/updatePWAdmin/${idAd}`,{
+    method:"PUT",
+    headers:{"Content-Type":"application/json;charset=UTF-8"},
+    body:JSON.stringify({valuePwAdminNew}),
+  })
+  .then(res=>res.json())
+  .then(({mess,success,error})=>{
+    if (success) {
+      alert("Thông báo",mess,"#027e1f");
+    } else {
+      alert("Lỗi",`${mess}\n${error}`,"red");
+    }
+  });
+})

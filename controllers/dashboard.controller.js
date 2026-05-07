@@ -2,7 +2,7 @@ import os from "os";
 import { json } from "stream/consumers";
 import { adminEntity } from "../models/admin.model.js";
 import bcrypt from "bcryptjs";
-import * as jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 function getSystemInfo() {
   const info = {
     os: {
@@ -83,3 +83,66 @@ export const getUserAdminById = async (req, res) => {
     res.json({ success: false, error: error.message });
   }
 };
+export const putUpdateAdminById=async(req,res)=>{
+  try {
+    const {idUpdate}=req.params;
+    const idUserCurrent=req.user.id;
+    const roleUserCurrent=req.user.role;
+    let {fullnameAdmin,roleAdmin,emailAdmin,pwAdmin,valueDecentAdmin}=req.body;
+    const salt = await bcrypt.genSalt(10);
+    pwAdmin = await bcrypt.hash(pwAdmin, salt);
+    console.log(`${idUpdate},${idUserCurrent},${roleUserCurrent}`);
+    if(idUpdate!==idUserCurrent && roleUserCurrent!=="Tổng giám đốc"){
+      return res.status(403).json({mess:"Bạn không đủ quyền thực hiện hành động này!",success:false})
+    }
+    const updateAdmin=await adminEntity.findByIdAndUpdate(idUpdate,{fullname:fullnameAdmin,role:roleAdmin,email:emailAdmin,password:pwAdmin,decent:valueDecentAdmin});
+    console.log(`updateAdmin: ${updateAdmin}`);
+    const accessToken = jwt.sign(
+          {
+            id: updateAdmin._id,
+            email: updateAdmin.email,
+            fullname: updateAdmin.fullname,
+            role: updateAdmin.role,
+            decent: updateAdmin.decent,
+          },
+          process.env.ACCESS_SECRET,
+          { expiresIn: "15m" },
+        );
+    res.json({mess:"Cập nhật thành công",success:true, accessToken:accessToken, id:updateAdmin._id});
+  } catch (error) {
+    res.json({mess:"Cập nhật thất bại",success:false,error:error.message});
+  }
+}
+export const putUpdatePWAdmin=async (req,res)=>{
+  try {
+  const {idUpdate}=req.params;
+  const idUserCurrent=req.user.id;
+  let {valuePwAdminNew}=req.body;
+  if(idUpdate!=idUserCurrent){
+    return res.status(403).json({mess:"Bạn không đủ quyền thực hiện hành động này!",success:false});
+  }
+  const salt = await bcrypt.genSalt(10);
+  valuePwAdminNew = await bcrypt.hash(valuePwAdminNew, salt);
+  const updatePWAdmin=await adminEntity.findByIdAndUpdate(idUpdate,{password:valuePwAdminNew})
+  console.log(`${updatePWAdmin}`);
+  res.json({mess:"Cập nhật mật khẩu thành công",success:true});
+  } catch (error) {
+  res.json({mess:"Cập nhật mật khẩu thất bại",success:false,error:error.message});
+  }
+  
+}
+export const deleteUserAdminById=async (req,res)=>{
+  try {
+  const {idDelete}=req.params;
+  const idUserCurrent=req.user.id;
+  const roleUserCurrent=req.user.role;
+  if(idDelete!=idUserCurrent&&roleUserCurrent!="Tổng giám đốc"){
+    return res.status(403).json({mess:"Bạn không đủ quyền thực hiện hành động này!",success:false});
+  }
+  const deleteUserAdmin=await adminEntity.findByIdAndDelete(idDelete);
+  res.json({mess:"Xóa user thành công",success:true});
+  } catch (error) {
+  res.json({mess:"Xóa user thất bại",success:false,error:error.message});
+  }
+  
+}

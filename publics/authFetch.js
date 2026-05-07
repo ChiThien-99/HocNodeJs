@@ -13,7 +13,7 @@ const onRefresh = (token) => {
 export const setAccessToken = (token) => {
   if (token) {
    accessToken=token;
-   document.cookie=`accessToken=${token};path=/;max-age=900;SameSite=none;Secure"`;
+   document.cookie=`accessToken=${token};path=/;max-age=900;SameSite=none;Secure`;
   } else {
     accessToken=null;
     document.cookie="accessToken=;path=/;max-age=0";

@@ -53,6 +53,46 @@ body::before {
   margin: 0.5rem 0;
 }
 
+#confirm {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translate(-50%, -150%);
+  transition: transform 1s;
+  opacity: 0.9;
+  width: auto;
+  height: auto;
+  padding: 0.7rem;
+  background-color: #027e1f;
+  color: #fafafa;
+  border: none;
+  border-radius: 5px;
+  z-index: 1000;
+}
+#confirm h4 {
+  margin: 0.5rem 0;
+}
+#confirm div {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: end;
+  gap: 0.5rem;
+}
+#confirm div button:first-child {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #fafafa;
+}
+#confirm div button:last-child {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: red;
+}
+
 header {
   width: 100%;
   height: auto;
@@ -271,10 +311,10 @@ header div:last-child #groupBtn button {
   border: 1px solid #027e1f;
 }
 #mainDashboard #navDashboard div {
-  padding: 1rem;
+  padding: 0.5rem;
 }
 #mainDashboard #navDashboard div h2,
-#mainDashboard #navDashboard div h3 {
+#mainDashboard #navDashboard div h3, #mainDashboard #navDashboard div em {
   color: #027e1f;
 }
 #mainDashboard #navDashboard .navBtnDB {
@@ -342,6 +382,19 @@ header div:last-child #groupBtn button {
 #mainDashboard #contentDashboard #registerAdmin #formDecentralize input[type=checkbox],
 #mainDashboard #contentDashboard #registerAdmin #formDecentralize label {
   cursor: pointer;
+}
+#mainDashboard #contentDashboard #passwordMng input {
+  height: 2rem;
+  width: 20%;
+}
+#mainDashboard #contentDashboard #passwordMng button {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #027e1f;
+  color: #fafafa;
+  margin-top: 1rem;
 }
 #mainDashboard #contentDashboard #divTableUserAdmin {
   width: 100%;
