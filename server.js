@@ -19,11 +19,12 @@ import cookieParser from "cookie-parser";
 import { connectDB } from "./database.js";
 connectDB();
 const app = express();
+import { indexRouter } from "./routers/index.router.js";
 import { routerTodo } from "./routers/todo.router.js";
 import { routerFile } from "./routers/file.router.js";
 import { dashboardRouter } from "./routers/dashboard.router.js";
 import { routerLoginAdmin } from "./routers/loginAdmin.router.js";
-import {authRouter}from"./routers/auth.router.js";
+import { authRouter } from "./routers/auth.router.js";
 import { adminEntity } from "./models/admin.model.js";
 
 app.use(
@@ -73,12 +74,6 @@ app.use(
 app.set("view engine", "ejs");
 app.set("views", "./views");
 
-app.get("/", (req, res) => {
-  res.send(
-    `<h1>Welcome to Secure Express Server</h1>\n<h2>Trang chủ IMZ.AI</h2>`,
-  );
-});
-
 app.get("/api/status", (req, res) => {
   res.json({
     status: "operational",
@@ -92,7 +87,8 @@ app.use("/", routerTodo);
 app.use("/", routerFile);
 app.use("/", dashboardRouter);
 app.use("/", routerLoginAdmin);
-app.use("/",authRouter);
+app.use("/", authRouter);
+app.use("/", indexRouter);
 
 // Xử lý lỗi middleware
 app.use((err, req, res, next) => {
