@@ -314,7 +314,8 @@ header div:last-child #groupBtn button {
   padding: 0.5rem;
 }
 #mainDashboard #navDashboard div h2,
-#mainDashboard #navDashboard div h3, #mainDashboard #navDashboard div em {
+#mainDashboard #navDashboard div h3,
+#mainDashboard #navDashboard div em {
   color: #027e1f;
 }
 #mainDashboard #navDashboard .navBtnDB {
@@ -513,37 +514,38 @@ header div:last-child #groupBtn button {
 }
 #divAboutAndBanner #carousel-container {
   width: 60%;
-  height: 12rem;
+  height: 25rem;
   overflow: hidden;
   position: relative;
 }
-#divAboutAndBanner #carousel-container .carousel-wrapper {
+#divAboutAndBanner #carousel-container #carousel-wrapper {
   display: flex;
   flex-flow: row nowrap;
   width: 100%;
   height: 100%;
   transition: transform 0.5s ease-in-out;
 }
-#divAboutAndBanner #carousel-container .carousel-wrapper .carousel-slide {
+#divAboutAndBanner #carousel-container #carousel-wrapper .carousel-slide {
   min-width: 100%;
   position: relative;
 }
-#divAboutAndBanner #carousel-container .carousel-wrapper .carousel-slide img {
+#divAboutAndBanner #carousel-container #carousel-wrapper .carousel-slide img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
 }
-#divAboutAndBanner #carousel-container .carousel-wrapper .carousel-slide .carousel-caption {
+#divAboutAndBanner #carousel-container #carousel-wrapper .carousel-slide .carousel-caption {
   position: absolute;
   bottom: 0;
-  height: auto;
+  height: 30%;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.6);
   color: #fafafa;
   padding: 1rem;
 }
-#divAboutAndBanner #carousel-container #prev, #divAboutAndBanner #carousel-container #next {
+#divAboutAndBanner #carousel-container #prev,
+#divAboutAndBanner #carousel-container #next {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -555,7 +557,8 @@ header div:last-child #groupBtn button {
   transition: 0.3s;
   z-index: 10;
 }
-#divAboutAndBanner #carousel-container #prev:hover, #divAboutAndBanner #carousel-container #next:hover {
+#divAboutAndBanner #carousel-container #prev:hover,
+#divAboutAndBanner #carousel-container #next:hover {
   background-color: rgba(0, 0, 0, 0.8);
 }
 #divAboutAndBanner #carousel-container #next {
