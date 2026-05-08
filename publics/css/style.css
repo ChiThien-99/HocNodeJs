@@ -496,6 +496,93 @@ header div:last-child #groupBtn button {
   display: none;
 }
 
+#divAboutAndBanner {
+  display: flex;
+  flex-flow: row nowrap;
+  width: 100%;
+  height: auto;
+  border: 1px solid black;
+}
+#divAboutAndBanner #aboutIMZ-container {
+  width: 40%;
+  padding: 0.5rem;
+}
+#divAboutAndBanner #aboutIMZ-container #aboutIMZ {
+  color: #027e1f;
+  font-style: italic;
+}
+#divAboutAndBanner #carousel-container {
+  width: 60%;
+  height: 12rem;
+  overflow: hidden;
+  position: relative;
+}
+#divAboutAndBanner #carousel-container .carousel-wrapper {
+  display: flex;
+  flex-flow: row nowrap;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s ease-in-out;
+}
+#divAboutAndBanner #carousel-container .carousel-wrapper .carousel-slide {
+  min-width: 100%;
+  position: relative;
+}
+#divAboutAndBanner #carousel-container .carousel-wrapper .carousel-slide img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+#divAboutAndBanner #carousel-container .carousel-wrapper .carousel-slide .carousel-caption {
+  position: absolute;
+  bottom: 0;
+  height: auto;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fafafa;
+  padding: 1rem;
+}
+#divAboutAndBanner #carousel-container #prev, #divAboutAndBanner #carousel-container #next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fafafa;
+  padding: 1rem;
+  cursor: pointer;
+  border: none;
+  transition: 0.3s;
+  z-index: 10;
+}
+#divAboutAndBanner #carousel-container #prev:hover, #divAboutAndBanner #carousel-container #next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+#divAboutAndBanner #carousel-container #next {
+  right: 0;
+}
+#divAboutAndBanner #carousel-container #indicators {
+  position: absolute;
+  bottom: 1rem;
+  width: 100%;
+  text-align: center;
+  z-index: 10;
+  height: 1rem;
+}
+#divAboutAndBanner #carousel-container #indicators .dot {
+  height: 0.8rem;
+  width: 0.8rem;
+  margin: 0 0.3rem;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  cursor: pointer;
+  transition: 0.3s;
+}
+#divAboutAndBanner #carousel-container #indicators .active {
+  background-color: #fafafa;
+}
+
 footer {
   width: 100%;
   height: auto;
