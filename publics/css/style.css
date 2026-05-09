@@ -93,6 +93,23 @@ body::before {
   background-color: red;
 }
 
+.flag-item {
+  background-color: #027e1f;
+  color: #fafafa;
+  width: -moz-fit-content;
+  width: fit-content;
+  min-width: 1rem;
+  padding: 0.6rem 2.5rem 0.6rem 1.3rem;
+  margin-bottom: 1rem;
+  position: relative;
+  clip-path: polygon(0% 0%, 95% 0%, 100% 50%, 95% 100%, 0% 100%);
+  transition: transform 0.3s ease;
+}
+.flag-item:hover {
+  transform: translateX(0.6rem);
+  background-color: #029a26;
+}
+
 header {
   width: 100%;
   height: auto;
@@ -316,7 +333,7 @@ header div:last-child #groupBtn button {
 #mainDashboard #navDashboard div h2,
 #mainDashboard #navDashboard div h3,
 #mainDashboard #navDashboard div em {
-  color: #027e1f;
+  color: white;
 }
 #mainDashboard #navDashboard .navBtnDB {
   width: 100%;
@@ -440,6 +457,42 @@ header div:last-child #groupBtn button {
   padding: 0.5rem;
   background-color: red;
   color: #fafafa;
+}
+#mainDashboard #contentDashboard #homeMng input[type=text] {
+  width: 50%;
+  height: 2rem;
+  font-size: 1rem;
+}
+#mainDashboard #contentDashboard #homeMng input[type=text]:focus {
+  outline: none;
+  border: 2px solid #027e1f;
+}
+#mainDashboard #contentDashboard #homeMng input[type=number] {
+  width: 10%;
+  height: 2rem;
+  font-size: 1rem;
+}
+#mainDashboard #contentDashboard #homeMng input[type=number]:focus {
+  outline: none;
+  border: 2px solid #027e1f;
+}
+#mainDashboard #contentDashboard #homeMng input[type=file]::file-selector-button {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #027e1f;
+  color: #fafafa;
+  margin: 1rem 0;
+}
+#mainDashboard #contentDashboard #homeMng input[type=submit] {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #027e1f;
+  color: #fafafa;
+  margin: 1rem 0;
 }
 
 #loginContainer {

@@ -85,6 +85,9 @@
           <button data-target="userMng" class="navBtnDB">
             <i class="fa-solid fa-user"></i> Quản lý user
           </button>
+          <button data-target="homeMng" class="navBtnDB">
+            <i class="fa-solid fa-house"></i> Quản lý trang chủ
+          </button>
           <button data-target="softwareMng" class="navBtnDB">
             <i class="fa-solid fa-code"></i> Quản lý phần mềm
           </button>
@@ -106,11 +109,11 @@
             <h2>Nội dung quản lý công việc</h2>
           </div>
           <div id="serverMng" class="tabContent">
-            <h2>1.Thông tin server</h2>
+            <h2 class="flag-item">Thông tin server</h2>
             <pre><%=jsonSystemInfo%></pre>
           </div>
           <div id="userMng" class="tabContent">
-            <h2>1.Tài khoản quản trị</h2>
+            <h2 class="flag-item">Tài khoản quản trị</h2>
             <form id="registerAdmin">
               <input type="hidden" name="idAdmin" id="idAdminHidden">
               <label for="fullnameAdmin">Họ và tên</label>
@@ -146,6 +149,13 @@
                   value="userMng"
                 />
                 <label for="decentUser">Quản lý user</label><br />
+                <input
+                  type="checkbox"
+                  name="decentAdmin"
+                  id="decentHome"
+                  value="homeMng"
+                />
+                <label for="decentHome">Quản lý trang chủ</label><br />
                 <input
                   type="checkbox"
                   name="decentAdmin"
@@ -209,6 +219,21 @@
             </div>
           
           </div>
+          <div id="homeMng" class="tabContent">
+            <h2 class="flag-item">Quản lý banner</h2>
+            <form action="/dashboard/banner/add" method="post" id="formAddBanner" enctype="multipart/form-data">
+            <label for="imageBanner">Hình ảnh banner</label><br>
+            <input type="file" name="imageBanner" id="imageBanner" accept="image/webp" required><br>
+            <label for="captionBanner">Caption banner</label><br>
+            <input type="text" name="captionBanner" id="captionBanner" required><br>
+            <label for="urlBanner">Đường dẫn banner</label><br>
+            <input type="text" name="urlBanner" id="urlBanner" required><br>
+            <label for="orderBanner">Order</label><br>
+            <input type="number" name="orderBanner" id="orderBanner" required><br>
+            <input type="submit" id="btnAddBanner" value="Tạo">
+            </form>
+            
+          </div>
           <div id="softwareMng" class="tabContent">
             <h2>Nội dung quản lý phần mềm</h2>
           </div>
@@ -222,7 +247,7 @@
             <h2>Nội dung quản lý Q&A</h2>
           </div>
           <div id="passwordMng" class="tabContent">
-            <h2>Thay đổi mật khẩu</h2>
+            <h2 class="flag-item">Thay đổi mật khẩu</h2>
             <from>
               <label for="pwAdminNew">Mật khẩu mới</label><br>
               <input type="password" id="pwAdminNew">

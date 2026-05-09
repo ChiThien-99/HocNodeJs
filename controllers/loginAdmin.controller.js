@@ -9,6 +9,7 @@ export const postLoginAdmin = async (req, res) => {
   try {
     const { emailAdmin, pwAdmin } = req.body;
     const user = await adminEntity.findOne({ email: emailAdmin });
+    console.log(user.password);
     if (!user || !(await bcrypt.compare(pwAdmin, user.password))) {
       return res
         .status(401)

@@ -97,6 +97,21 @@ body {
     }
   }
 }
+.flag-item{
+  background-color: $colorCTA;
+  color: $colorSecondaryText;
+  width: fit-content;
+  min-width: 1rem;
+  padding: 0.6rem 2.5rem 0.6rem 1.3rem;
+  margin-bottom: 1rem;
+  position: relative;
+  clip-path: polygon(0% 0%, 95% 0%, 100% 50%, 95% 100%, 0% 100%);
+  transition: transform 0.3s ease;
+  &:hover{
+    transform: translateX(0.6rem);
+    background-color: #029a26;
+  }
+}
 //**CSS Header
 header {
   width: 100%;
@@ -304,7 +319,8 @@ header {
       h2,
       h3,
       em {
-        color: $colorCTA;
+        // color: $colorCTA;
+        color: white;
       }
     }
     .navBtnDB {
@@ -408,6 +424,38 @@ header {
         @include button(0.5rem);
         background-color: red;
         color: $colorSecondaryText;
+      }
+    }
+    #homeMng{
+      input[type="text"]{
+        width: 50%;
+        height: 2rem;
+        font-size: 1rem;
+        &:focus {
+          outline: none;
+          border: 2px solid $colorCTA;
+        }
+      }
+      input[type="number"]{
+        width: 10%;
+        height: 2rem;
+        font-size: 1rem;
+        &:focus {
+          outline: none;
+          border: 2px solid $colorCTA;
+        }  
+      }
+      input[type="file"]::file-selector-button{
+        @include button(0.5rem);
+        background-color: $colorCTA;
+        color: $colorSecondaryText;
+        margin: 1rem 0;
+      }
+      input[type="submit"]{
+        @include button(0.5rem);
+        background-color: $colorCTA;
+        color: $colorSecondaryText;
+        margin: 1rem 0;
       }
     }
   }

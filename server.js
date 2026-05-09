@@ -16,6 +16,7 @@ import path from "path";
 import helmet from "helmet";
 import * as jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
+import { Server } from "socket.io";
 import { connectDB } from "./database.js";
 connectDB();
 const app = express();
@@ -125,6 +126,8 @@ const sslOption = {
 };
 const port = process.env.PORT || 3000;
 const server = https.createServer(sslOption, app);
+export const io=new Server(server);
+
 process.on("unhandledRejection", (reason, promise) => {
   console.error(`Unhandle Rejection ${promise}, reason ${reason}`);
 });

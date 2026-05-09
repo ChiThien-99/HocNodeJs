@@ -241,4 +241,34 @@ btnUpdatePW.addEventListener("click",(e)=>{
       alert("Lỗi",`${mess}\n${error}`,"red");
     }
   });
+});
+const form=document.getElementById("formAddBanner");
+form.addEventListener("submit",(e)=>{
+  e.preventDefault();
+  const formData=new FormData(form);
+  try {
+    fetch("/dashboard/banner/add",{
+      method:"POST",
+      body:formData,
+    })
+    .then(res=>res.json())
+    .then(({mess,success,error})=>{
+      if(success){
+        document.getElementById("imageBanner").value="";
+        document.getElementById("captionBanner").value="";
+        document.getElementById("urlBanner").value="";
+        document.getElementById("orderBanner").value="";
+        alert("Thông báo",mess,"#027e1f");
+      }
+      else{
+        document.getElementById("imageBanner").value="";
+        document.getElementById("captionBanner").value="";
+        document.getElementById("urlBanner").value="";
+        document.getElementById("orderBanner").value="";
+        alert("Lỗi",`${mess}\n${error}`,"red");
+      }
+    });
+  } catch (error) {
+    alert("Lỗi kết nối",error,"red");
+  }
 })

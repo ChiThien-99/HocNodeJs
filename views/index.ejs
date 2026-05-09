@@ -79,26 +79,14 @@
           </div>
           <div id="carousel-container">
             <div id="carousel-wrapper">
+              <%banners.forEach(banner=>{%>
               <div class="carousel-slide">
-                <img src="/img/banner1.webp" alt="banner1">
-                <div class="carousel-caption">Tiêu đề banner 1</div>
+                <a href="<%=banner.url%>" target="_blank">
+                   <img src="<%=banner.image%>" alt="banner1">
+                   <div class="carousel-caption"><%=banner.caption%></div>
+                </a>
               </div>
-              <div class="carousel-slide">
-                <img src="/img/banner2.webp" alt="banner2">
-                <div class="carousel-caption">Tiêu đề banner 2</div>
-              </div>
-              <div class="carousel-slide">
-                <img src="/img/banner3.webp" alt="banner3">
-                <div class="carousel-caption">Tiêu đề banner 3</div>
-              </div>
-              <div class="carousel-slide">
-                <img src="/img/banner4.webp" alt="banner4">
-                <div class="carousel-caption">Tiêu đề banner 4</div>
-              </div>
-              <div class="carousel-slide">
-                <img src="/img/banner5.webp" alt="banner5">
-                <div class="carousel-caption">Tiêu đề banner 5</div>
-              </div>
+              <%})%>
             </div>
             <button id="prev" data-index="-1"><i class="fa-solid fa-angle-left"></i></button>
             <button id="next" data-index="1"><i class="fa-solid fa-angle-right"></i></button>
@@ -165,6 +153,7 @@
         </div>
       </footer>
     </div>
+    <script src="/socket.io/socket.io.js"></script>
   </body>
   <script type="module" src="/index.js" defer></script>
 </html>

@@ -1,6 +1,8 @@
 import os from "os";
 import { json } from "stream/consumers";
 import { adminEntity } from "../models/admin.model.js";
+import { bannerEntity } from "../models/banner.model.js";
+import { io } from "../server.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 function getSystemInfo() {
@@ -83,6 +85,23 @@ export const getUserAdminById = async (req, res) => {
     res.json({ success: false, error: error.message });
   }
 };
+export const postBanner=async(req,res)=>{
+  try {
+  const {captionBanner,urlBanner,orderBanner}=req.body;
+  const newBanner=await bannerEntity.create({
+    caption:captionBanner,
+    url:urlBanner,
+    order:orderBanner,
+    image:`/img/${req.file.filename}`
+  })
+  const allBanner=await bannerEntity.find().sort("order");
+  io.emit("update-carousel",allBanner);
+  res.json({mess:"Tạo banner thành công",success:"true"});
+  } catch (error) {
+  res.json({mess:"Tạo banner thất bại",success:false,error:error.message});
+  }
+  
+}
 export const putUpdateAdminById=async(req,res)=>{
   try {
     const {idUpdate}=req.params;

@@ -73,3 +73,15 @@ function resetTime() {
   startTime();
 }
 startTime();
+const socket=io();
+socket.on("update-carousel",(allBanner)=>{
+  console.log(`Nhận được cập nhật banner: ${allBanner}`);
+  wrapper.innerHTML=allBanner.map(banner=>`
+     <div class="carousel-slide">
+        <a href="${banner.url}" target="_blank">
+            <img src="${banner.image}" alt="banner1">
+            <div class="carousel-caption">${banner.caption}</div>
+        </a>
+     </div>  
+  `).join(" ");
+})
