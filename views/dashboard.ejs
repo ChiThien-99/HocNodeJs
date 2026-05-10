@@ -221,9 +221,10 @@
           </div>
           <div id="homeMng" class="tabContent">
             <h2 class="flag-item">Quản lý banner</h2>
-            <form action="/dashboard/banner/add" method="post" id="formAddBanner" enctype="multipart/form-data">
+            <form id="formAddBanner" enctype="multipart/form-data">
+            <input type="hidden" name="idbanner" id="idbanner">
             <label for="imageBanner">Hình ảnh banner</label><br>
-            <input type="file" name="imageBanner" id="imageBanner" accept="image/webp" required><br>
+            <input type="file" name="imageBanner" id="imageBanner" accept="image/webp"><br>
             <label for="captionBanner">Caption banner</label><br>
             <input type="text" name="captionBanner" id="captionBanner" required><br>
             <label for="urlBanner">Đường dẫn banner</label><br>
@@ -232,7 +233,45 @@
             <input type="number" name="orderBanner" id="orderBanner" required><br>
             <input type="submit" id="btnAddBanner" value="Tạo">
             </form>
-            
+            <em>Lưu ý: Nếu sai hình ảnh hãy xóa luôn banner và tạo mới</em>
+            <div id="divTableBanner">
+              <table id="tableBanner">
+              <tr>
+                <th>Caption</th>
+                <th>Url</th>
+                <th>Order</th>
+                <th>Thao tác</th>
+              </tr>
+              <%banners.forEach((banner)=>{%>
+              <tr>
+                <td><%=banner.caption%></td>
+                <td><%=banner.url%></td>
+                <td><%=banner.order%></td>
+                <td>
+                  <button class="btnUpdateBanner" data-idbanner="<%=banner._id%>">Cập nhật</button>
+                  <button class="btnDeleteBanner" data-idbanner="<%=banner._id%>">Xóa</button>
+                </td>
+              </tr>
+              <%})%>
+            </table>
+            <h2 class="flag-item">Quản lý thông báo</h2>
+            <form id="formAddNotify" enctype="multipart/form-data">
+              <label for="typeNotify">Loại thông báo</label><br>
+              <select name="typeNotify" id="typeNotify">
+                <option value="all">Tất cả</option>
+                 <option value="system">Hệ thống</option>
+                 <option value="event">Sự kiện</option>
+                 <option value="app">Phần mềm</option>
+                 <option value="device">Thiết bị</option>
+                 <option value="news">Tin tức</option>
+              </select><br>
+              <label for="contentNotify">Nội dung thông báo</label><br>
+              <input type="text" name="contentNotify" id="contentNotify"><br>
+              <label for="urlNotify">Đường dẫn</label><br>
+              <input type="text" name="urlNotify" id="urlNotify"><br>
+              <input type="submit" value="Tạo">
+            </form>
+            </div>
           </div>
           <div id="softwareMng" class="tabContent">
             <h2>Nội dung quản lý phần mềm</h2>

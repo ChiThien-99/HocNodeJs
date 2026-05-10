@@ -74,15 +74,38 @@
       </header>
       <main>
         <div id="divAboutAndBanner">
-          <div id="aboutIMZ-container">
-            <h3 id="aboutIMZ"></h3>
+          <div id="notification-container">
+            <div id="headerNotification">
+               <h3><i class="fa-solid fa-bell"></i> Thông báo</h3>
+               <select name="filterNotification" id="filterNotification">
+                 <option value="all">Tất cả</option>
+                 <option value="system">Hệ thống</option>
+                 <option value="event">Sự kiện</option>
+                 <option value="app">Phần mềm</option>
+                 <option value="device">Thiết bị</option>
+                 <option value="news">Tin tức</option>
+               </select>
+            </div>
+            <div id="bodyNotification">
+              <%notifys.forEach((notify)=>{%>
+              <div class="notify">
+                <a href="<%=notify.url%>">
+               <div class="headerNotify">
+                <span><%=notify.type%></span>
+                <span><%=new Date(notify.createAt).toLocaleString()%></span>
+              </div>
+              <p><%=notify.content%></p>
+                </a>
+            </div>
+            <%})%>
+            </div>
           </div>
           <div id="carousel-container">
             <div id="carousel-wrapper">
-              <%banners.forEach(banner=>{%>
+              <%banners.forEach((banner)=>{%>
               <div class="carousel-slide">
                 <a href="<%=banner.url%>" target="_blank">
-                   <img src="<%=banner.image%>" alt="banner1">
+                   <img src="<%=banner.image%>" loading="lazy" alt="banner1">
                    <div class="carousel-caption"><%=banner.caption%></div>
                 </a>
               </div>
@@ -91,11 +114,9 @@
             <button id="prev" data-index="-1"><i class="fa-solid fa-angle-left"></i></button>
             <button id="next" data-index="1"><i class="fa-solid fa-angle-right"></i></button>
             <div id="indicators">
-              <span class="dot active" data-index="0"></span>
-              <span class="dot" data-index="1"></span>
-              <span class="dot" data-index="2"></span>
-              <span class="dot" data-index="3"></span>
-              <span class="dot" data-index="4"></span>
+              <%banners.forEach((_,i)=>{%>
+              <span class="dot <%=(i===0)?'active':''%>" data-index="<%=i%>"></span>
+              <%})%>
             </div>
           </div>
         </div>

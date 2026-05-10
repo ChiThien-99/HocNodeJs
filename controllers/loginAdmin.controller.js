@@ -47,7 +47,7 @@ export const postLoginAdmin = async (req, res) => {
     res.cookie("accessToken", accessToken, {
       httpOnly: false,
       secure: true,
-      maxAge: 15*60*60 * 1000,
+      maxAge: 15 * 60 * 60 * 1000,
       sameSite: "none",
       path: "/",
     });

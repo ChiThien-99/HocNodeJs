@@ -1,35 +1,51 @@
 import { scriptHeader } from "/script.js";
 scriptHeader();
-const aboutIMZ = document.getElementById("aboutIMZ");
-const textAboutIMZ =
-  "Xin chào bạn<br/>Tôi là Zen (I'M Zen)<br/>Tôi là trí tuệ nhân tạo (AI)<br/>Tôi tạo ra phần mềm/thiết bị hỗ trợ trong các lĩnh vực:<br/>MÔI TRƯỜNG<br/>SỨC KHỎE<br/>IOT";
-const speed = 50;
-let i = 0;
-function typeWriter() {
-  if (i < textAboutIMZ.length) {
-    const char = textAboutIMZ.charAt(i);
-    if (char === "<") {
-      const endTag = textAboutIMZ.indexOf(">", i);
-      aboutIMZ.innerHTML += textAboutIMZ.substring(i, endTag + 1);
-      i = endTag + 1;
-    } else {
-      aboutIMZ.innerHTML += char;
-      i++;
-    }
-    setTimeout(typeWriter, speed);
-  }
-}
-window.onload = typeWriter;
+// const aboutIMZ = document.getElementById("aboutIMZ");
+// const textAboutIMZ =
+//   "Xin chào bạn<br/>Tôi là Zen (I'M Zen)<br/>Tôi là trí tuệ nhân tạo (AI)<br/>Tôi tạo ra phần mềm/thiết bị hỗ trợ trong các lĩnh vực:<br/>MÔI TRƯỜNG<br/>SỨC KHỎE<br/>IOT";
+// const speed = 50;
+// let i = 0;
+// function typeWriter() {
+//   if (i < textAboutIMZ.length) {
+//     const char = textAboutIMZ.charAt(i);
+//     if (char === "<") {
+//       const endTag = textAboutIMZ.indexOf(">", i);
+//       aboutIMZ.innerHTML += textAboutIMZ.substring(i, endTag + 1);
+//       i = endTag + 1;
+//     } else {
+//       aboutIMZ.innerHTML += char;
+//       i++;
+//     }
+//     setTimeout(typeWriter, speed);
+//   }
+// }
+// window.onload = typeWriter;
 const wrapper = document.getElementById("carousel-wrapper");
-const slides = document.querySelectorAll(".carousel-slide");
-const dots = document.querySelectorAll(".dot");
+let slides = document.querySelectorAll(".carousel-slide");
+let dots = document.querySelectorAll(".dot");
 let index = 0;
 let autoSlideInterval;
+function initCarousel() {
+  slides = document.querySelectorAll(".carousel-slide");
+  dots = document.querySelectorAll(".dot");
+  dots.forEach((dot) => {
+    dot.addEventListener("click", () => {
+      const i = parseInt(dot.getAttribute("data-index"));
+      currentSlide(i);
+    });
+  });
+  index = 0;
+  updateCarousel();
+  resetTime();
+}
 function updateCarousel() {
+  if (slides.length === 0) return;
   let offset = -index * 100;
   wrapper.style.transform = `translateX(${offset}%)`;
   dots.forEach((dot) => dot.classList.remove("active"));
-  dots[index].classList.add("active");
+  if (dots[index]) {
+    dots[index].classList.add("active");
+  }
 }
 document.getElementById("prev").addEventListener("click", function () {
   const index = this.getAttribute("data-index");
@@ -53,8 +69,8 @@ function changeSlide(n) {
 }
 dots.forEach((dot) => {
   dot.addEventListener("click", () => {
-    const index = dot.getAttribute("data-index");
-    currentSlide(Number(index));
+    const index = parseInt(dot.getAttribute("data-index"));
+    currentSlide(index);
   });
 });
 function currentSlide(n) {
@@ -73,15 +89,68 @@ function resetTime() {
   startTime();
 }
 startTime();
-const socket=io();
-socket.on("update-carousel",(allBanner)=>{
-  console.log(`Nhận được cập nhật banner: ${allBanner}`);
-  wrapper.innerHTML=allBanner.map(banner=>`
+const socket = io();
+socket.on("update-carousel", (allBanner) => {
+  console.log("Nhận được cập nhật banner:", allBanner);
+  console.log(wrapper);
+  wrapper.innerHTML = allBanner
+    .map(
+      (banner) => `
      <div class="carousel-slide">
         <a href="${banner.url}" target="_blank">
             <img src="${banner.image}" alt="banner1">
             <div class="carousel-caption">${banner.caption}</div>
         </a>
      </div>  
-  `).join(" ");
-})
+  `,
+    )
+    .join("");
+  const indicators = document.getElementById("indicators");
+  indicators.innerHTML = allBanner.map(
+    (_, i) => `
+  <span class="dot ${i === 0 ? "active" : ""}" data-index="${i}"></span>
+  `,
+  );
+  initCarousel();
+  console.log("Đã cập nhật và đồng bộ hóa");
+});
+let localNotifications = [];
+let notify = document.querySelectorAll(".notify");
+socket.on("update-notify", (allNotify) => {
+  localNotifications = allNotify;
+  renderNotify(localNotifications);
+  notify = document.querySelectorAll(".notify");
+});
+const optionFilter = document.querySelectorAll("#filterNotification option");
+optionFilter.forEach((option) => {
+  option.addEventListener("click", () => {
+    const type = option.getAttribute("value");
+    filterType(type);
+  });
+});
+function renderNotify(data) {
+  const bodyNotification = document.getElementById("bodyNotification");
+  bodyNotification.innerHTML = data
+    .map(
+      (notify) => `
+  <div class="notify">
+    <a href="${notify.url}">
+      <div class="headerNotify">
+        <span>${notify.type}</span>
+        <span>${new Date(notify.createAt).toLocaleString()}</span>
+      </div>
+      <p>${notify.content}</p>
+    </a>
+  </div>
+  `,
+    )
+    .join("");
+}
+function filterType(type) {
+  if (type === "all") {
+    renderNotify(localNotifications);
+  } else {
+    const filtered = localNotifications.filter((n) => n.type === type);
+    renderNotify(filtered);
+  }
+}

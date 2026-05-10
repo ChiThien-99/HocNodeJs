@@ -43,7 +43,10 @@ app.use(
           "'self'",
           "https://ka-f.fontawesome.com",
           "https://cdn.jsdelivr.net",
+          "https: data:",
+          "res.cloudinary.com",
         ],
+        "img-src": ["'self'", "https: data:", "res.cloudinary.com"],
       },
     },
   }),
@@ -60,6 +63,9 @@ app.use(
       "ratelimit-reset",
     ],
     allowedHeaders: ["Authorization", "Content-Type"],
+    origin: "*",
+    methods: ["GET", "POST"],
+    credentials: true,
   }),
 );
 // Cấu hình file public
@@ -126,8 +132,8 @@ const sslOption = {
 };
 const port = process.env.PORT || 3000;
 const server = https.createServer(sslOption, app);
-export const io=new Server(server);
-
+const io = new Server(server);
+app.set("socketio", io);
 process.on("unhandledRejection", (reason, promise) => {
   console.error(`Unhandle Rejection ${promise}, reason ${reason}`);
 });
