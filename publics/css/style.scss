@@ -278,7 +278,7 @@ header {
   display: flex;
   width: 100%;
   height: auto;
-  flex-flow: row nowrap;
+  flex-flow: row wrap;
   #navDashboard {
     width: 20%;
     border: 1px solid $colorCTA;
@@ -287,8 +287,8 @@ header {
       h2,
       h3,
       em {
-        // color: $colorCTA;
-        color: white;
+        color: $colorCTA;
+        // color: white;
       }
     }
     .navBtnDB {
@@ -307,7 +307,7 @@ header {
     }
   }
   #contentDashboard {
-    width: 80%;
+    flex: 1;
     border: 1px solid $colorCTA;
     .tabContent {
       opacity: 0;
@@ -367,11 +367,10 @@ header {
     }
     #divTableUserAdmin {
       width: 100%;
-      overflow: scroll;
+      overflow-x: auto;
       margin: 1rem 0;
     }
     #tableUserAdmin,
-    tr,
     th,
     td {
       border: 1px solid black;
@@ -438,7 +437,6 @@ header {
         margin: 1rem 0;
       }
       #tableBanner,
-      tr,
       th,
       td {
         border: 1px solid black;
@@ -467,7 +465,6 @@ header {
         margin: 1rem 0;
       }
       #tableNotify,
-      tr,
       th,
       td {
         border: 1px solid black;
@@ -591,7 +588,7 @@ header {
             justify-content: space-between;
             color: #bbb;
           }
-          p{
+          p {
             color: black;
           }
         }
@@ -645,7 +642,7 @@ header {
         background-color: rgba(0, 0, 0, 0.8);
       }
     }
-    #prev{
+    #prev {
       left: 0.5rem;
     }
     #next {
