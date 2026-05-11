@@ -50,13 +50,7 @@
               <li><a href="#">Trang chủ</a></li>
               <li>
                 <a href="#" id="navCongCu"
-                  >Phần mềm <i class="fa-solid fa-caret-down"></i
-                ></a>
-                <div id="listNavCongCu">
-                  <a href="/todo">To Do List</a><br />
-                  <a href="/file">Upper Text</a><br />
-                  <a href="#">Ứng dụng 3</a><br />
-                </div>
+                  >Phần mềm</a>
               </li>
               <li><a href="#">Thiết bị</a></li>
               <li><a href="#">Tin tức</a></li>
@@ -254,8 +248,10 @@
               </tr>
               <%})%>
             </table>
+            </div>
             <h2 class="flag-item">Quản lý thông báo</h2>
-            <form id="formAddNotify" enctype="multipart/form-data">
+            <form id="formAddNotify">
+              <input type="hidden" name="idNotify" id="idNotify">
               <label for="typeNotify">Loại thông báo</label><br>
               <select name="typeNotify" id="typeNotify">
                 <option value="all">Tất cả</option>
@@ -269,9 +265,30 @@
               <input type="text" name="contentNotify" id="contentNotify"><br>
               <label for="urlNotify">Đường dẫn</label><br>
               <input type="text" name="urlNotify" id="urlNotify"><br>
-              <input type="submit" value="Tạo">
+              <input type="submit" id="btnNotify" value="Tạo">
             </form>
+            <div id="divTableNotify">
+            <table id="tableNotify">
+              <tr>
+                <th>Loại thông báo</th>
+                <th>Nội dung thông báo</th>
+                <th>Đường dẫn</th>
+                <th>Thao tác</th>
+              </tr>
+              <%notifys.forEach(notify=>{%>
+              <tr>
+                <td><%=notify.type%></td>
+                <td><%=notify.content%></td>
+                <td><%=notify.url%></td>
+                <td>
+                  <button class="btnUpdateNotify" data-idnotify="<%=notify._id%>">Cập nhật</button>
+                  <button class="btnDeleteNotify" data-idnotify="<%=notify._id%>">Xóa</button>
+                </td>
+              </tr>
+              <%})%>
+            </table>
             </div>
+            
           </div>
           <div id="softwareMng" class="tabContent">
             <h2>Nội dung quản lý phần mềm</h2>

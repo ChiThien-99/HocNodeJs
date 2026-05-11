@@ -172,36 +172,6 @@ header div:last-child nav li a {
   display: inline-block;
   width: 100%;
 }
-header div:last-child nav li:nth-child(2) {
-  position: relative;
-}
-header div:last-child nav li:nth-child(2):hover #navCongCu {
-  color: #fafafa;
-}
-header div:last-child nav li:nth-child(2) div {
-  width: 100%;
-  position: absolute;
-  border: 1px solid #027e1f;
-  border-radius: 5px;
-  box-shadow: 2px 2px rgba(78, 78, 78, 0.76);
-  background-color: #fafafa;
-  display: none;
-  top: 2.6rem;
-  right: 0;
-  z-index: 100;
-}
-header div:last-child nav li:nth-child(2) div a {
-  display: inline-block;
-  font-size: 1.1rem;
-  padding: 0.25rem;
-  margin: 0.5rem 0;
-}
-header div:last-child nav li:nth-child(2) div a:hover {
-  background-color: rgba(2, 126, 31, 0.6784313725);
-  border: none;
-  border-radius: 5px;
-  color: #fafafa;
-}
 header div:last-child #groupBtn {
   width: 30%;
 }
@@ -333,7 +303,7 @@ header div:last-child #groupBtn button {
 #mainDashboard #navDashboard div h2,
 #mainDashboard #navDashboard div h3,
 #mainDashboard #navDashboard div em {
-  color: #027e1f;
+  color: white;
 }
 #mainDashboard #navDashboard .navBtnDB {
   width: 100%;
@@ -545,6 +515,50 @@ header div:last-child #groupBtn button {
   background-color: red;
   color: #fafafa;
 }
+#mainDashboard #contentDashboard #homeMng #divTableNotify {
+  width: 100%;
+  overflow: scroll;
+  margin: 1rem 0;
+}
+#mainDashboard #contentDashboard #homeMng #tableNotify,
+#mainDashboard #contentDashboard #homeMng tr,
+#mainDashboard #contentDashboard #homeMng th,
+#mainDashboard #contentDashboard #homeMng td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 0.5rem;
+  text-align: left;
+}
+#mainDashboard #contentDashboard #homeMng #tableNotify td:nth-child(4),
+#mainDashboard #contentDashboard #homeMng tr td:nth-child(4),
+#mainDashboard #contentDashboard #homeMng th td:nth-child(4),
+#mainDashboard #contentDashboard #homeMng td td:nth-child(4) {
+  display: flex;
+  flex-direction: row nowrap;
+  gap: 0.5rem;
+}
+#mainDashboard #contentDashboard #homeMng #tableNotify .btnUpdateNotify,
+#mainDashboard #contentDashboard #homeMng tr .btnUpdateNotify,
+#mainDashboard #contentDashboard #homeMng th .btnUpdateNotify,
+#mainDashboard #contentDashboard #homeMng td .btnUpdateNotify {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #027e1f;
+  color: #fafafa;
+}
+#mainDashboard #contentDashboard #homeMng #tableNotify .btnDeleteNotify,
+#mainDashboard #contentDashboard #homeMng tr .btnDeleteNotify,
+#mainDashboard #contentDashboard #homeMng th .btnDeleteNotify,
+#mainDashboard #contentDashboard #homeMng td .btnDeleteNotify {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: red;
+  color: #fafafa;
+}
 
 #loginContainer {
   width: 100%;
@@ -631,7 +645,7 @@ header div:last-child #groupBtn button {
   height: 3rem;
   padding: 0.5rem;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px 10px;
   cursor: pointer;
   background-color: #fafafa;
 }
@@ -651,6 +665,9 @@ header div:last-child #groupBtn button {
   flex-flow: row nowrap;
   justify-content: space-between;
   color: #bbb;
+}
+#divAboutAndBanner #notification-container #bodyNotification .notify a p {
+  color: black;
 }
 #divAboutAndBanner #carousel-container {
   width: 60%;
@@ -694,6 +711,7 @@ header div:last-child #groupBtn button {
   padding: 1rem;
   cursor: pointer;
   border: none;
+  border-radius: 50% 50%;
   transition: 0.3s;
   z-index: 10;
 }
@@ -701,8 +719,11 @@ header div:last-child #groupBtn button {
 #divAboutAndBanner #carousel-container #next:hover {
   background-color: rgba(0, 0, 0, 0.8);
 }
+#divAboutAndBanner #carousel-container #prev {
+  left: 0.5rem;
+}
 #divAboutAndBanner #carousel-container #next {
-  right: 0;
+  right: 0.5rem;
 }
 #divAboutAndBanner #carousel-container #indicators {
   position: absolute;

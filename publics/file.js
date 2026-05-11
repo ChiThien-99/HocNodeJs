@@ -1,5 +1,3 @@
-import { scriptHeader } from "/script.js";
-scriptHeader();
 document.getElementById("btnTransUpper").addEventListener("click", () => {
   try {
     let areaTextLower = document.getElementById("areaTextLower").value;

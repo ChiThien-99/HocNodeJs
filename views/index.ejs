@@ -53,13 +53,7 @@
               <li><a href="#">Trang chủ</a></li>
               <li>
                 <a href="#" id="navCongCu"
-                  >Phần mềm <i class="fa-solid fa-caret-down"></i
-                ></a>
-                <div id="listNavCongCu">
-                  <a href="/todo">To Do List</a><br />
-                  <a href="/file">Upper Text</a><br />
-                  <a href="#">Ứng dụng 3</a><br />
-                </div>
+                  >Phần mềm</a>
               </li>
               <li><a href="#">Thiết bị</a></li>
               <li><a href="#">Tin tức</a></li>
@@ -89,7 +83,7 @@
             <div id="bodyNotification">
               <%notifys.forEach((notify)=>{%>
               <div class="notify">
-                <a href="<%=notify.url%>">
+                <a href="<%=notify.url%>" target="_blank">
                <div class="headerNotify">
                 <span><%=notify.type%></span>
                 <span><%=new Date(notify.createAt).toLocaleString()%></span>

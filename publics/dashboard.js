@@ -1,5 +1,3 @@
-import { scriptHeader } from "/script.js";
-scriptHeader();
 import { alert, confirm } from "./alert.js";
 import { jwtDecode } from "https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/+esm";
 import { authFetch, setAccessToken } from "./authFetch.js";
@@ -351,11 +349,32 @@ document.querySelectorAll(".btnDeleteBanner").forEach((btn) => {
 const formAddNotify = document.getElementById("formAddNotify");
 formAddNotify.addEventListener("submit", (e) => {
   e.preventDefault();
-  const formData = new FormData(formAddNotify);
-  fetch("/dashoard/addNotify", {
+  const idNotify=document.getElementById("idNotify").value;
+  const typeNotify=document.getElementById("typeNotify").value;
+  const contentNotify=document.getElementById("contentNotify").value;
+  const urlNotify=document.getElementById("urlNotify").value;
+  if (idNotify) {
+    fetch(`/dashboard/updateNotify/${idNotify}`,{
+      method:"PUT",
+      headers:{"Content-Type":"application/json;charset=UTF-8"},
+      body:JSON.stringify({typeNotify,contentNotify,urlNotify}),
+    })
+    .then(res=>res.json())
+    .then(({mess,success,error})=>{
+      if (success) {
+        alert("Thông báo",mess,"#027e1f");
+      } else {
+        alert("Lõi",`${mess}\n${error}`,"red");
+      }
+    })
+    .catch((error)=>{
+      alert("Lỗi kết nối",error,"red");
+    })
+  } else {
+     fetch("/dashboard/addNotify", {
     method: "POST",
-    headers: { "Content-Type": "application/json;charset=UTF-8" },
-    body: formData,
+    headers:{"Content-Type":"application/json;charset=UTF-8"},
+    body: JSON.stringify({typeNotify,contentNotify,urlNotify}),
   })
     .then((res) => res.json())
     .then(({ mess, success, error }) => {
@@ -374,4 +393,50 @@ formAddNotify.addEventListener("submit", (e) => {
     .catch((error) => {
       alert("Lỗi kết nối", error, "red");
     });
+  }
+ 
 });
+document.querySelectorAll(".btnUpdateNotify").forEach((btn)=>{
+  btn.addEventListener("click",()=>{
+    const idnotify=btn.getAttribute("data-idnotify");
+    fetch(`/dashboard/updateNotify/${idnotify}`,{
+      method:"GET",
+      headers:{"Content-Type":"application/json;charset=UTF-8"},
+    })
+    .then(res=>res.json())
+    .then(({data})=>{
+      if(data){
+      document.getElementById("idNotify").value=data._id;
+      document.getElementById("typeNotify").value=data.type;
+      document.getElementById("contentNotify").value=data.content;
+      document.getElementById("urlNotify").value=data.url;
+      document.getElementById("btnNotify").value="Cập nhật";
+      }else{
+        console.error("Không nhận được data");
+      }
+    });
+  })
+})
+document.querySelectorAll(".btnDeleteNotify").forEach((btn)=>{
+  btn.addEventListener("click",async()=>{
+    const confirmDelete=await confirm("Thông báo","Bạn có chắc chắn muốn xóa thông báo này","#027e1f");
+    if (confirmDelete) {
+    const id=btn.getAttribute("data-idnotify");
+    fetch(`/dashboard/deleteNotify/${id}`,{
+      method:"DELETE",
+      headers:{"Content-Type":"application/json;charset=UTF-8"},
+    })
+    .then(res=>res.json())
+    .then(({mess,success,error})=>{
+      if (success) {
+        alert("Thông báo",mess,"#027e1f")
+      } else {
+        alert("Lỗi",`${mess}\n${error}`,"red")
+      }
+    })
+    .catch((error)=>{
+      alert("Lỗi kết nối",error,"red")
+    })
+    }
+  })
+})

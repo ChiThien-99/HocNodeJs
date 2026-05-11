@@ -38,6 +38,7 @@ dashboardRouter.get(
   `${prefix}/updateBanner/:id`,
   dashboardController.getBannerById,
 );
+dashboardRouter.get(`${prefix}/updateNotify/:id`,dashboardController.getUpdateNotify)
 dashboardRouter.post(
   `${prefix}/registerAdmin`,
   authLimit,
@@ -71,6 +72,7 @@ dashboardRouter.put(
   upload.single("imageBanner"),
   dashboardController.putUpdateBanner,
 );
+dashboardRouter.put(`${prefix}/updateNotify/:id`,dashboardController.putUpdateNotify)
 dashboardRouter.delete(
   `${prefix}/deleteUserAdmin/:idDelete`,
   authenticateToken,
@@ -81,3 +83,4 @@ dashboardRouter.delete(
   authenticateToken,
   dashboardController.deleteBanner,
 );
+dashboardRouter.delete(`${prefix}/deleteNotify/:id`,dashboardController.deleteNotify)

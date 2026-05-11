@@ -172,38 +172,6 @@ header {
           width: 100%;
         }
       }
-      li:nth-child(2) {
-        position: relative;
-        &:hover {
-          #navCongCu {
-            color: $colorSecondaryText;
-          }
-        }
-        div {
-          width: 100%;
-          position: absolute;
-          border: 1px solid $colorCTA;
-          border-radius: 5px;
-          box-shadow: 2px 2px rgba(78, 78, 78, 0.76);
-          background-color: $colorPrimaryBG;
-          display: none;
-          top: 2.6rem;
-          right: 0;
-          z-index: 100;
-          a {
-            display: inline-block;
-            font-size: 1.1rem;
-            padding: 0.25rem;
-            margin: 0.5rem 0;
-            &:hover {
-              background-color: $colorSecondaryBG;
-              border: none;
-              border-radius: 5px;
-              color: $colorSecondaryText;
-            }
-          }
-        }
-      }
     }
     #groupBtn {
       width: 30%;
@@ -319,7 +287,8 @@ header {
       h2,
       h3,
       em {
-        color: $colorCTA;
+        // color: $colorCTA;
+        color: white;
       }
     }
     .navBtnDB {
@@ -492,6 +461,35 @@ header {
           color: $colorSecondaryText;
         }
       }
+      #divTableNotify {
+        width: 100%;
+        overflow: scroll;
+        margin: 1rem 0;
+      }
+      #tableNotify,
+      tr,
+      th,
+      td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        padding: 0.5rem;
+        text-align: left;
+        td:nth-child(4) {
+          display: flex;
+          flex-direction: row nowrap;
+          gap: 0.5rem;
+        }
+        .btnUpdateNotify {
+          @include button(0.5rem);
+          background-color: $colorCTA;
+          color: $colorSecondaryText;
+        }
+        .btnDeleteNotify {
+          @include button(0.5rem);
+          background-color: red;
+          color: $colorSecondaryText;
+        }
+      }
     }
   }
 }
@@ -574,7 +572,7 @@ header {
         height: 3rem;
         padding: 0.5rem;
         border: none;
-        border-radius: 5px;
+        border-radius: 10px 10px;
         cursor: pointer;
         background-color: $colorPrimaryBG;
       }
@@ -592,6 +590,9 @@ header {
             flex-flow: row nowrap;
             justify-content: space-between;
             color: #bbb;
+          }
+          p{
+            color: black;
           }
         }
       }
@@ -637,14 +638,18 @@ header {
       padding: 1rem;
       cursor: pointer;
       border: none;
+      border-radius: 50% 50%;
       transition: 0.3s;
       z-index: 10;
       &:hover {
         background-color: rgba(0, 0, 0, 0.8);
       }
     }
+    #prev{
+      left: 0.5rem;
+    }
     #next {
-      right: 0;
+      right: 0.5rem;
     }
     #indicators {
       position: absolute;

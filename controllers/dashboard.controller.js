@@ -53,7 +53,13 @@ const jsonSystemInfo = JSON.stringify(systemInfo, null, 2);
 export const getDashboard = async (req, res) => {
   const admins = await adminEntity.find();
   const banners = await bannerEntity.find().sort("order");
-  res.render("dashboard.ejs", { jsonSystemInfo, admins, banners });
+  const notifys=await notifyEntity.find().sort("-createAt")
+  const io = req.app.get("socketio");
+  io.on("connection",async(socket)=>{
+    const allNotify = await notifyEntity.find().sort("-createAt");
+    socket.emit("update-notify", allNotify);
+  })
+  res.render("dashboard.ejs", { jsonSystemInfo, admins, banners,notifys });
 };
 export const postRegisterAdmin = async (req, res) => {
   try {
@@ -194,8 +200,8 @@ export const postBanner = async (req, res) => {
       image: req.file.path,
       cloudinary_id: req.file.filename,
     });
-    const allBanner = await bannerEntity.find().sort("order");
     const io = req.app.get("socketio");
+    const allBanner = await bannerEntity.find().sort("order");
     io.emit("update-carousel", allBanner);
     res.json({ mess: "Tạo banner thành công", success: "true" });
   } catch (error) {
@@ -224,8 +230,8 @@ export const putUpdateBanner = async (req, res) => {
       url: urlBanner,
       order: orderBanner,
     });
-    const allBanner = await bannerEntity.find().sort("order");
     const io = req.app.get("socketio");
+    const allBanner = await bannerEntity.find().sort("order");
     io.emit("update-carousel", allBanner);
     res.json({ mess: "Cập nhật thành công", success: true });
   } catch (error) {
@@ -245,8 +251,8 @@ export const deleteBanner = async (req, res) => {
     }
     await cloudinary.uploader.destroy(banner.cloudinary_id);
     await bannerEntity.findByIdAndDelete(id);
-    const allBanner = await bannerEntity.find().sort("order");
     const io = req.app.get("socketio");
+    const allBanner = await bannerEntity.find().sort("order");
     io.emit("update-carousel", allBanner);
     res.json({ mess: "Xóa banner thành công", success: true });
   } catch (error) {
@@ -259,14 +265,15 @@ export const deleteBanner = async (req, res) => {
 };
 export const addNotify = async (req, res) => {
   try {
-    const { typeNotify, contentNotify, urlNotify } = req.body;
-    const newNotify = notifyEntity.create({
+    console.log(req.body);
+    const { typeNotify,contentNotify,urlNotify } = req.body;
+    const newNotify = await notifyEntity.create({
       content: contentNotify,
       type: typeNotify,
       url: urlNotify,
     });
-    const allNotify = await notifyEntity.find().sort("-createAt");
     const io = req.app.get("socketio");
+    const allNotify = await notifyEntity.find().sort("-createAt");
     io.emit("update-notify", allNotify);
     res.json({ mess: "Tạo thông báo thành công", success: true });
   } catch (error) {
@@ -277,3 +284,42 @@ export const addNotify = async (req, res) => {
     });
   }
 };
+export const getUpdateNotify=async(req,res)=>{
+  try {
+  const {id}=req.params;
+  const notify=await notifyEntity.findById(id);
+  res.json({data:notify});
+  } catch (error) {
+  console.error("Không lấy được notify");
+  }
+}
+export const putUpdateNotify=async(req,res)=>{
+  try {
+    const {typeNotify,contentNotify,urlNotify}=req.body;
+    const {id}=req.params;
+    const updateNotify=await notifyEntity.findByIdAndUpdate(id,{
+      type:typeNotify,
+      content:contentNotify,
+      url:urlNotify,
+    })
+    const io = req.app.get("socketio");
+    const allNotify = await notifyEntity.find().sort("-createAt");
+    io.emit("update-notify", allNotify);
+    res.json({mess:"Cập nhật thông báo thành công",success:true})
+  } catch (error) {
+    res.json({mess:"Cập nhật thông báo thất bại",success:false,error:error.message})
+  }
+}
+export const deleteNotify=async(req,res)=>{
+  try {
+  const {id}=req.params;
+  const delNotify=await notifyEntity.findByIdAndDelete(id);
+  const io = req.app.get("socketio");
+  const allNotify = await notifyEntity.find().sort("-createAt");
+  io.emit("update-notify", allNotify);
+  res.json({mess:"Xóa thông báo thành công",success:true});
+  } catch (error) {
+  res.json({mess:"Xóa thông báo thất bại",success:false,error:error.message});
+  }
+ 
+}

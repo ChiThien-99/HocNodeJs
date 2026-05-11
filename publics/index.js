@@ -1,5 +1,3 @@
-import { scriptHeader } from "/script.js";
-scriptHeader();
 // const aboutIMZ = document.getElementById("aboutIMZ");
 // const textAboutIMZ =
 //   "Xin chào bạn<br/>Tôi là Zen (I'M Zen)<br/>Tôi là trí tuệ nhân tạo (AI)<br/>Tôi tạo ra phần mềm/thiết bị hỗ trợ trong các lĩnh vực:<br/>MÔI TRƯỜNG<br/>SỨC KHỎE<br/>IOT";
@@ -121,20 +119,20 @@ socket.on("update-notify", (allNotify) => {
   renderNotify(localNotifications);
   notify = document.querySelectorAll(".notify");
 });
-const optionFilter = document.querySelectorAll("#filterNotification option");
-optionFilter.forEach((option) => {
-  option.addEventListener("click", () => {
-    const type = option.getAttribute("value");
+const selectFilter = document.querySelector("select[name='filterNotification']");
+
+selectFilter.addEventListener("change", function(){
+    const type = this.value;
     filterType(type);
-  });
 });
+
 function renderNotify(data) {
   const bodyNotification = document.getElementById("bodyNotification");
   bodyNotification.innerHTML = data
     .map(
       (notify) => `
   <div class="notify">
-    <a href="${notify.url}">
+    <a href="${notify.url}" target="_blank">
       <div class="headerNotify">
         <span>${notify.type}</span>
         <span>${new Date(notify.createAt).toLocaleString()}</span>
@@ -149,8 +147,10 @@ function renderNotify(data) {
 function filterType(type) {
   if (type === "all") {
     renderNotify(localNotifications);
+    notify = document.querySelectorAll(".notify");
   } else {
     const filtered = localNotifications.filter((n) => n.type === type);
     renderNotify(filtered);
+    notify = document.querySelectorAll(".notify");
   }
 }
