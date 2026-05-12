@@ -316,7 +316,7 @@
               <%})%>
             </table>
             <h2 class="flag-item">Quản lý phần mềm</h2>
-            <form action="" enctype="multipart/form-data" id="formApp">
+            <form enctype="multipart/form-data" id="formApp">
               <label for="imgApp">Hình ảnh</label><br>
               <input type="file" accept="image/webp" name="imgApp" id="imgApp"><br>
               <label for="nameApp">Tên phần mềm</label><br>
@@ -327,9 +327,9 @@
               <input type="text" name="urlApp" id="urlApp"><br>
               <label for="funcApp">Chức năng</label><br>
               <select name="funcApp" id="funcApp" multiple>
-                <option value="func1">Chức năng 1</option>
-                <option value="func2">Chức năng 2</option>
-                <option value="func3">Chức năng 3</option>
+                <%listFuncApp.forEach((funcApp)=>{%>
+                <option value="<%=funcApp.name%>"><%=funcApp.name%></option>
+                <%})%>
               </select><br>
               <input type="submit" id="btnApp" value="Tạo">
             </form>

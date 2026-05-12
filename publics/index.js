@@ -119,11 +119,13 @@ socket.on("update-notify", (allNotify) => {
   renderNotify(localNotifications);
   notify = document.querySelectorAll(".notify");
 });
-const selectFilter = document.querySelector("select[name='filterNotification']");
+const selectFilter = document.querySelector(
+  "select[name='filterNotification']",
+);
 
-selectFilter.addEventListener("change", function(){
-    const type = this.value;
-    filterType(type);
+selectFilter.addEventListener("change", function () {
+  const type = this.value;
+  filterType(type);
 });
 
 function renderNotify(data) {
@@ -154,8 +156,29 @@ function filterType(type) {
     notify = document.querySelectorAll(".notify");
   }
 }
-document.getElementById("btnFuncApp").addEventListener("click",()=>{
-  const divFuncBtns=document.getElementById("divFuncBtns");
-  const type=divFuncBtns.style.display==="block"?"none":"block";
-  divFuncBtns.style.display=type;
-})
+document.getElementById("btnFuncApp").addEventListener("click", () => {
+  const divFuncBtns = document.getElementById("divFuncBtns");
+  const type = divFuncBtns.style.display === "block" ? "none" : "block";
+  divFuncBtns.style.display = type;
+});
+const app = document.querySelectorAll(".app");
+socket.on("update-app", (allApp) => {
+  const listApp = document.getElementById("listApp");
+  listApp.innerHTML = allApp
+    .map(
+      (app) => `
+  <div class="app">
+    <div>
+      <img src="${app.image}" alt="app">
+    </div>
+    <div>
+      <h4>${app.name}</h4>
+      <p>${app.info}</p>
+      <a href="${app.url}">Truy cập</a>
+    </div>
+  </div>
+  `,
+    )
+    .join("");
+  app = document.querySelectorAll(".app");
+});

@@ -267,8 +267,16 @@ form.addEventListener("submit", (e) => {
         .then((res) => res.json())
         .then(({ mess, success, error }) => {
           if (success) {
+            document.getElementById("imageBanner").value = "";
+            document.getElementById("captionBanner").value = "";
+            document.getElementById("urlBanner").value = "";
+            document.getElementById("orderBanner").value = "";
             alert("Thông báo", mess, "#027e1f");
           } else {
+            document.getElementById("imageBanner").value = "";
+            document.getElementById("captionBanner").value = "";
+            document.getElementById("urlBanner").value = "";
+            document.getElementById("orderBanner").value = "";
             alert("Lỗi", `${mess}\n${error}`, "red");
           }
         });
@@ -349,175 +357,250 @@ document.querySelectorAll(".btnDeleteBanner").forEach((btn) => {
 const formAddNotify = document.getElementById("formAddNotify");
 formAddNotify.addEventListener("submit", (e) => {
   e.preventDefault();
-  const idNotify=document.getElementById("idNotify").value;
-  const typeNotify=document.getElementById("typeNotify").value;
-  const contentNotify=document.getElementById("contentNotify").value;
-  const urlNotify=document.getElementById("urlNotify").value;
-  const expiredNotify=document.getElementById("expiredNotify").value;
+  const idNotify = document.getElementById("idNotify").value;
+  const typeNotify = document.getElementById("typeNotify").value;
+  const contentNotify = document.getElementById("contentNotify").value;
+  const urlNotify = document.getElementById("urlNotify").value;
+  const expiredNotify = document.getElementById("expiredNotify").value;
   if (idNotify) {
-    fetch(`/dashboard/updateNotify/${idNotify}`,{
-      method:"PUT",
-      headers:{"Content-Type":"application/json;charset=UTF-8"},
-      body:JSON.stringify({typeNotify,contentNotify,urlNotify,expiredNotify}),
+    fetch(`/dashboard/updateNotify/${idNotify}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
+      body: JSON.stringify({
+        typeNotify,
+        contentNotify,
+        urlNotify,
+        expiredNotify,
+      }),
     })
-    .then(res=>res.json())
-    .then(({mess,success,error})=>{
-      if (success) {
-        document.getElementById("typeNotify").value = "all";
-        document.getElementById("contentNotify").value = "";
-        document.getElementById("urlNotify").value = "";
-        document.getElementById("expiredNotify").value="";
-        alert("Thông báo",mess,"#027e1f");
-      } else {
-        document.getElementById("typeNotify").value = "all";
-        document.getElementById("contentNotify").value = "";
-        document.getElementById("urlNotify").value = "";
-        document.getElementById("expiredNotify").value="";
-        alert("Lỗi",`${mess}\n${error}`,"red");
-      }
-    })
-    .catch((error)=>{
-      alert("Lỗi kết nối",error,"red");
-    })
+      .then((res) => res.json())
+      .then(({ mess, success, error }) => {
+        if (success) {
+          document.getElementById("typeNotify").value = "all";
+          document.getElementById("contentNotify").value = "";
+          document.getElementById("urlNotify").value = "";
+          document.getElementById("expiredNotify").value = "";
+          alert("Thông báo", mess, "#027e1f");
+        } else {
+          document.getElementById("typeNotify").value = "all";
+          document.getElementById("contentNotify").value = "";
+          document.getElementById("urlNotify").value = "";
+          document.getElementById("expiredNotify").value = "";
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        }
+      })
+      .catch((error) => {
+        alert("Lỗi kết nối", error, "red");
+      });
   } else {
-     fetch("/dashboard/addNotify", {
+    fetch("/dashboard/addNotify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
+      body: JSON.stringify({
+        typeNotify,
+        contentNotify,
+        urlNotify,
+        expiredNotify,
+      }),
+    })
+      .then((res) => res.json())
+      .then(({ mess, success, error }) => {
+        if (success) {
+          document.getElementById("typeNotify").value = "all";
+          document.getElementById("contentNotify").value = "";
+          document.getElementById("urlNotify").value = "";
+          document.getElementById("expiredNotify").value = "";
+          alert("Thông báo", mess, "#027e1f");
+        } else {
+          document.getElementById("typeNotify").value = "all";
+          document.getElementById("contentNotify").value = "";
+          document.getElementById("urlNotify").value = "";
+          document.getElementById("expiredNotify").value = "";
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        }
+      })
+      .catch((error) => {
+        alert("Lỗi kết nối", error, "red");
+      });
+  }
+});
+document.querySelectorAll(".btnUpdateNotify").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const idnotify = btn.getAttribute("data-idnotify");
+    fetch(`/dashboard/updateNotify/${idnotify}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
+    })
+      .then((res) => res.json())
+      .then(({ data }) => {
+        if (data) {
+          document.getElementById("idNotify").value = data._id;
+          document.getElementById("typeNotify").value = data.type;
+          document.getElementById("contentNotify").value = data.content;
+          document.getElementById("urlNotify").value = data.url;
+          if (data.expireAt) {
+            const date = new Date(data.expireAt);
+            const localDate = new Date(
+              date.getTime() - date.getTimezoneOffset() * 60000,
+            );
+            const formattedDate = localDate.toISOString().slice(0, 16);
+            document.getElementById("expiredNotify").value = formattedDate;
+          }
+
+          document.getElementById("btnNotify").value = "Cập nhật";
+        } else {
+          console.error("Không nhận được data");
+        }
+      });
+  });
+});
+document.querySelectorAll(".btnDeleteNotify").forEach((btn) => {
+  btn.addEventListener("click", async () => {
+    const confirmDelete = await confirm(
+      "Thông báo",
+      "Bạn có chắc chắn muốn xóa thông báo này",
+      "#027e1f",
+    );
+    if (confirmDelete) {
+      const id = btn.getAttribute("data-idnotify");
+      fetch(`/dashboard/deleteNotify/${id}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json;charset=UTF-8" },
+      })
+        .then((res) => res.json())
+        .then(({ mess, success, error }) => {
+          if (success) {
+            alert("Thông báo", mess, "#027e1f");
+          } else {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          }
+        })
+        .catch((error) => {
+          alert("Lỗi kết nối", error, "red");
+        });
+    }
+  });
+});
+document.getElementById("formFuncApp").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const listFuncApp = document.getElementById("listFuncApp").value;
+  const idFuncApp = document.getElementById("idFuncApp").value;
+  if (idFuncApp) {
+    fetch(`/dashboard/updateFuncApp/${idFuncApp}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
+      body: JSON.stringify({ listFuncApp }),
+    })
+      .then((res) => res.json())
+      .then(({ mess, success, error }) => {
+        if (success) {
+          document.getElementById("listFuncApp").value = "";
+          alert("Thông báo", mess, "#027e1f");
+        } else {
+          document.getElementById("listFuncApp").value = "";
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        }
+      })
+      .catch(() => {
+        alert("Lỗi kết nối", `${mess}\n${error}`, "red");
+      });
+  } else {
+    fetch("/dashboard/listFuncApp", {
+      method: "POST",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
+      body: JSON.stringify({ listFuncApp }),
+    })
+      .then((res) => res.json())
+      .then(({ mess, success, error }) => {
+        if (success) {
+          document.getElementById("listFuncApp").value = "";
+          alert("Thông báo", mess, "#027e1f");
+        } else {
+          document.getElementById("listFuncApp").value = "";
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        }
+      })
+      .catch((error) => {
+        alert("Lỗi", error, "red");
+      });
+  }
+});
+document.querySelectorAll(".btnUpdateFuncApp").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const id = btn.getAttribute("data-idfuncapp");
+    fetch(`/dashboard/updateFuncApp/${id}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
+    })
+      .then((res) => res.json())
+      .then(({ data }) => {
+        if (data) {
+          document.getElementById("idFuncApp").value = data._id;
+          document.getElementById("listFuncApp").value = data.name;
+          document.getElementById("btnFuncApp").value = "Cập nhật";
+        } else {
+          console.error("Không nhận được data");
+        }
+      })
+      .catch((error) => {
+        console.error("Lỗi kết nối");
+      });
+  });
+});
+document.querySelectorAll(".btnDeleteFuncApp").forEach((btn) => {
+  btn.addEventListener("click", async () => {
+    const confirmDelete = await confirm(
+      "Thông báo",
+      "Bạn có chắc nhắn muốn xóa chức năng này",
+      "#027e1f",
+    );
+    if (confirmDelete) {
+      const id = btn.getAttribute("data-idfuncapp");
+      fetch(`/dashboard/deleteFuncApp/${id}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json;charset=UTF-8" },
+      })
+        .then((res) => res.json())
+        .then(({ mess, success, error }) => {
+          if (success) {
+            alert("Thông báo", mess, "#027e1f");
+          } else {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          }
+        })
+        .catch((error) => {
+          alert("Lỗi kết nối", error, "red");
+        });
+    }
+  });
+});
+const formApp = document.getElementById("formApp");
+formApp.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const formData = new FormData(formApp);
+  fetch("/dashboard/addApp", {
     method: "POST",
-    headers:{"Content-Type":"application/json;charset=UTF-8"},
-    body: JSON.stringify({typeNotify,contentNotify,urlNotify,expiredNotify}),
+    body: formData,
   })
     .then((res) => res.json())
     .then(({ mess, success, error }) => {
       if (success) {
-        document.getElementById("typeNotify").value = "all";
-        document.getElementById("contentNotify").value = "";
-        document.getElementById("urlNotify").value = "";
-        document.getElementById("expiredNotify").value="";
+        document.getElementById("imgApp").value = "";
+        document.getElementById("nameApp").value = "";
+        document.getElementById("infoApp").value = "";
+        document.getElementById("urlApp").value = "";
+        document.getElementById("funcApp").value = "";
         alert("Thông báo", mess, "#027e1f");
       } else {
-        document.getElementById("typeNotify").value = "all";
-        document.getElementById("contentNotify").value = "";
-        document.getElementById("urlNotify").value = "";
-        document.getElementById("expiredNotify").value="";
+        document.getElementById("imgApp").value = "";
+        document.getElementById("nameApp").value = "";
+        document.getElementById("infoApp").value = "";
+        document.getElementById("urlApp").value = "";
+        document.getElementById("funcApp").value = "";
         alert("Lỗi", `${mess}\n${error}`, "red");
       }
     })
     .catch((error) => {
       alert("Lỗi kết nối", error, "red");
     });
-  }
- 
 });
-document.querySelectorAll(".btnUpdateNotify").forEach((btn)=>{
-  btn.addEventListener("click",()=>{
-    const idnotify=btn.getAttribute("data-idnotify");
-    fetch(`/dashboard/updateNotify/${idnotify}`,{
-      method:"GET",
-      headers:{"Content-Type":"application/json;charset=UTF-8"},
-    })
-    .then(res=>res.json())
-    .then(({data})=>{
-      if(data){
-      document.getElementById("idNotify").value=data._id;
-      document.getElementById("typeNotify").value=data.type;
-      document.getElementById("contentNotify").value=data.content;
-      document.getElementById("urlNotify").value=data.url;
-      if (data.expireAt) {
-        const date=new Date(data.expireAt);
-        const localDate=new Date(date.getTime()-(date.getTimezoneOffset()*60000));
-        const formattedDate=localDate.toISOString().slice(0,16);
-        document.getElementById("expiredNotify").value=formattedDate;
-      }
-      
-      document.getElementById("btnNotify").value="Cập nhật";
-      }else{
-        console.error("Không nhận được data");
-      }
-    });
-  })
-})
-document.querySelectorAll(".btnDeleteNotify").forEach((btn)=>{
-  btn.addEventListener("click",async()=>{
-    const confirmDelete=await confirm("Thông báo","Bạn có chắc chắn muốn xóa thông báo này","#027e1f");
-    if (confirmDelete) {
-    const id=btn.getAttribute("data-idnotify");
-    fetch(`/dashboard/deleteNotify/${id}`,{
-      method:"DELETE",
-      headers:{"Content-Type":"application/json;charset=UTF-8"},
-    })
-    .then(res=>res.json())
-    .then(({mess,success,error})=>{
-      if (success) {
-        alert("Thông báo",mess,"#027e1f")
-      } else {
-        alert("Lỗi",`${mess}\n${error}`,"red")
-      }
-    })
-    .catch((error)=>{
-      alert("Lỗi kết nối",error,"red")
-    })
-    }
-  })
-})
-document.getElementById("formFuncApp").addEventListener("submit",(e)=>{
-  e.preventDefault();
-  const listFuncApp=document.getElementById("listFuncApp").value;
-  const idFuncApp=document.getElementById("idFuncApp").value;
-  if (idFuncApp) {
-    fetch(`/dashboard/updateFuncApp/${idFuncApp}`,{
-      method:"PUT",
-      headers:{"Content-Type":"application/json;charset=UTF-8"},
-      body:JSON.stringify({listFuncApp}),
-    })
-    .then(res=>res.json())
-    .then(({mess,success,error})=>{
-      if (success) {
-        alert("Thông báo",mess,"#027e1f");
-      } else {
-        alert("Lỗi",`${mess}\n${error}`,"red");
-      }
-    })
-    .catch(()=>{
-        alert("Lỗi kết nối",`${mess}\n${error}`,"red");
-    });
-  } else {
-    fetch("/dashboard/listFuncApp",{
-    method:"POST",
-    headers:{"Content-Type":"application/json;charset=UTF-8"},
-    body:JSON.stringify({listFuncApp}),
-  })
-  .then(res=>res.json())
-  .then(({mess,success,error})=>{
-    if (success) {
-      alert("Thông báo",mess,"#027e1f");
-    } else {
-      alert("Lỗi",`${mess}\n${error}`,"red");
-    }
-  })
-  .catch((error)=>{
-    alert("Lỗi",error,"red");
-  });
-  }
-
-})
-document.querySelectorAll(".btnUpdateFuncApp").forEach((btn)=>{
-  btn.addEventListener("click",()=>{
-    const id=btn.getAttribute("data-idfuncapp");
-    fetch(`/dashboard/updateFuncApp/${id}`,{
-      method:"GET",
-      headers:{"Content-Type":"application/json;charset=UTF-8"},
-    })
-    .then(res=>res.json())
-    .then(({data})=>{
-      if (data) {
-        document.getElementById("idFuncApp").value=data._id;
-        document.getElementById("listFuncApp").value=data.name;
-        document.getElementById("btnFuncApp").value="Cập nhật";
-      } else {
-        console.error("Không nhận được data");
-      }
-    })
-    .catch((error)=>{
-      console.error("Lỗi kết nối");
-    });
-  })
-})

@@ -303,7 +303,7 @@ header div:last-child #groupBtn button {
 #mainDashboard #navDashboard div h2,
 #mainDashboard #navDashboard div h3,
 #mainDashboard #navDashboard div em {
-  color: white;
+  color: #027e1f;
 }
 #mainDashboard #navDashboard .navBtnDB {
   width: 100%;
@@ -812,6 +812,7 @@ header div:last-child #groupBtn button {
   font-weight: bold;
   font-size: 1rem;
   height: 3rem;
+  color: #027e1f;
 }
 #divApp #groupFilterApp button:hover {
   background-color: #027e1f;
@@ -846,7 +847,7 @@ header div:last-child #groupBtn button {
   margin: 1%;
 }
 #divApp #listApp .app div:first-child {
-  width: 60%;
+  width: 50%;
   height: inherit;
 }
 #divApp #listApp .app div:first-child img {
@@ -854,15 +855,18 @@ header div:last-child #groupBtn button {
   height: auto;
 }
 #divApp #listApp .app div:last-child {
-  width: 40%;
+  width: 50%;
   height: inherit;
   padding: 0.5rem;
   position: relative;
+  background-color: #fafafa;
 }
 #divApp #listApp .app div:last-child h4 {
   margin: 0.5rem 0;
 }
-#divApp #listApp .app div:last-child button {
+#divApp #listApp .app div:last-child a {
+  display: inline-block;
+  text-decoration: none;
   background-color: #027e1f;
   color: #fafafa;
   border: none;

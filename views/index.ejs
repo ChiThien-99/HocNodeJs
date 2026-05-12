@@ -130,46 +130,18 @@
             </div>
           </div>
           <div id="listApp">
+            <%apps.forEach((app)=>{%>
             <div class="app">
               <div>
-                <img src="/img/banner1.webp" alt="banner1">
+                <img src="<%=app.image%>" alt="app">
               </div>
               <div>
-                <h4>Thông tin phần mềm</h4>
-                <p>Phân tích tính cách bản thân để có sự lựa chọn phù hợp trong cuộc sống, công việc,....</p>
-                <button>Truy cập</button>
+                <h4><%=app.name%></h4>
+                <p><%=app.info%></p>
+                <a href="<%=app.url%>" target="_blank">Truy cập</a>
               </div>
             </div>
-            <div class="app">
-              <div>
-                <img src="/img/banner1.webp" alt="banner1">
-              </div>
-              <div>
-                <h4>Thông tin phần mềm</h4>
-                <p>Phân tích tính cách bản thân để có sự lựa chọn phù hợp trong cuộc sống, công việc,....</p>
-                <button>Truy cập</button>
-              </div>
-            </div>
-            <div class="app">
-              <div>
-                <img src="/img/banner1.webp" alt="banner1">
-              </div>
-              <div>
-                <h4>Thông tin phần mềm</h4>
-                <p>Phân tích tính cách bản thân để có sự lựa chọn phù hợp trong cuộc sống, công việc,....</p>
-                <button>Truy cập</button>
-              </div>
-            </div>
-             <div class="app">
-              <div>
-                <img src="/img/banner1.webp" alt="banner1">
-              </div>
-              <div>
-                <h4>Thông tin phần mềm</h4>
-                <p>Phân tích tính cách bản thân để có sự lựa chọn phù hợp trong cuộc sống, công việc,....</p>
-                <button>Truy cập</button>
-              </div>
-            </div>
+            <%})%>
           </div>
         </div>
         <div></div>

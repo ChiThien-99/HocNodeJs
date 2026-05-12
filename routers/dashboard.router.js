@@ -38,8 +38,14 @@ dashboardRouter.get(
   `${prefix}/updateBanner/:id`,
   dashboardController.getBannerById,
 );
-dashboardRouter.get(`${prefix}/updateNotify/:id`,dashboardController.getUpdateNotify);
-dashboardRouter.get(`${prefix}/updateFuncApp/:id`,dashboardController.getupdateFuncApp);
+dashboardRouter.get(
+  `${prefix}/updateNotify/:id`,
+  dashboardController.getUpdateNotify,
+);
+dashboardRouter.get(
+  `${prefix}/updateFuncApp/:id`,
+  dashboardController.getupdateFuncApp,
+);
 dashboardRouter.post(
   `${prefix}/registerAdmin`,
   authLimit,
@@ -57,7 +63,17 @@ dashboardRouter.post(
   authenticateToken,
   dashboardController.addNotify,
 );
-dashboardRouter.post(`${prefix}/listFuncApp`,dashboardController.addListFuncApp)
+dashboardRouter.post(
+  `${prefix}/listFuncApp`,
+  authenticateToken,
+  dashboardController.addListFuncApp,
+);
+dashboardRouter.post(
+  `${prefix}/addApp`,
+  authenticateToken,
+  upload.single("imgApp"),
+  dashboardController.addApp,
+);
 dashboardRouter.put(
   `${prefix}/updateAdmin/:idUpdate`,
   authenticateToken,
@@ -74,16 +90,33 @@ dashboardRouter.put(
   upload.single("imageBanner"),
   dashboardController.putUpdateBanner,
 );
-dashboardRouter.put(`${prefix}/updateNotify/:id`,dashboardController.putUpdateNotify)
+dashboardRouter.put(
+  `${prefix}/updateNotify/:id`,
+  authenticateToken,
+  dashboardController.putUpdateNotify,
+);
+dashboardRouter.put(
+  `${prefix}/updateFuncApp/:id`,
+  authenticateToken,
+  dashboardController.putUpdateFuncApp,
+);
 dashboardRouter.delete(
   `${prefix}/deleteUserAdmin/:idDelete`,
   authenticateToken,
   dashboardController.deleteUserAdminById,
 );
-dashboardRouter.put(`${prefix}/updateFuncApp/:id`,dashboardController.putUpdateFuncApp)
 dashboardRouter.delete(
   `${prefix}/deleteBanner/:id`,
   authenticateToken,
   dashboardController.deleteBanner,
 );
-dashboardRouter.delete(`${prefix}/deleteNotify/:id`,dashboardController.deleteNotify)
+dashboardRouter.delete(
+  `${prefix}/deleteNotify/:id`,
+  authenticateToken,
+  dashboardController.deleteNotify,
+);
+dashboardRouter.delete(
+  `${prefix}/deleteFuncApp/:id`,
+  authenticateToken,
+  dashboardController.deleteFuncApp,
+);
