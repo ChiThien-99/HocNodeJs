@@ -38,7 +38,8 @@ dashboardRouter.get(
   `${prefix}/updateBanner/:id`,
   dashboardController.getBannerById,
 );
-dashboardRouter.get(`${prefix}/updateNotify/:id`,dashboardController.getUpdateNotify)
+dashboardRouter.get(`${prefix}/updateNotify/:id`,dashboardController.getUpdateNotify);
+dashboardRouter.get(`${prefix}/updateFuncApp/:id`,dashboardController.getupdateFuncApp);
 dashboardRouter.post(
   `${prefix}/registerAdmin`,
   authLimit,
@@ -56,6 +57,7 @@ dashboardRouter.post(
   authenticateToken,
   dashboardController.addNotify,
 );
+dashboardRouter.post(`${prefix}/listFuncApp`,dashboardController.addListFuncApp)
 dashboardRouter.put(
   `${prefix}/updateAdmin/:idUpdate`,
   authenticateToken,
@@ -78,6 +80,7 @@ dashboardRouter.delete(
   authenticateToken,
   dashboardController.deleteUserAdminById,
 );
+dashboardRouter.put(`${prefix}/updateFuncApp/:id`,dashboardController.putUpdateFuncApp)
 dashboardRouter.delete(
   `${prefix}/deleteBanner/:id`,
   authenticateToken,

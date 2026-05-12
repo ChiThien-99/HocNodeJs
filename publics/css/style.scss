@@ -287,8 +287,8 @@ header {
       h2,
       h3,
       em {
-        color: $colorCTA;
-        // color: white;
+        // color: $colorCTA;
+        color: white;
       }
     }
     .navBtnDB {
@@ -488,6 +488,47 @@ header {
         }
       }
     }
+    #softwareMng{
+      #imgApp::file-selector-button{
+        @include button(0.5rem);
+        background-color: $colorCTA;
+        color: $colorSecondaryText;
+      }
+      input[type="submit"]{
+        @include button(0.5rem);
+        background-color: $colorCTA;
+        color: $colorSecondaryText;
+        margin: 0.5rem 0;
+      }
+      input[type="text"]{
+        width: 50%;
+        height: 2rem;
+        font-size: 1rem;
+      }
+      #tableFuncApp,
+      th,
+      td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        padding: 0.5rem;
+        text-align: left;
+        td:nth-child(2) {
+          display: flex;
+          flex-direction: row nowrap;
+          gap: 0.5rem;
+        }
+        .btnUpdateFuncApp {
+          @include button(0.5rem);
+          background-color: $colorCTA;
+          color: $colorSecondaryText;
+        }
+        .btnDeleteFuncApp {
+          @include button(0.5rem);
+          background-color: red;
+          color: $colorSecondaryText;
+        }
+      }
+    }
   }
 }
 //**CSS Login
@@ -667,6 +708,84 @@ header {
       }
       .active {
         background-color: $colorSecondaryText;
+      }
+    }
+  }
+}
+#divApp{
+  width: 100%;
+  height: auto;
+  border: 1px solid black;
+  padding: 1rem;
+  #groupFilterApp{
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 1rem;
+    button{
+      border: 2px solid $colorCTA;
+      border-radius: 1000px;
+      background-color: $colorPrimaryBG;
+      cursor: pointer;
+      padding: 0.5rem;
+      font-weight: bold;
+      font-size: 1rem;
+      height: 3rem;
+      &:hover{
+        background-color: $colorCTA;
+        color: $colorSecondaryText;
+      }
+    }
+    #divFuncBtns{
+      display: none;
+      flex:1;
+      position: relative;
+      #funcBtns{
+      width: 100%;
+      border: 2px solid $colorCTA;
+      border-radius: 5px;
+      padding: 1rem;
+      position: absolute;
+      z-index: 1000;
+      background-color: $colorPrimaryBG;
+    }
+    }
+  }
+  #listApp{
+    display: flex;
+    flex-flow: row wrap;
+    border: 1px solid black;
+    margin: 1rem 0;
+    .app{
+      display: flex;
+      flex-flow: row nowrap;
+      width: 48%;
+      height: auto;
+      border: 1px solid $colorCTA;
+      margin: 1%;
+      div:first-child{
+        width: 60%;
+        height: inherit;
+        img{
+          width: 100%;
+          height: auto;
+        }
+      }
+      div:last-child{
+        width: 40%;
+        height: inherit;
+        padding: 0.5rem;
+        position: relative;
+        h4{
+          margin: 0.5rem 0;
+        }
+        button{
+          background-color: $colorCTA;
+          color: $colorSecondaryText;
+          @include button(0.5rem);
+          position: absolute;
+          bottom: 0.5rem;
+          right: 0.5rem;
+        }
       }
     }
   }

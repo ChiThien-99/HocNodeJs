@@ -353,18 +353,27 @@ formAddNotify.addEventListener("submit", (e) => {
   const typeNotify=document.getElementById("typeNotify").value;
   const contentNotify=document.getElementById("contentNotify").value;
   const urlNotify=document.getElementById("urlNotify").value;
+  const expiredNotify=document.getElementById("expiredNotify").value;
   if (idNotify) {
     fetch(`/dashboard/updateNotify/${idNotify}`,{
       method:"PUT",
       headers:{"Content-Type":"application/json;charset=UTF-8"},
-      body:JSON.stringify({typeNotify,contentNotify,urlNotify}),
+      body:JSON.stringify({typeNotify,contentNotify,urlNotify,expiredNotify}),
     })
     .then(res=>res.json())
     .then(({mess,success,error})=>{
       if (success) {
+        document.getElementById("typeNotify").value = "all";
+        document.getElementById("contentNotify").value = "";
+        document.getElementById("urlNotify").value = "";
+        document.getElementById("expiredNotify").value="";
         alert("Thông báo",mess,"#027e1f");
       } else {
-        alert("Lõi",`${mess}\n${error}`,"red");
+        document.getElementById("typeNotify").value = "all";
+        document.getElementById("contentNotify").value = "";
+        document.getElementById("urlNotify").value = "";
+        document.getElementById("expiredNotify").value="";
+        alert("Lỗi",`${mess}\n${error}`,"red");
       }
     })
     .catch((error)=>{
@@ -374,7 +383,7 @@ formAddNotify.addEventListener("submit", (e) => {
      fetch("/dashboard/addNotify", {
     method: "POST",
     headers:{"Content-Type":"application/json;charset=UTF-8"},
-    body: JSON.stringify({typeNotify,contentNotify,urlNotify}),
+    body: JSON.stringify({typeNotify,contentNotify,urlNotify,expiredNotify}),
   })
     .then((res) => res.json())
     .then(({ mess, success, error }) => {
@@ -382,11 +391,13 @@ formAddNotify.addEventListener("submit", (e) => {
         document.getElementById("typeNotify").value = "all";
         document.getElementById("contentNotify").value = "";
         document.getElementById("urlNotify").value = "";
+        document.getElementById("expiredNotify").value="";
         alert("Thông báo", mess, "#027e1f");
       } else {
         document.getElementById("typeNotify").value = "all";
         document.getElementById("contentNotify").value = "";
         document.getElementById("urlNotify").value = "";
+        document.getElementById("expiredNotify").value="";
         alert("Lỗi", `${mess}\n${error}`, "red");
       }
     })
@@ -410,6 +421,13 @@ document.querySelectorAll(".btnUpdateNotify").forEach((btn)=>{
       document.getElementById("typeNotify").value=data.type;
       document.getElementById("contentNotify").value=data.content;
       document.getElementById("urlNotify").value=data.url;
+      if (data.expireAt) {
+        const date=new Date(data.expireAt);
+        const localDate=new Date(date.getTime()-(date.getTimezoneOffset()*60000));
+        const formattedDate=localDate.toISOString().slice(0,16);
+        document.getElementById("expiredNotify").value=formattedDate;
+      }
+      
       document.getElementById("btnNotify").value="Cập nhật";
       }else{
         console.error("Không nhận được data");
@@ -438,5 +456,68 @@ document.querySelectorAll(".btnDeleteNotify").forEach((btn)=>{
       alert("Lỗi kết nối",error,"red")
     })
     }
+  })
+})
+document.getElementById("formFuncApp").addEventListener("submit",(e)=>{
+  e.preventDefault();
+  const listFuncApp=document.getElementById("listFuncApp").value;
+  const idFuncApp=document.getElementById("idFuncApp").value;
+  if (idFuncApp) {
+    fetch(`/dashboard/updateFuncApp/${idFuncApp}`,{
+      method:"PUT",
+      headers:{"Content-Type":"application/json;charset=UTF-8"},
+      body:JSON.stringify({listFuncApp}),
+    })
+    .then(res=>res.json())
+    .then(({mess,success,error})=>{
+      if (success) {
+        alert("Thông báo",mess,"#027e1f");
+      } else {
+        alert("Lỗi",`${mess}\n${error}`,"red");
+      }
+    })
+    .catch(()=>{
+        alert("Lỗi kết nối",`${mess}\n${error}`,"red");
+    });
+  } else {
+    fetch("/dashboard/listFuncApp",{
+    method:"POST",
+    headers:{"Content-Type":"application/json;charset=UTF-8"},
+    body:JSON.stringify({listFuncApp}),
+  })
+  .then(res=>res.json())
+  .then(({mess,success,error})=>{
+    if (success) {
+      alert("Thông báo",mess,"#027e1f");
+    } else {
+      alert("Lỗi",`${mess}\n${error}`,"red");
+    }
+  })
+  .catch((error)=>{
+    alert("Lỗi",error,"red");
+  });
+  }
+
+})
+document.querySelectorAll(".btnUpdateFuncApp").forEach((btn)=>{
+  btn.addEventListener("click",()=>{
+    const id=btn.getAttribute("data-idfuncapp");
+    fetch(`/dashboard/updateFuncApp/${id}`,{
+      method:"GET",
+      headers:{"Content-Type":"application/json;charset=UTF-8"},
+    })
+    .then(res=>res.json())
+    .then(({data})=>{
+      if (data) {
+        document.getElementById("idFuncApp").value=data._id;
+        document.getElementById("listFuncApp").value=data.name;
+        document.getElementById("btnFuncApp").value="Cập nhật";
+      } else {
+        console.error("Không nhận được data");
+      }
+    })
+    .catch((error)=>{
+      console.error("Lỗi kết nối");
+    });
   })
 })

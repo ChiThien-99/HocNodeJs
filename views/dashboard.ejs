@@ -54,7 +54,7 @@
               </li>
               <li><a href="#">Thiết bị</a></li>
               <li><a href="#">Tin tức</a></li>
-              <li><a href="#">Q&A</a></li>
+              <li><a href="#">Chia sẻ</a></li>
             </ul>
           </nav>
           <div id="groupBtn">
@@ -91,8 +91,8 @@
           <button data-target="newsMng" class="navBtnDB">
             <i class="fa-regular fa-newspaper"></i> Quản lý tin tức
           </button>
-          <button data-target="qaMng" class="navBtnDB">
-            <i class="fa-solid fa-circle-question"></i> Quản lý Q&A
+          <button data-target="shareMng" class="navBtnDB">
+            <i class="fa-solid fa-circle-question"></i> Quản lý chia sẻ
           </button>
            <button data-target="passwordMng" class="navBtnDB">
             <i class="fa-solid fa-key"></i> Cập nhật mật khẩu
@@ -265,6 +265,8 @@
               <input type="text" name="contentNotify" id="contentNotify"><br>
               <label for="urlNotify">Đường dẫn</label><br>
               <input type="text" name="urlNotify" id="urlNotify"><br>
+              <label for="expiredNotify">Thời gian hết hạn</label><br>
+              <input type="datetime-local" name="expiredNotify" id="expiredNotify"><br>
               <input type="submit" id="btnNotify" value="Tạo">
             </form>
             <div id="divTableNotify">
@@ -291,7 +293,46 @@
             
           </div>
           <div id="softwareMng" class="tabContent">
-            <h2>Nội dung quản lý phần mềm</h2>
+            <h2 class="flag-item">Quản lý chức năng phần mềm</h2>
+            <form action="" id="formFuncApp">
+              <input type="hidden" name="idFuncApp" id="idFuncApp">
+              <label for="listFuncApp">Chức năng phần mềm</label><br>
+              <input type="text" name="listFuncApp" id="listFuncApp"><br>
+              <input type="submit" value="Tạo" id="btnFuncApp">
+            </form>
+            <table id="tableFuncApp">
+              <tr>
+                <th>Tên chức năng</th>
+                <th>Thao tác</th>
+              </tr>
+              <%listFuncApp.forEach((funcApp)=>{%>
+              <tr>
+                <td><%=funcApp.name%></td>
+                <td>
+                  <button class="btnUpdateFuncApp" data-idfuncapp="<%=funcApp._id%>">Cập nhật</button>
+                  <button class="btnDeleteFuncApp" data-idfuncapp="<%=funcApp._id%>">Xóa</button>
+                </td>
+              </tr>
+              <%})%>
+            </table>
+            <h2 class="flag-item">Quản lý phần mềm</h2>
+            <form action="" enctype="multipart/form-data" id="formApp">
+              <label for="imgApp">Hình ảnh</label><br>
+              <input type="file" accept="image/webp" name="imgApp" id="imgApp"><br>
+              <label for="nameApp">Tên phần mềm</label><br>
+              <input type="text" name="nameApp" id="nameApp"><br>
+              <label for="infoApp">Thông tin phần mềm</label><br>
+              <input type="text" name="infoApp" id="infoApp"><br>
+              <label for="urlApp">Đường dẫn</label><br>
+              <input type="text" name="urlApp" id="urlApp"><br>
+              <label for="funcApp">Chức năng</label><br>
+              <select name="funcApp" id="funcApp" multiple>
+                <option value="func1">Chức năng 1</option>
+                <option value="func2">Chức năng 2</option>
+                <option value="func3">Chức năng 3</option>
+              </select><br>
+              <input type="submit" id="btnApp" value="Tạo">
+            </form>
           </div>
           <div id="deviceMng" class="tabContent">
             <h2>Nội dung quản lý thiết bị</h2>
@@ -299,8 +340,8 @@
           <div id="newsMng" class="tabContent">
             <h2>Nội dung quản lý tin tức</h2>
           </div>
-          <div id="qaMng" class="tabContent">
-            <h2>Nội dung quản lý Q&A</h2>
+          <div id="shareMng" class="tabContent">
+            <h2>Nội dung quản lý chia sẻ</h2>
           </div>
           <div id="passwordMng" class="tabContent">
             <h2 class="flag-item">Thay đổi mật khẩu</h2>

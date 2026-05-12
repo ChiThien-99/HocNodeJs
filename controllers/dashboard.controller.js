@@ -3,6 +3,7 @@ import { json } from "stream/consumers";
 import { adminEntity } from "../models/admin.model.js";
 import { bannerEntity } from "../models/banner.model.js";
 import { notifyEntity } from "../models/notification.model.js";
+import { funcAppEntity } from "../models/funcApp.model.js";
 import { v2 as cloudinary } from "cloudinary";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -53,13 +54,14 @@ const jsonSystemInfo = JSON.stringify(systemInfo, null, 2);
 export const getDashboard = async (req, res) => {
   const admins = await adminEntity.find();
   const banners = await bannerEntity.find().sort("order");
-  const notifys=await notifyEntity.find().sort("-createAt")
+  const notifys=await notifyEntity.find().sort("-createAt");
+  const listFuncApp=await funcAppEntity.find();
   const io = req.app.get("socketio");
   io.on("connection",async(socket)=>{
     const allNotify = await notifyEntity.find().sort("-createAt");
     socket.emit("update-notify", allNotify);
   })
-  res.render("dashboard.ejs", { jsonSystemInfo, admins, banners,notifys });
+  res.render("dashboard.ejs", { jsonSystemInfo, admins, banners,notifys,listFuncApp });
 };
 export const postRegisterAdmin = async (req, res) => {
   try {
@@ -266,15 +268,30 @@ export const deleteBanner = async (req, res) => {
 export const addNotify = async (req, res) => {
   try {
     console.log(req.body);
-    const { typeNotify,contentNotify,urlNotify } = req.body;
+    const { typeNotify,contentNotify,urlNotify,expiredNotify } = req.body;
+    const expiredDate=new Date(expiredNotify);
+    if(isNaN(expiredDate.getTime())){
+      return res.json({mess:"Vui lòng điền thời gian hết hạn",success:false});
+    }
+    if(expiredDate<=new Date()){
+      return res.json({mess:"Thời gian hết hạn phải là thời gian trong tương lai",success:false});
+    }
     const newNotify = await notifyEntity.create({
       content: contentNotify,
       type: typeNotify,
       url: urlNotify,
+      expireAt:expiredDate,
     });
     const io = req.app.get("socketio");
     const allNotify = await notifyEntity.find().sort("-createAt");
     io.emit("update-notify", allNotify);
+    const delay=expiredDate.getTime()-Date.now();
+    console.log(delay);
+    setTimeout(async() => {
+      const allNotify = await notifyEntity.find().sort("-createAt");
+      io.emit("update-notify", allNotify);
+      console.log("Đã cập nhật lại thông báo")
+    }, delay+180000);
     res.json({ mess: "Tạo thông báo thành công", success: true });
   } catch (error) {
     res.json({
@@ -295,16 +312,30 @@ export const getUpdateNotify=async(req,res)=>{
 }
 export const putUpdateNotify=async(req,res)=>{
   try {
-    const {typeNotify,contentNotify,urlNotify}=req.body;
+    const {typeNotify,contentNotify,urlNotify,expiredNotify}=req.body;
     const {id}=req.params;
+    const expiredDate=new Date(expiredNotify);
+    if(isNaN(expiredDate.getTime())){
+      return res.json({mess:"Vui lòng điền thời gian hết hạn",success:false});
+    }
+    if(expiredDate<=new Date()){
+      return res.json({mess:"Thời gian hết hạn phải là thời gian trong tương lai",success:false});
+    }
     const updateNotify=await notifyEntity.findByIdAndUpdate(id,{
       type:typeNotify,
       content:contentNotify,
       url:urlNotify,
+      expireAt:expiredDate,
     })
     const io = req.app.get("socketio");
     const allNotify = await notifyEntity.find().sort("-createAt");
     io.emit("update-notify", allNotify);
+    const delay=expiredDate.getTime()-Date.now();
+    console.log(delay);
+    setTimeout(async() => {
+      const allNotify = await notifyEntity.find().sort("-createAt");
+      io.emit("update-notify", allNotify);
+    }, delay+180000);
     res.json({mess:"Cập nhật thông báo thành công",success:true})
   } catch (error) {
     res.json({mess:"Cập nhật thông báo thất bại",success:false,error:error.message})
@@ -322,4 +353,33 @@ export const deleteNotify=async(req,res)=>{
   res.json({mess:"Xóa thông báo thất bại",success:false,error:error.message});
   }
  
+}
+export const addListFuncApp=async(req,res)=>{
+  try {
+  const {listFuncApp}=req.body;
+  const newFuncApp=await funcAppEntity.create({name:listFuncApp});
+  res.json({mess:"Chức năng phần mềm tạo thành công",success:true});
+  } catch (error) {
+  res.json({mess:"Chức năng phần mềm tạo thất bại",success:false,error:error.message});
+  }
+ 
+}
+export const getupdateFuncApp=async(req,res)=>{
+  try {
+    const {id}=req.params;
+    const funcApp=await funcAppEntity.findById(id);
+    res.json({data:funcApp});
+  } catch (error) {
+    console.error("Lỗi khi lấy funcapp từ id");
+  }
+};
+export const putUpdateFuncApp=async(req,res)=>{
+  try {
+    const {id}=req.params;
+    const {listFuncApp}=req.body;
+    const updateFuncApp=await funcAppEntity.findByIdAndUpdate(id,{name:listFuncApp});
+    res.json({mess:"Cập nhật chức năng phần mềm thành công",success:true});
+  } catch (error) {
+    res.json({mess:"Cập nhật chức năng phần mềm thất bại",success:false,error:error.message});
+  }
 }

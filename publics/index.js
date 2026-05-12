@@ -154,3 +154,8 @@ function filterType(type) {
     notify = document.querySelectorAll(".notify");
   }
 }
+document.getElementById("btnFuncApp").addEventListener("click",()=>{
+  const divFuncBtns=document.getElementById("divFuncBtns");
+  const type=divFuncBtns.style.display==="block"?"none":"block";
+  divFuncBtns.style.display=type;
+})
