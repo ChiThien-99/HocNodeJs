@@ -117,7 +117,8 @@
         <div id="divApp">
           <h2 class="flag-item">Phần mềm</h2>
           <div id="groupFilterApp">
-            <button id="btnPopularApp">Phổ biến</button>
+            <button id="btnNewApp">Mới nhất</button>
+            <button id="btnPopularApp" class="active">Phổ biến</button>
             <button id="btnFuncApp">Chức năng <i class="fa-solid fa-caret-right"></i></button>
             <div id="divFuncBtns">
             <div id="funcBtns">
@@ -138,7 +139,7 @@
               <div>
                 <h4><%=app.name%></h4>
                 <p><%=app.info%></p>
-                <a href="<%=app.url%>" target="_blank">Truy cập</a>
+                <a data-idapp="<%=app._id%>" data-nameapp="<%=app.name%>" class="btnApp">Truy cập</a>
               </div>
             </div>
             <%})%>

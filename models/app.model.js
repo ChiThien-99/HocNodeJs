@@ -16,13 +16,19 @@ const appSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  url: {
-    type: String,
-    required: true,
-  },
   func: {
     type: Array,
     required: true,
   },
+  views:{
+    type:Number,
+    default:0,
+    min:0,
+  },
+  createAt: {
+    type: Date,
+    default: Date.now(),
+  },
 });
+appSchema.index({views:-1});
 export const appEntity = mongoose.model("appEntity", appSchema, "app");

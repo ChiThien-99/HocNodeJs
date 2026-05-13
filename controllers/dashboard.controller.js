@@ -57,6 +57,7 @@ export const getDashboard = async (req, res) => {
   const banners = await bannerEntity.find().sort("order");
   const notifys = await notifyEntity.find().sort("-createAt");
   const listFuncApp = await funcAppEntity.find();
+  const apps=await appEntity.find().sort("-createAt");
   const io = req.app.get("socketio");
   io.on("connection", async (socket) => {
     const allNotify = await notifyEntity.find().sort("-createAt");
@@ -68,6 +69,7 @@ export const getDashboard = async (req, res) => {
     banners,
     notifys,
     listFuncApp,
+    apps,
   });
 };
 export const postRegisterAdmin = async (req, res) => {
@@ -433,17 +435,16 @@ export const deleteFuncApp = async (req, res) => {
 };
 export const addApp = async (req, res) => {
   try {
-    const { nameApp, infoApp, urlApp, funcApp } = req.body;
+    const { nameApp, infoApp, funcApp } = req.body;
     const newApp = appEntity.create({
       image: req.file.path,
       cloudinary_id: req.file.filename,
       name: nameApp,
       info: infoApp,
-      url: urlApp,
       func: funcApp,
     });
     const io = req.app.get("socketio");
-    const allApp = await appEntity.find();
+    const allApp = await appEntity.find().sort("-createAt");
     io.emit("update-app", allApp);
     res.json({ mess: "Tạo phần mềm thành công", success: true });
   } catch (error) {
@@ -454,3 +455,47 @@ export const addApp = async (req, res) => {
     });
   }
 };
+export const getUpdateApp=async(req,res)=>{
+  try {
+  const {id}=req.params;
+  const app=await appEntity.findById(id);
+  res.json({data:app});
+  } catch (error) {
+  console.error("Lỗi không tìm được app theo id");
+  }
+}
+export const putUpdateApp=async(req,res)=>{
+  try {
+    const {id}=req.params;
+    const {nameApp,infoApp,funcApp}=req.body;
+    const updateApp=await appEntity.findByIdAndUpdate(id,{
+      name:nameApp,
+      info:infoApp,
+      func:funcApp,
+    })
+    const io = req.app.get("socketio");
+    const allApp = await appEntity.find().sort("-createAt");
+    io.emit("update-app", allApp);
+    res.json({mess:"Cập nhật phần mềm thành công",success:true});
+  } catch (error) {
+    res.json({mess:"Cập nhật phần mềm thất bại",success:false,error:error.message});
+  }
+};
+export const deleteApp=async(req,res)=>{
+  try {
+  const {id}=req.params;
+  const app = await appEntity.findById(id);
+    if (!app) {
+      res.json({ mess: "Không tìm thấy app", success: false });
+    }
+    await cloudinary.uploader.destroy(app.cloudinary_id);
+    await appEntity.findByIdAndDelete(id);
+    const io = req.app.get("socketio");
+    const allApp = await appEntity.find().sort("-createAt");
+    io.emit("update-app", allApp);
+  res.json({mess:"Xóa phần mềm thành công",success:true});
+  } catch (error) {
+  res.json({mess:"Xóa phần mềm thất bại",success:false,error:error.message});
+  }
+  
+}

@@ -204,8 +204,10 @@
                 <td><%=admin.email%></td>
                 <td><%=admin.decent%></td>
                 <td>
+                  <div class="btnGroup">
                   <button class="btnEditUserAdmin" data-idAdmin="<%=admin._id%>">Cập nhật</button>
                   <button class="btnDeleteUserAdmin" data-idAdmin="<%=admin._id%>">Xóa</button>
+                  </div>
                 </td>
               </tr>
               <%})%>
@@ -242,8 +244,10 @@
                 <td><%=banner.url%></td>
                 <td><%=banner.order%></td>
                 <td>
+                  <div class="btnGroup">
                   <button class="btnUpdateBanner" data-idbanner="<%=banner._id%>">Cập nhật</button>
                   <button class="btnDeleteBanner" data-idbanner="<%=banner._id%>">Xóa</button>
+                  </div>
                 </td>
               </tr>
               <%})%>
@@ -283,8 +287,10 @@
                 <td><%=notify.content%></td>
                 <td><%=notify.url%></td>
                 <td>
+                  <div class="btnGroup">
                   <button class="btnUpdateNotify" data-idnotify="<%=notify._id%>">Cập nhật</button>
                   <button class="btnDeleteNotify" data-idnotify="<%=notify._id%>">Xóa</button>
+                  </div>
                 </td>
               </tr>
               <%})%>
@@ -309,22 +315,23 @@
               <tr>
                 <td><%=funcApp.name%></td>
                 <td>
+                  <div class="btnGroup">
                   <button class="btnUpdateFuncApp" data-idfuncapp="<%=funcApp._id%>">Cập nhật</button>
                   <button class="btnDeleteFuncApp" data-idfuncapp="<%=funcApp._id%>">Xóa</button>
+                  </div>
                 </td>
               </tr>
               <%})%>
             </table>
             <h2 class="flag-item">Quản lý phần mềm</h2>
             <form enctype="multipart/form-data" id="formApp">
+              <input type="hidden" name="idApp" id="idApp">
               <label for="imgApp">Hình ảnh</label><br>
               <input type="file" accept="image/webp" name="imgApp" id="imgApp"><br>
               <label for="nameApp">Tên phần mềm</label><br>
               <input type="text" name="nameApp" id="nameApp"><br>
               <label for="infoApp">Thông tin phần mềm</label><br>
               <input type="text" name="infoApp" id="infoApp"><br>
-              <label for="urlApp">Đường dẫn</label><br>
-              <input type="text" name="urlApp" id="urlApp"><br>
               <label for="funcApp">Chức năng</label><br>
               <select name="funcApp" id="funcApp" multiple>
                 <%listFuncApp.forEach((funcApp)=>{%>
@@ -333,6 +340,33 @@
               </select><br>
               <input type="submit" id="btnApp" value="Tạo">
             </form>
+            <em>Lưu ý: Nếu sai hình ảnh hãy xóa luôn app và tạo mới</em>
+            <div id="divTableApp">
+              <table id="tableApp">
+              <tr>
+                <th>Tên phần mềm</th>
+                <th>Thông tin phần mềm</th>
+                <th>Chức năng</th>
+                <th>Ngày tạo</th>
+                <th>Thao tác</th>
+              </tr>
+              <%apps.forEach((app)=>{%>
+              <tr>
+                <td><%=app.name%></td>
+                <td><%=app.info%></td>
+                <td><%=app.func%></td>
+                <td><%=new Date(app.createAt).toLocaleString()%></td>
+                <td>
+                  <div class="btnGroup">
+                    <button class="btnUpdateApp" data-idapp="<%=app._id%>">Cập nhật</button>
+                    <button class="btnDeleteApp" data-idapp="<%=app._id%>">Xóa</button>
+                  </div>
+                </td>
+              </tr>
+              <%})%>
+            </table>
+            </div>
+            
           </div>
           <div id="deviceMng" class="tabContent">
             <h2>Nội dung quản lý thiết bị</h2>

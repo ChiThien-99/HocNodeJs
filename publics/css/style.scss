@@ -278,7 +278,7 @@ header {
   display: flex;
   width: 100%;
   height: auto;
-  flex-flow: row wrap;
+  flex-flow: row nowrap;
   #navDashboard {
     width: 20%;
     border: 1px solid $colorCTA;
@@ -287,8 +287,8 @@ header {
       h2,
       h3,
       em {
-        color: $colorCTA;
-        // color: white;
+        // color: $colorCTA;
+        color: white;
       }
     }
     .navBtnDB {
@@ -377,7 +377,7 @@ header {
       border-collapse: collapse;
       padding: 0.5rem;
       text-align: left;
-      td:nth-child(5) {
+      .btnGroup {
         display: flex;
         flex-direction: row nowrap;
         gap: 0.5rem;
@@ -443,7 +443,7 @@ header {
         border-collapse: collapse;
         padding: 0.5rem;
         text-align: left;
-        td:nth-child(4) {
+        .btnGroup {
           display: flex;
           flex-direction: row nowrap;
           gap: 0.5rem;
@@ -471,7 +471,7 @@ header {
         border-collapse: collapse;
         padding: 0.5rem;
         text-align: left;
-        td:nth-child(4) {
+        .btnGroup {
           display: flex;
           flex-direction: row nowrap;
           gap: 0.5rem;
@@ -505,6 +505,12 @@ header {
         height: 2rem;
         font-size: 1rem;
       }
+      select{
+        width: 50%;
+      }
+      em{
+        color: red;
+      }
       #tableFuncApp,
       th,
       td {
@@ -512,7 +518,7 @@ header {
         border-collapse: collapse;
         padding: 0.5rem;
         text-align: left;
-        td:nth-child(2) {
+        .btnGroup {
           display: flex;
           flex-direction: row nowrap;
           gap: 0.5rem;
@@ -523,6 +529,35 @@ header {
           color: $colorSecondaryText;
         }
         .btnDeleteFuncApp {
+          @include button(0.5rem);
+          background-color: red;
+          color: $colorSecondaryText;
+        }
+      }
+      #divTableApp{
+      width: 100%;
+      overflow-x: auto;
+      margin: 1rem 0;
+      }
+      #tableApp,
+      th,
+      td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        padding: 0.5rem;
+        text-align: left;
+        .btnGroup {
+          display: flex;
+          flex-flow: row nowrap;
+          gap: 0.5rem;
+          height: 100%
+        }
+        .btnUpdateApp {
+          @include button(0.5rem);
+          background-color: $colorCTA;
+          color: $colorSecondaryText;
+        }
+        .btnDeleteApp {
           @include button(0.5rem);
           background-color: red;
           color: $colorSecondaryText;
@@ -606,6 +641,7 @@ header {
       height: 5rem;
       #filterNotification {
         font-size: 1rem;
+        font-weight: bold;
         width: 22%;
         height: 3rem;
         padding: 0.5rem;
@@ -735,6 +771,10 @@ header {
         background-color: $colorCTA;
         color: $colorSecondaryText;
       }
+    }
+    .active{
+      background-color: $colorCTA;
+      color: $colorSecondaryText;
     }
     #divFuncBtns {
       display: none;

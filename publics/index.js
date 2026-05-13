@@ -112,11 +112,9 @@ socket.on("update-carousel", (allBanner) => {
   initCarousel();
   console.log("Đã cập nhật và đồng bộ hóa");
 });
-let localNotifications = [];
 let notify = document.querySelectorAll(".notify");
 socket.on("update-notify", (allNotify) => {
-  localNotifications = allNotify;
-  renderNotify(localNotifications);
+  renderNotify(allNotify);
   notify = document.querySelectorAll(".notify");
 });
 const selectFilter = document.querySelector(
@@ -125,7 +123,22 @@ const selectFilter = document.querySelector(
 
 selectFilter.addEventListener("change", function () {
   const type = this.value;
-  filterType(type);
+  fetch(`/index/filterNotify?type=${type}`,{
+    method:"GET",
+    headers:{"Content-Type":"application/json;charset=UTF-8"},
+  })
+  .then(res=>res.json())
+  .then(({mess,success,error})=>{
+    if (success) {
+      document.getElementById("filterNotification").style.color="#0b57d0";
+      document.getElementById("filterNotification").style.fontWeight="bold";
+    } else {
+      console.error(`${mess}\n${error}`)
+    }
+  })
+  .catch((error)=>{
+    console.error(`Lỗi kết nối: ${error}`);
+  });
 });
 
 function renderNotify(data) {
@@ -145,26 +158,20 @@ function renderNotify(data) {
   `,
     )
     .join("");
-}
-function filterType(type) {
-  if (type === "all") {
-    renderNotify(localNotifications);
-    notify = document.querySelectorAll(".notify");
-  } else {
-    const filtered = localNotifications.filter((n) => n.type === type);
-    renderNotify(filtered);
-    notify = document.querySelectorAll(".notify");
-  }
-}
+};
 document.getElementById("btnFuncApp").addEventListener("click", () => {
   const divFuncBtns = document.getElementById("divFuncBtns");
   const type = divFuncBtns.style.display === "block" ? "none" : "block";
   divFuncBtns.style.display = type;
 });
-const app = document.querySelectorAll(".app");
+let app = document.querySelectorAll(".app");
+const listApp = document.getElementById("listApp");
 socket.on("update-app", (allApp) => {
-  const listApp = document.getElementById("listApp");
-  listApp.innerHTML = allApp
+  renderApp(allApp);
+  app = document.querySelectorAll(".app");
+});
+function renderApp(app){
+listApp.innerHTML = app
     .map(
       (app) => `
   <div class="app">
@@ -180,5 +187,37 @@ socket.on("update-app", (allApp) => {
   `,
     )
     .join("");
-  app = document.querySelectorAll(".app");
+}
+document.getElementById("btnNewApp").addEventListener("click",()=>{
+  fetch("/index/filter/newApp",{
+    method:"GET",
+    headers:{"Content-Type":"application/json;charset=UTF-8"},
+  })
+  .then(res=>res.json())
+  .then(({mess,success,error})=>{
+    if (success) {
+      document.querySelectorAll("#groupFilterApp button").forEach((btn)=>{
+        btn.classList.remove("active");
+        const id=btn.getAttribute("id");
+        if(id==="btnNewApp"){
+          btn.classList.add("active");
+        }
+      })
+    } else {
+      console.error(`${mess}\n${error}`);
+    }
+  })
+  .catch((error)=>{
+    console.error(`Lỗi kết nối: ${error}`)
+  });
 });
+document.querySelectorAll(".btnApp").forEach((btn)=>{
+  btn.addEventListener("click",()=>{
+    const nameapp=btn.getAttribute("data-nameapp");
+    const idapp=btn.getAttribute("data-idapp");
+    fetch(`/app1/${nameapp}/${idapp}`,{
+      method:"GET",
+      headers:{"Content-Type":"application/json;charset=UTF-8"},
+    });
+  })
+})

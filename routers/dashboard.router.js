@@ -46,6 +46,7 @@ dashboardRouter.get(
   `${prefix}/updateFuncApp/:id`,
   dashboardController.getupdateFuncApp,
 );
+dashboardRouter.get(`${prefix}/updateApp/:id`,dashboardController.getUpdateApp);
 dashboardRouter.post(
   `${prefix}/registerAdmin`,
   authLimit,
@@ -100,6 +101,7 @@ dashboardRouter.put(
   authenticateToken,
   dashboardController.putUpdateFuncApp,
 );
+dashboardRouter.put(`${prefix}/updateApp/:id`,authenticateToken,upload.single("imgApp"),dashboardController.putUpdateApp)
 dashboardRouter.delete(
   `${prefix}/deleteUserAdmin/:idDelete`,
   authenticateToken,
@@ -120,3 +122,4 @@ dashboardRouter.delete(
   authenticateToken,
   dashboardController.deleteFuncApp,
 );
+dashboardRouter.delete(`${prefix}/deleteApp/:id`,authenticateToken,dashboardController.deleteApp)

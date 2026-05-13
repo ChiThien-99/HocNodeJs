@@ -291,7 +291,7 @@ header div:last-child #groupBtn button {
   display: flex;
   width: 100%;
   height: auto;
-  flex-flow: row wrap;
+  flex-flow: row nowrap;
 }
 #mainDashboard #navDashboard {
   width: 20%;
@@ -303,7 +303,7 @@ header div:last-child #groupBtn button {
 #mainDashboard #navDashboard div h2,
 #mainDashboard #navDashboard div h3,
 #mainDashboard #navDashboard div em {
-  color: #027e1f;
+  color: white;
 }
 #mainDashboard #navDashboard .navBtnDB {
   width: 100%;
@@ -397,9 +397,9 @@ header div:last-child #groupBtn button {
   padding: 0.5rem;
   text-align: left;
 }
-#mainDashboard #contentDashboard #tableUserAdmin td:nth-child(5),
-#mainDashboard #contentDashboard th td:nth-child(5),
-#mainDashboard #contentDashboard td td:nth-child(5) {
+#mainDashboard #contentDashboard #tableUserAdmin .btnGroup,
+#mainDashboard #contentDashboard th .btnGroup,
+#mainDashboard #contentDashboard td .btnGroup {
   display: flex;
   flex-direction: row nowrap;
   gap: 0.5rem;
@@ -480,9 +480,9 @@ header div:last-child #groupBtn button {
   padding: 0.5rem;
   text-align: left;
 }
-#mainDashboard #contentDashboard #homeMng #tableBanner td:nth-child(4),
-#mainDashboard #contentDashboard #homeMng th td:nth-child(4),
-#mainDashboard #contentDashboard #homeMng td td:nth-child(4) {
+#mainDashboard #contentDashboard #homeMng #tableBanner .btnGroup,
+#mainDashboard #contentDashboard #homeMng th .btnGroup,
+#mainDashboard #contentDashboard #homeMng td .btnGroup {
   display: flex;
   flex-direction: row nowrap;
   gap: 0.5rem;
@@ -520,9 +520,9 @@ header div:last-child #groupBtn button {
   padding: 0.5rem;
   text-align: left;
 }
-#mainDashboard #contentDashboard #homeMng #tableNotify td:nth-child(4),
-#mainDashboard #contentDashboard #homeMng th td:nth-child(4),
-#mainDashboard #contentDashboard #homeMng td td:nth-child(4) {
+#mainDashboard #contentDashboard #homeMng #tableNotify .btnGroup,
+#mainDashboard #contentDashboard #homeMng th .btnGroup,
+#mainDashboard #contentDashboard #homeMng td .btnGroup {
   display: flex;
   flex-direction: row nowrap;
   gap: 0.5rem;
@@ -569,6 +569,12 @@ header div:last-child #groupBtn button {
   height: 2rem;
   font-size: 1rem;
 }
+#mainDashboard #contentDashboard #softwareMng select {
+  width: 50%;
+}
+#mainDashboard #contentDashboard #softwareMng em {
+  color: red;
+}
 #mainDashboard #contentDashboard #softwareMng #tableFuncApp,
 #mainDashboard #contentDashboard #softwareMng th,
 #mainDashboard #contentDashboard #softwareMng td {
@@ -577,9 +583,9 @@ header div:last-child #groupBtn button {
   padding: 0.5rem;
   text-align: left;
 }
-#mainDashboard #contentDashboard #softwareMng #tableFuncApp td:nth-child(2),
-#mainDashboard #contentDashboard #softwareMng th td:nth-child(2),
-#mainDashboard #contentDashboard #softwareMng td td:nth-child(2) {
+#mainDashboard #contentDashboard #softwareMng #tableFuncApp .btnGroup,
+#mainDashboard #contentDashboard #softwareMng th .btnGroup,
+#mainDashboard #contentDashboard #softwareMng td .btnGroup {
   display: flex;
   flex-direction: row nowrap;
   gap: 0.5rem;
@@ -597,6 +603,47 @@ header div:last-child #groupBtn button {
 #mainDashboard #contentDashboard #softwareMng #tableFuncApp .btnDeleteFuncApp,
 #mainDashboard #contentDashboard #softwareMng th .btnDeleteFuncApp,
 #mainDashboard #contentDashboard #softwareMng td .btnDeleteFuncApp {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: red;
+  color: #fafafa;
+}
+#mainDashboard #contentDashboard #softwareMng #divTableApp {
+  width: 100%;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+#mainDashboard #contentDashboard #softwareMng #tableApp,
+#mainDashboard #contentDashboard #softwareMng th,
+#mainDashboard #contentDashboard #softwareMng td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 0.5rem;
+  text-align: left;
+}
+#mainDashboard #contentDashboard #softwareMng #tableApp .btnGroup,
+#mainDashboard #contentDashboard #softwareMng th .btnGroup,
+#mainDashboard #contentDashboard #softwareMng td .btnGroup {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 0.5rem;
+  height: 100%;
+}
+#mainDashboard #contentDashboard #softwareMng #tableApp .btnUpdateApp,
+#mainDashboard #contentDashboard #softwareMng th .btnUpdateApp,
+#mainDashboard #contentDashboard #softwareMng td .btnUpdateApp {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #027e1f;
+  color: #fafafa;
+}
+#mainDashboard #contentDashboard #softwareMng #tableApp .btnDeleteApp,
+#mainDashboard #contentDashboard #softwareMng th .btnDeleteApp,
+#mainDashboard #contentDashboard #softwareMng td .btnDeleteApp {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -686,6 +733,7 @@ header div:last-child #groupBtn button {
 }
 #divAboutAndBanner #notification-container #headerNotification #filterNotification {
   font-size: 1rem;
+  font-weight: bold;
   width: 22%;
   height: 3rem;
   padding: 0.5rem;
@@ -815,6 +863,10 @@ header div:last-child #groupBtn button {
   color: #027e1f;
 }
 #divApp #groupFilterApp button:hover {
+  background-color: #027e1f;
+  color: #fafafa;
+}
+#divApp #groupFilterApp .active {
   background-color: #027e1f;
   color: #fafafa;
 }
