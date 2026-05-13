@@ -18,6 +18,7 @@
 //   }
 // }
 // window.onload = typeWriter;
+import { alert, confirm } from "./alert.js";
 const wrapper = document.getElementById("carousel-wrapper");
 let slides = document.querySelectorAll(".carousel-slide");
 let dots = document.querySelectorAll(".dot");
@@ -123,22 +124,22 @@ const selectFilter = document.querySelector(
 
 selectFilter.addEventListener("change", function () {
   const type = this.value;
-  fetch(`/index/filterNotify?type=${type}`,{
-    method:"GET",
-    headers:{"Content-Type":"application/json;charset=UTF-8"},
+  fetch(`/index/filterNotify?type=${type}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json;charset=UTF-8" },
   })
-  .then(res=>res.json())
-  .then(({mess,success,error})=>{
-    if (success) {
-      document.getElementById("filterNotification").style.color="#0b57d0";
-      document.getElementById("filterNotification").style.fontWeight="bold";
-    } else {
-      console.error(`${mess}\n${error}`)
-    }
-  })
-  .catch((error)=>{
-    console.error(`Lỗi kết nối: ${error}`);
-  });
+    .then((res) => res.json())
+    .then(({ mess, success, error }) => {
+      if (success) {
+        document.getElementById("filterNotification").style.color = "#0b57d0";
+        document.getElementById("filterNotification").style.fontWeight = "bold";
+      } else {
+        console.error(`${mess}\n${error}`);
+      }
+    })
+    .catch((error) => {
+      console.error(`Lỗi kết nối: ${error}`);
+    });
 });
 
 function renderNotify(data) {
@@ -158,7 +159,7 @@ function renderNotify(data) {
   `,
     )
     .join("");
-};
+}
 document.getElementById("btnFuncApp").addEventListener("click", () => {
   const divFuncBtns = document.getElementById("divFuncBtns");
   const type = divFuncBtns.style.display === "block" ? "none" : "block";
@@ -170,8 +171,8 @@ socket.on("update-app", (allApp) => {
   renderApp(allApp);
   app = document.querySelectorAll(".app");
 });
-function renderApp(app){
-listApp.innerHTML = app
+function renderApp(app) {
+  listApp.innerHTML = app
     .map(
       (app) => `
   <div class="app">
@@ -188,36 +189,26 @@ listApp.innerHTML = app
     )
     .join("");
 }
-document.getElementById("btnNewApp").addEventListener("click",()=>{
-  fetch("/index/filter/newApp",{
-    method:"GET",
-    headers:{"Content-Type":"application/json;charset=UTF-8"},
+document.getElementById("btnNewApp").addEventListener("click", () => {
+  fetch("/index/filter/newApp", {
+    method: "GET",
+    headers: { "Content-Type": "application/json;charset=UTF-8" },
   })
-  .then(res=>res.json())
-  .then(({mess,success,error})=>{
-    if (success) {
-      document.querySelectorAll("#groupFilterApp button").forEach((btn)=>{
-        btn.classList.remove("active");
-        const id=btn.getAttribute("id");
-        if(id==="btnNewApp"){
-          btn.classList.add("active");
-        }
-      })
-    } else {
-      console.error(`${mess}\n${error}`);
-    }
-  })
-  .catch((error)=>{
-    console.error(`Lỗi kết nối: ${error}`)
-  });
-});
-document.querySelectorAll(".btnApp").forEach((btn)=>{
-  btn.addEventListener("click",()=>{
-    const nameapp=btn.getAttribute("data-nameapp");
-    const idapp=btn.getAttribute("data-idapp");
-    fetch(`/app1/${nameapp}/${idapp}`,{
-      method:"GET",
-      headers:{"Content-Type":"application/json;charset=UTF-8"},
+    .then((res) => res.json())
+    .then(({ mess, success, error }) => {
+      if (success) {
+        document.querySelectorAll("#groupFilterApp button").forEach((btn) => {
+          btn.classList.remove("active");
+          const id = btn.getAttribute("id");
+          if (id === "btnNewApp") {
+            btn.classList.add("active");
+          }
+        });
+      } else {
+        console.error(`${mess}\n${error}`);
+      }
+    })
+    .catch((error) => {
+      console.error(`Lỗi kết nối: ${error}`);
     });
-  })
-})
+});
