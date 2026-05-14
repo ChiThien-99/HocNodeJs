@@ -212,3 +212,66 @@ document.getElementById("btnNewApp").addEventListener("click", () => {
       console.error(`Lỗi kết nối: ${error}`);
     });
 });
+document.getElementById("btnPopularApp").addEventListener("click",()=>{
+  fetch("/index/filter/popularApp",{
+    method:"GET",
+    headers:{"Content-Type":"application/json;charset=UTF-8"},
+  })
+  .then(res=>res.json())
+  .then(({mess,success,error})=>{
+    if (success) {
+      document.querySelectorAll("#groupFilterApp button").forEach((btn) => {
+          btn.classList.remove("active");
+          const id = btn.getAttribute("id");
+          if (id === "btnPopularApp") {
+            btn.classList.add("active");
+          }
+        });
+    } else {
+      console.error(`${mess}\n${error}`);
+    }
+  })
+  .catch((error)=>{
+    console.error(`Lỗi kết nối: ${error}`);
+  });
+});
+const funcBtns=document.getElementById("funcBtns");
+const funcBtn=document.querySelectorAll(".funcBtn");
+socket.on("update-funcapp", (allFuncApp) => {
+  renderFuncApp(allFuncApp);
+  funcBtn = document.querySelectorAll(".funcBtn");
+});
+function renderFuncApp(funcapps) {
+  funcBtns.innerHTML = funcapps
+    .map(
+      (funcapp) => `
+ <button>${funcapp.name}</button>
+  `,
+    )
+    .join("");
+}
+funcBtn.forEach((btn)=>{
+  btn.addEventListener("click",()=>{
+    const name=btn.innerHTML;
+    fetch(`/index/filter/funcApp?name=${name}`,{
+      method:"GET",
+      headers:{"Content-Type":"application/json;charset=UTF-8"},
+    })
+    .then(res=>res.json())
+    .then(({mess,success,error})=>{
+      if (success) {
+        funcBtn.forEach((btn) => {
+          btn.classList.remove("active");
+          if ( btn.innerHTML=== name) {
+            btn.classList.add("active");
+          }
+        });
+      } else {
+        console.error(`${mess}\n${error}`)
+      }
+    })
+    .catch((error)=>{
+      console.error(`Lỗi kết nối: ${error}`);
+    });
+  })
+})

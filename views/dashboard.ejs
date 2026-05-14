@@ -27,8 +27,7 @@
 
   </head>
   <body>
-    <div class="content">
-      <div id="alert">
+    <div id="alert">
         <h4 id="headingAlert">Tiêu đề thông báo</h4>
         <p id="contentAlert">Thông báo lần 1</p>
       </div>
@@ -369,7 +368,30 @@
             
           </div>
           <div id="deviceMng" class="tabContent">
-            <h2>Nội dung quản lý thiết bị</h2>
+            <h2 class="flag-item">Quản lý chức năng thiết bị</h2>
+            <form id="formFuncDevice">
+              <input type="hidden" name="idFuncDevice" id="idFuncDevice">
+              <label for="listFuncDevice">Chức năng thiết bị</label><br>
+              <input type="text" name="listFuncDevice" id="listFuncDevice"><br>
+              <input type="submit" value="Tạo" id="btnFuncDevice">
+            </form>
+                <table id="tableFuncDevice">
+              <tr>
+                <th>Tên chức năng</th>
+                <th>Thao tác</th>
+              </tr>
+              <%listFuncDevice.forEach((funcDevice)=>{%>
+              <tr>
+                <td><%=funcDevice.name%></td>
+                <td>
+                  <div class="btnGroup">
+                  <button class="btnUpdateFuncDevice" data-idfuncdevice="<%=funcDevice._id%>">Cập nhật</button>
+                  <button class="btnDeleteFuncDevice" data-idfuncdevice="<%=funcDevice._id%>">Xóa</button>
+                  </div>
+                </td>
+              </tr>
+              <%})%>
+            </table>
           </div>
           <div id="newsMng" class="tabContent">
             <h2>Nội dung quản lý tin tức</h2>
@@ -436,7 +458,6 @@
           <button>Đăng ký</button>
         </div>
       </footer>
-    </div>
   </body>
   <script type="module" src="/dashboard.js" defer></script>
 </html>

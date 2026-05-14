@@ -1,5 +1,5 @@
 $colorCTA: #027e1f;
-$colorPrimaryBG: #fafafa;
+$colorPrimaryBG: #F5F5F5;
 $colorSecondaryBG: #027e1fad;
 $colorPrimaryText: #1a1a1a;
 $colorSecondaryText: #fafafa;
@@ -27,23 +27,7 @@ $colorSecondaryText: #fafafa;
   box-sizing: border-box;
 }
 body {
-  background: url("/img/logo.webp") center no-repeat fixed;
-  position: relative;
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.8);
-    z-index: 1;
-  }
-}
-.content {
-  position: relative;
-  z-index: 2;
-  font-family: "fontWebsite";
+  background-color: #F5F5F5;
 }
 #alert {
   position: fixed;
@@ -287,8 +271,8 @@ header {
       h2,
       h3,
       em {
-        color: $colorCTA;
-        // color: white;
+        // color: $colorCTA;
+        color: white;
       }
     }
     .navBtnDB {
@@ -564,6 +548,42 @@ header {
         }
       }
     }
+    #deviceMng{
+      input[type="submit"] {
+        @include button(0.5rem);
+        background-color: $colorCTA;
+        color: $colorSecondaryText;
+        margin: 0.5rem 0;
+      }
+      input[type="text"] {
+        width: 50%;
+        height: 2rem;
+        font-size: 1rem;
+      }
+      #tableFuncDevice,
+      th,
+      td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        padding: 0.5rem;
+        text-align: left;
+        .btnGroup {
+          display: flex;
+          flex-direction: row nowrap;
+          gap: 0.5rem;
+        }
+        .btnUpdateFuncDevice {
+          @include button(0.5rem);
+          background-color: $colorCTA;
+          color: $colorSecondaryText;
+        }
+        .btnDeleteFuncDevice {
+          @include button(0.5rem);
+          background-color: red;
+          color: $colorSecondaryText;
+        }
+      }
+    }
   }
 }
 //**CSS Login
@@ -753,6 +773,21 @@ header {
   height: auto;
   border: 1px solid black;
   padding: 1rem;
+  #headerApp{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    a{
+      display: inline-block;
+      text-decoration: none;
+      background-color: $colorCTA;
+      color: $colorSecondaryText;
+      font-size: 1.2rem;
+      height: 2.4rem;
+      @include button(0.5rem);
+    }
+  }
   #groupFilterApp {
     display: flex;
     flex-flow: row nowrap;
@@ -797,6 +832,107 @@ header {
     border: 1px solid black;
     margin: 1rem 0;
     .app {
+      display: flex;
+      flex-flow: row nowrap;
+      width: 48%;
+      height: auto;
+      border: 1px solid $colorCTA;
+      margin: 1%;
+      div:first-child {
+        width: 50%;
+        height: inherit;
+        img {
+          width: 100%;
+          height: auto;
+        }
+      }
+      div:last-child {
+        width: 50%;
+        height: inherit;
+        padding: 0.5rem;
+        position: relative;
+        background-color: $colorPrimaryBG;
+        h4 {
+          margin: 0.5rem 0;
+        }
+        a {
+          display: inline-block;
+          text-decoration: none;
+          background-color: $colorCTA;
+          color: $colorSecondaryText;
+          @include button(0.5rem);
+          position: absolute;
+          bottom: 0.5rem;
+          right: 0.5rem;
+        }
+      }
+    }
+  }
+}
+#divDevice {
+  width: 100%;
+  height: auto;
+  border: 1px solid black;
+  padding: 1rem;
+  #headerDevice{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    a{
+      display: inline-block;
+      text-decoration: none;
+      background-color: $colorCTA;
+      color: $colorSecondaryText;
+      font-size: 1.2rem;
+      height: 2.4rem;
+      @include button(0.5rem);
+    }
+  }
+  #groupFilterDevice {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 1rem;
+    button {
+      border: 2px solid $colorCTA;
+      border-radius: 1000px;
+      background-color: $colorPrimaryBG;
+      cursor: pointer;
+      padding: 0.5rem;
+      font-weight: bold;
+      font-size: 1rem;
+      height: 3rem;
+      color: $colorCTA;
+      &:hover {
+        background-color: $colorCTA;
+        color: $colorSecondaryText;
+      }
+    }
+    .active {
+      background-color: $colorCTA;
+      color: $colorSecondaryText;
+    }
+    #divFuncDevice {
+      display: none;
+      flex: 1;
+      position: relative;
+      #funcDeviceBtns {
+        width: 100%;
+        border: 2px solid $colorCTA;
+        border-radius: 5px;
+        padding: 1rem;
+        position: absolute;
+        z-index: 1000;
+        background-color: $colorPrimaryBG;
+      }
+    }
+  }
+  #listDevice {
+    display: flex;
+    flex-flow: row wrap;
+    border: 1px solid black;
+    margin: 1rem 0;
+    .device {
       display: flex;
       flex-flow: row nowrap;
       width: 48%;

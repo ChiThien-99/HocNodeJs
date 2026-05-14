@@ -27,6 +27,7 @@ import { dashboardRouter } from "./routers/dashboard.router.js";
 import { routerLoginAdmin } from "./routers/loginAdmin.router.js";
 import { authRouter } from "./routers/auth.router.js";
 import { app1Router } from "./routers/app1.router.js";
+import { appRouter } from "./routers/app.router.js";
 import { adminEntity } from "./models/admin.model.js";
 
 app.use(
@@ -98,6 +99,7 @@ app.use("/", routerLoginAdmin);
 app.use("/", authRouter);
 app.use("/", indexRouter);
 app.use("/", app1Router);
+app.use("/",appRouter);
 
 // Xử lý lỗi middleware
 app.use((err, req, res, next) => {

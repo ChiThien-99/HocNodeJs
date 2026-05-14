@@ -13,24 +13,7 @@
 }
 
 body {
-  background: url("/img/logo.webp") center no-repeat fixed;
-  position: relative;
-}
-body::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.8);
-  z-index: 1;
-}
-
-.content {
-  position: relative;
-  z-index: 2;
-  font-family: "fontWebsite";
+  background-color: #F5F5F5;
 }
 
 #alert {
@@ -83,7 +66,7 @@ body::before {
   border-radius: 5px;
   cursor: pointer;
   padding: 0.5rem;
-  background-color: #fafafa;
+  background-color: #F5F5F5;
 }
 #confirm div button:last-child {
   border: none;
@@ -303,7 +286,7 @@ header div:last-child #groupBtn button {
 #mainDashboard #navDashboard div h2,
 #mainDashboard #navDashboard div h3,
 #mainDashboard #navDashboard div em {
-  color: #027e1f;
+  color: white;
 }
 #mainDashboard #navDashboard .navBtnDB {
   width: 100%;
@@ -651,6 +634,55 @@ header div:last-child #groupBtn button {
   background-color: red;
   color: #fafafa;
 }
+#mainDashboard #contentDashboard #deviceMng input[type=submit] {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #027e1f;
+  color: #fafafa;
+  margin: 0.5rem 0;
+}
+#mainDashboard #contentDashboard #deviceMng input[type=text] {
+  width: 50%;
+  height: 2rem;
+  font-size: 1rem;
+}
+#mainDashboard #contentDashboard #deviceMng #tableFuncDevice,
+#mainDashboard #contentDashboard #deviceMng th,
+#mainDashboard #contentDashboard #deviceMng td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 0.5rem;
+  text-align: left;
+}
+#mainDashboard #contentDashboard #deviceMng #tableFuncDevice .btnGroup,
+#mainDashboard #contentDashboard #deviceMng th .btnGroup,
+#mainDashboard #contentDashboard #deviceMng td .btnGroup {
+  display: flex;
+  flex-direction: row nowrap;
+  gap: 0.5rem;
+}
+#mainDashboard #contentDashboard #deviceMng #tableFuncDevice .btnUpdateFuncDevice,
+#mainDashboard #contentDashboard #deviceMng th .btnUpdateFuncDevice,
+#mainDashboard #contentDashboard #deviceMng td .btnUpdateFuncDevice {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #027e1f;
+  color: #fafafa;
+}
+#mainDashboard #contentDashboard #deviceMng #tableFuncDevice .btnDeleteFuncDevice,
+#mainDashboard #contentDashboard #deviceMng th .btnDeleteFuncDevice,
+#mainDashboard #contentDashboard #deviceMng td .btnDeleteFuncDevice {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: red;
+  color: #fafafa;
+}
 
 #loginContainer {
   width: 100%;
@@ -740,7 +772,7 @@ header div:last-child #groupBtn button {
   border: none;
   border-radius: 10px 10px;
   cursor: pointer;
-  background-color: #fafafa;
+  background-color: #F5F5F5;
 }
 #divAboutAndBanner #notification-container #bodyNotification {
   height: 19rem;
@@ -846,6 +878,24 @@ header div:last-child #groupBtn button {
   border: 1px solid black;
   padding: 1rem;
 }
+#divApp #headerApp {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+#divApp #headerApp a {
+  display: inline-block;
+  text-decoration: none;
+  background-color: #027e1f;
+  color: #fafafa;
+  font-size: 1.2rem;
+  height: 2.4rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+}
 #divApp #groupFilterApp {
   display: flex;
   flex-flow: row nowrap;
@@ -854,7 +904,7 @@ header div:last-child #groupBtn button {
 #divApp #groupFilterApp button {
   border: 2px solid #027e1f;
   border-radius: 1000px;
-  background-color: #fafafa;
+  background-color: #F5F5F5;
   cursor: pointer;
   padding: 0.5rem;
   font-weight: bold;
@@ -882,7 +932,7 @@ header div:last-child #groupBtn button {
   padding: 1rem;
   position: absolute;
   z-index: 1000;
-  background-color: #fafafa;
+  background-color: #F5F5F5;
 }
 #divApp #listApp {
   display: flex;
@@ -911,12 +961,120 @@ header div:last-child #groupBtn button {
   height: inherit;
   padding: 0.5rem;
   position: relative;
-  background-color: #fafafa;
+  background-color: #F5F5F5;
 }
 #divApp #listApp .app div:last-child h4 {
   margin: 0.5rem 0;
 }
 #divApp #listApp .app div:last-child a {
+  display: inline-block;
+  text-decoration: none;
+  background-color: #027e1f;
+  color: #fafafa;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.5rem;
+}
+
+#divDevice {
+  width: 100%;
+  height: auto;
+  border: 1px solid black;
+  padding: 1rem;
+}
+#divDevice #headerDevice {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+#divDevice #headerDevice a {
+  display: inline-block;
+  text-decoration: none;
+  background-color: #027e1f;
+  color: #fafafa;
+  font-size: 1.2rem;
+  height: 2.4rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+#divDevice #groupFilterDevice {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 1rem;
+}
+#divDevice #groupFilterDevice button {
+  border: 2px solid #027e1f;
+  border-radius: 1000px;
+  background-color: #F5F5F5;
+  cursor: pointer;
+  padding: 0.5rem;
+  font-weight: bold;
+  font-size: 1rem;
+  height: 3rem;
+  color: #027e1f;
+}
+#divDevice #groupFilterDevice button:hover {
+  background-color: #027e1f;
+  color: #fafafa;
+}
+#divDevice #groupFilterDevice .active {
+  background-color: #027e1f;
+  color: #fafafa;
+}
+#divDevice #groupFilterDevice #divFuncDevice {
+  display: none;
+  flex: 1;
+  position: relative;
+}
+#divDevice #groupFilterDevice #divFuncDevice #funcDeviceBtns {
+  width: 100%;
+  border: 2px solid #027e1f;
+  border-radius: 5px;
+  padding: 1rem;
+  position: absolute;
+  z-index: 1000;
+  background-color: #F5F5F5;
+}
+#divDevice #listDevice {
+  display: flex;
+  flex-flow: row wrap;
+  border: 1px solid black;
+  margin: 1rem 0;
+}
+#divDevice #listDevice .device {
+  display: flex;
+  flex-flow: row nowrap;
+  width: 48%;
+  height: auto;
+  border: 1px solid #027e1f;
+  margin: 1%;
+}
+#divDevice #listDevice .device div:first-child {
+  width: 50%;
+  height: inherit;
+}
+#divDevice #listDevice .device div:first-child img {
+  width: 100%;
+  height: auto;
+}
+#divDevice #listDevice .device div:last-child {
+  width: 50%;
+  height: inherit;
+  padding: 0.5rem;
+  position: relative;
+  background-color: #F5F5F5;
+}
+#divDevice #listDevice .device div:last-child h4 {
+  margin: 0.5rem 0;
+}
+#divDevice #listDevice .device div:last-child a {
   display: inline-block;
   text-decoration: none;
   background-color: #027e1f;

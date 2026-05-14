@@ -5,6 +5,7 @@ import { bannerEntity } from "../models/banner.model.js";
 import { notifyEntity } from "../models/notification.model.js";
 import { funcAppEntity } from "../models/funcApp.model.js";
 import { appEntity } from "../models/app.model.js";
+import { funcDeviceEntity } from "../models/funcDevice.model.js";
 import { v2 as cloudinary } from "cloudinary";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -58,11 +59,8 @@ export const getDashboard = async (req, res) => {
   const notifys = await notifyEntity.find().sort("-createAt");
   const listFuncApp = await funcAppEntity.find();
   const apps=await appEntity.find().sort("-createAt");
+  const listFuncDevice=await funcDeviceEntity.find();
   const io = req.app.get("socketio");
-  io.on("connection", async (socket) => {
-    const allNotify = await notifyEntity.find().sort("-createAt");
-    socket.emit("update-notify", allNotify);
-  });
   res.render("dashboard.ejs", {
     jsonSystemInfo,
     admins,
@@ -70,6 +68,7 @@ export const getDashboard = async (req, res) => {
     notifys,
     listFuncApp,
     apps,
+    listFuncDevice
   });
 };
 export const postRegisterAdmin = async (req, res) => {
@@ -386,6 +385,9 @@ export const addListFuncApp = async (req, res) => {
   try {
     const { listFuncApp } = req.body;
     const newFuncApp = await funcAppEntity.create({ name: listFuncApp });
+    const io = req.app.get("socketio");
+    const allFuncApp = await funcAppEntity.find();
+    io.emit("update-funcapp", allFuncApp);
     res.json({ mess: "Chức năng phần mềm tạo thành công", success: true });
   } catch (error) {
     res.json({
@@ -411,6 +413,9 @@ export const putUpdateFuncApp = async (req, res) => {
     const updateFuncApp = await funcAppEntity.findByIdAndUpdate(id, {
       name: listFuncApp,
     });
+    const io = req.app.get("socketio");
+    const allFuncApp = await funcAppEntity.find();
+    io.emit("update-funcapp", allFuncApp);
     res.json({ mess: "Cập nhật chức năng phần mềm thành công", success: true });
   } catch (error) {
     res.json({
@@ -424,6 +429,9 @@ export const deleteFuncApp = async (req, res) => {
   try {
     const { id } = req.params;
     const deleteFuncApp = await funcAppEntity.findByIdAndDelete(id);
+    const io = req.app.get("socketio");
+    const allFuncApp = await funcAppEntity.find();
+    io.emit("update-funcapp", allFuncApp);
     res.json({ mess: "Xóa chức năng phần mềm thành công", success: true });
   } catch (error) {
     res.json({
@@ -496,6 +504,40 @@ export const deleteApp=async(req,res)=>{
   res.json({mess:"Xóa phần mềm thành công",success:true});
   } catch (error) {
   res.json({mess:"Xóa phần mềm thất bại",success:false,error:error.message});
+  }
+  
+}
+export const addListFuncDevice=async(req,res)=>{
+  try {
+  const {listFuncDevice}=req.body;
+  await funcDeviceEntity.create({
+    name:listFuncDevice,
+  });
+  res.json({mess:"Tạo chức năng thiết bị thành công",success:true});
+  } catch (error) {
+  res.json({mess:"Tạo chức năng thiết bị thất bại",success:false,error:error.message});
+  }
+ 
+};
+export const getUploadFuncDevice=async(req,res)=>{
+  try {
+  const {id}=req.params;
+  const funcDevice=await funcDeviceEntity.findById(id);
+  res.json({data:funcDevice});
+  } catch (error) {
+  console.error(`Lỗi: ${error}`);
+  }
+};
+export const putUpdateFuncDevice=async(req,res)=>{
+  try {
+  const {id}=req.params;
+  const {listFuncDevice}=req.body;
+  await funcDeviceEntity.findByIdAndUpdate(id,{
+    name:listFuncDevice,
+  });
+  res.json({mess:"Cập nhật chức năng thiết bị thành công",success:true});
+  } catch (error) {
+  res.json({mess:"Cập nhật chức năng thiết bị thất bại",success:false,error:error.message});
   }
   
 }

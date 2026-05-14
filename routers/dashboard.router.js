@@ -47,6 +47,7 @@ dashboardRouter.get(
   dashboardController.getupdateFuncApp,
 );
 dashboardRouter.get(`${prefix}/updateApp/:id`,dashboardController.getUpdateApp);
+dashboardRouter.get(`${prefix}/updateFuncDevice/:id`,dashboardController.getUploadFuncDevice);
 dashboardRouter.post(
   `${prefix}/registerAdmin`,
   authLimit,
@@ -75,6 +76,7 @@ dashboardRouter.post(
   upload.single("imgApp"),
   dashboardController.addApp,
 );
+dashboardRouter.post(`${prefix}/listFuncDevice`,dashboardController.addListFuncDevice)
 dashboardRouter.put(
   `${prefix}/updateAdmin/:idUpdate`,
   authenticateToken,
@@ -101,7 +103,8 @@ dashboardRouter.put(
   authenticateToken,
   dashboardController.putUpdateFuncApp,
 );
-dashboardRouter.put(`${prefix}/updateApp/:id`,authenticateToken,upload.single("imgApp"),dashboardController.putUpdateApp)
+dashboardRouter.put(`${prefix}/updateApp/:id`,authenticateToken,upload.single("imgApp"),dashboardController.putUpdateApp);
+dashboardRouter.put(`${prefix}/updateFuncDevice/:id`,dashboardController.putUpdateFuncDevice)
 dashboardRouter.delete(
   `${prefix}/deleteUserAdmin/:idDelete`,
   authenticateToken,

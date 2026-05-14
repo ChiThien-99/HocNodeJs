@@ -26,8 +26,7 @@
     ></script>
   </head>
   <body>
-    <div class="content">
-      <div id="alert">
+    <div id="alert">
         <h4 id="headingAlert">Tiêu đề thông báo</h4>
         <p id="contentAlert">Thông báo lần 1</p>
       </div>
@@ -115,18 +114,19 @@
           </div>
         </div>
         <div id="divApp">
-          <h2 class="flag-item">Phần mềm</h2>
+          <div id="headerApp">
+            <h2 class="flag-item">Phần mềm</h2>
+            <a href="/allapp" target="_blank">Xem tất cả</a>
+          </div>
           <div id="groupFilterApp">
-            <button id="btnNewApp">Mới nhất</button>
-            <button id="btnPopularApp" class="active">Phổ biến</button>
+            <button id="btnNewApp" class="active">Mới nhất</button>
+            <button id="btnPopularApp">Phổ biến</button>
             <button id="btnFuncApp">Chức năng <i class="fa-solid fa-caret-right"></i></button>
             <div id="divFuncBtns">
             <div id="funcBtns">
-              <button>Chức năng 1</button>
-              <button>Chức năng 2</button>
-              <button>Chức năng 3</button>
-              <button>Chức năng 4</button>
-              <button>Chức năng 5</button>
+              <%funcApps.forEach((funcApp)=>{%>
+              <button class="funcBtn"><%=funcApp.name%></button>
+              <%})%>
             </div>
             </div>
           </div>
@@ -139,13 +139,27 @@
               <div>
                 <h4><%=app.name%></h4>
                 <p><%=app.info%></p>
-                <a href="/app1/<%=app.name%>/<%=app._id%>" target="_blank">Truy cập</a>
+                <a href="/app/<%=app.name%>/<%=app._id%>" target="_blank">Truy cập</a>
               </div>
             </div>
             <%})%>
           </div>
         </div>
-        <div></div>
+        <div id="divDevice">
+          <div id="headerDevice">
+            <h2 class="flag-item">Thiết bị</h2>
+            <a href="/alldevice" target="_blank">Xem tất cả</a>
+          </div>
+          <div id="groupFilterDevice">
+            <button id="btnNewDevice" class="active">Mới nhất</button>
+            <button id="btnPopularDevice">Phổ biến</button>
+            <button id="btnPriceLowHigh">Giá Thấp->Cao</button>
+            <button id="btnPriceHighLow">Giá Cao->Thấp</button>
+            <button id="btnFuncDevice">Chức năng <i class="fa-solid fa-caret-right"></i></button>
+          </div>
+          <div id="listDevice">
+          </div>
+        </div>
         <div></div>
         <div></div>
       </main>
@@ -197,7 +211,6 @@
           <button>Đăng ký</button>
         </div>
       </footer>
-    </div>
     <script src="/socket.io/socket.io.js"></script>
   </body>
   <script type="module" src="/index.js" defer></script>

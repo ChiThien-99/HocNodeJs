@@ -698,4 +698,73 @@ document.querySelectorAll(".btnDeleteApp").forEach((btn)=>{
     });
     }
   })
+});
+document.getElementById("formFuncDevice").addEventListener("submit",(e)=>{
+  e.preventDefault();
+  const listFuncDevice=document.getElementById("listFuncDevice").value;
+  const id=document.getElementById("idFuncDevice").value;
+  if (id) {
+    fetch(`/dashboard/updateFuncDevice/${id}`,{
+      method:"PUT",
+      headers:{"Content-Type":"application/json;charset=UTF-8"},
+      body:JSON.stringify({listFuncDevice}),
+    })
+    .then(res=>res.json())
+    .then(({mess,success,error})=>{
+      if (success) {
+        document.getElementById("idFuncDevice").value="";
+        document.getElementById("listFuncDevice").value="";
+        document.getElementById("btnFuncDevice").value="Tạo";
+        alert("Thông báo",mess,"#027e1f");
+      } else {
+        document.getElementById("idFuncDevice").value="";
+        document.getElementById("listFuncDevice").value="";
+        document.getElementById("btnFuncDevice").value="Tạo";
+        alert("Lỗi",`${mess}\n${error}`,"red");
+      }
+    })
+    .catch((error)=>{
+      alert("Lỗi kết nối",error,"red");
+    });
+  } else {
+    fetch("/dashboard/listFuncDevice",{
+    method:"POST",
+    headers:{"Content-Type":"application/json;charset=UTF-8"},
+    body:JSON.stringify({listFuncDevice}),
+  })
+  .then(res=>res.json())
+  .then(({mess,success,error})=>{
+    if (success) {
+      document.getElementById("listFuncDevice").value="";
+      alert("Thông báo",mess,"#027e1f");
+    } else {
+      document.getElementById("listFuncDevice").value="";
+      alert("Lỗi",`${mess}\n${error}`,"red");
+    }
+  })
+  .catch((error)=>{
+    alert(`Lỗi kết nối: ${error}`);
+  });
+  }
+  
+});
+document.querySelectorAll(".btnUpdateFuncDevice").forEach((btn)=>{
+  btn.addEventListener("click",()=>{
+const id=btn.getAttribute("data-idfuncdevice");
+  fetch(`/dashboard/updateFuncDevice/${id}`,{
+    method:"GET",
+    headers:{"Content-Type":"application/json;charset=UTF-8"},
+  })
+  .then(res=>res.json())
+  .then(({data})=>{
+    if (data) {
+      document.getElementById("idFuncDevice").value=data._id;
+      document.getElementById("listFuncDevice").value=data.name;
+      document.getElementById("btnFuncDevice").value="Cập nhật";
+    }
+  })
+  .catch((error)=>{
+    console.error(`Lỗi kết nối:${error}`);
+  });
+  })
 })
