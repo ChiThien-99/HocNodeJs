@@ -13,7 +13,7 @@
 }
 
 body {
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
 }
 
 #alert {
@@ -66,7 +66,7 @@ body {
   border-radius: 5px;
   cursor: pointer;
   padding: 0.5rem;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
 }
 #confirm div button:last-child {
   border: none;
@@ -286,7 +286,7 @@ header div:last-child #groupBtn button {
 #mainDashboard #navDashboard div h2,
 #mainDashboard #navDashboard div h3,
 #mainDashboard #navDashboard div em {
-  color: white;
+  color: #027e1f;
 }
 #mainDashboard #navDashboard .navBtnDB {
   width: 100%;
@@ -634,6 +634,14 @@ header div:last-child #groupBtn button {
   background-color: red;
   color: #fafafa;
 }
+#mainDashboard #contentDashboard #deviceMng #imgDevice::file-selector-button {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #027e1f;
+  color: #fafafa;
+}
 #mainDashboard #contentDashboard #deviceMng input[type=submit] {
   border: none;
   border-radius: 5px;
@@ -643,10 +651,17 @@ header div:last-child #groupBtn button {
   color: #fafafa;
   margin: 0.5rem 0;
 }
-#mainDashboard #contentDashboard #deviceMng input[type=text] {
+#mainDashboard #contentDashboard #deviceMng input[type=text],
+#mainDashboard #contentDashboard #deviceMng input[type=number] {
   width: 50%;
   height: 2rem;
   font-size: 1rem;
+}
+#mainDashboard #contentDashboard #deviceMng select {
+  width: 50%;
+}
+#mainDashboard #contentDashboard #deviceMng em {
+  color: red;
 }
 #mainDashboard #contentDashboard #deviceMng #tableFuncDevice,
 #mainDashboard #contentDashboard #deviceMng th,
@@ -772,7 +787,7 @@ header div:last-child #groupBtn button {
   border: none;
   border-radius: 10px 10px;
   cursor: pointer;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
 }
 #divAboutAndBanner #notification-container #bodyNotification {
   height: 19rem;
@@ -904,7 +919,7 @@ header div:last-child #groupBtn button {
 #divApp #groupFilterApp button {
   border: 2px solid #027e1f;
   border-radius: 1000px;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
   cursor: pointer;
   padding: 0.5rem;
   font-weight: bold;
@@ -932,7 +947,7 @@ header div:last-child #groupBtn button {
   padding: 1rem;
   position: absolute;
   z-index: 1000;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
 }
 #divApp #listApp {
   display: flex;
@@ -961,7 +976,7 @@ header div:last-child #groupBtn button {
   height: inherit;
   padding: 0.5rem;
   position: relative;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
 }
 #divApp #listApp .app div:last-child h4 {
   margin: 0.5rem 0;
@@ -1012,7 +1027,7 @@ header div:last-child #groupBtn button {
 #divDevice #groupFilterDevice button {
   border: 2px solid #027e1f;
   border-radius: 1000px;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
   cursor: pointer;
   padding: 0.5rem;
   font-weight: bold;
@@ -1028,19 +1043,19 @@ header div:last-child #groupBtn button {
   background-color: #027e1f;
   color: #fafafa;
 }
-#divDevice #groupFilterDevice #divFuncDevice {
+#divDevice #groupFilterDevice #divFuncDeviceBtns {
   display: none;
   flex: 1;
   position: relative;
 }
-#divDevice #groupFilterDevice #divFuncDevice #funcDeviceBtns {
+#divDevice #groupFilterDevice #divFuncDeviceBtns #funcDeviceBtns {
   width: 100%;
   border: 2px solid #027e1f;
   border-radius: 5px;
   padding: 1rem;
   position: absolute;
   z-index: 1000;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
 }
 #divDevice #listDevice {
   display: flex;
@@ -1064,12 +1079,15 @@ header div:last-child #groupBtn button {
   width: 100%;
   height: auto;
 }
+#divDevice #listDevice .device div:first-child p {
+  margin-left: 0.5rem;
+}
 #divDevice #listDevice .device div:last-child {
   width: 50%;
   height: inherit;
   padding: 0.5rem;
   position: relative;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
 }
 #divDevice #listDevice .device div:last-child h4 {
   margin: 0.5rem 0;

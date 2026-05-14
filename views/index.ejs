@@ -156,8 +156,28 @@
             <button id="btnPriceLowHigh">Giá Thấp->Cao</button>
             <button id="btnPriceHighLow">Giá Cao->Thấp</button>
             <button id="btnFuncDevice">Chức năng <i class="fa-solid fa-caret-right"></i></button>
+            <div id="divFuncDeviceBtns">
+            <div id="funcDeviceBtns">
+              <%funcDevices.forEach((funcDevice)=>{%>
+              <button class="funcDeviceBtn"><%=funcDevice.name%></button>
+              <%})%>
+            </div>
+            </div>
           </div>
           <div id="listDevice">
+            <%devices.forEach((device)=>{%>
+            <div class="device">
+              <div>
+                <img src="<%=device.image%>" alt="device">
+                <p><%=device.price%></p>
+              </div>
+              <div>
+                <h4><%=device.name%></h4>
+                <p><%=device.info%></p>
+                <a href="/device/<%=device.name%>/<%=device._id%>" target="_blank">Xem chi tiết</a>
+              </div>
+            </div>
+            <%})%>
           </div>
         </div>
         <div></div>

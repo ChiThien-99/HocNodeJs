@@ -1,5 +1,5 @@
 $colorCTA: #027e1f;
-$colorPrimaryBG: #F5F5F5;
+$colorPrimaryBG: #f5f5f5;
 $colorSecondaryBG: #027e1fad;
 $colorPrimaryText: #1a1a1a;
 $colorSecondaryText: #fafafa;
@@ -27,7 +27,7 @@ $colorSecondaryText: #fafafa;
   box-sizing: border-box;
 }
 body {
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
 }
 #alert {
   position: fixed;
@@ -271,8 +271,8 @@ header {
       h2,
       h3,
       em {
-        // color: $colorCTA;
-        color: white;
+        color: $colorCTA;
+        // color: white;
       }
     }
     .navBtnDB {
@@ -548,17 +548,29 @@ header {
         }
       }
     }
-    #deviceMng{
+    #deviceMng {
+      #imgDevice::file-selector-button {
+        @include button(0.5rem);
+        background-color: $colorCTA;
+        color: $colorSecondaryText;
+      }
       input[type="submit"] {
         @include button(0.5rem);
         background-color: $colorCTA;
         color: $colorSecondaryText;
         margin: 0.5rem 0;
       }
-      input[type="text"] {
+      input[type="text"],
+      input[type="number"] {
         width: 50%;
         height: 2rem;
         font-size: 1rem;
+      }
+      select {
+        width: 50%;
+      }
+      em {
+        color: red;
       }
       #tableFuncDevice,
       th,
@@ -773,12 +785,12 @@ header {
   height: auto;
   border: 1px solid black;
   padding: 1rem;
-  #headerApp{
+  #headerApp {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: center;
-    a{
+    a {
       display: inline-block;
       text-decoration: none;
       background-color: $colorCTA;
@@ -874,12 +886,12 @@ header {
   height: auto;
   border: 1px solid black;
   padding: 1rem;
-  #headerDevice{
+  #headerDevice {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: center;
-    a{
+    a {
       display: inline-block;
       text-decoration: none;
       background-color: $colorCTA;
@@ -912,7 +924,7 @@ header {
       background-color: $colorCTA;
       color: $colorSecondaryText;
     }
-    #divFuncDevice {
+    #divFuncDeviceBtns {
       display: none;
       flex: 1;
       position: relative;
@@ -945,6 +957,9 @@ header {
         img {
           width: 100%;
           height: auto;
+        }
+        p {
+          margin-left: 0.5rem;
         }
       }
       div:last-child {

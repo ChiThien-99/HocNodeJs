@@ -392,6 +392,26 @@
               </tr>
               <%})%>
             </table>
+            <h2 class="flag-item">Quản lý thiết bị</h2>
+            <form enctype="multipart/form-data" id="formDevice">
+              <input type="hidden" name="idDevice" id="idDevice">
+              <label for="imgDevice">Hình ảnh</label><br>
+              <input type="file" accept="image/webp" name="imgDevice" id="imgDevice"><br>
+              <label for="nameDevice">Tên thiết bị (Không chứa khoảng trắng)</label><br>
+              <input type="text" name="nameDevice" id="nameDevice"><br>
+              <label for="infoDevice">Thông tin thiết bị</label><br>
+              <input type="text" name="infoDevice" id="infoDevice"><br>
+              <label for="priceDevice">Giá thiết bị</label><br>
+              <input type="number" name="priceDevice" id="priceDevice"><br>
+              <label for="funcDevice">Chức năng</label><br>
+              <select name="funcDevice" id="funcDevice" multiple>
+                <%listFuncDevice.forEach((funcDevice)=>{%>
+                <option value="<%=funcDevice.name%>"><%=funcDevice.name%></option>
+                <%})%>
+              </select><br>
+              <input type="submit" id="btnDevice" value="Tạo">
+            </form>
+            <em>Lưu ý: Nếu sai hình ảnh hãy xóa luôn thiết bị và tạo mới</em>
           </div>
           <div id="newsMng" class="tabContent">
             <h2>Nội dung quản lý tin tức</h2>

@@ -59,7 +59,7 @@ document.getElementById("registerAdmin").addEventListener("submit", (e) => {
           document.getElementById("roleAdmin").value = "";
           document.getElementById("emailAdmin").value = "";
           document.getElementById("pwAdmin").value = "";
-          document.getElementById("btnRegister").value="Tạo";
+          document.getElementById("btnRegister").value = "Tạo";
           const allCheckbox = document.querySelectorAll(
             "input[name='decentAdmin']",
           );
@@ -72,7 +72,7 @@ document.getElementById("registerAdmin").addEventListener("submit", (e) => {
           document.getElementById("roleAdmin").value = "";
           document.getElementById("emailAdmin").value = "";
           document.getElementById("pwAdmin").value = "";
-          document.getElementById("btnRegister").value="Tạo";
+          document.getElementById("btnRegister").value = "Tạo";
           const allCheckbox = document.querySelectorAll(
             "input[name='decentAdmin']",
           );
@@ -269,7 +269,7 @@ form.addEventListener("submit", (e) => {
         .then((res) => res.json())
         .then(({ mess, success, error }) => {
           if (success) {
-            document.getElementById("idbanner").value="";
+            document.getElementById("idbanner").value = "";
             document.getElementById("imageBanner").value = "";
             document.getElementById("captionBanner").value = "";
             document.getElementById("urlBanner").value = "";
@@ -277,7 +277,7 @@ form.addEventListener("submit", (e) => {
             document.getElementById("btnAddBanner").value = "Tạo";
             alert("Thông báo", mess, "#027e1f");
           } else {
-            document.getElementById("idbanner").value="";
+            document.getElementById("idbanner").value = "";
             document.getElementById("imageBanner").value = "";
             document.getElementById("captionBanner").value = "";
             document.getElementById("urlBanner").value = "";
@@ -382,20 +382,20 @@ formAddNotify.addEventListener("submit", (e) => {
       .then((res) => res.json())
       .then(({ mess, success, error }) => {
         if (success) {
-          document.getElementById("idNotify").value="";
+          document.getElementById("idNotify").value = "";
           document.getElementById("typeNotify").value = "all";
           document.getElementById("contentNotify").value = "";
           document.getElementById("urlNotify").value = "";
           document.getElementById("expiredNotify").value = "";
-          document.getElementById("btnNotify").value="Tạo";
+          document.getElementById("btnNotify").value = "Tạo";
           alert("Thông báo", mess, "#027e1f");
         } else {
-          document.getElementById("idNotify").value="";
+          document.getElementById("idNotify").value = "";
           document.getElementById("typeNotify").value = "all";
           document.getElementById("contentNotify").value = "";
           document.getElementById("urlNotify").value = "";
           document.getElementById("expiredNotify").value = "";
-          document.getElementById("btnNotify").value="Tạo";
+          document.getElementById("btnNotify").value = "Tạo";
           alert("Lỗi", `${mess}\n${error}`, "red");
         }
       })
@@ -448,7 +448,7 @@ document.querySelectorAll(".btnUpdateNotify").forEach((btn) => {
           document.getElementById("typeNotify").value = data.type;
           document.getElementById("contentNotify").value = data.content;
           document.getElementById("urlNotify").value = data.url;
-          document.getElementById("btnNotify").value="Cập nhật";
+          document.getElementById("btnNotify").value = "Cập nhật";
           if (data.expireAt) {
             const date = new Date(data.expireAt);
             const localDate = new Date(
@@ -505,12 +505,12 @@ document.getElementById("formFuncApp").addEventListener("submit", (e) => {
       .then((res) => res.json())
       .then(({ mess, success, error }) => {
         if (success) {
-          document.getElementById("idFuncApp").value="";
+          document.getElementById("idFuncApp").value = "";
           document.getElementById("listFuncApp").value = "";
           document.getElementById("btnFuncApp").value = "Tạo";
           alert("Thông báo", mess, "#027e1f");
         } else {
-          document.getElementById("idFuncApp").value="";
+          document.getElementById("idFuncApp").value = "";
           document.getElementById("listFuncApp").value = "";
           document.getElementById("btnFuncApp").value = "Tạo";
           alert("Lỗi", `${mess}\n${error}`, "red");
@@ -593,178 +593,238 @@ const formApp = document.getElementById("formApp");
 formApp.addEventListener("submit", (e) => {
   e.preventDefault();
   const formData = new FormData(formApp);
-  const idApp=document.getElementById("idApp").value;
+  const idApp = document.getElementById("idApp").value;
   if (idApp) {
-    fetch(`/dashboard/updateApp/${idApp}`,{
-      method:"PUT",
-      body:formData,
+    fetch(`/dashboard/updateApp/${idApp}`, {
+      method: "PUT",
+      body: formData,
     })
-    .then(res=>res.json())
-    .then(({mess,success,error})=>{
-      if (success) {
-        document.getElementById("idApp").value="";
-        document.getElementById("imgApp").value = "";
-        document.getElementById("nameApp").value = "";
-        document.getElementById("infoApp").value = "";
-        document.getElementById("funcApp").value = "";
-        document.getElementById("btnApp").value="Tạo";
-        alert("Thông báo",mess,"#027e1f");
-      } else {
-        document.getElementById("idApp").value="";
-        document.getElementById("imgApp").value = "";
-        document.getElementById("nameApp").value = "";
-        document.getElementById("infoApp").value = "";
-        document.getElementById("funcApp").value = "";
-        document.getElementById("btnApp").value="Tạo";
-        alert("Lỗi",`${mess}\n${error}`,"red");
-      }
-    })
-    .catch((error)=>{
-      alert("Lỗi kết nối",error,"red");
-    });
+      .then((res) => res.json())
+      .then(({ mess, success, error }) => {
+        if (success) {
+          document.getElementById("idApp").value = "";
+          document.getElementById("imgApp").value = "";
+          document.getElementById("nameApp").value = "";
+          document.getElementById("infoApp").value = "";
+          document.getElementById("funcApp").value = "";
+          document.getElementById("btnApp").value = "Tạo";
+          alert("Thông báo", mess, "#027e1f");
+        } else {
+          document.getElementById("idApp").value = "";
+          document.getElementById("imgApp").value = "";
+          document.getElementById("nameApp").value = "";
+          document.getElementById("infoApp").value = "";
+          document.getElementById("funcApp").value = "";
+          document.getElementById("btnApp").value = "Tạo";
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        }
+      })
+      .catch((error) => {
+        alert("Lỗi kết nối", error, "red");
+      });
   } else {
     fetch("/dashboard/addApp", {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then(({ mess, success, error }) => {
+        if (success) {
+          document.getElementById("imgApp").value = "";
+          document.getElementById("nameApp").value = "";
+          document.getElementById("infoApp").value = "";
+          document.getElementById("funcApp").value = "";
+          alert("Thông báo", mess, "#027e1f");
+        } else {
+          document.getElementById("imgApp").value = "";
+          document.getElementById("nameApp").value = "";
+          document.getElementById("infoApp").value = "";
+          document.getElementById("funcApp").value = "";
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        }
+      })
+      .catch((error) => {
+        alert("Lỗi kết nối", error, "red");
+      });
+  }
+});
+document.querySelectorAll(".btnUpdateApp").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const id = btn.getAttribute("data-idapp");
+    fetch(`/dashboard/updateApp/${id}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
+    })
+      .then((res) => res.json())
+      .then(({ data }) => {
+        try {
+          document.getElementById("idApp").value = data._id;
+          document.getElementById("nameApp").value = data.name;
+          document.getElementById("infoApp").value = data.info;
+          document.getElementById("btnApp").value = "Cập nhật";
+          const dataFuncApp = data.func;
+          const funcApp = document.getElementById("funcApp");
+          Array.from(funcApp.options).forEach((option) => {
+            option.selected = dataFuncApp.includes(option.value);
+          });
+        } catch (error) {
+          console.error("Lỗi không nhận được data");
+        }
+      })
+      .catch((error) => {
+        console.error("Lỗi kết nối");
+      });
+  });
+});
+document.querySelectorAll(".btnDeleteApp").forEach((btn) => {
+  btn.addEventListener("click", async () => {
+    const confirmDelete = await confirm(
+      "Thông báo",
+      "Bạn có chắc chắn xóa phần mềm này",
+      "#027e1f",
+    );
+    if (confirmDelete) {
+      const id = btn.getAttribute("data-idapp");
+      fetch(`/dashboard/deleteApp/${id}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json;charset=UTF-8" },
+      })
+        .then((res) => res.json())
+        .then(({ mess, success, error }) => {
+          if (success) {
+            alert("Thông báo", mess, "#027e1f");
+          } else {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          }
+        })
+        .catch((error) => {
+          alert("Lỗi kết nối", error, "red");
+        });
+    }
+  });
+});
+document.getElementById("formFuncDevice").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const listFuncDevice = document.getElementById("listFuncDevice").value;
+  const id = document.getElementById("idFuncDevice").value;
+  if (id) {
+    fetch(`/dashboard/updateFuncDevice/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
+      body: JSON.stringify({ listFuncDevice }),
+    })
+      .then((res) => res.json())
+      .then(({ mess, success, error }) => {
+        if (success) {
+          document.getElementById("idFuncDevice").value = "";
+          document.getElementById("listFuncDevice").value = "";
+          document.getElementById("btnFuncDevice").value = "Tạo";
+          alert("Thông báo", mess, "#027e1f");
+        } else {
+          document.getElementById("idFuncDevice").value = "";
+          document.getElementById("listFuncDevice").value = "";
+          document.getElementById("btnFuncDevice").value = "Tạo";
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        }
+      })
+      .catch((error) => {
+        alert("Lỗi kết nối", error, "red");
+      });
+  } else {
+    fetch("/dashboard/listFuncDevice", {
+      method: "POST",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
+      body: JSON.stringify({ listFuncDevice }),
+    })
+      .then((res) => res.json())
+      .then(({ mess, success, error }) => {
+        if (success) {
+          document.getElementById("listFuncDevice").value = "";
+          alert("Thông báo", mess, "#027e1f");
+        } else {
+          document.getElementById("listFuncDevice").value = "";
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        }
+      })
+      .catch((error) => {
+        alert(`Lỗi kết nối: ${error}`);
+      });
+  }
+});
+document.querySelectorAll(".btnUpdateFuncDevice").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const id = btn.getAttribute("data-idfuncdevice");
+    fetch(`/dashboard/updateFuncDevice/${id}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
+    })
+      .then((res) => res.json())
+      .then(({ data }) => {
+        if (data) {
+          document.getElementById("idFuncDevice").value = data._id;
+          document.getElementById("listFuncDevice").value = data.name;
+          document.getElementById("btnFuncDevice").value = "Cập nhật";
+        }
+      })
+      .catch((error) => {
+        console.error(`Lỗi kết nối:${error}`);
+      });
+  });
+});
+document.querySelectorAll(".btnDeleteFuncDevice").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const confirmDelete = confirm(
+      "Thông báo",
+      "Bạn có chắc chắn muốn xóa chức năng này không",
+      "#027e1f",
+    );
+    if (confirmDelete) {
+      const id = btn.getAttribute("data-idfuncdevice");
+      fetch(`/dashboard/deleteFuncDevice/${id}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json;charset=UTF-8" },
+      })
+        .then((res) => res.json())
+        .then(({ mess, success, error }) => {
+          if (success) {
+            alert("Thông báo", mess, "#027e1f");
+          } else {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          }
+        })
+        .catch((error) => {
+          alert(`Lỗi kết nối ${error}`);
+        });
+    }
+  });
+});
+const formDevice = document.getElementById("formDevice");
+formDevice.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const dataform = new FormData(formDevice);
+  fetch(`/dashboard/addDevice`, {
     method: "POST",
-    body: formData,
+    body: dataform,
   })
     .then((res) => res.json())
     .then(({ mess, success, error }) => {
       if (success) {
-        document.getElementById("imgApp").value = "";
-        document.getElementById("nameApp").value = "";
-        document.getElementById("infoApp").value = "";
-        document.getElementById("funcApp").value = "";
+        document.getElementById("imgDevice").value = "";
+        document.getElementById("nameDevice").value = "";
+        document.getElementById("infoDevice").value = "";
+        document.getElementById("priceDevice").value = "";
+        document.getElementById("funcDevice").value = "";
         alert("Thông báo", mess, "#027e1f");
       } else {
-        document.getElementById("imgApp").value = "";
-        document.getElementById("nameApp").value = "";
-        document.getElementById("infoApp").value = "";
-        document.getElementById("funcApp").value = "";
+        document.getElementById("imgDevice").value = "";
+        document.getElementById("nameDevice").value = "";
+        document.getElementById("infoDevice").value = "";
+        document.getElementById("priceDevice").value = "";
+        document.getElementById("funcDevice").value = "";
         alert("Lỗi", `${mess}\n${error}`, "red");
       }
     })
     .catch((error) => {
-      alert("Lỗi kết nối", error, "red");
+      alert(`Lỗi kết nối ${error}`);
     });
-  } 
 });
-document.querySelectorAll(".btnUpdateApp").forEach((btn)=>{
-  btn.addEventListener("click",()=>{
-    const id=btn.getAttribute("data-idapp");
-    fetch(`/dashboard/updateApp/${id}`,{
-      method:"GET",
-      headers:{"Content-Type":"application/json;charset=UTF-8"},
-    })
-    .then(res=>res.json())
-    .then(({data})=>{
-      try {
-      document.getElementById("idApp").value=data._id;
-      document.getElementById("nameApp").value=data.name;
-      document.getElementById("infoApp").value=data.info;
-      document.getElementById("btnApp").value="Cập nhật";
-      const dataFuncApp=data.func;
-      const funcApp=document.getElementById("funcApp");
-      Array.from(funcApp.options).forEach((option)=>{
-        option.selected=dataFuncApp.includes(option.value);
-      })
-      } catch (error) {
-      console.error("Lỗi không nhận được data");
-      }
-    })
-    .catch((error)=>{
-      console.error("Lỗi kết nối");
-    });
-  })
-});
-document.querySelectorAll(".btnDeleteApp").forEach((btn)=>{
-  btn.addEventListener("click",async()=>{
-    const confirmDelete=await confirm("Thông báo","Bạn có chắc chắn xóa phần mềm này","#027e1f");
-    if (confirmDelete) {
-    const id=btn.getAttribute("data-idapp");
-    fetch(`/dashboard/deleteApp/${id}`,{
-      method:"DELETE",
-      headers:{"Content-Type":"application/json;charset=UTF-8"},
-    })
-    .then(res=>res.json())
-    .then(({mess,success,error})=>{
-      if (success) {
-        alert("Thông báo",mess,"#027e1f");
-      } else {
-        alert("Lỗi",`${mess}\n${error}`,"red");
-      }
-    })
-    .catch((error)=>{
-      alert("Lỗi kết nối",error,"red");
-    });
-    }
-  })
-});
-document.getElementById("formFuncDevice").addEventListener("submit",(e)=>{
-  e.preventDefault();
-  const listFuncDevice=document.getElementById("listFuncDevice").value;
-  const id=document.getElementById("idFuncDevice").value;
-  if (id) {
-    fetch(`/dashboard/updateFuncDevice/${id}`,{
-      method:"PUT",
-      headers:{"Content-Type":"application/json;charset=UTF-8"},
-      body:JSON.stringify({listFuncDevice}),
-    })
-    .then(res=>res.json())
-    .then(({mess,success,error})=>{
-      if (success) {
-        document.getElementById("idFuncDevice").value="";
-        document.getElementById("listFuncDevice").value="";
-        document.getElementById("btnFuncDevice").value="Tạo";
-        alert("Thông báo",mess,"#027e1f");
-      } else {
-        document.getElementById("idFuncDevice").value="";
-        document.getElementById("listFuncDevice").value="";
-        document.getElementById("btnFuncDevice").value="Tạo";
-        alert("Lỗi",`${mess}\n${error}`,"red");
-      }
-    })
-    .catch((error)=>{
-      alert("Lỗi kết nối",error,"red");
-    });
-  } else {
-    fetch("/dashboard/listFuncDevice",{
-    method:"POST",
-    headers:{"Content-Type":"application/json;charset=UTF-8"},
-    body:JSON.stringify({listFuncDevice}),
-  })
-  .then(res=>res.json())
-  .then(({mess,success,error})=>{
-    if (success) {
-      document.getElementById("listFuncDevice").value="";
-      alert("Thông báo",mess,"#027e1f");
-    } else {
-      document.getElementById("listFuncDevice").value="";
-      alert("Lỗi",`${mess}\n${error}`,"red");
-    }
-  })
-  .catch((error)=>{
-    alert(`Lỗi kết nối: ${error}`);
-  });
-  }
-  
-});
-document.querySelectorAll(".btnUpdateFuncDevice").forEach((btn)=>{
-  btn.addEventListener("click",()=>{
-const id=btn.getAttribute("data-idfuncdevice");
-  fetch(`/dashboard/updateFuncDevice/${id}`,{
-    method:"GET",
-    headers:{"Content-Type":"application/json;charset=UTF-8"},
-  })
-  .then(res=>res.json())
-  .then(({data})=>{
-    if (data) {
-      document.getElementById("idFuncDevice").value=data._id;
-      document.getElementById("listFuncDevice").value=data.name;
-      document.getElementById("btnFuncDevice").value="Cập nhật";
-    }
-  })
-  .catch((error)=>{
-    console.error(`Lỗi kết nối:${error}`);
-  });
-  })
-})

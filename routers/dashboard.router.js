@@ -46,8 +46,14 @@ dashboardRouter.get(
   `${prefix}/updateFuncApp/:id`,
   dashboardController.getupdateFuncApp,
 );
-dashboardRouter.get(`${prefix}/updateApp/:id`,dashboardController.getUpdateApp);
-dashboardRouter.get(`${prefix}/updateFuncDevice/:id`,dashboardController.getUploadFuncDevice);
+dashboardRouter.get(
+  `${prefix}/updateApp/:id`,
+  dashboardController.getUpdateApp,
+);
+dashboardRouter.get(
+  `${prefix}/updateFuncDevice/:id`,
+  dashboardController.getUploadFuncDevice,
+);
 dashboardRouter.post(
   `${prefix}/registerAdmin`,
   authLimit,
@@ -76,7 +82,17 @@ dashboardRouter.post(
   upload.single("imgApp"),
   dashboardController.addApp,
 );
-dashboardRouter.post(`${prefix}/listFuncDevice`,dashboardController.addListFuncDevice)
+dashboardRouter.post(
+  `${prefix}/listFuncDevice`,
+  authenticateToken,
+  dashboardController.addListFuncDevice,
+);
+dashboardRouter.post(
+  `${prefix}/addDevice`,
+  authenticateToken,
+  upload.single("imgDevice"),
+  dashboardController.addDevice,
+);
 dashboardRouter.put(
   `${prefix}/updateAdmin/:idUpdate`,
   authenticateToken,
@@ -103,8 +119,17 @@ dashboardRouter.put(
   authenticateToken,
   dashboardController.putUpdateFuncApp,
 );
-dashboardRouter.put(`${prefix}/updateApp/:id`,authenticateToken,upload.single("imgApp"),dashboardController.putUpdateApp);
-dashboardRouter.put(`${prefix}/updateFuncDevice/:id`,dashboardController.putUpdateFuncDevice)
+dashboardRouter.put(
+  `${prefix}/updateApp/:id`,
+  authenticateToken,
+  upload.single("imgApp"),
+  dashboardController.putUpdateApp,
+);
+dashboardRouter.put(
+  `${prefix}/updateFuncDevice/:id`,
+  authenticateToken,
+  dashboardController.putUpdateFuncDevice,
+);
 dashboardRouter.delete(
   `${prefix}/deleteUserAdmin/:idDelete`,
   authenticateToken,
@@ -125,4 +150,13 @@ dashboardRouter.delete(
   authenticateToken,
   dashboardController.deleteFuncApp,
 );
-dashboardRouter.delete(`${prefix}/deleteApp/:id`,authenticateToken,dashboardController.deleteApp)
+dashboardRouter.delete(
+  `${prefix}/deleteApp/:id`,
+  authenticateToken,
+  dashboardController.deleteApp,
+);
+dashboardRouter.delete(
+  `${prefix}/deleteFuncDevice/:id`,
+  authenticateToken,
+  dashboardController.deleteFuncDevice,
+);

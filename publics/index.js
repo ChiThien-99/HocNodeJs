@@ -171,8 +171,8 @@ socket.on("update-app", (allApp) => {
   renderApp(allApp);
   app = document.querySelectorAll(".app");
 });
-function renderApp(app) {
-  listApp.innerHTML = app
+function renderApp(apps) {
+  listApp.innerHTML = apps
     .map(
       (app) => `
   <div class="app">
@@ -182,7 +182,7 @@ function renderApp(app) {
     <div>
       <h4>${app.name}</h4>
       <p>${app.info}</p>
-      <a href="${app.url}">Truy cập</a>
+      <a href="/app/${app.name}/${app._id}" target="_blank">Truy cập</a>
     </div>
   </div>
   `,
@@ -212,31 +212,31 @@ document.getElementById("btnNewApp").addEventListener("click", () => {
       console.error(`Lỗi kết nối: ${error}`);
     });
 });
-document.getElementById("btnPopularApp").addEventListener("click",()=>{
-  fetch("/index/filter/popularApp",{
-    method:"GET",
-    headers:{"Content-Type":"application/json;charset=UTF-8"},
+document.getElementById("btnPopularApp").addEventListener("click", () => {
+  fetch("/index/filter/popularApp", {
+    method: "GET",
+    headers: { "Content-Type": "application/json;charset=UTF-8" },
   })
-  .then(res=>res.json())
-  .then(({mess,success,error})=>{
-    if (success) {
-      document.querySelectorAll("#groupFilterApp button").forEach((btn) => {
+    .then((res) => res.json())
+    .then(({ mess, success, error }) => {
+      if (success) {
+        document.querySelectorAll("#groupFilterApp button").forEach((btn) => {
           btn.classList.remove("active");
           const id = btn.getAttribute("id");
           if (id === "btnPopularApp") {
             btn.classList.add("active");
           }
         });
-    } else {
-      console.error(`${mess}\n${error}`);
-    }
-  })
-  .catch((error)=>{
-    console.error(`Lỗi kết nối: ${error}`);
-  });
+      } else {
+        console.error(`${mess}\n${error}`);
+      }
+    })
+    .catch((error) => {
+      console.error(`Lỗi kết nối: ${error}`);
+    });
 });
-const funcBtns=document.getElementById("funcBtns");
-const funcBtn=document.querySelectorAll(".funcBtn");
+const funcBtns = document.getElementById("funcBtns");
+const funcBtn = document.querySelectorAll(".funcBtn");
 socket.on("update-funcapp", (allFuncApp) => {
   renderFuncApp(allFuncApp);
   funcBtn = document.querySelectorAll(".funcBtn");
@@ -250,28 +250,72 @@ function renderFuncApp(funcapps) {
     )
     .join("");
 }
-funcBtn.forEach((btn)=>{
-  btn.addEventListener("click",()=>{
-    const name=btn.innerHTML;
-    fetch(`/index/filter/funcApp?name=${name}`,{
-      method:"GET",
-      headers:{"Content-Type":"application/json;charset=UTF-8"},
+funcBtn.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const name = btn.innerHTML;
+    fetch(`/index/filter/funcApp?name=${name}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
     })
-    .then(res=>res.json())
-    .then(({mess,success,error})=>{
-      if (success) {
-        funcBtn.forEach((btn) => {
-          btn.classList.remove("active");
-          if ( btn.innerHTML=== name) {
-            btn.classList.add("active");
-          }
-        });
-      } else {
-        console.error(`${mess}\n${error}`)
-      }
-    })
-    .catch((error)=>{
-      console.error(`Lỗi kết nối: ${error}`);
-    });
-  })
-})
+      .then((res) => res.json())
+      .then(({ mess, success, error }) => {
+        if (success) {
+          funcBtn.forEach((btn) => {
+            btn.classList.remove("active");
+            if (btn.innerHTML === name) {
+              btn.classList.add("active");
+            }
+          });
+        } else {
+          console.error(`${mess}\n${error}`);
+        }
+      })
+      .catch((error) => {
+        console.error(`Lỗi kết nối: ${error}`);
+      });
+  });
+});
+document.getElementById("btnFuncDevice").addEventListener("click", () => {
+  const divFuncDeviceBtns = document.getElementById("divFuncDeviceBtns");
+  const type = divFuncDeviceBtns.style.display === "block" ? "none" : "block";
+  divFuncDeviceBtns.style.display = type;
+});
+const funcDeviceBtns = document.getElementById("funcDeviceBtns");
+const funcDeviceBtn = document.querySelectorAll(".funcDeviceBtn");
+socket.on("update-funcdevice", (allFuncDevice) => {
+  renderFuncDevice(allFuncDevice);
+  funcDeviceBtn = document.querySelectorAll(".funcDeviceBtn");
+});
+function renderFuncDevice(funcdevices) {
+  funcDeviceBtns.innerHTML = funcdevices
+    .map(
+      (funcdevice) => `
+ <button>${funcdevice.name}</button>
+  `,
+    )
+    .join("");
+}
+let device = document.querySelectorAll(".device");
+const listDevice = document.getElementById("listDevice");
+socket.on("update-device", (allDevice) => {
+  renderDevice(allDevice);
+  device = document.querySelectorAll(".device");
+});
+function renderDevice(devices) {
+  listDevice.innerHTML = devices
+    .map(
+      (device) => `
+  <div class="device">
+    <div>
+      <img src="${device.image}" alt="device">
+    </div>
+    <div>
+      <h4>${device.name}</h4>
+      <p>${device.info}</p>
+      <a href="/device/${device.name}/${device._id}" target="_blank">Xem chi tiết</a>
+    </div>
+  </div>
+  `,
+    )
+    .join("");
+}

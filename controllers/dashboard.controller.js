@@ -6,6 +6,7 @@ import { notifyEntity } from "../models/notification.model.js";
 import { funcAppEntity } from "../models/funcApp.model.js";
 import { appEntity } from "../models/app.model.js";
 import { funcDeviceEntity } from "../models/funcDevice.model.js";
+import { deviceEntity } from "../models/device.model.js";
 import { v2 as cloudinary } from "cloudinary";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -58,8 +59,8 @@ export const getDashboard = async (req, res) => {
   const banners = await bannerEntity.find().sort("order");
   const notifys = await notifyEntity.find().sort("-createAt");
   const listFuncApp = await funcAppEntity.find();
-  const apps=await appEntity.find().sort("-createAt");
-  const listFuncDevice=await funcDeviceEntity.find();
+  const apps = await appEntity.find().sort("-createAt");
+  const listFuncDevice = await funcDeviceEntity.find();
   const io = req.app.get("socketio");
   res.render("dashboard.ejs", {
     jsonSystemInfo,
@@ -68,7 +69,7 @@ export const getDashboard = async (req, res) => {
     notifys,
     listFuncApp,
     apps,
-    listFuncDevice
+    listFuncDevice,
   });
 };
 export const postRegisterAdmin = async (req, res) => {
@@ -463,36 +464,40 @@ export const addApp = async (req, res) => {
     });
   }
 };
-export const getUpdateApp=async(req,res)=>{
+export const getUpdateApp = async (req, res) => {
   try {
-  const {id}=req.params;
-  const app=await appEntity.findById(id);
-  res.json({data:app});
+    const { id } = req.params;
+    const app = await appEntity.findById(id);
+    res.json({ data: app });
   } catch (error) {
-  console.error("Lỗi không tìm được app theo id");
+    console.error("Lỗi không tìm được app theo id");
   }
-}
-export const putUpdateApp=async(req,res)=>{
+};
+export const putUpdateApp = async (req, res) => {
   try {
-    const {id}=req.params;
-    const {nameApp,infoApp,funcApp}=req.body;
-    const updateApp=await appEntity.findByIdAndUpdate(id,{
-      name:nameApp,
-      info:infoApp,
-      func:funcApp,
-    })
+    const { id } = req.params;
+    const { nameApp, infoApp, funcApp } = req.body;
+    const updateApp = await appEntity.findByIdAndUpdate(id, {
+      name: nameApp,
+      info: infoApp,
+      func: funcApp,
+    });
     const io = req.app.get("socketio");
     const allApp = await appEntity.find().sort("-createAt");
     io.emit("update-app", allApp);
-    res.json({mess:"Cập nhật phần mềm thành công",success:true});
+    res.json({ mess: "Cập nhật phần mềm thành công", success: true });
   } catch (error) {
-    res.json({mess:"Cập nhật phần mềm thất bại",success:false,error:error.message});
+    res.json({
+      mess: "Cập nhật phần mềm thất bại",
+      success: false,
+      error: error.message,
+    });
   }
 };
-export const deleteApp=async(req,res)=>{
+export const deleteApp = async (req, res) => {
   try {
-  const {id}=req.params;
-  const app = await appEntity.findById(id);
+    const { id } = req.params;
+    const app = await appEntity.findById(id);
     if (!app) {
       res.json({ mess: "Không tìm thấy app", success: false });
     }
@@ -501,43 +506,92 @@ export const deleteApp=async(req,res)=>{
     const io = req.app.get("socketio");
     const allApp = await appEntity.find().sort("-createAt");
     io.emit("update-app", allApp);
-  res.json({mess:"Xóa phần mềm thành công",success:true});
+    res.json({ mess: "Xóa phần mềm thành công", success: true });
   } catch (error) {
-  res.json({mess:"Xóa phần mềm thất bại",success:false,error:error.message});
-  }
-  
-}
-export const addListFuncDevice=async(req,res)=>{
-  try {
-  const {listFuncDevice}=req.body;
-  await funcDeviceEntity.create({
-    name:listFuncDevice,
-  });
-  res.json({mess:"Tạo chức năng thiết bị thành công",success:true});
-  } catch (error) {
-  res.json({mess:"Tạo chức năng thiết bị thất bại",success:false,error:error.message});
-  }
- 
-};
-export const getUploadFuncDevice=async(req,res)=>{
-  try {
-  const {id}=req.params;
-  const funcDevice=await funcDeviceEntity.findById(id);
-  res.json({data:funcDevice});
-  } catch (error) {
-  console.error(`Lỗi: ${error}`);
+    res.json({
+      mess: "Xóa phần mềm thất bại",
+      success: false,
+      error: error.message,
+    });
   }
 };
-export const putUpdateFuncDevice=async(req,res)=>{
+export const addListFuncDevice = async (req, res) => {
   try {
-  const {id}=req.params;
-  const {listFuncDevice}=req.body;
-  await funcDeviceEntity.findByIdAndUpdate(id,{
-    name:listFuncDevice,
-  });
-  res.json({mess:"Cập nhật chức năng thiết bị thành công",success:true});
+    const { listFuncDevice } = req.body;
+    await funcDeviceEntity.create({
+      name: listFuncDevice,
+    });
+    const io = req.app.get("socketio");
+    const allFuncDevice = await funcDeviceEntity.find();
+    io.emit("update-funcdevice", allFuncDevice);
+    res.json({ mess: "Tạo chức năng thiết bị thành công", success: true });
   } catch (error) {
-  res.json({mess:"Cập nhật chức năng thiết bị thất bại",success:false,error:error.message});
+    res.json({
+      mess: "Tạo chức năng thiết bị thất bại",
+      success: false,
+      error: error.message,
+    });
   }
-  
-}
+};
+export const getUploadFuncDevice = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const funcDevice = await funcDeviceEntity.findById(id);
+    res.json({ data: funcDevice });
+  } catch (error) {
+    console.error(`Lỗi: ${error}`);
+  }
+};
+export const putUpdateFuncDevice = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { listFuncDevice } = req.body;
+    await funcDeviceEntity.findByIdAndUpdate(id, {
+      name: listFuncDevice,
+    });
+    res.json({ mess: "Cập nhật chức năng thiết bị thành công", success: true });
+  } catch (error) {
+    res.json({
+      mess: "Cập nhật chức năng thiết bị thất bại",
+      success: false,
+      error: error.message,
+    });
+  }
+};
+export const deleteFuncDevice = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await funcDeviceEntity.findByIdAndDelete(id);
+    res.json({ mess: "Xóa chức năng thiết bị thành công", success: true });
+  } catch (error) {
+    res.json({
+      mess: "Xóa chức năng thiết bị thất bại",
+      success: false,
+      error: error.message,
+    });
+  }
+};
+export const addDevice = async (req, res) => {
+  try {
+    const { imgDevice, nameDevice, infoDevice, priceDevice, funcDevice } =
+      req.body;
+    await deviceEntity.create({
+      image: req.file.path,
+      cloudinary_id: req.file.filename,
+      name: nameDevice,
+      info: infoDevice,
+      price: priceDevice,
+      func: funcDevice,
+    });
+    const io = req.app.get("socketio");
+    const allDevice = await deviceEntity.find().sort("-createAt");
+    io.emit("update-device", allDevice);
+    res.json({ mess: "Tạo thiết bị thành công", success: true });
+  } catch (error) {
+    res.json({
+      mess: "Tạo thiết bị thất bại",
+      success: false,
+      error: error.message,
+    });
+  }
+};
