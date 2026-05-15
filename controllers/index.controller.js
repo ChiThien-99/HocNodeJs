@@ -50,10 +50,11 @@ export const filterPopularApp = async (req, res) => {
 };
 export const filterFuncApp = async (req, res) => {
   try {
-    const { name } = req.query;
+    const { names } = req.query;
     const query = {};
-    if (name) {
-      query.func = name;
+    if (names) {
+      const filterArray=Array.isArray(names)?names:[names];
+      query.func={$all:filterArray}
     }
     const io = req.app.get("socketio");
     const allApp = await appEntity.find(query).sort("-createAt").limit(6);
@@ -86,3 +87,53 @@ export const filterTypeNotify = async (req, res) => {
     });
   }
 };
+export const filterNewDevice=async(req,res)=>{
+  try {
+    const io = req.app.get("socketio");
+    const allDevice = await deviceEntity.find().sort("-createAt");
+    io.emit("update-device", allDevice);
+    res.json({mess:"Lọc thiết bị mới thành công",success:true});
+  } catch (error) {
+    res.json({mess:"Lọc thiết bị mới thất bại",success:false,error:error.message});
+  }
+};
+export const filterPriceLowHigh=async(req,res)=>{
+  try {
+    const io = req.app.get("socketio");
+    const allDevice = await deviceEntity.find().sort("price");
+    io.emit("update-device", allDevice);
+    res.json({mess:"Lọc giá thiết bị từ thấp đến cao thành công",success:true});
+  } catch (error) {
+    res.json({mess:"Lọc giá thiết bị từ thấp đến cao thất bại",success:false,error:error.message});
+  }
+};
+export const filterPriceHighLow=async(req,res)=>{
+  try {
+    const io = req.app.get("socketio");
+    const allDevice = await deviceEntity.find().sort("-price");
+    io.emit("update-device", allDevice);
+    res.json({mess:"Lọc giá thiết bị từ cao đến thấp thành công",success:true});
+  } catch (error) {
+    res.json({mess:"Lọc giá thiết bị từ cao đến thấp thất bại",success:false,error:error.message});
+  }
+};
+export const filterFuncDevice=async(req,res)=>{
+  try {
+    const { names } = req.query;
+    const query = {};
+    if (names) {
+      const filterArray=Array.isArray(names)?names:[names];
+      query.func={$all:filterArray}
+    }
+    const io = req.app.get("socketio");
+    const allDevice = await deviceEntity.find(query).sort("-createAt").limit(6);
+    io.emit("update-device", allDevice);
+    res.json({ mess: "Lọc chức năng thiết bị thành công", success: true });
+  } catch (error) {
+    res.json({
+      mess: "Lọc chức năng thiết bị thất bại",
+      success: false,
+      error: error.message,
+    });
+  }
+}

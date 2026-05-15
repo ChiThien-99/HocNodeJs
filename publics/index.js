@@ -164,7 +164,21 @@ document.getElementById("btnFuncApp").addEventListener("click", () => {
   const divFuncBtns = document.getElementById("divFuncBtns");
   const type = divFuncBtns.style.display === "block" ? "none" : "block";
   divFuncBtns.style.display = type;
+  document.querySelectorAll("#groupFilterApp button").forEach((btn) => {
+          btn.classList.remove("active");
+          const id = btn.getAttribute("id");
+          if (id === "btnFuncApp") {
+            btn.classList.add("active");
+          }
+        });
 });
+window.addEventListener("click",(event)=>{
+  const btnFuncApp=document.getElementById("btnFuncApp");
+  const divFuncBtns=document.getElementById("divFuncBtns");
+  if(divFuncBtns.style.display="block"&&!divFuncBtns.contains(event.target)&&!btnFuncApp.contains(event.target)){
+    divFuncBtns.style.display="none";
+  }
+})
 let app = document.querySelectorAll(".app");
 const listApp = document.getElementById("listApp");
 socket.on("update-app", (allApp) => {
@@ -250,23 +264,31 @@ function renderFuncApp(funcapps) {
     )
     .join("");
 }
+let selectedFunction=[]
 funcBtn.forEach((btn) => {
   btn.addEventListener("click", () => {
     const name = btn.innerHTML;
-    fetch(`/index/filter/funcApp?name=${name}`, {
+    const divDeleteFuncBtn=document.getElementById("divDeleteFuncBtn");
+    if(selectedFunction.includes(name)){
+      selectedFunction=selectedFunction.filter(f=>f!==name);
+      btn.classList.remove("active");
+    }else{
+      selectedFunction.push(name);
+      btn.classList.add("active");
+      document.getElementById("btnNewApp").classList.remove("active");
+      document.getElementById("btnPopularApp").classList.remove("active");
+    }
+    let type=selectedFunction.length>0?"flex":"none";
+    divDeleteFuncBtn.style.display=type;
+    const params=new URLSearchParams();
+    selectedFunction.forEach(f=>params.append("names",f));
+    fetch(`/index/filter/funcApp?${params.toString()}`, {
       method: "GET",
       headers: { "Content-Type": "application/json;charset=UTF-8" },
     })
       .then((res) => res.json())
       .then(({ mess, success, error }) => {
-        if (success) {
-          funcBtn.forEach((btn) => {
-            btn.classList.remove("active");
-            if (btn.innerHTML === name) {
-              btn.classList.add("active");
-            }
-          });
-        } else {
+       if(!success) {
           console.error(`${mess}\n${error}`);
         }
       })
@@ -275,11 +297,52 @@ funcBtn.forEach((btn) => {
       });
   });
 });
+document.getElementById("deleteFuncBtn").addEventListener("click",()=>{
+  selectedFunction=[];
+  funcBtn.forEach((btn)=>{
+    btn.classList.remove("active");
+  })
+  fetch("/index/filter/newApp", {
+    method: "GET",
+    headers: { "Content-Type": "application/json;charset=UTF-8" },
+  })
+    .then((res) => res.json())
+    .then(({ mess, success, error }) => {
+      if (success) {
+        document.querySelectorAll("#groupFilterApp button").forEach((btn) => {
+          btn.classList.remove("active");
+          const id = btn.getAttribute("id");
+          if (id === "btnNewApp") {
+            btn.classList.add("active");
+          }
+        });
+      } else {
+        console.error(`${mess}\n${error}`);
+      }
+    })
+    .catch((error) => {
+      console.error(`Lỗi kết nối: ${error}`);
+    });
+})
 document.getElementById("btnFuncDevice").addEventListener("click", () => {
   const divFuncDeviceBtns = document.getElementById("divFuncDeviceBtns");
   const type = divFuncDeviceBtns.style.display === "block" ? "none" : "block";
   divFuncDeviceBtns.style.display = type;
+  document.querySelectorAll("#groupFilterDevice button").forEach((btn) => {
+      btn.classList.remove("active");
+      const id = btn.getAttribute("id");
+          if (id === "btnFuncDevice") {
+            btn.classList.add("active");
+          }
+      });
 });
+window.addEventListener("click",(event)=>{
+  const btnFuncDevice=document.getElementById("btnFuncDevice");
+  const divFuncDeviceBtns=document.getElementById("divFuncDeviceBtns");
+  if(divFuncDeviceBtns.style.display="block"&&!divFuncDeviceBtns.contains(event.target)&&!btnFuncDevice.contains(event.target)){
+    divFuncDeviceBtns.style.display="none";
+  }
+})
 const funcDeviceBtns = document.getElementById("funcDeviceBtns");
 const funcDeviceBtn = document.querySelectorAll(".funcDeviceBtn");
 socket.on("update-funcdevice", (allFuncDevice) => {
@@ -308,6 +371,7 @@ function renderDevice(devices) {
   <div class="device">
     <div>
       <img src="${device.image}" alt="device">
+      <p>${device.price.toLocaleString('vi-VN')}đ</p>
     </div>
     <div>
       <h4>${device.name}</h4>
@@ -318,4 +382,135 @@ function renderDevice(devices) {
   `,
     )
     .join("");
-}
+};
+document.getElementById("btnNewDevice").addEventListener("click",()=>{
+  fetch("/index/filter/newDevice",{
+    method:"GET",
+    headers:{"Content-Type":"application/json;charset=UTF-8"},
+  })
+  .then(res=>res.json())
+  .then(({mess,success,error})=>{
+    if (success) {
+      document.querySelectorAll("#groupFilterDevice button").forEach((btn) => {
+      btn.classList.remove("active");
+      const id = btn.getAttribute("id");
+          if (id === "btnNewDevice") {
+            btn.classList.add("active");
+          }
+      });
+    } else {
+      alert("Lỗi",`${mess}\n${error}`,"red");
+    }
+  })
+  .catch((error)=>{
+    alert("Lỗi kết nối",error,"red");
+  });
+});
+let selectedDeviceFunction=[]
+funcDeviceBtn.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const name = btn.innerHTML;
+    const divDeleteFuncDeviceBtn=document.getElementById("divDeleteFuncDeviceBtn");
+    if(selectedDeviceFunction.includes(name)){
+      selectedDeviceFunction=selectedDeviceFunction.filter(f=>f!==name);
+      btn.classList.remove("active");
+    }else{
+      selectedDeviceFunction.push(name);
+      btn.classList.add("active");
+      document.getElementById("btnNewDevice").classList.remove("active");
+      document.getElementById("btnPopularDevice").classList.remove("active");
+      document.getElementById("btnPriceLowHigh").classList.remove("active");
+      document.getElementById("btnPriceHighLow").classList.remove("active");
+    }
+    let type=selectedDeviceFunction.length>0?"flex":"none";
+    divDeleteFuncDeviceBtn.style.display=type;
+    const params=new URLSearchParams();
+    selectedDeviceFunction.forEach(f=>params.append("names",f));
+    fetch(`/index/filter/funcDevice?${params.toString()}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
+    })
+      .then((res) => res.json())
+      .then(({ mess, success, error }) => {
+       if(!success) {
+          console.error(`${mess}\n${error}`);
+        }
+      })
+      .catch((error) => {
+        console.error(`Lỗi kết nối: ${error}`);
+      });
+  });
+});
+document.getElementById("deleteFuncDeviceBtn").addEventListener("click",()=>{
+  selectedDeviceFunction=[];
+  funcDeviceBtn.forEach((btn)=>{
+    btn.classList.remove("active");
+  })
+  fetch("/index/filter/newDevice",{
+    method:"GET",
+    headers:{"Content-Type":"application/json;charset=UTF-8"},
+  })
+  .then(res=>res.json())
+  .then(({mess,success,error})=>{
+    if (success) {
+      document.querySelectorAll("#groupFilterDevice button").forEach((btn) => {
+      btn.classList.remove("active");
+      const id = btn.getAttribute("id");
+          if (id === "btnNewDevice") {
+            btn.classList.add("active");
+          }
+      });
+    } else {
+      alert("Lỗi",`${mess}\n${error}`,"red");
+    }
+  })
+  .catch((error)=>{
+    alert("Lỗi kết nối",error,"red");
+  });
+})
+document.getElementById("btnPriceLowHigh").addEventListener("click",()=>{
+  fetch("/index/filter/priceLowHigh",{
+    method:"GET",
+    headers:{"Content-Type":"application/json;charset=UTF-8"},
+  })
+  .then(res=>res.json())
+  .then(({mess,success,error})=>{
+    if (success) {
+      document.querySelectorAll("#groupFilterDevice button").forEach((btn) => {
+      btn.classList.remove("active");
+      const id = btn.getAttribute("id");
+          if (id === "btnPriceLowHigh") {
+            btn.classList.add("active");
+          }
+      });
+    } else {
+      console.error(`${mess}\n${error}`)
+    }
+  })
+  .catch((error)=>{
+    console.error(`Lỗi kết nối: ${error}`);
+  });
+});
+document.getElementById("btnPriceHighLow").addEventListener("click",()=>{
+  fetch("/index/filter/priceHighLow",{
+    method:"GET",
+    headers:{"Content-Type":"application/json;charset=UTF-8"},
+  })
+  .then(res=>res.json())
+  .then(({mess,success,error})=>{
+    if(success){
+      document.querySelectorAll("#groupFilterDevice button").forEach((btn) => {
+      btn.classList.remove("active");
+      const id = btn.getAttribute("id");
+          if (id === "btnPriceHighLow") {
+            btn.classList.add("active");
+          }
+      });
+    }else{
+      console.error(`${mess}\n${error}`)
+    }
+  })
+  .catch((error)=>{
+    console.error(`Lỗi kết nối: ${error}`);
+  });
+})

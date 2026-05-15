@@ -271,8 +271,8 @@ header {
       h2,
       h3,
       em {
-        color: $colorCTA;
-        // color: white;
+        // color: $colorCTA;
+        color: white;
       }
     }
     .navBtnDB {
@@ -595,6 +595,35 @@ header {
           color: $colorSecondaryText;
         }
       }
+      #divTableDevice {
+        width: 100%;
+        overflow-x: auto;
+        margin: 1rem 0;
+      }
+      #tableDevice,
+      th,
+      td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        padding: 0.5rem;
+        text-align: left;
+        .btnGroup {
+          display: flex;
+          flex-flow: row nowrap;
+          gap: 0.5rem;
+          height: 100%;
+        }
+        .btnUpdateDevice {
+          @include button(0.5rem);
+          background-color: $colorCTA;
+          color: $colorSecondaryText;
+        }
+        .btnDeleteDevice {
+          @include button(0.5rem);
+          background-color: red;
+          color: $colorSecondaryText;
+        }
+      }
     }
   }
 }
@@ -831,10 +860,25 @@ header {
         width: 100%;
         border: 2px solid $colorCTA;
         border-radius: 5px;
-        padding: 1rem;
         position: absolute;
         z-index: 1000;
         background-color: $colorPrimaryBG;
+        button{
+          margin:0.5rem;
+        }
+        #divDeleteFuncBtn{
+          justify-content: right;
+          display: none;
+          #deleteFuncBtn{
+          display: inline-block;
+          text-decoration: none;
+          @include button(0.5rem);
+          background-color: red;
+          color: $colorSecondaryText;
+          margin: 0.5rem;
+        }
+        }
+        
       }
     }
   }
@@ -932,10 +976,24 @@ header {
         width: 100%;
         border: 2px solid $colorCTA;
         border-radius: 5px;
-        padding: 1rem;
         position: absolute;
         z-index: 1000;
         background-color: $colorPrimaryBG;
+        button{
+          margin: 0.5rem;
+        }
+        #divDeleteFuncDeviceBtn{
+          justify-content: right;
+          display: none;
+          #deleteFuncDeviceBtn{
+          display: inline-block;
+          text-decoration: none;
+          @include button(0.5rem);
+          background-color: red;
+          color: $colorSecondaryText;
+          margin: 0.5rem;
+        }
+        }
       }
     }
   }
@@ -959,7 +1017,8 @@ header {
           height: auto;
         }
         p {
-          margin-left: 0.5rem;
+          margin: 0.5rem;
+          font-size: 1.2rem;
         }
       }
       div:last-child {

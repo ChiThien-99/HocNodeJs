@@ -124,6 +124,7 @@
             <button id="btnFuncApp">Chức năng <i class="fa-solid fa-caret-right"></i></button>
             <div id="divFuncBtns">
             <div id="funcBtns">
+              <div id="divDeleteFuncBtn"><a id="deleteFuncBtn"><i class="fa-solid fa-filter-circle-xmark"></i>Xóa lọc</a></div>
               <%funcApps.forEach((funcApp)=>{%>
               <button class="funcBtn"><%=funcApp.name%></button>
               <%})%>
@@ -158,6 +159,7 @@
             <button id="btnFuncDevice">Chức năng <i class="fa-solid fa-caret-right"></i></button>
             <div id="divFuncDeviceBtns">
             <div id="funcDeviceBtns">
+              <div id="divDeleteFuncDeviceBtn"><a id="deleteFuncDeviceBtn"><i class="fa-solid fa-filter-circle-xmark"></i>Xóa lọc</a></div>
               <%funcDevices.forEach((funcDevice)=>{%>
               <button class="funcDeviceBtn"><%=funcDevice.name%></button>
               <%})%>
@@ -169,7 +171,7 @@
             <div class="device">
               <div>
                 <img src="<%=device.image%>" alt="device">
-                <p><%=device.price%></p>
+                <p><%=device.price.toLocaleString('vi-VN')%>đ</p>
               </div>
               <div>
                 <h4><%=device.name%></h4>

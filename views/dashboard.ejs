@@ -402,7 +402,8 @@
               <label for="infoDevice">Thông tin thiết bị</label><br>
               <input type="text" name="infoDevice" id="infoDevice"><br>
               <label for="priceDevice">Giá thiết bị</label><br>
-              <input type="number" name="priceDevice" id="priceDevice"><br>
+              <input type="text" name="priceDevice" id="priceDevice"><br>
+              <input type="hidden" name="priceActual" id="priceActual">
               <label for="funcDevice">Chức năng</label><br>
               <select name="funcDevice" id="funcDevice" multiple>
                 <%listFuncDevice.forEach((funcDevice)=>{%>
@@ -412,6 +413,33 @@
               <input type="submit" id="btnDevice" value="Tạo">
             </form>
             <em>Lưu ý: Nếu sai hình ảnh hãy xóa luôn thiết bị và tạo mới</em>
+            <div id="divTableDevice">
+              <table id="tableDevice">
+              <tr>
+                <th>Tên thiết bị</th>
+                <th>Thông tin thiết bị</th>
+                <th>Giá</th>
+                <th>Chức năng</th>
+                <th>Ngày tạo</th>
+                <th>Thao tác</th>
+              </tr>
+              <%devices.forEach((device)=>{%>
+              <tr>
+                <td><%=device.name%></td>
+                <td><%=device.info%></td>
+                <td><%=device.price.toLocaleString('vi-VN')%>đ</td>
+                <td><%=device.func%></td>
+                <td><%=new Date(device.createAt).toLocaleString()%></td>
+                <td>
+                  <div class="btnGroup">
+                    <button class="btnUpdateDevice" data-iddevice="<%=device._id%>">Cập nhật</button>
+                    <button class="btnDeleteDevice" data-iddevice="<%=device._id%>">Xóa</button>
+                  </div>
+                </td>
+              </tr>
+              <%})%>
+            </table>
+            </div>
           </div>
           <div id="newsMng" class="tabContent">
             <h2>Nội dung quản lý tin tức</h2>
