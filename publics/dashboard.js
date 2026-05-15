@@ -802,124 +802,155 @@ const formDevice = document.getElementById("formDevice");
 formDevice.addEventListener("submit", (e) => {
   e.preventDefault();
   const dataform = new FormData(formDevice);
-  const id=document.getElementById("idDevice").value;
+  const id = document.getElementById("idDevice").value;
   if (id) {
-    fetch(`/dashboard/updateDevice/${id}`,{
-      method:"PUT",
-      body:dataform,
+    fetch(`/dashboard/updateDevice/${id}`, {
+      method: "PUT",
+      body: dataform,
     })
-    .then(res=>res.json())
-    .then(({mess,success,error})=>{
-      if (success) {
-        document.getElementById("idDevice").value="";
-        document.getElementById("nameDevice").value = "";
-        document.getElementById("infoDevice").value = "";
-        document.getElementById("priceDevice").value = "";
-        document.getElementById("funcDevice").value = "";
-        document.getElementById("btnDevice").value="Tạo";
-        alert("Thông báo",mess,"#027e1f");
-      } else {
-        document.getElementById("idDevice").value="";
-        document.getElementById("nameDevice").value = "";
-        document.getElementById("infoDevice").value = "";
-        document.getElementById("priceDevice").value = "";
-        document.getElementById("funcDevice").value = "";
-        document.getElementById("btnDevice").value="Tạo";
-        alert("Lỗi",`${mess}\n${error}`,"red");
-      }
-    })
-    .catch((error)=>{
-      alert("Lỗi kết nối",error,"red");
-    });
+      .then((res) => res.json())
+      .then(({ mess, success, error }) => {
+        if (success) {
+          document.getElementById("idDevice").value = "";
+          document.getElementById("nameDevice").value = "";
+          document.getElementById("infoDevice").value = "";
+          document.getElementById("priceDevice").value = "";
+          document.getElementById("funcDevice").value = "";
+          document.getElementById("btnDevice").value = "Tạo";
+          alert("Thông báo", mess, "#027e1f");
+        } else {
+          document.getElementById("idDevice").value = "";
+          document.getElementById("nameDevice").value = "";
+          document.getElementById("infoDevice").value = "";
+          document.getElementById("priceDevice").value = "";
+          document.getElementById("funcDevice").value = "";
+          document.getElementById("btnDevice").value = "Tạo";
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        }
+      })
+      .catch((error) => {
+        alert("Lỗi kết nối", error, "red");
+      });
   } else {
     fetch(`/dashboard/addDevice`, {
+      method: "POST",
+      body: dataform,
+    })
+      .then((res) => res.json())
+      .then(({ mess, success, error }) => {
+        if (success) {
+          document.getElementById("imgDevice").value = "";
+          document.getElementById("nameDevice").value = "";
+          document.getElementById("infoDevice").value = "";
+          document.getElementById("priceDevice").value = "";
+          document.getElementById("funcDevice").value = "";
+          alert("Thông báo", mess, "#027e1f");
+        } else {
+          document.getElementById("imgDevice").value = "";
+          document.getElementById("nameDevice").value = "";
+          document.getElementById("infoDevice").value = "";
+          document.getElementById("priceDevice").value = "";
+          document.getElementById("funcDevice").value = "";
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        }
+      })
+      .catch((error) => {
+        alert(`Lỗi kết nối ${error}`);
+      });
+  }
+});
+const priceDevice = document.getElementById("priceDevice");
+const priceActual = document.getElementById("priceActual");
+priceDevice.addEventListener("input", (e) => {
+  let rawValue = e.target.value.replace(/\D/g, "");
+  priceActual.value = rawValue;
+  if (rawValue) {
+    e.target.value = Number(rawValue).toLocaleString("vi-VN");
+  } else {
+    e.target.value = "";
+  }
+});
+document.querySelectorAll(".btnUpdateDevice").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const id = btn.getAttribute("data-iddevice");
+    fetch(`/dashboard/updateDevice/${id}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
+    })
+      .then((res) => res.json())
+      .then(({ data }) => {
+        if (data) {
+          document.getElementById("idDevice").value = data._id;
+          document.getElementById("nameDevice").value = data.name;
+          document.getElementById("infoDevice").value = data.info;
+          document.getElementById("priceDevice").value =
+            data.price.toLocaleString("vi-VN");
+          document.getElementById("priceActual").value = data.price;
+          document.getElementById("btnDevice").value = "Cập nhật";
+          const dataFuncDevice = data.func;
+          const funcDevice = document.getElementById("funcDevice");
+          Array.from(funcDevice.options).forEach((option) => {
+            option.selected = dataFuncDevice.includes(option.value);
+          });
+        } else {
+          console.error("Không lấy được data");
+        }
+      })
+      .catch((error) => {
+        console.error(`Lỗi kết nối: ${error}`);
+      });
+  });
+});
+document.querySelectorAll(".btnDeleteDevice").forEach((btn) => {
+  btn.addEventListener("click", async () => {
+    const confirmDelete = await confirm(
+      "Thông báo",
+      "Bạn có chắc chắn muốn xóa thiết bị này",
+      "#027e1f",
+    );
+    if (confirmDelete) {
+      const id = btn.getAttribute("data-iddevice");
+      fetch(`/dashboard/deleteDevice/${id}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json;charset=UTF-8" },
+      })
+        .then((res) => res.json())
+        .then(({ mess, success, error }) => {
+          if (success) {
+            alert("Thông báo", mess, "#027e1f");
+          } else {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          }
+        })
+        .catch((error) => {
+          alert("Lỗi kết nối", error, "red");
+        });
+    }
+  });
+});
+const formNews = document.getElementById("formNews");
+formNews.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const formData = new FormData(formNews);
+  fetch("/dashboard/addNews", {
     method: "POST",
-    body: dataform,
+    body: formData,
   })
     .then((res) => res.json())
     .then(({ mess, success, error }) => {
       if (success) {
-        document.getElementById("imgDevice").value = "";
-        document.getElementById("nameDevice").value = "";
-        document.getElementById("infoDevice").value = "";
-        document.getElementById("priceDevice").value = "";
-        document.getElementById("funcDevice").value = "";
+        document.getElementById("imgNews").value = "";
+        document.getElementById("titleNews").value = "";
+        document.getElementById("infoNews").value = "";
         alert("Thông báo", mess, "#027e1f");
       } else {
-        document.getElementById("imgDevice").value = "";
-        document.getElementById("nameDevice").value = "";
-        document.getElementById("infoDevice").value = "";
-        document.getElementById("priceDevice").value = "";
-        document.getElementById("funcDevice").value = "";
+        document.getElementById("imgNews").value = "";
+        document.getElementById("titleNews").value = "";
+        document.getElementById("infoNews").value = "";
         alert("Lỗi", `${mess}\n${error}`, "red");
       }
     })
     .catch((error) => {
-      alert(`Lỗi kết nối ${error}`);
+      alert("Lỗi kết nối", error, "red");
     });
-  }
 });
-const priceDevice=document.getElementById("priceDevice");
-const priceActual=document.getElementById("priceActual");
-priceDevice.addEventListener("input",(e)=>{
-  let rawValue=e.target.value.replace(/\D/g, '');
-  priceActual.value=rawValue;
-  if (rawValue) {
-    e.target.value=Number(rawValue).toLocaleString("vi-VN");
-  } else {
-    e.target.value="";
-  }
-});
-document.querySelectorAll(".btnUpdateDevice").forEach((btn)=>{
-  btn.addEventListener("click",()=>{
-    const id=btn.getAttribute("data-iddevice");
-    fetch(`/dashboard/updateDevice/${id}`,{
-      method:"GET",
-      headers:{"Content-Type":"application/json;charset=UTF-8"},
-    })
-    .then(res=>res.json())
-    .then(({data})=>{
-      if (data) {
-        document.getElementById("idDevice").value=data._id;
-        document.getElementById("nameDevice").value = data.name;
-        document.getElementById("infoDevice").value = data.info;
-        document.getElementById("priceDevice").value = data.price.toLocaleString("vi-VN");
-        document.getElementById("priceActual").value= data.price;
-        document.getElementById("btnDevice").value="Cập nhật";
-        const dataFuncDevice = data.func;
-        const funcDevice = document.getElementById("funcDevice");
-        Array.from(funcDevice.options).forEach((option) => {
-            option.selected = dataFuncDevice.includes(option.value);
-        });
-      }else{
-        console.error("Không lấy được data");
-      }
-    })
-    .catch((error)=>{
-      console.error(`Lỗi kết nối: ${error}`);
-    });
-  })
-});
-document.querySelectorAll(".btnDeleteDevice").forEach((btn)=>{
-  btn.addEventListener("click",async()=>{
-    const confirmDelete=await confirm("Thông báo","Bạn có chắc chắn muốn xóa thiết bị này","#027e1f");
-    if (confirmDelete) {
-    const id=btn.getAttribute("data-iddevice");
-    fetch(`/dashboard/deleteDevice/${id}`,{
-      method:"DELETE",
-      headers:{"Content-Type":"application/json;charset=UTF-8"},
-    })
-    .then(res=>res.json())
-    .then(({mess,success,error})=>{
-      if (success) {
-        alert("Thông báo",mess,"#027e1f");
-      } else {
-        alert("Lỗi",`${mess}\n${error}`,"red");
-      }
-    })
-    .catch((error)=>{
-      alert("Lỗi kết nối",error,"red");
-    });
-    }
-  })
-})

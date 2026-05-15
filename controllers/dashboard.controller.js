@@ -7,6 +7,7 @@ import { funcAppEntity } from "../models/funcApp.model.js";
 import { appEntity } from "../models/app.model.js";
 import { funcDeviceEntity } from "../models/funcDevice.model.js";
 import { deviceEntity } from "../models/device.model.js";
+import { newsEntity } from "../models/news.model.js";
 import { v2 as cloudinary } from "cloudinary";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -61,7 +62,7 @@ export const getDashboard = async (req, res) => {
   const listFuncApp = await funcAppEntity.find();
   const apps = await appEntity.find().sort("-createAt");
   const listFuncDevice = await funcDeviceEntity.find();
-  const devices=await deviceEntity.find().sort("-createAt");
+  const devices = await deviceEntity.find().sort("-createAt");
   const io = req.app.get("socketio");
   res.render("dashboard.ejs", {
     jsonSystemInfo,
@@ -71,7 +72,7 @@ export const getDashboard = async (req, res) => {
     listFuncApp,
     apps,
     listFuncDevice,
-    devices
+    devices,
   });
 };
 export const postRegisterAdmin = async (req, res) => {
@@ -597,48 +598,79 @@ export const addDevice = async (req, res) => {
     });
   }
 };
-export const getUpdateDevice=async(req,res)=>{
+export const getUpdateDevice = async (req, res) => {
   try {
-  const {id}=req.params;
-  const device=await deviceEntity.findById(id);
-  res.json({data:device});
+    const { id } = req.params;
+    const device = await deviceEntity.findById(id);
+    res.json({ data: device });
   } catch (error) {
-  console.error(`Lỗi lấy device bằng id: ${error}`);
+    console.error(`Lỗi lấy device bằng id: ${error}`);
   }
 };
-export const putUpdateDevice=async(req,res)=>{
+export const putUpdateDevice = async (req, res) => {
   try {
-  const {id}=req.params;
-  const {nameDevice, infoDevice, priceActual, funcDevice}=req.body;
-  await deviceEntity.findByIdAndUpdate(id,{
-    name:nameDevice,
-    info:infoDevice,
-    price:priceActual,
-    func:funcDevice,
-  });
-  const io = req.app.get("socketio");
-  const allDevice = await deviceEntity.find().sort("-createAt");
-  io.emit("update-device", allDevice);
-  res.json({mess:"Cập nhật thiết bị thành công",success:true});
+    const { id } = req.params;
+    const { nameDevice, infoDevice, priceActual, funcDevice } = req.body;
+    await deviceEntity.findByIdAndUpdate(id, {
+      name: nameDevice,
+      info: infoDevice,
+      price: priceActual,
+      func: funcDevice,
+    });
+    const io = req.app.get("socketio");
+    const allDevice = await deviceEntity.find().sort("-createAt");
+    io.emit("update-device", allDevice);
+    res.json({ mess: "Cập nhật thiết bị thành công", success: true });
   } catch (error) {
-  res.json({mess:"Cập nhật thiết bị thất bại",success:false,error:error.message});
+    res.json({
+      mess: "Cập nhật thiết bị thất bại",
+      success: false,
+      error: error.message,
+    });
   }
 };
-export const deleteDevice=async(req,res)=>{
+export const deleteDevice = async (req, res) => {
   try {
-  const {id}=req.params;
-  const device=await deviceEntity.findById(id);
-  if(!device){
-    return res.json({mess:"Không tim được device bằng id",success:false});
-  }
-  await cloudinary.uploader.destroy(device.cloudinary_id);
-  await deviceEntity.findByIdAndDelete(id);
-  const io = req.app.get("socketio");
-  const allDevice = await deviceEntity.find().sort("-createAt");
-  io.emit("update-device", allDevice);
-  res.json({mess:"Xóa thiết bị thành công",success:true});
+    const { id } = req.params;
+    const device = await deviceEntity.findById(id);
+    if (!device) {
+      return res.json({
+        mess: "Không tim được device bằng id",
+        success: false,
+      });
+    }
+    await cloudinary.uploader.destroy(device.cloudinary_id);
+    await deviceEntity.findByIdAndDelete(id);
+    const io = req.app.get("socketio");
+    const allDevice = await deviceEntity.find().sort("-createAt");
+    io.emit("update-device", allDevice);
+    res.json({ mess: "Xóa thiết bị thành công", success: true });
   } catch (error) {
-  res.json({mess:"Xóa thiết bị thất bại",success:false,error:error.message}); 
+    res.json({
+      mess: "Xóa thiết bị thất bại",
+      success: false,
+      error: error.message,
+    });
   }
-  
-}
+};
+export const addNews = async (req, res) => {
+  try {
+    const { titleNews, infoNews } = req.body;
+    await newsEntity.create({
+      image: req.file.path,
+      cloudinary_id: req.file.filename,
+      title: titleNews,
+      info: infoNews,
+    });
+    const io = req.app.get("socketio");
+    const allNews = await newsEntity.find().sort("-createAt");
+    io.emit("update-news", allNews);
+    res.json({ mess: "Tạo tin tức thành công", success: true });
+  } catch (error) {
+    res.json({
+      mess: "Tạo tin tức thất bại",
+      success: false,
+      error: error.message,
+    });
+  }
+};

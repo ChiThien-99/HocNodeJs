@@ -271,8 +271,8 @@ header {
       h2,
       h3,
       em {
-        // color: $colorCTA;
-        color: white;
+        color: $colorCTA;
+        // color: white;
       }
     }
     .navBtnDB {
@@ -625,6 +625,31 @@ header {
         }
       }
     }
+    #newsMng {
+      #imgNews::file-selector-button {
+        @include button(0.5rem);
+        background-color: $colorCTA;
+        color: $colorSecondaryText;
+      }
+      input[type="submit"] {
+        @include button(0.5rem);
+        background-color: $colorCTA;
+        color: $colorSecondaryText;
+        margin: 0.5rem 0;
+      }
+      input[type="text"] {
+        width: 50%;
+        height: 2rem;
+        font-size: 1rem;
+      }
+      textarea {
+        width: 50%;
+        resize: vertical;
+      }
+      em {
+        color: red;
+      }
+    }
   }
 }
 //**CSS Login
@@ -863,22 +888,21 @@ header {
         position: absolute;
         z-index: 1000;
         background-color: $colorPrimaryBG;
-        button{
-          margin:0.5rem;
-        }
-        #divDeleteFuncBtn{
-          justify-content: right;
-          display: none;
-          #deleteFuncBtn{
-          display: inline-block;
-          text-decoration: none;
-          @include button(0.5rem);
-          background-color: red;
-          color: $colorSecondaryText;
+        button {
           margin: 0.5rem;
         }
+        #divDeleteFuncBtn {
+          justify-content: right;
+          display: none;
+          #deleteFuncBtn {
+            display: inline-block;
+            text-decoration: none;
+            @include button(0.5rem);
+            background-color: red;
+            color: $colorSecondaryText;
+            margin: 0.5rem;
+          }
         }
-        
       }
     }
   }
@@ -979,20 +1003,20 @@ header {
         position: absolute;
         z-index: 1000;
         background-color: $colorPrimaryBG;
-        button{
+        button {
           margin: 0.5rem;
         }
-        #divDeleteFuncDeviceBtn{
+        #divDeleteFuncDeviceBtn {
           justify-content: right;
           display: none;
-          #deleteFuncDeviceBtn{
-          display: inline-block;
-          text-decoration: none;
-          @include button(0.5rem);
-          background-color: red;
-          color: $colorSecondaryText;
-          margin: 0.5rem;
-        }
+          #deleteFuncDeviceBtn {
+            display: inline-block;
+            text-decoration: none;
+            @include button(0.5rem);
+            background-color: red;
+            color: $colorSecondaryText;
+            margin: 0.5rem;
+          }
         }
       }
     }
@@ -1039,6 +1063,59 @@ header {
           position: absolute;
           bottom: 0.5rem;
           right: 0.5rem;
+        }
+      }
+    }
+  }
+}
+#divNews {
+  width: 100%;
+  height: auto;
+  border: 1px solid black;
+  padding: 1rem;
+  #headerNews {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    a {
+      display: inline-block;
+      text-decoration: none;
+      background-color: $colorCTA;
+      color: $colorSecondaryText;
+      font-size: 1.2rem;
+      height: 2.4rem;
+      @include button(0.5rem);
+    }
+  }
+  #listNews {
+    display: flex;
+    flex-flow: row wrap;
+    border: 1px solid black;
+    margin: 1rem 0;
+    .news {
+      display: flex;
+      flex-flow: row nowrap;
+      width: 48%;
+      height: auto;
+      border: 1px solid $colorCTA;
+      margin: 1%;
+      div:first-child {
+        width: 50%;
+        height: inherit;
+        img {
+          width: 100%;
+          height: auto;
+        }
+      }
+      div:last-child {
+        width: 50%;
+        height: inherit;
+        padding: 0.5rem;
+        position: relative;
+        background-color: $colorPrimaryBG;
+        h4 {
+          margin: 0.5rem 0;
         }
       }
     }

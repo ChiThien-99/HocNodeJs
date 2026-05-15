@@ -4,6 +4,7 @@ import { appEntity } from "../models/app.model.js";
 import { funcAppEntity } from "../models/funcApp.model.js";
 import { funcDeviceEntity } from "../models/funcDevice.model.js";
 import { deviceEntity } from "../models/device.model.js";
+import { newsEntity } from "../models/news.model.js";
 export const getIndex = async (req, res) => {
   const banners = await bannerEntity.find().sort("order");
   const notifys = await notifyEntity.find().sort("-createAt");
@@ -11,6 +12,7 @@ export const getIndex = async (req, res) => {
   const funcApps = await funcAppEntity.find();
   const devices = await deviceEntity.find().sort("-createAt").limit(6);
   const funcDevices = await funcDeviceEntity.find();
+  const listNews = await newsEntity.find().sort("-createAt").limit(6);
   res.render("index.ejs", {
     banners,
     notifys,
@@ -18,6 +20,7 @@ export const getIndex = async (req, res) => {
     funcApps,
     devices,
     funcDevices,
+    listNews,
   });
 };
 export const filterNewApp = async (req, res) => {
@@ -53,8 +56,8 @@ export const filterFuncApp = async (req, res) => {
     const { names } = req.query;
     const query = {};
     if (names) {
-      const filterArray=Array.isArray(names)?names:[names];
-      query.func={$all:filterArray}
+      const filterArray = Array.isArray(names) ? names : [names];
+      query.func = { $all: filterArray };
     }
     const io = req.app.get("socketio");
     const allApp = await appEntity.find(query).sort("-createAt").limit(6);
@@ -87,43 +90,61 @@ export const filterTypeNotify = async (req, res) => {
     });
   }
 };
-export const filterNewDevice=async(req,res)=>{
+export const filterNewDevice = async (req, res) => {
   try {
     const io = req.app.get("socketio");
     const allDevice = await deviceEntity.find().sort("-createAt");
     io.emit("update-device", allDevice);
-    res.json({mess:"Lọc thiết bị mới thành công",success:true});
+    res.json({ mess: "Lọc thiết bị mới thành công", success: true });
   } catch (error) {
-    res.json({mess:"Lọc thiết bị mới thất bại",success:false,error:error.message});
+    res.json({
+      mess: "Lọc thiết bị mới thất bại",
+      success: false,
+      error: error.message,
+    });
   }
 };
-export const filterPriceLowHigh=async(req,res)=>{
+export const filterPriceLowHigh = async (req, res) => {
   try {
     const io = req.app.get("socketio");
     const allDevice = await deviceEntity.find().sort("price");
     io.emit("update-device", allDevice);
-    res.json({mess:"Lọc giá thiết bị từ thấp đến cao thành công",success:true});
+    res.json({
+      mess: "Lọc giá thiết bị từ thấp đến cao thành công",
+      success: true,
+    });
   } catch (error) {
-    res.json({mess:"Lọc giá thiết bị từ thấp đến cao thất bại",success:false,error:error.message});
+    res.json({
+      mess: "Lọc giá thiết bị từ thấp đến cao thất bại",
+      success: false,
+      error: error.message,
+    });
   }
 };
-export const filterPriceHighLow=async(req,res)=>{
+export const filterPriceHighLow = async (req, res) => {
   try {
     const io = req.app.get("socketio");
     const allDevice = await deviceEntity.find().sort("-price");
     io.emit("update-device", allDevice);
-    res.json({mess:"Lọc giá thiết bị từ cao đến thấp thành công",success:true});
+    res.json({
+      mess: "Lọc giá thiết bị từ cao đến thấp thành công",
+      success: true,
+    });
   } catch (error) {
-    res.json({mess:"Lọc giá thiết bị từ cao đến thấp thất bại",success:false,error:error.message});
+    res.json({
+      mess: "Lọc giá thiết bị từ cao đến thấp thất bại",
+      success: false,
+      error: error.message,
+    });
   }
 };
-export const filterFuncDevice=async(req,res)=>{
+export const filterFuncDevice = async (req, res) => {
   try {
     const { names } = req.query;
     const query = {};
     if (names) {
-      const filterArray=Array.isArray(names)?names:[names];
-      query.func={$all:filterArray}
+      const filterArray = Array.isArray(names) ? names : [names];
+      query.func = { $all: filterArray };
     }
     const io = req.app.get("socketio");
     const allDevice = await deviceEntity.find(query).sort("-createAt").limit(6);
@@ -136,4 +157,4 @@ export const filterFuncDevice=async(req,res)=>{
       error: error.message,
     });
   }
-}
+};

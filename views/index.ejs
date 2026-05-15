@@ -182,7 +182,25 @@
             <%})%>
           </div>
         </div>
-        <div></div>
+        <div id="divNews">
+          <div id="headerNews">
+            <h2 class="flag-item">Tin tức</h2>
+            <a href="#" target="_blank">Xem tất cả</a>
+          </div>
+          <div id="listNews">
+            <%listNews.forEach((news)=>{%>
+            <div class="news">
+              <div>
+                <img src="<%=news.image%>" alt="news">
+              </div>
+              <div>
+                <h4><%=news.title%></h4>
+                <p><%=news.info%></p>
+              </div>
+            </div>
+            <%})%>
+          </div>
+        </div>
         <div></div>
       </main>
       <footer>

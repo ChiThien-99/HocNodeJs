@@ -54,7 +54,10 @@ dashboardRouter.get(
   `${prefix}/updateFuncDevice/:id`,
   dashboardController.getUploadFuncDevice,
 );
-dashboardRouter.get(`${prefix}/updateDevice/:id`,dashboardController.getUpdateDevice)
+dashboardRouter.get(
+  `${prefix}/updateDevice/:id`,
+  dashboardController.getUpdateDevice,
+);
 dashboardRouter.post(
   `${prefix}/registerAdmin`,
   authLimit,
@@ -94,6 +97,12 @@ dashboardRouter.post(
   upload.single("imgDevice"),
   dashboardController.addDevice,
 );
+dashboardRouter.post(
+  `${prefix}/addNews`,
+  authenticateToken,
+  upload.single("imgNews"),
+  dashboardController.addNews,
+);
 dashboardRouter.put(
   `${prefix}/updateAdmin/:idUpdate`,
   authenticateToken,
@@ -131,8 +140,12 @@ dashboardRouter.put(
   authenticateToken,
   dashboardController.putUpdateFuncDevice,
 );
-dashboardRouter.put(`${prefix}/updateDevice/:id`,authenticateToken,
-  upload.single("imgDevice"),dashboardController.putUpdateDevice)
+dashboardRouter.put(
+  `${prefix}/updateDevice/:id`,
+  authenticateToken,
+  upload.single("imgDevice"),
+  dashboardController.putUpdateDevice,
+);
 dashboardRouter.delete(
   `${prefix}/deleteUserAdmin/:idDelete`,
   authenticateToken,
@@ -163,4 +176,8 @@ dashboardRouter.delete(
   authenticateToken,
   dashboardController.deleteFuncDevice,
 );
-dashboardRouter.delete(`${prefix}/deleteDevice/:id`,authenticateToken,dashboardController.deleteDevice)
+dashboardRouter.delete(
+  `${prefix}/deleteDevice/:id`,
+  authenticateToken,
+  dashboardController.deleteDevice,
+);
