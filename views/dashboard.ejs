@@ -442,6 +442,32 @@
             </div>
           </div>
           <div id="newsMng" class="tabContent">
+            <h2 class="flag-item">Quản lý danh mục tin tức</h2>
+            <form id="formCategoryNews">
+              <input type="hidden" name="idCategoryNews" id="idCategoryNews">
+              <label for="listCategoryNews">Danh mục tin tức</label><br>
+              <input type="text" name="listCategoryNews" id="listCategoryNews"><br>
+              <input type="submit" value="Tạo" id="btnCategoryNews">
+            </form>
+            <div id="divTableCategoryNews">
+              <table id="tableCategoryNews">
+              <tr>
+                <th>Danh mục</th>
+                <th>Thao tác</th>
+              </tr>
+              <%listCategoryNews.forEach((categoryNews)=>{%>
+              <tr>
+                <td><%=categoryNews.name%></td>
+                <td>
+                  <div class="btnGroup">
+                    <button class="btnUpdateCategoryNews" data-idnCategoryNews="<%=categoryNews._id%>">Cập nhật</button>
+                    <button class="btnDeleteCategoryNews" data-idCategoryNews="<%=categoryNews._id%>">Xóa</button>
+                  </div>
+                </td>
+              </tr>
+              <%})%>
+            </table>
+            </div>
             <h2 class="flag-item">Quản lý tin tức</h2>
             <form enctype="multipart/form-data" id="formNews">
               <input type="hidden" name="idNews" id="idNews">
@@ -451,9 +477,44 @@
               <input type="text" name="titleNews" id="titleNews"><br>
               <label for="infoNews">Nội dung tin tức</label><br>
               <textarea name="infoNews" id="infoNews"></textarea><br>
+              <label for="categoryNews">Danh mục tin tức</label><br>
+              <select name="categoryNews" id="categoryNews" multiple>
+                <%listCategoryNews.forEach((categoryNews)=>{%>
+                <option value="<%=categoryNews.name%>"><%=categoryNews.name%></option>
+                <%})%>
+              </select><br>
+              <label for="urlNews">Đường dẫn tin tức</label><br>
+              <input type="text" name="urlNews" id="urlNews"><br>
               <input type="submit" id="btnNews" value="Tạo">
             </form>
             <em>Lưu ý: Nếu sai hình ảnh hãy xóa luôn tin tức và tạo mới</em>
+             <div id="divTableNews">
+              <table id="tableNews">
+              <tr>
+                <th>Tiêu đề tin tức</th>
+                <th>Nội dung tin tức</th>
+                <th>Danh mục</th>
+                <th>Đường dẫn</th>
+                <th>Ngày tạo</th>
+                <th>Thao tác</th>
+              </tr>
+              <%listNews.forEach((news)=>{%>
+              <tr>
+                <td><%=news.title%></td>
+                <td><div class="divTBNewsInfo"><%=news.info%></div></td>
+                <td><%=news.category%></td>
+                <td><%=news.url%></td>
+                <td><%=new Date(news.createAt).toLocaleString()%></td>
+                <td>
+                  <div class="btnGroup">
+                    <button class="btnUpdateNews" data-idnews="<%=news._id%>">Cập nhật</button>
+                    <button class="btnDeleteNews" data-idnews="<%=news._id%>">Xóa</button>
+                  </div>
+                </td>
+              </tr>
+              <%})%>
+            </table>
+            </div>
           </div>
           <div id="shareMng" class="tabContent">
             <h2>Nội dung quản lý chia sẻ</h2>

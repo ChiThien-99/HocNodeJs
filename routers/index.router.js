@@ -11,3 +11,4 @@ indexRouter.get(`${prefix}/filter/newDevice`,indexController.filterNewDevice);
 indexRouter.get(`${prefix}/filter/priceLowHigh`,indexController.filterPriceLowHigh);
 indexRouter.get(`${prefix}/filter/priceHighLow`,indexController.filterPriceHighLow);
 indexRouter.get(`${prefix}/filter/funcDevice`,indexController.filterFuncDevice);
+indexRouter.get(`${prefix}/filter/categoryNews`,indexController.filterCategoryNews);

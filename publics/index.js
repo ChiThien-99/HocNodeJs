@@ -545,15 +545,42 @@ function renderNews(list_news) {
     .map(
       (news) => `
   <div class="news">
-    <div>
-      <img src="${news.image}" alt="news">
-    </div>
-    <div>
-      <h4>${news.title}</h4>
+    <a href="${news.url}" target="_blank" class="linkImg"><img src="${news.image}" alt="news"></a>
+    <div class="news-content">
+      <a href="${news.url}" target="_blank"><h4>${news.title}</h4></a>
       <p>${news.info}</p>
     </div>
   </div>
   `,
     )
     .join("");
-}
+};
+let selectedCategoryNews = [];
+const listCategoryNews=document.querySelectorAll(".categoryNews");
+listCategoryNews.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const name = btn.innerHTML;
+     if (selectedCategoryNews.includes(name)) {
+      selectedCategoryNews = selectedCategoryNews.filter((f) => f !== name);
+      btn.classList.remove("active");
+    } else {
+      selectedCategoryNews.push(name);
+      btn.classList.add("active");
+    }
+    const params = new URLSearchParams();
+    selectedCategoryNews.forEach((f) => params.append("names", f));
+    fetch(`/index/filter/categoryNews?${params.toString()}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
+    })
+      .then((res) => res.json())
+      .then(({ mess, success, error }) => {
+        if (!success) {
+          console.error(`${mess}\n${error}`);
+        }
+      })
+      .catch((error) => {
+        console.error(`Lỗi kết nối: ${error}`);
+      });
+  });
+});

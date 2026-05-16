@@ -56,7 +56,7 @@
               </li>
               <li><a href="#">Thiết bị</a></li>
               <li><a href="#">Tin tức</a></li>
-              <li><a href="#">Chia sẻ</a></li>
+              <li><a href="#">Problem?</a></li>
             </ul>
           </nav>
           <div id="groupBtn">
@@ -187,14 +187,17 @@
             <h2 class="flag-item">Tin tức</h2>
             <a href="#" target="_blank">Xem tất cả</a>
           </div>
+           <div id="groupFilterCategoryNews">
+              <%listCategoryNews.forEach((categoryNews)=>{%>
+              <button class="categoryNews"><%=categoryNews.name%></button>
+              <%})%>
+            </div>
           <div id="listNews">
             <%listNews.forEach((news)=>{%>
             <div class="news">
-              <div>
-                <img src="<%=news.image%>" alt="news">
-              </div>
-              <div>
-                <h4><%=news.title%></h4>
+              <a href="<%=news.url%>" target="_blank" class="linkImg"><img src="<%=news.image%>" alt="news"></a>
+              <div class="news-content">
+                <a href="<%=news.url%>" target="_blank"><h4><%=news.title%></h4></a>
                 <p><%=news.info%></p>
               </div>
             </div>

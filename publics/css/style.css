@@ -286,7 +286,7 @@ header div:last-child #groupBtn button {
 #mainDashboard #navDashboard div h2,
 #mainDashboard #navDashboard div h3,
 #mainDashboard #navDashboard div em {
-  color: #027e1f;
+  color: white;
 }
 #mainDashboard #navDashboard .navBtnDB {
   width: 100%;
@@ -761,12 +761,107 @@ header div:last-child #groupBtn button {
   height: 2rem;
   font-size: 1rem;
 }
+#mainDashboard #contentDashboard #newsMng select {
+  width: 50%;
+}
 #mainDashboard #contentDashboard #newsMng textarea {
   width: 50%;
   resize: vertical;
 }
 #mainDashboard #contentDashboard #newsMng em {
   color: red;
+}
+#mainDashboard #contentDashboard #newsMng #divTableCategoryNews {
+  width: 100%;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+#mainDashboard #contentDashboard #newsMng #tableCategoryNews,
+#mainDashboard #contentDashboard #newsMng th,
+#mainDashboard #contentDashboard #newsMng td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 0.5rem;
+  text-align: left;
+}
+#mainDashboard #contentDashboard #newsMng #tableCategoryNews .btnGroup,
+#mainDashboard #contentDashboard #newsMng th .btnGroup,
+#mainDashboard #contentDashboard #newsMng td .btnGroup {
+  display: flex;
+  flex-direction: row nowrap;
+  gap: 0.5rem;
+}
+#mainDashboard #contentDashboard #newsMng #tableCategoryNews .btnUpdateCategoryNews,
+#mainDashboard #contentDashboard #newsMng th .btnUpdateCategoryNews,
+#mainDashboard #contentDashboard #newsMng td .btnUpdateCategoryNews {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #027e1f;
+  color: #fafafa;
+}
+#mainDashboard #contentDashboard #newsMng #tableCategoryNews .btnDeleteCategoryNews,
+#mainDashboard #contentDashboard #newsMng th .btnDeleteCategoryNews,
+#mainDashboard #contentDashboard #newsMng td .btnDeleteCategoryNews {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: red;
+  color: #fafafa;
+}
+#mainDashboard #contentDashboard #newsMng #divTableNews {
+  width: 100%;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+#mainDashboard #contentDashboard #newsMng #tableNews,
+#mainDashboard #contentDashboard #newsMng th,
+#mainDashboard #contentDashboard #newsMng td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 0.5rem;
+  text-align: left;
+}
+#mainDashboard #contentDashboard #newsMng #tableNews .divTBNewsInfo,
+#mainDashboard #contentDashboard #newsMng th .divTBNewsInfo,
+#mainDashboard #contentDashboard #newsMng td .divTBNewsInfo {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 7;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+  max-height: 10.5em;
+  margin: 0;
+}
+#mainDashboard #contentDashboard #newsMng #tableNews .btnGroup,
+#mainDashboard #contentDashboard #newsMng th .btnGroup,
+#mainDashboard #contentDashboard #newsMng td .btnGroup {
+  display: flex;
+  flex-direction: row nowrap;
+  gap: 0.5rem;
+}
+#mainDashboard #contentDashboard #newsMng #tableNews .btnUpdateNews,
+#mainDashboard #contentDashboard #newsMng th .btnUpdateNews,
+#mainDashboard #contentDashboard #newsMng td .btnUpdateNews {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #027e1f;
+  color: #fafafa;
+}
+#mainDashboard #contentDashboard #newsMng #tableNews .btnDeleteNews,
+#mainDashboard #contentDashboard #newsMng th .btnDeleteNews,
+#mainDashboard #contentDashboard #newsMng td .btnDeleteNews {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: red;
+  color: #fafafa;
 }
 
 #loginContainer {
@@ -1235,6 +1330,30 @@ header div:last-child #groupBtn button {
   cursor: pointer;
   padding: 0.5rem;
 }
+#divNews #groupFilterCategoryNews {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 1rem;
+}
+#divNews #groupFilterCategoryNews button {
+  border: 2px solid #027e1f;
+  border-radius: 1000px;
+  background-color: #f5f5f5;
+  cursor: pointer;
+  padding: 0.5rem;
+  font-weight: bold;
+  font-size: 1rem;
+  height: 3rem;
+  color: #027e1f;
+}
+#divNews #groupFilterCategoryNews button:hover {
+  background-color: #027e1f;
+  color: #fafafa;
+}
+#divNews #groupFilterCategoryNews .active {
+  background-color: #027e1f;
+  color: #fafafa;
+}
 #divNews #listNews {
   display: flex;
   flex-flow: row wrap;
@@ -1242,30 +1361,58 @@ header div:last-child #groupBtn button {
   margin: 1rem 0;
 }
 #divNews #listNews .news {
+  width: 48%;
+  height: 15rem;
+  border: 1px solid #027e1f;
+  background-color: #f5f5f5;
+  margin: 1%;
   display: flex;
   flex-flow: row nowrap;
-  width: 48%;
-  height: auto;
-  border: 1px solid #027e1f;
-  margin: 1%;
+  justify-content: space-between;
+  overflow: hidden;
 }
-#divNews #listNews .news div:first-child {
+#divNews #listNews .news .linkImg {
   width: 50%;
-  height: inherit;
+  height: 100%;
 }
-#divNews #listNews .news div:first-child img {
+#divNews #listNews .news .linkImg img {
   width: 100%;
-  height: auto;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  margin: 0;
 }
-#divNews #listNews .news div:last-child {
+#divNews #listNews .news .news-content {
   width: 50%;
-  height: inherit;
-  padding: 0.5rem;
-  position: relative;
-  background-color: #f5f5f5;
+  padding: 0.5rem 0.8rem;
+  display: flex;
+  flex-direction: column;
 }
-#divNews #listNews .news div:last-child h4 {
-  margin: 0.5rem 0;
+#divNews #listNews .news .news-content a {
+  text-decoration: none;
+  color: black;
+}
+#divNews #listNews .news .news-content a h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+  max-height: 3em;
+  margin: 0;
+}
+#divNews #listNews .news .news-content p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 7;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+  max-height: 10.5em;
+  margin: 0;
 }
 
 footer {

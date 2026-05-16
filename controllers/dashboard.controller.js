@@ -7,6 +7,7 @@ import { funcAppEntity } from "../models/funcApp.model.js";
 import { appEntity } from "../models/app.model.js";
 import { funcDeviceEntity } from "../models/funcDevice.model.js";
 import { deviceEntity } from "../models/device.model.js";
+import { categoryNewsEntity } from "../models/categoryNews.model.js";
 import { newsEntity } from "../models/news.model.js";
 import { v2 as cloudinary } from "cloudinary";
 import bcrypt from "bcryptjs";
@@ -63,6 +64,8 @@ export const getDashboard = async (req, res) => {
   const apps = await appEntity.find().sort("-createAt");
   const listFuncDevice = await funcDeviceEntity.find();
   const devices = await deviceEntity.find().sort("-createAt");
+  const listCategoryNews=await categoryNewsEntity.find();
+  const listNews=await newsEntity.find().sort("-createAt");
   const io = req.app.get("socketio");
   res.render("dashboard.ejs", {
     jsonSystemInfo,
@@ -73,6 +76,8 @@ export const getDashboard = async (req, res) => {
     apps,
     listFuncDevice,
     devices,
+    listCategoryNews,
+    listNews
   });
 };
 export const postRegisterAdmin = async (req, res) => {
@@ -655,15 +660,17 @@ export const deleteDevice = async (req, res) => {
 };
 export const addNews = async (req, res) => {
   try {
-    const { titleNews, infoNews } = req.body;
+    const { titleNews, infoNews,categoryNews,urlNews } = req.body;
     await newsEntity.create({
       image: req.file.path,
       cloudinary_id: req.file.filename,
       title: titleNews,
       info: infoNews,
+      category:categoryNews,
+      url:urlNews,
     });
     const io = req.app.get("socketio");
-    const allNews = await newsEntity.find().sort("-createAt");
+    const allNews = await newsEntity.find().sort("-createAt").limit(6);
     io.emit("update-news", allNews);
     res.json({ mess: "Tạo tin tức thành công", success: true });
   } catch (error) {
@@ -674,3 +681,87 @@ export const addNews = async (req, res) => {
     });
   }
 };
+export const addCategoryNews=async(req,res)=>{
+  try {
+  const {categoryNews}=req.body;
+  await categoryNewsEntity.create({
+    name:categoryNews,
+  });
+  res.json({mess:"Tạo danh mục tin tức thành công",success:true});
+  } catch (error) {
+  res.json({mess:"Tạo danh mục tin tức thất bại",success:false,error:error.message});
+  }
+}
+export const getUpdateCategoryNews=async(req,res)=>{
+  try {
+    const {id}=req.params;
+    const categoryNews=await categoryNewsEntity.findById(id);
+    res.json({data:categoryNews});
+  } catch (error) {
+    console.error(`Lỗi không lấy được data ${error}`);
+  }
+}
+export const putUpdateCategoryNews=async(req,res)=>{
+  try {
+    const {id}=req.params;
+    const {categoryNews}=req.body;
+    await categoryNewsEntity.findByIdAndUpdate(id,{name:categoryNews});
+    res.json({mess:"Cập nhật danh mục tin tức thành công",success:true});
+  } catch (error) {
+    res.json({mess:"Cập nhật danh mục tin tức thất bại",success:false,error:error.message});
+  }
+}
+export const deleteCategoryNews=async(req,res)=>{
+  try {
+    const {id}=req.params;
+    await categoryNewsEntity.findByIdAndDelete(id);
+    res.json({mess:"Xóa danh mục tin tức thành công",success:true});
+  } catch (error) {
+    res.json({mess:"Xóa danh mục tin tức thất bại",success:false,error:error.message});
+  }
+};
+export const getUpdateNews=async(req,res)=>{
+  try {
+    const {id}=req.params;
+    const news=await newsEntity.findById(id);
+    res.json({data:news});
+  } catch (error) {
+    console.error(`Lỗi không lấy được data ${error}`);
+  }
+};
+export const putUpdateNews=async(req,res)=>{
+  try {
+    const {id}=req.params;
+    const {titleNews,infoNews,categoryNews,urlNews}=req.body;
+    await newsEntity.findByIdAndUpdate(id,{
+      title:titleNews,
+      info:infoNews,
+      category:categoryNews,
+      url:urlNews,
+    })
+    const io = req.app.get("socketio");
+    const allNews = await newsEntity.find().sort("-createAt").limit(6);
+    io.emit("update-news", allNews);
+    res.json({mess:"Cập nhật tin tức thành công",success:true});
+  } catch (error) {
+    res.json({mess:"Cập nhật tin tức thất bại",success:false,error:error.message});
+  }
+};
+export const deleteNews=async(req,res)=>{
+  try {
+  const {id}=req.params;
+  const news=await newsEntity.findById(id);
+  if (!news) {
+    return res.json({mess:"Không lấy được news để xóa",success:false});
+  }
+  await cloudinary.uploader.destroy(news.cloudinary_id);
+  await newsEntity.findByIdAndDelete(id);
+  const io = req.app.get("socketio");
+  const allNews = await newsEntity.find().sort("-createAt").limit(6);
+  io.emit("update-news", allNews);
+  res.json({mess:"Xóa tin tức thành công",success:true});
+  } catch (error) {
+  res.json({mess:"Xóa tin tức thất bại",success:false,error:error.message});
+  }
+ 
+} 
