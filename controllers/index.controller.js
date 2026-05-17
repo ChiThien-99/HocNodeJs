@@ -13,7 +13,7 @@ export const getIndex = async (req, res) => {
   const funcApps = await funcAppEntity.find();
   const devices = await deviceEntity.find().sort("-createAt").limit(6);
   const funcDevices = await funcDeviceEntity.find();
-  const listCategoryNews=await categoryNewsEntity.find();
+  const listCategoryNews = await categoryNewsEntity.find();
   const listNews = await newsEntity.find().sort("-createAt").limit(6);
   res.render("index.ejs", {
     banners,
@@ -23,7 +23,7 @@ export const getIndex = async (req, res) => {
     devices,
     funcDevices,
     listNews,
-    listCategoryNews
+    listCategoryNews,
   });
 };
 export const filterNewApp = async (req, res) => {
@@ -161,13 +161,13 @@ export const filterFuncDevice = async (req, res) => {
     });
   }
 };
-export const filterCategoryNews=async(req,res)=>{
-   try {
+export const filterCategoryNews = async (req, res) => {
+  try {
     const { names } = req.query;
     const query = {};
     if (names) {
       const filterArray = Array.isArray(names) ? names : [names];
-      query.category = { $all: filterArray };
+      query.category = { $in: filterArray };
     }
     const io = req.app.get("socketio");
     const allNews = await newsEntity.find(query).sort("-createAt").limit(6);
@@ -180,4 +180,4 @@ export const filterCategoryNews=async(req,res)=>{
       error: error.message,
     });
   }
-}
+};

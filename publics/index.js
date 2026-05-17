@@ -548,19 +548,19 @@ function renderNews(list_news) {
     <a href="${news.url}" target="_blank" class="linkImg"><img src="${news.image}" alt="news"></a>
     <div class="news-content">
       <a href="${news.url}" target="_blank"><h4>${news.title}</h4></a>
-      <p>${news.info}</p>
+      ${news.info} 
     </div>
   </div>
   `,
     )
     .join("");
-};
+}
 let selectedCategoryNews = [];
-const listCategoryNews=document.querySelectorAll(".categoryNews");
+const listCategoryNews = document.querySelectorAll(".categoryNews");
 listCategoryNews.forEach((btn) => {
   btn.addEventListener("click", () => {
     const name = btn.innerHTML;
-     if (selectedCategoryNews.includes(name)) {
+    if (selectedCategoryNews.includes(name)) {
       selectedCategoryNews = selectedCategoryNews.filter((f) => f !== name);
       btn.classList.remove("active");
     } else {
@@ -584,3 +584,20 @@ listCategoryNews.forEach((btn) => {
       });
   });
 });
+let categoryNews = document.querySelectorAll(".categoryNews");
+const groupFilterCategoryNews = document.getElementById(
+  "groupFilterCategoryNews",
+);
+socket.on("update-categoryNews", (allCategoryNews) => {
+  renderCategoryNews(allCategoryNews);
+  categoryNews = document.querySelectorAll(".categoryNews");
+});
+function renderCategoryNews(list_categorynews) {
+  groupFilterCategoryNews.innerHTML = list_categorynews
+    .map(
+      (categorynews) => `
+ <button class="categoryNews">${categorynews.name}</button>
+  `,
+    )
+    .join("");
+}

@@ -24,7 +24,9 @@
       src="https://kit.fontawesome.com/c1f12001f0.js"
       crossorigin="anonymous"
     ></script>
-
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quill-image-resize-2@3.0.0/dist/quill-image-resize-2.min.js"></script>
   </head>
   <body>
     <div id="alert">
@@ -476,7 +478,8 @@
               <label for="titleNews">Tiêu đề tin tức</label><br>
               <input type="text" name="titleNews" id="titleNews"><br>
               <label for="infoNews">Nội dung tin tức</label><br>
-              <textarea name="infoNews" id="infoNews"></textarea><br>
+              <div id="editor-container"></div>
+              <input type="hidden" name="infoNews" id="infoNews">
               <label for="categoryNews">Danh mục tin tức</label><br>
               <select name="categoryNews" id="categoryNews" multiple>
                 <%listCategoryNews.forEach((categoryNews)=>{%>

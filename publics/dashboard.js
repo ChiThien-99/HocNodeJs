@@ -928,210 +928,315 @@ document.querySelectorAll(".btnDeleteDevice").forEach((btn) => {
     }
   });
 });
+const VideoBlot = Quill.import("formats/video");
+class CustomVideoBlot extends VideoBlot {
+  static create(value) {
+    const cleanUrl = CustomVideoBlot.sanitizeYoutubeUrl(value);
+    let node = super.create(value);
+    node.setAttribute("frameborder", "0");
+    node.setAttribute("allowfullscreen", "true");
+    node.setAttribute("class", "quill-video-embed");
+    node.setAttribute("style", "width:100%;height:350px;margin:1rem 0;");
+    return node;
+  }
+  static sanitizeYoutubeUrl(url) {
+    let videoId = "";
+    if (url.includes("youtube.com/watch")) {
+      const urlParams = new URLSearchParams(new URL(url).search);
+      videoId = urlParams.get("v");
+    } else if (url.includes("youtu.be/")) {
+      videoId = url.split("youtu.be/")[1].split(/[?#]/)[0];
+    } else if (url.includes("youtube.com/shorts/")) {
+      videoId = url.split("youtube.com/shorts/")[1].split(/[?#]/)[0];
+    } else {
+      return url;
+    }
+    return `https://www.youtube.com/embed/${videoId}`;
+  }
+}
+Quill.register(CustomVideoBlot, true);
+Quill.register("modules/imageResize", ImageResize.default || ImageResize);
+const quill = new Quill("#editor-container", {
+  theme: "snow",
+  modules: {
+    toolbar: [
+      [{ header: [1, 2, 3, false] }],
+      ["bold", "italic", "underline", "strike"],
+      [{ color: [] }, { background: [] }],
+      ["link", "image", "video"],
+      ["clean"],
+    ],
+    imageResize: {
+      handleStyles: {
+        backgroundColor: "#027e1f",
+        borderColor: "#ffffff",
+        color: "#ffffff",
+      },
+      displaySize: true,
+    },
+  },
+});
+quill.getModule("toolbar").addHandler("image", () => {
+  const input = document.createElement("input");
+  input.setAttribute("type", "file");
+  input.setAttribute("accept", "image/png,image/jpeg,image/webp");
+  input.click();
+  input.onchange = async () => {
+    const file = input.files[0];
+    const formData = new FormData();
+    formData.append("imgNews", file);
+    fetch("/dashboard/uploadImageNews", {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then(({ data }) => {
+        if (data) {
+          const range = quill.getSelection();
+          quill.insertEmbed(range.index, "image", data);
+        }
+      });
+  };
+});
 const formNews = document.getElementById("formNews");
 formNews.addEventListener("submit", (e) => {
   e.preventDefault();
+  const editorContainer = document.getElementById("editor-container");
+  const infoNews = document.getElementById("infoNews");
+  infoNews.value = editorContainer;
+  infoNews.value = quill.getSemanticHTML();
   const formData = new FormData(formNews);
-  const id=document.getElementById("idNews").value;
+  const id = document.getElementById("idNews").value;
   if (id) {
-    fetch(`/dashboard/updateNews/${id}`,{
-      method:"PUT",
-      body:formData,
+    fetch(`/dashboard/updateNews/${id}`, {
+      method: "PUT",
+      body: formData,
     })
-    .then(res=>res.json())
-    .then(({mess,success,error})=>{
-      if (success) {
-        document.getElementById("idNews").value="";
-        document.getElementById("titleNews").value="";
-        document.getElementById("infoNews").value="";
-        document.getElementById("categoryNews").value="";
-        document.getElementById("urlNews").value="";
-        document.getElementById("btnNews").value="Tạo";
-        alert("Thông báo",mess,"#027e1f");
-      } else {
-         document.getElementById("idNews").value="";
-        document.getElementById("titleNews").value="";
-        document.getElementById("infoNews").value="";
-        document.getElementById("categoryNews").value="";
-        document.getElementById("urlNews").value="";
-        document.getElementById("btnNews").value="Tạo";
-        alert("Lỗi",`${mess}\n${error}`,"red");
-      }
-    })
-    .catch((error)=>{
-      alert("Lỗi kết nối",error,"red");
-    });
+      .then((res) => res.json())
+      .then(({ mess, success, error }) => {
+        if (success) {
+          document.getElementById("idNews").value = "";
+          document.getElementById("titleNews").value = "";
+          document.getElementById("infoNews").value = "";
+          if (typeof quill !== "undefined") {
+            quill.setText("");
+          } else {
+            console.error("Biến quill không tồn tại");
+          }
+          document.getElementById("categoryNews").value = "";
+          document.getElementById("urlNews").value = "";
+          document.getElementById("btnNews").value = "Tạo";
+          alert("Thông báo", mess, "#027e1f");
+        } else {
+          document.getElementById("idNews").value = "";
+          document.getElementById("titleNews").value = "";
+          document.getElementById("infoNews").value = "";
+          if (typeof quill !== "undefined") {
+            quill.setText("");
+          } else {
+            console.error("Biến quill không tồn tại");
+          }
+          document.getElementById("categoryNews").value = "";
+          document.getElementById("urlNews").value = "";
+          document.getElementById("btnNews").value = "Tạo";
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        }
+      })
+      .catch((error) => {
+        alert("Lỗi kết nối", error, "red");
+      });
   } else {
     fetch("/dashboard/addNews", {
-    method: "POST",
-    body: formData,
-  })
-    .then((res) => res.json())
-    .then(({ mess, success, error }) => {
-      if (success) {
-        document.getElementById("imgNews").value = "";
-        document.getElementById("titleNews").value = "";
-        document.getElementById("infoNews").value = "";
-        document.getElementById("categoryNews").value="";
-        document.getElementById("urlNews").value="";
-        alert("Thông báo", mess, "#027e1f");
-      } else {
-        document.getElementById("imgNews").value = "";
-        document.getElementById("titleNews").value = "";
-        document.getElementById("infoNews").value = "";
-        document.getElementById("categoryNews").value="";
-        document.getElementById("urlNews").value="";
-        alert("Lỗi", `${mess}\n${error}`, "red");
-      }
+      method: "POST",
+      body: formData,
     })
-    .catch((error) => {
-      alert("Lỗi kết nối", error, "red");
-    });
+      .then((res) => res.json())
+      .then(({ mess, success, error }) => {
+        if (success) {
+          document.getElementById("imgNews").value = "";
+          document.getElementById("titleNews").value = "";
+          document.getElementById("infoNews").value = "";
+          if (typeof quill !== "undefined") {
+            quill.setText("");
+          } else {
+            console.error("Biến quill không tồn tại");
+          }
+          document.getElementById("categoryNews").value = "";
+          document.getElementById("urlNews").value = "";
+          alert("Thông báo", mess, "#027e1f");
+        } else {
+          document.getElementById("imgNews").value = "";
+          document.getElementById("titleNews").value = "";
+          document.getElementById("infoNews").value = "";
+          if (typeof quill !== "undefined") {
+            quill.setText("");
+          } else {
+            console.error("Biến quill không tồn tại");
+          }
+          document.getElementById("categoryNews").value = "";
+          document.getElementById("urlNews").value = "";
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        }
+      })
+      .catch((error) => {
+        alert("Lỗi kết nối", error, "red");
+      });
   }
 });
-document.getElementById("formCategoryNews").addEventListener("submit",(e)=>{
+document.getElementById("formCategoryNews").addEventListener("submit", (e) => {
   e.preventDefault();
-  const categoryNews=document.getElementById("listCategoryNews").value;
-  const id=document.getElementById("idCategoryNews").value;
+  const categoryNews = document.getElementById("listCategoryNews").value;
+  const id = document.getElementById("idCategoryNews").value;
   if (id) {
-    fetch(`/dashboard/updateCategoryNews/${id}`,{
-      method:"PUT",
-      headers:{"Content-Type":"application/json;charset=UTF-8"},
-      body:JSON.stringify({categoryNews}),
+    fetch(`/dashboard/updateCategoryNews/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
+      body: JSON.stringify({ categoryNews }),
     })
-    .then(res=>res.json())
-    .then(({mess,success,error})=>{
-      if (success) {
-        document.getElementById("idCategoryNews").value="";
-        document.getElementById("listCategoryNews").value="";
-        document.getElementById("btnCategoryNews").value="Tạo";
-        alert("Thông báo",mess,"#027e1f");
-      } else {
-        document.getElementById("idCategoryNews").value="";
-        document.getElementById("listCategoryNews").value="";
-        document.getElementById("btnCategoryNews").value="Tạo";
-        alert("Lỗi",`${mess}\n${error}`,"red");
-      }
-    })
-    .catch((error)=>{
-      alert("Lỗi kết nối",error,"red");
-    });
+      .then((res) => res.json())
+      .then(({ mess, success, error }) => {
+        if (success) {
+          document.getElementById("idCategoryNews").value = "";
+          document.getElementById("listCategoryNews").value = "";
+          document.getElementById("btnCategoryNews").value = "Tạo";
+          alert("Thông báo", mess, "#027e1f");
+        } else {
+          document.getElementById("idCategoryNews").value = "";
+          document.getElementById("listCategoryNews").value = "";
+          document.getElementById("btnCategoryNews").value = "Tạo";
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        }
+      })
+      .catch((error) => {
+        alert("Lỗi kết nối", error, "red");
+      });
   } else {
-    fetch("/dashboard/addCategoryNews",{
-    method:"POST",
-    headers:{"Content-Type":"application/json;charset=UTF-8"},
-    body:JSON.stringify({categoryNews})
-  })
-  .then(res=>res.json())
-  .then(({mess,success,error})=>{
-    if (success) {
-      document.getElementById("listCategoryNews").value="";
-      alert("Thông báo",mess,"#027e1f");
-    } else {
-      document.getElementById("listCategoryNews").value="";
-      alert("Lỗi",`${mess}\n${error}`,"red");
-    }
-  })
-  .catch((error)=>{
-    alert("Lỗi kết nối",error,"red");
+    fetch("/dashboard/addCategoryNews", {
+      method: "POST",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
+      body: JSON.stringify({ categoryNews }),
+    })
+      .then((res) => res.json())
+      .then(({ mess, success, error }) => {
+        if (success) {
+          document.getElementById("listCategoryNews").value = "";
+          alert("Thông báo", mess, "#027e1f");
+        } else {
+          document.getElementById("listCategoryNews").value = "";
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        }
+      })
+      .catch((error) => {
+        alert("Lỗi kết nối", error, "red");
+      });
+  }
+});
+document.querySelectorAll(".btnUpdateCategoryNews").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const id = btn.getAttribute("data-idnCategoryNews");
+    fetch(`/dashboard/updateCategoryNews/${id}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
+    })
+      .then((res) => res.json())
+      .then(({ data }) => {
+        if (data) {
+          document.getElementById("idCategoryNews").value = data._id;
+          document.getElementById("listCategoryNews").value = data.name;
+          document.getElementById("btnCategoryNews").value = "Cập nhật";
+        } else {
+          console.error("Lỗi không lấy được data");
+        }
+      })
+      .catch((error) => {
+        console.error(`Lỗi kết nối: ${error}`);
+      });
   });
-  } 
 });
-document.querySelectorAll(".btnUpdateCategoryNews").forEach((btn)=>{
-  btn.addEventListener("click",()=>{
-    const id=btn.getAttribute("data-idnCategoryNews");
-    fetch(`/dashboard/updateCategoryNews/${id}`,{
-      method:"GET",
-      headers:{"Content-Type":"application/json;charset=UTF-8"}
-    })
-    .then(res=>res.json())
-    .then(({data})=>{
-      if (data) {
-        document.getElementById("idCategoryNews").value=data._id;
-        document.getElementById("listCategoryNews").value=data.name;
-        document.getElementById("btnCategoryNews").value="Cập nhật";
-      }else{
-        console.error("Lỗi không lấy được data");
-      }
-    })
-    .catch((error)=>{
-      console.error(`Lỗi kết nối: ${error}`)
-    });
-  })
-});
-document.querySelectorAll(".btnDeleteCategoryNews").forEach((btn)=>{
-  btn.addEventListener("click",async()=>{
-    const confirmDelete= await confirm("Thông báo","Bạn có chắc chắn muốn xóa danh mục tin tức này","#027e1f");
+document.querySelectorAll(".btnDeleteCategoryNews").forEach((btn) => {
+  btn.addEventListener("click", async () => {
+    const confirmDelete = await confirm(
+      "Thông báo",
+      "Bạn có chắc chắn muốn xóa danh mục tin tức này",
+      "#027e1f",
+    );
     if (confirmDelete) {
-    const id=btn.getAttribute("data-idCategoryNews");
-    fetch(`/dashboard/deleteCategoryNews/${id}`,{
-      method:"DELETE",
-      headers:{"Content-Type":"application/json;charset:UTF-8"},
-    })
-    .then(res=>res.json())
-    .then(({mess,success,error})=>{
-      if (success) {
-        alert("Thông báo",mess,"#027e1f");
-      } else {
-        alert("Lỗi",`${mess}\n${error}`,"red");
-      }
-    })
-    .catch((error)=>{
-      alert("Lỗi kết nối",error,"red");
-    });
+      const id = btn.getAttribute("data-idCategoryNews");
+      fetch(`/dashboard/deleteCategoryNews/${id}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json;charset:UTF-8" },
+      })
+        .then((res) => res.json())
+        .then(({ mess, success, error }) => {
+          if (success) {
+            alert("Thông báo", mess, "#027e1f");
+          } else {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          }
+        })
+        .catch((error) => {
+          alert("Lỗi kết nối", error, "red");
+        });
     }
-  })
+  });
 });
-document.querySelectorAll(".btnUpdateNews").forEach((btn)=>{
-  btn.addEventListener("click",()=>{
-    const id=btn.getAttribute("data-idnews");
-    fetch(`/dashboard/updateNews/${id}`,{
-      method:"GET",
-      headers:{"Content-Type":"application/json;charset=UTF-8"},
+document.querySelectorAll(".btnUpdateNews").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const id = btn.getAttribute("data-idnews");
+    fetch(`/dashboard/updateNews/${id}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
     })
-    .then(res=>res.json())
-    .then(({data})=>{
-      if (data) {
-        document.getElementById("idNews").value=data._id;
-        document.getElementById("titleNews").value=data.title;
-        document.getElementById("infoNews").value=data.info;
-         const dataCategoryNews = data.category;
+      .then((res) => res.json())
+      .then(({ data }) => {
+        if (data) {
+          document.getElementById("idNews").value = data._id;
+          document.getElementById("titleNews").value = data.title;
+          if (typeof quill !== "undefined") {
+            quill.clipboard.dangerouslyPasteHTML(data.info || "");
+          } else {
+            console.error("Biến quill chưa được khởi tạo");
+          }
+          const dataCategoryNews = data.category;
           const categoryNews = document.getElementById("categoryNews");
           Array.from(categoryNews.options).forEach((option) => {
             option.selected = dataCategoryNews.includes(option.value);
           });
-        document.getElementById("urlNews").value=data.url;
-        document.getElementById("btnNews").value="Cập nhật";
-      }
-      else{
-        console.error("Lỗi không lấy được data");
-      }
-    })
-    .catch((error)=>{
-      console.error(`Lỗi kết nối ${error}`)
-    });
-  })
+          document.getElementById("urlNews").value = data.url;
+          document.getElementById("btnNews").value = "Cập nhật";
+        } else {
+          console.error("Lỗi không lấy được data");
+        }
+      })
+      .catch((error) => {
+        console.error(`Lỗi kết nối ${error}`);
+      });
+  });
 });
-document.querySelectorAll(".btnDeleteNews").forEach((btn)=>{
-  btn.addEventListener("click",async ()=>{
-    const confirmDelete=await confirm("Thông báo","Bạn có chắc chắn muốn xóa tin tức này","#027e1f");
+document.querySelectorAll(".btnDeleteNews").forEach((btn) => {
+  btn.addEventListener("click", async () => {
+    const confirmDelete = await confirm(
+      "Thông báo",
+      "Bạn có chắc chắn muốn xóa tin tức này",
+      "#027e1f",
+    );
     if (confirmDelete) {
-    const id=btn.getAttribute("data-idnews");
-    fetch(`/dashboard/deleteNews/${id}`,{
-      method:"DELETE",
-      headers:{"Content-Type":"application/json;charset=UTF-8"},
-    })
-    .then(res=>res.json())
-    .then(({mess,success,error})=>{
-      if (success) {
-        alert("Thông báo",mess,"#027e1f");
-      } else {
-        alert("Lỗi",`${mess}\n${error}`,"red");
-      }
-    })
-    .catch((error)=>{
-      alert("Lỗi kết nối",error,"red");
-    })
+      const id = btn.getAttribute("data-idnews");
+      fetch(`/dashboard/deleteNews/${id}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json;charset=UTF-8" },
+      })
+        .then((res) => res.json())
+        .then(({ mess, success, error }) => {
+          if (success) {
+            alert("Thông báo", mess, "#027e1f");
+          } else {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          }
+        })
+        .catch((error) => {
+          alert("Lỗi kết nối", error, "red");
+        });
     }
-  })
-})
+  });
+});

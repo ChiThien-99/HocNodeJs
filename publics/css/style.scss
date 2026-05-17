@@ -271,8 +271,8 @@ header {
       h2,
       h3,
       em {
-        // color: $colorCTA;
-        color: white;
+        color: $colorCTA;
+        // color: white;
       }
     }
     .navBtnDB {
@@ -645,79 +645,81 @@ header {
       select {
         width: 50%;
       }
-      textarea {
-        width: 50%;
-        resize: vertical;
+      #editor-container {
+        width: 100%;
+        height: 50rem;
+        background-color: $colorPrimaryBG;
+        color: black;
       }
       em {
         color: red;
       }
       #divTableCategoryNews {
-      width: 100%;
-      overflow-x: auto;
-      margin: 1rem 0;
-    }
-    #tableCategoryNews,
-    th,
-    td {
-      border: 1px solid black;
-      border-collapse: collapse;
-      padding: 0.5rem;
-      text-align: left;
-      .btnGroup {
-        display: flex;
-        flex-direction: row nowrap;
-        gap: 0.5rem;
+        width: 100%;
+        overflow-x: auto;
+        margin: 1rem 0;
       }
-      .btnUpdateCategoryNews {
-        @include button(0.5rem);
-        background-color: $colorCTA;
-        color: $colorSecondaryText;
+      #tableCategoryNews,
+      th,
+      td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        padding: 0.5rem;
+        text-align: left;
+        .btnGroup {
+          display: flex;
+          flex-direction: row nowrap;
+          gap: 0.5rem;
+        }
+        .btnUpdateCategoryNews {
+          @include button(0.5rem);
+          background-color: $colorCTA;
+          color: $colorSecondaryText;
+        }
+        .btnDeleteCategoryNews {
+          @include button(0.5rem);
+          background-color: red;
+          color: $colorSecondaryText;
+        }
       }
-      .btnDeleteCategoryNews {
-        @include button(0.5rem);
-        background-color: red;
-        color: $colorSecondaryText;
+      #divTableNews {
+        width: 100%;
+        overflow-x: auto;
+        margin: 1rem 0;
       }
-    }
-    #divTableNews {
-      width: 100%;
-      overflow-x: auto;
-      margin: 1rem 0;
-    }
-    #tableNews,
-    th,
-    td {
-      border: 1px solid black;
-      border-collapse: collapse;
-      padding: 0.5rem;
-      text-align: left;
-      .divTBNewsInfo{
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 7;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      line-height: 1.5;
-      max-height: 10.5em;
-      margin: 0;
+      #tableNews,
+      th,
+      td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        padding: 0.5rem;
+        text-align: left;
+        .divTBNewsInfo {
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 7;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          line-height: 1.5;
+          max-height: 10.5em;
+          margin: 0;
+        }
+        .btnGroup {
+          display: flex;
+          flex-direction: row nowrap;
+          gap: 0.5rem;
+        }
+        .btnUpdateNews {
+          @include button(0.5rem);
+          background-color: $colorCTA;
+          color: $colorSecondaryText;
+        }
+        .btnDeleteNews {
+          @include button(0.5rem);
+          background-color: red;
+          color: $colorSecondaryText;
+        }
       }
-      .btnGroup {
-        display: flex;
-        flex-direction: row nowrap;
-        gap: 0.5rem;
-      }
-      .btnUpdateNews {
-        @include button(0.5rem);
-        background-color: $colorCTA;
-        color: $colorSecondaryText;
-      }
-      .btnDeleteNews {
-        @include button(0.5rem);
-        background-color: red;
-        color: $colorSecondaryText;
-      }
-    }
     }
   }
 }
@@ -983,8 +985,9 @@ header {
     .app {
       display: flex;
       flex-flow: row nowrap;
+      overflow: hidden;
       width: 48%;
-      height: auto;
+      height: 15rem;
       border: 1px solid $colorCTA;
       margin: 1%;
       div:first-child {
@@ -992,17 +995,35 @@ header {
         height: inherit;
         img {
           width: 100%;
-          height: auto;
+          height: 100%;
+          object-fit: cover;
+          margin: 0;
         }
       }
       div:last-child {
         width: 50%;
         height: inherit;
-        padding: 0.5rem;
+        padding: 0.5rem 0.8rem;
         position: relative;
         background-color: $colorPrimaryBG;
         h4 {
-          margin: 0.5rem 0;
+          font-size: 1.1rem;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          line-height: 1.5;
+          max-height: 3em;
+          margin: 0;
+        }
+        p {
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 7;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          line-height: 1.5;
+          max-height: 10.5em;
+          margin: 0;
         }
         a {
           display: inline-block;
@@ -1098,8 +1119,9 @@ header {
     .device {
       display: flex;
       flex-flow: row nowrap;
+      overflow: hidden;
       width: 48%;
-      height: auto;
+      height: 15rem;
       border: 1px solid $colorCTA;
       margin: 1%;
       div:first-child {
@@ -1107,7 +1129,9 @@ header {
         height: inherit;
         img {
           width: 100%;
-          height: auto;
+          height: 80%;
+          object-fit: cover;
+          margin: 0;
         }
         p {
           margin: 0.5rem;
@@ -1117,11 +1141,28 @@ header {
       div:last-child {
         width: 50%;
         height: inherit;
-        padding: 0.5rem;
+        padding: 0.5rem 0.8rem;
         position: relative;
         background-color: $colorPrimaryBG;
         h4 {
-          margin: 0.5rem 0;
+          font-size: 1.1rem;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          line-height: 1.5;
+          max-height: 3em;
+          margin: 0;
+        }
+        p {
+          font-size: 1.1rem;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 7;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          line-height: 1.5;
+          max-height: 10.5em;
+          margin: 0;
         }
         a {
           display: inline-block;
@@ -1194,53 +1235,86 @@ header {
       margin: 1%;
       display: flex;
       flex-flow: row nowrap;
-      justify-content: space-between;
       overflow: hidden;
-      .linkImg{
+      .linkImg {
         width: 50%;
         height: 100%;
-      img {
+        img {
           width: 100%;
           height: 100%;
           object-fit: cover;
           margin: 0;
+        }
       }
-      }
-      .news-content{
-      width: 50%;
-      padding: 0.5rem 0.8rem;
-      display: flex;
-      flex-direction: column;
-    
-      a{
-        text-decoration: none;
-        color: black;
-        h4 {
-          margin: 0 0 0.5rem 0;
-          font-size: 1.1rem;
+      .news-content {
+        width: 50%;
+        padding: 0.5rem 0.8rem;
+        display: flex;
+        flex-direction: column;
+
+        a {
+          text-decoration: none;
+          color: black;
+          h4 {
+            font-size: 1.1rem;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.5;
+            max-height: 3em;
+            margin: 0;
+          }
+        }
+        p {
           display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 2;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      line-height: 1.5;
-      max-height: 3em;
-      margin: 0;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 4;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          line-height: 1.5;
+          max-height: 10.5em;
+          margin: 0;
+        }
+        img {
+          display: none;
+        }
       }
-      }
-      p{
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 7;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      line-height: 1.5;
-      max-height: 10.5em;
-      margin: 0;
-      }
-      }
-      
     }
+  }
+}
+#mainDetailNews {
+  display: flex;
+  flex-flow: row wrap;
+  article {
+    width: 80%;
+    border: 1px solid black;
+    padding: 0.5rem;
+    h2 {
+      margin: 0.5rem 0;
+    }
+    #divCategoryAndShare {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      p {
+        margin: 0.5rem 0;
+      }
+      button {
+        background-color: $colorCTA;
+        color: $colorSecondaryText;
+        @include button(0.5rem);
+      }
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  }
+  aside {
+    width: 20%;
+    border: 1px solid black;
   }
 }
 footer {

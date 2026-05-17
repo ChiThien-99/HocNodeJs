@@ -58,8 +58,14 @@ dashboardRouter.get(
   `${prefix}/updateDevice/:id`,
   dashboardController.getUpdateDevice,
 );
-dashboardRouter.get(`${prefix}/updateCategoryNews/:id`,dashboardController.getUpdateCategoryNews);
-dashboardRouter.get(`${prefix}/updateNews/:id`,dashboardController.getUpdateNews);
+dashboardRouter.get(
+  `${prefix}/updateCategoryNews/:id`,
+  dashboardController.getUpdateCategoryNews,
+);
+dashboardRouter.get(
+  `${prefix}/updateNews/:id`,
+  dashboardController.getUpdateNews,
+);
 dashboardRouter.post(
   `${prefix}/registerAdmin`,
   authLimit,
@@ -99,12 +105,21 @@ dashboardRouter.post(
   upload.single("imgDevice"),
   dashboardController.addDevice,
 );
-dashboardRouter.post(`${prefix}/addCategoryNews`,dashboardController.addCategoryNews)
+dashboardRouter.post(
+  `${prefix}/addCategoryNews`,
+  dashboardController.addCategoryNews,
+);
 dashboardRouter.post(
   `${prefix}/addNews`,
   authenticateToken,
   upload.single("imgNews"),
   dashboardController.addNews,
+);
+dashboardRouter.post(
+  `${prefix}/uploadImageNews`,
+  authenticateToken,
+  upload.single("imgNews"),
+  dashboardController.uploadImageNews,
 );
 dashboardRouter.put(
   `${prefix}/updateAdmin/:idUpdate`,
@@ -149,9 +164,16 @@ dashboardRouter.put(
   upload.single("imgDevice"),
   dashboardController.putUpdateDevice,
 );
-dashboardRouter.put(`${prefix}/updateCategoryNews/:id`,dashboardController.putUpdateCategoryNews);
-dashboardRouter.put(`${prefix}/updateNews/:id`,authenticateToken,
-  upload.single("imgNews"),dashboardController.putUpdateNews);
+dashboardRouter.put(
+  `${prefix}/updateCategoryNews/:id`,
+  dashboardController.putUpdateCategoryNews,
+);
+dashboardRouter.put(
+  `${prefix}/updateNews/:id`,
+  authenticateToken,
+  upload.single("imgNews"),
+  dashboardController.putUpdateNews,
+);
 dashboardRouter.delete(
   `${prefix}/deleteUserAdmin/:idDelete`,
   authenticateToken,
@@ -187,5 +209,11 @@ dashboardRouter.delete(
   authenticateToken,
   dashboardController.deleteDevice,
 );
-dashboardRouter.delete(`${prefix}/deleteCategoryNews/:id`,dashboardController.deleteCategoryNews);
-dashboardRouter.delete(`${prefix}/deleteNews/:id`,dashboardController.deleteNews);
+dashboardRouter.delete(
+  `${prefix}/deleteCategoryNews/:id`,
+  dashboardController.deleteCategoryNews,
+);
+dashboardRouter.delete(
+  `${prefix}/deleteNews/:id`,
+  dashboardController.deleteNews,
+);

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%=news.title%></title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link
+      rel="preload"
+      href="/Minecraft.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/OpenSans-Regular.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <script
+      src="https://kit.fontawesome.com/c1f12001f0.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <header>
+      <div>
+        <h1><a href="/">IMZ.AI</a></h1>
+      </div>
+      <div>
+        <nav>
+          <ul>
+            <li><a href="#">Trang chủ</a></li>
+            <li>
+              <a href="#" id="navCongCu">Phần mềm</a>
+            </li>
+            <li><a href="#">Thiết bị</a></li>
+            <li><a href="#">Tin tức</a></li>
+            <li><a href="#">Problem?</a></li>
+          </ul>
+        </nav>
+        <div id="groupBtn">
+          <button>Đăng ký</button>
+          <button>Đăng nhập</button>
+        </div>
+      </div>
+    </header>
+    <main id="mainDetailNews">
+      <article>
+        <p><%=new Date(news.createAt).toLocaleString()%></p>
+        <h2><%=news.title%></h2>
+        <div id="divCategoryAndShare">
+          <p>Danh mục: <%=news.category%></p>
+          <button><i class="fa-solid fa-share-nodes"></i> Chia sẻ</button>
+        </div>
+        <%-news.info%>
+        <div>Tin tức liên quan</div>
+        <div>Tin tức mới nhất</div>
+      </article>
+      <aside>
+        <div>Phần mềm</div>
+        <div>Thiết bị</div>
+      </aside>
+    </main>
+  </body>
+  <script type="module" src="/detailNews.js" defer></script>
+</html>
