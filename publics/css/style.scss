@@ -271,8 +271,8 @@ header {
       h2,
       h3,
       em {
-        color: $colorCTA;
-        // color: white;
+        // color: $colorCTA;
+        color: white;
       }
     }
     .navBtnDB {
@@ -291,7 +291,7 @@ header {
     }
   }
   #contentDashboard {
-    flex: 1;
+    width: 80%;
     border: 1px solid $colorCTA;
     .tabContent {
       opacity: 0;
@@ -694,16 +694,6 @@ header {
         border-collapse: collapse;
         padding: 0.5rem;
         text-align: left;
-        .divTBNewsInfo {
-          display: -webkit-box;
-          -webkit-box-orient: vertical;
-          -webkit-line-clamp: 7;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          line-height: 1.5;
-          max-height: 10.5em;
-          margin: 0;
-        }
         .btnGroup {
           display: flex;
           flex-direction: row nowrap;
@@ -1257,28 +1247,8 @@ header {
           color: black;
           h4 {
             font-size: 1.1rem;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 2;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            line-height: 1.5;
-            max-height: 3em;
             margin: 0;
           }
-        }
-        p {
-          display: -webkit-box;
-          -webkit-box-orient: vertical;
-          -webkit-line-clamp: 4;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          line-height: 1.5;
-          max-height: 10.5em;
-          margin: 0;
-        }
-        img {
-          display: none;
         }
       }
     }
@@ -1307,10 +1277,23 @@ header {
         @include button(0.5rem);
       }
     }
+    #divInfoNews{
+      width: 100%;
+      text-align: justify;
+      span,p,strong{
+      text-rendering: optimizeSpeed;
+      line-height: 160%;
+      background: transparent !important;
+      background-color: transparent !important;
+      color: black !important;
+      }
+     
     img {
       max-width: 100%;
       height: auto;
     }
+    }
+  
   }
   aside {
     width: 20%;

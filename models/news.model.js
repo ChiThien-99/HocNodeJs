@@ -20,10 +20,6 @@ const newsSchema = mongoose.Schema({
     type:Array,
     required:true,
   },
-  url:{
-    type:String,
-    required:true,
-  },
   createAt: {
     type: Date,
     default: Date.now(),

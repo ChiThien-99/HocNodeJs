@@ -660,14 +660,13 @@ export const deleteDevice = async (req, res) => {
 };
 export const addNews = async (req, res) => {
   try {
-    const { titleNews, infoNews, categoryNews, urlNews } = req.body;
+    const { titleNews, infoNews, categoryNews} = req.body;
     await newsEntity.create({
       image: req.file.path,
       cloudinary_id: req.file.filename,
       title: titleNews,
       info: infoNews,
       category: categoryNews,
-      url: urlNews,
     });
     const io = req.app.get("socketio");
     const allNews = await newsEntity.find().sort("-createAt").limit(6);
@@ -762,12 +761,11 @@ export const getUpdateNews = async (req, res) => {
 export const putUpdateNews = async (req, res) => {
   try {
     const { id } = req.params;
-    const { titleNews, infoNews, categoryNews, urlNews } = req.body;
+    const { titleNews, infoNews, categoryNews} = req.body;
     await newsEntity.findByIdAndUpdate(id, {
       title: titleNews,
       info: infoNews,
       category: categoryNews,
-      url: urlNews,
     });
     const io = req.app.get("socketio");
     const allNews = await newsEntity.find().sort("-createAt").limit(6);

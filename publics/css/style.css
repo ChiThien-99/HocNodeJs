@@ -286,7 +286,7 @@ header div:last-child #groupBtn button {
 #mainDashboard #navDashboard div h2,
 #mainDashboard #navDashboard div h3,
 #mainDashboard #navDashboard div em {
-  color: #027e1f;
+  color: white;
 }
 #mainDashboard #navDashboard .navBtnDB {
   width: 100%;
@@ -303,7 +303,7 @@ header div:last-child #groupBtn button {
   color: #fafafa;
 }
 #mainDashboard #contentDashboard {
-  flex: 1;
+  width: 80%;
   border: 1px solid #027e1f;
 }
 #mainDashboard #contentDashboard .tabContent {
@@ -825,18 +825,6 @@ header div:last-child #groupBtn button {
   border-collapse: collapse;
   padding: 0.5rem;
   text-align: left;
-}
-#mainDashboard #contentDashboard #newsMng #tableNews .divTBNewsInfo,
-#mainDashboard #contentDashboard #newsMng th .divTBNewsInfo,
-#mainDashboard #contentDashboard #newsMng td .divTBNewsInfo {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 7;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.5;
-  max-height: 10.5em;
-  margin: 0;
 }
 #mainDashboard #contentDashboard #newsMng #tableNews .btnGroup,
 #mainDashboard #contentDashboard #newsMng th .btnGroup,
@@ -1436,27 +1424,7 @@ header div:last-child #groupBtn button {
 }
 #divNews #listNews .news .news-content a h4 {
   font-size: 1.1rem;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.5;
-  max-height: 3em;
   margin: 0;
-}
-#divNews #listNews .news .news-content p {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.5;
-  max-height: 10.5em;
-  margin: 0;
-}
-#divNews #listNews .news .news-content img {
-  display: none;
 }
 
 #mainDetailNews {
@@ -1487,7 +1455,18 @@ header div:last-child #groupBtn button {
   cursor: pointer;
   padding: 0.5rem;
 }
-#mainDetailNews article img {
+#mainDetailNews article #divInfoNews {
+  width: 100%;
+  text-align: justify;
+}
+#mainDetailNews article #divInfoNews span, #mainDetailNews article #divInfoNews p, #mainDetailNews article #divInfoNews strong {
+  text-rendering: optimizeSpeed;
+  line-height: 160%;
+  background: transparent !important;
+  background-color: transparent !important;
+  color: black !important;
+}
+#mainDetailNews article #divInfoNews img {
   max-width: 100%;
   height: auto;
 }

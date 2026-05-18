@@ -24,9 +24,10 @@
       src="https://kit.fontawesome.com/c1f12001f0.js"
       crossorigin="anonymous"
     ></script>
-    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/quill-image-resize-2@3.0.0/dist/quill-image-resize-2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/gh/scrapooo/quill-resize-module@1.0.2/dist/quill-resize-module.js"></script>
+
   </head>
   <body>
     <div id="alert">
@@ -486,8 +487,6 @@
                 <option value="<%=categoryNews.name%>"><%=categoryNews.name%></option>
                 <%})%>
               </select><br>
-              <label for="urlNews">Đường dẫn tin tức</label><br>
-              <input type="text" name="urlNews" id="urlNews"><br>
               <input type="submit" id="btnNews" value="Tạo">
             </form>
             <em>Lưu ý: Nếu sai hình ảnh hãy xóa luôn tin tức và tạo mới</em>
@@ -497,16 +496,22 @@
                 <th>Tiêu đề tin tức</th>
                 <th>Nội dung tin tức</th>
                 <th>Danh mục</th>
-                <th>Đường dẫn</th>
                 <th>Ngày tạo</th>
                 <th>Thao tác</th>
               </tr>
               <%listNews.forEach((news)=>{%>
               <tr>
                 <td><%=news.title%></td>
-                <td><div class="divTBNewsInfo"><%=news.info%></div></td>
+                <td><p>
+                  <%
+                  let plainText=news.info.replace(/<\/?[^>]+(>|$)/g,"");
+                  plainText=plainText.replace(/&nbsp;|&#160;/gi," ");
+                  plainText=plainText.replace(/\s+/g," ").trim();
+                  let shortText=plainText.length>200?plainText.substring(0,200)+"...":plainText;
+                  %>
+                  <%=shortText%>
+                </p></td>
                 <td><%=news.category%></td>
-                <td><%=news.url%></td>
                 <td><%=new Date(news.createAt).toLocaleString()%></td>
                 <td>
                   <div class="btnGroup">

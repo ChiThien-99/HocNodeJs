@@ -198,7 +198,15 @@
               <a href="/news/detailNews/<%=news._id%>" target="_blank" class="linkImg"><img src="<%=news.image%>" alt="news"></a>
               <div class="news-content">
                 <a href="/news/detailNews/<%=news._id%>" target="_blank"><h4><%=news.title%></h4></a>
-                <%-news.info%>  
+                <p>
+                  <%
+                  let plainText=news.info.replace(/<\/?[^>]+(>|$)/g,"");
+                  plainText=plainText.replace(/&nbsp;|&#160;/gi," ");
+                  plainText=plainText.replace(/\s+/g," ").trim();
+                  let shortText=plainText.length>200?plainText.substring(0,200)+"...":plainText;
+                  %>
+                  <%=shortText%>
+                </p> 
               </div>
             </div>
             <%})%>
@@ -206,7 +214,6 @@
         </div>
         <div></div>
       </main>
-      <iframe width="560" height="315" src="https://www.youtube.com/embed/UGG2cH5NCOk?si=TJ5z8r5tVM2JL1pR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       <footer>
         <div>
           <h3>Thông tin doanh nghiệp</h3>

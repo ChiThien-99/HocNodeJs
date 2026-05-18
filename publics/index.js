@@ -543,15 +543,21 @@ socket.on("update-news", (allNews) => {
 function renderNews(list_news) {
   listNews.innerHTML = list_news
     .map(
-      (news) => `
+      (news) => {
+        let plainText=news.info.replace(/<\/?[^>]+(>|$)/g,"");
+        plainText=plainText.replace(/&nbsp;|&#160;/gi," ");
+        plainText=plainText.replace(/\s+/g," ").trim();
+        let shortText=plainText.length>200?plainText.substring(0,200)+"...":plainText;
+       return `
   <div class="news">
-    <a href="${news.url}" target="_blank" class="linkImg"><img src="${news.image}" alt="news"></a>
-    <div class="news-content">
-      <a href="${news.url}" target="_blank"><h4>${news.title}</h4></a>
-      ${news.info} 
-    </div>
+    <a href="/news/detailNews/${news._id}" target="_blank" class="linkImg"><img src="${news.image}" alt="news"></a>
+  <div class="news-content">
+    <a href="/news/detailNews/${news._id}" target="_blank"><h4>${news.title}</h4></a>
+    <p>${shortText}</p> 
   </div>
-  `,
+  </div>
+  `
+      }
     )
     .join("");
 }

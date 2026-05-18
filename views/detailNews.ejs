@@ -56,7 +56,10 @@
           <p>Danh mục: <%=news.category%></p>
           <button><i class="fa-solid fa-share-nodes"></i> Chia sẻ</button>
         </div>
-        <%-news.info%>
+        <div id="divInfoNews">
+        <%let cleanContent = news.info.replace(/&nbsp;/g, ' ');%>
+        <%-cleanContent%>
+        </div>
         <div>Tin tức liên quan</div>
         <div>Tin tức mới nhất</div>
       </article>

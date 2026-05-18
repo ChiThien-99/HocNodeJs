@@ -928,6 +928,11 @@ document.querySelectorAll(".btnDeleteDevice").forEach((btn) => {
     }
   });
 });
+if (typeof Quill === 'undefined') {
+        console.error("Quill.js chưa được tải thành công từ CDN! Vui lòng kiểm tra lại thẻ <script>.");
+        // return;
+  }
+  window.Quill = Quill;
 const VideoBlot = Quill.import("formats/video");
 class CustomVideoBlot extends VideoBlot {
   static create(value) {
@@ -955,7 +960,7 @@ class CustomVideoBlot extends VideoBlot {
   }
 }
 Quill.register(CustomVideoBlot, true);
-Quill.register("modules/imageResize", ImageResize.default || ImageResize);
+Quill.register('modules/imageResize', QuillResizeModule);
 const quill = new Quill("#editor-container", {
   theme: "snow",
   modules: {
@@ -967,11 +972,6 @@ const quill = new Quill("#editor-container", {
       ["clean"],
     ],
     imageResize: {
-      handleStyles: {
-        backgroundColor: "#027e1f",
-        borderColor: "#ffffff",
-        color: "#ffffff",
-      },
       displaySize: true,
     },
   },
@@ -1024,7 +1024,6 @@ formNews.addEventListener("submit", (e) => {
             console.error("Biến quill không tồn tại");
           }
           document.getElementById("categoryNews").value = "";
-          document.getElementById("urlNews").value = "";
           document.getElementById("btnNews").value = "Tạo";
           alert("Thông báo", mess, "#027e1f");
         } else {
@@ -1037,7 +1036,6 @@ formNews.addEventListener("submit", (e) => {
             console.error("Biến quill không tồn tại");
           }
           document.getElementById("categoryNews").value = "";
-          document.getElementById("urlNews").value = "";
           document.getElementById("btnNews").value = "Tạo";
           alert("Lỗi", `${mess}\n${error}`, "red");
         }
@@ -1062,7 +1060,6 @@ formNews.addEventListener("submit", (e) => {
             console.error("Biến quill không tồn tại");
           }
           document.getElementById("categoryNews").value = "";
-          document.getElementById("urlNews").value = "";
           alert("Thông báo", mess, "#027e1f");
         } else {
           document.getElementById("imgNews").value = "";
@@ -1074,7 +1071,6 @@ formNews.addEventListener("submit", (e) => {
             console.error("Biến quill không tồn tại");
           }
           document.getElementById("categoryNews").value = "";
-          document.getElementById("urlNews").value = "";
           alert("Lỗi", `${mess}\n${error}`, "red");
         }
       })
