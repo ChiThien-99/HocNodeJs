@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @font-face {
   font-family: "fontLogo";
   src: url("/Minecraft.woff2") format("woff2"), url("/Minecraft.woff") format("woff");
@@ -286,7 +287,7 @@ header div:last-child #groupBtn button {
 #mainDashboard #navDashboard div h2,
 #mainDashboard #navDashboard div h3,
 #mainDashboard #navDashboard div em {
-  color: white;
+  color: #027e1f;
 }
 #mainDashboard #navDashboard .navBtnDB {
   width: 100%;
@@ -1133,7 +1134,8 @@ header div:last-child #groupBtn button {
   overflow: hidden;
   width: 48%;
   height: 15rem;
-  border: 1px solid #027e1f;
+  border: 1px solid black;
+  border-radius: 5px;
   margin: 1%;
 }
 #divApp #listApp .app div:first-child {
@@ -1278,7 +1280,8 @@ header div:last-child #groupBtn button {
   overflow: hidden;
   width: 48%;
   height: 15rem;
-  border: 1px solid #027e1f;
+  border: 1px solid black;
+  border-radius: 5px;
   margin: 1%;
 }
 #divDevice #listDevice .device div:first-child {
@@ -1394,7 +1397,8 @@ header div:last-child #groupBtn button {
 #divNews #listNews .news {
   width: 48%;
   height: 15rem;
-  border: 1px solid #027e1f;
+  border: 1px solid black;
+  border-radius: 5px;
   background-color: #f5f5f5;
   margin: 1%;
   display: flex;
@@ -1433,10 +1437,10 @@ header div:last-child #groupBtn button {
 }
 #mainDetailNews article {
   width: 80%;
-  border: 1px solid black;
+  border-right: 1px solid #027e1f;
   padding: 0.5rem;
 }
-#mainDetailNews article h2 {
+#mainDetailNews article h1 {
   margin: 0.5rem 0;
 }
 #mainDetailNews article #divCategoryAndShare {
@@ -1459,20 +1463,183 @@ header div:last-child #groupBtn button {
   width: 100%;
   text-align: justify;
 }
-#mainDetailNews article #divInfoNews span, #mainDetailNews article #divInfoNews p, #mainDetailNews article #divInfoNews strong {
+#mainDetailNews article #divInfoNews span,
+#mainDetailNews article #divInfoNews p,
+#mainDetailNews article #divInfoNews strong {
   text-rendering: optimizeSpeed;
   line-height: 160%;
   background: transparent !important;
   background-color: transparent !important;
   color: black !important;
 }
+#mainDetailNews article #divInfoNews a {
+  background: transparent !important;
+  background-color: transparent !important;
+  color: #0000ff !important;
+}
 #mainDetailNews article #divInfoNews img {
   max-width: 100%;
   height: auto;
 }
+#mainDetailNews article #listNews {
+  display: flex;
+  flex-flow: row wrap;
+  margin: 1rem 0;
+}
+#mainDetailNews article #listNews .news {
+  width: 48%;
+  height: 15rem;
+  border: 1px solid black;
+  border-radius: 5px;
+  background-color: #f5f5f5;
+  margin: 1%;
+  display: flex;
+  flex-flow: row nowrap;
+  overflow: hidden;
+}
+#mainDetailNews article #listNews .news .linkImg {
+  width: 50%;
+  height: 100%;
+}
+#mainDetailNews article #listNews .news .linkImg img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  margin: 0;
+}
+#mainDetailNews article #listNews .news .news-content {
+  width: 50%;
+  padding: 0.5rem 0.8rem;
+  display: flex;
+  flex-direction: column;
+}
+#mainDetailNews article #listNews .news .news-content a {
+  text-decoration: none;
+  color: black;
+}
+#mainDetailNews article #listNews .news .news-content a h4 {
+  font-size: 1.1rem;
+  margin: 0;
+}
 #mainDetailNews aside {
   width: 20%;
+}
+#mainDetailNews aside #listAppCol {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 0;
+}
+#mainDetailNews aside #listAppCol .appCol {
+  display: flex;
+  flex-flow: row nowrap;
+  overflow: hidden;
+  width: 100%;
+  height: 10rem;
   border: 1px solid black;
+  border-radius: 5px;
+  margin: 2% 1%;
+}
+#mainDetailNews aside #listAppCol .appCol div:first-child {
+  width: 50%;
+  height: inherit;
+}
+#mainDetailNews aside #listAppCol .appCol div:first-child img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  margin: 0;
+}
+#mainDetailNews aside #listAppCol .appCol div:last-child {
+  width: 50%;
+  height: inherit;
+  padding: 0.5rem 0.8rem;
+  position: relative;
+  background-color: #f5f5f5;
+}
+#mainDetailNews aside #listAppCol .appCol div:last-child h4 {
+  font-size: 1.1rem;
+  margin: 0 0 0.2rem 0;
+}
+#mainDetailNews aside #listAppCol .appCol div:last-child p {
+  font-size: 1rem;
+  margin: 0;
+}
+#mainDetailNews aside #listAppCol .appCol div:last-child a {
+  display: inline-block;
+  text-decoration: none;
+  background-color: #027e1f;
+  color: #fafafa;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  width: 50%;
+  text-align: center;
+}
+#mainDetailNews aside #listDeviceCol {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 0;
+}
+#mainDetailNews aside #listDeviceCol .deviceCol {
+  display: flex;
+  flex-flow: row nowrap;
+  overflow: hidden;
+  width: 100%;
+  height: 12rem;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin: 2% 1%;
+}
+#mainDetailNews aside #listDeviceCol .deviceCol div:first-child {
+  width: 50%;
+  height: inherit;
+}
+#mainDetailNews aside #listDeviceCol .deviceCol div:first-child img {
+  width: 100%;
+  height: 80%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  margin: 0;
+}
+#mainDetailNews aside #listDeviceCol .deviceCol div:first-child p {
+  margin: 0.5rem;
+  font-size: 1.2rem;
+}
+#mainDetailNews aside #listDeviceCol .deviceCol div:last-child {
+  width: 50%;
+  height: inherit;
+  padding: 0.5rem 0.8rem;
+  position: relative;
+  background-color: #f5f5f5;
+}
+#mainDetailNews aside #listDeviceCol .deviceCol div:last-child h4 {
+  font-size: 1.1rem;
+  margin: 0 0 0.2rem 0;
+}
+#mainDetailNews aside #listDeviceCol .deviceCol div:last-child p {
+  font-size: 1rem;
+  margin: 0;
+}
+#mainDetailNews aside #listDeviceCol .deviceCol div:last-child a {
+  display: inline-block;
+  text-decoration: none;
+  background-color: #027e1f;
+  color: #fafafa;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  width: 60%;
+  text-align: center;
 }
 
 footer {
@@ -1483,8 +1650,10 @@ footer {
   flex-flow: row nowrap;
   justify-content: space-between;
 }
-footer div {
+footer div:nth-child(1), footer div:nth-child(2), footer div:nth-child(3) {
   border-right: 1px solid #027e1f;
+}
+footer div {
   padding: 0.5rem;
   width: 25%;
 }
@@ -1523,4 +1692,70 @@ footer div:last-child button {
 footer div:last-child input {
   width: 90%;
   height: 1.5rem;
+}
+
+/* =======================================================
+   FIX LỖI HIỂN THỊ CHỮ NORMAL TRÊN DROPDOWN CỠ CHỮ PIXEL
+   ======================================================= */
+/* 1. Đặt nhãn hiển thị mặc định khi chưa chọn gì (Nút bấm chính trên toolbar) */
+.ql-snow .ql-picker.ql-size .ql-picker-label::before {
+  content: "Cỡ chữ" !important;
+}
+
+/* 2. Định nghĩa nhãn hiển thị cho từng dòng Option tương ứng với Whitelist đã khai báo */
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="12px"]::before {
+  content: "12px" !important;
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="14px"]::before {
+  content: "14px" !important;
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="16px"]::before {
+  content: "16px" !important;
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="18px"]::before {
+  content: "18px" !important;
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="20px"]::before {
+  content: "20px" !important;
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="24px"]::before {
+  content: "24px" !important;
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="32px"]::before {
+  content: "32px" !important;
+}
+
+/* 3. Đổi lại nhãn hiển thị trên nút bấm khi người dùng click chọn trúng một size bất kỳ */
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="12px"]::before {
+  content: "12px" !important;
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="14px"]::before {
+  content: "14px" !important;
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="16px"]::before {
+  content: "16px" !important;
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="18px"]::before {
+  content: "18px" !important;
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="20px"]::before {
+  content: "20px" !important;
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="24px"]::before {
+  content: "24px" !important;
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="32px"]::before {
+  content: "32px" !important;
 }/*# sourceMappingURL=style.css.map */

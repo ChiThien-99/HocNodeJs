@@ -928,11 +928,13 @@ document.querySelectorAll(".btnDeleteDevice").forEach((btn) => {
     }
   });
 });
-if (typeof Quill === 'undefined') {
-        console.error("Quill.js chưa được tải thành công từ CDN! Vui lòng kiểm tra lại thẻ <script>.");
-        // return;
-  }
-  window.Quill = Quill;
+if (typeof Quill === "undefined") {
+  console.error(
+    "Quill.js chưa được tải thành công từ CDN! Vui lòng kiểm tra lại thẻ <script>.",
+  );
+  // return;
+}
+window.Quill = Quill;
 const VideoBlot = Quill.import("formats/video");
 class CustomVideoBlot extends VideoBlot {
   static create(value) {
@@ -960,14 +962,19 @@ class CustomVideoBlot extends VideoBlot {
   }
 }
 Quill.register(CustomVideoBlot, true);
-Quill.register('modules/imageResize', QuillResizeModule);
+Quill.register("modules/imageResize", QuillResizeModule);
+const Size = Quill.import("attributors/style/size");
+Size.whitelist = ["12px", "14px", "16px", "18px", "20px", "24px", "32px"];
+Quill.register(Size, true);
+const Align = Quill.import("attributors/style/align");
+Quill.register(Align, true);
 const quill = new Quill("#editor-container", {
   theme: "snow",
   modules: {
     toolbar: [
-      [{ header: [1, 2, 3, false] }],
+      [{ size: ["12px", "14px", "16px", "18px", "20px", "24px", "32px"] }],
       ["bold", "italic", "underline", "strike"],
-      [{ color: [] }, { background: [] }],
+      [{ color: [] }, { background: [] }, { align: [] }],
       ["link", "image", "video"],
       ["clean"],
     ],
@@ -1198,7 +1205,6 @@ document.querySelectorAll(".btnUpdateNews").forEach((btn) => {
           Array.from(categoryNews.options).forEach((option) => {
             option.selected = dataCategoryNews.includes(option.value);
           });
-          document.getElementById("urlNews").value = data.url;
           document.getElementById("btnNews").value = "Cập nhật";
         } else {
           console.error("Lỗi không lấy được data");

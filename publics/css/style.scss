@@ -271,8 +271,8 @@ header {
       h2,
       h3,
       em {
-        // color: $colorCTA;
-        color: white;
+        color: $colorCTA;
+        // color: white;
       }
     }
     .navBtnDB {
@@ -978,7 +978,8 @@ header {
       overflow: hidden;
       width: 48%;
       height: 15rem;
-      border: 1px solid $colorCTA;
+      border: 1px solid black;
+      border-radius: 5px;
       margin: 1%;
       div:first-child {
         width: 50%;
@@ -1112,7 +1113,8 @@ header {
       overflow: hidden;
       width: 48%;
       height: 15rem;
-      border: 1px solid $colorCTA;
+      border: 1px solid black;
+      border-radius: 5px;
       margin: 1%;
       div:first-child {
         width: 50%;
@@ -1220,7 +1222,8 @@ header {
     .news {
       width: 48%;
       height: 15rem;
-      border: 1px solid $colorCTA;
+      border: 1px solid black;
+      border-radius: 5px;
       background-color: $colorPrimaryBG;
       margin: 1%;
       display: flex;
@@ -1259,9 +1262,9 @@ header {
   flex-flow: row wrap;
   article {
     width: 80%;
-    border: 1px solid black;
+    border-right: 1px solid $colorCTA;
     padding: 0.5rem;
-    h2 {
+    h1 {
       margin: 0.5rem 0;
     }
     #divCategoryAndShare {
@@ -1277,27 +1280,179 @@ header {
         @include button(0.5rem);
       }
     }
-    #divInfoNews{
+    #divInfoNews {
       width: 100%;
       text-align: justify;
-      span,p,strong{
-      text-rendering: optimizeSpeed;
-      line-height: 160%;
-      background: transparent !important;
-      background-color: transparent !important;
-      color: black !important;
+      span,
+      p,
+      strong {
+        text-rendering: optimizeSpeed;
+        line-height: 160%;
+        background: transparent !important;
+        background-color: transparent !important;
+        color: black !important;
       }
-     
-    img {
-      max-width: 100%;
-      height: auto;
+      a {
+        background: transparent !important;
+        background-color: transparent !important;
+        color: #0000ff !important;
+      }
+      img {
+        max-width: 100%;
+        height: auto;
+      }
     }
+    #listNews {
+      display: flex;
+      flex-flow: row wrap;
+      margin: 1rem 0;
+      .news {
+        width: 48%;
+        height: 15rem;
+        border: 1px solid black;
+        border-radius: 5px;
+        background-color: $colorPrimaryBG;
+        margin: 1%;
+        display: flex;
+        flex-flow: row nowrap;
+        overflow: hidden;
+        .linkImg {
+          width: 50%;
+          height: 100%;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            margin: 0;
+          }
+        }
+        .news-content {
+          width: 50%;
+          padding: 0.5rem 0.8rem;
+          display: flex;
+          flex-direction: column;
+          a {
+            text-decoration: none;
+            color: black;
+            h4 {
+              font-size: 1.1rem;
+              margin: 0;
+            }
+          }
+        }
+      }
     }
-  
   }
   aside {
     width: 20%;
-    border: 1px solid black;
+    #listAppCol {
+      display: flex;
+      flex-direction: column;
+      margin: 1rem 0;
+      .appCol {
+        display: flex;
+        flex-flow: row nowrap;
+        overflow: hidden;
+        width: 100%;
+        height: 10rem;
+        border: 1px solid black;
+        border-radius: 5px;
+        margin: 2% 1%;
+        div:first-child {
+          width: 50%;
+          height: inherit;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            margin: 0;
+          }
+        }
+        div:last-child {
+          width: 50%;
+          height: inherit;
+          padding: 0.5rem 0.8rem;
+          position: relative;
+          background-color: $colorPrimaryBG;
+          h4 {
+            font-size: 1.1rem;
+            margin: 0 0 0.2rem 0;
+          }
+          p {
+            font-size: 1rem;
+            margin: 0;
+          }
+          a {
+            display: inline-block;
+            text-decoration: none;
+            background-color: $colorCTA;
+            color: $colorSecondaryText;
+            @include button(0.5rem);
+            position: absolute;
+            bottom: 0.5rem;
+            right: 0.5rem;
+            width: 50%;
+            text-align: center;
+          }
+        }
+      }
+    }
+    #listDeviceCol {
+      display: flex;
+      flex-direction: column;
+      margin: 1rem 0;
+      .deviceCol {
+        display: flex;
+        flex-flow: row nowrap;
+        overflow: hidden;
+        width: 100%;
+        height: 12rem;
+        border: 1px solid black;
+        border-radius: 5px;
+        margin: 2% 1%;
+        div:first-child {
+          width: 50%;
+          height: inherit;
+          img {
+            width: 100%;
+            height: 80%;
+            object-fit: cover;
+            margin: 0;
+          }
+          p {
+            margin: 0.5rem;
+            font-size: 1.2rem;
+          }
+        }
+        div:last-child {
+          width: 50%;
+          height: inherit;
+          padding: 0.5rem 0.8rem;
+          position: relative;
+          background-color: $colorPrimaryBG;
+          h4 {
+            font-size: 1.1rem;
+            margin: 0 0 0.2rem 0;
+          }
+          p {
+            font-size: 1rem;
+            margin: 0;
+          }
+          a {
+            display: inline-block;
+            text-decoration: none;
+            background-color: $colorCTA;
+            color: $colorSecondaryText;
+            @include button(0.5rem);
+            position: absolute;
+            bottom: 0.5rem;
+            right: 0.5rem;
+            width: 60%;
+            text-align: center;
+          }
+        }
+      }
+    }
   }
 }
 footer {
@@ -1308,7 +1463,11 @@ footer {
   flex-flow: row nowrap;
   justify-content: space-between;
   div {
-    border-right: 1px solid $colorCTA;
+    &:nth-child(1),
+    &:nth-child(2),
+    &:nth-child(3) {
+      border-right: 1px solid $colorCTA;
+    }
     padding: 0.5rem;
     width: 25%;
     h3 {
@@ -1347,4 +1506,58 @@ footer {
       }
     }
   }
+}
+/* =======================================================
+   FIX LỖI HIỂN THỊ CHỮ NORMAL TRÊN DROPDOWN CỠ CHỮ PIXEL
+   ======================================================= */
+
+/* 1. Đặt nhãn hiển thị mặc định khi chưa chọn gì (Nút bấm chính trên toolbar) */
+.ql-snow .ql-picker.ql-size .ql-picker-label::before {
+  content: "Cỡ chữ" !important;
+}
+
+/* 2. Định nghĩa nhãn hiển thị cho từng dòng Option tương ứng với Whitelist đã khai báo */
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="12px"]::before {
+  content: "12px" !important;
+}
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="14px"]::before {
+  content: "14px" !important;
+}
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="16px"]::before {
+  content: "16px" !important;
+}
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="18px"]::before {
+  content: "18px" !important;
+}
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="20px"]::before {
+  content: "20px" !important;
+}
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="24px"]::before {
+  content: "24px" !important;
+}
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="32px"]::before {
+  content: "32px" !important;
+}
+
+/* 3. Đổi lại nhãn hiển thị trên nút bấm khi người dùng click chọn trúng một size bất kỳ */
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="12px"]::before {
+  content: "12px" !important;
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="14px"]::before {
+  content: "14px" !important;
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="16px"]::before {
+  content: "16px" !important;
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="18px"]::before {
+  content: "18px" !important;
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="20px"]::before {
+  content: "20px" !important;
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="24px"]::before {
+  content: "24px" !important;
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="32px"]::before {
+  content: "32px" !important;
 }

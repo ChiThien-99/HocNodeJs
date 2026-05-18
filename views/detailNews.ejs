@@ -51,23 +51,162 @@
     <main id="mainDetailNews">
       <article>
         <p><%=new Date(news.createAt).toLocaleString()%></p>
-        <h2><%=news.title%></h2>
+        <h1><%=news.title%></h1>
         <div id="divCategoryAndShare">
           <p>Danh mục: <%=news.category%></p>
           <button><i class="fa-solid fa-share-nodes"></i> Chia sẻ</button>
         </div>
         <div id="divInfoNews">
-        <%let cleanContent = news.info.replace(/&nbsp;/g, ' ');%>
-        <%-cleanContent%>
+          <%let cleanContent = news.info.replace(/&nbsp;/g, ' ');%>
+          <%-cleanContent%>
         </div>
-        <div>Tin tức liên quan</div>
-        <div>Tin tức mới nhất</div>
+        <div>
+          <h2 class="flag-item">Tin tức liên quan</h2>
+            <div id="listNews">
+            <%relatedNews.forEach((news)=>{%>
+            <div class="news">
+              <a href="/news/detailNews/<%=news._id%>" target="_blank" class="linkImg"><img src="<%=news.image%>" alt="news"></a>
+              <div class="news-content">
+                <a href="/news/detailNews/<%=news._id%>" target="_blank"><h4><%=news.title%></h4></a>
+                <p>
+                  <%
+                  let plainText=news.info.replace(/<\/?[^>]+(>|$)/g,"");
+                  plainText=plainText.replace(/&nbsp;|&#160;/gi," ");
+                  plainText=plainText.replace(/\s+/g," ").trim();
+                  let shortText=plainText.length>200?plainText.substring(0,200)+"...":plainText;
+                  %>
+                  <%=shortText%>
+                </p> 
+              </div>
+            </div>
+            <%})%>
+          </div>
+        </div>
+        <div>
+             <h2 class="flag-item">Tin tức mới nhất</h2>
+            <div id="listNews">
+            <%latestNews.forEach((news)=>{%>
+            <div class="news">
+              <a href="/news/detailNews/<%=news._id%>" target="_blank" class="linkImg"><img src="<%=news.image%>" alt="news"></a>
+              <div class="news-content">
+                <a href="/news/detailNews/<%=news._id%>" target="_blank"><h4><%=news.title%></h4></a>
+                <p>
+                  <%
+                  let plainText=news.info.replace(/<\/?[^>]+(>|$)/g,"");
+                  plainText=plainText.replace(/&nbsp;|&#160;/gi," ");
+                  plainText=plainText.replace(/\s+/g," ").trim();
+                  let shortText=plainText.length>200?plainText.substring(0,200)+"...":plainText;
+                  %>
+                  <%=shortText%>
+                </p> 
+              </div>
+            </div>
+            <%})%>
+          </div>
+        </div>
       </article>
       <aside>
-        <div>Phần mềm</div>
-        <div>Thiết bị</div>
+        <div>
+          <h2 class="flag-item">Phần mềm</h2>
+          <div id="listAppCol">
+            <%apps.forEach((app)=>{%>
+            <div class="appCol">
+              <div>
+                <img src="<%=app.image%>" alt="app">
+              </div>
+              <div>
+                <h4><%=app.name%></h4>
+                <p>
+                   <%
+                  let plainText=app.info.replace(/<\/?[^>]+(>|$)/g,"");
+                  plainText=plainText.replace(/&nbsp;|&#160;/gi," ");
+                  plainText=plainText.replace(/\s+/g," ").trim();
+                  let shortText=plainText.length>200?plainText.substring(0,200)+"...":plainText;
+                  %>
+                  <%=shortText%>
+                </p>
+                <a href="/app/<%=app.name%>/<%=app._id%>" target="_blank">Truy cập</a>
+              </div>
+            </div>
+            <%})%>
+          </div>
+        </div>
+        <div>
+          <h2 class="flag-item">Thiết bị</h2>
+          <div id="listDeviceCol">
+            <%devices.forEach((device)=>{%>
+            <div class="deviceCol">
+              <div>
+                <img src="<%=device.image%>" alt="device">
+                <p><%=device.price.toLocaleString('vi-VN')%>đ</p>
+              </div>
+              <div>
+                <h4><%=device.name%></h4>
+                <p>
+                  <%
+                  let plainText=device.info.replace(/<\/?[^>]+(>|$)/g,"");
+                  plainText=plainText.replace(/&nbsp;|&#160;/gi," ");
+                  plainText=plainText.replace(/\s+/g," ").trim();
+                  let shortText=plainText.length>200?plainText.substring(0,200)+"...":plainText;
+                  %>
+                  <%=shortText%>
+                </p>
+                <a href="/device/<%=device.name%>/<%=device._id%>" target="_blank">Xem chi tiết</a>
+              </div>
+            </div>
+            <%})%>
+          </div>
+        </div>
       </aside>
     </main>
+    <footer>
+        <div>
+          <h3>Thông tin doanh nghiệp</h3>
+          <p>Công Ty TNHH Công Nghệ IMZ</p>
+          <p>MST:......</p>
+          <p>Địa chỉ:...... <a href="/">Xem bản đồ</a></p>
+          <p>Email:......</p>
+          <a href="/"
+            ><img src="/img/bocongthuong.webp" alt="logo_bocongthuong"
+          /></a>
+          <a href="/"
+            ><img src="/img/chung_chi_ssl.webp" alt="logo_chung_chi_ssl"
+          /></a>
+          <a href="/"><img src="/img/pci_dss.png" alt="logo_pci_dss" /></a>
+          <h3>Mạng xã hội</h3>
+          <a href="/"><img src="/img/logo_fb.webp" alt="logo_fb" /></a>
+          <a href="/"><img src="/img/logo_zalo.webp" alt="logo_zalo" /></a>
+          <a href="/"><img src="/img/logo_tiktok.avif" alt="logo_youtube" /></a>
+          <a href="/"
+            ><img src="/img/logo_youtube.webp" alt="logo_youtube"
+          /></a>
+        </div>
+        <div>
+          <h3>Chính sách</h3>
+          <a href="/">AI Privacy & Trust</a><br />
+          <a href="/">Điều khoản dịch vụ</a><br />
+          <a href="/">Tuyên bố từ chối trách nhiệm</a><br />
+          <h3>Cổng thanh toán</h3>
+          <a href="/"><img src="/img/logo_paypal.webp" alt="logo_paypal" /></a>
+          <a href="/"><img src="/img/logo_momo.webp" alt="logo_momo" /></a>
+          <a href="/"><img src="/img/logo_vnpay.webp" alt="logo_vnpay" /></a>
+          <a href="/"><img src="/img/logo_bank.webp" alt="logo_bank" /></a>
+        </div>
+        <div>
+          <h3>Công cụ</h3>
+          <a href="/">To Do List</a><br />
+          <a href="/">Ứng dụng 2</a><br />
+          <a href="/">Ứng dụng 3</a><br />
+        </div>
+        <div>
+          <h3>Đăng ký nhận tin khuyến mãi</h3>
+          <p>Email</p>
+          <input type="text" /><br />
+          <p>Số điện thoại</p>
+          <input type="text" /><br />
+          <button>Đăng ký</button>
+        </div>
+      </footer>
   </body>
   <script type="module" src="/detailNews.js" defer></script>
 </html>
