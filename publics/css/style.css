@@ -1541,6 +1541,9 @@ header div:last-child #groupBtn button {
 #mainDetailNews article #divComment #listComment .comment .comment-action p {
   margin: 0;
 }
+#mainDetailNews article #divComment #listComment .replies-box {
+  padding-left: 2rem;
+}
 #mainDetailNews article #listNews {
   display: flex;
   flex-flow: row wrap;
