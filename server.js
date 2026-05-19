@@ -41,6 +41,7 @@ app.use(
           "'unsafe-inline'",
           "https://kit.fontawesome.com",
           "https://cdn.jsdelivr.net",
+          "https://cdnjs.cloudflare.com"
         ],
         "connect-src": [
           "'self'",

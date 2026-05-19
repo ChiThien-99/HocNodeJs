@@ -24,6 +24,7 @@
       src="https://kit.fontawesome.com/c1f12001f0.js"
       crossorigin="anonymous"
     ></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-emoji-picker@0.2.4/dist/emojiPicker.min.js"></script>
   </head>
   <body>
     <header>
@@ -59,6 +60,39 @@
         <div id="divInfoNews">
           <%let cleanContent = news.info.replace(/&nbsp;/g, ' ');%>
           <%-cleanContent%>
+        </div>
+        <div id="divComment">
+          <h3 id="lenComment">Bình luận <%=comments.length%></h3>
+          <form id="formComment">
+            <input type="hidden" name="idNews" id="idNews" value="<%=news._id%>"><br>
+            <input type="text" name="authorComment" id="authorComment" placeholder="Tên của bạn (Để trống nếu muốn ẩn danh)"><br>
+            <div id="divContentEmojiComment">
+              <textarea name="contentComment" id="contentComment" placeholder="Nội dung bình luận" data-emoji-picker="true"></textarea><br>
+            </div>
+            <input type="submit" value="Bình luận">
+          </form>
+          <div id="listComment">
+            <%if(comments.length===0){%>
+              <p id="noComment">Chưa có bình luận nào. Hãy là người đầu tiên bình luận!</p>
+            <%}else{%>
+            <%comments.forEach((comment)=>{%>
+            <%if(!comment.parentId){%>
+            <div class="comment">
+            <p>
+              <strong><%=comment.author%></strong>
+              <span><%=comment.content%></span>
+            </p>
+            <div class="comment-action">
+              <div>
+                <button type="button" class="btnLikeComment" data-idComment="<%=comment._id%>"><i class="fa-solid fa-thumbs-up"></i> Thích (<span id="like-count-<%=comment._id%>"><%=comment.likes.length%></span>)</button>
+                <button type="button" class="btnReplyComment" data-idComment="<%=comment._id%>"><i class="fa-solid fa-comment"></i> Trả lời</button>
+              </div>
+               <p><%=new Date(comment.createAt).toLocaleString("vi-VN")%></p>
+            </div>
+            </div>
+            <%}%>
+            <%})}%>
+          </div>
         </div>
         <div>
           <h2 class="flag-item">Tin tức liên quan</h2>

@@ -1481,6 +1481,66 @@ header div:last-child #groupBtn button {
   max-width: 100%;
   height: auto;
 }
+#mainDetailNews article #divComment h3 {
+  margin: 0.5rem 0;
+}
+#mainDetailNews article #divComment #formComment #authorComment {
+  width: 40%;
+  height: 2rem;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+#mainDetailNews article #divComment #formComment #divContentEmojiComment {
+  position: relative;
+}
+#mainDetailNews article #divComment #formComment #divContentEmojiComment #contentComment {
+  width: 100%;
+  height: 10rem;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  resize: none;
+  padding-right: 2.5rem;
+}
+#mainDetailNews article #divComment #formComment #divContentEmojiComment a {
+  top: auto !important;
+  right: 1rem !important;
+  bottom: 1rem !important;
+}
+#mainDetailNews article #divComment #formComment #divContentEmojiComment a svg {
+  width: 1.2rem !important;
+  height: 1.2rem !important;
+}
+#mainDetailNews article #divComment #formComment input[type=submit] {
+  background-color: #027e1f;
+  color: #fafafa;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+#mainDetailNews article #divComment #listComment {
+  height: 30rem;
+  overflow-y: scroll;
+  margin: 1rem;
+}
+#mainDetailNews article #divComment #listComment .comment {
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+}
+#mainDetailNews article #divComment #listComment .comment .comment-action {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  padding: 0.5rem;
+}
+#mainDetailNews article #divComment #listComment .comment .comment-action button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+#mainDetailNews article #divComment #listComment .comment .comment-action p {
+  margin: 0;
+}
 #mainDetailNews article #listNews {
   display: flex;
   flex-flow: row wrap;

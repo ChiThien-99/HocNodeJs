@@ -202,6 +202,7 @@
                   <%
                   let plainText=news.info.replace(/<\/?[^>]+(>|$)/g,"");
                   plainText=plainText.replace(/&nbsp;|&#160;/gi," ");
+                  plainText=plainText.replace(/&quot;/gi,'"');
                   plainText=plainText.replace(/\s+/g," ").trim();
                   let shortText=plainText.length>200?plainText.substring(0,200)+"...":plainText;
                   %>
