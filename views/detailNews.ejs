@@ -3,6 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="<%=news.title%>">
+     <%
+        let plainText=news.info.replace(/<\/?[^>]+(>|$)/g,"");
+        plainText=plainText.replace(/&nbsp;|&#160;/gi," ");
+        plainText=plainText.replace(/&quot;/gi,'"');
+        plainText=plainText.replace(/&#39;/gi,"'");
+        plainText=plainText.replace(/\s+/g," ").trim();
+        let shortText=plainText.length>200?plainText.substring(0,200)+"...":plainText;
+      %>            
+    <meta property="og:description" content="<%=shortText%>">
+    <meta property="og:image" content="<%=news.image%>">
+    <meta property="og:url" content="https://confider-bronzing-manlike.ngrok-free.dev/news/detailNews/6a0ac8e2063255e49ce95beb?fbclid=IwZXh0bgNhZW0CMTEAYnJpZBExazR0ZGhQQ05jNWVFTU1Ob3NydGMGYXBwX2lkATAAAR7VmzhanC94mvNzcsyWV22XbgVo2S_M0VuAJznlCW3IEJBs6AjrdCAIPEYg3w_aem_oHaxQqMtoc9Bt9GYQuxe9w">
     <title><%=news.title%></title>
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
@@ -55,7 +68,14 @@
         <h1><%=news.title%></h1>
         <div id="divCategoryAndShare">
           <p>Danh mục: <%=news.category%></p>
-          <button><i class="fa-solid fa-share-nodes"></i> Chia sẻ</button>
+          <div id="divShare">
+            <div>
+              <button id="btnShareFB"><img src="/img/logo_fb.webp" alt="facebook"></button>
+              <button id="btnShareZL"><img src="/img/logo_zalo.webp" alt="zalo"></button>
+            </div>
+            <button id="btnShare"><i class="fa-solid fa-share-nodes"></i> Chia sẻ</button>
+          </div>
+          
         </div>
         <div id="divInfoNews">
           <%let cleanContent = news.info.replace(/&nbsp;/g, ' ');%>
@@ -67,6 +87,7 @@
             <input type="hidden" name="idNews" id="idNews" value="<%=news._id%>"><br>
             <input type="text" name="authorComment" id="authorComment" placeholder="Tên của bạn (Để trống nếu muốn ẩn danh)"><br>
             <div id="divContentEmojiComment">
+              <input type="hidden" name="parentCommentId" id="parentCommentId">
               <textarea name="contentComment" id="contentComment" placeholder="Nội dung bình luận" data-emoji-picker="true"></textarea><br>
             </div>
             <input type="submit" value="Bình luận">
@@ -229,7 +250,7 @@
           <h3>Mạng xã hội</h3>
           <a href="/"><img src="/img/logo_fb.webp" alt="logo_fb" /></a>
           <a href="/"><img src="/img/logo_zalo.webp" alt="logo_zalo" /></a>
-          <a href="/"><img src="/img/logo_tiktok.avif" alt="logo_youtube" /></a>
+          <a href="/"><img src="/img/tiktok2_trans_1.webp" alt="logo_tiktok" /></a>
           <a href="/"
             ><img src="/img/logo_youtube.webp" alt="logo_youtube"
           /></a>
@@ -246,10 +267,10 @@
           <a href="/"><img src="/img/logo_bank.webp" alt="logo_bank" /></a>
         </div>
         <div>
-          <h3>Công cụ</h3>
-          <a href="/">To Do List</a><br />
-          <a href="/">Ứng dụng 2</a><br />
-          <a href="/">Ứng dụng 3</a><br />
+          <h3>Sản phẩm</h3>
+          <a href="/">Phần mềm</a><br />
+          <a href="/">Thiết bị</a><br />
+          <h3><a href="/">Tin tức</a></h3>
         </div>
         <div>
           <h3>Đăng ký nhận tin khuyến mãi</h3>

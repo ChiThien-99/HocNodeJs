@@ -1451,13 +1451,33 @@ header div:last-child #groupBtn button {
 #mainDetailNews article #divCategoryAndShare p {
   margin: 0.5rem 0;
 }
-#mainDetailNews article #divCategoryAndShare button {
+#mainDetailNews article #divCategoryAndShare #divShare {
+  display: flex;
+  flex-flow: row nowrap;
+}
+#mainDetailNews article #divCategoryAndShare #divShare #btnShare {
   background-color: #027e1f;
   color: #fafafa;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   padding: 0.5rem;
+  width: 7rem;
+}
+#mainDetailNews article #divCategoryAndShare #divShare div {
+  display: flex;
+  flex-flow: row nowrap;
+  width: 0px;
+  transition: width 1s;
+}
+#mainDetailNews article #divCategoryAndShare #divShare div button {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+#mainDetailNews article #divCategoryAndShare #divShare div button img {
+  width: 2rem;
+  height: 2rem;
 }
 #mainDetailNews article #divInfoNews {
   width: 100%;
@@ -1712,6 +1732,8 @@ footer {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
+  background-color: #027e1f;
+  color: #fafafa;
 }
 footer div:nth-child(1), footer div:nth-child(2), footer div:nth-child(3) {
   border-right: 1px solid #027e1f;
@@ -1719,9 +1741,6 @@ footer div:nth-child(1), footer div:nth-child(2), footer div:nth-child(3) {
 footer div {
   padding: 0.5rem;
   width: 25%;
-}
-footer div h3 {
-  color: #027e1f;
 }
 footer div img[alt=logo_bocongthuong] {
   width: 4.3rem;
@@ -1733,16 +1752,17 @@ footer div img {
   margin: 0 0.2rem;
 }
 footer div a {
-  text-decoration: none;
-  color: black;
-  margin: 0.2rem 0;
+  display: inline-block;
+  color: #fafafa;
+  margin: 0 0 0.5rem 0;
 }
 footer div a:hover {
   color: #027e1f;
 }
 footer div button {
-  background-color: #027e1f;
-  color: #fafafa;
+  background-color: #f5f5f5;
+  color: #027e1f;
+  font-weight: bold;
   border: none;
   border-radius: 5px;
   cursor: pointer;

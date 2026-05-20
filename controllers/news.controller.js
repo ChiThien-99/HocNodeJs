@@ -33,12 +33,15 @@ export const postAddComment = async (req, res) => {
     if (!authorComment || authorComment.trim() === "") {
       authorComment = "Ẩn danh";
     }
-    const newComment = await commentEntity.create({
+    const comment={
       newsId: id,
       author: authorComment,
       content: contentComment,
-      parentId: parentCommentId,
-    });
+    }
+    if (parentCommentId&&parentCommentId.trim()!=="") {
+      comment.parentId=parentCommentId;
+    }
+    const newComment = await commentEntity.create(comment);
     const listComment = await commentEntity.find().sort("-createAt");
     res.json({ data: listComment, success: true });
   } catch (error) {

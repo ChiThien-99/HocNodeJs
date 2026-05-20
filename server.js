@@ -81,7 +81,10 @@ app.use(
     redirect: true,
   }),
 );
-
+app.use((req,res,next)=>{
+  res.setHeader("ngrok-skip-browser-warning","true");
+  next();
+})
 app.set("view engine", "ejs");
 app.set("views", "./views");
 
