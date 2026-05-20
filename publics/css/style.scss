@@ -1274,30 +1274,30 @@ header {
       p {
         margin: 0.5rem 0;
       }
-      #divShare{
+      #divShare {
         display: flex;
         flex-flow: row nowrap;
-      #btnShare {
-        background-color: $colorCTA;
-        color: $colorSecondaryText;
-        @include button(0.5rem);
-        width: 7rem;
-      }
-      div{
-        display: flex;
-        flex-flow: row nowrap;
-        width: 0px;
-        transition: width 1s;
-        button{
-          border: none;
-          background: none;
-          cursor: pointer;
-          img{
-            width: 2rem;
-            height: 2rem;
+        #btnShare {
+          background-color: $colorCTA;
+          color: $colorSecondaryText;
+          @include button(0.5rem);
+          width: 7rem;
+        }
+        div {
+          display: flex;
+          flex-flow: row nowrap;
+          width: 0px;
+          transition: width 1s;
+          button {
+            border: none;
+            background: none;
+            cursor: pointer;
+            img {
+              width: 2rem;
+              height: 2rem;
+            }
           }
         }
-      }
       }
     }
     #divInfoNews {
@@ -1570,9 +1570,6 @@ footer {
       display: inline-block;
       color: $colorSecondaryText;
       margin: 0 0 0.5rem 0;
-      &:hover {
-        color: $colorCTA;
-      }
     }
     button {
       background-color: $colorPrimaryBG;

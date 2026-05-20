@@ -28,13 +28,16 @@ document.getElementById("formComment").addEventListener("submit", (e) => {
         }
         document.getElementById("lenComment").innerHTML =
           `Bình luận ${data.length}`;
-        const rootComments=data.filter(comment=>!comment.parentId);
+        const rootComments = data.filter((comment) => !comment.parentId);
         document.getElementById("listComment").innerHTML = rootComments
-          .map(
-            (comment) =>{
-            const replies=data.filter(reply=>String(reply.parentId)===String(comment._id));
-            const repliesHTML=replies.map((reply)=>
-            `
+          .map((comment) => {
+            const replies = data.filter(
+              (reply) => String(reply.parentId) === String(comment._id),
+            );
+            const repliesHTML = replies
+              .map(
+                (reply) =>
+                  `
             <div class="comment">
             <p>
               <strong>${reply.author}</strong>
@@ -43,14 +46,15 @@ document.getElementById("formComment").addEventListener("submit", (e) => {
             <div class="comment-action">
               <div>
                 <button type="button" class="btnLikeComment" data-idComment="${reply._id}"><i class="fa-solid fa-thumbs-up"></i> Thích (<span id="like-count-${reply._id}">${reply.likes.length}</span>)</button>
-                <button type="button" class="btnReplyComment" data-idComment="${reply._id}" data-authorComment="${reply.author}"><i class="fa-solid fa-comment"></i> Trả lời</button>
+                <button type="button" class="btnReplyComment" data-idComment="${comment._id}" data-authorComment="${reply.author}"><i class="fa-solid fa-comment"></i> Trả lời</button>
               </div>
                <p>${new Date(reply.createAt).toLocaleString("vi-VN")}</p>
             </div>
             </div>
-            `
-            ).join("");
-             return `
+            `,
+              )
+              .join("");
+            return `
        <div class="comment">
         <p>
               <strong>${comment.author}</strong>
@@ -65,8 +69,9 @@ document.getElementById("formComment").addEventListener("submit", (e) => {
         </div>
         </div>
         <div class="replies-box">${repliesHTML}</div>
-    `
-            }).join("");
+    `;
+          })
+          .join("");
       } else {
         console.error(`Lỗi: ${data}`);
       }
@@ -118,18 +123,26 @@ document.getElementById("listComment").addEventListener("click", (e) => {
   }
   parentInput.value = idComment;
 });
-document.getElementById("btnShare").addEventListener("click",()=>{
-  const divShareSocial=document.querySelector("#divShare div");
-  const width=divShareSocial.style.width==="6rem"?"0px":"6rem";
-  divShareSocial.style.width=width;
-})
-document.getElementById("btnShareFB").addEventListener("click",()=>{
-  const urlCurrent=encodeURIComponent(window.location.href);
-  const fbShareUrl=`https://www.facebook.com/sharer/sharer.php?u=${urlCurrent}`;
-  window.open(fbShareUrl,"facebook-share-dialog","width=600,height=400,resizable=yes,scrollbars=yes");
+document.getElementById("btnShare").addEventListener("click", () => {
+  const divShareSocial = document.querySelector("#divShare div");
+  const width = divShareSocial.style.width === "6rem" ? "0px" : "6rem";
+  divShareSocial.style.width = width;
 });
-document.getElementById("btnShareZL").addEventListener("click",()=>{
-  const urlCurrent=encodeURIComponent(window.location.href);
-  const zlShareUrl=`https://zalo.me/share?url=${urlCurrent}`;
-  window.open(zlShareUrl,"zalo-share-dialog","width=600,height=500,resizable=yes,scrollbars=yes");
-})
+document.getElementById("btnShareFB").addEventListener("click", () => {
+  const urlCurrent = encodeURIComponent(window.location.href);
+  const fbShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${urlCurrent}`;
+  window.open(
+    fbShareUrl,
+    "facebook-share-dialog",
+    "width=600,height=400,resizable=yes,scrollbars=yes",
+  );
+});
+document.getElementById("btnShareZL").addEventListener("click", () => {
+  const urlCurrent = encodeURIComponent(window.location.href);
+  const zlShareUrl = `https://zalo.me/share?url=${urlCurrent}`;
+  window.open(
+    zlShareUrl,
+    "zalo-share-dialog",
+    "width=600,height=500,resizable=yes,scrollbars=yes",
+  );
+});
