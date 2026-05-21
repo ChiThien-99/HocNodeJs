@@ -18,7 +18,7 @@
     <meta property="og:url" content="https://confider-bronzing-manlike.ngrok-free.dev/news/detailNews/6a0ac8e2063255e49ce95beb?fbclid=IwZXh0bgNhZW0CMTEAYnJpZBExazR0ZGhQQ05jNWVFTU1Ob3NydGMGYXBwX2lkATAAAR7VmzhanC94mvNzcsyWV22XbgVo2S_M0VuAJznlCW3IEJBs6AjrdCAIPEYg3w_aem_oHaxQqMtoc9Bt9GYQuxe9w">
     <title><%=news.title%></title>
     <link rel="stylesheet" href="/css/style.css" />
-    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="/img/logo_imzai_1.ico" type="image/x-icon" />
     <link
       rel="preload"
       href="/Minecraft.woff2"
@@ -42,9 +42,27 @@
   <body>
     <header>
       <div>
-        <h1><a href="/">IMZ.AI</a></h1>
+        <a href="/">
+          <svg viewBox="0 0 200 200" width="200" height="200">
+            <defs>
+              <path id="circlePath" d="M 25, 100 A 75,75 0 1,1 175,100 A 75,75 0 1,1 25,100" />
+            </defs>
+            <image href="/img/logo_imzai_1.webp" x="60" y="60" width="80" height="80" clip-path="circle()" />
+            <text class="rotating-text">
+              <textPath href="#circlePath" startOffset="25%" text-anchor="middle">
+               IMZ
+              </textPath>
+            </text>
+          </svg>
+        </a>
+        <h1><a href="/">IMZ</a></h1>
       </div>
-      <div>
+      <button type="button" class="hamburger-btn" id="hamburgerBtn">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+      <div id="navMenu">
         <nav>
           <ul>
             <li><a href="#">Trang chủ</a></li>
@@ -139,13 +157,15 @@
             <div id="listNews">
             <%relatedNews.forEach((news)=>{%>
             <div class="news">
-              <a href="/news/detailNews/<%=news._id%>" target="_blank" class="linkImg"><img src="<%=news.image%>" alt="news"></a>
+              <a href="/news/detailNews/<%=news._id%>" class="linkImg"><img src="<%=news.image%>" alt="news"></a>
               <div class="news-content">
-                <a href="/news/detailNews/<%=news._id%>" target="_blank"><h4><%=news.title%></h4></a>
+                <a href="/news/detailNews/<%=news._id%>"><h4><%=news.title%></h4></a>
                 <p>
                   <%
                   let plainText=news.info.replace(/<\/?[^>]+(>|$)/g,"");
                   plainText=plainText.replace(/&nbsp;|&#160;/gi," ");
+                  plainText=plainText.replace(/&quot;/gi,'"');
+                  plainText=plainText.replace(/&#39;/gi,"'");
                   plainText=plainText.replace(/\s+/g," ").trim();
                   let shortText=plainText.length>200?plainText.substring(0,200)+"...":plainText;
                   %>
@@ -161,13 +181,15 @@
             <div id="listNews">
             <%latestNews.forEach((news)=>{%>
             <div class="news">
-              <a href="/news/detailNews/<%=news._id%>" target="_blank" class="linkImg"><img src="<%=news.image%>" alt="news"></a>
+              <a href="/news/detailNews/<%=news._id%>" class="linkImg"><img src="<%=news.image%>" alt="news"></a>
               <div class="news-content">
-                <a href="/news/detailNews/<%=news._id%>" target="_blank"><h4><%=news.title%></h4></a>
+                <a href="/news/detailNews/<%=news._id%>"><h4><%=news.title%></h4></a>
                 <p>
                   <%
                   let plainText=news.info.replace(/<\/?[^>]+(>|$)/g,"");
                   plainText=plainText.replace(/&nbsp;|&#160;/gi," ");
+                  plainText=plainText.replace(/&quot;/gi,'"');
+                  plainText=plainText.replace(/&#39;/gi,"'");
                   plainText=plainText.replace(/\s+/g," ").trim();
                   let shortText=plainText.length>200?plainText.substring(0,200)+"...":plainText;
                   %>
