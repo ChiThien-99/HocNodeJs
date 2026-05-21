@@ -42,20 +42,22 @@
   <body>
     <header>
       <div>
-        <a href="/">
+        <a href="/" class="logo-link">
           <svg viewBox="0 0 200 200" width="200" height="200">
             <defs>
-              <path id="circlePath" d="M 25, 100 A 75,75 0 1,1 175,100 A 75,75 0 1,1 25,100" />
+              <path id="circlePath" d="M -210,90 A 85,85 0 1,1 -40,90 A 85,85 0 1,1 -210,90" />
             </defs>
-            <image href="/img/logo_imzai_1.webp" x="60" y="60" width="80" height="80" clip-path="circle()" />
+            <g class="brand-group">
+              <image href="/img/logo_imzai_1.webp" x="-200" y="15" width="150" height="150" clip-path="circle()" />
             <text class="rotating-text">
-              <textPath href="#circlePath" startOffset="25%" text-anchor="middle">
-               IMZ
+              <textPath href="#circlePath" startOffset="35%" text-anchor="middle">
+               IMZEN
               </textPath>
             </text>
+            </g>
           </svg>
         </a>
-        <h1><a href="/">IMZ</a></h1>
+        <!-- <h1><a href="/">IMZ</a></h1> -->
       </div>
       <button type="button" class="hamburger-btn" id="hamburgerBtn">
         <span class="bar"></span>

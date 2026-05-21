@@ -32,7 +32,7 @@ body.no-scroll {
   width: auto;
   height: auto;
   padding: 0.7rem;
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
   border: none;
   border-radius: 5px;
@@ -52,7 +52,7 @@ body.no-scroll {
   width: auto;
   height: auto;
   padding: 0.7rem;
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
   border: none;
   border-radius: 5px;
@@ -83,7 +83,7 @@ body.no-scroll {
 }
 
 .flag-item {
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
   width: -moz-fit-content;
   width: fit-content;
@@ -104,40 +104,38 @@ header {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
-  border-bottom: 1px solid #80A710;
+  border-bottom: 1px solid #80a710;
 }
 header div:first-child {
   width: 20%;
   height: inherit;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
+  display: inline-block;
 }
-header div:first-child img {
-  width: 4rem;
-  height: 4rem;
-  border: 1px solid #80A710;
-  border-radius: 50%;
-  z-index: 1;
+header div:first-child .logo-link {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
-header div:first-child h1 {
-  position: absolute;
-  margin: 0;
-  z-index: 2;
-  top: -1rem;
-  transform-origin: center 4rem;
+header div:first-child svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+header div:first-child #circlePath {
+  fill: none;
+  stroke: transparent;
+}
+header div:first-child .rotating-text {
+  font-size: 18px;
+  font-weight: bold;
+  fill: #80a710;
+  letter-spacing: 12px;
+  transform-origin: -125px 90px;
   animation: spinAround 5s linear;
-}
-header div:first-child h1 a {
-  color: #80A710;
-  text-decoration: none;
-  font-size: 1.2rem;
-  font-family: "fontLogo";
 }
 @keyframes spinAround {
   from {
-    transform: rotate(0deg);
+    transform: rotate(180deg);
   }
   to {
     transform: rotate(360deg);
@@ -166,7 +164,7 @@ header div:last-child nav li {
   display: inline-block;
   width: 8rem;
   padding: 0.2rem;
-  border-bottom: 2px solid #80A710;
+  border-bottom: 2px solid #80a710;
   margin: 0.2rem;
   cursor: pointer;
 }
@@ -180,7 +178,7 @@ header div:last-child nav li:hover a:only-child {
 }
 header div:last-child nav li a {
   text-decoration: none;
-  color: #80A710;
+  color: #80a710;
   font-weight: bold;
   font-size: 1.2rem;
   display: inline-block;
@@ -197,7 +195,7 @@ header div:last-child #groupBtn button {
   color: #fafafa;
   font-weight: bold;
   font-size: 1rem;
-  background-color: #80A710;
+  background-color: #80a710;
   margin: 0 0.3rem;
   width: 40%;
   height: 50%;
@@ -217,7 +215,7 @@ header div:last-child #groupBtn button {
   font-size: 20px;
 }
 #addTask button {
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
   width: 15%;
   height: inherit;
@@ -250,7 +248,7 @@ header div:last-child #groupBtn button {
   font-weight: bold;
 }
 #todolist .item .btnComplete {
-  background-color: #80A710;
+  background-color: #80a710;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -287,7 +285,7 @@ header div:last-child #groupBtn button {
   border-radius: 5px;
   cursor: pointer;
   padding: 0.5rem;
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
 }
 
@@ -296,7 +294,7 @@ header div:last-child #groupBtn button {
   border-radius: 5px;
   cursor: pointer;
   padding: 0.5rem;
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
   margin: 1rem 0;
 }
@@ -309,7 +307,7 @@ header div:last-child #groupBtn button {
 }
 #mainDashboard #navDashboard {
   width: 20%;
-  border: 1px solid #80A710;
+  border: 1px solid #80a710;
 }
 #mainDashboard #navDashboard div {
   padding: 0.5rem;
@@ -317,25 +315,25 @@ header div:last-child #groupBtn button {
 #mainDashboard #navDashboard div h2,
 #mainDashboard #navDashboard div h3,
 #mainDashboard #navDashboard div em {
-  color: #80A710;
+  color: #80a710;
 }
 #mainDashboard #navDashboard .navBtnDB {
   width: 100%;
   padding: 1rem;
-  border: 1px solid #80A710;
-  color: #80A710;
+  border: 1px solid #80a710;
+  color: #80a710;
   cursor: pointer;
   background-color: white;
   font-size: 1rem;
   text-align: start;
 }
 #mainDashboard #navDashboard .navBtnDB.active {
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
 }
 #mainDashboard #contentDashboard {
   width: 80%;
-  border: 1px solid #80A710;
+  border: 1px solid #80a710;
 }
 #mainDashboard #contentDashboard .tabContent {
   opacity: 0;
@@ -350,7 +348,7 @@ header div:last-child #groupBtn button {
   position: relative;
 }
 #mainDashboard #contentDashboard #registerAdmin {
-  border: 1px solid #80A710;
+  border: 1px solid #80a710;
   width: 50%;
   height: auto;
   padding: 1rem;
@@ -364,21 +362,21 @@ header div:last-child #groupBtn button {
 #mainDashboard #contentDashboard #registerAdmin input[type=email]:focus,
 #mainDashboard #contentDashboard #registerAdmin input[type=text]:focus {
   outline: none;
-  border: 2px solid #80A710;
+  border: 2px solid #80a710;
 }
 #mainDashboard #contentDashboard #registerAdmin button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
   padding: 0.5rem;
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
   margin: 1rem 0;
 }
 #mainDashboard #contentDashboard #registerAdmin #formDecentralize {
   width: 100%;
   height: auto;
-  border: 1px solid #80A710;
+  border: 1px solid #80a710;
   padding: 0.5rem;
 }
 #mainDashboard #contentDashboard #registerAdmin #formDecentralize input[type=checkbox],
@@ -394,7 +392,7 @@ header div:last-child #groupBtn button {
   border-radius: 5px;
   cursor: pointer;
   padding: 0.5rem;
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
   margin-top: 1rem;
 }
@@ -425,7 +423,7 @@ header div:last-child #groupBtn button {
   border-radius: 5px;
   cursor: pointer;
   padding: 0.5rem;
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
 }
 #mainDashboard #contentDashboard #tableUserAdmin .btnDeleteUserAdmin,
@@ -445,7 +443,7 @@ header div:last-child #groupBtn button {
 }
 #mainDashboard #contentDashboard #homeMng input[type=text]:focus {
   outline: none;
-  border: 2px solid #80A710;
+  border: 2px solid #80a710;
 }
 #mainDashboard #contentDashboard #homeMng input[type=number] {
   width: 10%;
@@ -454,14 +452,14 @@ header div:last-child #groupBtn button {
 }
 #mainDashboard #contentDashboard #homeMng input[type=number]:focus {
   outline: none;
-  border: 2px solid #80A710;
+  border: 2px solid #80a710;
 }
 #mainDashboard #contentDashboard #homeMng input[type=file]::file-selector-button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
   padding: 0.5rem;
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
   margin: 1rem 0;
 }
@@ -470,7 +468,7 @@ header div:last-child #groupBtn button {
   border-radius: 5px;
   cursor: pointer;
   padding: 0.5rem;
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
   margin: 1rem 0;
 }
@@ -508,7 +506,7 @@ header div:last-child #groupBtn button {
   border-radius: 5px;
   cursor: pointer;
   padding: 0.5rem;
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
 }
 #mainDashboard #contentDashboard #homeMng #tableBanner .btnDeleteBanner,
@@ -548,7 +546,7 @@ header div:last-child #groupBtn button {
   border-radius: 5px;
   cursor: pointer;
   padding: 0.5rem;
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
 }
 #mainDashboard #contentDashboard #homeMng #tableNotify .btnDeleteNotify,
@@ -566,7 +564,7 @@ header div:last-child #groupBtn button {
   border-radius: 5px;
   cursor: pointer;
   padding: 0.5rem;
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
 }
 #mainDashboard #contentDashboard #softwareMng input[type=submit] {
@@ -574,7 +572,7 @@ header div:last-child #groupBtn button {
   border-radius: 5px;
   cursor: pointer;
   padding: 0.5rem;
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
   margin: 0.5rem 0;
 }
@@ -611,7 +609,7 @@ header div:last-child #groupBtn button {
   border-radius: 5px;
   cursor: pointer;
   padding: 0.5rem;
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
 }
 #mainDashboard #contentDashboard #softwareMng #tableFuncApp .btnDeleteFuncApp,
@@ -652,7 +650,7 @@ header div:last-child #groupBtn button {
   border-radius: 5px;
   cursor: pointer;
   padding: 0.5rem;
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
 }
 #mainDashboard #contentDashboard #softwareMng #tableApp .btnDeleteApp,
@@ -670,7 +668,7 @@ header div:last-child #groupBtn button {
   border-radius: 5px;
   cursor: pointer;
   padding: 0.5rem;
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
 }
 #mainDashboard #contentDashboard #deviceMng input[type=submit] {
@@ -678,7 +676,7 @@ header div:last-child #groupBtn button {
   border-radius: 5px;
   cursor: pointer;
   padding: 0.5rem;
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
   margin: 0.5rem 0;
 }
@@ -716,7 +714,7 @@ header div:last-child #groupBtn button {
   border-radius: 5px;
   cursor: pointer;
   padding: 0.5rem;
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
 }
 #mainDashboard #contentDashboard #deviceMng #tableFuncDevice .btnDeleteFuncDevice,
@@ -757,7 +755,7 @@ header div:last-child #groupBtn button {
   border-radius: 5px;
   cursor: pointer;
   padding: 0.5rem;
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
 }
 #mainDashboard #contentDashboard #deviceMng #tableDevice .btnDeleteDevice,
@@ -775,7 +773,7 @@ header div:last-child #groupBtn button {
   border-radius: 5px;
   cursor: pointer;
   padding: 0.5rem;
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
 }
 #mainDashboard #contentDashboard #newsMng input[type=submit] {
@@ -783,7 +781,7 @@ header div:last-child #groupBtn button {
   border-radius: 5px;
   cursor: pointer;
   padding: 0.5rem;
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
   margin: 0.5rem 0;
 }
@@ -831,7 +829,7 @@ header div:last-child #groupBtn button {
   border-radius: 5px;
   cursor: pointer;
   padding: 0.5rem;
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
 }
 #mainDashboard #contentDashboard #newsMng #tableCategoryNews .btnDeleteCategoryNews,
@@ -871,7 +869,7 @@ header div:last-child #groupBtn button {
   border-radius: 5px;
   cursor: pointer;
   padding: 0.5rem;
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
 }
 #mainDashboard #contentDashboard #newsMng #tableNews .btnDeleteNews,
@@ -896,7 +894,7 @@ header div:last-child #groupBtn button {
   width: 50%;
   height: auto;
   padding: 1rem;
-  border: 1px solid #80A710;
+  border: 1px solid #80a710;
   border-radius: 5px;
 }
 #loginContainer #loginForm input[id=emailAdmin] {
@@ -910,7 +908,7 @@ header div:last-child #groupBtn button {
   font-size: 1rem;
 }
 #loginContainer #loginForm input:focus {
-  border: 2px solid #80A710;
+  border: 2px solid #80a710;
   outline: none;
 }
 #loginContainer #loginForm button {
@@ -918,7 +916,7 @@ header div:last-child #groupBtn button {
   border-radius: 5px;
   cursor: pointer;
   padding: 0.5rem;
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
   margin: 1rem 0;
 }
@@ -1088,7 +1086,7 @@ header div:last-child #groupBtn button {
 #divApp #headerApp a {
   display: inline-block;
   text-decoration: none;
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
   font-size: 1.2rem;
   height: 2.4rem;
@@ -1103,7 +1101,7 @@ header div:last-child #groupBtn button {
   gap: 1rem;
 }
 #divApp #groupFilterApp button {
-  border: 2px solid #80A710;
+  border: 2px solid #80a710;
   border-radius: 1000px;
   background-color: #f5f5f5;
   cursor: pointer;
@@ -1111,14 +1109,14 @@ header div:last-child #groupBtn button {
   font-weight: bold;
   font-size: 1rem;
   height: 3rem;
-  color: #80A710;
+  color: #80a710;
 }
 #divApp #groupFilterApp button:hover {
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
 }
 #divApp #groupFilterApp .active {
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
 }
 #divApp #groupFilterApp #divFuncBtns {
@@ -1128,7 +1126,7 @@ header div:last-child #groupBtn button {
 }
 #divApp #groupFilterApp #divFuncBtns #funcBtns {
   width: 100%;
-  border: 2px solid #80A710;
+  border: 2px solid #80a710;
   border-radius: 5px;
   position: absolute;
   z-index: 1000;
@@ -1208,7 +1206,7 @@ header div:last-child #groupBtn button {
 #divApp #listApp .app div:last-child a {
   display: inline-block;
   text-decoration: none;
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
   border: none;
   border-radius: 5px;
@@ -1234,7 +1232,7 @@ header div:last-child #groupBtn button {
 #divDevice #headerDevice a {
   display: inline-block;
   text-decoration: none;
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
   font-size: 1.2rem;
   height: 2.4rem;
@@ -1249,7 +1247,7 @@ header div:last-child #groupBtn button {
   gap: 1rem;
 }
 #divDevice #groupFilterDevice button {
-  border: 2px solid #80A710;
+  border: 2px solid #80a710;
   border-radius: 1000px;
   background-color: #f5f5f5;
   cursor: pointer;
@@ -1257,14 +1255,14 @@ header div:last-child #groupBtn button {
   font-weight: bold;
   font-size: 1rem;
   height: 3rem;
-  color: #80A710;
+  color: #80a710;
 }
 #divDevice #groupFilterDevice button:hover {
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
 }
 #divDevice #groupFilterDevice .active {
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
 }
 #divDevice #groupFilterDevice #divFuncDeviceBtns {
@@ -1274,7 +1272,7 @@ header div:last-child #groupBtn button {
 }
 #divDevice #groupFilterDevice #divFuncDeviceBtns #funcDeviceBtns {
   width: 100%;
-  border: 2px solid #80A710;
+  border: 2px solid #80a710;
   border-radius: 5px;
   position: absolute;
   z-index: 1000;
@@ -1359,7 +1357,7 @@ header div:last-child #groupBtn button {
 #divDevice #listDevice .device div:last-child a {
   display: inline-block;
   text-decoration: none;
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
   border: none;
   border-radius: 5px;
@@ -1385,7 +1383,7 @@ header div:last-child #groupBtn button {
 #divNews #headerNews a {
   display: inline-block;
   text-decoration: none;
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
   font-size: 1.2rem;
   height: 2.4rem;
@@ -1400,7 +1398,7 @@ header div:last-child #groupBtn button {
   gap: 1rem;
 }
 #divNews #groupFilterCategoryNews button {
-  border: 2px solid #80A710;
+  border: 2px solid #80a710;
   border-radius: 1000px;
   background-color: #f5f5f5;
   cursor: pointer;
@@ -1408,14 +1406,14 @@ header div:last-child #groupBtn button {
   font-weight: bold;
   font-size: 1rem;
   height: 3rem;
-  color: #80A710;
+  color: #80a710;
 }
 #divNews #groupFilterCategoryNews button:hover {
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
 }
 #divNews #groupFilterCategoryNews .active {
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
 }
 #divNews #listNews {
@@ -1467,7 +1465,7 @@ header div:last-child #groupBtn button {
 }
 #mainDetailNews article {
   width: 80%;
-  border-right: 1px solid #80A710;
+  border-right: 1px solid #80a710;
   padding: 0.5rem;
 }
 #mainDetailNews article h1 {
@@ -1486,7 +1484,7 @@ header div:last-child #groupBtn button {
   flex-flow: row nowrap;
 }
 #mainDetailNews article #divCategoryAndShare #divShare #btnShare {
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
   border: none;
   border-radius: 5px;
@@ -1561,7 +1559,7 @@ header div:last-child #groupBtn button {
   height: 1.2rem !important;
 }
 #mainDetailNews article #divComment #formComment input[type=submit] {
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
   border: none;
   border-radius: 5px;
@@ -1682,7 +1680,7 @@ header div:last-child #groupBtn button {
 #mainDetailNews aside #listAppCol .appCol div:last-child a {
   display: inline-block;
   text-decoration: none;
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
   border: none;
   border-radius: 5px;
@@ -1742,7 +1740,7 @@ header div:last-child #groupBtn button {
 #mainDetailNews aside #listDeviceCol .deviceCol div:last-child a {
   display: inline-block;
   text-decoration: none;
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
   border: none;
   border-radius: 5px;
@@ -1758,15 +1756,15 @@ header div:last-child #groupBtn button {
 footer {
   width: 100%;
   height: auto;
-  border-top: 1px solid #80A710;
+  border-top: 1px solid #80a710;
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
-  background-color: #80A710;
+  background-color: #80a710;
   color: #fafafa;
 }
 footer div:nth-child(1), footer div:nth-child(2), footer div:nth-child(3) {
-  border-right: 1px solid #80A710;
+  border-right: 1px solid #80a710;
 }
 footer div {
   padding: 0.5rem;
@@ -1788,7 +1786,7 @@ footer div a {
 }
 footer div button {
   background-color: #f5f5f5;
-  color: #80A710;
+  color: #80a710;
   font-weight: bold;
   border: none;
   border-radius: 5px;
@@ -1874,12 +1872,8 @@ footer div:last-child input {
   header {
     height: 2.5rem;
   }
-  header div:first-child img {
-    width: 2rem;
-    height: 2rem;
-  }
-  header div:first-child h1 a {
-    font-size: 1.8rem;
+  header div:first-child .brand-group {
+    transform: translateX(6rem);
   }
   header .hamburger-btn {
     display: flex;
@@ -1895,7 +1889,7 @@ footer div:last-child input {
   header .hamburger-btn .bar {
     width: 100%;
     height: 0.2rem;
-    background-color: #80A710;
+    background-color: #80a710;
     transition: all 0.3s ease-in-out;
   }
   header #navMenu {
@@ -1904,7 +1898,7 @@ footer div:last-child input {
     right: 0;
     height: calc(100vh - 3rem);
     width: 70%;
-    background-color: #80A710;
+    background-color: #80a710;
     flex-direction: column-reverse;
     align-items: center;
     justify-content: start;
@@ -1935,7 +1929,7 @@ footer div:last-child input {
     cursor: pointer;
     padding: 0.5rem;
     background-color: #fafafa;
-    color: #80A710;
+    color: #80a710;
     font-size: 0.7rem;
     width: 50%;
   }
@@ -1992,7 +1986,8 @@ footer div:last-child input {
   footer div h3 {
     font-size: 1rem;
   }
-  footer div p, footer div a {
+  footer div p,
+  footer div a {
     font-size: 0.8rem;
   }
 }/*# sourceMappingURL=style.css.map */
