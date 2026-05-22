@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Trang chủ</title>
     <link rel="stylesheet" href="/css/style.css" />
-    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="/img/logo_imzai_1.ico" type="image/x-icon" />
     <link
       rel="preload"
       href="/Minecraft.woff2"
@@ -43,28 +43,46 @@
         </div>
       </div>
       <header>
-        <div>
-          <h1><a href="/">IMZ.AI</a></h1>
+      <div>
+        <a href="/" class="logo-link">
+          <svg viewBox="0 0 200 200" width="200" height="200">
+            <defs>
+              <path id="circlePath" d="M -210,90 A 85,85 0 1,1 -40,90 A 85,85 0 1,1 -210,90" />
+            </defs>
+            <g class="brand-group">
+              <image href="/img/logo_imzai_1.webp" x="-200" y="15" width="150" height="150" clip-path="circle()" />
+            <text class="rotating-text">
+              <textPath href="#circlePath" startOffset="30%" text-anchor="middle">
+               IMZEN
+              </textPath>
+            </text>
+            </g>
+          </svg>
+        </a>
+      </div>
+      <button type="button" class="hamburger-btn" id="hamburgerBtn">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+      <div id="navMenu">
+        <nav>
+          <ul>
+            <li><a href="#">Trang chủ</a></li>
+            <li>
+              <a href="#" id="navCongCu">Phần mềm</a>
+            </li>
+            <li><a href="#">Thiết bị</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Problem?</a></li>
+          </ul>
+        </nav>
+        <div id="groupBtn">
+          <button>Đăng ký</button>
+          <button>Đăng nhập</button>
         </div>
-        <div>
-          <nav>
-            <ul>
-              <li><a href="#">Trang chủ</a></li>
-              <li>
-                <a href="#" id="navCongCu"
-                  >Phần mềm</a>
-              </li>
-              <li><a href="#">Thiết bị</a></li>
-              <li><a href="#">Tin tức</a></li>
-              <li><a href="#">Problem?</a></li>
-            </ul>
-          </nav>
-          <div id="groupBtn">
-            <button>Đăng ký</button>
-            <button>Đăng nhập</button>
-          </div>
-        </div>
-      </header>
+      </div>
+    </header>
       <main>
         <div id="divAboutAndBanner">
           <div id="notification-container">
@@ -76,7 +94,7 @@
                  <option value="event">Sự kiện</option>
                  <option value="app">Phần mềm</option>
                  <option value="device">Thiết bị</option>
-                 <option value="news">Tin tức</option>
+                 <option value="news">Blog</option>
                </select>
             </div>
             <div id="bodyNotification">
@@ -184,7 +202,7 @@
         </div>
         <div id="divNews">
           <div id="headerNews">
-            <h2 class="flag-item">Tin tức</h2>
+            <h2 class="flag-item">Blog</h2>
             <a href="#" target="_blank">Xem tất cả</a>
           </div>
            <div id="groupFilterCategoryNews">
@@ -233,7 +251,7 @@
           <h3>Mạng xã hội</h3>
           <a href="/"><img src="/img/logo_fb.webp" alt="logo_fb" /></a>
           <a href="/"><img src="/img/logo_zalo.webp" alt="logo_zalo" /></a>
-          <a href="/"><img src="/img/logo_tiktok.avif" alt="logo_youtube" /></a>
+          <a href="/"><img src="/img/tiktok2_trans_1.webp" alt="logo_tiktok" /></a>
           <a href="/"
             ><img src="/img/logo_youtube.webp" alt="logo_youtube"
           /></a>

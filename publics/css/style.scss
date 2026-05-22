@@ -32,7 +32,7 @@ body {
 }
 body.no-scroll {
   overflow: hidden !important;
-  height: 100vh !important;
+  height: 100dvh !important;
 }
 #alert {
   position: fixed;
@@ -112,6 +112,9 @@ header {
     width: 20%;
     height: inherit;
     display: inline-block;
+    .brand-group{
+      transform: translate(4rem,1rem);
+    }
     .logo-link {
       display: block;
       width: 100%;
@@ -129,6 +132,7 @@ header {
     .rotating-text {
       font-size: 18px;
       font-weight: bold;
+      font-family: "fontLogo";
       fill: $colorCTA;
       letter-spacing: 12px;
       transform-origin: -125px 90px;
@@ -198,6 +202,9 @@ header {
         height: 50%;
       }
     }
+     h2{
+        color: $colorCTA;
+      }
   }
 }
 //**CSS Todolist
@@ -299,8 +306,8 @@ header {
       h2,
       h3,
       em {
-        color: $colorCTA;
-        // color: white;
+        // color: $colorCTA;
+        color: white;
       }
     }
     .navBtnDB {
@@ -320,18 +327,25 @@ header {
   }
   #contentDashboard {
     width: 80%;
+    height: 50rem;
+    overflow-y: auto;
+    overflow-x: hidden;
     border: 1px solid $colorCTA;
+    position: relative;
     .tabContent {
       opacity: 0;
       visibility: hidden;
-      transition: opacity 0.3s ease-in-out;
-      position: absolute;
-      padding: 1rem;
+      height: 0;
+      overflow: hidden;
+      transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+      padding: 0 1rem;
     }
     .tabContent.active {
       opacity: 1;
       visibility: visible;
-      position: relative;
+      height: auto;
+      overflow: visible;
+      padding: 1rem;
     }
     #registerAdmin {
       border: 1px solid $colorCTA;
@@ -742,6 +756,45 @@ header {
   }
 }
 //**CSS Login
+#logoLogin{
+    width: 20%;
+    height: 8rem;
+    margin: auto;
+    .brand-group{
+      transform: translate(4rem,1rem);
+    }
+    .logo-link {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+    #circlePath {
+      fill: none;
+      stroke: transparent;
+    }
+    .rotating-text {
+      font-size: 18px;
+      font-weight: bold;
+      font-family: "fontLogo";
+      fill: $colorCTA;
+      letter-spacing: 12px;
+      transform-origin: 36px 75px;
+      animation: spinAround 5s linear;
+    }
+    @keyframes spinAround {
+      from {
+        transform: rotate(180deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+}
 #loginContainer {
   width: 100%;
   height: auto;
@@ -1291,6 +1344,7 @@ header {
   article {
     width: 80%;
     border-right: 1px solid $colorCTA;
+    border-bottom: 1px solid $colorCTA;
     padding: 0.5rem;
     h1 {
       margin: 0.5rem 0;
@@ -1673,17 +1727,17 @@ footer {
 }
 @media screen and (max-width: 768px) {
   header {
-    height: 2.5rem;
+    height: 3.5rem;
     div:first-child {
       .brand-group {
-        transform: translateX(6rem);
+        transform: translate(12rem,1rem);
       }
     }
     .hamburger-btn {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      width: 2rem;
+      width: 1.2rem;
       height: 1rem;
       background: transparent;
       border: none;
@@ -1698,9 +1752,9 @@ footer {
     }
     #navMenu {
       position: fixed;
-      top: 3rem;
+      top: 3.9rem;
       right: 0;
-      height: calc(100vh - 3rem);
+      height: calc(100dvh - 3.9rem);
       width: 70%;
       background-color: $colorCTA;
       flex-direction: column-reverse;
@@ -1808,6 +1862,14 @@ footer {
       p,
       a {
         font-size: 0.8rem;
+      }
+    }
+  }
+  #loginContainer{
+    #loginForm{
+      width: 100%;
+      input[id=pwAdmin]{
+        width: 88%;
       }
     }
   }

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
     <link rel="stylesheet" href="/css/style.css" />
-    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="/img/logo_imzai_1.ico" type="image/x-icon" />
     <link
       rel="preload"
       href="/Minecraft.woff2"
@@ -43,28 +43,27 @@
         </div>
       </div>
       <header>
-        <div>
-          <h1><a href="/">IMZ.AI</a></h1>
-        </div>
-        <div>
-          <nav>
-            <ul>
-              <li><a href="#">Trang chủ</a></li>
-              <li>
-                <a href="#" id="navCongCu"
-                  >Phần mềm</a>
-              </li>
-              <li><a href="#">Thiết bị</a></li>
-              <li><a href="#">Tin tức</a></li>
-              <li><a href="#">Chia sẻ</a></li>
-            </ul>
-          </nav>
-          <div id="groupBtn">
-            <button>Đăng ký</button>
-            <button>Đăng nhập</button>
-          </div>
-        </div>
-      </header>
+      <div>
+        <a href="/" class="logo-link">
+          <svg viewBox="0 0 200 200" width="200" height="200">
+            <defs>
+              <path id="circlePath" d="M -210,90 A 85,85 0 1,1 -40,90 A 85,85 0 1,1 -210,90" />
+            </defs>
+            <g class="brand-group">
+              <image href="/img/logo_imzai_1.webp" x="-200" y="15" width="150" height="150" clip-path="circle()" />
+            <text class="rotating-text">
+              <textPath href="#circlePath" startOffset="30%" text-anchor="middle">
+               IMZEN
+              </textPath>
+            </text>
+            </g>
+          </svg>
+        </a>
+      </div>
+      <div id="navMenu">
+        <h2>Khu vực quản trị</h2>
+      </div>
+    </header>
       <main id="mainDashboard">
         <div id="navDashboard">
           <div>
@@ -91,7 +90,7 @@
             <i class="fa-solid fa-screwdriver-wrench"></i> Quản lý thiết bị
           </button>
           <button data-target="newsMng" class="navBtnDB">
-            <i class="fa-regular fa-newspaper"></i> Quản lý tin tức
+            <i class="fa-regular fa-newspaper"></i> Quản lý blog
           </button>
           <button data-target="shareMng" class="navBtnDB">
             <i class="fa-solid fa-circle-question"></i> Quản lý chia sẻ
@@ -172,7 +171,7 @@
                   id="decentNews"
                   value="newsMng"
                 />
-                <label for="decentNews">Quản lý tin tức</label><br />
+                <label for="decentNews">Quản lý blog</label><br />
                 <input
                   type="checkbox"
                   name="decentAdmin"
@@ -265,7 +264,7 @@
                  <option value="event">Sự kiện</option>
                  <option value="app">Phần mềm</option>
                  <option value="device">Thiết bị</option>
-                 <option value="news">Tin tức</option>
+                 <option value="news">Blog</option>
               </select><br>
               <label for="contentNotify">Nội dung thông báo</label><br>
               <input type="text" name="contentNotify" id="contentNotify"><br>
@@ -445,10 +444,10 @@
             </div>
           </div>
           <div id="newsMng" class="tabContent">
-            <h2 class="flag-item">Quản lý danh mục tin tức</h2>
+            <h2 class="flag-item">Quản lý danh mục blog</h2>
             <form id="formCategoryNews">
               <input type="hidden" name="idCategoryNews" id="idCategoryNews">
-              <label for="listCategoryNews">Danh mục tin tức</label><br>
+              <label for="listCategoryNews">Danh mục blog</label><br>
               <input type="text" name="listCategoryNews" id="listCategoryNews"><br>
               <input type="submit" value="Tạo" id="btnCategoryNews">
             </form>
@@ -471,17 +470,17 @@
               <%})%>
             </table>
             </div>
-            <h2 class="flag-item">Quản lý tin tức</h2>
+            <h2 class="flag-item">Quản lý blog</h2>
             <form enctype="multipart/form-data" id="formNews">
               <input type="hidden" name="idNews" id="idNews">
               <label for="imgNews">Hình ảnh</label><br>
               <input type="file" accept="image/webp" name="imgNews" id="imgNews"><br>
-              <label for="titleNews">Tiêu đề tin tức</label><br>
+              <label for="titleNews">Tiêu đề blog</label><br>
               <input type="text" name="titleNews" id="titleNews"><br>
-              <label for="infoNews">Nội dung tin tức</label><br>
+              <label for="infoNews">Nội dung blog</label><br>
               <div id="editor-container"></div>
               <input type="hidden" name="infoNews" id="infoNews">
-              <label for="categoryNews">Danh mục tin tức</label><br>
+              <label for="categoryNews">Danh mục blog</label><br>
               <select name="categoryNews" id="categoryNews" multiple>
                 <%listCategoryNews.forEach((categoryNews)=>{%>
                 <option value="<%=categoryNews.name%>"><%=categoryNews.name%></option>
@@ -489,12 +488,12 @@
               </select><br>
               <input type="submit" id="btnNews" value="Tạo">
             </form>
-            <em>Lưu ý: Nếu sai hình ảnh hãy xóa luôn tin tức và tạo mới</em>
+            <em>Lưu ý: Nếu sai hình ảnh hãy xóa luôn blog và tạo mới</em>
              <div id="divTableNews">
               <table id="tableNews">
               <tr>
-                <th>Tiêu đề tin tức</th>
-                <th>Nội dung tin tức</th>
+                <th>Tiêu đề blog</th>
+                <th>Nội dung blog</th>
                 <th>Danh mục</th>
                 <th>Ngày tạo</th>
                 <th>Thao tác</th>
@@ -555,7 +554,7 @@
           <h3>Mạng xã hội</h3>
           <a href="/"><img src="/img/logo_fb.webp" alt="logo_fb" /></a>
           <a href="/"><img src="/img/logo_zalo.webp" alt="logo_zalo" /></a>
-          <a href="/"><img src="/img/logo_tiktok.avif" alt="logo_youtube" /></a>
+          <a href="/"><img src="/img/tiktok2_trans_1.webp" alt="logo_tiktok" /></a>
           <a href="/"
             ><img src="/img/logo_youtube.webp" alt="logo_youtube"
           /></a>

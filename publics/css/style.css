@@ -19,7 +19,7 @@ body {
 
 body.no-scroll {
   overflow: hidden !important;
-  height: 100vh !important;
+  height: 100dvh !important;
 }
 
 #alert {
@@ -111,6 +111,9 @@ header div:first-child {
   height: inherit;
   display: inline-block;
 }
+header div:first-child .brand-group {
+  transform: translate(4rem, 1rem);
+}
 header div:first-child .logo-link {
   display: block;
   width: 100%;
@@ -128,6 +131,7 @@ header div:first-child #circlePath {
 header div:first-child .rotating-text {
   font-size: 18px;
   font-weight: bold;
+  font-family: "fontLogo";
   fill: #80a710;
   letter-spacing: 12px;
   transform-origin: -125px 90px;
@@ -199,6 +203,9 @@ header div:last-child #groupBtn button {
   margin: 0 0.3rem;
   width: 40%;
   height: 50%;
+}
+header div:last-child h2 {
+  color: #80a710;
 }
 
 #addTask {
@@ -315,7 +322,7 @@ header div:last-child #groupBtn button {
 #mainDashboard #navDashboard div h2,
 #mainDashboard #navDashboard div h3,
 #mainDashboard #navDashboard div em {
-  color: #80a710;
+  color: white;
 }
 #mainDashboard #navDashboard .navBtnDB {
   width: 100%;
@@ -333,19 +340,26 @@ header div:last-child #groupBtn button {
 }
 #mainDashboard #contentDashboard {
   width: 80%;
+  height: 50rem;
+  overflow-y: auto;
+  overflow-x: hidden;
   border: 1px solid #80a710;
+  position: relative;
 }
 #mainDashboard #contentDashboard .tabContent {
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s ease-in-out;
-  position: absolute;
-  padding: 1rem;
+  height: 0;
+  overflow: hidden;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  padding: 0 1rem;
 }
 #mainDashboard #contentDashboard .tabContent.active {
   opacity: 1;
   visibility: visible;
-  position: relative;
+  height: auto;
+  overflow: visible;
+  padding: 1rem;
 }
 #mainDashboard #contentDashboard #registerAdmin {
   border: 1px solid #80a710;
@@ -881,6 +895,46 @@ header div:last-child #groupBtn button {
   padding: 0.5rem;
   background-color: red;
   color: #fafafa;
+}
+
+#logoLogin {
+  width: 20%;
+  height: 8rem;
+  margin: auto;
+}
+#logoLogin .brand-group {
+  transform: translate(4rem, 1rem);
+}
+#logoLogin .logo-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+#logoLogin svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+#logoLogin #circlePath {
+  fill: none;
+  stroke: transparent;
+}
+#logoLogin .rotating-text {
+  font-size: 18px;
+  font-weight: bold;
+  font-family: "fontLogo";
+  fill: #80a710;
+  letter-spacing: 12px;
+  transform-origin: 36px 75px;
+  animation: spinAround 5s linear;
+}
+@keyframes spinAround {
+  from {
+    transform: rotate(180deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 #loginContainer {
@@ -1466,6 +1520,7 @@ header div:last-child #groupBtn button {
 #mainDetailNews article {
   width: 80%;
   border-right: 1px solid #80a710;
+  border-bottom: 1px solid #80a710;
   padding: 0.5rem;
 }
 #mainDetailNews article h1 {
@@ -1870,16 +1925,16 @@ footer div:last-child input {
 
 @media screen and (max-width: 768px) {
   header {
-    height: 2.5rem;
+    height: 3.5rem;
   }
   header div:first-child .brand-group {
-    transform: translateX(6rem);
+    transform: translate(12rem, 1rem);
   }
   header .hamburger-btn {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 2rem;
+    width: 1.2rem;
     height: 1rem;
     background: transparent;
     border: none;
@@ -1894,9 +1949,9 @@ footer div:last-child input {
   }
   header #navMenu {
     position: fixed;
-    top: 3rem;
+    top: 3.9rem;
     right: 0;
-    height: calc(100vh - 3rem);
+    height: calc(100dvh - 3.9rem);
     width: 70%;
     background-color: #80a710;
     flex-direction: column-reverse;
@@ -1989,5 +2044,11 @@ footer div:last-child input {
   footer div p,
   footer div a {
     font-size: 0.8rem;
+  }
+  #loginContainer #loginForm {
+    width: 100%;
+  }
+  #loginContainer #loginForm input[id=pwAdmin] {
+    width: 88%;
   }
 }/*# sourceMappingURL=style.css.map */

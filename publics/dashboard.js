@@ -971,11 +971,27 @@ Quill.register(Align, true);
 const quill = new Quill("#editor-container", {
   theme: "snow",
   modules: {
+    table: {
+      operationMenu: {
+        // Cho phép menu ngữ cảnh hiển thị đầy đủ các tùy chọn
+        items: {
+          insertRowAbove: { text: 'Thêm dòng phía trên' },
+          insertRowBelow: { text: 'Thêm dòng phía dưới' },
+          insertColumnLeft: { text: 'Thêm cột bên trái' },
+          insertColumnRight: { text: 'Thêm cột bên phải' },
+          deleteRow: { text: 'Xóa dòng' },
+          deleteColumn: { text: 'Xóa cột' },
+          deleteTable: { text: 'Xóa bảng' }
+        }
+      }
+    },
     toolbar: [
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
       [{ size: ["12px", "14px", "16px", "18px", "20px", "24px", "32px"] }],
       ["bold", "italic", "underline", "strike"],
       [{ color: [] }, { background: [] }, { align: [] }],
       ["link", "image", "video"],
+      ["table"],
       ["clean"],
     ],
     imageResize: {
