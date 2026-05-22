@@ -41,7 +41,8 @@ app.use(
           "'unsafe-inline'",
           "https://kit.fontawesome.com",
           "https://cdn.jsdelivr.net",
-          "https://cdnjs.cloudflare.com"
+          "https://cdnjs.cloudflare.com",
+          "https://unpkg.com",
         ],
         "connect-src": [
           "'self'",
@@ -81,10 +82,10 @@ app.use(
     redirect: true,
   }),
 );
-app.use((req,res,next)=>{
-  res.setHeader("ngrok-skip-browser-warning","true");
+app.use((req, res, next) => {
+  res.setHeader("ngrok-skip-browser-warning", "true");
   next();
-})
+});
 app.set("view engine", "ejs");
 app.set("views", "./views");
 
