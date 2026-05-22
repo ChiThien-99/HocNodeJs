@@ -19,8 +19,6 @@
     "multer": "^2.1.1",
     "multer-storage-cloudinary": "^4.0.0",
     "nodemon": "^3.1.14",
-    "quill": "^2.0.3",
-    "quill-table-ui": "^1.0.7",
     "socket.io": "^4.8.3"
   }
 }
