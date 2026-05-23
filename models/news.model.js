@@ -20,6 +20,11 @@ const newsSchema = mongoose.Schema({
     type:Array,
     required:true,
   },
+  views:{
+    type:Number,
+    default:0,
+    min:0,
+  },
   createAt: {
     type: Date,
     default: Date.now(),

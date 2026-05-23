@@ -50,7 +50,7 @@
               <path id="circlePath" d="M -210,90 A 85,85 0 1,1 -40,90 A 85,85 0 1,1 -210,90" />
             </defs>
             <g class="brand-group">
-              <image href="/img/logo_imzai_1.webp" x="-200" y="15" width="150" height="150" clip-path="circle()" />
+              <image href="/img/logo_imzai_1.webp" x="-200" y="15" width="150" height="150" clip-path="circle()" loading="lazy"/>
             <text class="rotating-text">
               <textPath href="#circlePath" startOffset="30%" text-anchor="middle">
                IMZEN
@@ -203,7 +203,7 @@
         <div id="divNews">
           <div id="headerNews">
             <h2 class="flag-item">Blog</h2>
-            <a href="#" target="_blank">Xem tất cả</a>
+            <a href="/blogs" target="_blank">Xem tất cả</a>
           </div>
            <div id="groupFilterCategoryNews">
               <%listCategoryNews.forEach((categoryNews)=>{%>
@@ -213,9 +213,9 @@
           <div id="listNews">
             <%listNews.forEach((news)=>{%>
             <div class="news">
-              <a href="/news/detailNews/<%=news._id%>" target="_blank" class="linkImg"><img src="<%=news.image%>" alt="news"></a>
+              <a href="/blogs/detailBlog/<%=news._id%>" target="_blank" class="linkImg"><img src="<%=news.image%>" alt="news"></a>
               <div class="news-content">
-                <a href="/news/detailNews/<%=news._id%>" target="_blank"><h4><%=news.title%></h4></a>
+                <a href="/blogs/detailBlog/<%=news._id%>" target="_blank"><h4><%=news.title%></h4></a>
                 <p>
                   <%
                   let plainText=news.info.replace(/<\/?[^>]+(>|$)/g,"");
@@ -237,7 +237,7 @@
       <footer>
         <div>
           <h3>Thông tin doanh nghiệp</h3>
-          <p>Công Ty TNHH Công Nghệ IMZ</p>
+          <p>Công Ty TNHH Công Nghệ IMZEN</p>
           <p>MST:......</p>
           <p>Địa chỉ:...... <a href="/">Xem bản đồ</a></p>
           <p>Email:......</p>

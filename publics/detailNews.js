@@ -11,7 +11,7 @@ document.getElementById("formComment").addEventListener("submit", (e) => {
   const parentCommentId = document.getElementById("parentCommentId").value;
   const authorComment = document.getElementById("authorComment").value;
   const contentComment = document.getElementById("contentComment").value;
-  fetch(`/news/addComment/${idComment}`, {
+  fetch(`/blogs/addComment/${idComment}`, {
     method: "POST",
     headers: { "Content-Type": "application/json;charset=UTF-8" },
     body: JSON.stringify({ authorComment, contentComment, parentCommentId }),
@@ -87,7 +87,7 @@ document.getElementById("listComment").addEventListener("click", (e) => {
     return;
   }
   const idComment = btnLike.getAttribute("data-idComment");
-  fetch(`/news/commentLike/${idComment}`, {
+  fetch(`/blogs/commentLike/${idComment}`, {
     method: "GET",
     headers: { "Content-Type": "application/json;charset=UTF-8" },
   })

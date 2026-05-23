@@ -201,7 +201,7 @@ document.querySelectorAll(".btnDeleteUserAdmin").forEach((btn) => {
     const confirmDelete = await confirm(
       "Thông báo",
       "Bạn có chắc chắn muốn xóa user admin này?",
-      "#027e1f",
+      "#1877f2",
     );
     console.log(confirmDelete);
     if (confirmDelete) {
@@ -338,7 +338,7 @@ document.querySelectorAll(".btnDeleteBanner").forEach((btn) => {
     const confirmDelete = await confirm(
       "Thông báo",
       "Bạn chắc chắn muốn xóa banner này",
-      "#027e1f",
+      "#1877f2",
     );
     if (confirmDelete) {
       const id = btn.getAttribute("data-idbanner");
@@ -470,7 +470,7 @@ document.querySelectorAll(".btnDeleteNotify").forEach((btn) => {
     const confirmDelete = await confirm(
       "Thông báo",
       "Bạn có chắc chắn muốn xóa thông báo này",
-      "#027e1f",
+      "#1877f2",
     );
     if (confirmDelete) {
       const id = btn.getAttribute("data-idnotify");
@@ -567,7 +567,7 @@ document.querySelectorAll(".btnDeleteFuncApp").forEach((btn) => {
     const confirmDelete = await confirm(
       "Thông báo",
       "Bạn có chắc nhắn muốn xóa chức năng này",
-      "#027e1f",
+      "#1877f2",
     );
     if (confirmDelete) {
       const id = btn.getAttribute("data-idfuncapp");
@@ -681,7 +681,7 @@ document.querySelectorAll(".btnDeleteApp").forEach((btn) => {
     const confirmDelete = await confirm(
       "Thông báo",
       "Bạn có chắc chắn xóa phần mềm này",
-      "#027e1f",
+      "#1877f2",
     );
     if (confirmDelete) {
       const id = btn.getAttribute("data-idapp");
@@ -776,7 +776,7 @@ document.querySelectorAll(".btnDeleteFuncDevice").forEach((btn) => {
     const confirmDelete = confirm(
       "Thông báo",
       "Bạn có chắc chắn muốn xóa chức năng này không",
-      "#027e1f",
+      "#1877f2",
     );
     if (confirmDelete) {
       const id = btn.getAttribute("data-idfuncdevice");
@@ -906,7 +906,7 @@ document.querySelectorAll(".btnDeleteDevice").forEach((btn) => {
     const confirmDelete = await confirm(
       "Thông báo",
       "Bạn có chắc chắn muốn xóa thiết bị này",
-      "#027e1f",
+      "#1877f2",
     );
     if (confirmDelete) {
       const id = btn.getAttribute("data-iddevice");
@@ -968,26 +968,35 @@ Size.whitelist = ["12px", "14px", "16px", "18px", "20px", "24px", "32px"];
 Quill.register(Size, true);
 const Align = Quill.import("attributors/style/align");
 Quill.register(Align, true);
+Quill.register({
+    'modules/table-better': QuillTableBetter
+  }, true);
 const quill = new Quill("#editor-container", {
   theme: "snow",
   modules: {
+    table: false,
     toolbar: [
       [{ header: [1, 2, 3, 4, 5, 6, false] }],
       [{ size: ["12px", "14px", "16px", "18px", "20px", "24px", "32px"] }],
       ["bold", "italic", "underline", "strike"],
       [{ color: [] }, { background: [] }, { align: [] }],
-      ["link", "image", "video", "table"],
+      ["link", "image", "video", "table-better","code-block"],
       [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
       ["clean"],
     ],
     imageResize: {
       displaySize: true,
     },
-    table: true,
+    'table-better': {
+        language: 'en_US',
+        menus: ['column', 'row', 'merge', 'table', 'cell', 'wrap', 'copy', 'delete'],
+        toolbarTable: true
+      },
+      keyboard: {
+        bindings: QuillTableBetter.keyboardBindings
+      },
   },
 });
-const tableModule = quill.getModule("table");
-tableModule.insertTable(3, 3);
 quill.getModule("toolbar").addHandler("image", () => {
   const input = document.createElement("input");
   input.setAttribute("type", "file");
@@ -1166,7 +1175,7 @@ document.querySelectorAll(".btnDeleteCategoryNews").forEach((btn) => {
     const confirmDelete = await confirm(
       "Thông báo",
       "Bạn có chắc chắn muốn xóa danh mục tin tức này",
-      "#027e1f",
+      "#1877f2",
     );
     if (confirmDelete) {
       const id = btn.getAttribute("data-idCategoryNews");
@@ -1225,7 +1234,7 @@ document.querySelectorAll(".btnDeleteNews").forEach((btn) => {
     const confirmDelete = await confirm(
       "Thông báo",
       "Bạn có chắc chắn muốn xóa tin tức này",
-      "#027e1f",
+      "#1877f2",
     );
     if (confirmDelete) {
       const id = btn.getAttribute("data-idnews");

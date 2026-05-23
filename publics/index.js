@@ -536,8 +536,9 @@ document.getElementById("btnPriceHighLow").addEventListener("click", () => {
 });
 let news = document.querySelectorAll(".news");
 const listNews = document.getElementById("listNews");
-socket.on("update-news", (allNews) => {
-  renderNews(allNews);
+socket.on("update-news", (data) => {
+  console.log(data);
+  renderNews(data.sixNews);
   news = document.querySelectorAll(".news");
 });
 function renderNews(list_news) {
@@ -550,9 +551,9 @@ function renderNews(list_news) {
         let shortText=plainText.length>200?plainText.substring(0,200)+"...":plainText;
        return `
   <div class="news">
-    <a href="/news/detailNews/${news._id}" target="_blank" class="linkImg"><img src="${news.image}" alt="news"></a>
+    <a href="/blogs/detailBlog/${news._id}" target="_blank" class="linkImg"><img src="${news.image}" alt="news"></a>
   <div class="news-content">
-    <a href="/news/detailNews/${news._id}" target="_blank"><h4>${news.title}</h4></a>
+    <a href="/blogs/detailBlog/${news._id}" target="_blank"><h4>${news.title}</h4></a>
     <p>${shortText}</p> 
   </div>
   </div>

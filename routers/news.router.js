@@ -1,9 +1,12 @@
 import express from "express";
-import * as newsController from "../controllers/news.controller.js";
+import * as blogsController from "../controllers/news.controller.js";
 export const newsRouter = express.Router();
-const prefix = "/news";
+const prefix = "/blogs";
 
-newsRouter.get(`${prefix}/detailNews/:id`, newsController.getDetailNews);
-newsRouter.get(`${prefix}/commentLike/:id`,newsController.handleLike);
-newsRouter.post(`${prefix}/addComment/:id`,newsController.postAddComment);
+newsRouter.get(`${prefix}`,blogsController.getBlogs);
+newsRouter.get(`${prefix}/newBlogs`,blogsController.getNewBlogs);
+newsRouter.get(`${prefix}/viewsBlogs`,blogsController.getViewsBlogs);
+newsRouter.get(`${prefix}/detailBlog/:id`, blogsController.getDetailNews);
+newsRouter.get(`${prefix}/commentLike/:id`,blogsController.handleLike);
+newsRouter.post(`${prefix}/addComment/:id`,blogsController.postAddComment);
 

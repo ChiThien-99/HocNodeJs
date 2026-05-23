@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blogs</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="shortcut icon" href="/img/logo_imzai_1.ico" type="image/x-icon" />
+    <link
+      rel="preload"
+      href="/Minecraft.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/OpenSans-Regular.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <script
+      src="https://kit.fontawesome.com/c1f12001f0.js"
+      crossorigin="anonymous"
+    ></script>
+</head>
+<body>
+    <header>
+      <div>
+        <a href="/" class="logo-link">
+          <svg viewBox="0 0 200 200" width="200" height="200">
+            <defs>
+              <path id="circlePath" d="M -210,90 A 85,85 0 1,1 -40,90 A 85,85 0 1,1 -210,90" />
+            </defs>
+            <g class="brand-group">
+              <image href="/img/logo_imzai_1.webp" x="-200" y="15" width="150" height="150" clip-path="circle()" />
+            <text class="rotating-text">
+              <textPath href="#circlePath" startOffset="30%" text-anchor="middle">
+               IMZEN
+              </textPath>
+            </text>
+            </g>
+          </svg>
+        </a>
+      </div>
+      <button type="button" class="hamburger-btn" id="hamburgerBtn">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+      <div id="navMenu">
+        <nav>
+          <ul>
+            <li><a href="#">Trang chủ</a></li>
+            <li>
+              <a href="#" id="navCongCu">Phần mềm</a>
+            </li>
+            <li><a href="#">Thiết bị</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Problem?</a></li>
+          </ul>
+        </nav>
+        <div id="groupBtn">
+          <button>Đăng ký</button>
+          <button>Đăng nhập</button>
+        </div>
+      </div>
+    </header>
+    <main id="mainBlogs">
+        <div id="listBlog">
+            <div id="filterBlogs">
+                <h3>Bộ lọc</h3>
+                <button id="btnNewBlog" class="active">Mới nhất</button>
+                <button id="btnViewsBlog">Xem nhiều</button>
+                <button id="btnCategoryBlog">Danh mục <i class="fa-solid fa-sort-down"></i></button>
+            </div>
+             <div id="listNews">
+            <%listNews.forEach((news)=>{%>
+            <div class="news">
+              <a href="/blogs/detailBlog/<%=news._id%>" target="_blank" class="linkImg"><img src="<%=news.image%>" alt="news"></a>
+              <div class="news-content">
+                <a href="/blogs/detailBlog/<%=news._id%>" target="_blank"><h4><%=news.title%></h4></a>
+                <p>
+                  <%
+                  let plainText=news.info.replace(/<\/?[^>]+(>|$)/g,"");
+                  plainText=plainText.replace(/&nbsp;|&#160;/gi," ");
+                  plainText=plainText.replace(/&quot;/gi,'"');
+                  plainText=plainText.replace(/&#39;/gi,"'");
+                  plainText=plainText.replace(/\s+/g," ").trim();
+                  let shortText=plainText.length>200?plainText.substring(0,200)+"...":plainText;
+                  %>
+                  <%=shortText%>
+                </p> 
+              </div>
+            </div>
+            <%})%>
+          </div>
+        </div>
+        <aside>
+        <div>
+          <h2 class="flag-item">Phần mềm</h2>
+          <div id="listAppCol">
+            <%apps.forEach((app)=>{%>
+            <div class="appCol">
+              <div>
+                <img src="<%=app.image%>" alt="app">
+              </div>
+              <div>
+                <h4><%=app.name%></h4>
+                <p>
+                   <%
+                  let plainText=app.info.replace(/<\/?[^>]+(>|$)/g,"");
+                  plainText=plainText.replace(/&nbsp;|&#160;/gi," ");
+                  plainText=plainText.replace(/\s+/g," ").trim();
+                  let shortText=plainText.length>200?plainText.substring(0,200)+"...":plainText;
+                  %>
+                  <%=shortText%>
+                </p>
+                <a href="/app/<%=app.name%>/<%=app._id%>" target="_blank">Truy cập</a>
+              </div>
+            </div>
+            <%})%>
+          </div>
+        </div>
+        <div>
+          <h2 class="flag-item">Thiết bị</h2>
+          <div id="listDeviceCol">
+            <%devices.forEach((device)=>{%>
+            <div class="deviceCol">
+              <div>
+                <img src="<%=device.image%>" alt="device">
+                <p><%=device.price.toLocaleString('vi-VN')%>đ</p>
+              </div>
+              <div>
+                <h4><%=device.name%></h4>
+                <p>
+                  <%
+                  let plainText=device.info.replace(/<\/?[^>]+(>|$)/g,"");
+                  plainText=plainText.replace(/&nbsp;|&#160;/gi," ");
+                  plainText=plainText.replace(/\s+/g," ").trim();
+                  let shortText=plainText.length>200?plainText.substring(0,200)+"...":plainText;
+                  %>
+                  <%=shortText%>
+                </p>
+                <a href="/device/<%=device.name%>/<%=device._id%>" target="_blank">Xem chi tiết</a>
+              </div>
+            </div>
+            <%})%>
+          </div>
+        </div>
+      </aside>
+    </main>
+    <footer>
+        <div>
+          <h3>Thông tin doanh nghiệp</h3>
+          <p>Công Ty TNHH Công Nghệ IMZEN</p>
+          <p>MST:......</p>
+          <p>Địa chỉ:...... <a href="/">Xem bản đồ</a></p>
+          <p>Email:......</p>
+          <a href="/"
+            ><img src="/img/bocongthuong.webp" alt="logo_bocongthuong"
+          /></a>
+          <a href="/"
+            ><img src="/img/chung_chi_ssl.webp" alt="logo_chung_chi_ssl"
+          /></a>
+          <a href="/"><img src="/img/pci_dss.png" alt="logo_pci_dss" /></a>
+          <h3>Mạng xã hội</h3>
+          <a href="/"><img src="/img/logo_fb.webp" alt="logo_fb" /></a>
+          <a href="/"><img src="/img/logo_zalo.webp" alt="logo_zalo" /></a>
+          <a href="/"><img src="/img/tiktok2_trans_1.webp" alt="logo_tiktok" /></a>
+          <a href="/"
+            ><img src="/img/logo_youtube.webp" alt="logo_youtube"
+          /></a>
+        </div>
+        <div>
+          <h3>Chính sách</h3>
+          <a href="/">AI Privacy & Trust</a><br />
+          <a href="/">Điều khoản dịch vụ</a><br />
+          <a href="/">Tuyên bố từ chối trách nhiệm</a><br />
+          <h3>Cổng thanh toán</h3>
+          <a href="/"><img src="/img/logo_paypal.webp" alt="logo_paypal" /></a>
+          <a href="/"><img src="/img/logo_momo.webp" alt="logo_momo" /></a>
+          <a href="/"><img src="/img/logo_vnpay.webp" alt="logo_vnpay" /></a>
+          <a href="/"><img src="/img/logo_bank.webp" alt="logo_bank" /></a>
+        </div>
+        <div>
+          <h3>Sản phẩm</h3>
+          <a href="/">Phần mềm</a><br />
+          <a href="/">Thiết bị</a><br />
+          <h3><a href="/">Blog</a></h3>
+        </div>
+        <div>
+          <h3>Đăng ký nhận tin khuyến mãi</h3>
+          <p>Email</p>
+          <input type="text" /><br />
+          <p>Số điện thoại</p>
+          <input type="text" /><br />
+          <button>Đăng ký</button>
+        </div>
+      </footer>
+<script src="/socket.io/socket.io.js"></script>
+</body>
+  <script type="module" src="/news.js" defer></script>
+</html>

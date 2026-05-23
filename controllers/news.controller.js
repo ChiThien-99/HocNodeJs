@@ -2,9 +2,43 @@ import { newsEntity } from "../models/news.model.js";
 import { appEntity } from "../models/app.model.js";
 import { deviceEntity } from "../models/device.model.js";
 import { commentEntity } from "../models/comment.model.js";
+
+export const getBlogs=async(req,res)=>{
+  const listNews=await newsEntity.find().sort("-createAt");
+  const apps = await appEntity.find().sort("-views").limit(4);
+  const devices = await deviceEntity.find().sort("-createAt").limit(4);
+  res.render("news.ejs",{listNews,apps,devices});
+}
+export const getNewBlogs=async(req,res)=>{
+  try {
+    const io = req.app.get("socketio");
+    const allNews = await newsEntity.find().sort("-createAt");
+    io.emit("update-news", {allNews:allNews});
+    res.json({success:true});
+  } catch (error) {
+     res.json({success:false,error:error.message});
+  }
+}
+export const getViewsBlogs=async(req,res)=>{
+   try {
+    const io = req.app.get("socketio");
+    const allNews = await newsEntity.find().sort("-views");
+    io.emit("update-news", {allNews:allNews});
+    res.json({success:true});
+  } catch (error) {
+     res.json({success:false,error:error.message});
+  }
+}
 export const getDetailNews = async (req, res) => {
   const { id } = req.params;
   const news = await newsEntity.findById(id);
+  if (!req.session.viewedBlog) {
+    req.session.viewedBlog=[];
+  }
+  if (!req.session.viewedBlog.includes(id)) {
+    await newsEntity.findByIdAndUpdate(id,{ $inc: { views: 1 } });
+    req.session.viewedBlog.push(id);
+  }
   const apps = await appEntity.find().sort("-views").limit(4);
   const devices = await deviceEntity.find().sort("-createAt").limit(4);
   const query = {};
@@ -16,7 +50,7 @@ export const getDetailNews = async (req, res) => {
   }
   const relatedNews = await newsEntity.find(query).sort("-createAt").limit(4);
   const latestNews = await newsEntity.find().sort("-createAt").limit(4);
-  const comments = await commentEntity.find().sort("-createAt");
+  const comments = await commentEntity.find({newsId:id}).sort("-createAt");
   res.render("detailNews.ejs", {
     news,
     apps,
@@ -42,7 +76,7 @@ export const postAddComment = async (req, res) => {
       comment.parentId=parentCommentId;
     }
     const newComment = await commentEntity.create(comment);
-    const listComment = await commentEntity.find().sort("-createAt");
+    const listComment = await commentEntity.find({newsId:id}).sort("-createAt");
     res.json({ data: listComment, success: true });
   } catch (error) {
     res.json({ data: error.message, success: false });

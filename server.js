@@ -8,6 +8,7 @@ const __dirname = dirname(__filename);
 // Bây giờ bạn có thể sử dụng __dirname bình thường
 // Ví dụ: express.static(path.join(__dirname, "publics"), { ... });
 import express from "express";
+import session from "express-session";
 import cors from "cors";
 import crypto from "crypto";
 import https from "https";
@@ -31,6 +32,15 @@ import { appRouter } from "./routers/app.router.js";
 import { newsRouter } from "./routers/news.router.js";
 import { adminEntity } from "./models/admin.model.js";
 
+app.use(session({
+  secret:"9h80n0h0m960m0a8ul2p8ha1aii03umin1l",
+  resave:false,
+  saveUninitialized:true,
+  cookie:{
+    maxAge:24*60*60*1000,
+    secure:false,
+  }
+}))
 app.use(
   helmet({
     contentSecurityPolicy: {

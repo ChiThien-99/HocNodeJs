@@ -669,8 +669,11 @@ export const addNews = async (req, res) => {
       category: categoryNews,
     });
     const io = req.app.get("socketio");
-    const allNews = await newsEntity.find().sort("-createAt").limit(6);
-    io.emit("update-news", allNews);
+    const sixNews = await newsEntity.find().sort("-createAt").limit(6);
+    const allNews = await newsEntity.find().sort("-createAt");
+    console.log(Object.keys(sixNews).length);
+    console.log(Object.keys(allNews).length);
+    io.emit("update-news", {sixNews:sixNews,allNews:allNews});
     res.json({ mess: "Tạo tin tức thành công", success: true });
   } catch (error) {
     res.json({

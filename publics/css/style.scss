@@ -63,7 +63,7 @@ body.no-scroll {
   width: auto;
   height: auto;
   padding: 0.7rem;
-  background-color: $colorCTA;
+  background-color: #1877f2;
   color: $colorSecondaryText;
   border: none;
   border-radius: 5px;
@@ -87,7 +87,7 @@ body.no-scroll {
   }
 }
 .flag-item {
-  background-color: $colorCTA;
+  background-color: orange;
   color: $colorSecondaryText;
   width: fit-content;
   min-width: 1rem;
@@ -196,10 +196,15 @@ header {
         color: $colorSecondaryText;
         font-weight: bold;
         font-size: 1rem;
-        background-color: $colorCTA;
         margin: 0 0.3rem;
         width: 40%;
         height: 50%;
+        &:first-child{
+          background-color: #bbb;
+        }
+        &:last-child{
+          background-color: $colorCTA;
+        }
       }
     }
     h2 {
@@ -306,8 +311,9 @@ header {
       h2,
       h3,
       em {
-        color: $colorCTA;
-        // color: white;
+        // color: black;
+        margin: 0.5rem 0;
+        color: white;
       }
     }
     .navBtnDB {
@@ -1362,7 +1368,7 @@ header {
         display: flex;
         flex-flow: row nowrap;
         #btnShare {
-          background-color: $colorCTA;
+          background-color: #1877f2;
           color: $colorSecondaryText;
           @include button(0.5rem);
           width: 7rem;
@@ -1404,6 +1410,13 @@ header {
       img {
         max-width: 100%;
         height: auto;
+      }
+      table,th,td{
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+      thead{
+        background-color: #bbb;
       }
     }
     #divComment {
@@ -1513,6 +1526,183 @@ header {
     }
   }
   aside {
+    width: 20%;
+    #listAppCol {
+      display: flex;
+      flex-direction: column;
+      margin: 1rem 0;
+      .appCol {
+        display: flex;
+        flex-flow: row nowrap;
+        overflow: hidden;
+        width: 100%;
+        height: 10rem;
+        border: 1px solid black;
+        border-radius: 5px;
+        margin: 2% 1%;
+        div:first-child {
+          width: 50%;
+          height: inherit;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            margin: 0;
+          }
+        }
+        div:last-child {
+          width: 50%;
+          height: inherit;
+          padding: 0.5rem 0.8rem;
+          position: relative;
+          background-color: $colorPrimaryBG;
+          h4 {
+            font-size: 1.1rem;
+            margin: 0 0 0.2rem 0;
+          }
+          p {
+            font-size: 1rem;
+            margin: 0;
+          }
+          a {
+            display: inline-block;
+            text-decoration: none;
+            background-color: $colorCTA;
+            color: $colorSecondaryText;
+            @include button(0.5rem);
+            position: absolute;
+            bottom: 0.5rem;
+            right: 0.5rem;
+            width: 50%;
+            text-align: center;
+          }
+        }
+      }
+    }
+    #listDeviceCol {
+      display: flex;
+      flex-direction: column;
+      margin: 1rem 0;
+      .deviceCol {
+        display: flex;
+        flex-flow: row nowrap;
+        overflow: hidden;
+        width: 100%;
+        height: 12rem;
+        border: 1px solid black;
+        border-radius: 5px;
+        margin: 2% 1%;
+        div:first-child {
+          width: 50%;
+          height: inherit;
+          img {
+            width: 100%;
+            height: 80%;
+            object-fit: cover;
+            margin: 0;
+          }
+          p {
+            margin: 0.5rem;
+            font-size: 1.2rem;
+          }
+        }
+        div:last-child {
+          width: 50%;
+          height: inherit;
+          padding: 0.5rem 0.8rem;
+          position: relative;
+          background-color: $colorPrimaryBG;
+          h4 {
+            font-size: 1.1rem;
+            margin: 0 0 0.2rem 0;
+          }
+          p {
+            font-size: 1rem;
+            margin: 0;
+          }
+          a {
+            display: inline-block;
+            text-decoration: none;
+            background-color: $colorCTA;
+            color: $colorSecondaryText;
+            @include button(0.5rem);
+            position: absolute;
+            bottom: 0.5rem;
+            right: 0.5rem;
+            width: 60%;
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+}
+#mainBlogs{
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  #listBlog{
+    width: 80%;
+    #filterBlogs{
+      padding: 1rem 0;
+      border-bottom: 1px solid $colorCTA;
+      h3{
+        margin: 0 0 0.5rem 0;
+        color: $colorCTA;
+      }
+      button{
+        @include button(0.5rem);
+        background-color: transparent;
+        border: 1px solid $colorCTA;
+        color: $colorCTA;
+      }
+      .active {
+      background-color: $colorCTA;
+      color: $colorSecondaryText;
+    }
+    }
+    #listNews {
+      display: flex;
+      flex-flow: row wrap;
+      margin: 1rem 0;
+      .news {
+        width: 48%;
+        height: 15rem;
+        border: 1px solid black;
+        border-radius: 5px;
+        background-color: $colorPrimaryBG;
+        margin: 1%;
+        display: flex;
+        flex-flow: row nowrap;
+        overflow: hidden;
+        .linkImg {
+          width: 50%;
+          height: 100%;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            margin: 0;
+          }
+        }
+        .news-content {
+          width: 50%;
+          padding: 0.5rem 0.8rem;
+          display: flex;
+          flex-direction: column;
+          a {
+            text-decoration: none;
+            color: black;
+            h4 {
+              font-size: 1.1rem;
+              margin: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+  aside{
     width: 20%;
     #listAppCol {
       display: flex;
@@ -1739,7 +1929,7 @@ footer {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      width: 1.2rem;
+      width: 1.5rem;
       height: 1rem;
       background: transparent;
       border: none;
