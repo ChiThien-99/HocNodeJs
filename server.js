@@ -29,18 +29,20 @@ import { routerLoginAdmin } from "./routers/loginAdmin.router.js";
 import { authRouter } from "./routers/auth.router.js";
 import { app1Router } from "./routers/app1.router.js";
 import { appRouter } from "./routers/app.router.js";
-import { newsRouter } from "./routers/news.router.js";
+import { blogsRouter } from "./routers/blogs.router.js";
 import { adminEntity } from "./models/admin.model.js";
 
-app.use(session({
-  secret:"9h80n0h0m960m0a8ul2p8ha1aii03umin1l",
-  resave:false,
-  saveUninitialized:true,
-  cookie:{
-    maxAge:24*60*60*1000,
-    secure:false,
-  }
-}))
+app.use(
+  session({
+    secret: "9h80n0h0m960m0a8ul2p8ha1aii03umin1l",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      maxAge: 24 * 60 * 60 * 1000,
+      secure: false,
+    },
+  }),
+);
 app.use(
   helmet({
     contentSecurityPolicy: {
@@ -116,7 +118,7 @@ app.use("/", authRouter);
 app.use("/", indexRouter);
 app.use("/", app1Router);
 app.use("/", appRouter);
-app.use("/", newsRouter);
+app.use("/", blogsRouter);
 
 // Xử lý lỗi middleware
 app.use((err, req, res, next) => {

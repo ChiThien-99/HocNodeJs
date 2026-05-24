@@ -4,8 +4,8 @@ import { appEntity } from "../models/app.model.js";
 import { funcAppEntity } from "../models/funcApp.model.js";
 import { funcDeviceEntity } from "../models/funcDevice.model.js";
 import { deviceEntity } from "../models/device.model.js";
-import { categoryNewsEntity } from "../models/categoryNews.model.js";
-import { newsEntity } from "../models/news.model.js";
+import { categoryblogsEntity } from "../models/categoryblogs.model.js";
+import { blogsEntity } from "../models/blogs.model.js";
 export const getIndex = async (req, res) => {
   const banners = await bannerEntity.find().sort("order");
   const notifys = await notifyEntity.find().sort("-createAt");
@@ -13,8 +13,8 @@ export const getIndex = async (req, res) => {
   const funcApps = await funcAppEntity.find();
   const devices = await deviceEntity.find().sort("-createAt").limit(6);
   const funcDevices = await funcDeviceEntity.find();
-  const listCategoryNews = await categoryNewsEntity.find();
-  const listNews = await newsEntity.find().sort("-createAt").limit(6);
+  const listCategoryblogs = await categoryblogsEntity.find();
+  const listblogs = await blogsEntity.find().sort("-createAt").limit(6);
   res.render("index.ejs", {
     banners,
     notifys,
@@ -22,8 +22,8 @@ export const getIndex = async (req, res) => {
     funcApps,
     devices,
     funcDevices,
-    listNews,
-    listCategoryNews,
+    listblogs,
+    listCategoryblogs,
   });
 };
 export const filterNewApp = async (req, res) => {
@@ -161,7 +161,7 @@ export const filterFuncDevice = async (req, res) => {
     });
   }
 };
-export const filterCategoryNews = async (req, res) => {
+export const filterCategoryblogs = async (req, res) => {
   try {
     const { names } = req.query;
     const query = {};
@@ -170,12 +170,12 @@ export const filterCategoryNews = async (req, res) => {
       query.category = { $in: filterArray };
     }
     const io = req.app.get("socketio");
-    const allNews = await newsEntity.find(query).sort("-createAt").limit(6);
-    io.emit("update-news", allNews);
-    res.json({ mess: "Lọc danh mục tin tức thành công", success: true });
+    const allblogs = await blogsEntity.find(query).sort("-createAt").limit(6);
+    io.emit("update-blogs", allblogs);
+    res.json({ mess: "Lọc danh mục blogs thành công", success: true });
   } catch (error) {
     res.json({
-      mess: "Lọc danh mục tin tức thất bại",
+      mess: "Lọc danh mục blogs thất bại",
       success: false,
       error: error.message,
     });

@@ -90,7 +90,7 @@
           <button data-target="deviceMng" class="navBtnDB">
             <i class="fa-solid fa-screwdriver-wrench"></i> Quản lý thiết bị
           </button>
-          <button data-target="newsMng" class="navBtnDB">
+          <button data-target="blogsMng" class="navBtnDB">
             <i class="fa-regular fa-newspaper"></i> Quản lý blog
           </button>
           <button data-target="shareMng" class="navBtnDB">
@@ -169,10 +169,10 @@
                 <input
                   type="checkbox"
                   name="decentAdmin"
-                  id="decentNews"
-                  value="newsMng"
+                  id="decentblogs"
+                  value="blogsMng"
                 />
-                <label for="decentNews">Quản lý blog</label><br />
+                <label for="decentblogs">Quản lý blog</label><br />
                 <input
                   type="checkbox"
                   name="decentAdmin"
@@ -265,7 +265,7 @@
                  <option value="event">Sự kiện</option>
                  <option value="app">Phần mềm</option>
                  <option value="device">Thiết bị</option>
-                 <option value="news">Blog</option>
+                 <option value="blogs">Blog</option>
               </select><br>
               <label for="contentNotify">Nội dung thông báo</label><br>
               <input type="text" name="contentNotify" id="contentNotify"><br>
@@ -444,27 +444,27 @@
             </table>
             </div>
           </div>
-          <div id="newsMng" class="tabContent">
+          <div id="blogsMng" class="tabContent">
             <h2 class="flag-item">Quản lý danh mục blog</h2>
-            <form id="formCategoryNews">
-              <input type="hidden" name="idCategoryNews" id="idCategoryNews">
-              <label for="listCategoryNews">Danh mục blog</label><br>
-              <input type="text" name="listCategoryNews" id="listCategoryNews"><br>
-              <input type="submit" value="Tạo" id="btnCategoryNews">
+            <form id="formCategoryblogs">
+              <input type="hidden" name="idCategoryblogs" id="idCategoryblogs">
+              <label for="listCategoryblogs">Danh mục blog</label><br>
+              <input type="text" name="listCategoryblogs" id="listCategoryblogs"><br>
+              <input type="submit" value="Tạo" id="btnCategoryblogs">
             </form>
-            <div id="divTableCategoryNews">
-              <table id="tableCategoryNews">
+            <div id="divTableCategoryblogs">
+              <table id="tableCategoryblogs">
               <tr>
                 <th>Danh mục</th>
                 <th>Thao tác</th>
               </tr>
-              <%listCategoryNews.forEach((categoryNews)=>{%>
+              <%listCategoryblogs.forEach((categoryblogs)=>{%>
               <tr>
-                <td><%=categoryNews.name%></td>
+                <td><%=categoryblogs.name%></td>
                 <td>
                   <div class="btnGroup">
-                    <button class="btnUpdateCategoryNews" data-idnCategoryNews="<%=categoryNews._id%>">Cập nhật</button>
-                    <button class="btnDeleteCategoryNews" data-idCategoryNews="<%=categoryNews._id%>">Xóa</button>
+                    <button class="btnUpdateCategoryblogs" data-idnCategoryblogs="<%=categoryblogs._id%>">Cập nhật</button>
+                    <button class="btnDeleteCategoryblogs" data-idCategoryblogs="<%=categoryblogs._id%>">Xóa</button>
                   </div>
                 </td>
               </tr>
@@ -472,26 +472,26 @@
             </table>
             </div>
             <h2 class="flag-item">Quản lý blog</h2>
-            <form enctype="multipart/form-data" id="formNews">
-              <input type="hidden" name="idNews" id="idNews">
-              <label for="imgNews">Hình ảnh</label><br>
-              <input type="file" accept="image/webp" name="imgNews" id="imgNews"><br>
-              <label for="titleNews">Tiêu đề blog</label><br>
-              <input type="text" name="titleNews" id="titleNews"><br>
-              <label for="infoNews">Nội dung blog</label><br>
+            <form enctype="multipart/form-data" id="formblogs">
+              <input type="hidden" name="idblogs" id="idblogs">
+              <label for="imgblogs">Hình ảnh</label><br>
+              <input type="file" accept="image/webp" name="imgblogs" id="imgblogs"><br>
+              <label for="titleblogs">Tiêu đề blog</label><br>
+              <input type="text" name="titleblogs" id="titleblogs"><br>
+              <label for="infoblogs">Nội dung blog</label><br>
               <div id="editor-container"></div>
-              <input type="hidden" name="infoNews" id="infoNews">
-              <label for="categoryNews">Danh mục blog</label><br>
-              <select name="categoryNews" id="categoryNews" multiple>
-                <%listCategoryNews.forEach((categoryNews)=>{%>
-                <option value="<%=categoryNews.name%>"><%=categoryNews.name%></option>
+              <input type="hidden" name="infoblogs" id="infoblogs">
+              <label for="categoryblogs">Danh mục blog</label><br>
+              <select name="categoryblogs" id="categoryblogs" multiple>
+                <%listCategoryblogs.forEach((categoryblogs)=>{%>
+                <option value="<%=categoryblogs.name%>"><%=categoryblogs.name%></option>
                 <%})%>
               </select><br>
-              <input type="submit" id="btnNews" value="Tạo">
+              <input type="submit" id="btnblogs" value="Tạo">
             </form>
             <em>Lưu ý: Nếu sai hình ảnh hãy xóa luôn blog và tạo mới</em>
-             <div id="divTableNews">
-              <table id="tableNews">
+             <div id="divTableblogs">
+              <table id="tableblogs">
               <tr>
                 <th>Tiêu đề blog</th>
                 <th>Nội dung blog</th>
@@ -499,24 +499,24 @@
                 <th>Ngày tạo</th>
                 <th>Thao tác</th>
               </tr>
-              <%listNews.forEach((news)=>{%>
+              <%listblogs.forEach((blogs)=>{%>
               <tr>
-                <td><%=news.title%></td>
+                <td><%=blogs.title%></td>
                 <td><p>
                   <%
-                  let plainText=news.info.replace(/<\/?[^>]+(>|$)/g,"");
+                  let plainText=blogs.info.replace(/<\/?[^>]+(>|$)/g,"");
                   plainText=plainText.replace(/&nbsp;|&#160;/gi," ");
                   plainText=plainText.replace(/\s+/g," ").trim();
                   let shortText=plainText.length>200?plainText.substring(0,200)+"...":plainText;
                   %>
                   <%=shortText%>
                 </p></td>
-                <td><%=news.category%></td>
-                <td><%=new Date(news.createAt).toLocaleString()%></td>
+                <td><%=blogs.category%></td>
+                <td><%=new Date(blogs.createAt).toLocaleString()%></td>
                 <td>
                   <div class="btnGroup">
-                    <button class="btnUpdateNews" data-idnews="<%=news._id%>">Cập nhật</button>
-                    <button class="btnDeleteNews" data-idnews="<%=news._id%>">Xóa</button>
+                    <button class="btnUpdateblogs" data-idblogs="<%=blogs._id%>">Cập nhật</button>
+                    <button class="btnDeleteblogs" data-idblogs="<%=blogs._id%>">Xóa</button>
                   </div>
                 </td>
               </tr>

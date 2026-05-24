@@ -87,12 +87,12 @@ body.no-scroll {
   }
 }
 .flag-item {
-  background-color: orange;
+  background-color: #ff7e5f;
   color: $colorSecondaryText;
   width: fit-content;
   min-width: 1rem;
-  padding: 0.6rem 2.5rem 0.6rem 1.3rem;
-  margin-bottom: 1rem;
+  padding: 0.5rem 2rem 0.5rem 1rem;
+  margin: 0.5rem 0;
   position: relative;
   clip-path: polygon(0% 0%, 95% 0%, 100% 50%, 95% 100%, 0% 100%);
   transition: transform 0.3s ease;
@@ -197,13 +197,15 @@ header {
         font-weight: bold;
         font-size: 1rem;
         margin: 0 0.3rem;
-        width: 40%;
-        height: 50%;
-        &:first-child{
+        &:first-child {
           background-color: #bbb;
+          width: 30%;
+          height: 40%;
         }
-        &:last-child{
+        &:last-child {
           background-color: $colorCTA;
+          width: 35%;
+          height: 40%;
         }
       }
     }
@@ -311,9 +313,9 @@ header {
       h2,
       h3,
       em {
-        // color: black;
+        color: black;
         margin: 0.5rem 0;
-        color: white;
+        // color: white;
       }
     }
     .navBtnDB {
@@ -675,8 +677,8 @@ header {
         }
       }
     }
-    #newsMng {
-      #imgNews::file-selector-button {
+    #blogsMng {
+      #imgblogs::file-selector-button {
         @include button(0.5rem);
         background-color: $colorCTA;
         color: $colorSecondaryText;
@@ -700,16 +702,17 @@ header {
         height: 50rem;
         background-color: $colorPrimaryBG;
         color: black;
+        font-size: 1.1rem;
       }
       em {
         color: red;
       }
-      #divTableCategoryNews {
+      #divTableCategoryblogs {
         width: 100%;
         overflow-x: auto;
         margin: 1rem 0;
       }
-      #tableCategoryNews,
+      #tableCategoryblogs,
       th,
       td {
         border: 1px solid black;
@@ -721,23 +724,23 @@ header {
           flex-direction: row nowrap;
           gap: 0.5rem;
         }
-        .btnUpdateCategoryNews {
+        .btnUpdateCategoryblogs {
           @include button(0.5rem);
           background-color: $colorCTA;
           color: $colorSecondaryText;
         }
-        .btnDeleteCategoryNews {
+        .btnDeleteCategoryblogs {
           @include button(0.5rem);
           background-color: red;
           color: $colorSecondaryText;
         }
       }
-      #divTableNews {
+      #divTableblogs {
         width: 100%;
         overflow-x: auto;
         margin: 1rem 0;
       }
-      #tableNews,
+      #tableblogs,
       th,
       td {
         border: 1px solid black;
@@ -749,12 +752,12 @@ header {
           flex-direction: row nowrap;
           gap: 0.5rem;
         }
-        .btnUpdateNews {
+        .btnUpdateblogs {
           @include button(0.5rem);
           background-color: $colorCTA;
           color: $colorSecondaryText;
         }
-        .btnDeleteNews {
+        .btnDeleteblogs {
           @include button(0.5rem);
           background-color: red;
           color: $colorSecondaryText;
@@ -1259,12 +1262,12 @@ header {
     }
   }
 }
-#divNews {
+#divblogs {
   width: 100%;
   height: auto;
   border: 1px solid black;
   padding: 1rem;
-  #headerNews {
+  #headerblogs {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
@@ -1279,7 +1282,7 @@ header {
       @include button(0.5rem);
     }
   }
-  #groupFilterCategoryNews {
+  #groupFilterCategoryblogs {
     display: flex;
     flex-flow: row nowrap;
     gap: 1rem;
@@ -1303,12 +1306,12 @@ header {
       color: $colorSecondaryText;
     }
   }
-  #listNews {
+  #listblogs {
     display: flex;
     flex-flow: row wrap;
     border: 1px solid black;
     margin: 1rem 0;
-    .news {
+    .blogs {
       width: 48%;
       height: 15rem;
       border: 1px solid black;
@@ -1328,7 +1331,7 @@ header {
           margin: 0;
         }
       }
-      .news-content {
+      .blogs-content {
         width: 50%;
         padding: 0.5rem 0.8rem;
         display: flex;
@@ -1346,12 +1349,11 @@ header {
     }
   }
 }
-#mainDetailNews {
+#mainDetailblogs {
   display: flex;
   flex-flow: row wrap;
   article {
     width: 80%;
-    border-right: 1px solid $colorCTA;
     border-bottom: 1px solid $colorCTA;
     padding: 0.5rem;
     h1 {
@@ -1359,7 +1361,7 @@ header {
     }
     #divCategoryAndShare {
       display: flex;
-      flex-flow: row nowrap;
+      flex-flow: row wrap;
       justify-content: space-between;
       p {
         margin: 0.5rem 0;
@@ -1390,9 +1392,10 @@ header {
         }
       }
     }
-    #divInfoNews {
+    #divInfoblogs {
       width: 100%;
       text-align: justify;
+      font-size: 1.1rem;
       span,
       p,
       strong {
@@ -1411,11 +1414,13 @@ header {
         max-width: 100%;
         height: auto;
       }
-      table,th,td{
+      table,
+      th,
+      td {
         border: 1px solid black;
         border-collapse: collapse;
       }
-      thead{
+      thead {
         background-color: #bbb;
       }
     }
@@ -1484,11 +1489,11 @@ header {
       }
     }
 
-    #listNews {
+    #listblogs {
       display: flex;
       flex-flow: row wrap;
       margin: 1rem 0;
-      .news {
+      .blogs {
         width: 48%;
         height: 15rem;
         border: 1px solid black;
@@ -1508,7 +1513,7 @@ header {
             margin: 0;
           }
         }
-        .news-content {
+        .blogs-content {
           width: 50%;
           padding: 0.5rem 0.8rem;
           display: flex;
@@ -1637,35 +1642,70 @@ header {
     }
   }
 }
-#mainBlogs{
+#mainBlogs {
   width: 100%;
   display: flex;
   flex-flow: row wrap;
-  #listBlog{
+  #listBlog {
     width: 80%;
-    #filterBlogs{
-      padding: 1rem 0;
-      border-bottom: 1px solid $colorCTA;
-      h3{
+    #filterBlogs {
+      padding: 0.5rem 0;
+      h3 {
         margin: 0 0 0.5rem 0;
         color: $colorCTA;
       }
-      button{
+      a {
+        display: inline-block;
         @include button(0.5rem);
         background-color: transparent;
         border: 1px solid $colorCTA;
         color: $colorCTA;
+        margin: 0.3rem;
+        text-decoration: none;
+      }
+      p {
+        color: $colorCTA;
+        font-style: italic;
+        span {
+          color: red;
+          text-decoration: underline;
+          cursor: pointer;
+        }
       }
       .active {
-      background-color: $colorCTA;
-      color: $colorSecondaryText;
+        background-color: $colorCTA;
+        color: $colorSecondaryText;
+      }
+      #categoryWrapper {
+        width: 100%;
+        height: 11rem;
+        margin-top: 0.5rem;
+        display: none;
+        position: relative;
+        #divCategoryBlog {
+          width: 100%;
+          height: 8rem;
+          overflow-y: scroll;
+          padding: 0.5rem;
+          background-color: #eaeaea;
+        }
+        #filterCategoryBlog {
+          position: absolute;
+          right: 0;
+          bottom: 0;
+          background-color: $colorCTA;
+          color: $colorSecondaryText;
+          font-weight: bold;
+          display: none;
+          z-index: 10;
+        }
+      }
     }
-    }
-    #listNews {
+    #listblogs {
       display: flex;
       flex-flow: row wrap;
       margin: 1rem 0;
-      .news {
+      .blogs {
         width: 48%;
         height: 15rem;
         border: 1px solid black;
@@ -1685,7 +1725,7 @@ header {
             margin: 0;
           }
         }
-        .news-content {
+        .blogs-content {
           width: 50%;
           padding: 0.5rem 0.8rem;
           display: flex;
@@ -1701,8 +1741,30 @@ header {
         }
       }
     }
+    .paginationBar {
+      width: 100%;
+      height: 2rem;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 1rem;
+      .pageBtn {
+        display: inline-block;
+        background-color: #eaeaea;
+        color: $colorCTA;
+        margin-right: 1rem;
+        @include button(0.8rem);
+        text-decoration: none;
+      }
+      .active {
+        background-color: $colorCTA;
+        color: $colorSecondaryText;
+        pointer-events: none;
+      }
+    }
   }
-  aside{
+  aside {
     width: 20%;
     #listAppCol {
       display: flex;
@@ -1919,7 +1981,7 @@ footer {
 }
 @media screen and (max-width: 768px) {
   header {
-    height: 3.5rem;
+    height: 4rem;
     div:first-child {
       .brand-group {
         transform: translate(12rem, 1rem);
@@ -1944,9 +2006,9 @@ footer {
     }
     #navMenu {
       position: fixed;
-      top: 3.9rem;
+      top: 4.5rem;
       right: 0;
-      height: calc(100dvh - 3.9rem);
+      height: calc(100dvh - 4.5rem);
       width: 70%;
       background-color: $colorCTA;
       flex-direction: column-reverse;
@@ -1971,7 +2033,7 @@ footer {
 
       #groupBtn {
         width: 100%;
-        height: 4rem;
+        height: 5rem;
         button {
           @include button(0.5rem);
           background-color: $colorSecondaryText;
@@ -1994,13 +2056,13 @@ footer {
       transform: translateY(-0.4rem) rotate(-45deg);
     }
   }
-  #mainDetailNews {
+  #mainDetailblogs {
     article {
       width: 100%;
       h1 {
         font-size: 1.5rem;
       }
-      #divInfoNews {
+      #divInfoblogs {
         img {
           width: 100% !important;
         }
@@ -2012,11 +2074,11 @@ footer {
           }
         }
       }
-      #listNews {
-        .news {
+      #listblogs {
+        .blogs {
           width: 100%;
           height: 10rem;
-          .news-content {
+          .blogs-content {
             height: inherit;
             overflow-y: scroll;
             h4 {
@@ -2033,6 +2095,55 @@ footer {
       width: 100%;
       #listAppCol {
         .appCol {
+          div:last-child {
+            h4 {
+              font-size: 1rem;
+            }
+            p {
+              font-size: 0.8rem;
+            }
+          }
+        }
+      }
+    }
+  }
+  #mainBlogs {
+    #listBlog {
+      width: 100%;
+      border-bottom: 1px solid $colorCTA;
+      #listblogs {
+        .blogs {
+          width: 100%;
+          height: 10rem;
+          .blogs-content {
+            height: inherit;
+            overflow-y: scroll;
+            h4 {
+              font-size: 1rem;
+            }
+            p {
+              font-size: 0.8rem;
+            }
+          }
+        }
+      }
+    }
+    aside {
+      width: 100%;
+      #listAppCol {
+        .appCol {
+          div:last-child {
+            h4 {
+              font-size: 1rem;
+            }
+            p {
+              font-size: 0.8rem;
+            }
+          }
+        }
+      }
+      #listDeviceCol {
+        .deviceCol {
           div:last-child {
             h4 {
               font-size: 1rem;

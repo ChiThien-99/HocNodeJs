@@ -4,9 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta property="og:type" content="article">
-    <meta property="og:title" content="<%=news.title%>">
+    <meta property="og:title" content="<%=blogs.title%>">
      <%
-        let plainText=news.info.replace(/<\/?[^>]+(>|$)/g,"");
+        let plainText=blogs.info.replace(/<\/?[^>]+(>|$)/g,"");
         plainText=plainText.replace(/&nbsp;|&#160;/gi," ");
         plainText=plainText.replace(/&quot;/gi,'"');
         plainText=plainText.replace(/&#39;/gi,"'");
@@ -14,9 +14,9 @@
         let shortText=plainText.length>200?plainText.substring(0,200)+"...":plainText;
       %>            
     <meta property="og:description" content="<%=shortText%>">
-    <meta property="og:image" content="<%=news.image%>">
-    <meta property="og:url" content="https://confider-bronzing-manlike.ngrok-free.dev/news/detailNews/6a0ac8e2063255e49ce95beb?fbclid=IwZXh0bgNhZW0CMTEAYnJpZBExazR0ZGhQQ05jNWVFTU1Ob3NydGMGYXBwX2lkATAAAR7VmzhanC94mvNzcsyWV22XbgVo2S_M0VuAJznlCW3IEJBs6AjrdCAIPEYg3w_aem_oHaxQqMtoc9Bt9GYQuxe9w">
-    <title><%=news.title%></title>
+    <meta property="og:image" content="<%=blogs.image%>">
+    <meta property="og:url" content="https://confider-bronzing-manlike.ngrok-free.dev/blogs/detailblogs/6a0ac8e2063255e49ce95beb?fbclid=IwZXh0bgNhZW0CMTEAYnJpZBExazR0ZGhQQ05jNWVFTU1Ob3NydGMGYXBwX2lkATAAAR7VmzhanC94mvNzcsyWV22XbgVo2S_M0VuAJznlCW3IEJBs6AjrdCAIPEYg3w_aem_oHaxQqMtoc9Bt9GYQuxe9w">
+    <title><%=blogs.title%></title>
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="shortcut icon" href="/img/logo_imzai_1.ico" type="image/x-icon" />
     <link
@@ -81,12 +81,12 @@
         </div>
       </div>
     </header>
-    <main id="mainDetailNews">
+    <main id="mainDetailblogs">
       <article>
-        <p><%=new Date(news.createAt).toLocaleString()%></p>
-        <h1><%=news.title%></h1>
+        <p><%=new Date(blogs.createAt).toLocaleString()%></p>
+        <h1><%=blogs.title%></h1>
         <div id="divCategoryAndShare">
-          <p>Danh mục: <%=news.category%></p>
+          <p>Danh mục: <%=blogs.category%></p>
           <div id="divShare">
             <div>
               <button id="btnShareFB"><img src="/img/logo_fb.webp" alt="facebook"></button>
@@ -96,14 +96,14 @@
           </div>
           
         </div>
-        <div id="divInfoNews">
-          <%let cleanContent = news.info.replace(/&nbsp;/g, ' ');%>
+        <div id="divInfoblogs">
+          <%let cleanContent = blogs.info.replace(/&nbsp;/g, ' ');%>
           <%-cleanContent%>
         </div>
         <div id="divComment">
           <h3 id="lenComment">Bình luận <%=comments.length%></h3>
           <form id="formComment">
-            <input type="hidden" name="idNews" id="idNews" value="<%=news._id%>"><br>
+            <input type="hidden" name="idblogs" id="idblogs" value="<%=blogs._id%>"><br>
             <input type="text" name="authorComment" id="authorComment" placeholder="Tên của bạn (Để trống nếu muốn ẩn danh)"><br>
             <div id="divContentEmojiComment">
               <input type="hidden" name="parentCommentId" id="parentCommentId">
@@ -154,16 +154,16 @@
           </div>
         </div>
         <div>
-          <h2 class="flag-item">Blog liên quan</h2>
-            <div id="listNews">
-            <%relatedNews.forEach((news)=>{%>
-            <div class="news">
-              <a href="/blogs/detailBlog/<%=news._id%>" class="linkImg"><img src="<%=news.image%>" alt="news"></a>
-              <div class="news-content">
-                <a href="/blogs/detailBlog/<%=news._id%>"><h4><%=news.title%></h4></a>
+          <h3 class="flag-item">Blog liên quan</h3>
+            <div id="listblogs">
+            <%relatedblogs.forEach((blogs)=>{%>
+            <div class="blogs">
+              <a href="/blogs/detailBlog/<%=blogs._id%>" class="linkImg"><img src="<%=blogs.image%>" alt="blogs"></a>
+              <div class="blogs-content">
+                <a href="/blogs/detailBlog/<%=blogs._id%>"><h4><%=blogs.title%></h4></a>
                 <p>
                   <%
-                  let plainText=news.info.replace(/<\/?[^>]+(>|$)/g,"");
+                  let plainText=blogs.info.replace(/<\/?[^>]+(>|$)/g,"");
                   plainText=plainText.replace(/&nbsp;|&#160;/gi," ");
                   plainText=plainText.replace(/&quot;/gi,'"');
                   plainText=plainText.replace(/&#39;/gi,"'");
@@ -178,16 +178,16 @@
           </div>
         </div>
         <div>
-             <h2 class="flag-item">Blog mới nhất</h2>
-            <div id="listNews">
-            <%latestNews.forEach((news)=>{%>
-            <div class="news">
-              <a href="/blogs/detailBlog/<%=news._id%>" class="linkImg"><img src="<%=news.image%>" alt="news"></a>
-              <div class="news-content">
-                <a href="/blogs/detailBlog/<%=news._id%>"><h4><%=news.title%></h4></a>
+             <h3 class="flag-item">Blog mới nhất</h3>
+            <div id="listblogs">
+            <%latestblogs.forEach((blogs)=>{%>
+            <div class="blogs">
+              <a href="/blogs/detailBlog/<%=blogs._id%>" class="linkImg"><img src="<%=blogs.image%>" alt="blogs"></a>
+              <div class="blogs-content">
+                <a href="/blogs/detailBlog/<%=blogs._id%>"><h4><%=blogs.title%></h4></a>
                 <p>
                   <%
-                  let plainText=news.info.replace(/<\/?[^>]+(>|$)/g,"");
+                  let plainText=blogs.info.replace(/<\/?[^>]+(>|$)/g,"");
                   plainText=plainText.replace(/&nbsp;|&#160;/gi," ");
                   plainText=plainText.replace(/&quot;/gi,'"');
                   plainText=plainText.replace(/&#39;/gi,"'");
@@ -204,7 +204,7 @@
       </article>
       <aside>
         <div>
-          <h2 class="flag-item">Phần mềm</h2>
+          <h3 class="flag-item">Phần mềm</h3>
           <div id="listAppCol">
             <%apps.forEach((app)=>{%>
             <div class="appCol">
@@ -229,7 +229,7 @@
           </div>
         </div>
         <div>
-          <h2 class="flag-item">Thiết bị</h2>
+          <h3 class="flag-item">Thiết bị</h3>
           <div id="listDeviceCol">
             <%devices.forEach((device)=>{%>
             <div class="deviceCol">
@@ -305,5 +305,5 @@
         </div>
       </footer>
   </body>
-  <script type="module" src="/detailNews.js" defer></script>
+  <script type="module" src="/detailblogs.js" defer></script>
 </html>

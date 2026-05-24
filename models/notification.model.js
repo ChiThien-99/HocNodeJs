@@ -6,7 +6,7 @@ const notifySchema = mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ["system", "event", "app", "device", "news"],
+    enum: ["system", "event", "app", "device", "blogs"],
     required: true,
   },
   url: {
@@ -17,12 +17,12 @@ const notifySchema = mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
-  expireAt:{
-    type:Date,
-    required:true,
-  }
+  expireAt: {
+    type: Date,
+    required: true,
+  },
 });
-notifySchema.index({expireAt:1},{expireAfterSeconds:0});
+notifySchema.index({ expireAt: 1 }, { expireAfterSeconds: 0 });
 export const notifyEntity = mongoose.model(
   "notifyEntity",
   notifySchema,

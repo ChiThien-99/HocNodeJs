@@ -69,21 +69,36 @@
     </header>
     <main id="mainBlogs">
         <div id="listBlog">
+            <h3 class="flag-item">Blog</h3>
             <div id="filterBlogs">
                 <h3>Bộ lọc</h3>
-                <button id="btnNewBlog" class="active">Mới nhất</button>
-                <button id="btnViewsBlog">Xem nhiều</button>
-                <button id="btnCategoryBlog">Danh mục <i class="fa-solid fa-sort-down"></i></button>
+                <a href="/blogs?sort=createAt" id="btnNewBlog" class="<%=sort==='createAt'?'active':''%>">Mới nhất</a>
+                <a href="/blogs?sort=views" id="btnViewsBlog" class="<%=sort==='views'?'active':''%>">Xem nhiều</a>
+                <a id="btnCategoryBlog">Danh mục <i class="fa-solid fa-sort-down"></i></a>
+                <p>
+                   <% if (currentCategory) { %>
+                     Đang chọn: <%= currentCategory %> <span>Xóa</span>
+                   <% } %>
+                </p>
+                <div id="categoryWrapper">
+                <div id="divCategoryBlog">
+                  <%categoryblogs.forEach((category)=>{%>
+                  <a class="categoryblogs"><%=category.name%></a>
+                  <%})%>
+                </div>
+                <a id="filterCategoryBlog">Lọc</a>
+                </div>
             </div>
-             <div id="listNews">
-            <%listNews.forEach((news)=>{%>
-            <div class="news">
-              <a href="/blogs/detailBlog/<%=news._id%>" target="_blank" class="linkImg"><img src="<%=news.image%>" alt="news"></a>
-              <div class="news-content">
-                <a href="/blogs/detailBlog/<%=news._id%>" target="_blank"><h4><%=news.title%></h4></a>
+             <div id="listblogs">
+            <%blogList.forEach((blogs)=>{%>
+            
+            <div class="blogs">
+              <a href="/blogs/detailBlog/<%=blogs._id%>" target="_blank" class="linkImg"><img src="<%=blogs.image%>" alt="blogs"></a>
+              <div class="blogs-content">
+                <a href="/blogs/detailBlog/<%=blogs._id%>" target="_blank"><h4><%=blogs.title%></h4></a>
                 <p>
                   <%
-                  let plainText=news.info.replace(/<\/?[^>]+(>|$)/g,"");
+                  let plainText=blogs.info.replace(/<\/?[^>]+(>|$)/g,"");
                   plainText=plainText.replace(/&nbsp;|&#160;/gi," ");
                   plainText=plainText.replace(/&quot;/gi,'"');
                   plainText=plainText.replace(/&#39;/gi,"'");
@@ -96,10 +111,23 @@
             </div>
             <%})%>
           </div>
+          <%if(totalPage>1){%>
+          <div class="paginationBar">
+            <%if(currentPage>1){%>
+            <a href="/blogs?page=<%=currentPage-1%><%=currentCategory?'&category='+currentCategory:''%><%=sort?'&sort='+sort:''%>" class="pageBtn"><i class="fa-solid fa-angles-left"></i></a>
+            <%}%>
+            <%for(let i=1;i<=totalPage;i++){%>
+            <a href="/blogs?page=<%=i%><%=currentCategory?'&category='+currentCategory:''%><%=sort?'&sort='+sort:''%>" class="pageBtn <%=currentPage===i?'active':''%>"><%=i%></a>
+            <%}%>
+            <%if(currentPage<totalPage){%>
+            <a href="/blogs?page=<%=currentPage+1%><%=currentCategory?'&category='+currentCategory:''%><%=sort?'&sort='+sort:''%>" class="pageBtn"><i class="fa-solid fa-angles-right"></i></a>
+            <%}%>
+          </div>
+          <%}%>
         </div>
         <aside>
         <div>
-          <h2 class="flag-item">Phần mềm</h2>
+          <h3 class="flag-item">Phần mềm</h3>
           <div id="listAppCol">
             <%apps.forEach((app)=>{%>
             <div class="appCol">
@@ -124,7 +152,7 @@
           </div>
         </div>
         <div>
-          <h2 class="flag-item">Thiết bị</h2>
+          <h3 class="flag-item">Thiết bị</h3>
           <div id="listDeviceCol">
             <%devices.forEach((device)=>{%>
             <div class="deviceCol">
@@ -201,5 +229,5 @@
       </footer>
 <script src="/socket.io/socket.io.js"></script>
 </body>
-  <script type="module" src="/news.js" defer></script>
+  <script type="module" src="/blogs.js" defer></script>
 </html>

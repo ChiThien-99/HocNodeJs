@@ -83,13 +83,13 @@ body.no-scroll {
 }
 
 .flag-item {
-  background-color: orange;
+  background-color: #ff7e5f;
   color: #fafafa;
   width: -moz-fit-content;
   width: fit-content;
   min-width: 1rem;
-  padding: 0.6rem 2.5rem 0.6rem 1.3rem;
-  margin-bottom: 1rem;
+  padding: 0.5rem 2rem 0.5rem 1rem;
+  margin: 0.5rem 0;
   position: relative;
   clip-path: polygon(0% 0%, 95% 0%, 100% 50%, 95% 100%, 0% 100%);
   transition: transform 0.3s ease;
@@ -200,14 +200,16 @@ header div:last-child #groupBtn button {
   font-weight: bold;
   font-size: 1rem;
   margin: 0 0.3rem;
-  width: 40%;
-  height: 50%;
 }
 header div:last-child #groupBtn button:first-child {
   background-color: #bbb;
+  width: 30%;
+  height: 40%;
 }
 header div:last-child #groupBtn button:last-child {
   background-color: #80a710;
+  width: 35%;
+  height: 40%;
 }
 header div:last-child h2 {
   color: #80a710;
@@ -327,8 +329,8 @@ header div:last-child h2 {
 #mainDashboard #navDashboard div h2,
 #mainDashboard #navDashboard div h3,
 #mainDashboard #navDashboard div em {
+  color: black;
   margin: 0.5rem 0;
-  color: white;
 }
 #mainDashboard #navDashboard .navBtnDB {
   width: 100%;
@@ -788,7 +790,7 @@ header div:last-child h2 {
   background-color: red;
   color: #fafafa;
 }
-#mainDashboard #contentDashboard #newsMng #imgNews::file-selector-button {
+#mainDashboard #contentDashboard #blogsMng #imgblogs::file-selector-button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -796,7 +798,7 @@ header div:last-child h2 {
   background-color: #80a710;
   color: #fafafa;
 }
-#mainDashboard #contentDashboard #newsMng input[type=submit] {
+#mainDashboard #contentDashboard #blogsMng input[type=submit] {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -805,46 +807,47 @@ header div:last-child h2 {
   color: #fafafa;
   margin: 0.5rem 0;
 }
-#mainDashboard #contentDashboard #newsMng input[type=text] {
+#mainDashboard #contentDashboard #blogsMng input[type=text] {
   width: 50%;
   height: 2rem;
   font-size: 1rem;
 }
-#mainDashboard #contentDashboard #newsMng select {
+#mainDashboard #contentDashboard #blogsMng select {
   width: 50%;
 }
-#mainDashboard #contentDashboard #newsMng #editor-container {
+#mainDashboard #contentDashboard #blogsMng #editor-container {
   width: 100%;
   height: 50rem;
   background-color: #f5f5f5;
   color: black;
+  font-size: 1.1rem;
 }
-#mainDashboard #contentDashboard #newsMng em {
+#mainDashboard #contentDashboard #blogsMng em {
   color: red;
 }
-#mainDashboard #contentDashboard #newsMng #divTableCategoryNews {
+#mainDashboard #contentDashboard #blogsMng #divTableCategoryblogs {
   width: 100%;
   overflow-x: auto;
   margin: 1rem 0;
 }
-#mainDashboard #contentDashboard #newsMng #tableCategoryNews,
-#mainDashboard #contentDashboard #newsMng th,
-#mainDashboard #contentDashboard #newsMng td {
+#mainDashboard #contentDashboard #blogsMng #tableCategoryblogs,
+#mainDashboard #contentDashboard #blogsMng th,
+#mainDashboard #contentDashboard #blogsMng td {
   border: 1px solid black;
   border-collapse: collapse;
   padding: 0.5rem;
   text-align: left;
 }
-#mainDashboard #contentDashboard #newsMng #tableCategoryNews .btnGroup,
-#mainDashboard #contentDashboard #newsMng th .btnGroup,
-#mainDashboard #contentDashboard #newsMng td .btnGroup {
+#mainDashboard #contentDashboard #blogsMng #tableCategoryblogs .btnGroup,
+#mainDashboard #contentDashboard #blogsMng th .btnGroup,
+#mainDashboard #contentDashboard #blogsMng td .btnGroup {
   display: flex;
   flex-direction: row nowrap;
   gap: 0.5rem;
 }
-#mainDashboard #contentDashboard #newsMng #tableCategoryNews .btnUpdateCategoryNews,
-#mainDashboard #contentDashboard #newsMng th .btnUpdateCategoryNews,
-#mainDashboard #contentDashboard #newsMng td .btnUpdateCategoryNews {
+#mainDashboard #contentDashboard #blogsMng #tableCategoryblogs .btnUpdateCategoryblogs,
+#mainDashboard #contentDashboard #blogsMng th .btnUpdateCategoryblogs,
+#mainDashboard #contentDashboard #blogsMng td .btnUpdateCategoryblogs {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -852,9 +855,9 @@ header div:last-child h2 {
   background-color: #80a710;
   color: #fafafa;
 }
-#mainDashboard #contentDashboard #newsMng #tableCategoryNews .btnDeleteCategoryNews,
-#mainDashboard #contentDashboard #newsMng th .btnDeleteCategoryNews,
-#mainDashboard #contentDashboard #newsMng td .btnDeleteCategoryNews {
+#mainDashboard #contentDashboard #blogsMng #tableCategoryblogs .btnDeleteCategoryblogs,
+#mainDashboard #contentDashboard #blogsMng th .btnDeleteCategoryblogs,
+#mainDashboard #contentDashboard #blogsMng td .btnDeleteCategoryblogs {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -862,29 +865,29 @@ header div:last-child h2 {
   background-color: red;
   color: #fafafa;
 }
-#mainDashboard #contentDashboard #newsMng #divTableNews {
+#mainDashboard #contentDashboard #blogsMng #divTableblogs {
   width: 100%;
   overflow-x: auto;
   margin: 1rem 0;
 }
-#mainDashboard #contentDashboard #newsMng #tableNews,
-#mainDashboard #contentDashboard #newsMng th,
-#mainDashboard #contentDashboard #newsMng td {
+#mainDashboard #contentDashboard #blogsMng #tableblogs,
+#mainDashboard #contentDashboard #blogsMng th,
+#mainDashboard #contentDashboard #blogsMng td {
   border: 1px solid black;
   border-collapse: collapse;
   padding: 0.5rem;
   text-align: left;
 }
-#mainDashboard #contentDashboard #newsMng #tableNews .btnGroup,
-#mainDashboard #contentDashboard #newsMng th .btnGroup,
-#mainDashboard #contentDashboard #newsMng td .btnGroup {
+#mainDashboard #contentDashboard #blogsMng #tableblogs .btnGroup,
+#mainDashboard #contentDashboard #blogsMng th .btnGroup,
+#mainDashboard #contentDashboard #blogsMng td .btnGroup {
   display: flex;
   flex-direction: row nowrap;
   gap: 0.5rem;
 }
-#mainDashboard #contentDashboard #newsMng #tableNews .btnUpdateNews,
-#mainDashboard #contentDashboard #newsMng th .btnUpdateNews,
-#mainDashboard #contentDashboard #newsMng td .btnUpdateNews {
+#mainDashboard #contentDashboard #blogsMng #tableblogs .btnUpdateblogs,
+#mainDashboard #contentDashboard #blogsMng th .btnUpdateblogs,
+#mainDashboard #contentDashboard #blogsMng td .btnUpdateblogs {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -892,9 +895,9 @@ header div:last-child h2 {
   background-color: #80a710;
   color: #fafafa;
 }
-#mainDashboard #contentDashboard #newsMng #tableNews .btnDeleteNews,
-#mainDashboard #contentDashboard #newsMng th .btnDeleteNews,
-#mainDashboard #contentDashboard #newsMng td .btnDeleteNews {
+#mainDashboard #contentDashboard #blogsMng #tableblogs .btnDeleteblogs,
+#mainDashboard #contentDashboard #blogsMng th .btnDeleteblogs,
+#mainDashboard #contentDashboard #blogsMng td .btnDeleteblogs {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -1428,19 +1431,19 @@ header div:last-child h2 {
   right: 0.5rem;
 }
 
-#divNews {
+#divblogs {
   width: 100%;
   height: auto;
   border: 1px solid black;
   padding: 1rem;
 }
-#divNews #headerNews {
+#divblogs #headerblogs {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
 }
-#divNews #headerNews a {
+#divblogs #headerblogs a {
   display: inline-block;
   text-decoration: none;
   background-color: #80a710;
@@ -1452,12 +1455,12 @@ header div:last-child h2 {
   cursor: pointer;
   padding: 0.5rem;
 }
-#divNews #groupFilterCategoryNews {
+#divblogs #groupFilterCategoryblogs {
   display: flex;
   flex-flow: row nowrap;
   gap: 1rem;
 }
-#divNews #groupFilterCategoryNews button {
+#divblogs #groupFilterCategoryblogs button {
   border: 2px solid #80a710;
   border-radius: 1000px;
   background-color: #f5f5f5;
@@ -1468,21 +1471,21 @@ header div:last-child h2 {
   height: 3rem;
   color: #80a710;
 }
-#divNews #groupFilterCategoryNews button:hover {
+#divblogs #groupFilterCategoryblogs button:hover {
   background-color: #80a710;
   color: #fafafa;
 }
-#divNews #groupFilterCategoryNews .active {
+#divblogs #groupFilterCategoryblogs .active {
   background-color: #80a710;
   color: #fafafa;
 }
-#divNews #listNews {
+#divblogs #listblogs {
   display: flex;
   flex-flow: row wrap;
   border: 1px solid black;
   margin: 1rem 0;
 }
-#divNews #listNews .news {
+#divblogs #listblogs .blogs {
   width: 48%;
   height: 15rem;
   border: 1px solid black;
@@ -1493,58 +1496,57 @@ header div:last-child h2 {
   flex-flow: row nowrap;
   overflow: hidden;
 }
-#divNews #listNews .news .linkImg {
+#divblogs #listblogs .blogs .linkImg {
   width: 50%;
   height: 100%;
 }
-#divNews #listNews .news .linkImg img {
+#divblogs #listblogs .blogs .linkImg img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
   margin: 0;
 }
-#divNews #listNews .news .news-content {
+#divblogs #listblogs .blogs .blogs-content {
   width: 50%;
   padding: 0.5rem 0.8rem;
   display: flex;
   flex-direction: column;
 }
-#divNews #listNews .news .news-content a {
+#divblogs #listblogs .blogs .blogs-content a {
   text-decoration: none;
   color: black;
 }
-#divNews #listNews .news .news-content a h4 {
+#divblogs #listblogs .blogs .blogs-content a h4 {
   font-size: 1.1rem;
   margin: 0;
 }
 
-#mainDetailNews {
+#mainDetailblogs {
   display: flex;
   flex-flow: row wrap;
 }
-#mainDetailNews article {
+#mainDetailblogs article {
   width: 80%;
-  border-right: 1px solid #80a710;
   border-bottom: 1px solid #80a710;
   padding: 0.5rem;
 }
-#mainDetailNews article h1 {
+#mainDetailblogs article h1 {
   margin: 0.5rem 0;
 }
-#mainDetailNews article #divCategoryAndShare {
+#mainDetailblogs article #divCategoryAndShare {
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: row wrap;
   justify-content: space-between;
 }
-#mainDetailNews article #divCategoryAndShare p {
+#mainDetailblogs article #divCategoryAndShare p {
   margin: 0.5rem 0;
 }
-#mainDetailNews article #divCategoryAndShare #divShare {
+#mainDetailblogs article #divCategoryAndShare #divShare {
   display: flex;
   flex-flow: row nowrap;
 }
-#mainDetailNews article #divCategoryAndShare #divShare #btnShare {
+#mainDetailblogs article #divCategoryAndShare #divShare #btnShare {
   background-color: #1877f2;
   color: #fafafa;
   border: none;
@@ -1553,63 +1555,66 @@ header div:last-child h2 {
   padding: 0.5rem;
   width: 7rem;
 }
-#mainDetailNews article #divCategoryAndShare #divShare div {
+#mainDetailblogs article #divCategoryAndShare #divShare div {
   display: flex;
   flex-flow: row nowrap;
   width: 0px;
   transition: width 1s;
 }
-#mainDetailNews article #divCategoryAndShare #divShare div button {
+#mainDetailblogs article #divCategoryAndShare #divShare div button {
   border: none;
   background: none;
   cursor: pointer;
 }
-#mainDetailNews article #divCategoryAndShare #divShare div button img {
+#mainDetailblogs article #divCategoryAndShare #divShare div button img {
   width: 2rem;
   height: 2rem;
 }
-#mainDetailNews article #divInfoNews {
+#mainDetailblogs article #divInfoblogs {
   width: 100%;
   text-align: justify;
+  font-size: 1.1rem;
 }
-#mainDetailNews article #divInfoNews span,
-#mainDetailNews article #divInfoNews p,
-#mainDetailNews article #divInfoNews strong {
+#mainDetailblogs article #divInfoblogs span,
+#mainDetailblogs article #divInfoblogs p,
+#mainDetailblogs article #divInfoblogs strong {
   text-rendering: optimizeSpeed;
   line-height: 160%;
   background: transparent !important;
   background-color: transparent !important;
   color: black !important;
 }
-#mainDetailNews article #divInfoNews a {
+#mainDetailblogs article #divInfoblogs a {
   background: transparent !important;
   background-color: transparent !important;
   color: #0000ff !important;
 }
-#mainDetailNews article #divInfoNews img {
+#mainDetailblogs article #divInfoblogs img {
   max-width: 100%;
   height: auto;
 }
-#mainDetailNews article #divInfoNews table, #mainDetailNews article #divInfoNews th, #mainDetailNews article #divInfoNews td {
+#mainDetailblogs article #divInfoblogs table,
+#mainDetailblogs article #divInfoblogs th,
+#mainDetailblogs article #divInfoblogs td {
   border: 1px solid black;
   border-collapse: collapse;
 }
-#mainDetailNews article #divInfoNews thead {
+#mainDetailblogs article #divInfoblogs thead {
   background-color: #bbb;
 }
-#mainDetailNews article #divComment h3 {
+#mainDetailblogs article #divComment h3 {
   margin: 0.5rem 0;
 }
-#mainDetailNews article #divComment #formComment #authorComment {
+#mainDetailblogs article #divComment #formComment #authorComment {
   width: 40%;
   height: 2rem;
   font-size: 1rem;
   margin-bottom: 0.5rem;
 }
-#mainDetailNews article #divComment #formComment #divContentEmojiComment {
+#mainDetailblogs article #divComment #formComment #divContentEmojiComment {
   position: relative;
 }
-#mainDetailNews article #divComment #formComment #divContentEmojiComment #contentComment {
+#mainDetailblogs article #divComment #formComment #divContentEmojiComment #contentComment {
   width: 100%;
   height: 10rem;
   font-size: 1rem;
@@ -1617,16 +1622,16 @@ header div:last-child h2 {
   resize: none;
   padding-right: 2.5rem;
 }
-#mainDetailNews article #divComment #formComment #divContentEmojiComment a {
+#mainDetailblogs article #divComment #formComment #divContentEmojiComment a {
   top: auto !important;
   right: 1rem !important;
   bottom: 1rem !important;
 }
-#mainDetailNews article #divComment #formComment #divContentEmojiComment a svg {
+#mainDetailblogs article #divComment #formComment #divContentEmojiComment a svg {
   width: 1.2rem !important;
   height: 1.2rem !important;
 }
-#mainDetailNews article #divComment #formComment input[type=submit] {
+#mainDetailblogs article #divComment #formComment input[type=submit] {
   background-color: #80a710;
   color: #fafafa;
   border: none;
@@ -1634,38 +1639,38 @@ header div:last-child h2 {
   cursor: pointer;
   padding: 0.5rem;
 }
-#mainDetailNews article #divComment #listComment {
+#mainDetailblogs article #divComment #listComment {
   height: 30rem;
   overflow-y: scroll;
   margin: 1rem;
 }
-#mainDetailNews article #divComment #listComment .comment {
+#mainDetailblogs article #divComment #listComment .comment {
   border-bottom: 1px solid black;
   border-top: 1px solid black;
 }
-#mainDetailNews article #divComment #listComment .comment .comment-action {
+#mainDetailblogs article #divComment #listComment .comment .comment-action {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
   padding: 0.5rem;
 }
-#mainDetailNews article #divComment #listComment .comment .comment-action button {
+#mainDetailblogs article #divComment #listComment .comment .comment-action button {
   background: none;
   border: none;
   cursor: pointer;
 }
-#mainDetailNews article #divComment #listComment .comment .comment-action p {
+#mainDetailblogs article #divComment #listComment .comment .comment-action p {
   margin: 0;
 }
-#mainDetailNews article #divComment #listComment .replies-box {
+#mainDetailblogs article #divComment #listComment .replies-box {
   padding-left: 2rem;
 }
-#mainDetailNews article #listNews {
+#mainDetailblogs article #listblogs {
   display: flex;
   flex-flow: row wrap;
   margin: 1rem 0;
 }
-#mainDetailNews article #listNews .news {
+#mainDetailblogs article #listblogs .blogs {
   width: 48%;
   height: 15rem;
   border: 1px solid black;
@@ -1676,40 +1681,40 @@ header div:last-child h2 {
   flex-flow: row nowrap;
   overflow: hidden;
 }
-#mainDetailNews article #listNews .news .linkImg {
+#mainDetailblogs article #listblogs .blogs .linkImg {
   width: 50%;
   height: 100%;
 }
-#mainDetailNews article #listNews .news .linkImg img {
+#mainDetailblogs article #listblogs .blogs .linkImg img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
   margin: 0;
 }
-#mainDetailNews article #listNews .news .news-content {
+#mainDetailblogs article #listblogs .blogs .blogs-content {
   width: 50%;
   padding: 0.5rem 0.8rem;
   display: flex;
   flex-direction: column;
 }
-#mainDetailNews article #listNews .news .news-content a {
+#mainDetailblogs article #listblogs .blogs .blogs-content a {
   text-decoration: none;
   color: black;
 }
-#mainDetailNews article #listNews .news .news-content a h4 {
+#mainDetailblogs article #listblogs .blogs .blogs-content a h4 {
   font-size: 1.1rem;
   margin: 0;
 }
-#mainDetailNews aside {
+#mainDetailblogs aside {
   width: 20%;
 }
-#mainDetailNews aside #listAppCol {
+#mainDetailblogs aside #listAppCol {
   display: flex;
   flex-direction: column;
   margin: 1rem 0;
 }
-#mainDetailNews aside #listAppCol .appCol {
+#mainDetailblogs aside #listAppCol .appCol {
   display: flex;
   flex-flow: row nowrap;
   overflow: hidden;
@@ -1719,33 +1724,33 @@ header div:last-child h2 {
   border-radius: 5px;
   margin: 2% 1%;
 }
-#mainDetailNews aside #listAppCol .appCol div:first-child {
+#mainDetailblogs aside #listAppCol .appCol div:first-child {
   width: 50%;
   height: inherit;
 }
-#mainDetailNews aside #listAppCol .appCol div:first-child img {
+#mainDetailblogs aside #listAppCol .appCol div:first-child img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
   margin: 0;
 }
-#mainDetailNews aside #listAppCol .appCol div:last-child {
+#mainDetailblogs aside #listAppCol .appCol div:last-child {
   width: 50%;
   height: inherit;
   padding: 0.5rem 0.8rem;
   position: relative;
   background-color: #f5f5f5;
 }
-#mainDetailNews aside #listAppCol .appCol div:last-child h4 {
+#mainDetailblogs aside #listAppCol .appCol div:last-child h4 {
   font-size: 1.1rem;
   margin: 0 0 0.2rem 0;
 }
-#mainDetailNews aside #listAppCol .appCol div:last-child p {
+#mainDetailblogs aside #listAppCol .appCol div:last-child p {
   font-size: 1rem;
   margin: 0;
 }
-#mainDetailNews aside #listAppCol .appCol div:last-child a {
+#mainDetailblogs aside #listAppCol .appCol div:last-child a {
   display: inline-block;
   text-decoration: none;
   background-color: #80a710;
@@ -1760,12 +1765,12 @@ header div:last-child h2 {
   width: 50%;
   text-align: center;
 }
-#mainDetailNews aside #listDeviceCol {
+#mainDetailblogs aside #listDeviceCol {
   display: flex;
   flex-direction: column;
   margin: 1rem 0;
 }
-#mainDetailNews aside #listDeviceCol .deviceCol {
+#mainDetailblogs aside #listDeviceCol .deviceCol {
   display: flex;
   flex-flow: row nowrap;
   overflow: hidden;
@@ -1775,37 +1780,37 @@ header div:last-child h2 {
   border-radius: 5px;
   margin: 2% 1%;
 }
-#mainDetailNews aside #listDeviceCol .deviceCol div:first-child {
+#mainDetailblogs aside #listDeviceCol .deviceCol div:first-child {
   width: 50%;
   height: inherit;
 }
-#mainDetailNews aside #listDeviceCol .deviceCol div:first-child img {
+#mainDetailblogs aside #listDeviceCol .deviceCol div:first-child img {
   width: 100%;
   height: 80%;
   -o-object-fit: cover;
      object-fit: cover;
   margin: 0;
 }
-#mainDetailNews aside #listDeviceCol .deviceCol div:first-child p {
+#mainDetailblogs aside #listDeviceCol .deviceCol div:first-child p {
   margin: 0.5rem;
   font-size: 1.2rem;
 }
-#mainDetailNews aside #listDeviceCol .deviceCol div:last-child {
+#mainDetailblogs aside #listDeviceCol .deviceCol div:last-child {
   width: 50%;
   height: inherit;
   padding: 0.5rem 0.8rem;
   position: relative;
   background-color: #f5f5f5;
 }
-#mainDetailNews aside #listDeviceCol .deviceCol div:last-child h4 {
+#mainDetailblogs aside #listDeviceCol .deviceCol div:last-child h4 {
   font-size: 1.1rem;
   margin: 0 0 0.2rem 0;
 }
-#mainDetailNews aside #listDeviceCol .deviceCol div:last-child p {
+#mainDetailblogs aside #listDeviceCol .deviceCol div:last-child p {
   font-size: 1rem;
   margin: 0;
 }
-#mainDetailNews aside #listDeviceCol .deviceCol div:last-child a {
+#mainDetailblogs aside #listDeviceCol .deviceCol div:last-child a {
   display: inline-block;
   text-decoration: none;
   background-color: #80a710;
@@ -1830,14 +1835,14 @@ header div:last-child h2 {
   width: 80%;
 }
 #mainBlogs #listBlog #filterBlogs {
-  padding: 1rem 0;
-  border-bottom: 1px solid #80a710;
+  padding: 0.5rem 0;
 }
 #mainBlogs #listBlog #filterBlogs h3 {
   margin: 0 0 0.5rem 0;
   color: #80a710;
 }
-#mainBlogs #listBlog #filterBlogs button {
+#mainBlogs #listBlog #filterBlogs a {
+  display: inline-block;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -1845,17 +1850,52 @@ header div:last-child h2 {
   background-color: transparent;
   border: 1px solid #80a710;
   color: #80a710;
+  margin: 0.3rem;
+  text-decoration: none;
+}
+#mainBlogs #listBlog #filterBlogs p {
+  color: #80a710;
+  font-style: italic;
+}
+#mainBlogs #listBlog #filterBlogs p span {
+  color: red;
+  text-decoration: underline;
+  cursor: pointer;
 }
 #mainBlogs #listBlog #filterBlogs .active {
   background-color: #80a710;
   color: #fafafa;
 }
-#mainBlogs #listBlog #listNews {
+#mainBlogs #listBlog #filterBlogs #categoryWrapper {
+  width: 100%;
+  height: 11rem;
+  margin-top: 0.5rem;
+  display: none;
+  position: relative;
+}
+#mainBlogs #listBlog #filterBlogs #categoryWrapper #divCategoryBlog {
+  width: 100%;
+  height: 8rem;
+  overflow-y: scroll;
+  padding: 0.5rem;
+  background-color: #eaeaea;
+}
+#mainBlogs #listBlog #filterBlogs #categoryWrapper #filterCategoryBlog {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  background-color: #80a710;
+  color: #fafafa;
+  font-weight: bold;
+  display: none;
+  z-index: 10;
+}
+#mainBlogs #listBlog #listblogs {
   display: flex;
   flex-flow: row wrap;
   margin: 1rem 0;
 }
-#mainBlogs #listBlog #listNews .news {
+#mainBlogs #listBlog #listblogs .blogs {
   width: 48%;
   height: 15rem;
   border: 1px solid black;
@@ -1866,30 +1906,55 @@ header div:last-child h2 {
   flex-flow: row nowrap;
   overflow: hidden;
 }
-#mainBlogs #listBlog #listNews .news .linkImg {
+#mainBlogs #listBlog #listblogs .blogs .linkImg {
   width: 50%;
   height: 100%;
 }
-#mainBlogs #listBlog #listNews .news .linkImg img {
+#mainBlogs #listBlog #listblogs .blogs .linkImg img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
   margin: 0;
 }
-#mainBlogs #listBlog #listNews .news .news-content {
+#mainBlogs #listBlog #listblogs .blogs .blogs-content {
   width: 50%;
   padding: 0.5rem 0.8rem;
   display: flex;
   flex-direction: column;
 }
-#mainBlogs #listBlog #listNews .news .news-content a {
+#mainBlogs #listBlog #listblogs .blogs .blogs-content a {
   text-decoration: none;
   color: black;
 }
-#mainBlogs #listBlog #listNews .news .news-content a h4 {
+#mainBlogs #listBlog #listblogs .blogs .blogs-content a h4 {
   font-size: 1.1rem;
   margin: 0;
+}
+#mainBlogs #listBlog .paginationBar {
+  width: 100%;
+  height: 2rem;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+#mainBlogs #listBlog .paginationBar .pageBtn {
+  display: inline-block;
+  background-color: #eaeaea;
+  color: #80a710;
+  margin-right: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.8rem;
+  text-decoration: none;
+}
+#mainBlogs #listBlog .paginationBar .active {
+  background-color: #80a710;
+  color: #fafafa;
+  pointer-events: none;
 }
 #mainBlogs aside {
   width: 20%;
@@ -2128,7 +2193,7 @@ footer div:last-child input {
 
 @media screen and (max-width: 768px) {
   header {
-    height: 3.5rem;
+    height: 4rem;
   }
   header div:first-child .brand-group {
     transform: translate(12rem, 1rem);
@@ -2152,9 +2217,9 @@ footer div:last-child input {
   }
   header #navMenu {
     position: fixed;
-    top: 3.9rem;
+    top: 4.5rem;
     right: 0;
-    height: calc(100dvh - 3.9rem);
+    height: calc(100dvh - 4.5rem);
     width: 70%;
     background-color: #80a710;
     flex-direction: column-reverse;
@@ -2179,7 +2244,7 @@ footer div:last-child input {
   }
   header #navMenu #groupBtn {
     width: 100%;
-    height: 4rem;
+    height: 5rem;
   }
   header #navMenu #groupBtn button {
     border: none;
@@ -2203,39 +2268,72 @@ footer div:last-child input {
   header .hamburger-btn.active .bar:nth-child(3) {
     transform: translateY(-0.4rem) rotate(-45deg);
   }
-  #mainDetailNews article {
+  #mainDetailblogs article {
     width: 100%;
   }
-  #mainDetailNews article h1 {
+  #mainDetailblogs article h1 {
     font-size: 1.5rem;
   }
-  #mainDetailNews article #divInfoNews img {
+  #mainDetailblogs article #divInfoblogs img {
     width: 100% !important;
   }
-  #mainDetailNews article #divComment #formComment #authorComment {
+  #mainDetailblogs article #divComment #formComment #authorComment {
     width: 100%;
   }
-  #mainDetailNews article #listNews .news {
+  #mainDetailblogs article #listblogs .blogs {
     width: 100%;
     height: 10rem;
   }
-  #mainDetailNews article #listNews .news .news-content {
+  #mainDetailblogs article #listblogs .blogs .blogs-content {
     height: inherit;
     overflow-y: scroll;
   }
-  #mainDetailNews article #listNews .news .news-content h4 {
+  #mainDetailblogs article #listblogs .blogs .blogs-content h4 {
     font-size: 1rem;
   }
-  #mainDetailNews article #listNews .news .news-content p {
+  #mainDetailblogs article #listblogs .blogs .blogs-content p {
     font-size: 0.8rem;
   }
-  #mainDetailNews aside {
+  #mainDetailblogs aside {
     width: 100%;
   }
-  #mainDetailNews aside #listAppCol .appCol div:last-child h4 {
+  #mainDetailblogs aside #listAppCol .appCol div:last-child h4 {
     font-size: 1rem;
   }
-  #mainDetailNews aside #listAppCol .appCol div:last-child p {
+  #mainDetailblogs aside #listAppCol .appCol div:last-child p {
+    font-size: 0.8rem;
+  }
+  #mainBlogs #listBlog {
+    width: 100%;
+    border-bottom: 1px solid #80a710;
+  }
+  #mainBlogs #listBlog #listblogs .blogs {
+    width: 100%;
+    height: 10rem;
+  }
+  #mainBlogs #listBlog #listblogs .blogs .blogs-content {
+    height: inherit;
+    overflow-y: scroll;
+  }
+  #mainBlogs #listBlog #listblogs .blogs .blogs-content h4 {
+    font-size: 1rem;
+  }
+  #mainBlogs #listBlog #listblogs .blogs .blogs-content p {
+    font-size: 0.8rem;
+  }
+  #mainBlogs aside {
+    width: 100%;
+  }
+  #mainBlogs aside #listAppCol .appCol div:last-child h4 {
+    font-size: 1rem;
+  }
+  #mainBlogs aside #listAppCol .appCol div:last-child p {
+    font-size: 0.8rem;
+  }
+  #mainBlogs aside #listDeviceCol .deviceCol div:last-child h4 {
+    font-size: 1rem;
+  }
+  #mainBlogs aside #listDeviceCol .deviceCol div:last-child p {
     font-size: 0.8rem;
   }
   footer div {

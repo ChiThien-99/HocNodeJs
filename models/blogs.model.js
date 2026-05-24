@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const newsSchema = mongoose.Schema({
+const blogsSchema = mongoose.Schema({
   image: {
     type: String,
     required: true,
@@ -16,18 +16,18 @@ const newsSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  category:{
-    type:Array,
-    required:true,
+  category: {
+    type: Array,
+    required: true,
   },
-  views:{
-    type:Number,
-    default:0,
-    min:0,
+  views: {
+    type: Number,
+    default: 0,
+    min: 0,
   },
   createAt: {
     type: Date,
     default: Date.now(),
   },
 });
-export const newsEntity = mongoose.model("newsEntity", newsSchema, "news");
+export const blogsEntity = mongoose.model("blogsEntity", blogsSchema, "blogs");

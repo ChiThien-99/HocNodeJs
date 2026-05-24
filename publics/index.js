@@ -534,49 +534,50 @@ document.getElementById("btnPriceHighLow").addEventListener("click", () => {
       console.error(`Lỗi kết nối: ${error}`);
     });
 });
-let news = document.querySelectorAll(".news");
-const listNews = document.getElementById("listNews");
-socket.on("update-news", (data) => {
+let blogs = document.querySelectorAll(".blogs");
+const listblogs = document.getElementById("listblogs");
+socket.on("update-blogs", (data) => {
   console.log(data);
-  renderNews(data.sixNews);
-  news = document.querySelectorAll(".news");
+  renderblogs(data.sixblogs);
+  blogs = document.querySelectorAll(".blogs");
 });
-function renderNews(list_news) {
-  listNews.innerHTML = list_news
-    .map(
-      (news) => {
-        let plainText=news.info.replace(/<\/?[^>]+(>|$)/g,"");
-        plainText=plainText.replace(/&nbsp;|&#160;/gi," ");
-        plainText=plainText.replace(/\s+/g," ").trim();
-        let shortText=plainText.length>200?plainText.substring(0,200)+"...":plainText;
-       return `
-  <div class="news">
-    <a href="/blogs/detailBlog/${news._id}" target="_blank" class="linkImg"><img src="${news.image}" alt="news"></a>
-  <div class="news-content">
-    <a href="/blogs/detailBlog/${news._id}" target="_blank"><h4>${news.title}</h4></a>
+function renderblogs(list_blogs) {
+  listblogs.innerHTML = list_blogs
+    .map((blogs) => {
+      let plainText = blogs.info.replace(/<\/?[^>]+(>|$)/g, "");
+      plainText = plainText.replace(/&nbsp;|&#160;/gi, " ");
+      plainText = plainText.replace(/\s+/g, " ").trim();
+      let shortText =
+        plainText.length > 200
+          ? plainText.substring(0, 200) + "..."
+          : plainText;
+      return `
+  <div class="blogs">
+    <a href="/blogs/detailBlog/${blogs._id}" target="_blank" class="linkImg"><img src="${blogs.image}" alt="blogs"></a>
+  <div class="blogs-content">
+    <a href="/blogs/detailBlog/${blogs._id}" target="_blank"><h4>${blogs.title}</h4></a>
     <p>${shortText}</p> 
   </div>
   </div>
-  `
-      }
-    )
+  `;
+    })
     .join("");
 }
-let selectedCategoryNews = [];
-const listCategoryNews = document.querySelectorAll(".categoryNews");
-listCategoryNews.forEach((btn) => {
+let selectedCategoryblogs = [];
+const listCategoryblogs = document.querySelectorAll(".categoryblogs");
+listCategoryblogs.forEach((btn) => {
   btn.addEventListener("click", () => {
     const name = btn.innerHTML;
-    if (selectedCategoryNews.includes(name)) {
-      selectedCategoryNews = selectedCategoryNews.filter((f) => f !== name);
+    if (selectedCategoryblogs.includes(name)) {
+      selectedCategoryblogs = selectedCategoryblogs.filter((f) => f !== name);
       btn.classList.remove("active");
     } else {
-      selectedCategoryNews.push(name);
+      selectedCategoryblogs.push(name);
       btn.classList.add("active");
     }
     const params = new URLSearchParams();
-    selectedCategoryNews.forEach((f) => params.append("names", f));
-    fetch(`/index/filter/categoryNews?${params.toString()}`, {
+    selectedCategoryblogs.forEach((f) => params.append("names", f));
+    fetch(`/index/filter/categoryblogs?${params.toString()}`, {
       method: "GET",
       headers: { "Content-Type": "application/json;charset=UTF-8" },
     })
@@ -591,19 +592,19 @@ listCategoryNews.forEach((btn) => {
       });
   });
 });
-let categoryNews = document.querySelectorAll(".categoryNews");
-const groupFilterCategoryNews = document.getElementById(
-  "groupFilterCategoryNews",
+let categoryblogs = document.querySelectorAll(".categoryblogs");
+const groupFilterCategoryblogs = document.getElementById(
+  "groupFilterCategoryblogs",
 );
-socket.on("update-categoryNews", (allCategoryNews) => {
-  renderCategoryNews(allCategoryNews);
-  categoryNews = document.querySelectorAll(".categoryNews");
+socket.on("update-categoryblogs", (allCategoryblogs) => {
+  renderCategoryblogs(allCategoryblogs);
+  categoryblogs = document.querySelectorAll(".categoryblogs");
 });
-function renderCategoryNews(list_categorynews) {
-  groupFilterCategoryNews.innerHTML = list_categorynews
+function renderCategoryblogs(list_categoryblogs) {
+  groupFilterCategoryblogs.innerHTML = list_categoryblogs
     .map(
-      (categorynews) => `
- <button class="categoryNews">${categorynews.name}</button>
+      (categoryblogs) => `
+ <button class="categoryblogs">${categoryblogs.name}</button>
   `,
     )
     .join("");

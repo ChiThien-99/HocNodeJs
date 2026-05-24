@@ -59,12 +59,12 @@ dashboardRouter.get(
   dashboardController.getUpdateDevice,
 );
 dashboardRouter.get(
-  `${prefix}/updateCategoryNews/:id`,
-  dashboardController.getUpdateCategoryNews,
+  `${prefix}/updateCategoryblogs/:id`,
+  dashboardController.getUpdateCategoryblogs,
 );
 dashboardRouter.get(
-  `${prefix}/updateNews/:id`,
-  dashboardController.getUpdateNews,
+  `${prefix}/updateblogs/:id`,
+  dashboardController.getUpdateblogs,
 );
 dashboardRouter.post(
   `${prefix}/registerAdmin`,
@@ -106,20 +106,20 @@ dashboardRouter.post(
   dashboardController.addDevice,
 );
 dashboardRouter.post(
-  `${prefix}/addCategoryNews`,
-  dashboardController.addCategoryNews,
+  `${prefix}/addCategoryblogs`,
+  dashboardController.addCategoryblogs,
 );
 dashboardRouter.post(
-  `${prefix}/addNews`,
+  `${prefix}/addblogs`,
   authenticateToken,
-  upload.single("imgNews"),
-  dashboardController.addNews,
+  upload.single("imgblogs"),
+  dashboardController.addblogs,
 );
 dashboardRouter.post(
-  `${prefix}/uploadImageNews`,
+  `${prefix}/uploadImageblogs`,
   authenticateToken,
-  upload.single("imgNews"),
-  dashboardController.uploadImageNews,
+  upload.single("imgblogs"),
+  dashboardController.uploadImageblogs,
 );
 dashboardRouter.put(
   `${prefix}/updateAdmin/:idUpdate`,
@@ -165,14 +165,14 @@ dashboardRouter.put(
   dashboardController.putUpdateDevice,
 );
 dashboardRouter.put(
-  `${prefix}/updateCategoryNews/:id`,
-  dashboardController.putUpdateCategoryNews,
+  `${prefix}/updateCategoryblogs/:id`,
+  dashboardController.putUpdateCategoryblogs,
 );
 dashboardRouter.put(
-  `${prefix}/updateNews/:id`,
+  `${prefix}/updateblogs/:id`,
   authenticateToken,
-  upload.single("imgNews"),
-  dashboardController.putUpdateNews,
+  upload.single("imgblogs"),
+  dashboardController.putUpdateblogs,
 );
 dashboardRouter.delete(
   `${prefix}/deleteUserAdmin/:idDelete`,
@@ -210,10 +210,10 @@ dashboardRouter.delete(
   dashboardController.deleteDevice,
 );
 dashboardRouter.delete(
-  `${prefix}/deleteCategoryNews/:id`,
-  dashboardController.deleteCategoryNews,
+  `${prefix}/deleteCategoryblogs/:id`,
+  dashboardController.deleteCategoryblogs,
 );
 dashboardRouter.delete(
-  `${prefix}/deleteNews/:id`,
-  dashboardController.deleteNews,
+  `${prefix}/deleteblogs/:id`,
+  dashboardController.deleteblogs,
 );

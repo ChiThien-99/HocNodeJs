@@ -94,7 +94,7 @@
                  <option value="event">Sự kiện</option>
                  <option value="app">Phần mềm</option>
                  <option value="device">Thiết bị</option>
-                 <option value="news">Blog</option>
+                 <option value="blogs">Blog</option>
                </select>
             </div>
             <div id="bodyNotification">
@@ -200,25 +200,25 @@
             <%})%>
           </div>
         </div>
-        <div id="divNews">
-          <div id="headerNews">
+        <div id="divblogs">
+          <div id="headerblogs">
             <h2 class="flag-item">Blog</h2>
             <a href="/blogs" target="_blank">Xem tất cả</a>
           </div>
-           <div id="groupFilterCategoryNews">
-              <%listCategoryNews.forEach((categoryNews)=>{%>
-              <button class="categoryNews"><%=categoryNews.name%></button>
+           <div id="groupFilterCategoryblogs">
+              <%listCategoryblogs.forEach((categoryblogs)=>{%>
+              <button class="categoryblogs"><%=categoryblogs.name%></button>
               <%})%>
             </div>
-          <div id="listNews">
-            <%listNews.forEach((news)=>{%>
-            <div class="news">
-              <a href="/blogs/detailBlog/<%=news._id%>" target="_blank" class="linkImg"><img src="<%=news.image%>" alt="news"></a>
-              <div class="news-content">
-                <a href="/blogs/detailBlog/<%=news._id%>" target="_blank"><h4><%=news.title%></h4></a>
+          <div id="listblogs">
+            <%listblogs.forEach((blogs)=>{%>
+            <div class="blogs">
+              <a href="/blogs/detailBlog/<%=blogs._id%>" target="_blank" class="linkImg"><img src="<%=blogs.image%>" alt="blogs"></a>
+              <div class="blogs-content">
+                <a href="/blogs/detailBlog/<%=blogs._id%>" target="_blank"><h4><%=blogs.title%></h4></a>
                 <p>
                   <%
-                  let plainText=news.info.replace(/<\/?[^>]+(>|$)/g,"");
+                  let plainText=blogs.info.replace(/<\/?[^>]+(>|$)/g,"");
                   plainText=plainText.replace(/&nbsp;|&#160;/gi," ");
                   plainText=plainText.replace(/&quot;/gi,'"');
                   plainText=plainText.replace(/&#39;/gi,"'");
