@@ -186,8 +186,8 @@ window.addEventListener("click", (event) => {
 });
 let app = document.querySelectorAll(".app");
 const listApp = document.getElementById("listApp");
-socket.on("update-app", (allApp) => {
-  renderApp(allApp);
+socket.on("update-app", (data) => {
+  renderApp(data.sixApp);
   app = document.querySelectorAll(".app");
 });
 function renderApp(apps) {

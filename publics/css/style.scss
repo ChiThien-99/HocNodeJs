@@ -313,9 +313,9 @@ header {
       h2,
       h3,
       em {
-        color: black;
+        // color: black;
         margin: 0.5rem 0;
-        // color: white;
+        color: white;
       }
     }
     .navBtnDB {
@@ -1562,11 +1562,11 @@ header {
           position: relative;
           background-color: $colorPrimaryBG;
           h4 {
-            font-size: 1.1rem;
+            font-size: 0.8rem;
             margin: 0 0 0.2rem 0;
           }
           p {
-            font-size: 1rem;
+            font-size: 0.8rem;
             margin: 0;
           }
           a {
@@ -1578,7 +1578,7 @@ header {
             position: absolute;
             bottom: 0.5rem;
             right: 0.5rem;
-            width: 50%;
+            width: 60%;
             text-align: center;
           }
         }
@@ -1618,11 +1618,11 @@ header {
           position: relative;
           background-color: $colorPrimaryBG;
           h4 {
-            font-size: 1.1rem;
+            font-size: 0.8rem;
             margin: 0 0 0.2rem 0;
           }
           p {
-            font-size: 1rem;
+            font-size: 0.8rem;
             margin: 0;
           }
           a {
@@ -1634,7 +1634,7 @@ header {
             position: absolute;
             bottom: 0.5rem;
             right: 0.5rem;
-            width: 60%;
+            width: 80%;
             text-align: center;
           }
         }
@@ -1796,11 +1796,11 @@ header {
           position: relative;
           background-color: $colorPrimaryBG;
           h4 {
-            font-size: 1.1rem;
+            font-size: 0.8rem;
             margin: 0 0 0.2rem 0;
           }
           p {
-            font-size: 1rem;
+            font-size: 0.8rem;
             margin: 0;
           }
           a {
@@ -1812,7 +1812,7 @@ header {
             position: absolute;
             bottom: 0.5rem;
             right: 0.5rem;
-            width: 50%;
+            width: 60%;
             text-align: center;
           }
         }
@@ -1852,11 +1852,11 @@ header {
           position: relative;
           background-color: $colorPrimaryBG;
           h4 {
-            font-size: 1.1rem;
+            font-size: 0.8rem;
             margin: 0 0 0.2rem 0;
           }
           p {
-            font-size: 1rem;
+            font-size: 0.8rem;
             margin: 0;
           }
           a {
@@ -1868,7 +1868,236 @@ header {
             position: absolute;
             bottom: 0.5rem;
             right: 0.5rem;
-            width: 60%;
+            width: 80%;
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+}
+#mainApp {
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  #listApp {
+    width: 80%;
+    #filterApp {
+      padding: 0.5rem 0;
+      h3 {
+        margin: 0 0 0.5rem 0;
+        color: $colorCTA;
+      }
+      a {
+        display: inline-block;
+        @include button(0.5rem);
+        background-color: transparent;
+        border: 1px solid $colorCTA;
+        color: $colorCTA;
+        margin: 0.3rem;
+        text-decoration: none;
+      }
+      p {
+        color: $colorCTA;
+        font-style: italic;
+        span {
+          color: red;
+          text-decoration: underline;
+          cursor: pointer;
+        }
+      }
+      .active {
+        background-color: $colorCTA;
+        color: $colorSecondaryText;
+      }
+      #functionWrapper {
+        width: 100%;
+        height: 11rem;
+        margin-top: 0.5rem;
+        display: none;
+        position: relative;
+        #divFunctionApp {
+          width: 100%;
+          height: 8rem;
+          overflow-y: scroll;
+          padding: 0.5rem;
+          background-color: #eaeaea;
+        }
+        #filterFunctionApp {
+          position: absolute;
+          right: 0;
+          bottom: 0;
+          background-color: $colorCTA;
+          color: $colorSecondaryText;
+          font-weight: bold;
+          display: none;
+          z-index: 10;
+        }
+      }
+    }
+    #listapps {
+      display: flex;
+      flex-flow: row wrap;
+      margin: 1rem 0;
+      .app {
+        width: 48%;
+        height: 15rem;
+        border: 1px solid black;
+        border-radius: 5px;
+        background-color: $colorPrimaryBG;
+        margin: 1%;
+        display: flex;
+        flex-flow: row nowrap;
+        overflow: hidden;
+        img {
+            width: 50%;
+            height: inherit;
+            object-fit: cover;
+            margin: 0;
+          }
+        .app-content {
+          width: 50%;
+          padding: 0.5rem 0.8rem;
+          display: flex;
+          flex-direction: column;
+          position: relative;
+          a {
+          display: inline-block;
+          text-decoration: none;
+          background-color: $colorCTA;
+          color: $colorSecondaryText;
+          @include button(0.5rem);
+          position: absolute;
+          bottom: 0.5rem;
+          right: 0.5rem;
+          }
+           h4 {
+              font-size: 1.1rem;
+              margin: 0;
+            }
+        }
+      }
+    }
+    .paginationBar {
+      width: 100%;
+      height: 2rem;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 1rem;
+      .pageBtn {
+        display: inline-block;
+        background-color: #eaeaea;
+        color: $colorCTA;
+        margin-right: 1rem;
+        @include button(0.8rem);
+        text-decoration: none;
+      }
+      .active {
+        background-color: $colorCTA;
+        color: $colorSecondaryText;
+        pointer-events: none;
+      }
+    }
+  }
+  aside {
+    width: 20%;
+    #listBlogs {
+      display: flex;
+      flex-direction: column;
+      margin: 1rem 0;
+      .blogCol {
+        display: flex;
+        flex-flow: row nowrap;
+        overflow: hidden;
+        width: 100%;
+        height: 10rem;
+        border: 1px solid black;
+        border-radius: 5px;
+        margin: 2% 1%;
+        div:first-child {
+          width: 50%;
+          height: inherit;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            margin: 0;
+          }
+        }
+        div:last-child {
+          width: 50%;
+          height: inherit;
+          padding: 0.5rem 0.8rem;
+          background-color: $colorPrimaryBG;
+          overflow-y: scroll;
+          h4 {
+            font-size: 0.8rem;
+            margin: 0 0 0.2rem 0;
+          }
+          p {
+            font-size: 0.8rem;
+            margin: 0;
+          }
+          a{
+            text-decoration: none;
+            color: black;
+          }
+        }
+      }
+    }
+    #listDeviceCol {
+      display: flex;
+      flex-direction: column;
+      margin: 1rem 0;
+      .deviceCol {
+        display: flex;
+        flex-flow: row nowrap;
+        overflow: hidden;
+        width: 100%;
+        height: 12rem;
+        border: 1px solid black;
+        border-radius: 5px;
+        margin: 2% 1%;
+        div:first-child {
+          width: 50%;
+          height: inherit;
+          img {
+            width: 100%;
+            height: 80%;
+            object-fit: cover;
+            margin: 0;
+          }
+          p {
+            margin: 0.5rem;
+            font-size: 1.2rem;
+          }
+        }
+        div:last-child {
+          width: 50%;
+          height: inherit;
+          padding: 0.5rem 0.8rem;
+          position: relative;
+          background-color: $colorPrimaryBG;
+          h4 {
+            font-size: 0.8rem;
+            margin: 0 0 0.2rem 0;
+          }
+          p {
+            font-size: 0.8rem;
+            margin: 0;
+          }
+          a {
+            display: inline-block;
+            text-decoration: none;
+            background-color: $colorCTA;
+            color: $colorSecondaryText;
+            @include button(0.5rem);
+            position: absolute;
+            bottom: 0.5rem;
+            right: 0.5rem;
+            width: 80%;
             text-align: center;
           }
         }

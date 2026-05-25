@@ -35,7 +35,6 @@ export const getBlogs = async (req, res) => {
     totalPage,
     currentCategory: currentCategory || "",
     sort,
-    blogTotal,
   });
 };
 export const getDetailblogs = async (req, res) => {

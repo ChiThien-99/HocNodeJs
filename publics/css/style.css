@@ -329,8 +329,8 @@ header div:last-child h2 {
 #mainDashboard #navDashboard div h2,
 #mainDashboard #navDashboard div h3,
 #mainDashboard #navDashboard div em {
-  color: black;
   margin: 0.5rem 0;
+  color: white;
 }
 #mainDashboard #navDashboard .navBtnDB {
   width: 100%;
@@ -1743,11 +1743,11 @@ header div:last-child h2 {
   background-color: #f5f5f5;
 }
 #mainDetailblogs aside #listAppCol .appCol div:last-child h4 {
-  font-size: 1.1rem;
+  font-size: 0.8rem;
   margin: 0 0 0.2rem 0;
 }
 #mainDetailblogs aside #listAppCol .appCol div:last-child p {
-  font-size: 1rem;
+  font-size: 0.8rem;
   margin: 0;
 }
 #mainDetailblogs aside #listAppCol .appCol div:last-child a {
@@ -1762,7 +1762,7 @@ header div:last-child h2 {
   position: absolute;
   bottom: 0.5rem;
   right: 0.5rem;
-  width: 50%;
+  width: 60%;
   text-align: center;
 }
 #mainDetailblogs aside #listDeviceCol {
@@ -1803,11 +1803,11 @@ header div:last-child h2 {
   background-color: #f5f5f5;
 }
 #mainDetailblogs aside #listDeviceCol .deviceCol div:last-child h4 {
-  font-size: 1.1rem;
+  font-size: 0.8rem;
   margin: 0 0 0.2rem 0;
 }
 #mainDetailblogs aside #listDeviceCol .deviceCol div:last-child p {
-  font-size: 1rem;
+  font-size: 0.8rem;
   margin: 0;
 }
 #mainDetailblogs aside #listDeviceCol .deviceCol div:last-child a {
@@ -1822,7 +1822,7 @@ header div:last-child h2 {
   position: absolute;
   bottom: 0.5rem;
   right: 0.5rem;
-  width: 60%;
+  width: 80%;
   text-align: center;
 }
 
@@ -1993,11 +1993,11 @@ header div:last-child h2 {
   background-color: #f5f5f5;
 }
 #mainBlogs aside #listAppCol .appCol div:last-child h4 {
-  font-size: 1.1rem;
+  font-size: 0.8rem;
   margin: 0 0 0.2rem 0;
 }
 #mainBlogs aside #listAppCol .appCol div:last-child p {
-  font-size: 1rem;
+  font-size: 0.8rem;
   margin: 0;
 }
 #mainBlogs aside #listAppCol .appCol div:last-child a {
@@ -2012,7 +2012,7 @@ header div:last-child h2 {
   position: absolute;
   bottom: 0.5rem;
   right: 0.5rem;
-  width: 50%;
+  width: 60%;
   text-align: center;
 }
 #mainBlogs aside #listDeviceCol {
@@ -2053,11 +2053,11 @@ header div:last-child h2 {
   background-color: #f5f5f5;
 }
 #mainBlogs aside #listDeviceCol .deviceCol div:last-child h4 {
-  font-size: 1.1rem;
+  font-size: 0.8rem;
   margin: 0 0 0.2rem 0;
 }
 #mainBlogs aside #listDeviceCol .deviceCol div:last-child p {
-  font-size: 1rem;
+  font-size: 0.8rem;
   margin: 0;
 }
 #mainBlogs aside #listDeviceCol .deviceCol div:last-child a {
@@ -2072,7 +2072,252 @@ header div:last-child h2 {
   position: absolute;
   bottom: 0.5rem;
   right: 0.5rem;
-  width: 60%;
+  width: 80%;
+  text-align: center;
+}
+
+#mainApp {
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+}
+#mainApp #listApp {
+  width: 80%;
+}
+#mainApp #listApp #filterApp {
+  padding: 0.5rem 0;
+}
+#mainApp #listApp #filterApp h3 {
+  margin: 0 0 0.5rem 0;
+  color: #80a710;
+}
+#mainApp #listApp #filterApp a {
+  display: inline-block;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: transparent;
+  border: 1px solid #80a710;
+  color: #80a710;
+  margin: 0.3rem;
+  text-decoration: none;
+}
+#mainApp #listApp #filterApp p {
+  color: #80a710;
+  font-style: italic;
+}
+#mainApp #listApp #filterApp p span {
+  color: red;
+  text-decoration: underline;
+  cursor: pointer;
+}
+#mainApp #listApp #filterApp .active {
+  background-color: #80a710;
+  color: #fafafa;
+}
+#mainApp #listApp #filterApp #functionWrapper {
+  width: 100%;
+  height: 11rem;
+  margin-top: 0.5rem;
+  display: none;
+  position: relative;
+}
+#mainApp #listApp #filterApp #functionWrapper #divFunctionApp {
+  width: 100%;
+  height: 8rem;
+  overflow-y: scroll;
+  padding: 0.5rem;
+  background-color: #eaeaea;
+}
+#mainApp #listApp #filterApp #functionWrapper #filterFunctionApp {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  background-color: #80a710;
+  color: #fafafa;
+  font-weight: bold;
+  display: none;
+  z-index: 10;
+}
+#mainApp #listApp #listapps {
+  display: flex;
+  flex-flow: row wrap;
+  margin: 1rem 0;
+}
+#mainApp #listApp #listapps .app {
+  width: 48%;
+  height: 15rem;
+  border: 1px solid black;
+  border-radius: 5px;
+  background-color: #f5f5f5;
+  margin: 1%;
+  display: flex;
+  flex-flow: row nowrap;
+  overflow: hidden;
+}
+#mainApp #listApp #listapps .app img {
+  width: 50%;
+  height: inherit;
+  -o-object-fit: cover;
+     object-fit: cover;
+  margin: 0;
+}
+#mainApp #listApp #listapps .app .app-content {
+  width: 50%;
+  padding: 0.5rem 0.8rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+#mainApp #listApp #listapps .app .app-content a {
+  display: inline-block;
+  text-decoration: none;
+  background-color: #80a710;
+  color: #fafafa;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.5rem;
+}
+#mainApp #listApp #listapps .app .app-content h4 {
+  font-size: 1.1rem;
+  margin: 0;
+}
+#mainApp #listApp .paginationBar {
+  width: 100%;
+  height: 2rem;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+#mainApp #listApp .paginationBar .pageBtn {
+  display: inline-block;
+  background-color: #eaeaea;
+  color: #80a710;
+  margin-right: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.8rem;
+  text-decoration: none;
+}
+#mainApp #listApp .paginationBar .active {
+  background-color: #80a710;
+  color: #fafafa;
+  pointer-events: none;
+}
+#mainApp aside {
+  width: 20%;
+}
+#mainApp aside #listBlogs {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 0;
+}
+#mainApp aside #listBlogs .blogCol {
+  display: flex;
+  flex-flow: row nowrap;
+  overflow: hidden;
+  width: 100%;
+  height: 10rem;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin: 2% 1%;
+}
+#mainApp aside #listBlogs .blogCol div:first-child {
+  width: 50%;
+  height: inherit;
+}
+#mainApp aside #listBlogs .blogCol div:first-child img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  margin: 0;
+}
+#mainApp aside #listBlogs .blogCol div:last-child {
+  width: 50%;
+  height: inherit;
+  padding: 0.5rem 0.8rem;
+  background-color: #f5f5f5;
+  overflow-y: scroll;
+}
+#mainApp aside #listBlogs .blogCol div:last-child h4 {
+  font-size: 0.8rem;
+  margin: 0 0 0.2rem 0;
+}
+#mainApp aside #listBlogs .blogCol div:last-child p {
+  font-size: 0.8rem;
+  margin: 0;
+}
+#mainApp aside #listBlogs .blogCol div:last-child a {
+  text-decoration: none;
+  color: black;
+}
+#mainApp aside #listDeviceCol {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 0;
+}
+#mainApp aside #listDeviceCol .deviceCol {
+  display: flex;
+  flex-flow: row nowrap;
+  overflow: hidden;
+  width: 100%;
+  height: 12rem;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin: 2% 1%;
+}
+#mainApp aside #listDeviceCol .deviceCol div:first-child {
+  width: 50%;
+  height: inherit;
+}
+#mainApp aside #listDeviceCol .deviceCol div:first-child img {
+  width: 100%;
+  height: 80%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  margin: 0;
+}
+#mainApp aside #listDeviceCol .deviceCol div:first-child p {
+  margin: 0.5rem;
+  font-size: 1.2rem;
+}
+#mainApp aside #listDeviceCol .deviceCol div:last-child {
+  width: 50%;
+  height: inherit;
+  padding: 0.5rem 0.8rem;
+  position: relative;
+  background-color: #f5f5f5;
+}
+#mainApp aside #listDeviceCol .deviceCol div:last-child h4 {
+  font-size: 0.8rem;
+  margin: 0 0 0.2rem 0;
+}
+#mainApp aside #listDeviceCol .deviceCol div:last-child p {
+  font-size: 0.8rem;
+  margin: 0;
+}
+#mainApp aside #listDeviceCol .deviceCol div:last-child a {
+  display: inline-block;
+  text-decoration: none;
+  background-color: #80a710;
+  color: #fafafa;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  width: 80%;
   text-align: center;
 }
 

@@ -461,8 +461,7 @@ export const addApp = async (req, res) => {
       func: funcApp,
     });
     const io = req.app.get("socketio");
-    const allApp = await appEntity.find().sort("-createAt");
-    io.emit("update-app", allApp);
+    io.emit("update-app", newApp);
     res.json({ mess: "Tạo phần mềm thành công", success: true });
   } catch (error) {
     res.json({
@@ -661,7 +660,7 @@ export const deleteDevice = async (req, res) => {
 export const addblogs = async (req, res) => {
   try {
     const { titleblogs, infoblogs, categoryblogs } = req.body;
-    await blogsEntity.create({
+    const newBlog=await blogsEntity.create({
       image: req.file.path,
       cloudinary_id: req.file.filename,
       title: titleblogs,
@@ -669,11 +668,7 @@ export const addblogs = async (req, res) => {
       category: categoryblogs,
     });
     const io = req.app.get("socketio");
-    const sixblogs = await blogsEntity.find().sort("-createAt").limit(6);
-    const allblogs = await blogsEntity.find().sort("-createAt");
-    console.log(Object.keys(sixblogs).length);
-    console.log(Object.keys(allblogs).length);
-    io.emit("update-blogs", { sixblogs: sixblogs, allblogs: allblogs });
+    io.emit("update-blogs", newBlog);
     res.json({ mess: "Tạo blogs thành công", success: true });
   } catch (error) {
     res.json({

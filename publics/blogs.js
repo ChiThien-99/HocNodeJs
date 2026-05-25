@@ -1,32 +1,32 @@
 const socket = io();
-let blogs = document.querySelectorAll(".blogs");
-const listblogs = document.getElementById("listblogs");
-socket.on("update-blogs", (data) => {
-  renderblogs(data.allblogs);
-  blogs = document.querySelectorAll(".blogs");
-});
-function renderblogs(list_blogs) {
-  listblogs.innerHTML = list_blogs
-    .map((blogs) => {
-      let plainText = blogs.info.replace(/<\/?[^>]+(>|$)/g, "");
+socket.on("update-blogs", (newBlog) => {
+      let plainText = newBlog.info.replace(/<\/?[^>]+(>|$)/g, "");
       plainText = plainText.replace(/&nbsp;|&#160;/gi, " ");
       plainText = plainText.replace(/\s+/g, " ").trim();
       let shortText =
         plainText.length > 200
           ? plainText.substring(0, 200) + "..."
           : plainText;
-      return `
+      const newBlogHTML= `
   <div class="blogs">
-    <a href="/blogs/detailBlog/${blogs._id}" target="_blank" class="linkImg"><img src="${blogs.image}" alt="blogs"></a>
+    <a href="/blogs/detailBlog/${newBlog._id}" target="_blank" class="linkImg"><img src="${newBlog.image}" alt="blogs"></a>
   <div class="blogs-content">
-    <a href="/blogs/detailBlog/${blogs._id}" target="_blank"><h4>${blogs.title}</h4></a>
+    <a href="/blogs/detailBlog/${newBlog._id}" target="_blank"><h4>${newBlog.title}</h4></a>
     <p>${shortText}</p> 
   </div>
   </div>
   `;
-    })
-    .join("");
-}
+  const urlParams= new URLSearchParams(window.location.search);
+  const currentPage=parseInt(urlParams.get("page"))||1;
+  if (currentPage===1) {
+    document.getElementById("listblogs").insertAdjacentHTML("afterbegin",newBlogHTML);
+    let blogs = document.querySelectorAll(".blogs");
+  if (blogs.length>12) {
+    blogs[blogs.length-1].remove();
+  }
+  blogs = document.querySelectorAll(".blogs");
+  }
+});
 
 document
   .getElementById("btnCategoryBlog")
@@ -76,7 +76,7 @@ function renderCategoryblogs(list_categoryblogs) {
   document.getElementById("divCategoryBlog").innerHTML = list_categoryblogs
     .map(
       (categoryblogs) => `
- <button class="categoryblogs">${categoryblogs.name}</button>
+ <a class="categoryblogs">${categoryblogs.name}</a>
   `,
     )
     .join("");
