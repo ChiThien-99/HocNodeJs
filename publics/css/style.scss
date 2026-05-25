@@ -313,9 +313,9 @@ header {
       h2,
       h3,
       em {
-        // color: black;
+        color: black;
         margin: 0.5rem 0;
-        color: white;
+        // color: white;
       }
     }
     .navBtnDB {
@@ -1562,7 +1562,7 @@ header {
           position: relative;
           background-color: $colorPrimaryBG;
           h4 {
-            font-size: 0.8rem;
+            font-size: 1.1rem;
             margin: 0 0 0.2rem 0;
           }
           p {
@@ -1618,7 +1618,7 @@ header {
           position: relative;
           background-color: $colorPrimaryBG;
           h4 {
-            font-size: 0.8rem;
+            font-size: 1.1rem;
             margin: 0 0 0.2rem 0;
           }
           p {
@@ -1796,7 +1796,7 @@ header {
           position: relative;
           background-color: $colorPrimaryBG;
           h4 {
-            font-size: 0.8rem;
+            font-size: 1.1rem;
             margin: 0 0 0.2rem 0;
           }
           p {
@@ -1852,7 +1852,7 @@ header {
           position: relative;
           background-color: $colorPrimaryBG;
           h4 {
-            font-size: 0.8rem;
+            font-size: 1.1rem;
             margin: 0 0 0.2rem 0;
           }
           p {
@@ -1950,11 +1950,11 @@ header {
         flex-flow: row nowrap;
         overflow: hidden;
         img {
-            width: 50%;
-            height: inherit;
-            object-fit: cover;
-            margin: 0;
-          }
+          width: 50%;
+          height: inherit;
+          object-fit: cover;
+          margin: 0;
+        }
         .app-content {
           width: 50%;
           padding: 0.5rem 0.8rem;
@@ -1962,19 +1962,19 @@ header {
           flex-direction: column;
           position: relative;
           a {
-          display: inline-block;
-          text-decoration: none;
-          background-color: $colorCTA;
-          color: $colorSecondaryText;
-          @include button(0.5rem);
-          position: absolute;
-          bottom: 0.5rem;
-          right: 0.5rem;
+            display: inline-block;
+            text-decoration: none;
+            background-color: $colorCTA;
+            color: $colorSecondaryText;
+            @include button(0.5rem);
+            position: absolute;
+            bottom: 0.5rem;
+            right: 0.5rem;
           }
-           h4 {
-              font-size: 1.1rem;
-              margin: 0;
-            }
+          h4 {
+            font-size: 1.1rem;
+            margin: 0;
+          }
         }
       }
     }
@@ -2033,14 +2033,14 @@ header {
           background-color: $colorPrimaryBG;
           overflow-y: scroll;
           h4 {
-            font-size: 0.8rem;
+            font-size: 1.1rem;
             margin: 0 0 0.2rem 0;
           }
           p {
             font-size: 0.8rem;
             margin: 0;
           }
-          a{
+          a {
             text-decoration: none;
             color: black;
           }
@@ -2081,7 +2081,7 @@ header {
           position: relative;
           background-color: $colorPrimaryBG;
           h4 {
-            font-size: 0.8rem;
+            font-size: 1.1rem;
             margin: 0 0 0.2rem 0;
           }
           p {
@@ -2363,7 +2363,7 @@ footer {
         .appCol {
           div:last-child {
             h4 {
-              font-size: 1rem;
+              font-size: 1.1rem;
             }
             p {
               font-size: 0.8rem;
@@ -2375,7 +2375,7 @@ footer {
         .deviceCol {
           div:last-child {
             h4 {
-              font-size: 1rem;
+              font-size: 1.1rem;
             }
             p {
               font-size: 0.8rem;

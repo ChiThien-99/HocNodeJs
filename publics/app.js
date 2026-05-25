@@ -1,13 +1,12 @@
 const socket = io();
 socket.on("update-app", (newApp) => {
-      let plainText = newApp.info.replace(/<\/?[^>]+(>|$)/g, "");
-      plainText = plainText.replace(/&nbsp;|&#160;/gi, " ");
-      plainText = plainText.replace(/\s+/g, " ").trim();
-      let shortText =
-        plainText.length > 200
-          ? plainText.substring(0, 200) + "..."
-          : plainText;
-      const newAppHTML= `
+  console.log(newApp);
+  let plainText = newApp.info.replace(/<\/?[^>]+(>|$)/g, "");
+  plainText = plainText.replace(/&nbsp;|&#160;/gi, " ");
+  plainText = plainText.replace(/\s+/g, " ").trim();
+  let shortText =
+    plainText.length > 200 ? plainText.substring(0, 200) + "..." : plainText;
+  const newAppHTML = `
       <div class="app">
         <img src="${newApp.image}" alt="app">
         <div class="app-content">
@@ -19,29 +18,31 @@ socket.on("update-app", (newApp) => {
         </div>
     </div>
   `;
-  const urlParams= new URLSearchParams(window.location.search);
-  const currentPage=parseInt(urlParams.get("page"))||1;
-  if (currentPage===1) {
-    document.getElementById("listapps").insertAdjacentHTML("afterbegin",newAppHTML);
+  const urlParams = new URLSearchParams(window.location.search);
+  const currentPage = parseInt(urlParams.get("page")) || 1;
+  if (currentPage === 1) {
+    document
+      .getElementById("listapps")
+      .insertAdjacentHTML("afterbegin", newAppHTML);
     let app = document.querySelectorAll(".app");
-  if (app.length>12) {
-    app[app.length-1].remove();
-  }
-  app = document.querySelectorAll(".app");
+    console.log(`app trước remove ${app.length}`);
+    if (app.length > 12) {
+      app[app.length - 1].remove();
+    }
+    app = document.querySelectorAll(".app");
+    console.log(`app trước remove ${app.length}`);
   }
 });
 
-document
-  .getElementById("btnFuncApp")
-  .addEventListener("click", function () {
-    const functionWrapper = document.getElementById("functionWrapper");
-    const type = functionWrapper.style.display === "block" ? "none" : "block";
-    functionWrapper.style.display = type;
-    document.querySelectorAll("#filterApp a").forEach((btn) => {
-      btn.classList.remove("active");
-      this.classList.add("active");
-    });
+document.getElementById("btnFuncApp").addEventListener("click", function () {
+  const functionWrapper = document.getElementById("functionWrapper");
+  const type = functionWrapper.style.display === "block" ? "none" : "block";
+  functionWrapper.style.display = type;
+  document.querySelectorAll("#filterApp a").forEach((btn) => {
+    btn.classList.remove("active");
+    this.classList.add("active");
   });
+});
 let selectedFunctionApp = [];
 document.getElementById("divFunctionApp").addEventListener("click", (e) => {
   const btn = e.target.closest(".functionApp");
@@ -57,14 +58,13 @@ document.getElementById("divFunctionApp").addEventListener("click", (e) => {
     btn.classList.add("active");
   }
   if (selectedFunctionApp.length > 0) {
-    document.getElementById("filterFunctionApp").style.display =
-      "inline-block";
+    document.getElementById("filterFunctionApp").style.display = "inline-block";
   }
 });
 document.getElementById("filterFunctionApp").addEventListener("click", () => {
   const params = new URLSearchParams();
   selectedFunctionApp.forEach((f) => params.append("func", f));
-  window.location.href = `/blogs?${params.toString()}`;
+  window.location.href = `/app?${params.toString()}`;
 });
 const filterAppSpan = document.querySelector("#filterApp span");
 if (filterAppSpan) {
@@ -72,18 +72,13 @@ if (filterAppSpan) {
     window.location.href = "/app";
   });
 }
-socket.on("update-functionapp", (allFunctionApp) => {
-  renderFunctionApp(allFunctionApp);
+socket.on("update-funcapp", (newFuncApp) => {
+  const newFunc = `<a class="functionApp">${newFuncApp.name}</a>`;
+  document
+    .getElementById("divFunctionApp")
+    .insertAdjacentHTML("afterbegin", newFunc);
 });
-function renderFunctionApp(list_functionapp) {
-  document.getElementById("divFunctionAppg").innerHTML = list_functionapp
-    .map(
-      (func) => `
- <a class="functionApp">${func.name}</a>
-  `,
-    )
-    .join("");
-}
+
 document.addEventListener("DOMContentLoaded", () => {
   const hamburgerBtn = document.getElementById("hamburgerBtn");
   const navMenu = document.getElementById("navMenu");

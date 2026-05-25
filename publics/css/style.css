@@ -329,8 +329,8 @@ header div:last-child h2 {
 #mainDashboard #navDashboard div h2,
 #mainDashboard #navDashboard div h3,
 #mainDashboard #navDashboard div em {
+  color: black;
   margin: 0.5rem 0;
-  color: white;
 }
 #mainDashboard #navDashboard .navBtnDB {
   width: 100%;
@@ -1743,7 +1743,7 @@ header div:last-child h2 {
   background-color: #f5f5f5;
 }
 #mainDetailblogs aside #listAppCol .appCol div:last-child h4 {
-  font-size: 0.8rem;
+  font-size: 1.1rem;
   margin: 0 0 0.2rem 0;
 }
 #mainDetailblogs aside #listAppCol .appCol div:last-child p {
@@ -1803,7 +1803,7 @@ header div:last-child h2 {
   background-color: #f5f5f5;
 }
 #mainDetailblogs aside #listDeviceCol .deviceCol div:last-child h4 {
-  font-size: 0.8rem;
+  font-size: 1.1rem;
   margin: 0 0 0.2rem 0;
 }
 #mainDetailblogs aside #listDeviceCol .deviceCol div:last-child p {
@@ -1993,7 +1993,7 @@ header div:last-child h2 {
   background-color: #f5f5f5;
 }
 #mainBlogs aside #listAppCol .appCol div:last-child h4 {
-  font-size: 0.8rem;
+  font-size: 1.1rem;
   margin: 0 0 0.2rem 0;
 }
 #mainBlogs aside #listAppCol .appCol div:last-child p {
@@ -2053,7 +2053,7 @@ header div:last-child h2 {
   background-color: #f5f5f5;
 }
 #mainBlogs aside #listDeviceCol .deviceCol div:last-child h4 {
-  font-size: 0.8rem;
+  font-size: 1.1rem;
   margin: 0 0 0.2rem 0;
 }
 #mainBlogs aside #listDeviceCol .deviceCol div:last-child p {
@@ -2249,7 +2249,7 @@ header div:last-child h2 {
   overflow-y: scroll;
 }
 #mainApp aside #listBlogs .blogCol div:last-child h4 {
-  font-size: 0.8rem;
+  font-size: 1.1rem;
   margin: 0 0 0.2rem 0;
 }
 #mainApp aside #listBlogs .blogCol div:last-child p {
@@ -2298,7 +2298,7 @@ header div:last-child h2 {
   background-color: #f5f5f5;
 }
 #mainApp aside #listDeviceCol .deviceCol div:last-child h4 {
-  font-size: 0.8rem;
+  font-size: 1.1rem;
   margin: 0 0 0.2rem 0;
 }
 #mainApp aside #listDeviceCol .deviceCol div:last-child p {
@@ -2570,13 +2570,13 @@ footer div:last-child input {
     width: 100%;
   }
   #mainBlogs aside #listAppCol .appCol div:last-child h4 {
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
   #mainBlogs aside #listAppCol .appCol div:last-child p {
     font-size: 0.8rem;
   }
   #mainBlogs aside #listDeviceCol .deviceCol div:last-child h4 {
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
   #mainBlogs aside #listDeviceCol .deviceCol div:last-child p {
     font-size: 0.8rem;

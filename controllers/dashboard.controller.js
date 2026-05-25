@@ -395,8 +395,7 @@ export const addListFuncApp = async (req, res) => {
     const { listFuncApp } = req.body;
     const newFuncApp = await funcAppEntity.create({ name: listFuncApp });
     const io = req.app.get("socketio");
-    const allFuncApp = await funcAppEntity.find();
-    io.emit("update-funcapp", allFuncApp);
+    io.emit("update-funcapp", newFuncApp);
     res.json({ mess: "Chức năng phần mềm tạo thành công", success: true });
   } catch (error) {
     res.json({
@@ -453,13 +452,14 @@ export const deleteFuncApp = async (req, res) => {
 export const addApp = async (req, res) => {
   try {
     const { nameApp, infoApp, funcApp } = req.body;
-    const newApp = appEntity.create({
+    const newApp = await appEntity.create({
       image: req.file.path,
       cloudinary_id: req.file.filename,
       name: nameApp,
       info: infoApp,
       func: funcApp,
     });
+    console.log(newApp);
     const io = req.app.get("socketio");
     io.emit("update-app", newApp);
     res.json({ mess: "Tạo phần mềm thành công", success: true });
@@ -660,7 +660,7 @@ export const deleteDevice = async (req, res) => {
 export const addblogs = async (req, res) => {
   try {
     const { titleblogs, infoblogs, categoryblogs } = req.body;
-    const newBlog=await blogsEntity.create({
+    const newBlog = await blogsEntity.create({
       image: req.file.path,
       cloudinary_id: req.file.filename,
       title: titleblogs,
