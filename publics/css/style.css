@@ -329,8 +329,8 @@ header div:last-child h2 {
 #mainDashboard #navDashboard div h2,
 #mainDashboard #navDashboard div h3,
 #mainDashboard #navDashboard div em {
+  color: black;
   margin: 0.5rem 0;
-  color: white;
 }
 #mainDashboard #navDashboard .navBtnDB {
   width: 100%;
@@ -1296,19 +1296,19 @@ header div:last-child h2 {
   right: 0.5rem;
 }
 
-#divDevice {
+#divDeviceIndex {
   width: 100%;
   height: auto;
   border: 1px solid black;
   padding: 1rem;
 }
-#divDevice #headerDevice {
+#divDeviceIndex #headerDeviceIndex {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
 }
-#divDevice #headerDevice a {
+#divDeviceIndex #headerDeviceIndex a {
   display: inline-block;
   text-decoration: none;
   background-color: #80a710;
@@ -1320,12 +1320,12 @@ header div:last-child h2 {
   cursor: pointer;
   padding: 0.5rem;
 }
-#divDevice #groupFilterDevice {
+#divDeviceIndex #groupFilterDeviceIndex {
   display: flex;
   flex-flow: row nowrap;
   gap: 1rem;
 }
-#divDevice #groupFilterDevice button {
+#divDeviceIndex #groupFilterDeviceIndex button {
   border: 2px solid #80a710;
   border-radius: 1000px;
   background-color: #f5f5f5;
@@ -1336,20 +1336,20 @@ header div:last-child h2 {
   height: 3rem;
   color: #80a710;
 }
-#divDevice #groupFilterDevice button:hover {
+#divDeviceIndex #groupFilterDeviceIndex button:hover {
   background-color: #80a710;
   color: #fafafa;
 }
-#divDevice #groupFilterDevice .active {
+#divDeviceIndex #groupFilterDeviceIndex .active {
   background-color: #80a710;
   color: #fafafa;
 }
-#divDevice #groupFilterDevice #divFuncDeviceBtns {
+#divDeviceIndex #groupFilterDeviceIndex #divFuncDeviceBtnsIndex {
   display: none;
   flex: 1;
   position: relative;
 }
-#divDevice #groupFilterDevice #divFuncDeviceBtns #funcDeviceBtns {
+#divDeviceIndex #groupFilterDeviceIndex #divFuncDeviceBtnsIndex #funcDeviceBtnsIndex {
   width: 100%;
   border: 2px solid #80a710;
   border-radius: 5px;
@@ -1357,14 +1357,14 @@ header div:last-child h2 {
   z-index: 1000;
   background-color: #f5f5f5;
 }
-#divDevice #groupFilterDevice #divFuncDeviceBtns #funcDeviceBtns button {
+#divDeviceIndex #groupFilterDeviceIndex #divFuncDeviceBtnsIndex #funcDeviceBtnsIndex button {
   margin: 0.5rem;
 }
-#divDevice #groupFilterDevice #divFuncDeviceBtns #funcDeviceBtns #divDeleteFuncDeviceBtn {
+#divDeviceIndex #groupFilterDeviceIndex #divFuncDeviceBtnsIndex #funcDeviceBtnsIndex #divDeleteFuncDeviceBtnIndex {
   justify-content: right;
   display: none;
 }
-#divDevice #groupFilterDevice #divFuncDeviceBtns #funcDeviceBtns #divDeleteFuncDeviceBtn #deleteFuncDeviceBtn {
+#divDeviceIndex #groupFilterDeviceIndex #divFuncDeviceBtnsIndex #funcDeviceBtnsIndex #divDeleteFuncDeviceBtnIndex #deleteFuncDeviceBtnIndex {
   display: inline-block;
   text-decoration: none;
   border: none;
@@ -1375,13 +1375,13 @@ header div:last-child h2 {
   color: #fafafa;
   margin: 0.5rem;
 }
-#divDevice #listDevice {
+#divDeviceIndex #listDeviceIndex {
   display: flex;
   flex-flow: row wrap;
   border: 1px solid black;
   margin: 1rem 0;
 }
-#divDevice #listDevice .device {
+#divDeviceIndex #listDeviceIndex .deviceIndex {
   display: flex;
   flex-flow: row nowrap;
   overflow: hidden;
@@ -1391,29 +1391,29 @@ header div:last-child h2 {
   border-radius: 5px;
   margin: 1%;
 }
-#divDevice #listDevice .device div:first-child {
+#divDeviceIndex #listDeviceIndex .deviceIndex div:first-child {
   width: 50%;
   height: inherit;
 }
-#divDevice #listDevice .device div:first-child img {
+#divDeviceIndex #listDeviceIndex .deviceIndex div:first-child img {
   width: 100%;
   height: 80%;
   -o-object-fit: cover;
      object-fit: cover;
   margin: 0;
 }
-#divDevice #listDevice .device div:first-child p {
+#divDeviceIndex #listDeviceIndex .deviceIndex div:first-child p {
   margin: 0.5rem;
   font-size: 1.2rem;
 }
-#divDevice #listDevice .device div:last-child {
+#divDeviceIndex #listDeviceIndex .deviceIndex div:last-child {
   width: 50%;
   height: inherit;
   padding: 0.5rem 0.8rem;
   position: relative;
   background-color: #f5f5f5;
 }
-#divDevice #listDevice .device div:last-child h4 {
+#divDeviceIndex #listDeviceIndex .deviceIndex div:last-child h4 {
   font-size: 1.1rem;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -1423,7 +1423,7 @@ header div:last-child h2 {
   max-height: 3em;
   margin: 0;
 }
-#divDevice #listDevice .device div:last-child p {
+#divDeviceIndex #listDeviceIndex .deviceIndex div:last-child p {
   font-size: 1.1rem;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 7;
@@ -1433,7 +1433,7 @@ header div:last-child h2 {
   max-height: 10.5em;
   margin: 0;
 }
-#divDevice #listDevice .device div:last-child a {
+#divDeviceIndex #listDeviceIndex .deviceIndex div:last-child a {
   display: inline-block;
   text-decoration: none;
   background-color: #80a710;
@@ -2336,7 +2336,6 @@ header div:last-child h2 {
   position: absolute;
   bottom: 0.5rem;
   right: 0.5rem;
-  width: 80%;
   text-align: center;
 }
 
@@ -2445,17 +2444,17 @@ header div:last-child h2 {
   flex-flow: row nowrap;
   overflow: hidden;
 }
-#mainDevice #listDevice #listdevices .device div {
+#mainDevice #listDevice #listdevices .device .divImg {
   width: 50%;
 }
-#mainDevice #listDevice #listdevices .device div img {
+#mainDevice #listDevice #listdevices .device .divImg img {
   width: 100%;
   height: 80%;
   -o-object-fit: cover;
      object-fit: cover;
   margin: 0;
 }
-#mainDevice #listDevice #listdevices .device div p {
+#mainDevice #listDevice #listdevices .device .divImg p {
   font-size: 1.2rem;
   margin: 0.5rem;
 }

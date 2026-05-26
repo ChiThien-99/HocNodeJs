@@ -136,13 +136,13 @@
                 <h4><%=device.name%></h4>
                 <p>
                   <%
-                  let plainText=device.info.replace(/<\/?[^>]+(>|$)/g,"");
-                  plainText=plainText.replace(/&nbsp;|&#160;/gi," ");
+                  let plainText=device.info.replace(/&nbsp;|&#160;/gi," ");
                   plainText = plainText.replace(/&quot;/g, '"');
+                  plainText = plainText.replace(/&#39;/g, "'");
                   plainText=plainText.replace(/\s+/g," ").trim();
-                  let shortText=plainText.length>200?plainText.substring(0,200)+"...":plainText;
+                  let shortText=plainText.length>80?plainText.substring(0,80)+"...":plainText;
                   %>
-                  <%=shortText%>
+                  <%-shortText%>
                 </p>
                 <a href="/device/<%=device.name%>/<%=device._id%>" target="_blank">Xem chi tiết</a>
               </div>
@@ -165,6 +165,7 @@
                   let plainText=blog.info.replace(/<\/?[^>]+(>|$)/g,"");
                   plainText=plainText.replace(/&nbsp;|&#160;/gi," ");
                   plainText = plainText.replace(/&quot;/g, '"');
+                  plainText = plainText.replace(/&#39;/g, "'");
                   plainText=plainText.replace(/\s+/g," ").trim();
                   let shortText=plainText.length>200?plainText.substring(0,200)+"...":plainText;
                   %>

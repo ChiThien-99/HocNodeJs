@@ -164,29 +164,29 @@
             <%})%>
           </div>
         </div>
-        <div id="divDevice">
-          <div id="headerDevice">
+        <div id="divDeviceIndex">
+          <div id="headerDeviceIndex">
             <h2 class="flag-item">Thiết bị</h2>
             <a href="/device" target="_blank">Xem tất cả</a>
           </div>
-          <div id="groupFilterDevice">
+          <div id="groupFilterDeviceIndex">
             <button id="btnNewDevice" class="active">Mới nhất</button>
             <button id="btnPopularDevice">Phổ biến</button>
             <button id="btnPriceLowHigh">Giá Thấp->Cao</button>
             <button id="btnPriceHighLow">Giá Cao->Thấp</button>
             <button id="btnFuncDevice">Chức năng <i class="fa-solid fa-caret-right"></i></button>
-            <div id="divFuncDeviceBtns">
-            <div id="funcDeviceBtns">
-              <div id="divDeleteFuncDeviceBtn"><a id="deleteFuncDeviceBtn"><i class="fa-solid fa-filter-circle-xmark"></i>Xóa lọc</a></div>
+            <div id="divFuncDeviceBtnsIndex">
+            <div id="funcDeviceBtnsIndex">
+              <div id="divDeleteFuncDeviceBtnIndex"><a id="deleteFuncDeviceBtnIndex"><i class="fa-solid fa-filter-circle-xmark"></i>Xóa lọc</a></div>
               <%funcDevices.forEach((funcDevice)=>{%>
               <button class="funcDeviceBtn"><%=funcDevice.name%></button>
               <%})%>
             </div>
             </div>
           </div>
-          <div id="listDevice">
+          <div id="listDeviceIndex">
             <%devices.forEach((device)=>{%>
-            <div class="device">
+            <div class="deviceIndex">
               <div>
                 <img src="<%=device.image%>" alt="device">
                 <p><%=device.price.toLocaleString('vi-VN')%>đ</p>

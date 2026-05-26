@@ -636,83 +636,83 @@ Quill.register(
   },
   true,
 );
-const quillEditor=document.querySelectorAll(".quill-editor");
-const quillInstances=[];
-quillEditor.forEach((element,index)=>{
-const quill = new Quill(element, {
-  theme: "snow",
-  modules: {
-    table: false,
-    toolbar: [
-      [{ header: [1, 2, 3, 4, 5, 6, false] }],
-      [{ size: ["12px", "14px", "16px", "18px", "20px", "24px", "32px"] }],
-      ["bold", "italic", "underline", "strike"],
-      [{ color: [] }, { background: [] }, { align: [] }],
-      ["link", "image", "video", "table-better", "code-block"],
-      [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
-      ["clean"],
-    ],
-    imageResize: {
-      displaySize: true,
-    },
-    "table-better": {
-      language: "en_US",
-      menus: [
-        "column",
-        "row",
-        "merge",
-        "table",
-        "cell",
-        "wrap",
-        "copy",
-        "delete",
+const quillEditor = document.querySelectorAll(".quill-editor");
+const quillInstances = [];
+quillEditor.forEach((element, index) => {
+  const quill = new Quill(element, {
+    theme: "snow",
+    modules: {
+      table: false,
+      toolbar: [
+        [{ header: [1, 2, 3, 4, 5, 6, false] }],
+        [{ size: ["12px", "14px", "16px", "18px", "20px", "24px", "32px"] }],
+        ["bold", "italic", "underline", "strike"],
+        [{ color: [] }, { background: [] }, { align: [] }],
+        ["link", "image", "video", "table-better", "code-block"],
+        [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
+        ["clean"],
       ],
-      toolbarTable: true,
+      imageResize: {
+        displaySize: true,
+      },
+      "table-better": {
+        language: "en_US",
+        menus: [
+          "column",
+          "row",
+          "merge",
+          "table",
+          "cell",
+          "wrap",
+          "copy",
+          "delete",
+        ],
+        toolbarTable: true,
+      },
+      keyboard: {
+        bindings: QuillTableBetter.keyboardBindings,
+      },
     },
-    keyboard: {
-      bindings: QuillTableBetter.keyboardBindings,
-    },
-  },
-});
-quill.getModule("toolbar").addHandler("image", () => {
-  const input = document.createElement("input");
-  input.setAttribute("type", "file");
-  input.setAttribute("accept", "image/png,image/jpeg,image/webp");
-  input.click();
-  input.onchange = async () => {
-    const file = input.files[0];
-    if (!file) {
-      return;
-    }
-    const formData = new FormData();
-    formData.append("imgblogs", file);
-    fetch("/dashboard/uploadImage", {
-      method: "POST",
-      body: formData,
-    })
-      .then((res) => res.json())
-      .then(({ data }) => {
-        if (data) {
-          const range = quill.getSelection();
-          const insertIndex=range?range.index:quill.getLength();
-          quill.insertEmbed(insertIndex, "image", data);
-          quill.setSelection(insertIndex+1);
-        }
+  });
+  quill.getModule("toolbar").addHandler("image", () => {
+    const input = document.createElement("input");
+    input.setAttribute("type", "file");
+    input.setAttribute("accept", "image/png,image/jpeg,image/webp");
+    input.click();
+    input.onchange = async () => {
+      const file = input.files[0];
+      if (!file) {
+        return;
+      }
+      const formData = new FormData();
+      formData.append("imgblogs", file);
+      fetch("/dashboard/uploadImage", {
+        method: "POST",
+        body: formData,
       })
-      .catch((error)=>{
-        console.error(`Lỗi upload ảnh quill ${error}`)
-      });
-  };
+        .then((res) => res.json())
+        .then(({ data }) => {
+          if (data) {
+            const range = quill.getSelection();
+            const insertIndex = range ? range.index : quill.getLength();
+            quill.insertEmbed(insertIndex, "image", data);
+            quill.setSelection(insertIndex + 1);
+          }
+        })
+        .catch((error) => {
+          console.error(`Lỗi upload ảnh quill ${error}`);
+        });
+    };
+  });
+  quillInstances.push(quill);
 });
-quillInstances.push(quill);
-})
 console.log(quillInstances);
 const formApp = document.getElementById("formApp");
 formApp.addEventListener("submit", (e) => {
   e.preventDefault();
-  const editorContainer = document.getElementById("editor-container");
+  const quillEditor = document.getElementsByClassName("quill-editor");
   const infoApp = document.getElementById("infoApp");
-  infoApp.value = editorContainer;
+  infoApp.value = quillEditor;
   infoApp.value = quillInstances[0].getSemanticHTML();
   const formData = new FormData(formApp);
   const idApp = document.getElementById("idApp").value;
@@ -765,7 +765,7 @@ formApp.addEventListener("submit", (e) => {
           document.getElementById("imgApp").value = "";
           document.getElementById("nameApp").value = "";
           document.getElementById("infoApp").value = "";
-           if (typeof quillInstances !== "undefined") {
+          if (typeof quillInstances !== "undefined") {
             quillInstances[0].setText("");
           } else {
             console.error("Biến quill không tồn tại");
@@ -776,7 +776,7 @@ formApp.addEventListener("submit", (e) => {
           document.getElementById("imgApp").value = "";
           document.getElementById("nameApp").value = "";
           document.getElementById("infoApp").value = "";
-           if (typeof quillInstances !== "undefined") {
+          if (typeof quillInstances !== "undefined") {
             quillInstances[0].setText("");
           } else {
             console.error("Biến quill không tồn tại");
@@ -947,10 +947,10 @@ document.querySelectorAll(".btnDeleteFuncDevice").forEach((btn) => {
 const formDevice = document.getElementById("formDevice");
 formDevice.addEventListener("submit", (e) => {
   e.preventDefault();
-  const quillEditor = document.getElementById("editor-container");
+  const quillEditor = document.getElementsByClassName("quill-editor");
   const infoDevice = document.getElementById("infoDevice");
-  infoDevice.value = editorContainer;
-  infoDevice.value = quillInstances[2].getSemanticHTML();
+  infoDevice.value = quillEditor;
+  infoDevice.value = quillInstances[1].getSemanticHTML();
   const dataform = new FormData(formDevice);
   const id = document.getElementById("idDevice").value;
   if (id) {
@@ -965,7 +965,7 @@ formDevice.addEventListener("submit", (e) => {
           document.getElementById("nameDevice").value = "";
           document.getElementById("infoDevice").value = "";
           if (typeof quillInstances !== "undefined") {
-            quillInstances[2].setText("");
+            quillInstances[1].setText("");
           } else {
             console.error("Biến quill không tồn tại");
           }
@@ -978,7 +978,7 @@ formDevice.addEventListener("submit", (e) => {
           document.getElementById("nameDevice").value = "";
           document.getElementById("infoDevice").value = "";
           if (typeof quillInstances !== "undefined") {
-            quillInstances[2].setText("");
+            quillInstances[1].setText("");
           } else {
             console.error("Biến quill không tồn tại");
           }
@@ -1003,7 +1003,7 @@ formDevice.addEventListener("submit", (e) => {
           document.getElementById("nameDevice").value = "";
           document.getElementById("infoDevice").value = "";
           if (typeof quillInstances !== "undefined") {
-            quillInstances[2].setText("");
+            quillInstances[1].setText("");
           } else {
             console.error("Biến quill không tồn tại");
           }
@@ -1015,7 +1015,7 @@ formDevice.addEventListener("submit", (e) => {
           document.getElementById("nameDevice").value = "";
           document.getElementById("infoDevice").value = "";
           if (typeof quillInstances !== "undefined") {
-            quillInstances[2].setText("");
+            quillInstances[1].setText("");
           } else {
             console.error("Biến quill không tồn tại");
           }
@@ -1102,10 +1102,10 @@ document.querySelectorAll(".btnDeleteDevice").forEach((btn) => {
 const formblogs = document.getElementById("formblogs");
 formblogs.addEventListener("submit", (e) => {
   e.preventDefault();
-  const editorContainer = document.getElementById("editor-container");
+  const quillEditor = document.getElementsByClassName("quill-editor");
   const infoblogs = document.getElementById("infoblogs");
-  infoblogs.value = editorContainer;
-  infoblogs.value = quillInstances[1].getSemanticHTML();
+  infoblogs.value = quillEditor;
+  infoblogs.value = quillInstances[2].getSemanticHTML();
   const formData = new FormData(formblogs);
   const id = document.getElementById("idblogs").value;
   if (id) {
@@ -1120,7 +1120,7 @@ formblogs.addEventListener("submit", (e) => {
           document.getElementById("titleblogs").value = "";
           document.getElementById("infoblogs").value = "";
           if (typeof quillInstances !== "undefined") {
-            quillInstances[1].setText("");
+            quillInstances[2].setText("");
           } else {
             console.error("Biến quill không tồn tại");
           }
@@ -1131,8 +1131,8 @@ formblogs.addEventListener("submit", (e) => {
           document.getElementById("idblogs").value = "";
           document.getElementById("titleblogs").value = "";
           document.getElementById("infoblogs").value = "";
-         if (typeof quillInstances !== "undefined") {
-            quillInstances[1].setText("");
+          if (typeof quillInstances !== "undefined") {
+            quillInstances[2].setText("");
           } else {
             console.error("Biến quill không tồn tại");
           }
@@ -1155,8 +1155,8 @@ formblogs.addEventListener("submit", (e) => {
           document.getElementById("imgblogs").value = "";
           document.getElementById("titleblogs").value = "";
           document.getElementById("infoblogs").value = "";
-           if (typeof quillInstances !== "undefined") {
-            quillInstances[1].setText("");
+          if (typeof quillInstances !== "undefined") {
+            quillInstances[2].setText("");
           } else {
             console.error("Biến quill không tồn tại");
           }
@@ -1166,8 +1166,8 @@ formblogs.addEventListener("submit", (e) => {
           document.getElementById("imgblogs").value = "";
           document.getElementById("titleblogs").value = "";
           document.getElementById("infoblogs").value = "";
-         if (typeof quillInstances !== "undefined") {
-            quillInstances[1].setText("");
+          if (typeof quillInstances !== "undefined") {
+            quillInstances[2].setText("");
           } else {
             console.error("Biến quill không tồn tại");
           }

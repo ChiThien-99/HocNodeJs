@@ -1,23 +1,22 @@
 const socket = io();
 socket.on("update-device", (newDevice) => {
-  let plainText=newDevice.info.replace(/&nbsp;|&#160;/gi," ");
-    plainText = plainText.replace(/&quot;/g, '"');
-    plainText=plainText.replace(/\s+/g," ").trim();
-  let shortText=plainText.length>80?plainText.substring(0,80)+"...":plainText;
+  let plainText = newApp.info.replace(/&nbsp;|&#160;/gi, " ");
+  let shortText =
+    plainText.length > 80 ? plainText.substring(0, 80) + "..." : plainText;
   const newDeviceHTML = `
       <div class="device">
-        <div>
-            <img src="${newDevice.image}" alt="device">
-            <p>${newDevice.price.toLocaleString('vi-VN')} đ</p>
+        <div class="divImg">
+          <img src="${newDevice.image}" alt="device">
+          <p>${newDevice.price.toLocaleString("vi-VN")} đ</p>
         </div>
         <div class="device-content">
-            <h4>${newDevice.name}</h4>
-            <div>
-                ${shortText}
-            </div>
-            <a href="/detailDevice/${newDevice._id}" target="_blank">Xem chi tiết</a>
+          <h4>${newDevice.name}</h4>
+          <div>
+            ${shortText}
+          </div>
+          <a href="/detailDevice/${newDevice._id}" target="_blank">Xem chi tiết</a>
         </div>
-        </div>
+      </div>
   `;
   const urlParams = new URLSearchParams(window.location.search);
   const currentPage = parseInt(urlParams.get("page")) || 1;
@@ -56,14 +55,17 @@ document.getElementById("divFunctionDevice").addEventListener("click", (e) => {
     btn.classList.add("active");
   }
   if (selectedFunctionDevice.length > 0) {
-    document.getElementById("filterFunctionDevice").style.display = "inline-block";
+    document.getElementById("filterFunctionDevice").style.display =
+      "inline-block";
   }
 });
-document.getElementById("filterFunctionDevice").addEventListener("click", () => {
-  const params = new URLSearchParams();
-  selectedFunctionDevice.forEach((f) => params.append("func", f));
-  window.location.href = `/device?${params.toString()}`;
-});
+document
+  .getElementById("filterFunctionDevice")
+  .addEventListener("click", () => {
+    const params = new URLSearchParams();
+    selectedFunctionDevice.forEach((f) => params.append("func", f));
+    window.location.href = `/device?${params.toString()}`;
+  });
 const filterDeviceSpan = document.querySelector("#filterDevice span");
 if (filterDeviceSpan) {
   filterDeviceSpan.addEventListener("click", () => {

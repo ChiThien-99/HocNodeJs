@@ -74,8 +74,8 @@
                 <h3>Bộ lọc</h3>
                 <a href="/device?sort=createAt" id="btnNewDevice" class="<%=sort==='createAt'?'active':''%>">Mới nhất</a>
                 <a href="/device?sort=views" id="btnViewsDevice" class="<%=sort==='views'?'active':''%>">Mua nhiều</a>
-                <a href="/device?sort=-price" id="btnViewsDevice" class="<%=sort==='-price'?'active':''%>">Giá thấp <i class="fa-solid fa-angle-right"></i> cao</a>
-                <a href="/device?sort=price" id="btnViewsDevice" class="<%=sort==='price'?'active':''%>">Giá cao <i class="fa-solid fa-angle-right"></i> thấp</a>
+                <a href="/device?sort=-price" id="btnPLHDevice" class="<%=sort==='-price'?'active':''%>">Giá thấp <i class="fa-solid fa-angle-right"></i> cao</a>
+                <a href="/device?sort=price" id="btnPHLDevice" class="<%=sort==='price'?'active':''%>">Giá cao <i class="fa-solid fa-angle-right"></i> thấp</a>
                 <a id="btnFuncDevice">Chức năng <i class="fa-solid fa-sort-down"></i></a>
                 <p>
                    <% if (currentFunc) { %>
@@ -93,9 +93,8 @@
             </div>
              <div id="listdevices">
             <%deviceList.forEach((device)=>{%>
-            
             <div class="device">
-              <div>
+              <div class="divImg">
                 <img src="<%=device.image%>" alt="device">
                 <p><%=device.price.toLocaleString('vi-VN')%> đ</p>
               </div>
@@ -170,6 +169,7 @@
                   let plainText=blog.info.replace(/<\/?[^>]+(>|$)/g,"");
                   plainText=plainText.replace(/&nbsp;|&#160;/gi," ");
                   plainText = plainText.replace(/&quot;/g, '"');
+                  plainText = plainText.replace(/&#39;/g, "'");
                   plainText=plainText.replace(/\s+/g," ").trim();
                   let shortText=plainText.length>200?plainText.substring(0,200)+"...":plainText;
                   %>

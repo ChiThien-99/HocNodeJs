@@ -313,9 +313,9 @@ header {
       h2,
       h3,
       em {
-        // color: black;
+        color: black;
         margin: 0.5rem 0;
-        color: white;
+        // color: white;
       }
     }
     .navBtnDB {
@@ -580,7 +580,7 @@ header {
       #divTableApp {
         width: auto;
         height: 30rem;
-        overflow:scroll;
+        overflow: scroll;
         margin: 1rem 0;
       }
       #tableApp,
@@ -753,7 +753,7 @@ header {
       #divTableblogs {
         width: 100%;
         height: 30rem;
-        overflow:scroll;
+        overflow: scroll;
         margin: 1rem 0;
       }
       #tableblogs,
@@ -1138,12 +1138,12 @@ header {
     }
   }
 }
-#divDevice {
+#divDeviceIndex {
   width: 100%;
   height: auto;
   border: 1px solid black;
   padding: 1rem;
-  #headerDevice {
+  #headerDeviceIndex {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
@@ -1158,7 +1158,7 @@ header {
       @include button(0.5rem);
     }
   }
-  #groupFilterDevice {
+  #groupFilterDeviceIndex {
     display: flex;
     flex-flow: row nowrap;
     gap: 1rem;
@@ -1181,11 +1181,11 @@ header {
       background-color: $colorCTA;
       color: $colorSecondaryText;
     }
-    #divFuncDeviceBtns {
+    #divFuncDeviceBtnsIndex {
       display: none;
       flex: 1;
       position: relative;
-      #funcDeviceBtns {
+      #funcDeviceBtnsIndex {
         width: 100%;
         border: 2px solid $colorCTA;
         border-radius: 5px;
@@ -1195,10 +1195,10 @@ header {
         button {
           margin: 0.5rem;
         }
-        #divDeleteFuncDeviceBtn {
+        #divDeleteFuncDeviceBtnIndex {
           justify-content: right;
           display: none;
-          #deleteFuncDeviceBtn {
+          #deleteFuncDeviceBtnIndex {
             display: inline-block;
             text-decoration: none;
             @include button(0.5rem);
@@ -1210,12 +1210,12 @@ header {
       }
     }
   }
-  #listDevice {
+  #listDeviceIndex {
     display: flex;
     flex-flow: row wrap;
     border: 1px solid black;
     margin: 1rem 0;
-    .device {
+    .deviceIndex {
       display: flex;
       flex-flow: row nowrap;
       overflow: hidden;
@@ -1991,7 +1991,7 @@ header {
             font-size: 1.1rem;
             margin: 0;
           }
-          p{
+          p {
             margin: 0.3rem 0;
           }
         }
@@ -2116,7 +2116,6 @@ header {
             position: absolute;
             bottom: 0.5rem;
             right: 0.5rem;
-            width: 80%;
             text-align: center;
           }
         }
@@ -2124,8 +2123,8 @@ header {
     }
   }
 }
-#mainDetailApp{
-  #headerDetailApp{
+#mainDetailApp {
+  #headerDetailApp {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
@@ -2133,7 +2132,7 @@ header {
     width: 100%;
     height: 4rem;
     border-bottom: 1px solid $colorCTA;
-    a{
+    a {
       display: inline-block;
       @include button(0.5rem);
       background-color: red;
@@ -2165,7 +2164,7 @@ header {
         margin: 0.3rem;
         text-decoration: none;
       }
-      i{
+      i {
         font-size: 0.7rem;
       }
       p {
@@ -2220,18 +2219,18 @@ header {
         display: flex;
         flex-flow: row nowrap;
         overflow: hidden;
-        div{
+        .divImg {
           width: 50%;
           img {
-          width: 100%;
-          height: 80%;
-          object-fit: cover;
-          margin: 0;
-        }
-        p{
-          font-size: 1.2rem;
-          margin: 0.5rem;
-        }
+            width: 100%;
+            height: 80%;
+            object-fit: cover;
+            margin: 0;
+          }
+          p {
+            font-size: 1.2rem;
+            margin: 0.5rem;
+          }
         }
         .device-content {
           width: 50%;
@@ -2253,7 +2252,7 @@ header {
             font-size: 1.1rem;
             margin: 0;
           }
-          p{
+          p {
             margin: 0.3rem 0;
           }
         }
