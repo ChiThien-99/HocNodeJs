@@ -116,10 +116,10 @@ dashboardRouter.post(
   dashboardController.addblogs,
 );
 dashboardRouter.post(
-  `${prefix}/uploadImageblogs`,
+  `${prefix}/uploadImage`,
   authenticateToken,
   upload.single("imgblogs"),
-  dashboardController.uploadImageblogs,
+  dashboardController.uploadImage,
 );
 dashboardRouter.put(
   `${prefix}/updateAdmin/:idUpdate`,

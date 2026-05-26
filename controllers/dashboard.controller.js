@@ -525,12 +525,11 @@ export const deleteApp = async (req, res) => {
 export const addListFuncDevice = async (req, res) => {
   try {
     const { listFuncDevice } = req.body;
-    await funcDeviceEntity.create({
+    const newFuncDevice=await funcDeviceEntity.create({
       name: listFuncDevice,
     });
     const io = req.app.get("socketio");
-    const allFuncDevice = await funcDeviceEntity.find();
-    io.emit("update-funcdevice", allFuncDevice);
+    io.emit("update-funcdevice", newFuncDevice);
     res.json({ mess: "Tạo chức năng thiết bị thành công", success: true });
   } catch (error) {
     res.json({
@@ -582,7 +581,7 @@ export const addDevice = async (req, res) => {
   try {
     const { imgDevice, nameDevice, infoDevice, priceActual, funcDevice } =
       req.body;
-    await deviceEntity.create({
+    const newDevice=await deviceEntity.create({
       image: req.file.path,
       cloudinary_id: req.file.filename,
       name: nameDevice,
@@ -591,8 +590,7 @@ export const addDevice = async (req, res) => {
       func: funcDevice,
     });
     const io = req.app.get("socketio");
-    const allDevice = await deviceEntity.find();
-    io.emit("update-device", allDevice);
+    io.emit("update-device", newDevice);
     res.json({ mess: "Tạo thiết bị thành công", success: true });
   } catch (error) {
     res.json({
@@ -798,7 +796,7 @@ export const deleteblogs = async (req, res) => {
     });
   }
 };
-export const uploadImageblogs = async (req, res) => {
+export const uploadImage = async (req, res) => {
   try {
     const url = req.file.path;
     res.json({ data: url });

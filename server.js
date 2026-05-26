@@ -22,13 +22,12 @@ import { connectDB } from "./database.js";
 connectDB();
 const app = express();
 import { indexRouter } from "./routers/index.router.js";
-import { routerTodo } from "./routers/todo.router.js";
-import { routerFile } from "./routers/file.router.js";
 import { dashboardRouter } from "./routers/dashboard.router.js";
 import { routerLoginAdmin } from "./routers/loginAdmin.router.js";
 import { authRouter } from "./routers/auth.router.js";
-import { app1Router } from "./routers/app1.router.js";
+import { detailAppRouter } from "./routers/detailApp.router.js";
 import { appRouter } from "./routers/app.router.js";
+import { deviceRouter } from "./routers/device.router.js";
 import { blogsRouter } from "./routers/blogs.router.js";
 import { adminEntity } from "./models/admin.model.js";
 
@@ -110,14 +109,15 @@ app.get("/api/status", (req, res) => {
   });
 });
 
-app.use("/", routerTodo);
-app.use("/", routerFile);
+
+
 app.use("/", dashboardRouter);
 app.use("/", routerLoginAdmin);
 app.use("/", authRouter);
 app.use("/", indexRouter);
-app.use("/", app1Router);
+app.use("/", detailAppRouter);
 app.use("/", appRouter);
+app.use("/",deviceRouter);
 app.use("/", blogsRouter);
 
 // Xử lý lỗi middleware

@@ -333,7 +333,8 @@
               <label for="nameApp">Tên phần mềm (Không chứa khoảng trắng)</label><br>
               <input type="text" name="nameApp" id="nameApp"><br>
               <label for="infoApp">Thông tin phần mềm</label><br>
-              <input type="text" name="infoApp" id="infoApp"><br>
+              <div class="quill-editor"></div>
+              <input type="hidden" name="infoApp" id="infoApp">
               <label for="funcApp">Chức năng</label><br>
               <select name="funcApp" id="funcApp" multiple>
                 <%listFuncApp.forEach((funcApp)=>{%>
@@ -403,7 +404,8 @@
               <label for="nameDevice">Tên thiết bị (Không chứa khoảng trắng)</label><br>
               <input type="text" name="nameDevice" id="nameDevice"><br>
               <label for="infoDevice">Thông tin thiết bị</label><br>
-              <input type="text" name="infoDevice" id="infoDevice"><br>
+              <div class="quill-editor"></div>
+              <input type="hidden" name="infoDevice" id="infoDevice">
               <label for="priceDevice">Giá thiết bị</label><br>
               <input type="text" name="priceDevice" id="priceDevice"><br>
               <input type="hidden" name="priceActual" id="priceActual">
@@ -479,7 +481,7 @@
               <label for="titleblogs">Tiêu đề blog</label><br>
               <input type="text" name="titleblogs" id="titleblogs"><br>
               <label for="infoblogs">Nội dung blog</label><br>
-              <div id="editor-container"></div>
+              <div class="quill-editor"></div>
               <input type="hidden" name="infoblogs" id="infoblogs">
               <label for="categoryblogs">Danh mục blog</label><br>
               <select name="categoryblogs" id="categoryblogs" multiple>

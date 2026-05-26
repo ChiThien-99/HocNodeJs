@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phần mềm</title>
+    <title>Thiết bị</title>
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="shortcut icon" href="/img/logo_imzai_1.ico" type="image/x-icon" />
     <link
@@ -67,43 +67,50 @@
         </div>
       </div>
     </header>
-    <main id="mainApp">
-        <div id="listApp">
-            <h3 class="flag-item">Phần mềm</h3>
-            <div id="filterApp">
+    <main id="mainDevice">
+        <div id="listDevice">
+            <h3 class="flag-item">Thiết bị</h3>
+            <div id="filterDevice">
                 <h3>Bộ lọc</h3>
-                <a href="/app?sort=createAt" id="btnNewApp" class="<%=sort==='createAt'?'active':''%>">Mới nhất</a>
-                <a href="/app?sort=views" id="btnViewsApp" class="<%=sort==='views'?'active':''%>">Truy cập nhiều</a>
-                <a id="btnFuncApp">Chức năng <i class="fa-solid fa-sort-down"></i></a>
+                <a href="/device?sort=createAt" id="btnNewDevice" class="<%=sort==='createAt'?'active':''%>">Mới nhất</a>
+                <a href="/device?sort=views" id="btnViewsDevice" class="<%=sort==='views'?'active':''%>">Mua nhiều</a>
+                <a href="/device?sort=-price" id="btnViewsDevice" class="<%=sort==='-price'?'active':''%>">Giá thấp <i class="fa-solid fa-angle-right"></i> cao</a>
+                <a href="/device?sort=price" id="btnViewsDevice" class="<%=sort==='price'?'active':''%>">Giá cao <i class="fa-solid fa-angle-right"></i> thấp</a>
+                <a id="btnFuncDevice">Chức năng <i class="fa-solid fa-sort-down"></i></a>
                 <p>
                    <% if (currentFunc) { %>
                      Đang chọn: <%= currentFunc %> <span>Xóa</span>
                    <% } %>
                 </p>
                 <div id="functionWrapper">
-                <div id="divFunctionApp">
-                  <%funcApp.forEach((func)=>{%>
-                  <a class="functionApp"><%=func.name%></a>
+                <div id="divFunctionDevice">
+                  <%funcDevice.forEach((func)=>{%>
+                  <a class="functionDevice"><%=func.name%></a>
                   <%})%>
                 </div>
-                <a id="filterFunctionApp">Lọc</a>
+                <a id="filterFunctionDevice">Lọc</a>
                 </div>
             </div>
-             <div id="listapps">
-            <%appList.forEach((app)=>{%>
+             <div id="listdevices">
+            <%deviceList.forEach((device)=>{%>
             
-            <div class="app">
-              <img src="<%=app.image%>" alt="app">
-              <div class="app-content">
-                <h4><%=app.name%></h4>
+            <div class="device">
+              <div>
+                <img src="<%=device.image%>" alt="device">
+                <p><%=device.price.toLocaleString('vi-VN')%> đ</p>
+              </div>
+              <div class="device-content">
+                <h4><%=device.name%></h4>
                   <div>
                     <%
-                    let plainText=app.info.replace(/&nbsp;|&#160;/gi," ");
+                    let plainText=device.info.replace(/&nbsp;|&#160;/gi," ");
+                    plainText = plainText.replace(/&quot;/g, '"');
+                    plainText=plainText.replace(/\s+/g," ").trim();
                     let shortText=plainText.length>80?plainText.substring(0,80)+"...":plainText;
                     %>
                     <%-shortText%>
                 </div>
-                <a href="/detailApp/<%=app._id%>" target="_blank">Truy cập</a>
+                <a href="/detailDevice/<%=device._id%>" target="_blank">Xem chi tiết</a>
               </div>
             </div>
             <%})%>
@@ -111,40 +118,38 @@
           <%if(totalPage>1){%>
           <div class="paginationBar">
             <%if(currentPage>1){%>
-            <a href="/app?page=<%=currentPage-1%><%=currentFunc?'&func='+currentFunc:''%><%=sort?'&sort='+sort:''%>" class="pageBtn"><i class="fa-solid fa-angles-left"></i></a>
+            <a href="/device?page=<%=currentPage-1%><%=currentFunc?'&func='+currentFunc:''%><%=sort?'&sort='+sort:''%>" class="pageBtn"><i class="fa-solid fa-angles-left"></i></a>
             <%}%>
             <%for(let i=1;i<=totalPage;i++){%>
-            <a href="/app?page=<%=i%><%=currentFunc?'&func='+currentFunc:''%><%=sort?'&sort='+sort:''%>" class="pageBtn <%=currentPage===i?'active':''%>"><%=i%></a>
+            <a href="/device?page=<%=i%><%=currentFunc?'&func='+currentFunc:''%><%=sort?'&sort='+sort:''%>" class="pageBtn <%=currentPage===i?'active':''%>"><%=i%></a>
             <%}%>
             <%if(currentPage<totalPage){%>
-            <a href="/app?page=<%=currentPage+1%><%=currentFunc?'&func='+currentFunc:''%><%=sort?'&sort='+sort:''%>" class="pageBtn"><i class="fa-solid fa-angles-right"></i></a>
+            <a href="/device?page=<%=currentPage+1%><%=currentFunc?'&func='+currentFunc:''%><%=sort?'&sort='+sort:''%>" class="pageBtn"><i class="fa-solid fa-angles-right"></i></a>
             <%}%>
           </div>
           <%}%>
         </div>
         <aside>
         <div>
-          <h3 class="flag-item">Thiết bị</h3>
-          <div id="listDeviceCol">
-            <%devices.forEach((device)=>{%>
-            <div class="deviceCol">
+          <h3 class="flag-item">Phần mềm</h3>
+          <div id="listAppCol">
+            <%apps.forEach((app)=>{%>
+            <div class="appCol">
               <div>
-                <img src="<%=device.image%>" alt="device">
-                <p><%=device.price.toLocaleString('vi-VN')%>đ</p>
+                <img src="<%=app.image%>" alt="app">
               </div>
               <div>
-                <h4><%=device.name%></h4>
+                <h4><%=app.name%></h4>
                 <p>
                   <%
-                  let plainText=device.info.replace(/<\/?[^>]+(>|$)/g,"");
-                  plainText=plainText.replace(/&nbsp;|&#160;/gi," ");
+                  let plainText=app.info.replace(/&nbsp;|&#160;/gi," ");
                   plainText = plainText.replace(/&quot;/g, '"');
                   plainText=plainText.replace(/\s+/g," ").trim();
-                  let shortText=plainText.length>200?plainText.substring(0,200)+"...":plainText;
+                  let shortText=plainText.length>80?plainText.substring(0,80)+"...":plainText;
                   %>
-                  <%=shortText%>
+                  <%-shortText%>
                 </p>
-                <a href="/device/<%=device.name%>/<%=device._id%>" target="_blank">Xem chi tiết</a>
+                <a href="/detailApp/<%=app._id%>" target="_blank">Truy cập</a>
               </div>
             </div>
             <%})%>
@@ -212,9 +217,9 @@
         </div>
         <div>
           <h3>Sản phẩm</h3>
-          <a href="/">Phần mềm</a><br />
-          <a href="/">Thiết bị</a><br />
-          <h3><a href="/">Blog</a></h3>
+          <a href="/app">Phần mềm</a><br />
+          <a href="/device">Thiết bị</a><br />
+          <h3><a href="/blogs">Blog</a></h3>
         </div>
         <div>
           <h3>Đăng ký nhận tin khuyến mãi</h3>
@@ -227,5 +232,5 @@
       </footer>
 <script src="/socket.io/socket.io.js"></script>
 </body>
-<script type="module" src="/app.js" defer></script>
+<script type="module" src="/device.js" defer></script>
 </html>

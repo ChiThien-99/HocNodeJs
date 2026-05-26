@@ -1,19 +1,15 @@
 const socket = io();
 socket.on("update-app", (newApp) => {
-  console.log(newApp);
-  let plainText = newApp.info.replace(/<\/?[^>]+(>|$)/g, "");
-  plainText = plainText.replace(/&nbsp;|&#160;/gi, " ");
-  plainText = plainText.replace(/\s+/g, " ").trim();
-  let shortText =
-    plainText.length > 200 ? plainText.substring(0, 200) + "..." : plainText;
+  let plainText=newApp.info.replace(/&nbsp;|&#160;/gi," ");
+  let shortText=plainText.length>80?plainText.substring(0,80)+"...":plainText;
   const newAppHTML = `
       <div class="app">
         <img src="${newApp.image}" alt="app">
         <div class="app-content">
             <h4>${newApp.name}</h4>
-            <p>
+            <div>
                 ${shortText}
-            </p>
+            </div>
             <a href="/app/detailApp/${newApp._id}" target="_blank">Truy cập</a>
         </div>
     </div>
@@ -25,12 +21,10 @@ socket.on("update-app", (newApp) => {
       .getElementById("listapps")
       .insertAdjacentHTML("afterbegin", newAppHTML);
     let app = document.querySelectorAll(".app");
-    console.log(`app trước remove ${app.length}`);
     if (app.length > 12) {
       app[app.length - 1].remove();
     }
     app = document.querySelectorAll(".app");
-    console.log(`app trước remove ${app.length}`);
   }
 });
 

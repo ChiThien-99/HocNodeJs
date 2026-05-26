@@ -589,9 +589,131 @@ document.querySelectorAll(".btnDeleteFuncApp").forEach((btn) => {
     }
   });
 });
+
+if (typeof Quill === "undefined") {
+  console.error(
+    "Quill.js chưa được tải thành công từ CDN! Vui lòng kiểm tra lại thẻ <script>.",
+  );
+  // return;
+}
+window.Quill = Quill;
+const VideoBlot = Quill.import("formats/video");
+class CustomVideoBlot extends VideoBlot {
+  static create(value) {
+    const cleanUrl = CustomVideoBlot.sanitizeYoutubeUrl(value);
+    let node = super.create(value);
+    node.setAttribute("frameborder", "0");
+    node.setAttribute("allowfullscreen", "true");
+    node.setAttribute("class", "quill-video-embed");
+    node.setAttribute("style", "width:100%;height:350px;margin:1rem 0;");
+    return node;
+  }
+  static sanitizeYoutubeUrl(url) {
+    let videoId = "";
+    if (url.includes("youtube.com/watch")) {
+      const urlParams = new URLSearchParams(new URL(url).search);
+      videoId = urlParams.get("v");
+    } else if (url.includes("youtu.be/")) {
+      videoId = url.split("youtu.be/")[1].split(/[?#]/)[0];
+    } else if (url.includes("youtube.com/shorts/")) {
+      videoId = url.split("youtube.com/shorts/")[1].split(/[?#]/)[0];
+    } else {
+      return url;
+    }
+    return `https://www.youtube.com/embed/${videoId}`;
+  }
+}
+Quill.register(CustomVideoBlot, true);
+Quill.register("modules/imageResize", QuillResizeModule);
+const Size = Quill.import("attributors/style/size");
+Size.whitelist = ["12px", "14px", "16px", "18px", "20px", "24px", "32px"];
+Quill.register(Size, true);
+const Align = Quill.import("attributors/style/align");
+Quill.register(Align, true);
+Quill.register(
+  {
+    "modules/table-better": QuillTableBetter,
+  },
+  true,
+);
+const quillEditor=document.querySelectorAll(".quill-editor");
+const quillInstances=[];
+quillEditor.forEach((element,index)=>{
+const quill = new Quill(element, {
+  theme: "snow",
+  modules: {
+    table: false,
+    toolbar: [
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+      [{ size: ["12px", "14px", "16px", "18px", "20px", "24px", "32px"] }],
+      ["bold", "italic", "underline", "strike"],
+      [{ color: [] }, { background: [] }, { align: [] }],
+      ["link", "image", "video", "table-better", "code-block"],
+      [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
+      ["clean"],
+    ],
+    imageResize: {
+      displaySize: true,
+    },
+    "table-better": {
+      language: "en_US",
+      menus: [
+        "column",
+        "row",
+        "merge",
+        "table",
+        "cell",
+        "wrap",
+        "copy",
+        "delete",
+      ],
+      toolbarTable: true,
+    },
+    keyboard: {
+      bindings: QuillTableBetter.keyboardBindings,
+    },
+  },
+});
+quill.getModule("toolbar").addHandler("image", () => {
+  const input = document.createElement("input");
+  input.setAttribute("type", "file");
+  input.setAttribute("accept", "image/png,image/jpeg,image/webp");
+  input.click();
+  input.onchange = async () => {
+    const file = input.files[0];
+    if (!file) {
+      return;
+    }
+    const formData = new FormData();
+    formData.append("imgblogs", file);
+    fetch("/dashboard/uploadImage", {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then(({ data }) => {
+        if (data) {
+          const range = quill.getSelection();
+          const insertIndex=range?range.index:quill.getLength();
+          quill.insertEmbed(insertIndex, "image", data);
+          quill.setSelection(insertIndex+1);
+        }
+      })
+      .catch((error)=>{
+        console.error(`Lỗi upload ảnh quill ${error}`)
+      });
+  };
+});
+quillInstances.push(quill);
+})
+console.log(quillInstances);
 const formApp = document.getElementById("formApp");
 formApp.addEventListener("submit", (e) => {
   e.preventDefault();
+  const editorContainer = document.getElementById("editor-container");
+  const infoApp = document.getElementById("infoApp");
+  infoApp.value = editorContainer;
+  infoApp.value = quillInstances[0].getSemanticHTML();
   const formData = new FormData(formApp);
   const idApp = document.getElementById("idApp").value;
   if (idApp) {
@@ -606,6 +728,11 @@ formApp.addEventListener("submit", (e) => {
           document.getElementById("imgApp").value = "";
           document.getElementById("nameApp").value = "";
           document.getElementById("infoApp").value = "";
+          if (typeof quillInstances !== "undefined") {
+            quillInstances[0].setText("");
+          } else {
+            console.error("Biến quill không tồn tại");
+          }
           document.getElementById("funcApp").value = "";
           document.getElementById("btnApp").value = "Tạo";
           alert("Thông báo", mess, "#80a710");
@@ -614,6 +741,11 @@ formApp.addEventListener("submit", (e) => {
           document.getElementById("imgApp").value = "";
           document.getElementById("nameApp").value = "";
           document.getElementById("infoApp").value = "";
+          if (typeof quillInstances !== "undefined") {
+            quillInstances[0].setText("");
+          } else {
+            console.error("Biến quill không tồn tại");
+          }
           document.getElementById("funcApp").value = "";
           document.getElementById("btnApp").value = "Tạo";
           alert("Lỗi", `${mess}\n${error}`, "red");
@@ -633,12 +765,22 @@ formApp.addEventListener("submit", (e) => {
           document.getElementById("imgApp").value = "";
           document.getElementById("nameApp").value = "";
           document.getElementById("infoApp").value = "";
+           if (typeof quillInstances !== "undefined") {
+            quillInstances[0].setText("");
+          } else {
+            console.error("Biến quill không tồn tại");
+          }
           document.getElementById("funcApp").value = "";
           alert("Thông báo", mess, "#80a710");
         } else {
           document.getElementById("imgApp").value = "";
           document.getElementById("nameApp").value = "";
           document.getElementById("infoApp").value = "";
+           if (typeof quillInstances !== "undefined") {
+            quillInstances[0].setText("");
+          } else {
+            console.error("Biến quill không tồn tại");
+          }
           document.getElementById("funcApp").value = "";
           alert("Lỗi", `${mess}\n${error}`, "red");
         }
@@ -660,7 +802,11 @@ document.querySelectorAll(".btnUpdateApp").forEach((btn) => {
         try {
           document.getElementById("idApp").value = data._id;
           document.getElementById("nameApp").value = data.name;
-          document.getElementById("infoApp").value = data.info;
+          if (typeof quillInstances !== "undefined") {
+            quillInstances[0].clipboard.dangerouslyPasteHTML(data.info || "");
+          } else {
+            console.error("Biến quill chưa được khởi tạo");
+          }
           document.getElementById("btnApp").value = "Cập nhật";
           const dataFuncApp = data.func;
           const funcApp = document.getElementById("funcApp");
@@ -801,6 +947,10 @@ document.querySelectorAll(".btnDeleteFuncDevice").forEach((btn) => {
 const formDevice = document.getElementById("formDevice");
 formDevice.addEventListener("submit", (e) => {
   e.preventDefault();
+  const quillEditor = document.getElementById("editor-container");
+  const infoDevice = document.getElementById("infoDevice");
+  infoDevice.value = editorContainer;
+  infoDevice.value = quillInstances[2].getSemanticHTML();
   const dataform = new FormData(formDevice);
   const id = document.getElementById("idDevice").value;
   if (id) {
@@ -814,6 +964,11 @@ formDevice.addEventListener("submit", (e) => {
           document.getElementById("idDevice").value = "";
           document.getElementById("nameDevice").value = "";
           document.getElementById("infoDevice").value = "";
+          if (typeof quillInstances !== "undefined") {
+            quillInstances[2].setText("");
+          } else {
+            console.error("Biến quill không tồn tại");
+          }
           document.getElementById("priceDevice").value = "";
           document.getElementById("funcDevice").value = "";
           document.getElementById("btnDevice").value = "Tạo";
@@ -822,6 +977,11 @@ formDevice.addEventListener("submit", (e) => {
           document.getElementById("idDevice").value = "";
           document.getElementById("nameDevice").value = "";
           document.getElementById("infoDevice").value = "";
+          if (typeof quillInstances !== "undefined") {
+            quillInstances[2].setText("");
+          } else {
+            console.error("Biến quill không tồn tại");
+          }
           document.getElementById("priceDevice").value = "";
           document.getElementById("funcDevice").value = "";
           document.getElementById("btnDevice").value = "Tạo";
@@ -842,6 +1002,11 @@ formDevice.addEventListener("submit", (e) => {
           document.getElementById("imgDevice").value = "";
           document.getElementById("nameDevice").value = "";
           document.getElementById("infoDevice").value = "";
+          if (typeof quillInstances !== "undefined") {
+            quillInstances[2].setText("");
+          } else {
+            console.error("Biến quill không tồn tại");
+          }
           document.getElementById("priceDevice").value = "";
           document.getElementById("funcDevice").value = "";
           alert("Thông báo", mess, "#80a710");
@@ -849,6 +1014,11 @@ formDevice.addEventListener("submit", (e) => {
           document.getElementById("imgDevice").value = "";
           document.getElementById("nameDevice").value = "";
           document.getElementById("infoDevice").value = "";
+          if (typeof quillInstances !== "undefined") {
+            quillInstances[2].setText("");
+          } else {
+            console.error("Biến quill không tồn tại");
+          }
           document.getElementById("priceDevice").value = "";
           document.getElementById("funcDevice").value = "";
           alert("Lỗi", `${mess}\n${error}`, "red");
@@ -928,116 +1098,14 @@ document.querySelectorAll(".btnDeleteDevice").forEach((btn) => {
     }
   });
 });
-if (typeof Quill === "undefined") {
-  console.error(
-    "Quill.js chưa được tải thành công từ CDN! Vui lòng kiểm tra lại thẻ <script>.",
-  );
-  // return;
-}
-window.Quill = Quill;
-const VideoBlot = Quill.import("formats/video");
-class CustomVideoBlot extends VideoBlot {
-  static create(value) {
-    const cleanUrl = CustomVideoBlot.sanitizeYoutubeUrl(value);
-    let node = super.create(value);
-    node.setAttribute("frameborder", "0");
-    node.setAttribute("allowfullscreen", "true");
-    node.setAttribute("class", "quill-video-embed");
-    node.setAttribute("style", "width:100%;height:350px;margin:1rem 0;");
-    return node;
-  }
-  static sanitizeYoutubeUrl(url) {
-    let videoId = "";
-    if (url.includes("youtube.com/watch")) {
-      const urlParams = new URLSearchParams(new URL(url).search);
-      videoId = urlParams.get("v");
-    } else if (url.includes("youtu.be/")) {
-      videoId = url.split("youtu.be/")[1].split(/[?#]/)[0];
-    } else if (url.includes("youtube.com/shorts/")) {
-      videoId = url.split("youtube.com/shorts/")[1].split(/[?#]/)[0];
-    } else {
-      return url;
-    }
-    return `https://www.youtube.com/embed/${videoId}`;
-  }
-}
-Quill.register(CustomVideoBlot, true);
-Quill.register("modules/imageResize", QuillResizeModule);
-const Size = Quill.import("attributors/style/size");
-Size.whitelist = ["12px", "14px", "16px", "18px", "20px", "24px", "32px"];
-Quill.register(Size, true);
-const Align = Quill.import("attributors/style/align");
-Quill.register(Align, true);
-Quill.register(
-  {
-    "modules/table-better": QuillTableBetter,
-  },
-  true,
-);
-const quill = new Quill("#editor-container", {
-  theme: "snow",
-  modules: {
-    table: false,
-    toolbar: [
-      [{ header: [1, 2, 3, 4, 5, 6, false] }],
-      [{ size: ["12px", "14px", "16px", "18px", "20px", "24px", "32px"] }],
-      ["bold", "italic", "underline", "strike"],
-      [{ color: [] }, { background: [] }, { align: [] }],
-      ["link", "image", "video", "table-better", "code-block"],
-      [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
-      ["clean"],
-    ],
-    imageResize: {
-      displaySize: true,
-    },
-    "table-better": {
-      language: "en_US",
-      menus: [
-        "column",
-        "row",
-        "merge",
-        "table",
-        "cell",
-        "wrap",
-        "copy",
-        "delete",
-      ],
-      toolbarTable: true,
-    },
-    keyboard: {
-      bindings: QuillTableBetter.keyboardBindings,
-    },
-  },
-});
-quill.getModule("toolbar").addHandler("image", () => {
-  const input = document.createElement("input");
-  input.setAttribute("type", "file");
-  input.setAttribute("accept", "image/png,image/jpeg,image/webp");
-  input.click();
-  input.onchange = async () => {
-    const file = input.files[0];
-    const formData = new FormData();
-    formData.append("imgblogs", file);
-    fetch("/dashboard/uploadImageblogs", {
-      method: "POST",
-      body: formData,
-    })
-      .then((res) => res.json())
-      .then(({ data }) => {
-        if (data) {
-          const range = quill.getSelection();
-          quill.insertEmbed(range.index, "image", data);
-        }
-      });
-  };
-});
+
 const formblogs = document.getElementById("formblogs");
 formblogs.addEventListener("submit", (e) => {
   e.preventDefault();
   const editorContainer = document.getElementById("editor-container");
   const infoblogs = document.getElementById("infoblogs");
   infoblogs.value = editorContainer;
-  infoblogs.value = quill.getSemanticHTML();
+  infoblogs.value = quillInstances[1].getSemanticHTML();
   const formData = new FormData(formblogs);
   const id = document.getElementById("idblogs").value;
   if (id) {
@@ -1051,8 +1119,8 @@ formblogs.addEventListener("submit", (e) => {
           document.getElementById("idblogs").value = "";
           document.getElementById("titleblogs").value = "";
           document.getElementById("infoblogs").value = "";
-          if (typeof quill !== "undefined") {
-            quill.setText("");
+          if (typeof quillInstances !== "undefined") {
+            quillInstances[1].setText("");
           } else {
             console.error("Biến quill không tồn tại");
           }
@@ -1063,8 +1131,8 @@ formblogs.addEventListener("submit", (e) => {
           document.getElementById("idblogs").value = "";
           document.getElementById("titleblogs").value = "";
           document.getElementById("infoblogs").value = "";
-          if (typeof quill !== "undefined") {
-            quill.setText("");
+         if (typeof quillInstances !== "undefined") {
+            quillInstances[1].setText("");
           } else {
             console.error("Biến quill không tồn tại");
           }
@@ -1087,8 +1155,8 @@ formblogs.addEventListener("submit", (e) => {
           document.getElementById("imgblogs").value = "";
           document.getElementById("titleblogs").value = "";
           document.getElementById("infoblogs").value = "";
-          if (typeof quill !== "undefined") {
-            quill.setText("");
+           if (typeof quillInstances !== "undefined") {
+            quillInstances[1].setText("");
           } else {
             console.error("Biến quill không tồn tại");
           }
@@ -1098,8 +1166,8 @@ formblogs.addEventListener("submit", (e) => {
           document.getElementById("imgblogs").value = "";
           document.getElementById("titleblogs").value = "";
           document.getElementById("infoblogs").value = "";
-          if (typeof quill !== "undefined") {
-            quill.setText("");
+         if (typeof quillInstances !== "undefined") {
+            quillInstances[1].setText("");
           } else {
             console.error("Biến quill không tồn tại");
           }
