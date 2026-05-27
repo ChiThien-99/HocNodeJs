@@ -9,7 +9,7 @@ export const getDevice=async(req,res)=>{
     const limit = 12;
     const currentPage = parseInt(req.query.page) || 1;
     const currentFunc = req.query.func || "";
-    const sort = req.query.sort || "createAt";
+    const sort = req.query.sort || "-createAt";
     const query = {};
     let filterArray = [];
     if (currentFunc) {
@@ -20,7 +20,7 @@ export const getDevice=async(req,res)=>{
     }
     const skip = (currentPage - 1) * limit;
     const [deviceList, deviceTotal] = await Promise.all([
-        deviceEntity.find(query).sort(`-${sort}`).skip(skip).limit(limit),
+        deviceEntity.find(query).sort(`${sort}`).skip(skip).limit(limit),
         deviceEntity.countDocuments(query),
     ]);
     const totalPage = Math.ceil(deviceTotal / limit);

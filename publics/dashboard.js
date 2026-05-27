@@ -947,11 +947,9 @@ document.querySelectorAll(".btnDeleteFuncDevice").forEach((btn) => {
 const formDevice = document.getElementById("formDevice");
 formDevice.addEventListener("submit", (e) => {
   e.preventDefault();
-  const quillEditor = document.getElementsByClassName("quill-editor");
-  const infoDevice = document.getElementById("infoDevice");
-  infoDevice.value = quillEditor;
-  infoDevice.value = quillInstances[1].getSemanticHTML();
   const dataform = new FormData(formDevice);
+  const quillHTML = quillInstances[1].getSemanticHTML();
+  dataform.set("infoDevice",quillHTML)
   const id = document.getElementById("idDevice").value;
   if (id) {
     fetch(`/dashboard/updateDevice/${id}`, {
@@ -961,29 +959,21 @@ formDevice.addEventListener("submit", (e) => {
       .then((res) => res.json())
       .then(({ mess, success, error }) => {
         if (success) {
-          document.getElementById("idDevice").value = "";
-          document.getElementById("nameDevice").value = "";
-          document.getElementById("infoDevice").value = "";
+          formDevice.reset();
           if (typeof quillInstances !== "undefined") {
             quillInstances[1].setText("");
           } else {
             console.error("Biến quill không tồn tại");
           }
-          document.getElementById("priceDevice").value = "";
-          document.getElementById("funcDevice").value = "";
           document.getElementById("btnDevice").value = "Tạo";
           alert("Thông báo", mess, "#80a710");
         } else {
-          document.getElementById("idDevice").value = "";
-          document.getElementById("nameDevice").value = "";
-          document.getElementById("infoDevice").value = "";
+          formDevice.reset();
           if (typeof quillInstances !== "undefined") {
             quillInstances[1].setText("");
           } else {
             console.error("Biến quill không tồn tại");
           }
-          document.getElementById("priceDevice").value = "";
-          document.getElementById("funcDevice").value = "";
           document.getElementById("btnDevice").value = "Tạo";
           alert("Lỗi", `${mess}\n${error}`, "red");
         }
@@ -999,28 +989,20 @@ formDevice.addEventListener("submit", (e) => {
       .then((res) => res.json())
       .then(({ mess, success, error }) => {
         if (success) {
-          document.getElementById("imgDevice").value = "";
-          document.getElementById("nameDevice").value = "";
-          document.getElementById("infoDevice").value = "";
+          formDevice.reset();
           if (typeof quillInstances !== "undefined") {
             quillInstances[1].setText("");
           } else {
             console.error("Biến quill không tồn tại");
           }
-          document.getElementById("priceDevice").value = "";
-          document.getElementById("funcDevice").value = "";
           alert("Thông báo", mess, "#80a710");
         } else {
-          document.getElementById("imgDevice").value = "";
-          document.getElementById("nameDevice").value = "";
-          document.getElementById("infoDevice").value = "";
+          formDevice.reset();
           if (typeof quillInstances !== "undefined") {
             quillInstances[1].setText("");
           } else {
             console.error("Biến quill không tồn tại");
           }
-          document.getElementById("priceDevice").value = "";
-          document.getElementById("funcDevice").value = "";
           alert("Lỗi", `${mess}\n${error}`, "red");
         }
       })

@@ -11,6 +11,13 @@
 }
 * {
   box-sizing: border-box;
+  scrollbar-width: thin !important;
+}
+
+*::-webkit-scrollbar-button {
+  display: none !important;
+  width: 0; /* Triệt tiêu chiều rộng phòng hờ lỗi trình duyệt cũ */
+  height: 0; /* Triệt tiêu chiều cao phòng hờ lỗi trình duyệt cũ */
 }
 
 body {
@@ -329,8 +336,8 @@ header div:last-child h2 {
 #mainDashboard #navDashboard div h2,
 #mainDashboard #navDashboard div h3,
 #mainDashboard #navDashboard div em {
-  color: black;
   margin: 0.5rem 0;
+  color: white;
 }
 #mainDashboard #navDashboard .navBtnDB {
   width: 100%;
@@ -2433,56 +2440,59 @@ header div:last-child h2 {
   flex-flow: row wrap;
   margin: 1rem 0;
 }
-#mainDevice #listDevice #listdevices .device {
+#mainDevice #listDevice #listdevices a {
+  color: black;
+  text-decoration: none;
+  display: inline-block;
   width: 48%;
   height: 15rem;
+  margin: 1%;
+}
+#mainDevice #listDevice #listdevices a .device {
+  width: 100%;
+  height: inherit;
   border: 1px solid black;
   border-radius: 5px;
   background-color: #f5f5f5;
-  margin: 1%;
   display: flex;
   flex-flow: row nowrap;
   overflow: hidden;
+  position: relative;
 }
-#mainDevice #listDevice #listdevices .device .divImg {
+#mainDevice #listDevice #listdevices a .device .divImg {
   width: 50%;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  align-items: start;
 }
-#mainDevice #listDevice #listdevices .device .divImg img {
+#mainDevice #listDevice #listdevices a .device .divImg img {
   width: 100%;
   height: 80%;
   -o-object-fit: cover;
      object-fit: cover;
   margin: 0;
 }
-#mainDevice #listDevice #listdevices .device .divImg p {
+#mainDevice #listDevice #listdevices a .device .divImg p {
   font-size: 1.2rem;
   margin: 0.5rem;
 }
-#mainDevice #listDevice #listdevices .device .device-content {
+#mainDevice #listDevice #listdevices a .device .device-content {
   width: 50%;
   padding: 0.5rem 0.8rem;
   display: flex;
   flex-direction: column;
   position: relative;
+  height: calc(100% - 1.1rem);
+  overflow-y: scroll;
+  scrollbar-color: #80a710;
+  scrollbar-width: thin;
 }
-#mainDevice #listDevice #listdevices .device .device-content a {
-  display: inline-block;
-  text-decoration: none;
-  background-color: #80a710;
-  color: #fafafa;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  padding: 0.5rem;
-  position: absolute;
-  bottom: 0.5rem;
-  right: 0.5rem;
-}
-#mainDevice #listDevice #listdevices .device .device-content h4 {
+#mainDevice #listDevice #listdevices a .device .device-content h4 {
   font-size: 1.1rem;
   margin: 0;
 }
-#mainDevice #listDevice #listdevices .device .device-content p {
+#mainDevice #listDevice #listdevices a .device .device-content p {
   margin: 0.3rem 0;
 }
 #mainDevice #listDevice .paginationBar {
@@ -2518,15 +2528,22 @@ header div:last-child h2 {
   flex-direction: column;
   margin: 1rem 0;
 }
+#mainDevice aside #listBlogs a {
+  display: inline-block;
+  width: 100%;
+  height: 10rem;
+  margin: 2% 1%;
+  text-decoration: none;
+  color: black;
+}
 #mainDevice aside #listBlogs .blogCol {
   display: flex;
   flex-flow: row nowrap;
   overflow: hidden;
   width: 100%;
-  height: 10rem;
+  height: 100%;
   border: 1px solid black;
   border-radius: 5px;
-  margin: 2% 1%;
 }
 #mainDevice aside #listBlogs .blogCol div:first-child {
   width: 50%;
@@ -2554,64 +2571,54 @@ header div:last-child h2 {
   font-size: 0.8rem;
   margin: 0;
 }
-#mainDevice aside #listBlogs .blogCol div:last-child a {
-  text-decoration: none;
-  color: black;
-}
 #mainDevice aside #listAppCol {
   display: flex;
   flex-direction: column;
   margin: 1rem 0;
+}
+#mainDevice aside #listAppCol a {
+  display: inline-block;
+  width: 100%;
+  height: 12rem;
+  margin: 2% 1%;
+  text-decoration: none;
+  color: black;
 }
 #mainDevice aside #listAppCol .appCol {
   display: flex;
   flex-flow: row nowrap;
   overflow: hidden;
   width: 100%;
-  height: 12rem;
+  height: 100%;
   border: 1px solid black;
   border-radius: 5px;
-  margin: 2% 1%;
+  position: relative;
 }
-#mainDevice aside #listAppCol .appCol div:first-child {
+#mainDevice aside #listAppCol .appCol div:nth-child(1) {
   width: 50%;
   height: inherit;
 }
-#mainDevice aside #listAppCol .appCol div:first-child img {
+#mainDevice aside #listAppCol .appCol div:nth-child(1) img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
   margin: 0;
 }
-#mainDevice aside #listAppCol .appCol div:last-child {
+#mainDevice aside #listAppCol .appCol div:nth-child(2) {
   width: 50%;
   height: inherit;
   padding: 0.5rem 0.8rem;
-  position: relative;
   background-color: #f5f5f5;
+  overflow-y: scroll;
 }
-#mainDevice aside #listAppCol .appCol div:last-child h4 {
+#mainDevice aside #listAppCol .appCol div:nth-child(2) h4 {
   font-size: 1.1rem;
   margin: 0 0 0.2rem 0;
 }
-#mainDevice aside #listAppCol .appCol div:last-child p {
+#mainDevice aside #listAppCol .appCol div:nth-child(2) p {
   font-size: 0.8rem;
-  margin: 0;
-}
-#mainDevice aside #listAppCol .appCol div:last-child a {
-  display: inline-block;
-  text-decoration: none;
-  background-color: #80a710;
-  color: #fafafa;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  padding: 0.5rem;
-  position: absolute;
-  bottom: 0.5rem;
-  right: 0.5rem;
-  text-align: center;
+  margin: 0.3rem 0;
 }
 
 footer {
@@ -2907,6 +2914,30 @@ footer div:last-child input {
   }
   #mainApp aside #listDeviceCol .deviceCol div:last-child p {
     font-size: 0.8rem;
+  }
+  #mainDevice #listDevice {
+    width: 100%;
+    border-bottom: 1px solid #80a710;
+  }
+  #mainDevice #listDevice #listdevices a {
+    width: 100%;
+    height: 12rem;
+  }
+  #mainDevice #listDevice #listdevices a .device {
+    width: 100%;
+    height: 100%;
+  }
+  #mainDevice #listDevice #listdevices a .device .device-content {
+    height: inherit;
+  }
+  #mainDevice #listDevice #listdevices a .device .device-content h4 {
+    font-size: 1rem;
+  }
+  #mainDevice #listDevice #listdevices a .device .device-content p {
+    font-size: 0.8rem;
+  }
+  #mainDevice aside {
+    width: 100%;
   }
   footer div {
     width: 50%;

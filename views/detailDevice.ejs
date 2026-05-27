@@ -68,58 +68,27 @@
       </div>
     </header>
     <main id="mainDevice">
-        <div id="listDevice">
-            <h3 class="flag-item">Thiết bị</h3>
-            <div id="filterDevice">
-                <h3>Bộ lọc</h3>
-                <a href="/device?sort=-createAt" id="btnNewDevice" class="<%=sort==='-createAt'?'active':''%>">Mới nhất</a>
-                <a href="/device?sort=-views" id="btnViewsDevice" class="<%=sort==='-views'?'active':''%>">Mua nhiều</a>
-                <a href="/device?sort=price" id="btnPLHDevice" class="<%=sort==='price'?'active':''%>">Giá thấp <i class="fa-solid fa-angle-right"></i> cao</a>
-                <a href="/device?sort=-price" id="btnPHLDevice" class="<%=sort==='-price'?'active':''%>">Giá cao <i class="fa-solid fa-angle-right"></i> thấp</a>
-                <a id="btnFuncDevice">Chức năng <i class="fa-solid fa-sort-down"></i></a>
-                <p>
-                   <% if (currentFunc) { %>
-                     Đang chọn: <%= currentFunc %> <span>Xóa</span>
-                   <% } %>
-                </p>
-                <div id="functionWrapper">
-                <div id="divFunctionDevice">
-                  <%funcDevice.forEach((func)=>{%>
-                  <a class="functionDevice"><%=func.name%></a>
-                  <%})%>
-                </div>
-                <a id="filterFunctionDevice">Lọc</a>
-                </div>
-            </div>
-             <div id="listdevices">
-            <%deviceList.forEach((device)=>{%>
-            <a href="/detailDevice/<%=device._id%>" target="_blank">
-              <div class="device">
-              <div class="divImg">
-                <img src="<%=device.image%>" alt="device">
-                <p><%=device.price.toLocaleString('vi-VN')%> đ</p>
+        <div id="detailDevice">
+            <div id="headerDetailDevice">
+            <div id="carousel-container">
+            <div id="carousel-wrapper">
+              <%device.forEach((banner)=>{%>
+              <div class="carousel-slide">
+                <img src="<%=banner.image%>" loading="lazy" alt="banner1">
               </div>
-              <div class="device-content">
-                <h4><%=device.name%></h4>
-                <%-device.info.replace(/&nbsp;|&#160;/gi," ")%>
-              </div>
+              <%})%>
             </div>
-            </a>
-            <%})%>
+            <button id="prev" data-index="-1"><i class="fa-solid fa-angle-left"></i></button>
+            <button id="next" data-index="1"><i class="fa-solid fa-angle-right"></i></button>
+            <div id="indicators">
+              <%banners.forEach((_,i)=>{%>
+              <span class="dot <%=(i===0)?'active':''%>" data-index="<%=i%>"></span>
+              <%})%>
+            </div>
           </div>
-          <%if(totalPage>1){%>
-          <div class="paginationBar">
-            <%if(currentPage>1){%>
-            <a href="/device?page=<%=currentPage-1%><%=currentFunc?'&func='+currentFunc:''%><%=sort?'&sort='+sort:''%>" class="pageBtn"><i class="fa-solid fa-angles-left"></i></a>
-            <%}%>
-            <%for(let i=1;i<=totalPage;i++){%>
-            <a href="/device?page=<%=i%><%=currentFunc?'&func='+currentFunc:''%><%=sort?'&sort='+sort:''%>" class="pageBtn <%=currentPage===i?'active':''%>"><%=i%></a>
-            <%}%>
-            <%if(currentPage<totalPage){%>
-            <a href="/device?page=<%=currentPage+1%><%=currentFunc?'&func='+currentFunc:''%><%=sort?'&sort='+sort:''%>" class="pageBtn"><i class="fa-solid fa-angles-right"></i></a>
-            <%}%>
-          </div>
-          <%}%>
+            <div></div>
+            </div>
+            <div></div>
         </div>
         <aside>
         <div>

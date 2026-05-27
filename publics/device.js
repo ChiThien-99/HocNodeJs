@@ -1,22 +1,23 @@
 const socket = io();
 socket.on("update-device", (newDevice) => {
-  let plainText = newApp.info.replace(/&nbsp;|&#160;/gi, " ");
-  let shortText =
-    plainText.length > 80 ? plainText.substring(0, 80) + "..." : plainText;
+  // let plainText = newDevice.info.replace(/&nbsp;|&#160;/gi, " ");
+  // plainText = plainText.replace(/&quot;/g, '"');
+  // plainText=plainText.replace(/\s+/g," ").trim();
+  // let shortText =
+  //   plainText.length > 80 ? plainText.substring(0, 80) + "..." : plainText;
   const newDeviceHTML = `
-      <div class="device">
-        <div class="divImg">
-          <img src="${newDevice.image}" alt="device">
-          <p>${newDevice.price.toLocaleString("vi-VN")} đ</p>
-        </div>
-        <div class="device-content">
-          <h4>${newDevice.name}</h4>
-          <div>
-            ${shortText}
+       <a href="/detailDevice/${newDevice._id}" target="_blank">
+        <div class="device">
+          <div class="divImg">
+            <img src="${newDevice.image}" alt="device">
+            <p>${newDevice.price.toLocaleString('vi-VN')} đ</p>
           </div>
-          <a href="/detailDevice/${newDevice._id}" target="_blank">Xem chi tiết</a>
+          <div class="device-content">
+            <h4>${newDevice.name}</h4>
+            ${newDevice.info.replace(/&nbsp;|&#160;/gi," ")}
+          </div>
         </div>
-      </div>
+      </a>
   `;
   const urlParams = new URLSearchParams(window.location.search);
   const currentPage = parseInt(urlParams.get("page")) || 1;
