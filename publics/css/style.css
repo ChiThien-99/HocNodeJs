@@ -336,8 +336,8 @@ header div:last-child h2 {
 #mainDashboard #navDashboard div h2,
 #mainDashboard #navDashboard div h3,
 #mainDashboard #navDashboard div em {
+  color: black;
   margin: 0.5rem 0;
-  color: white;
 }
 #mainDashboard #navDashboard .navBtnDB {
   width: 100%;

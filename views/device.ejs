@@ -96,7 +96,7 @@
             <a href="/detailDevice/<%=device._id%>" target="_blank">
               <div class="device">
               <div class="divImg">
-                <img src="<%=device.image%>" alt="device">
+                <img src="<%=device.images[0].url%>" alt="device">
                 <p><%=device.price.toLocaleString('vi-VN')%> đ</p>
               </div>
               <div class="device-content">

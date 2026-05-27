@@ -18,7 +18,7 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: "imz-banners",
+    folder: "imzen",
     allowed_formats: ["webp"],
     transformation: [{ crop: "limit" }],
   },
@@ -102,7 +102,7 @@ dashboardRouter.post(
 dashboardRouter.post(
   `${prefix}/addDevice`,
   authenticateToken,
-  upload.single("imgDevice"),
+  upload.array("imgDevice", 10),
   dashboardController.addDevice,
 );
 dashboardRouter.post(

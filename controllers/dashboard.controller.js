@@ -525,7 +525,7 @@ export const deleteApp = async (req, res) => {
 export const addListFuncDevice = async (req, res) => {
   try {
     const { listFuncDevice } = req.body;
-    const newFuncDevice=await funcDeviceEntity.create({
+    const newFuncDevice = await funcDeviceEntity.create({
       name: listFuncDevice,
     });
     const io = req.app.get("socketio");
@@ -581,9 +581,20 @@ export const addDevice = async (req, res) => {
   try {
     const { imgDevice, nameDevice, infoDevice, priceActual, funcDevice } =
       req.body;
-    const newDevice=await deviceEntity.create({
-      image: req.file.path,
-      cloudinary_id: req.file.filename,
+    if (!req.files || req.files.length === 0) {
+      return res.json({
+        mess: "Vui lòng chọn ít nhất một ảnh",
+        success: false,
+      });
+    }
+    const uploadedImages = req.files.map((file) => {
+      return {
+        url: file.path,
+        cloudinary_id: file.filename,
+      };
+    });
+    const newDevice = await deviceEntity.create({
+      images: uploadedImages,
       name: nameDevice,
       info: infoDevice,
       price: priceActual,
@@ -641,7 +652,12 @@ export const deleteDevice = async (req, res) => {
         success: false,
       });
     }
-    await cloudinary.uploader.destroy(device.cloudinary_id);
+    if (device.images && device.images.length > 0) {
+      const deletePromises = device.images.map((img) => {
+        return cloudinary.uploader.destroy(img.cloudinary_id);
+      });
+      await Promise.all(deletePromises);
+    }
     await deviceEntity.findByIdAndDelete(id);
     const io = req.app.get("socketio");
     const allDevice = await deviceEntity.find().sort("-createAt");

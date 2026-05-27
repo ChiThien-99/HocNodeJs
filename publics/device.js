@@ -9,12 +9,12 @@ socket.on("update-device", (newDevice) => {
        <a href="/detailDevice/${newDevice._id}" target="_blank">
         <div class="device">
           <div class="divImg">
-            <img src="${newDevice.image}" alt="device">
-            <p>${newDevice.price.toLocaleString('vi-VN')} đ</p>
+            <img src="${newDevice.images[0].url}" alt="device">
+            <p>${newDevice.price.toLocaleString("vi-VN")} đ</p>
           </div>
           <div class="device-content">
             <h4>${newDevice.name}</h4>
-            ${newDevice.info.replace(/&nbsp;|&#160;/gi," ")}
+            ${newDevice.info.replace(/&nbsp;|&#160;/gi, " ")}
           </div>
         </div>
       </a>

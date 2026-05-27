@@ -1,13 +1,11 @@
 import mongoose from "mongoose";
 const deviceSchema = mongoose.Schema({
-  image: {
-    type: String,
-    required: true,
-  },
-  cloudinary_id: {
-    type: String,
-    required: true,
-  },
+  images: [
+    {
+      url: String,
+      cloudinary_id: String,
+    },
+  ],
   name: {
     type: String,
     required: true,
