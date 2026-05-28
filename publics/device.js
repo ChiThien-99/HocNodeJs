@@ -1,11 +1,6 @@
 const socket = io();
-socket.on("update-device", (newDevice) => {
-  // let plainText = newDevice.info.replace(/&nbsp;|&#160;/gi, " ");
-  // plainText = plainText.replace(/&quot;/g, '"');
-  // plainText=plainText.replace(/\s+/g," ").trim();
-  // let shortText =
-  //   plainText.length > 80 ? plainText.substring(0, 80) + "..." : plainText;
-  const newDeviceHTML = `
+const createDeviceHTML=(newDevice)=>{
+  return `
        <a href="/detailDevice/${newDevice._id}" target="_blank">
         <div class="device">
           <div class="divImg">
@@ -18,18 +13,32 @@ socket.on("update-device", (newDevice) => {
           </div>
         </div>
       </a>
-  `;
+  `
+}
+socket.on("update-device", (data) => {
+  const listdevices=document.getElementById("listdevices");
+  if (!listdevices) {
+    return
+  }
   const urlParams = new URLSearchParams(window.location.search);
   const currentPage = parseInt(urlParams.get("page")) || 1;
-  if (currentPage === 1) {
-    document
-      .getElementById("listdevices")
-      .insertAdjacentHTML("afterbegin", newDeviceHTML);
-    let device = document.querySelectorAll(".device");
-    if (device.length > 12) {
-      device[device.length - 1].remove();
+  if (Array.isArray(data)) {
+    if (currentPage === 1) {
+      listdevices.innerHTML="";
+      const deviceToRender=data.slice(0,12);
+      deviceToRender.forEach((device)=>{
+        listdevices.insertAdjacentHTML("beforeend", createDeviceHTML(device));
+      })
+  }
+  } else {
+    if (currentPage===1) {
+      listdevices.insertAdjacentHTML("afterbegin", createDeviceHTML(data));
+      let device = document.querySelectorAll(".device");
+      if (device.length > 12) {
+      device[device.length - 1].closest("a").remove();
+      }
+      device = document.querySelectorAll(".device");
     }
-    device = document.querySelectorAll(".device");
   }
 });
 document.getElementById("btnFuncDevice").addEventListener("click", function () {

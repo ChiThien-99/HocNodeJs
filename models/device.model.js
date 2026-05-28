@@ -6,6 +6,14 @@ const deviceSchema = mongoose.Schema({
       cloudinary_id: String,
     },
   ],
+  color: [
+    {
+      name: String,
+      index:Number,
+      url: String,
+      cloudinary_id: String,
+    },
+  ],
   name: {
     type: String,
     required: true,

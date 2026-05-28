@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thiết bị</title>
+    <title><%=device.name%></title>
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="shortcut icon" href="/img/logo_imzai_1.ico" type="image/x-icon" />
     <link
@@ -67,26 +67,38 @@
         </div>
       </div>
     </header>
-    <main id="mainDevice">
+    <main id="mainDetailDevice">
         <div id="detailDevice">
             <div id="headerDetailDevice">
             <div id="carousel-container">
             <div id="carousel-wrapper">
-              <%device.forEach((banner)=>{%>
+              <%device.images.forEach((img)=>{%>
               <div class="carousel-slide">
-                <img src="<%=banner.image%>" loading="lazy" alt="banner1">
+                <img src="<%=img.url%>" loading="lazy" alt="img_device">
               </div>
               <%})%>
             </div>
             <button id="prev" data-index="-1"><i class="fa-solid fa-angle-left"></i></button>
             <button id="next" data-index="1"><i class="fa-solid fa-angle-right"></i></button>
             <div id="indicators">
-              <%banners.forEach((_,i)=>{%>
-              <span class="dot <%=(i===0)?'active':''%>" data-index="<%=i%>"></span>
+              <%device.images.forEach((img,i)=>{%>
+              <img src="<%=img.url%>" loading="lazy" alt="dot_img_device" class="dot <%=(i===0)?'active':''%>" data-index="<%=i%>"></img>
               <%})%>
             </div>
           </div>
-            <div></div>
+            <div id="overViewDevice">
+              <h1><%=device.name%></h1>
+              <p><%-device.info.replace(/&nbsp;|&#160;/gi," ")%></p>
+              <p>Màu sắc</p>
+              <div id="listColorDevice">
+                <%device.color.forEach((color)=>{%>
+                <div class="colorDevice" data-index="<%=color.index%>">
+                  <img src="<%=color.url%>" loading="lazy" alt="colorDevice">
+                  <p><%=color.name%></p>
+                </div>
+              <%})%>
+              </div>
+            </div>
             </div>
             <div></div>
         </div>
@@ -189,5 +201,5 @@
       </footer>
 <script src="/socket.io/socket.io.js"></script>
 </body>
-<script type="module" src="/device.js" defer></script>
+<script type="module" src="/detailDevice.js" defer></script>
 </html>

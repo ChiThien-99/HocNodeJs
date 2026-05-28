@@ -319,9 +319,9 @@ header {
       h2,
       h3,
       em {
-        color: black;
+        // color: black;
         margin: 0.5rem 0;
-        // color: white;
+        color: white;
       }
     }
     .navBtnDB {
@@ -615,7 +615,7 @@ header {
       }
     }
     #deviceMng {
-      #imgDevice::file-selector-button {
+      .imgDevice::file-selector-button {
         @include button(0.5rem);
         background-color: $colorCTA;
         color: $colorSecondaryText;
@@ -626,9 +626,13 @@ header {
         color: $colorSecondaryText;
         margin: 0.5rem 0;
       }
-      input[type="text"],
-      input[type="number"] {
+      input[type="text"]{
         width: 50%;
+        height: 2rem;
+        font-size: 1rem;
+      }
+      input[type="number"]{
+        width: 10%;
         height: 2rem;
         font-size: 1rem;
       }
@@ -641,6 +645,29 @@ header {
       }
       select {
         width: 50%;
+      }
+      #color-container{
+        width: 100%;
+        .color-row{
+          width: 100%;
+          display: flex;
+          flex-flow: row nowrap;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 0.5rem;
+          .btnRemoveColor{
+            background-color: red;
+            @include button(0.5rem);
+            color: $colorSecondaryText;
+            margin: 0.5rem 0;
+          }
+        }
+      }
+      #btnAddColor{
+        @include button(0.5rem);
+        background-color: $colorCTA;
+        color: $colorSecondaryText;
+        margin: 0.5rem 0;
       }
       em {
         color: red;
@@ -2294,6 +2321,219 @@ header {
     }
   }
   aside {
+    width: 25%;
+    #listBlogs {
+      display: flex;
+      flex-direction: column;
+      margin: 1rem 0;
+      a {
+        display: inline-block;
+        width: 100%;
+        height: 10rem;
+        margin: 2% 1%;
+        text-decoration: none;
+        color: black;
+      }
+      .blogCol {
+        display: flex;
+        flex-flow: row nowrap;
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+        border: 1px solid black;
+        border-radius: 5px;
+        div:first-child {
+          width: 50%;
+          height: inherit;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            margin: 0;
+          }
+        }
+        div:last-child {
+          width: 50%;
+          height: inherit;
+          padding: 0.5rem 0.8rem;
+          background-color: $colorPrimaryBG;
+          overflow-y: scroll;
+          h4 {
+            font-size: 1rem;
+            margin: 0 0 0.2rem 0;
+          }
+          p {
+            font-size: 0.8rem;
+            margin: 0;
+          }
+        }
+      }
+    }
+    #listAppCol {
+      display: flex;
+      flex-direction: column;
+      margin: 1rem 0;
+      a {
+        display: inline-block;
+        width: 100%;
+        height: 12rem;
+        margin: 2% 1%;
+        text-decoration: none;
+        color: black;
+      }
+      .appCol {
+        display: flex;
+        flex-flow: row nowrap;
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+        border: 1px solid black;
+        border-radius: 5px;
+        position: relative;
+        div:nth-child(1) {
+          width: 50%;
+          height: inherit;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            margin: 0;
+          }
+        }
+        div:nth-child(2) {
+          width: 50%;
+          height: inherit;
+          padding: 0.5rem 0.8rem;
+          background-color: $colorPrimaryBG;
+          overflow-y: scroll;
+          h4 {
+            font-size: 1.1rem;
+            margin: 0 0 0.2rem 0;
+          }
+          p {
+            font-size: 0.8rem;
+            margin: 0.3rem 0;
+          }
+        }
+      }
+    }
+  }
+}
+#mainDetailDevice{
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  #detailDevice{
+    width: 75%;
+    #headerDetailDevice{
+      width: 100%;
+      height: 25rem;
+      display: flex;
+      flex-flow: row wrap;
+    #carousel-container {
+    width: 50%;
+    height: inherit;
+    overflow: hidden;
+    position: relative;
+    #carousel-wrapper {
+      display: flex;
+      flex-flow: row nowrap;
+      width: 100%;
+      height: 80%;
+      transition: transform 0.5s ease-in-out;
+      .carousel-slide {
+        min-width: 100%;
+        position: relative;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+    }
+    #prev,
+    #next {
+      position: absolute;
+      top: 40%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.6);
+      color: $colorSecondaryText;
+      padding: 1rem;
+      cursor: pointer;
+      border: none;
+      border-radius: 50% 50%;
+      transition: 0.3s;
+      z-index: 10;
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+      }
+    }
+    #prev {
+      left: 0.5rem;
+    }
+    #next {
+      right: 0.5rem;
+    }
+    #indicators {
+      width: 100%;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: center;
+      align-items: center;
+      height: 20%;
+      border: 1px solid black;
+      .dot {
+        height: 3rem;
+        width: 3rem;
+        margin: 0 0.3rem;
+        border: 3px solid #bbb;
+        border-radius: 5px;
+        display: inline-block;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .active {
+        border: 3px solid $colorCTA;
+      }
+    }
+  }
+      #overViewDevice{
+        width: 50%;
+        height: inherit;
+        border: 1px solid black;
+        padding: 0.5rem;
+        h1{
+          margin: 0 0 0.5rem 0;
+        }
+        p{
+          font-size: 1.1rem;
+        }
+        #listColorDevice{
+          display: flex;
+          flex-flow: row nowrap;
+          width: 100%;
+          height: 3.5rem;
+          .colorDevice{
+            border: 1px solid #bbb;
+            width: 6.5rem;
+            height: inherit;
+            padding: 0.5rem;
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-right: 0.5rem;
+            cursor: pointer;
+            img{
+              width: 2.5rem;
+              height: 2.5rem;
+            }
+          }
+        }
+      }
+    }
+  }
+  aside{
     width: 25%;
     #listBlogs {
       display: flex;

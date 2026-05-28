@@ -579,7 +579,7 @@ export const deleteFuncDevice = async (req, res) => {
 };
 export const addDevice = async (req, res) => {
   try {
-    const { imgDevice, nameDevice, infoDevice, priceActual, funcDevice } =
+    let { imgDevice, nameDevice, infoDevice,colorNames,colorIndex, priceActual, funcDevice } =
       req.body;
     if (!req.files || req.files.length === 0) {
       return res.json({
@@ -587,14 +587,35 @@ export const addDevice = async (req, res) => {
         success: false,
       });
     }
-    const uploadedImages = req.files.map((file) => {
-      return {
-        url: file.path,
-        cloudinary_id: file.filename,
-      };
+    const colorFiles=req.files["colorImg"] || [];
+    const deviceFiles=req.files["imgDevice"] || [];
+    const uploadedDeviceImages = deviceFiles.map((file) => {
+          return {
+            url: file.path,
+            cloudinary_id: file.filename,
+          };
     });
+    let uploadedColorImages={};
+    if (colorNames&&colorNames.length>0) {
+       colorNames=Array.isArray(colorNames)?colorNames:[colorNames];
+       uploadedColorImages = colorNames.map((name,index) => {
+        const file=colorFiles[index];
+        let idColor=colorIndex[index];
+        idColor=Number(idColor);
+        if (file) {
+          return {
+            name:name,
+            index:idColor,
+            url: file.path,
+            cloudinary_id: file.filename,
+          };
+        }
+        return null;
+    });
+    }
     const newDevice = await deviceEntity.create({
-      images: uploadedImages,
+      images: uploadedDeviceImages,
+      color: uploadedColorImages,
       name: nameDevice,
       info: infoDevice,
       price: priceActual,

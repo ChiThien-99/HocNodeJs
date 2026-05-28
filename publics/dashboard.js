@@ -1318,3 +1318,18 @@ document.querySelectorAll(".btnDeleteblogs").forEach((btn) => {
     }
   });
 });
+document.getElementById("btnAddColor").addEventListener("click",()=>{
+  const colorContainer=document.getElementById("color-container");
+  const newRow=document.createElement("div");
+  newRow.className="color-row";
+  newRow.innerHTML=`
+   <input type="text" name="colorNames" placeholder="VD:Đen" required>
+   <input type="number" name="colorIndex" placeholder="Nhập index" required>
+   <input type="file" class="imgDevice" name="colorImg" accept="image/webp" required>
+   <button type="button" class="btnRemoveColor">Xóa</button>
+  `;
+  colorContainer.appendChild(newRow);
+  newRow.querySelector(".btnRemoveColor").addEventListener("click",()=>{
+    newRow.remove();
+  })
+})

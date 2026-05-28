@@ -102,7 +102,10 @@ dashboardRouter.post(
 dashboardRouter.post(
   `${prefix}/addDevice`,
   authenticateToken,
-  upload.array("imgDevice", 10),
+  upload.fields([
+    {name:"imgDevice", maxCount:10},
+    {name:"colorImg",maxCount:10},
+  ]),
   dashboardController.addDevice,
 );
 dashboardRouter.post(

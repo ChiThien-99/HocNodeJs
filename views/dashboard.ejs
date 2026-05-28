@@ -400,12 +400,22 @@
             <form enctype="multipart/form-data" id="formDevice">
               <input type="hidden" name="idDevice" id="idDevice">
               <label for="imgDevice">Hình ảnh</label><br>
-              <input type="file" accept="image/webp" name="imgDevice" id="imgDevice" multiple><br>
+              <input type="file" accept="image/webp" name="imgDevice" class="imgDevice" multiple><br>
               <label for="nameDevice">Tên thiết bị (Không chứa khoảng trắng)</label><br>
               <input type="text" name="nameDevice" id="nameDevice"><br>
               <label for="infoDevice">Thông tin thiết bị</label><br>
               <div class="quill-editor"></div>
               <input type="hidden" name="infoDevice" id="infoDevice">
+              <label for="">Màu sắc</label>
+              <div id="color-container">
+                <div class="color-row">
+                  <input type="text" name="colorNames" placeholder="VD:Đen" required>
+                  <input type="number" name="colorIndex" placeholder="Nhập index" required>
+                  <input type="file" class="imgDevice" name="colorImg" accept="image/webp" required>
+                  <button type="button" class="btnRemoveColor">Xóa</button>
+                </div>
+              </div>
+              <button type="button" id="btnAddColor">Thêm màu</button><br>
               <label for="priceDevice">Giá thiết bị</label><br>
               <input type="text" name="priceDevice" id="priceDevice"><br>
               <input type="hidden" name="priceActual" id="priceActual">

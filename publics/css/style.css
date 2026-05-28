@@ -336,8 +336,8 @@ header div:last-child h2 {
 #mainDashboard #navDashboard div h2,
 #mainDashboard #navDashboard div h3,
 #mainDashboard #navDashboard div em {
-  color: black;
   margin: 0.5rem 0;
+  color: white;
 }
 #mainDashboard #navDashboard .navBtnDB {
   width: 100%;
@@ -700,7 +700,7 @@ header div:last-child h2 {
   background-color: red;
   color: #fafafa;
 }
-#mainDashboard #contentDashboard #deviceMng #imgDevice::file-selector-button {
+#mainDashboard #contentDashboard #deviceMng .imgDevice::file-selector-button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -717,9 +717,13 @@ header div:last-child h2 {
   color: #fafafa;
   margin: 0.5rem 0;
 }
-#mainDashboard #contentDashboard #deviceMng input[type=text],
-#mainDashboard #contentDashboard #deviceMng input[type=number] {
+#mainDashboard #contentDashboard #deviceMng input[type=text] {
   width: 50%;
+  height: 2rem;
+  font-size: 1rem;
+}
+#mainDashboard #contentDashboard #deviceMng input[type=number] {
+  width: 10%;
   height: 2rem;
   font-size: 1rem;
 }
@@ -732,6 +736,35 @@ header div:last-child h2 {
 }
 #mainDashboard #contentDashboard #deviceMng select {
   width: 50%;
+}
+#mainDashboard #contentDashboard #deviceMng #color-container {
+  width: 100%;
+}
+#mainDashboard #contentDashboard #deviceMng #color-container .color-row {
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+#mainDashboard #contentDashboard #deviceMng #color-container .color-row .btnRemoveColor {
+  background-color: red;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: #fafafa;
+  margin: 0.5rem 0;
+}
+#mainDashboard #contentDashboard #deviceMng #btnAddColor {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #80a710;
+  color: #fafafa;
+  margin: 0.5rem 0;
 }
 #mainDashboard #contentDashboard #deviceMng em {
   color: red;
@@ -2617,6 +2650,224 @@ header div:last-child h2 {
   margin: 0 0 0.2rem 0;
 }
 #mainDevice aside #listAppCol .appCol div:nth-child(2) p {
+  font-size: 0.8rem;
+  margin: 0.3rem 0;
+}
+
+#mainDetailDevice {
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+}
+#mainDetailDevice #detailDevice {
+  width: 75%;
+}
+#mainDetailDevice #detailDevice #headerDetailDevice {
+  width: 100%;
+  height: 25rem;
+  display: flex;
+  flex-flow: row wrap;
+}
+#mainDetailDevice #detailDevice #headerDetailDevice #carousel-container {
+  width: 50%;
+  height: inherit;
+  overflow: hidden;
+  position: relative;
+}
+#mainDetailDevice #detailDevice #headerDetailDevice #carousel-container #carousel-wrapper {
+  display: flex;
+  flex-flow: row nowrap;
+  width: 100%;
+  height: 80%;
+  transition: transform 0.5s ease-in-out;
+}
+#mainDetailDevice #detailDevice #headerDetailDevice #carousel-container #carousel-wrapper .carousel-slide {
+  min-width: 100%;
+  position: relative;
+}
+#mainDetailDevice #detailDevice #headerDetailDevice #carousel-container #carousel-wrapper .carousel-slide img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+#mainDetailDevice #detailDevice #headerDetailDevice #carousel-container #prev,
+#mainDetailDevice #detailDevice #headerDetailDevice #carousel-container #next {
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fafafa;
+  padding: 1rem;
+  cursor: pointer;
+  border: none;
+  border-radius: 50% 50%;
+  transition: 0.3s;
+  z-index: 10;
+}
+#mainDetailDevice #detailDevice #headerDetailDevice #carousel-container #prev:hover,
+#mainDetailDevice #detailDevice #headerDetailDevice #carousel-container #next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+#mainDetailDevice #detailDevice #headerDetailDevice #carousel-container #prev {
+  left: 0.5rem;
+}
+#mainDetailDevice #detailDevice #headerDetailDevice #carousel-container #next {
+  right: 0.5rem;
+}
+#mainDetailDevice #detailDevice #headerDetailDevice #carousel-container #indicators {
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  height: 20%;
+  border: 1px solid black;
+}
+#mainDetailDevice #detailDevice #headerDetailDevice #carousel-container #indicators .dot {
+  height: 3rem;
+  width: 3rem;
+  margin: 0 0.3rem;
+  border: 3px solid #bbb;
+  border-radius: 5px;
+  display: inline-block;
+  cursor: pointer;
+  transition: 0.3s;
+}
+#mainDetailDevice #detailDevice #headerDetailDevice #carousel-container #indicators .active {
+  border: 3px solid #80a710;
+}
+#mainDetailDevice #detailDevice #headerDetailDevice #overViewDevice {
+  width: 50%;
+  height: inherit;
+  border: 1px solid black;
+  padding: 0.5rem;
+}
+#mainDetailDevice #detailDevice #headerDetailDevice #overViewDevice h1 {
+  margin: 0 0 0.5rem 0;
+}
+#mainDetailDevice #detailDevice #headerDetailDevice #overViewDevice p {
+  font-size: 1.1rem;
+}
+#mainDetailDevice #detailDevice #headerDetailDevice #overViewDevice #listColorDevice {
+  display: flex;
+  flex-flow: row nowrap;
+  width: 100%;
+  height: 3.5rem;
+}
+#mainDetailDevice #detailDevice #headerDetailDevice #overViewDevice #listColorDevice .colorDevice {
+  border: 1px solid #bbb;
+  width: 6.5rem;
+  height: inherit;
+  padding: 0.5rem;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 0.5rem;
+  cursor: pointer;
+}
+#mainDetailDevice #detailDevice #headerDetailDevice #overViewDevice #listColorDevice .colorDevice img {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+#mainDetailDevice aside {
+  width: 25%;
+}
+#mainDetailDevice aside #listBlogs {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 0;
+}
+#mainDetailDevice aside #listBlogs a {
+  display: inline-block;
+  width: 100%;
+  height: 10rem;
+  margin: 2% 1%;
+  text-decoration: none;
+  color: black;
+}
+#mainDetailDevice aside #listBlogs .blogCol {
+  display: flex;
+  flex-flow: row nowrap;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+#mainDetailDevice aside #listBlogs .blogCol div:first-child {
+  width: 50%;
+  height: inherit;
+}
+#mainDetailDevice aside #listBlogs .blogCol div:first-child img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  margin: 0;
+}
+#mainDetailDevice aside #listBlogs .blogCol div:last-child {
+  width: 50%;
+  height: inherit;
+  padding: 0.5rem 0.8rem;
+  background-color: #f5f5f5;
+  overflow-y: scroll;
+}
+#mainDetailDevice aside #listBlogs .blogCol div:last-child h4 {
+  font-size: 1rem;
+  margin: 0 0 0.2rem 0;
+}
+#mainDetailDevice aside #listBlogs .blogCol div:last-child p {
+  font-size: 0.8rem;
+  margin: 0;
+}
+#mainDetailDevice aside #listAppCol {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 0;
+}
+#mainDetailDevice aside #listAppCol a {
+  display: inline-block;
+  width: 100%;
+  height: 12rem;
+  margin: 2% 1%;
+  text-decoration: none;
+  color: black;
+}
+#mainDetailDevice aside #listAppCol .appCol {
+  display: flex;
+  flex-flow: row nowrap;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  border: 1px solid black;
+  border-radius: 5px;
+  position: relative;
+}
+#mainDetailDevice aside #listAppCol .appCol div:nth-child(1) {
+  width: 50%;
+  height: inherit;
+}
+#mainDetailDevice aside #listAppCol .appCol div:nth-child(1) img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  margin: 0;
+}
+#mainDetailDevice aside #listAppCol .appCol div:nth-child(2) {
+  width: 50%;
+  height: inherit;
+  padding: 0.5rem 0.8rem;
+  background-color: #f5f5f5;
+  overflow-y: scroll;
+}
+#mainDetailDevice aside #listAppCol .appCol div:nth-child(2) h4 {
+  font-size: 1.1rem;
+  margin: 0 0 0.2rem 0;
+}
+#mainDetailDevice aside #listAppCol .appCol div:nth-child(2) p {
   font-size: 0.8rem;
   margin: 0.3rem 0;
 }
