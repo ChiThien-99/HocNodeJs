@@ -53,10 +53,21 @@ function currentSlide(n) {
   index = n;
   updateCarousel();
 }
-const colorDevice=document.querySelectorAll(".colorDevice");
-colorDevice.forEach((color)=>{
-  color.addEventListener("click",()=>{
-    const index=color.getAttribute("data-index");
+const colorDevice = document.querySelectorAll(".colorDevice");
+colorDevice.forEach((color) => {
+  color.addEventListener("click", function () {
+    const index = this.getAttribute("data-index");
     currentSlide(index);
-  })
-})
+    for (let i = 0; i < colorDevice.length; i++) {
+      colorDevice[i].classList.remove("active");
+    }
+    this.classList.add("active");
+  });
+});
+document
+  .getElementById("quantityDevice")
+  .addEventListener("input", function () {
+    if (this.value < 0) {
+      return (this.value = 0);
+    }
+  });

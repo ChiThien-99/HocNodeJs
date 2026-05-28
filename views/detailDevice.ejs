@@ -87,9 +87,16 @@
             </div>
           </div>
             <div id="overViewDevice">
-              <h1><%=device.name%></h1>
-              <p><%-device.info.replace(/&nbsp;|&#160;/gi," ")%></p>
-              <p>Màu sắc</p>
+              <div>
+                <h1><%=device.name%></h1>
+                <p><%-device.info.replace(/&nbsp;|&#160;/gi," ")%></p>
+              </div>
+              <div>
+                <b>Số lượng:</b>
+                <input type="number" name="quantityDevice" id="quantityDevice" value="1" min="0"><br>
+              </div>
+              <div>
+              <b>Màu sắc:</b>
               <div id="listColorDevice">
                 <%device.color.forEach((color)=>{%>
                 <div class="colorDevice" data-index="<%=color.index%>">
@@ -97,6 +104,11 @@
                   <p><%=color.name%></p>
                 </div>
               <%})%>
+              </div>
+              </div>
+              <div id="groupBtnDevice">
+                <button id="btnCartDevice"><i class="fa-solid fa-cart-plus"></i> Thêm vào giỏ hàng</button>
+                <button id="btnShareDevice"><i class="fa-solid fa-share-nodes"></i> Chia sẻ</button>
               </div>
             </div>
             </div>

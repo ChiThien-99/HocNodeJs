@@ -336,8 +336,8 @@ header div:last-child h2 {
 #mainDashboard #navDashboard div h2,
 #mainDashboard #navDashboard div h3,
 #mainDashboard #navDashboard div em {
+  color: black;
   margin: 0.5rem 0;
-  color: white;
 }
 #mainDashboard #navDashboard .navBtnDB {
   width: 100%;
@@ -2664,7 +2664,7 @@ header div:last-child h2 {
 }
 #mainDetailDevice #detailDevice #headerDetailDevice {
   width: 100%;
-  height: 25rem;
+  height: 30rem;
   display: flex;
   flex-flow: row wrap;
 }
@@ -2728,7 +2728,7 @@ header div:last-child h2 {
   height: 3rem;
   width: 3rem;
   margin: 0 0.3rem;
-  border: 3px solid #bbb;
+  border: 2px solid #bbb;
   border-radius: 5px;
   display: inline-block;
   cursor: pointer;
@@ -2741,22 +2741,36 @@ header div:last-child h2 {
   width: 50%;
   height: inherit;
   border: 1px solid black;
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 #mainDetailDevice #detailDevice #headerDetailDevice #overViewDevice h1 {
   margin: 0 0 0.5rem 0;
 }
 #mainDetailDevice #detailDevice #headerDetailDevice #overViewDevice p {
   font-size: 1.1rem;
+  margin: 0.5rem 0;
+}
+#mainDetailDevice #detailDevice #headerDetailDevice #overViewDevice b {
+  margin: 0.5rem 0;
+  display: block;
+}
+#mainDetailDevice #detailDevice #headerDetailDevice #overViewDevice input[type=number] {
+  width: 10%;
+  height: 2rem;
+  font-size: 1.1rem;
+  text-align: center;
 }
 #mainDetailDevice #detailDevice #headerDetailDevice #overViewDevice #listColorDevice {
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: row wrap;
   width: 100%;
   height: 3.5rem;
 }
 #mainDetailDevice #detailDevice #headerDetailDevice #overViewDevice #listColorDevice .colorDevice {
-  border: 1px solid #bbb;
+  border: 2px solid #bbb;
   width: 6.5rem;
   height: inherit;
   padding: 0.5rem;
@@ -2770,6 +2784,37 @@ header div:last-child h2 {
 #mainDetailDevice #detailDevice #headerDetailDevice #overViewDevice #listColorDevice .colorDevice img {
   width: 2.5rem;
   height: 2.5rem;
+}
+#mainDetailDevice #detailDevice #headerDetailDevice #overViewDevice #listColorDevice .active {
+  border: 2px solid #80a710;
+}
+#mainDetailDevice #detailDevice #headerDetailDevice #overViewDevice #groupBtnDevice {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  margin: 0.5rem 0;
+}
+#mainDetailDevice #detailDevice #headerDetailDevice #overViewDevice #groupBtnDevice #btnCartDevice {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 1rem;
+  background-color: #80a710;
+  color: #fafafa;
+  font-weight: bold;
+  width: 69%;
+  font-size: 1.1rem;
+}
+#mainDetailDevice #detailDevice #headerDetailDevice #overViewDevice #groupBtnDevice #btnShareDevice {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 1rem;
+  background-color: #1877f2;
+  color: #fafafa;
+  font-weight: bold;
+  width: 29%;
+  font-size: 1.1rem;
 }
 #mainDetailDevice aside {
   width: 25%;

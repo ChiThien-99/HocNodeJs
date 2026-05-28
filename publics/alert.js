@@ -8,7 +8,7 @@ export const alert = (heading, content, backgroundColor) => {
   contentAlert.innerText = content;
   setTimeout(() => {
     alert.style.transform = "translate(-50%,-150%)";
-  }, 10000);
+  }, 3000);
 };
 export const confirm = (heading, content, backgroundColor) => {
   return new Promise((resolve) => {
