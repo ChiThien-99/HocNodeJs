@@ -2838,7 +2838,7 @@ header div:last-child h2 {
 #mainDetailDevice #detailDevice #divShareSocial div {
   width: 50%;
   padding: 0.5rem 1rem;
-  border: 1px solid #80a710;
+  border: 1px solid black;
   border-radius: 5px;
 }
 #mainDetailDevice #detailDevice #divShareSocial div p {
