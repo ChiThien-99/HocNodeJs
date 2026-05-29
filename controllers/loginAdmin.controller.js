@@ -24,7 +24,7 @@ export const postLoginAdmin = async (req, res) => {
         decent: user.decent,
       },
       process.env.ACCESS_SECRET,
-      { expiresIn: "15m" },
+      { expiresIn: "1h" },
     );
     const refreshToken = jwt.sign(
       {

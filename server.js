@@ -48,6 +48,8 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+        "frame-src": ["'self'", "https://*.youtube.com", "https://youtube.com"],
+        "child-src": ["'self'", "https://*.youtube.com", "https://youtube.com"],
         "script-src": [
           "'self'",
           "'unsafe-inline'",
@@ -63,7 +65,7 @@ app.use(
           "https: data:",
           "res.cloudinary.com",
         ],
-        "img-src": ["'self'", "https: data:", "res.cloudinary.com"],
+        "img-src": ["'self'", "https: data:", "res.cloudinary.com","https://*.ytimg.com"],
       },
     },
   }),

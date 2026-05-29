@@ -68,6 +68,9 @@
       </div>
     </header>
     <main id="mainDetailDevice">
+        <div id="rawQuillContent">
+          <%-device.info.replace(/&nbsp;|&#160;/gi," ")%>
+        </div>
         <div id="detailDevice">
             <div id="headerDetailDevice">
             <div id="carousel-container">
@@ -85,11 +88,13 @@
               <img src="<%=img.url%>" loading="lazy" alt="dot_img_device" class="dot <%=(i===0)?'active':''%>" data-index="<%=i%>"></img>
               <%})%>
             </div>
+            <button id="prevDot"><i class="fa-solid fa-angle-left"></i></button>
+            <button id="nextDot"><i class="fa-solid fa-angle-right"></i></button>
           </div>
             <div id="overViewDevice">
               <div>
                 <h1><%=device.name%></h1>
-                <p><%-device.info.replace(/&nbsp;|&#160;/gi," ")%></p>
+                <div id="targetChucNang"></div>
               </div>
               <div>
                 <b>Số lượng:</b>
@@ -112,7 +117,31 @@
               </div>
             </div>
             </div>
-            <div></div>
+            <div id="divShareSocial">
+               <div>
+                <p>Chia sẻ qua mạng xã hội:</p>
+                <button id="btnShareFB"><img src="/img/logo_fb.webp" alt="logo_fb"></button>
+                <button id="btnShareZL"><img src="/img/logo_zalo.webp" alt="logo_zl"></button>
+               </div>
+            </div>
+            <div id="bodyDetailDevice">
+              <div id="groupNavigationBodyDevice">
+              <button data-naviDevice="divInstructionDevice" class="active">Hướng dẫn sử dụng</button>
+              <button data-naviDevice="divParamDevice">Thông số thiết bị</button>
+              <button data-naviDevice="divInfoDevice">Thông tin thiết bị</button>
+              </div>
+              <div id="mainBodyDetailDevice">
+              <div id="divInstructionDevice" class="active">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/gX7s6kMY2cg?si=uhtzMiFXD6O1fxn9" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+              </div>
+              <div id="divParamDevice">
+                <div id="targetThongSo"></div>
+              </div>
+              <div id="divInfoDevice">
+                <div id="targetThongTin"></div>
+              </div>
+              </div>
+            </div>
         </div>
         <aside>
         <div>
