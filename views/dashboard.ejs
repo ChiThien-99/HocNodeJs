@@ -403,7 +403,7 @@
               <input type="file" accept="image/webp" name="imgDevice" class="imgDevice" multiple><br>
               <label for="nameDevice">Tên thiết bị (Không chứa khoảng trắng)</label><br>
               <input type="text" name="nameDevice" id="nameDevice"><br>
-              <label for="infoDevice">Thông tin thiết bị</label><br>
+              <label for="infoDevice">Nội dung thiết bị (Gồm 3 phần H3: Thông số-Chức năng-Thông tin)</label><br>
               <div class="quill-editor"></div>
               <input type="hidden" name="infoDevice" id="infoDevice">
               <label for="">Màu sắc</label>
@@ -425,6 +425,8 @@
                 <option value="<%=funcDevice.name%>"><%=funcDevice.name%></option>
                 <%})%>
               </select><br>
+              <label for="instrucDevice">Video hướng dẫn</label><br>
+              <input type="text" name="instrucDevice" id="instrucDevice"><br>
               <input type="submit" id="btnDevice" value="Tạo">
             </form>
             <em>Lưu ý: Nếu sai hình ảnh hãy xóa luôn thiết bị và tạo mới</em>

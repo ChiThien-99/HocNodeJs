@@ -88,8 +88,6 @@
               <img src="<%=img.url%>" loading="lazy" alt="dot_img_device" class="dot <%=(i===0)?'active':''%>" data-index="<%=i%>"></img>
               <%})%>
             </div>
-            <button id="prevDot"><i class="fa-solid fa-angle-left"></i></button>
-            <button id="nextDot"><i class="fa-solid fa-angle-right"></i></button>
           </div>
             <div id="overViewDevice">
               <div>
@@ -132,7 +130,7 @@
               </div>
               <div id="mainBodyDetailDevice">
               <div id="divInstructionDevice" class="active">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/gX7s6kMY2cg?si=uhtzMiFXD6O1fxn9" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <%-device.instruction%>
               </div>
               <div id="divParamDevice">
                 <div id="targetThongSo"></div>

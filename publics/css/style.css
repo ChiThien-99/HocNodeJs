@@ -361,6 +361,11 @@ header div:last-child h2 {
   border: 1px solid #80a710;
   position: relative;
 }
+#mainDashboard #contentDashboard label {
+  display: inline-block;
+  margin: 0.5rem 0;
+  font-weight: bold;
+}
 #mainDashboard #contentDashboard .tabContent {
   opacity: 0;
   visibility: hidden;
@@ -2658,6 +2663,7 @@ header div:last-child h2 {
   width: 100%;
   display: flex;
   flex-flow: row wrap;
+  margin-top: 2rem;
 }
 #mainDetailDevice #rawQuillContent {
   display: none;
@@ -2667,9 +2673,11 @@ header div:last-child h2 {
 }
 #mainDetailDevice #detailDevice #headerDetailDevice {
   width: 100%;
-  height: 30rem;
+  height: 35rem;
   display: flex;
   flex-flow: row wrap;
+  border: 1px solid black;
+  border-radius: 10px;
 }
 #mainDetailDevice #detailDevice #headerDetailDevice #carousel-container {
   width: 50%;
@@ -2681,7 +2689,7 @@ header div:last-child h2 {
   display: flex;
   flex-flow: row nowrap;
   width: 100%;
-  height: 80%;
+  height: 75%;
   transition: transform 0.5s ease-in-out;
 }
 #mainDetailDevice #detailDevice #headerDetailDevice #carousel-container #carousel-wrapper .carousel-slide {
@@ -2720,21 +2728,14 @@ header div:last-child h2 {
 }
 #mainDetailDevice #detailDevice #headerDetailDevice #carousel-container #indicators {
   width: 100%;
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: center;
-  align-items: center;
-  height: 20%;
-  border: 1px solid black;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(2, auto);
+  place-items: center;
+  gap: 0.5rem;
+  height: 25%;
   position: relative;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-}
-#mainDetailDevice #detailDevice #headerDetailDevice #carousel-container #indicators::-webkit-scrollbar {
-  display: none;
-}
-#mainDetailDevice #detailDevice #headerDetailDevice #carousel-container #indicators {
-  scrollbar-width: none !important;
+  padding: 0.5rem;
 }
 #mainDetailDevice #detailDevice #headerDetailDevice #carousel-container #indicators .dot {
   height: 3rem;
@@ -2749,34 +2750,9 @@ header div:last-child h2 {
 #mainDetailDevice #detailDevice #headerDetailDevice #carousel-container #indicators .active {
   border: 3px solid #80a710;
 }
-#mainDetailDevice #detailDevice #headerDetailDevice #carousel-container #prevDot,
-#mainDetailDevice #detailDevice #headerDetailDevice #carousel-container #nextDot {
-  position: absolute;
-  display: inline-block;
-  bottom: 0;
-  width: 2rem;
-  height: 20%;
-  background-color: rgba(0, 0, 0, 0.4);
-  color: #fafafa;
-  cursor: pointer;
-  border: none;
-  transition: 0.3s;
-  z-index: 10;
-}
-#mainDetailDevice #detailDevice #headerDetailDevice #carousel-container #prevDot:hover,
-#mainDetailDevice #detailDevice #headerDetailDevice #carousel-container #nextDot:hover {
-  background-color: rgba(0, 0, 0, 0.8);
-}
-#mainDetailDevice #detailDevice #headerDetailDevice #carousel-container #prevDot {
-  left: 0;
-}
-#mainDetailDevice #detailDevice #headerDetailDevice #carousel-container #nextDot {
-  right: 0;
-}
 #mainDetailDevice #detailDevice #headerDetailDevice #overViewDevice {
   width: 50%;
   height: inherit;
-  border: 1px solid black;
   padding: 0.5rem 1rem;
   display: flex;
   flex-direction: column;
@@ -2881,6 +2857,7 @@ header div:last-child h2 {
   margin-top: 1rem;
   padding: 0.5rem;
   border: 1px solid black;
+  border-radius: 10px;
 }
 #mainDetailDevice #detailDevice #bodyDetailDevice #groupNavigationBodyDevice {
   width: 100%;
@@ -2905,17 +2882,26 @@ header div:last-child h2 {
 #mainDetailDevice #detailDevice #bodyDetailDevice #mainBodyDetailDevice {
   padding: 2rem 0;
 }
-#mainDetailDevice #detailDevice #bodyDetailDevice #mainBodyDetailDevice #divInstructionDevice, #mainDetailDevice #detailDevice #bodyDetailDevice #mainBodyDetailDevice #divParamDevice, #mainDetailDevice #detailDevice #bodyDetailDevice #mainBodyDetailDevice #divInfoDevice {
+#mainDetailDevice #detailDevice #bodyDetailDevice #mainBodyDetailDevice #divInstructionDevice,
+#mainDetailDevice #detailDevice #bodyDetailDevice #mainBodyDetailDevice #divParamDevice,
+#mainDetailDevice #detailDevice #bodyDetailDevice #mainBodyDetailDevice #divInfoDevice {
   display: none;
 }
 #mainDetailDevice #detailDevice #bodyDetailDevice #mainBodyDetailDevice .active {
   display: block !important;
 }
-#mainDetailDevice #detailDevice #bodyDetailDevice #mainBodyDetailDevice table, #mainDetailDevice #detailDevice #bodyDetailDevice #mainBodyDetailDevice th, #mainDetailDevice #detailDevice #bodyDetailDevice #mainBodyDetailDevice td {
+#mainDetailDevice #detailDevice #bodyDetailDevice #mainBodyDetailDevice table,
+#mainDetailDevice #detailDevice #bodyDetailDevice #mainBodyDetailDevice th,
+#mainDetailDevice #detailDevice #bodyDetailDevice #mainBodyDetailDevice td {
   border: 1px solid black;
   border-collapse: collapse;
 }
-#mainDetailDevice #detailDevice #bodyDetailDevice #mainBodyDetailDevice table th, #mainDetailDevice #detailDevice #bodyDetailDevice #mainBodyDetailDevice table td, #mainDetailDevice #detailDevice #bodyDetailDevice #mainBodyDetailDevice th th, #mainDetailDevice #detailDevice #bodyDetailDevice #mainBodyDetailDevice th td, #mainDetailDevice #detailDevice #bodyDetailDevice #mainBodyDetailDevice td th, #mainDetailDevice #detailDevice #bodyDetailDevice #mainBodyDetailDevice td td {
+#mainDetailDevice #detailDevice #bodyDetailDevice #mainBodyDetailDevice table th,
+#mainDetailDevice #detailDevice #bodyDetailDevice #mainBodyDetailDevice table td,
+#mainDetailDevice #detailDevice #bodyDetailDevice #mainBodyDetailDevice th th,
+#mainDetailDevice #detailDevice #bodyDetailDevice #mainBodyDetailDevice th td,
+#mainDetailDevice #detailDevice #bodyDetailDevice #mainBodyDetailDevice td th,
+#mainDetailDevice #detailDevice #bodyDetailDevice #mainBodyDetailDevice td td {
   padding-left: 1rem;
 }
 #mainDetailDevice aside {

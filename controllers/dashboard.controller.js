@@ -579,39 +579,47 @@ export const deleteFuncDevice = async (req, res) => {
 };
 export const addDevice = async (req, res) => {
   try {
-    let { imgDevice, nameDevice, infoDevice,colorNames,colorIndex, priceActual, funcDevice } =
-      req.body;
+    let {
+      imgDevice,
+      nameDevice,
+      infoDevice,
+      colorNames,
+      colorIndex,
+      priceActual,
+      funcDevice,
+      instrucDevice,
+    } = req.body;
     if (!req.files || req.files.length === 0) {
       return res.json({
         mess: "Vui lòng chọn ít nhất một ảnh",
         success: false,
       });
     }
-    const colorFiles=req.files["colorImg"] || [];
-    const deviceFiles=req.files["imgDevice"] || [];
+    const colorFiles = req.files["colorImg"] || [];
+    const deviceFiles = req.files["imgDevice"] || [];
     const uploadedDeviceImages = deviceFiles.map((file) => {
-          return {
-            url: file.path,
-            cloudinary_id: file.filename,
-          };
+      return {
+        url: file.path,
+        cloudinary_id: file.filename,
+      };
     });
-    let uploadedColorImages={};
-    if (colorNames&&colorNames.length>0) {
-       colorNames=Array.isArray(colorNames)?colorNames:[colorNames];
-       uploadedColorImages = colorNames.map((name,index) => {
-        const file=colorFiles[index];
-        let idColor=colorIndex[index];
-        idColor=Number(idColor);
+    let uploadedColorImages = {};
+    if (colorNames && colorNames.length > 0) {
+      colorNames = Array.isArray(colorNames) ? colorNames : [colorNames];
+      uploadedColorImages = colorNames.map((name, index) => {
+        const file = colorFiles[index];
+        let idColor = colorIndex[index];
+        idColor = Number(idColor);
         if (file) {
           return {
-            name:name,
-            index:idColor,
+            name: name,
+            index: idColor,
             url: file.path,
             cloudinary_id: file.filename,
           };
         }
         return null;
-    });
+      });
     }
     const newDevice = await deviceEntity.create({
       images: uploadedDeviceImages,
@@ -620,6 +628,7 @@ export const addDevice = async (req, res) => {
       info: infoDevice,
       price: priceActual,
       func: funcDevice,
+      instruction: instrucDevice,
     });
     const io = req.app.get("socketio");
     io.emit("update-device", newDevice);

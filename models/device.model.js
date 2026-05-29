@@ -9,7 +9,7 @@ const deviceSchema = mongoose.Schema({
   color: [
     {
       name: String,
-      index:Number,
+      index: Number,
       url: String,
       cloudinary_id: String,
     },
@@ -28,6 +28,10 @@ const deviceSchema = mongoose.Schema({
   },
   func: {
     type: Array,
+    required: true,
+  },
+  instruction: {
+    type: String,
     required: true,
   },
   createAt: {

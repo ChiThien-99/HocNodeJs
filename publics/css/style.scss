@@ -346,6 +346,11 @@ header {
     overflow-x: hidden;
     border: 1px solid $colorCTA;
     position: relative;
+    label {
+      display: inline-block;
+      margin: 0.5rem 0;
+      font-weight: bold;
+    }
     .tabContent {
       opacity: 0;
       visibility: hidden;
@@ -2423,16 +2428,19 @@ header {
   width: 100%;
   display: flex;
   flex-flow: row wrap;
-  #rawQuillContent{
+  margin-top: 2rem;
+  #rawQuillContent {
     display: none;
   }
   #detailDevice {
     width: 75%;
     #headerDetailDevice {
       width: 100%;
-      height: 30rem;
+      height: 35rem;
       display: flex;
       flex-flow: row wrap;
+      border: 1px solid black;
+      border-radius: 10px;
       #carousel-container {
         width: 50%;
         height: inherit;
@@ -2442,7 +2450,7 @@ header {
           display: flex;
           flex-flow: row nowrap;
           width: 100%;
-          height: 80%;
+          height: 75%;
           transition: transform 0.5s ease-in-out;
           .carousel-slide {
             min-width: 100%;
@@ -2479,19 +2487,14 @@ header {
         }
         #indicators {
           width: 100%;
-          display: flex;
-          flex-flow: row nowrap;
-          justify-content: center;
-          align-items: center;
-          height: 20%;
-          border: 1px solid black;
+          display: grid;
+          grid-template-columns: repeat(5, 1fr);
+          grid-template-rows: repeat(2, auto);
+          place-items: center;
+          gap: 0.5rem;
+          height: 25%;
           position: relative;
-          overflow-x: auto;
-          scroll-behavior: smooth;
-          &::-webkit-scrollbar{
-            display: none;
-          }
-          scrollbar-width: none !important;
+          padding: 0.5rem;
           .dot {
             height: 3rem;
             width: 3rem;
@@ -2506,34 +2509,10 @@ header {
             border: 3px solid $colorCTA;
           }
         }
-        #prevDot,
-        #nextDot {
-          position: absolute;
-          display: inline-block;
-          bottom: 0;
-          width: 2rem;
-          height: 20%;
-          background-color: rgba(0, 0, 0, 0.4);
-          color: $colorSecondaryText;
-          cursor: pointer;
-          border: none;
-          transition: 0.3s;
-          z-index: 10;
-          &:hover {
-            background-color: rgba(0, 0, 0, 0.8);
-          }
-        }
-        #prevDot {
-          left: 0;
-        }
-        #nextDot {
-          right: 0;
-        }
       }
       #overViewDevice {
         width: 50%;
         height: inherit;
-        border: 1px solid black;
         padding: 0.5rem 1rem;
         display: flex;
         flex-direction: column;
@@ -2604,71 +2583,77 @@ header {
         }
       }
     }
-    #divShareSocial{
+    #divShareSocial {
       width: 100%;
       display: none;
       flex-direction: row;
       justify-content: end;
       margin-top: 0.5rem;
-      div{
+      div {
         width: 50%;
         padding: 0.5rem 1rem;
         border: 1px solid $colorCTA;
         border-radius: 5px;
-        p{
+        p {
           margin: 0.5rem 0;
         }
-        button{
+        button {
           border: none;
-          background:none;
+          background: none;
           cursor: pointer;
-          img{
+          img {
             width: 2rem;
             height: 2rem;
           }
         }
       }
     }
-    #bodyDetailDevice{
+    #bodyDetailDevice {
       margin-top: 1rem;
       padding: 0.5rem;
       border: 1px solid black;
-      #groupNavigationBodyDevice{
-      width: 100%;
-      display: flex;
-      flex-flow: row nowrap;
-      justify-content: space-between;
-      button{
-        @include button(0.5rem);
-        background-color: #bbb;
-        width: calc((100% / 3) - 1rem);
-        font-weight: bold;
-        font-size: 1.1rem;
+      border-radius: 10px;
+      #groupNavigationBodyDevice {
+        width: 100%;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        button {
+          @include button(0.5rem);
+          background-color: #bbb;
+          width: calc((100% / 3) - 1rem);
+          font-weight: bold;
+          font-size: 1.1rem;
+        }
+        .active {
+          background-color: $colorCTA;
+          color: $colorSecondaryText;
+        }
       }
-      .active{
-        background-color: $colorCTA;
-        color: $colorSecondaryText;
-      }
-      }
-      #mainBodyDetailDevice{
+      #mainBodyDetailDevice {
         padding: 2rem 0;
-        #divInstructionDevice,#divParamDevice,#divInfoDevice{
-        display: none;
+        #divInstructionDevice,
+        #divParamDevice,
+        #divInfoDevice {
+          display: none;
         }
-        .active{
-        display: block !important;
+        .active {
+          display: block !important;
         }
-        table,th,td{
+        table,
+        th,
+        td {
           border: 1px solid black;
           border-collapse: collapse;
-          th,td{
+          th,
+          td {
             padding-left: 1rem;
           }
         }
       }
     }
   }
-  
+
   aside {
     width: 25%;
     #listBlogs {
