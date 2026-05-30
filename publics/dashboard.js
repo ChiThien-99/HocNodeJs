@@ -966,15 +966,9 @@ formDevice.addEventListener("submit", (e) => {
             console.error("Biến quill không tồn tại");
           }
           document.getElementById("btnDevice").value = "Tạo";
+          document.getElementById("btnCancleUpdateDevice").style.display="none";
           alert("Thông báo", mess, "#80a710");
         } else {
-          formDevice.reset();
-          if (typeof quillInstances !== "undefined") {
-            quillInstances[1].setText("");
-          } else {
-            console.error("Biến quill không tồn tại");
-          }
-          document.getElementById("btnDevice").value = "Tạo";
           alert("Lỗi", `${mess}\n${error}`, "red");
         }
       })
@@ -997,12 +991,6 @@ formDevice.addEventListener("submit", (e) => {
           }
           alert("Thông báo", mess, "#80a710");
         } else {
-          formDevice.reset();
-          if (typeof quillInstances !== "undefined") {
-            quillInstances[1].setText("");
-          } else {
-            console.error("Biến quill không tồn tại");
-          }
           alert("Lỗi", `${mess}\n${error}`, "red");
         }
       })
@@ -1034,11 +1022,35 @@ document.querySelectorAll(".btnUpdateDevice").forEach((btn) => {
         if (data) {
           document.getElementById("idDevice").value = data._id;
           document.getElementById("nameDevice").value = data.name;
-          document.getElementById("infoDevice").value = data.info;
+          if (typeof quillInstances !== "undefined") {
+            quillInstances[1].clipboard.dangerouslyPasteHTML(data.info || "");
+          } else {
+            console.error("Biến quill chưa được khởi tạo");
+          }
+          document.getElementById("color-container").innerHTML="";
+          for (let i = 0; i < data.color.length; i++) {
+  const colorContainer=document.getElementById("color-container");
+  const newRow=document.createElement("div");
+  newRow.className="color-row";
+  newRow.innerHTML=`
+   <input type="text" name="colorNames" class="colorNames" placeholder="VD:Đen" required>
+   <input type="number" name="colorIndex" class="colorIndex" placeholder="Nhập index" required>
+   <input type="file" class="imgDevice" name="colorImg" accept="image/webp">
+   <button type="button" class="btnRemoveColor">Xóa</button>
+  `;
+  colorContainer.appendChild(newRow);
+  newRow.querySelector(".btnRemoveColor").addEventListener("click",()=>{
+    newRow.remove();
+  })
+  document.querySelectorAll(".colorNames")[i].value=data.color[i].name;
+  document.querySelectorAll(".colorIndex")[i].value=data.color[i].index;        
+          }
           document.getElementById("priceDevice").value =
             data.price.toLocaleString("vi-VN");
           document.getElementById("priceActual").value = data.price;
+          document.getElementById("instrucDevice").value=data.instruction || "";
           document.getElementById("btnDevice").value = "Cập nhật";
+          document.getElementById("btnCancleUpdateDevice").style.display="inline-block";
           const dataFuncDevice = data.func;
           const funcDevice = document.getElementById("funcDevice");
           Array.from(funcDevice.options).forEach((option) => {
@@ -1053,6 +1065,16 @@ document.querySelectorAll(".btnUpdateDevice").forEach((btn) => {
       });
   });
 });
+document.getElementById("btnCancleUpdateDevice").addEventListener("click",function(){
+  document.getElementById("btnDevice").value = "Tạo";
+  formDevice.reset();
+  if (typeof quillInstances !== "undefined") {
+    quillInstances[1].setText("");
+  } else {
+    console.error("Biến quill không tồn tại");
+  }
+  this.style.display="none";
+})
 document.querySelectorAll(".btnDeleteDevice").forEach((btn) => {
   btn.addEventListener("click", async () => {
     const confirmDelete = await confirm(

@@ -24,6 +24,7 @@
       src="https://kit.fontawesome.com/c1f12001f0.js"
       crossorigin="anonymous"
     ></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-emoji-picker@0.2.4/dist/emojiPicker.min.js"></script>
 </head>
 <body>
     <header>
@@ -67,7 +68,7 @@
         </div>
       </div>
     </header>
-    <main id="mainDetailDevice">
+    <main id="mainDetailDevice" data-idDetailDevice="<%=device._id%>">
         <div id="rawQuillContent">
           <%-device.info.replace(/&nbsp;|&#160;/gi," ")%>
         </div>
@@ -109,6 +110,9 @@
               <%})%>
               </div>
               </div>
+              <div>
+                <strong id="priceDevice" data-base-price="<%=device.price%>"><%=device.price.toLocaleString('vi-VN')%> đ</strong>
+              </div>
               <div id="groupBtnDevice">
                 <button id="btnCartDevice"><i class="fa-solid fa-cart-plus"></i> Thêm vào giỏ hàng</button>
                 <button id="btnShareDevice"><i class="fa-solid fa-share-nodes"></i> Chia sẻ</button>
@@ -140,8 +144,85 @@
               </div>
               </div>
             </div>
+            <div id="divCommentDevice">
+          <h3 id="lenCommentDevice">Bình luận <%=commentDevice.length%></h3>
+          <form id="formCommentDevice">
+            <input type="hidden" name="idDevice" id="idDevice" value="<%=device._id%>"><br>
+            <input type="text" name="authorCommentDevice" id="authorCommentDevice" placeholder="Tên của bạn (Để trống nếu muốn ẩn danh)"><br>
+            <div id="divContentEmojiCommentDevice">
+              <input type="hidden" name="parentCommentDeviceId" id="parentCommentDeviceId">
+              <textarea name="contentCommentDevice" id="contentCommentDevice" placeholder="Nội dung bình luận" data-emoji-picker="true"></textarea><br>
+            </div>
+            <input type="submit" value="Bình luận">
+          </form>
+          <div id="listCommentDevice">
+            <%if(commentDevice.length===0){%>
+              <p id="noCommentDevice">Chưa có bình luận nào. Hãy là người đầu tiên bình luận!</p>
+            <%}else{%>
+            <%commentDevice.forEach((comment)=>{%>
+            <%if(!comment.parentId){%>
+            <div class="commentDevice">
+            <p>
+              <strong><%=comment.author%></strong>
+              <span><%=comment.content%></span>
+            </p>
+            <div class="commentDevice-action">
+              <div>
+                <button type="button" class="btnLikeCommentDevice" data-idComment="<%=comment._id%>"><i class="fa-solid fa-thumbs-up"></i> Thích (<span id="like-count-<%=comment._id%>"><%=comment.likes.length%></span>)</button>
+                <button type="button" class="btnReplyCommentDevice" data-idComment="<%=comment._id%>" data-authorComment="<%=comment.author%>"><i class="fa-solid fa-comment"></i> Trả lời</button>
+              </div>
+               <p><%=new Date(comment.createAt).toLocaleString("vi-VN")%></p>
+            </div>
+            </div>
+            <div class="repliesDevice-box">
+              <%commentDevice.forEach((reply)=>{%>
+                <%if(String(reply.parentId)===String(comment._id)){%>
+            <div class="commentDevice">
+            <p>
+              <strong><%=reply.author%></strong>
+              <span><%=reply.content%></span>
+            </p>
+            <div class="commentDevice-action">
+              <div>
+                <button type="button" class="btnLikeCommentDevice" data-idComment="<%=reply._id%>"><i class="fa-solid fa-thumbs-up"></i> Thích (<span id="like-count-<%=reply._id%>"><%=reply.likes.length%></span>)</button>
+                <button type="button" class="btnReplyCommentDevice" data-idComment="<%=comment._id%>" data-authorComment="<%=reply.author%>"><i class="fa-solid fa-comment"></i> Trả lời</button>
+              </div>
+               <p><%=new Date(reply.createAt).toLocaleString("vi-VN")%></p>
+            </div>
+            </div>
+                <%}%>
+              <%})%>
+            </div>
+            <%}%>
+            <%})}%>
+          </div>
+        </div>
+        <%if(otherDevice.length>0){%>
+        <div id="divOtherDevice">
+          <h3 class="flag-item">Các thiết bị khác</h3>
+          <div id="listOtherDevice">
+            <%otherDevice.forEach((device)=>{%>
+            <a href="/detailDevice/<%=device._id%>" target="_blank">
+              <div class="device">
+              <div class="divImg">
+                <img src="<%=device.images[0].url%>" alt="device">
+                <p><%=device.price.toLocaleString('vi-VN')%> đ</p>
+              </div>
+              <div class="device-content">
+                <h4><%=device.name%></h4>
+                <%-device.info.replace(/&nbsp;|&#160;/gi," ")%>
+              </div>
+            </div>
+            </a>
+          <%})%>
+          </div>
+        </div>
+        <%}%>
         </div>
         <aside>
+        <div id="banner">
+            <img src="/img/banner1.webp" alt="banner">
+        </div>
         <div>
           <h3 class="flag-item">Phần mềm</h3>
           <div id="listAppCol">

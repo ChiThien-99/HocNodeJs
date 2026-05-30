@@ -631,6 +631,13 @@ header {
         color: $colorSecondaryText;
         margin: 0.5rem 0;
       }
+      #btnCancleUpdateDevice {
+        @include button(0.5rem);
+        background-color: red;
+        color: $colorSecondaryText;
+        margin: 0.5rem 0.5rem;
+        display: none;
+      }
       input[type="text"] {
         width: 50%;
         height: 2rem;
@@ -2441,6 +2448,7 @@ header {
       flex-flow: row wrap;
       border: 1px solid black;
       border-radius: 10px;
+      overflow: hidden;
       #carousel-container {
         width: 50%;
         height: inherit;
@@ -2480,10 +2488,10 @@ header {
           }
         }
         #prev {
-          left: 0.5rem;
+          left: 0;
         }
         #next {
-          right: 0.5rem;
+          right: 0;
         }
         #indicators {
           width: 100%;
@@ -2527,6 +2535,10 @@ header {
         b {
           margin: 0.5rem 0;
           display: block;
+        }
+        strong{
+          font-size: 2rem;
+          color: $colorCTA;
         }
         input[type="number"] {
           width: 10%;
@@ -2613,6 +2625,8 @@ header {
       padding: 0.5rem;
       border: 1px solid black;
       border-radius: 10px;
+      height: auto;
+      overflow-y: scroll;
       #groupNavigationBodyDevice {
         width: 100%;
         display: flex;
@@ -2652,10 +2666,153 @@ header {
         }
       }
     }
+    #divCommentDevice {
+      h3 {
+        margin: 0.5rem 0;
+      }
+      #formCommentDevice {
+        #authorCommentDevice {
+          width: 40%;
+          height: 2rem;
+          font-size: 1rem;
+          margin-bottom: 0.5rem;
+        }
+        #divContentEmojiCommentDevice {
+          position: relative;
+          #contentCommentDevice {
+            width: 100%;
+            height: 10rem;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            resize: none;
+            padding-right: 2.5rem;
+          }
+          a {
+            top: auto !important;
+            right: 1rem !important;
+            bottom: 1rem !important;
+            svg {
+              width: 1.2rem !important;
+              height: 1.2rem !important;
+            }
+          }
+        }
+        input[type="submit"] {
+          background-color: $colorCTA;
+          color: $colorSecondaryText;
+          @include button(0.5rem);
+        }
+      }
+      #listCommentDevice {
+        height: 30rem;
+        overflow-y: scroll;
+        margin: 1rem;
+        .commentDevice {
+          border-bottom: 1px solid black;
+          border-top: 1px solid black;
+          .commentDevice-action {
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: space-between;
+            padding: 0.5rem;
+            button {
+              background: none;
+              border: none;
+              cursor: pointer;
+            }
+            p {
+              margin: 0;
+            }
+          }
+        }
+        .repliesDevice-box {
+          padding-left: 2rem;
+        }
+      }
+    }
+    div{
+      h3{
+        margin-left: 1%;
+      }
+      #listOtherDevice {
+      display: flex;
+      flex-flow: row wrap;
+      margin: 1rem 0;
+      a {
+        color: black;
+        text-decoration: none;
+        display: inline-block;
+        width: 48%;
+        height: 15rem;
+        margin: 1%;
+        .device {
+          width: 100%;
+          height: inherit;
+          border: 1px solid black;
+          border-radius: 5px;
+          background-color: $colorPrimaryBG;
+          display: flex;
+          flex-flow: row nowrap;
+          overflow: hidden;
+          position: relative;
+          .divImg {
+            width: 50%;
+            display: flex;
+            flex-flow: column;
+            justify-content: space-between;
+            align-items: start;
+            img {
+              width: 100%;
+              height: 80%;
+              object-fit: cover;
+              margin: 0;
+            }
+            p {
+              font-size: 1.2rem;
+              margin: 0.5rem;
+            }
+          }
+          .device-content {
+            width: 50%;
+            padding: 0.5rem 0.8rem;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            height: calc(100% - 1.1rem);
+            overflow-y: scroll;
+            scrollbar-color: $colorCTA;
+            scrollbar-width: thin;
+            h4 {
+              font-size: 1.1rem;
+              margin: 0;
+            }
+            p {
+              margin: 0.3rem 0;
+            }
+          }
+        }
+      }
+    }
+    }
+   
   }
 
   aside {
     width: 25%;
+    #banner{
+      width: 100%;
+      height: 35rem;
+      border: 1px solid black;
+      border-radius: 5px;
+      margin: 0 1% 1rem;
+      img{
+        width: 100%;
+        height: 100%;
+      }
+    }
+    h3{
+      margin-left: 1%;
+    }
     #listBlogs {
       display: flex;
       flex-direction: column;
@@ -3130,5 +3287,53 @@ footer {
         width: 88%;
       }
     }
+  }
+  #mainDetailDevice{
+  #detailDevice{
+    width: 100%;
+    #headerDetailDevice{
+      height: 70rem;
+      flex-flow: column;
+    #carousel-container{
+      width: 100%;
+    }
+    #overViewDevice{
+      width: 100%;
+    }
+    }
+    #divShareSocial{
+      div{
+        width: 100%;
+      }
+    }
+    #bodyDetailDevice{
+      #mainBodyDetailDevice{
+        #divInstructionDevice{
+          iframe{
+            width: 100%;
+          }
+        }
+      }
+    }
+    #divCommentDevice{
+      #formCommentDevice{
+        #authorCommentDevice{
+          width: 100%;
+        }
+      }
+    }
+    #divOtherDevice{
+      #listOtherDevice{
+      flex-flow: column;
+      a{
+        width: 100%;
+      }
+    }
+    }
+    
+  }
+  aside{
+    width: 100%;
+  }
   }
 }

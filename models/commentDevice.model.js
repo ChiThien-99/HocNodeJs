@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 const commentSchema = mongoose.Schema({
-  blogsId: {
+  deviceId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "blogsEntity",
+    ref: "deviceEntity",
     required: true,
   },
   author: {
@@ -19,7 +19,7 @@ const commentSchema = mongoose.Schema({
   },
   parentId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "commentEntity",
+    ref: "commentDeviceEntity",
     default: null,
   },
   createAt: {
@@ -27,8 +27,8 @@ const commentSchema = mongoose.Schema({
     default: Date.now(),
   },
 });
-export const commentEntity = mongoose.model(
-  "commentEntity",
+export const commentDeviceEntity = mongoose.model(
+  "commentDeviceEntity",
   commentSchema,
-  "comment",
+  "commentDevice",
 );

@@ -1,7 +1,7 @@
 import { blogsEntity } from "../models/blogs.model.js";
 import { appEntity } from "../models/app.model.js";
 import { deviceEntity } from "../models/device.model.js";
-import { commentEntity } from "../models/comment.model.js";
+import { commentBlogsEntity } from "../models/commentBlogs.model.js";
 import { categoryblogsEntity } from "../models/categoryblogs.model.js";
 
 export const getBlogs = async (req, res) => {
@@ -58,7 +58,7 @@ export const getDetailblogs = async (req, res) => {
   }
   const relatedblogs = await blogsEntity.find(query).sort("-createAt").limit(4);
   const latestblogs = await blogsEntity.find().sort("-createAt").limit(4);
-  const comments = await commentEntity.find({ blogsId: id }).sort("-createAt");
+  const comments = await commentBlogsEntity.find({ blogsId: id }).sort("-createAt");
   res.render("detailblogs.ejs", {
     blogs,
     apps,
@@ -83,8 +83,8 @@ export const postAddComment = async (req, res) => {
     if (parentCommentId && parentCommentId.trim() !== "") {
       comment.parentId = parentCommentId;
     }
-    const newComment = await commentEntity.create(comment);
-    const listComment = await commentEntity
+    const newComment = await commentBlogsEntity.create(comment);
+    const listComment = await commentBlogsEntity
       .find({ blogsId: id })
       .sort("-createAt");
     res.json({ data: listComment, success: true });
@@ -96,7 +96,7 @@ export const handleLike = async (req, res) => {
   try {
     const { id } = req.params;
     const userId = req.ip;
-    const comment = await commentEntity.findById(id);
+    const comment = await commentBlogsEntity.findById(id);
     if (!comment) {
       res.json({ success: false, data: "Bình luận không tồn tại" });
     }

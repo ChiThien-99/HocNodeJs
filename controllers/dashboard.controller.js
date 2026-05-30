@@ -654,15 +654,14 @@ export const putUpdateDevice = async (req, res) => {
   try {
     const { id } = req.params;
     const { nameDevice, infoDevice, priceActual, funcDevice } = req.body;
-    await deviceEntity.findByIdAndUpdate(id, {
+    const updateDevice=await deviceEntity.findByIdAndUpdate(id, {
       name: nameDevice,
       info: infoDevice,
       price: priceActual,
       func: funcDevice,
     });
     const io = req.app.get("socketio");
-    const allDevice = await deviceEntity.find().sort("-createAt");
-    io.emit("update-device", allDevice);
+    io.emit("update-detailDevice", updateDevice);
     res.json({ mess: "Cập nhật thiết bị thành công", success: true });
   } catch (error) {
     res.json({

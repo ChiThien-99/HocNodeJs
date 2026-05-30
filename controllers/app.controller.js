@@ -1,7 +1,6 @@
 import { blogsEntity } from "../models/blogs.model.js";
 import { appEntity } from "../models/app.model.js";
 import { deviceEntity } from "../models/device.model.js";
-import { commentEntity } from "../models/comment.model.js";
 import { funcAppEntity } from "../models/funcApp.model.js";
 
 export const getAllApp = async (req, res) => {

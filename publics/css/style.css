@@ -722,6 +722,16 @@ header div:last-child h2 {
   color: #fafafa;
   margin: 0.5rem 0;
 }
+#mainDashboard #contentDashboard #deviceMng #btnCancleUpdateDevice {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: red;
+  color: #fafafa;
+  margin: 0.5rem 0.5rem;
+  display: none;
+}
 #mainDashboard #contentDashboard #deviceMng input[type=text] {
   width: 50%;
   height: 2rem;
@@ -2678,6 +2688,7 @@ header div:last-child h2 {
   flex-flow: row wrap;
   border: 1px solid black;
   border-radius: 10px;
+  overflow: hidden;
 }
 #mainDetailDevice #detailDevice #headerDetailDevice #carousel-container {
   width: 50%;
@@ -2721,10 +2732,10 @@ header div:last-child h2 {
   background-color: rgba(0, 0, 0, 0.8);
 }
 #mainDetailDevice #detailDevice #headerDetailDevice #carousel-container #prev {
-  left: 0.5rem;
+  left: 0;
 }
 #mainDetailDevice #detailDevice #headerDetailDevice #carousel-container #next {
-  right: 0.5rem;
+  right: 0;
 }
 #mainDetailDevice #detailDevice #headerDetailDevice #carousel-container #indicators {
   width: 100%;
@@ -2768,6 +2779,10 @@ header div:last-child h2 {
 #mainDetailDevice #detailDevice #headerDetailDevice #overViewDevice b {
   margin: 0.5rem 0;
   display: block;
+}
+#mainDetailDevice #detailDevice #headerDetailDevice #overViewDevice strong {
+  font-size: 2rem;
+  color: #80a710;
 }
 #mainDetailDevice #detailDevice #headerDetailDevice #overViewDevice input[type=number] {
   width: 10%;
@@ -2858,6 +2873,8 @@ header div:last-child h2 {
   padding: 0.5rem;
   border: 1px solid black;
   border-radius: 10px;
+  height: auto;
+  overflow-y: scroll;
 }
 #mainDetailDevice #detailDevice #bodyDetailDevice #groupNavigationBodyDevice {
   width: 100%;
@@ -2904,8 +2921,148 @@ header div:last-child h2 {
 #mainDetailDevice #detailDevice #bodyDetailDevice #mainBodyDetailDevice td td {
   padding-left: 1rem;
 }
+#mainDetailDevice #detailDevice #divCommentDevice h3 {
+  margin: 0.5rem 0;
+}
+#mainDetailDevice #detailDevice #divCommentDevice #formCommentDevice #authorCommentDevice {
+  width: 40%;
+  height: 2rem;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+#mainDetailDevice #detailDevice #divCommentDevice #formCommentDevice #divContentEmojiCommentDevice {
+  position: relative;
+}
+#mainDetailDevice #detailDevice #divCommentDevice #formCommentDevice #divContentEmojiCommentDevice #contentCommentDevice {
+  width: 100%;
+  height: 10rem;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  resize: none;
+  padding-right: 2.5rem;
+}
+#mainDetailDevice #detailDevice #divCommentDevice #formCommentDevice #divContentEmojiCommentDevice a {
+  top: auto !important;
+  right: 1rem !important;
+  bottom: 1rem !important;
+}
+#mainDetailDevice #detailDevice #divCommentDevice #formCommentDevice #divContentEmojiCommentDevice a svg {
+  width: 1.2rem !important;
+  height: 1.2rem !important;
+}
+#mainDetailDevice #detailDevice #divCommentDevice #formCommentDevice input[type=submit] {
+  background-color: #80a710;
+  color: #fafafa;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+#mainDetailDevice #detailDevice #divCommentDevice #listCommentDevice {
+  height: 30rem;
+  overflow-y: scroll;
+  margin: 1rem;
+}
+#mainDetailDevice #detailDevice #divCommentDevice #listCommentDevice .commentDevice {
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+}
+#mainDetailDevice #detailDevice #divCommentDevice #listCommentDevice .commentDevice .commentDevice-action {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  padding: 0.5rem;
+}
+#mainDetailDevice #detailDevice #divCommentDevice #listCommentDevice .commentDevice .commentDevice-action button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+#mainDetailDevice #detailDevice #divCommentDevice #listCommentDevice .commentDevice .commentDevice-action p {
+  margin: 0;
+}
+#mainDetailDevice #detailDevice #divCommentDevice #listCommentDevice .repliesDevice-box {
+  padding-left: 2rem;
+}
+#mainDetailDevice #detailDevice div h3 {
+  margin-left: 1%;
+}
+#mainDetailDevice #detailDevice div #listOtherDevice {
+  display: flex;
+  flex-flow: row wrap;
+  margin: 1rem 0;
+}
+#mainDetailDevice #detailDevice div #listOtherDevice a {
+  color: black;
+  text-decoration: none;
+  display: inline-block;
+  width: 48%;
+  height: 15rem;
+  margin: 1%;
+}
+#mainDetailDevice #detailDevice div #listOtherDevice a .device {
+  width: 100%;
+  height: inherit;
+  border: 1px solid black;
+  border-radius: 5px;
+  background-color: #f5f5f5;
+  display: flex;
+  flex-flow: row nowrap;
+  overflow: hidden;
+  position: relative;
+}
+#mainDetailDevice #detailDevice div #listOtherDevice a .device .divImg {
+  width: 50%;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  align-items: start;
+}
+#mainDetailDevice #detailDevice div #listOtherDevice a .device .divImg img {
+  width: 100%;
+  height: 80%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  margin: 0;
+}
+#mainDetailDevice #detailDevice div #listOtherDevice a .device .divImg p {
+  font-size: 1.2rem;
+  margin: 0.5rem;
+}
+#mainDetailDevice #detailDevice div #listOtherDevice a .device .device-content {
+  width: 50%;
+  padding: 0.5rem 0.8rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: calc(100% - 1.1rem);
+  overflow-y: scroll;
+  scrollbar-color: #80a710;
+  scrollbar-width: thin;
+}
+#mainDetailDevice #detailDevice div #listOtherDevice a .device .device-content h4 {
+  font-size: 1.1rem;
+  margin: 0;
+}
+#mainDetailDevice #detailDevice div #listOtherDevice a .device .device-content p {
+  margin: 0.3rem 0;
+}
 #mainDetailDevice aside {
   width: 25%;
+}
+#mainDetailDevice aside #banner {
+  width: 100%;
+  height: 35rem;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin: 0 1% 1rem;
+}
+#mainDetailDevice aside #banner img {
+  width: 100%;
+  height: 100%;
+}
+#mainDetailDevice aside h3 {
+  margin-left: 1%;
 }
 #mainDetailDevice aside #listBlogs {
   display: flex;
@@ -3338,5 +3495,36 @@ footer div:last-child input {
   }
   #loginContainer #loginForm input[id=pwAdmin] {
     width: 88%;
+  }
+  #mainDetailDevice #detailDevice {
+    width: 100%;
+  }
+  #mainDetailDevice #detailDevice #headerDetailDevice {
+    height: 70rem;
+    flex-flow: column;
+  }
+  #mainDetailDevice #detailDevice #headerDetailDevice #carousel-container {
+    width: 100%;
+  }
+  #mainDetailDevice #detailDevice #headerDetailDevice #overViewDevice {
+    width: 100%;
+  }
+  #mainDetailDevice #detailDevice #divShareSocial div {
+    width: 100%;
+  }
+  #mainDetailDevice #detailDevice #bodyDetailDevice #mainBodyDetailDevice #divInstructionDevice iframe {
+    width: 100%;
+  }
+  #mainDetailDevice #detailDevice #divCommentDevice #formCommentDevice #authorCommentDevice {
+    width: 100%;
+  }
+  #mainDetailDevice #detailDevice #divOtherDevice #listOtherDevice {
+    flex-flow: column;
+  }
+  #mainDetailDevice #detailDevice #divOtherDevice #listOtherDevice a {
+    width: 100%;
+  }
+  #mainDetailDevice aside {
+    width: 100%;
   }
 }/*# sourceMappingURL=style.css.map */
