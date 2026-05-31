@@ -1,5 +1,10 @@
 import mongoose from "mongoose";
+import { type } from "os";
 const bannerSchema = mongoose.Schema({
+  page: {
+    type: String,
+    required: true,
+  },
   image: {
     type: String,
     required: true,
@@ -8,17 +13,9 @@ const bannerSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  caption: {
-    type: String,
-    required: true,
-  },
   url: {
     type: String,
-    default: "#",
-  },
-  order: {
-    type: Number,
-    default: 0,
+    required: true,
   },
 });
 export const bannerEntity = mongoose.model(

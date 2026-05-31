@@ -210,7 +210,10 @@
               </div>
               <div class="device-content">
                 <h4><%=device.name%></h4>
-                <%-device.info.replace(/&nbsp;|&#160;/gi," ")%>
+                <div class="rawChucNangOtherDevice">
+                  <%-device.info.replace(/&nbsp;|&#160;/gi," ")%>
+                </div>
+                <div class="targetChucNangOtherDevice"></div>
               </div>
             </div>
             </a>
@@ -220,9 +223,11 @@
         <%}%>
         </div>
         <aside>
+        <%if(banners.length>0){%>
         <div id="banner">
-            <img src="/img/banner1.webp" alt="banner">
+            <a href="<%=banners[0].url%>" target="_blank"><img src="<%=banners[0].image%>" alt="banner"></a>
         </div>
+        <%}%>
         <div>
           <h3 class="flag-item">Phần mềm</h3>
           <div id="listAppCol">

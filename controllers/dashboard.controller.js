@@ -1,8 +1,9 @@
 import os from "os";
 import { json } from "stream/consumers";
 import { adminEntity } from "../models/admin.model.js";
-import { bannerEntity } from "../models/banner.model.js";
+import { carouselEntity } from "../models/carousel.model.js";
 import { notifyEntity } from "../models/notification.model.js";
+import { bannerEntity } from "../models/banner.model.js";
 import { funcAppEntity } from "../models/funcApp.model.js";
 import { appEntity } from "../models/app.model.js";
 import { funcDeviceEntity } from "../models/funcDevice.model.js";
@@ -58,8 +59,9 @@ const jsonSystemInfo = JSON.stringify(systemInfo, null, 2);
 
 export const getDashboard = async (req, res) => {
   const admins = await adminEntity.find();
-  const banners = await bannerEntity.find().sort("order");
+  const banners = await carouselEntity.find().sort("order");
   const notifys = await notifyEntity.find().sort("-createAt");
+  const bns = await bannerEntity.find();
   const listFuncApp = await funcAppEntity.find();
   const apps = await appEntity.find().sort("-createAt");
   const listFuncDevice = await funcDeviceEntity.find();
@@ -72,6 +74,7 @@ export const getDashboard = async (req, res) => {
     admins,
     banners,
     notifys,
+    bns,
     listFuncApp,
     apps,
     listFuncDevice,
@@ -120,9 +123,14 @@ export const putUpdateAdminById = async (req, res) => {
     const roleUserCurrent = req.user.role;
     let { fullnameAdmin, roleAdmin, emailAdmin, pwAdmin, valueDecentAdmin } =
       req.body;
-    const salt = await bcrypt.genSalt(10);
-    pwAdmin = await bcrypt.hash(pwAdmin, salt);
-    console.log(`${idUpdate},${idUserCurrent},${roleUserCurrent}`);
+    const adminNeedUpdate = adminEntity.findById(idUpdate);
+    if (!pwAdmin) {
+      pwAdmin = adminNeedUpdate.password;
+    } else {
+      const salt = await bcrypt.genSalt(10);
+      pwAdmin = await bcrypt.hash(pwAdmin, salt);
+    }
+
     if (idUpdate !== idUserCurrent && roleUserCurrent !== "Tổng giám đốc") {
       return res.status(403).json({
         mess: "Bạn không đủ quyền thực hiện hành động này!",
@@ -212,7 +220,7 @@ export const deleteUserAdminById = async (req, res) => {
 export const postBanner = async (req, res) => {
   try {
     const { captionBanner, urlBanner, orderBanner } = req.body;
-    const newBanner = await bannerEntity.create({
+    const newBanner = await carouselEntity.create({
       caption: captionBanner,
       url: urlBanner,
       order: orderBanner,
@@ -220,7 +228,7 @@ export const postBanner = async (req, res) => {
       cloudinary_id: req.file.filename,
     });
     const io = req.app.get("socketio");
-    const allBanner = await bannerEntity.find().sort("order");
+    const allBanner = await carouselEntity.find().sort("order");
     io.emit("update-carousel", allBanner);
     res.json({ mess: "Tạo banner thành công", success: "true" });
   } catch (error) {
@@ -234,7 +242,7 @@ export const postBanner = async (req, res) => {
 export const getBannerById = async (req, res) => {
   try {
     const { id } = req.params;
-    const banner = await bannerEntity.findById(id);
+    const banner = await carouselEntity.findById(id);
     res.json({ banner: banner });
   } catch (error) {
     console.error(error.message);
@@ -244,13 +252,13 @@ export const putUpdateBanner = async (req, res) => {
   try {
     const { id } = req.params;
     const { captionBanner, urlBanner, orderBanner } = req.body;
-    const updateBanner = await bannerEntity.findByIdAndUpdate(id, {
+    const updateBanner = await carouselEntity.findByIdAndUpdate(id, {
       caption: captionBanner,
       url: urlBanner,
       order: orderBanner,
     });
     const io = req.app.get("socketio");
-    const allBanner = await bannerEntity.find().sort("order");
+    const allBanner = await carouselEntity.find().sort("order");
     io.emit("update-carousel", allBanner);
     res.json({ mess: "Cập nhật thành công", success: true });
   } catch (error) {
@@ -264,14 +272,14 @@ export const putUpdateBanner = async (req, res) => {
 export const deleteBanner = async (req, res) => {
   try {
     const { id } = req.params;
-    const banner = await bannerEntity.findById(id);
+    const banner = await carouselEntity.findById(id);
     if (!banner) {
       res.json({ mess: "Không tìm thấy banner", success: false });
     }
     await cloudinary.uploader.destroy(banner.cloudinary_id);
-    await bannerEntity.findByIdAndDelete(id);
+    await carouselEntity.findByIdAndDelete(id);
     const io = req.app.get("socketio");
-    const allBanner = await bannerEntity.find().sort("order");
+    const allBanner = await carouselEntity.find().sort("order");
     io.emit("update-carousel", allBanner);
     res.json({ mess: "Xóa banner thành công", success: true });
   } catch (error) {
@@ -385,6 +393,97 @@ export const deleteNotify = async (req, res) => {
   } catch (error) {
     res.json({
       mess: "Xóa thông báo thất bại",
+      success: false,
+      error: error.message,
+    });
+  }
+};
+export const addBanner = async (req, res) => {
+  try {
+    const { pageBanner, urlBN } = req.body;
+    const newBanner = await bannerEntity.create({
+      page: pageBanner,
+      image: req.file.path,
+      cloudinary_id: req.file.filename,
+      url: urlBN,
+    });
+    const io = req.app.get("socketio");
+    io.emit("update-banner", newBanner);
+    res.json({ mess: "Tạo banner thành công", success: true });
+  } catch (error) {
+    res.json({
+      mess: "Tạo banner thất bại",
+      success: false,
+      error: error.message,
+    });
+  }
+};
+export const getUpdateBanner = async (req, res) => {
+  const { id } = req.params;
+  const updateBanner = await bannerEntity.findById(id);
+  res.json({ data: updateBanner });
+};
+export const deleteImgBanner = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const bannerNeedDelete = await bannerEntity.findById(id);
+    if (!bannerNeedDelete) {
+      return res.json({
+        mess: "Không tìm được banner cần xóa hình",
+        success: false,
+      });
+    }
+    cloudinary.uploader.destroy(bannerNeedDelete.cloudinary_id);
+    res.json({ mess: "Xóa hình banner thành công", success: true });
+  } catch (error) {
+    res.json({
+      mess: "Xóa hình banner thất bại",
+      success: false,
+      error: error.message,
+    });
+  }
+};
+export const putUpdateBN = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { pageBanner, urlBN } = req.body;
+    const currentBanner = await bannerEntity.findById(id);
+    let image = "";
+    let cloudinary_id = "";
+    if (req.file) {
+      image = req.file.path;
+      cloudinary_id = req.file.filename;
+    } else {
+      image = currentBanner.image;
+      cloudinary_id = currentBanner.cloudinary_id;
+    }
+    const updateBanner = await bannerEntity.findByIdAndUpdate(id, {
+      page: pageBanner,
+      image: image,
+      cloudinary_id: cloudinary_id,
+      url: urlBN,
+    });
+    const io = req.app.get("socketio");
+    io.emit("update-banner", updateBanner);
+    res.json({ mess: "Cập nhật banner thành công", success: true });
+  } catch (error) {
+    res.json({
+      mess: "Cập nhật banner thất bại",
+      success: false,
+      error: error.message,
+    });
+  }
+};
+export const deleteBN = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const banner = await bannerEntity.findById(id);
+    await cloudinary.uploader.destroy(banner.cloudinary_id);
+    await bannerEntity.findByIdAndDelete(id);
+    res.json({ mess: "Xóa banner thành công", success: true });
+  } catch (error) {
+    res.json({
+      mess: "Xóa banner thất bại",
       success: false,
       error: error.message,
     });
@@ -653,12 +752,66 @@ export const getUpdateDevice = async (req, res) => {
 export const putUpdateDevice = async (req, res) => {
   try {
     const { id } = req.params;
-    const { nameDevice, infoDevice, priceActual, funcDevice } = req.body;
-    const updateDevice=await deviceEntity.findByIdAndUpdate(id, {
+    const currentDevice = deviceEntity.findById(id);
+    if (!currentDevice) {
+      return res.json({
+        mess: "Không tìm thấy thiết bị cần chỉnh sửa",
+        success: true,
+      });
+    }
+    let {
+      nameDevice,
+      infoDevice,
+      priceActual,
+      colorNames,
+      colorIndex,
+      funcDevice,
+      instrucDevice,
+    } = req.body;
+
+    const colorFiles = req.files["colorImg"] || [];
+    const deviceFiles = req.files["imgDevice"] || [];
+    const uploadedDeviceImages = deviceFiles.map((file) => {
+      return {
+        url: file.path,
+        cloudinary_id: file.filename,
+      };
+    });
+    let uploadedColorImages = {};
+    if (colorNames && colorNames.length > 0) {
+      colorNames = Array.isArray(colorNames) ? colorNames : [colorNames];
+      uploadedColorImages = colorNames.map((name, index) => {
+        const file = colorFiles[index];
+        let idColor = colorIndex[index];
+        idColor = Number(idColor);
+        if (file) {
+          return {
+            name: name,
+            index: idColor,
+            url: file.path,
+            cloudinary_id: file.filename,
+          };
+        }
+        return null;
+      });
+    }
+    let images =
+      uploadedDeviceImages.length > 0
+        ? uploadedDeviceImages
+        : currentDevice.images;
+    console.log(images);
+    let color = uploadedColorImages.includes(null)
+      ? currentDevice.color
+      : uploadedColorImages;
+    console.log(color);
+    const updateDevice = await deviceEntity.findByIdAndUpdate(id, {
+      images: images,
       name: nameDevice,
       info: infoDevice,
+      color: color,
       price: priceActual,
       func: funcDevice,
+      instruction: instrucDevice,
     });
     const io = req.app.get("socketio");
     io.emit("update-detailDevice", updateDevice);
@@ -666,6 +819,57 @@ export const putUpdateDevice = async (req, res) => {
   } catch (error) {
     res.json({
       mess: "Cập nhật thiết bị thất bại",
+      success: false,
+      error: error.message,
+    });
+  }
+};
+export const deleteImgDevice = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const device = await deviceEntity.findById(id);
+    if (!device) {
+      return res.json({
+        mess: "Không tim được device bằng id",
+        success: false,
+      });
+    }
+    if (device.images && device.images.length > 0) {
+      const deletePromises = device.images.map((img) => {
+        console.log(img.cloudinary_id);
+        return cloudinary.uploader.destroy(img.cloudinary_id);
+      });
+      await Promise.all(deletePromises);
+    }
+    res.json({ mess: "Xóa hình ảnh thiết bị thành công", success: true });
+  } catch (error) {
+    res.json({
+      mess: "Xóa hình ảnh thiết bị thất bại",
+      success: false,
+      error: error.message,
+    });
+  }
+};
+export const deleteImgColorDevice = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const device = await deviceEntity.findById(id);
+    if (!device) {
+      return res.json({
+        mess: "Không tim được device bằng id",
+        success: false,
+      });
+    }
+    if (device.color && device.color.length > 0) {
+      const deletePromises = device.color.map((color) => {
+        return cloudinary.uploader.destroy(color.cloudinary_id);
+      });
+      await Promise.all(deletePromises);
+    }
+    res.json({ mess: "Xóa hình ảnh màu thiết bị thành công", success: true });
+  } catch (error) {
+    res.json({
+      mess: "Xóa hình ảnh màu thiết bị thất bại",
       success: false,
       error: error.message,
     });

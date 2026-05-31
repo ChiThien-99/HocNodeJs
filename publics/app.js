@@ -1,7 +1,8 @@
 const socket = io();
 socket.on("update-app", (newApp) => {
-  let plainText=newApp.info.replace(/&nbsp;|&#160;/gi," ");
-  let shortText=plainText.length>80?plainText.substring(0,80)+"...":plainText;
+  let plainText = newApp.info.replace(/&nbsp;|&#160;/gi, " ");
+  let shortText =
+    plainText.length > 80 ? plainText.substring(0, 80) + "..." : plainText;
   const newAppHTML = `
       <div class="app">
         <img src="${newApp.image}" alt="app">
@@ -25,6 +26,16 @@ socket.on("update-app", (newApp) => {
       app[app.length - 1].remove();
     }
     app = document.querySelectorAll(".app");
+  }
+});
+socket.on("update-banner", (data) => {
+  if (data.page !== "app") {
+    return;
+  } else {
+    const banner = document.getElementById("banner");
+    banner.innerHTML = `
+      <a href="${data.url}"><img src="${data.image}" alt="banner"></a>
+     `;
   }
 });
 

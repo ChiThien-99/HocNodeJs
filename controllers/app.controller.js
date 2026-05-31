@@ -2,11 +2,12 @@ import { blogsEntity } from "../models/blogs.model.js";
 import { appEntity } from "../models/app.model.js";
 import { deviceEntity } from "../models/device.model.js";
 import { funcAppEntity } from "../models/funcApp.model.js";
+import { bannerEntity } from "../models/banner.model.js";
 
 export const getAllApp = async (req, res) => {
-  const funcApp=await funcAppEntity.find().sort("-createAt");
+  const funcApp = await funcAppEntity.find().sort("-createAt");
   const devices = await deviceEntity.find().sort("-createAt").limit(4);
-  const blogs=await blogsEntity.find().sort("-createAt").limit(4);
+  const blogs = await blogsEntity.find().sort("-createAt").limit(4);
   const limit = 12;
   const currentPage = parseInt(req.query.page) || 1;
   const currentFunc = req.query.func || "";
@@ -25,6 +26,7 @@ export const getAllApp = async (req, res) => {
     appEntity.countDocuments(query),
   ]);
   const totalPage = Math.ceil(appTotal / limit);
+  const banners = await bannerEntity.find({ page: "app" });
   res.render("app.ejs", {
     funcApp,
     devices,
@@ -34,5 +36,6 @@ export const getAllApp = async (req, res) => {
     totalPage,
     currentFunc: currentFunc || "",
     sort,
+    banners,
   });
 };

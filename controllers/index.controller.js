@@ -1,4 +1,4 @@
-import { bannerEntity } from "../models/banner.model.js";
+import { carouselEntity } from "../models/carousel.model.js";
 import { notifyEntity } from "../models/notification.model.js";
 import { appEntity } from "../models/app.model.js";
 import { funcAppEntity } from "../models/funcApp.model.js";
@@ -7,7 +7,7 @@ import { deviceEntity } from "../models/device.model.js";
 import { categoryblogsEntity } from "../models/categoryblogs.model.js";
 import { blogsEntity } from "../models/blogs.model.js";
 export const getIndex = async (req, res) => {
-  const banners = await bannerEntity.find().sort("order");
+  const banners = await carouselEntity.find().sort("order");
   const notifys = await notifyEntity.find().sort("-createAt");
   const apps = await appEntity.find().sort("-createAt").limit(6);
   const funcApps = await funcAppEntity.find();

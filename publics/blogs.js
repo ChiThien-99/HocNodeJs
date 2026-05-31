@@ -1,13 +1,11 @@
 const socket = io();
 socket.on("update-blogs", (newBlog) => {
-      let plainText = newBlog.info.replace(/<\/?[^>]+(>|$)/g, "");
-      plainText = plainText.replace(/&nbsp;|&#160;/gi, " ");
-      plainText = plainText.replace(/\s+/g, " ").trim();
-      let shortText =
-        plainText.length > 200
-          ? plainText.substring(0, 200) + "..."
-          : plainText;
-      const newBlogHTML= `
+  let plainText = newBlog.info.replace(/<\/?[^>]+(>|$)/g, "");
+  plainText = plainText.replace(/&nbsp;|&#160;/gi, " ");
+  plainText = plainText.replace(/\s+/g, " ").trim();
+  let shortText =
+    plainText.length > 200 ? plainText.substring(0, 200) + "..." : plainText;
+  const newBlogHTML = `
   <div class="blogs">
     <a href="/blogs/detailBlog/${newBlog._id}" target="_blank" class="linkImg"><img src="${newBlog.image}" alt="blogs"></a>
   <div class="blogs-content">
@@ -16,15 +14,28 @@ socket.on("update-blogs", (newBlog) => {
   </div>
   </div>
   `;
-  const urlParams= new URLSearchParams(window.location.search);
-  const currentPage=parseInt(urlParams.get("page"))||1;
-  if (currentPage===1) {
-    document.getElementById("listblogs").insertAdjacentHTML("afterbegin",newBlogHTML);
+  const urlParams = new URLSearchParams(window.location.search);
+  const currentPage = parseInt(urlParams.get("page")) || 1;
+  if (currentPage === 1) {
+    document
+      .getElementById("listblogs")
+      .insertAdjacentHTML("afterbegin", newBlogHTML);
     let blogs = document.querySelectorAll(".blogs");
-  if (blogs.length>12) {
-    blogs[blogs.length-1].remove();
+    if (blogs.length > 12) {
+      blogs[blogs.length - 1].remove();
+    }
+    blogs = document.querySelectorAll(".blogs");
   }
-  blogs = document.querySelectorAll(".blogs");
+});
+socket.on("update-banner", (data) => {
+  console.log(data);
+  if (data.page !== "blog") {
+    return;
+  } else {
+    const banner = document.getElementById("banner");
+    banner.innerHTML = `
+      <a href="${data.url}"><img src="${data.image}" alt="banner"></a>
+     `;
   }
 });
 

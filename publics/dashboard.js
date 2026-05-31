@@ -949,7 +949,7 @@ formDevice.addEventListener("submit", (e) => {
   e.preventDefault();
   const dataform = new FormData(formDevice);
   const quillHTML = quillInstances[1].getSemanticHTML();
-  dataform.set("infoDevice",quillHTML)
+  dataform.set("infoDevice", quillHTML);
   const id = document.getElementById("idDevice").value;
   if (id) {
     fetch(`/dashboard/updateDevice/${id}`, {
@@ -966,7 +966,8 @@ formDevice.addEventListener("submit", (e) => {
             console.error("Biến quill không tồn tại");
           }
           document.getElementById("btnDevice").value = "Tạo";
-          document.getElementById("btnCancleUpdateDevice").style.display="none";
+          document.getElementById("btnCancleUpdateDevice").style.display =
+            "none";
           alert("Thông báo", mess, "#80a710");
         } else {
           alert("Lỗi", `${mess}\n${error}`, "red");
@@ -1027,30 +1028,40 @@ document.querySelectorAll(".btnUpdateDevice").forEach((btn) => {
           } else {
             console.error("Biến quill chưa được khởi tạo");
           }
-          document.getElementById("color-container").innerHTML="";
+          document.getElementById("color-container").innerHTML = "";
           for (let i = 0; i < data.color.length; i++) {
-  const colorContainer=document.getElementById("color-container");
-  const newRow=document.createElement("div");
-  newRow.className="color-row";
-  newRow.innerHTML=`
-   <input type="text" name="colorNames" class="colorNames" placeholder="VD:Đen" required>
-   <input type="number" name="colorIndex" class="colorIndex" placeholder="Nhập index" required>
-   <input type="file" class="imgDevice" name="colorImg" accept="image/webp">
-   <button type="button" class="btnRemoveColor">Xóa</button>
-  `;
-  colorContainer.appendChild(newRow);
-  newRow.querySelector(".btnRemoveColor").addEventListener("click",()=>{
-    newRow.remove();
-  })
-  document.querySelectorAll(".colorNames")[i].value=data.color[i].name;
-  document.querySelectorAll(".colorIndex")[i].value=data.color[i].index;        
+            const colorContainer = document.getElementById("color-container");
+            const newRow = document.createElement("div");
+            newRow.className = "color-row";
+            newRow.innerHTML = `
+             <input type="text" name="colorNames" class="colorNames" placeholder="VD:Đen" required>
+             <input type="number" name="colorIndex" class="colorIndex" placeholder="Nhập index" required>
+             <input type="file" class="imgDevice" name="colorImg" accept="image/webp">
+             <button type="button" class="btnRemoveColor">Xóa</button>
+            `;
+            colorContainer.appendChild(newRow);
+            newRow
+              .querySelector(".btnRemoveColor")
+              .addEventListener("click", () => {
+                newRow.remove();
+              });
+            document.querySelectorAll(".colorNames")[i].value =
+              data.color[i].name;
+            document.querySelectorAll(".colorIndex")[i].value =
+              data.color[i].index;
           }
           document.getElementById("priceDevice").value =
             data.price.toLocaleString("vi-VN");
           document.getElementById("priceActual").value = data.price;
-          document.getElementById("instrucDevice").value=data.instruction || "";
+          document.getElementById("instrucDevice").value =
+            data.instruction || "";
           document.getElementById("btnDevice").value = "Cập nhật";
-          document.getElementById("btnCancleUpdateDevice").style.display="inline-block";
+          document.getElementById("deleteImageDevice").style.display =
+            "inline-block";
+          document.getElementById("deleteImageColor").style.display =
+            "inline-block";
+          document.getElementById("btnCancleUpdateDevice").style.display =
+            "inline-block";
           const dataFuncDevice = data.func;
           const funcDevice = document.getElementById("funcDevice");
           Array.from(funcDevice.options).forEach((option) => {
@@ -1065,16 +1076,56 @@ document.querySelectorAll(".btnUpdateDevice").forEach((btn) => {
       });
   });
 });
-document.getElementById("btnCancleUpdateDevice").addEventListener("click",function(){
-  document.getElementById("btnDevice").value = "Tạo";
-  formDevice.reset();
-  if (typeof quillInstances !== "undefined") {
-    quillInstances[1].setText("");
-  } else {
-    console.error("Biến quill không tồn tại");
-  }
-  this.style.display="none";
-})
+document.getElementById("deleteImageDevice").addEventListener("click", () => {
+  const idDevice = document.getElementById("idDevice").value;
+  console.log(idDevice);
+  fetch(`/dashboard/deleteImgDevice/${idDevice}`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json;charset=UTF-8" },
+  })
+    .then((res) => res.json())
+    .then(({ mess, success }) => {
+      if (success) {
+        alert("Thông báo", mess, "#80a710");
+      } else {
+        alert("Lỗi", mess, "red");
+      }
+    })
+    .catch((error) => {
+      alert("Lỗi", error, "red");
+    });
+});
+document.getElementById("deleteImageColor").addEventListener("click", () => {
+  const idDevice = document.getElementById("idDevice").value;
+  console.log(idDevice);
+  fetch(`/dashboard/deleteImgColorDevice/${idDevice}`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json;charset=UTF-8" },
+  })
+    .then((res) => res.json())
+    .then(({ mess, success }) => {
+      if (success) {
+        alert("Thông báo", mess, "#80a710");
+      } else {
+        alert("Lỗi", mess, "red");
+      }
+    })
+    .catch((error) => {
+      alert("Lỗi", error, "red");
+    });
+});
+document
+  .getElementById("btnCancleUpdateDevice")
+  .addEventListener("click", function () {
+    document.getElementById("btnDevice").value = "Tạo";
+    formDevice.reset();
+    if (typeof quillInstances !== "undefined") {
+      quillInstances[1].setText("");
+    } else {
+      console.error("Biến quill không tồn tại");
+    }
+    this.style.display = "none";
+  });
 document.querySelectorAll(".btnDeleteDevice").forEach((btn) => {
   btn.addEventListener("click", async () => {
     const confirmDelete = await confirm(
@@ -1340,18 +1391,144 @@ document.querySelectorAll(".btnDeleteblogs").forEach((btn) => {
     }
   });
 });
-document.getElementById("btnAddColor").addEventListener("click",()=>{
-  const colorContainer=document.getElementById("color-container");
-  const newRow=document.createElement("div");
-  newRow.className="color-row";
-  newRow.innerHTML=`
+document.getElementById("btnAddColor").addEventListener("click", () => {
+  const colorContainer = document.getElementById("color-container");
+  const newRow = document.createElement("div");
+  newRow.className = "color-row";
+  newRow.innerHTML = `
    <input type="text" name="colorNames" placeholder="VD:Đen" required>
    <input type="number" name="colorIndex" placeholder="Nhập index" required>
    <input type="file" class="imgDevice" name="colorImg" accept="image/webp" required>
    <button type="button" class="btnRemoveColor">Xóa</button>
   `;
   colorContainer.appendChild(newRow);
-  newRow.querySelector(".btnRemoveColor").addEventListener("click",()=>{
+  newRow.querySelector(".btnRemoveColor").addEventListener("click", () => {
     newRow.remove();
-  })
-})
+  });
+});
+const formBanner = document.getElementById("formBanner");
+formBanner.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const id = document.getElementById("idBN").value;
+  const formData = new FormData(formBanner);
+  if (id) {
+    fetch(`/dashboard/updateBN/${id}`, {
+      method: "PUT",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then(({ mess, success, error }) => {
+        if (success) {
+          formBanner.reset();
+          document.getElementById("btnBanner").value = "Tạo";
+          alert("Thông báo", mess, "#80a710");
+        } else {
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        }
+      })
+      .catch((error) => {
+        alert("Lỗi", error, "red");
+      });
+  } else {
+    fetch("/dashboard/addBanner", {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then(({ mess, success }) => {
+        if (success) {
+          formBanner.reset();
+          alert("Thông báo", mess, "#80a710");
+        } else {
+          alert("Lỗi", mess, "red");
+        }
+      })
+      .catch((error) => {
+        alert("Lỗi", error, "red");
+      });
+  }
+});
+const btnUpdateBN = document.querySelectorAll(".btnUpdateBN");
+btnUpdateBN.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const id = btn.getAttribute("data-idBN");
+    fetch(`/dashboard/updateBN/${id}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
+    })
+      .then((res) => res.json())
+      .then(({ data }) => {
+        document.getElementById("idBN").value = data._id;
+        document.getElementById("pageBanner").value = data.page;
+        document.getElementById("btnDeleteBN").style.display = "inline-block";
+        document.getElementById("btnCancleUpdateBN").style.display =
+          "inline-block";
+        document.getElementById("urlBN").value = data.url;
+        document.getElementById("btnBanner").value = "Cập nhật";
+      })
+      .catch((error) => {
+        alert("Lỗi", error, "red");
+      });
+  });
+});
+document.getElementById("btnDeleteBN").addEventListener("click", async () => {
+  const confirmDelete = await confirm(
+    "Thông báo",
+    "Bạn có chắc chắn muốn xóa hình",
+    "#1877f2",
+  );
+  if (confirmDelete) {
+    const id = document.getElementById("idBN").value;
+    fetch(`/dashboard/deleteImgBanner/${id}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
+    })
+      .then((res) => res.json())
+      .then(({ mess, success, error }) => {
+        if (success) {
+          alert("Thông báo", mess, "#80a710");
+        } else {
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        }
+      })
+      .catch((error) => {
+        alert("Lỗi", error, "red");
+      });
+  }
+});
+document
+  .getElementById("btnCancleUpdateBN")
+  .addEventListener("click", function () {
+    formBanner.reset();
+    document.getElementById("btnBanner").value = "Tạo";
+    document.getElementById("btnDeleteBN").style.display = "none";
+    this.style.display = "none";
+  });
+const btnDeleteBN = document.querySelectorAll(".btnDeleteBN");
+btnDeleteBN.forEach((btn) => {
+  btn.addEventListener("click", async () => {
+    const confirmDelete = await confirm(
+      "Thông báo",
+      "Bạn có chắc chắn muốn xóa banner này",
+      "#1877f2",
+    );
+    if (confirmDelete) {
+      const id = btn.getAttribute("data-idBN");
+      fetch(`/dashboard/deleteBN/${id}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json;charset=UTF-8" },
+      })
+        .then((res) => res.json())
+        .then(({ mess, success, error }) => {
+          if (success) {
+            alert("Thông báo", mess, "#80a710");
+          } else {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          }
+        })
+        .catch((error) => {
+          alert("Lỗi", error, "red");
+        });
+    }
+  });
+});

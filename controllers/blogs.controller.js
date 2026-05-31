@@ -3,6 +3,7 @@ import { appEntity } from "../models/app.model.js";
 import { deviceEntity } from "../models/device.model.js";
 import { commentBlogsEntity } from "../models/commentBlogs.model.js";
 import { categoryblogsEntity } from "../models/categoryblogs.model.js";
+import { bannerEntity } from "../models/banner.model.js";
 
 export const getBlogs = async (req, res) => {
   const apps = await appEntity.find().sort("-views").limit(4);
@@ -26,6 +27,7 @@ export const getBlogs = async (req, res) => {
     blogsEntity.countDocuments(query),
   ]);
   const totalPage = Math.ceil(blogTotal / limit);
+  const banners = await bannerEntity.find({ page: "blog" });
   res.render("blogs.ejs", {
     apps,
     devices,
@@ -35,6 +37,7 @@ export const getBlogs = async (req, res) => {
     totalPage,
     currentCategory: currentCategory || "",
     sort,
+    banners,
   });
 };
 export const getDetailblogs = async (req, res) => {
@@ -58,7 +61,10 @@ export const getDetailblogs = async (req, res) => {
   }
   const relatedblogs = await blogsEntity.find(query).sort("-createAt").limit(4);
   const latestblogs = await blogsEntity.find().sort("-createAt").limit(4);
-  const comments = await commentBlogsEntity.find({ blogsId: id }).sort("-createAt");
+  const comments = await commentBlogsEntity
+    .find({ blogsId: id })
+    .sort("-createAt");
+  const banners = await bannerEntity.find({ page: "blog" });
   res.render("detailblogs.ejs", {
     blogs,
     apps,
@@ -66,6 +72,7 @@ export const getDetailblogs = async (req, res) => {
     relatedblogs,
     latestblogs,
     comments,
+    banners,
   });
 };
 export const postAddComment = async (req, res) => {

@@ -1,11 +1,21 @@
 const socket = io();
 socket.on("update-detailDevice", (data) => {
-  const mainDetailDevice=document.getElementById("mainDetailDevice");
-  const idDevice=mainDetailDevice.getAttribute("data-idDetailDevice");
-  if (idDevice!==data._id) {
+  const mainDetailDevice = document.getElementById("mainDetailDevice");
+  const idDevice = mainDetailDevice.getAttribute("data-idDetailDevice");
+  if (idDevice !== data._id) {
     return;
   }
   window.location.reload();
+});
+socket.on("update-banner", (data) => {
+  if (data.page !== "device") {
+    return;
+  } else {
+    const banner = document.getElementById("banner");
+    banner.innerHTML = `
+      <a href="${data.url}"><img src="${data.image}" alt="banner"></a>
+     `;
+  }
 });
 const wrapper = document.getElementById("carousel-wrapper");
 let slides = document.querySelectorAll(".carousel-slide");
@@ -68,10 +78,10 @@ document
     if (this.value < 1) {
       return (this.value = 1);
     }
-    const priceDevice=document.getElementById("priceDevice");
-    const basePrice=Number(priceDevice.getAttribute("data-base-price"));
-    const totalPrice=basePrice*Number(this.value);
-    priceDevice.innerText=totalPrice.toLocaleString("vi-VN") + " đ";
+    const priceDevice = document.getElementById("priceDevice");
+    const basePrice = Number(priceDevice.getAttribute("data-base-price"));
+    const totalPrice = basePrice * Number(this.value);
+    priceDevice.innerText = totalPrice.toLocaleString("vi-VN") + " đ";
   });
 document.getElementById("btnShareDevice").addEventListener("click", () => {
   const divShareSocial = document.getElementById("divShareSocial");
@@ -139,6 +149,40 @@ document.addEventListener("DOMContentLoaded", () => {
     thongTinHTML || "<p>Đang cập nhật thông tin thiết bị</p>";
 });
 document.addEventListener("DOMContentLoaded", () => {
+  const device = document.querySelectorAll(".device");
+  for (let i = 0; i < device.length; i++) {
+    const rawChucNangOtherDevice = document.querySelectorAll(
+      ".rawChucNangOtherDevice",
+    )[i].innerHTML;
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(rawChucNangOtherDevice, "text/html");
+    let chucNangHTML = "";
+    let currenSection = "";
+    const childNodes = doc.body.children;
+    for (let i = 0; i < childNodes.length; i++) {
+      const element = childNodes[i];
+      if (element.tagName === "H3") {
+        const text = element.textContent.toLowerCase().trim();
+        if (text.includes("thông số")) {
+          currenSection = "thongso";
+          continue;
+        } else if (text.includes("chức năng")) {
+          currenSection = "chucnang";
+          continue;
+        } else if (text.includes("thông tin")) {
+          currenSection = "thongtin";
+          continue;
+        }
+      }
+      if (currenSection === "chucnang") {
+        chucNangHTML += element.outerHTML;
+      }
+    }
+    document.querySelectorAll(".targetChucNangOtherDevice")[i].innerHTML =
+      chucNangHTML || "<p>Đang cập nhật chức năng thiết bị</p>";
+  }
+});
+document.addEventListener("DOMContentLoaded", () => {
   if (typeof EmojiPicker !== "undefined") {
     new EmojiPicker();
   } else {
@@ -148,7 +192,9 @@ document.addEventListener("DOMContentLoaded", () => {
 document.getElementById("formCommentDevice").addEventListener("submit", (e) => {
   e.preventDefault();
   const idComment = document.getElementById("idDevice").value;
-  const parentCommentId = document.getElementById("parentCommentDeviceId").value;
+  const parentCommentId = document.getElementById(
+    "parentCommentDeviceId",
+  ).value;
   const authorComment = document.getElementById("authorCommentDevice").value;
   const contentComment = document.getElementById("contentCommentDevice").value;
   fetch(`/detailDevice/addComment/${idComment}`, {
@@ -262,4 +308,27 @@ document.getElementById("listCommentDevice").addEventListener("click", (e) => {
     contentComment.parentNode.appendChild(parentInput);
   }
   parentInput.value = idComment;
+});
+document.addEventListener("DOMContentLoaded", () => {
+  const hamburgerBtn = document.getElementById("hamburgerBtn");
+  const navMenu = document.getElementById("navMenu");
+  if (hamburgerBtn && navMenu) {
+    hamburgerBtn.addEventListener("click", () => {
+      hamburgerBtn.classList.toggle("active");
+      navMenu.classList.toggle("active");
+      if (navMenu.classList.contains("active")) {
+        document.body.classList.add("no-scroll");
+      } else {
+        document.body.classList.remove("no-scroll");
+      }
+    });
+    const navLink = navMenu.querySelectorAll("a");
+    navLink.forEach((link) => {
+      link.addEventListener("click", () => {
+        hamburgerBtn.classList.remove("active");
+        navMenu.classList.remove("active");
+        document.body.classList.remove("no-scroll");
+      });
+    });
+  }
 });

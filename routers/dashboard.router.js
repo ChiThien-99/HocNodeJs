@@ -43,6 +43,10 @@ dashboardRouter.get(
   dashboardController.getUpdateNotify,
 );
 dashboardRouter.get(
+  `${prefix}/updateBN/:id`,
+  dashboardController.getUpdateBanner,
+);
+dashboardRouter.get(
   `${prefix}/updateFuncApp/:id`,
   dashboardController.getupdateFuncApp,
 );
@@ -84,6 +88,12 @@ dashboardRouter.post(
   dashboardController.addNotify,
 );
 dashboardRouter.post(
+  `${prefix}/addBanner`,
+  authenticateToken,
+  upload.single("imgBanner"),
+  dashboardController.addBanner,
+);
+dashboardRouter.post(
   `${prefix}/listFuncApp`,
   authenticateToken,
   dashboardController.addListFuncApp,
@@ -103,8 +113,8 @@ dashboardRouter.post(
   `${prefix}/addDevice`,
   authenticateToken,
   upload.fields([
-    {name:"imgDevice", maxCount:10},
-    {name:"colorImg",maxCount:10},
+    { name: "imgDevice", maxCount: 10 },
+    { name: "colorImg", maxCount: 10 },
   ]),
   dashboardController.addDevice,
 );
@@ -146,6 +156,12 @@ dashboardRouter.put(
   dashboardController.putUpdateNotify,
 );
 dashboardRouter.put(
+  `${prefix}/updateBN/:id`,
+  authenticateToken,
+  upload.single("imgBanner"),
+  dashboardController.putUpdateBN,
+);
+dashboardRouter.put(
   `${prefix}/updateFuncApp/:id`,
   authenticateToken,
   dashboardController.putUpdateFuncApp,
@@ -164,7 +180,10 @@ dashboardRouter.put(
 dashboardRouter.put(
   `${prefix}/updateDevice/:id`,
   authenticateToken,
-  upload.single("imgDevice"),
+  upload.fields([
+    { name: "imgDevice", maxCount: 10 },
+    { name: "colorImg", maxCount: 10 },
+  ]),
   dashboardController.putUpdateDevice,
 );
 dashboardRouter.put(
@@ -193,6 +212,16 @@ dashboardRouter.delete(
   dashboardController.deleteNotify,
 );
 dashboardRouter.delete(
+  `${prefix}/deleteImgBanner/:id`,
+  authenticateToken,
+  dashboardController.deleteImgBanner,
+);
+dashboardRouter.delete(
+  `${prefix}/deleteBN/:id`,
+  authenticateToken,
+  dashboardController.deleteBN,
+);
+dashboardRouter.delete(
   `${prefix}/deleteFuncApp/:id`,
   authenticateToken,
   dashboardController.deleteFuncApp,
@@ -211,6 +240,16 @@ dashboardRouter.delete(
   `${prefix}/deleteDevice/:id`,
   authenticateToken,
   dashboardController.deleteDevice,
+);
+dashboardRouter.delete(
+  `${prefix}/deleteImgDevice/:id`,
+  authenticateToken,
+  dashboardController.deleteImgDevice,
+);
+dashboardRouter.delete(
+  `${prefix}/deleteImgColorDevice/:id`,
+  authenticateToken,
+  dashboardController.deleteImgColorDevice,
 );
 dashboardRouter.delete(
   `${prefix}/deleteCategoryblogs/:id`,

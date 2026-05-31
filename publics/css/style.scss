@@ -535,6 +535,58 @@ header {
         }
       }
     }
+    #bannerMng {
+      #imgBanner::file-selector-button {
+        @include button(0.5rem);
+        background-color: $colorCTA;
+        color: $colorSecondaryText;
+      }
+      #btnDeleteBN,
+      #btnCancleUpdateBN {
+        @include button(0.5rem);
+        background-color: red;
+        color: $colorSecondaryText;
+        margin: 0.5rem 0.5rem;
+        display: none;
+      }
+      input[type="submit"] {
+        @include button(0.5rem);
+        background-color: $colorCTA;
+        color: $colorSecondaryText;
+        margin: 0.5rem 0;
+      }
+      input[type="text"] {
+        width: 50%;
+        height: 2rem;
+        font-size: 1rem;
+      }
+      select {
+        height: 2rem;
+      }
+      #tableBN,
+      th,
+      td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        padding: 0.5rem;
+        text-align: left;
+        .btnGroup {
+          display: flex;
+          flex-direction: row nowrap;
+          gap: 0.5rem;
+        }
+        .btnUpdateBN {
+          @include button(0.5rem);
+          background-color: $colorCTA;
+          color: $colorSecondaryText;
+        }
+        .btnDeleteBN {
+          @include button(0.5rem);
+          background-color: red;
+          color: $colorSecondaryText;
+        }
+      }
+    }
     #softwareMng {
       #imgApp::file-selector-button {
         @include button(0.5rem);
@@ -631,7 +683,9 @@ header {
         color: $colorSecondaryText;
         margin: 0.5rem 0;
       }
-      #btnCancleUpdateDevice {
+      #btnCancleUpdateDevice,
+      #deleteImageDevice,
+      #deleteImageColor {
         @include button(0.5rem);
         background-color: red;
         color: $colorSecondaryText;
@@ -1593,6 +1647,17 @@ header {
   }
   aside {
     width: 20%;
+    #banner {
+      width: 100%;
+      height: 35rem;
+      border: 1px solid black;
+      border-radius: 5px;
+      margin: 0.5rem 1% 1rem;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
     #listAppCol {
       display: flex;
       flex-direction: column;
@@ -1827,6 +1892,17 @@ header {
   }
   aside {
     width: 25%;
+    #banner {
+      width: 100%;
+      height: 35rem;
+      border: 1px solid black;
+      border-radius: 5px;
+      margin: 0.5rem 1% 1rem;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
     #listAppCol {
       display: flex;
       flex-direction: column;
@@ -2067,6 +2143,17 @@ header {
   }
   aside {
     width: 25%;
+    #banner {
+      width: 100%;
+      height: 35rem;
+      border: 1px solid black;
+      border-radius: 5px;
+      margin: 0.5rem 1% 1rem;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
     #listBlogs {
       display: flex;
       flex-direction: column;
@@ -2334,6 +2421,17 @@ header {
   }
   aside {
     width: 25%;
+    #banner {
+      width: 100%;
+      height: 35rem;
+      border: 1px solid black;
+      border-radius: 5px;
+      margin: 0.5rem 1% 1rem;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
     #listBlogs {
       display: flex;
       flex-direction: column;
@@ -2536,7 +2634,7 @@ header {
           margin: 0.5rem 0;
           display: block;
         }
-        strong{
+        strong {
           font-size: 2rem;
           color: $colorCTA;
         }
@@ -2730,87 +2828,89 @@ header {
         }
       }
     }
-    div{
-      h3{
+    div {
+      h3 {
         margin-left: 1%;
       }
       #listOtherDevice {
-      display: flex;
-      flex-flow: row wrap;
-      margin: 1rem 0;
-      a {
-        color: black;
-        text-decoration: none;
-        display: inline-block;
-        width: 48%;
-        height: 15rem;
-        margin: 1%;
-        .device {
-          width: 100%;
-          height: inherit;
-          border: 1px solid black;
-          border-radius: 5px;
-          background-color: $colorPrimaryBG;
-          display: flex;
-          flex-flow: row nowrap;
-          overflow: hidden;
-          position: relative;
-          .divImg {
-            width: 50%;
+        display: flex;
+        flex-flow: row wrap;
+        margin: 1rem 0;
+        a {
+          color: black;
+          text-decoration: none;
+          display: inline-block;
+          width: 48%;
+          height: 15rem;
+          margin: 1%;
+          .device {
+            width: 100%;
+            height: inherit;
+            border: 1px solid black;
+            border-radius: 5px;
+            background-color: $colorPrimaryBG;
             display: flex;
-            flex-flow: column;
-            justify-content: space-between;
-            align-items: start;
-            img {
-              width: 100%;
-              height: 80%;
-              object-fit: cover;
-              margin: 0;
-            }
-            p {
-              font-size: 1.2rem;
-              margin: 0.5rem;
-            }
-          }
-          .device-content {
-            width: 50%;
-            padding: 0.5rem 0.8rem;
-            display: flex;
-            flex-direction: column;
+            flex-flow: row nowrap;
+            overflow: hidden;
             position: relative;
-            height: calc(100% - 1.1rem);
-            overflow-y: scroll;
-            scrollbar-color: $colorCTA;
-            scrollbar-width: thin;
-            h4 {
-              font-size: 1.1rem;
-              margin: 0;
+            .divImg {
+              width: 50%;
+              display: flex;
+              flex-flow: column;
+              justify-content: space-between;
+              align-items: start;
+              img {
+                width: 100%;
+                height: 80%;
+                object-fit: cover;
+                margin: 0;
+              }
+              p {
+                font-size: 1.2rem;
+                margin: 0.5rem;
+              }
             }
-            p {
-              margin: 0.3rem 0;
+            .device-content {
+              width: 50%;
+              padding: 0.5rem 0.8rem;
+              display: flex;
+              flex-direction: column;
+              position: relative;
+              height: calc(100% - 1.1rem);
+              overflow-y: scroll;
+              scrollbar-color: $colorCTA;
+              scrollbar-width: thin;
+              h4 {
+                font-size: 1.1rem;
+                margin: 0;
+              }
+              .rawChucNangOtherDevice {
+                display: none;
+              }
+              p {
+                margin: 0.3rem 0;
+              }
             }
           }
         }
       }
     }
-    }
-   
   }
 
   aside {
     width: 25%;
-    #banner{
+    #banner {
       width: 100%;
       height: 35rem;
       border: 1px solid black;
       border-radius: 5px;
       margin: 0 1% 1rem;
-      img{
+      img {
         width: 100%;
         height: 100%;
       }
     }
-    h3{
+    h3 {
       margin-left: 1%;
     }
     #listBlogs {
@@ -3288,52 +3388,65 @@ footer {
       }
     }
   }
-  #mainDetailDevice{
-  #detailDevice{
-    width: 100%;
-    #headerDetailDevice{
-      height: 70rem;
-      flex-flow: column;
-    #carousel-container{
+  #mainDetailDevice {
+    #detailDevice {
       width: 100%;
-    }
-    #overViewDevice{
-      width: 100%;
-    }
-    }
-    #divShareSocial{
-      div{
-        width: 100%;
+      #headerDetailDevice {
+        height: 70rem;
+        flex-flow: column;
+        #carousel-container {
+          width: 100%;
+        }
+        #overViewDevice {
+          width: 100%;
+          #groupBtnDevice {
+            height: 3rem;
+            #btnCartDevice {
+              font-size: 1rem;
+            }
+            #btnShareDevice {
+              font-size: 1rem;
+            }
+          }
+        }
       }
-    }
-    #bodyDetailDevice{
-      #mainBodyDetailDevice{
-        #divInstructionDevice{
-          iframe{
+      #divShareSocial {
+        div {
+          width: 100%;
+        }
+      }
+      #bodyDetailDevice {
+        #groupNavigationBodyDevice {
+          button {
+            font-size: 1rem;
+          }
+        }
+        #mainBodyDetailDevice {
+          #divInstructionDevice {
+            iframe {
+              width: 100%;
+            }
+          }
+        }
+      }
+      #divCommentDevice {
+        #formCommentDevice {
+          #authorCommentDevice {
+            width: 100%;
+          }
+        }
+      }
+      #divOtherDevice {
+        #listOtherDevice {
+          flex-flow: column;
+          a {
             width: 100%;
           }
         }
       }
     }
-    #divCommentDevice{
-      #formCommentDevice{
-        #authorCommentDevice{
-          width: 100%;
-        }
-      }
+    aside {
+      width: 100%;
     }
-    #divOtherDevice{
-      #listOtherDevice{
-      flex-flow: column;
-      a{
-        width: 100%;
-      }
-    }
-    }
-    
-  }
-  aside{
-    width: 100%;
-  }
   }
 }

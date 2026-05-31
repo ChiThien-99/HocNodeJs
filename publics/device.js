@@ -1,5 +1,5 @@
 const socket = io();
-const createDeviceHTML=(newDevice)=>{
+const createDeviceHTML = (newDevice) => {
   return `
        <a href="/detailDevice/${newDevice._id}" target="_blank">
         <div class="device">
@@ -13,32 +13,42 @@ const createDeviceHTML=(newDevice)=>{
           </div>
         </div>
       </a>
-  `
-}
+  `;
+};
 socket.on("update-device", (data) => {
-  const listdevices=document.getElementById("listdevices");
+  const listdevices = document.getElementById("listdevices");
   if (!listdevices) {
-    return
+    return;
   }
   const urlParams = new URLSearchParams(window.location.search);
   const currentPage = parseInt(urlParams.get("page")) || 1;
   if (Array.isArray(data)) {
     if (currentPage === 1) {
-      listdevices.innerHTML="";
-      const deviceToRender=data.slice(0,12);
-      deviceToRender.forEach((device)=>{
+      listdevices.innerHTML = "";
+      const deviceToRender = data.slice(0, 12);
+      deviceToRender.forEach((device) => {
         listdevices.insertAdjacentHTML("beforeend", createDeviceHTML(device));
-      })
-  }
+      });
+    }
   } else {
-    if (currentPage===1) {
+    if (currentPage === 1) {
       listdevices.insertAdjacentHTML("afterbegin", createDeviceHTML(data));
       let device = document.querySelectorAll(".device");
       if (device.length > 12) {
-      device[device.length - 1].closest("a").remove();
+        device[device.length - 1].closest("a").remove();
       }
       device = document.querySelectorAll(".device");
     }
+  }
+});
+socket.on("update-banner", (data) => {
+  if (data.page !== "device") {
+    return;
+  } else {
+    const banner = document.getElementById("banner");
+    banner.innerHTML = `
+      <a href="${data.url}"><img src="${data.image}" alt="banner"></a>
+     `;
   }
 });
 document.getElementById("btnFuncDevice").addEventListener("click", function () {

@@ -2,16 +2,30 @@ import { deviceEntity } from "../models/device.model.js";
 import { appEntity } from "../models/app.model.js";
 import { blogsEntity } from "../models/blogs.model.js";
 import { commentDeviceEntity } from "../models/commentDevice.model.js";
+import { bannerEntity } from "../models/banner.model.js";
 
-export const getDetailDevice=async(req,res)=>{
-    const {id}=req.params;
-    const device=await deviceEntity.findById(id);
-    const apps=await appEntity.find().sort("-createAt").limit(4);
-    const blogs=await blogsEntity.find().sort("-createAt").limit(4);
-    const commentDevice=await commentDeviceEntity.find({deviceId:id}).sort("-createAt");
-    const otherDevice=await deviceEntity.find({_id:{$ne:id}}).sort("-createAt").limit(4);
-    res.render("detailDevice.ejs",{device,apps,blogs,commentDevice,otherDevice});
-}
+export const getDetailDevice = async (req, res) => {
+  const { id } = req.params;
+  const device = await deviceEntity.findById(id);
+  const apps = await appEntity.find().sort("-createAt").limit(4);
+  const blogs = await blogsEntity.find().sort("-createAt").limit(4);
+  const commentDevice = await commentDeviceEntity
+    .find({ deviceId: id })
+    .sort("-createAt");
+  const otherDevice = await deviceEntity
+    .find({ _id: { $ne: id } })
+    .sort("-createAt")
+    .limit(4);
+  const banners = await bannerEntity.find({ page: "device" });
+  res.render("detailDevice.ejs", {
+    device,
+    apps,
+    blogs,
+    commentDevice,
+    otherDevice,
+    banners,
+  });
+};
 export const postAddComment = async (req, res) => {
   try {
     const { id } = req.params;

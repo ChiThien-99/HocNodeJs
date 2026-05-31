@@ -1,3 +1,15 @@
+const socket = io();
+socket.on("update-banner", (data) => {
+  console.log(data);
+  if (data.page !== "blog") {
+    return;
+  } else {
+    const banner = document.getElementById("banner");
+    banner.innerHTML = `
+      <a href="${data.url}"><img src="${data.image}" alt="banner"></a>
+     `;
+  }
+});
 document.addEventListener("DOMContentLoaded", () => {
   if (typeof EmojiPicker !== "undefined") {
     new EmojiPicker();

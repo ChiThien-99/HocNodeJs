@@ -593,6 +593,77 @@ header div:last-child h2 {
   background-color: red;
   color: #fafafa;
 }
+#mainDashboard #contentDashboard #bannerMng #imgBanner::file-selector-button {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #80a710;
+  color: #fafafa;
+}
+#mainDashboard #contentDashboard #bannerMng #btnDeleteBN,
+#mainDashboard #contentDashboard #bannerMng #btnCancleUpdateBN {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: red;
+  color: #fafafa;
+  margin: 0.5rem 0.5rem;
+  display: none;
+}
+#mainDashboard #contentDashboard #bannerMng input[type=submit] {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #80a710;
+  color: #fafafa;
+  margin: 0.5rem 0;
+}
+#mainDashboard #contentDashboard #bannerMng input[type=text] {
+  width: 50%;
+  height: 2rem;
+  font-size: 1rem;
+}
+#mainDashboard #contentDashboard #bannerMng select {
+  height: 2rem;
+}
+#mainDashboard #contentDashboard #bannerMng #tableBN,
+#mainDashboard #contentDashboard #bannerMng th,
+#mainDashboard #contentDashboard #bannerMng td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 0.5rem;
+  text-align: left;
+}
+#mainDashboard #contentDashboard #bannerMng #tableBN .btnGroup,
+#mainDashboard #contentDashboard #bannerMng th .btnGroup,
+#mainDashboard #contentDashboard #bannerMng td .btnGroup {
+  display: flex;
+  flex-direction: row nowrap;
+  gap: 0.5rem;
+}
+#mainDashboard #contentDashboard #bannerMng #tableBN .btnUpdateBN,
+#mainDashboard #contentDashboard #bannerMng th .btnUpdateBN,
+#mainDashboard #contentDashboard #bannerMng td .btnUpdateBN {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #80a710;
+  color: #fafafa;
+}
+#mainDashboard #contentDashboard #bannerMng #tableBN .btnDeleteBN,
+#mainDashboard #contentDashboard #bannerMng th .btnDeleteBN,
+#mainDashboard #contentDashboard #bannerMng td .btnDeleteBN {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: red;
+  color: #fafafa;
+}
 #mainDashboard #contentDashboard #softwareMng #imgApp::file-selector-button {
   border: none;
   border-radius: 5px;
@@ -722,7 +793,9 @@ header div:last-child h2 {
   color: #fafafa;
   margin: 0.5rem 0;
 }
-#mainDashboard #contentDashboard #deviceMng #btnCancleUpdateDevice {
+#mainDashboard #contentDashboard #deviceMng #btnCancleUpdateDevice,
+#mainDashboard #contentDashboard #deviceMng #deleteImageDevice,
+#mainDashboard #contentDashboard #deviceMng #deleteImageColor {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -1780,6 +1853,17 @@ header div:last-child h2 {
 #mainDetailblogs aside {
   width: 20%;
 }
+#mainDetailblogs aside #banner {
+  width: 100%;
+  height: 35rem;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin: 0.5rem 1% 1rem;
+}
+#mainDetailblogs aside #banner img {
+  width: 100%;
+  height: 100%;
+}
 #mainDetailblogs aside #listAppCol {
   display: flex;
   flex-direction: column;
@@ -2029,6 +2113,17 @@ header div:last-child h2 {
 }
 #mainBlogs aside {
   width: 25%;
+}
+#mainBlogs aside #banner {
+  width: 100%;
+  height: 35rem;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin: 0.5rem 1% 1rem;
+}
+#mainBlogs aside #banner img {
+  width: 100%;
+  height: 100%;
 }
 #mainBlogs aside #listAppCol {
   display: flex;
@@ -2288,6 +2383,17 @@ header div:last-child h2 {
 }
 #mainApp aside {
   width: 25%;
+}
+#mainApp aside #banner {
+  width: 100%;
+  height: 35rem;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin: 0.5rem 1% 1rem;
+}
+#mainApp aside #banner img {
+  width: 100%;
+  height: 100%;
 }
 #mainApp aside #listBlogs {
   display: flex;
@@ -2570,6 +2676,17 @@ header div:last-child h2 {
 }
 #mainDevice aside {
   width: 25%;
+}
+#mainDevice aside #banner {
+  width: 100%;
+  height: 35rem;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin: 0.5rem 1% 1rem;
+}
+#mainDevice aside #banner img {
+  width: 100%;
+  height: 100%;
 }
 #mainDevice aside #listBlogs {
   display: flex;
@@ -3044,6 +3161,9 @@ header div:last-child h2 {
   font-size: 1.1rem;
   margin: 0;
 }
+#mainDetailDevice #detailDevice div #listOtherDevice a .device .device-content .rawChucNangOtherDevice {
+  display: none;
+}
 #mainDetailDevice #detailDevice div #listOtherDevice a .device .device-content p {
   margin: 0.3rem 0;
 }
@@ -3509,8 +3629,20 @@ footer div:last-child input {
   #mainDetailDevice #detailDevice #headerDetailDevice #overViewDevice {
     width: 100%;
   }
+  #mainDetailDevice #detailDevice #headerDetailDevice #overViewDevice #groupBtnDevice {
+    height: 3rem;
+  }
+  #mainDetailDevice #detailDevice #headerDetailDevice #overViewDevice #groupBtnDevice #btnCartDevice {
+    font-size: 1rem;
+  }
+  #mainDetailDevice #detailDevice #headerDetailDevice #overViewDevice #groupBtnDevice #btnShareDevice {
+    font-size: 1rem;
+  }
   #mainDetailDevice #detailDevice #divShareSocial div {
     width: 100%;
+  }
+  #mainDetailDevice #detailDevice #bodyDetailDevice #groupNavigationBodyDevice button {
+    font-size: 1rem;
   }
   #mainDetailDevice #detailDevice #bodyDetailDevice #mainBodyDetailDevice #divInstructionDevice iframe {
     width: 100%;
