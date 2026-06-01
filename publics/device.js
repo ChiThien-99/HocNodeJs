@@ -9,7 +9,10 @@ const createDeviceHTML = (newDevice) => {
           </div>
           <div class="device-content">
             <h4>${newDevice.name}</h4>
-            ${newDevice.info.replace(/&nbsp;|&#160;/gi, " ")}
+            <div class="rawDeviceInfo">
+              ${device.info.replace(/&nbsp;|&#160;/gi," ")}
+            </div>
+            <div class="targetDeviceInfo"></div>
           </div>
         </div>
       </a>
@@ -45,8 +48,7 @@ socket.on("update-banner", (data) => {
   if (data.page !== "device") {
     return;
   } else {
-    const banner = document.getElementById("banner");
-    banner.innerHTML = `
+    document.getElementById("banner").innerHTML = `
       <a href="${data.url}"><img src="${data.image}" alt="banner"></a>
      `;
   }
@@ -96,7 +98,42 @@ socket.on("update-funcdevice", (newFuncDevice) => {
   const newFunc = `<a class="functionDevice">${newFuncDevice.name}</a>`;
   document
     .getElementById("divFunctionDevice")
-    .insertAdjacentHTML("afterbegin", newFuncDevice);
+    .insertAdjacentHTML("afterbegin", newFunc);
+});
+document.addEventListener("DOMContentLoaded", () => {
+  const device = document.querySelectorAll(".device");
+  for (let i = 0; i < device.length; i++) {
+    const rawDeviceInfo = document.querySelectorAll(
+      ".rawDeviceInfo",
+    )[i].innerHTML;
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(rawDeviceInfo, "text/html");
+    let chucNangHTML = "";
+    let currenSection = "";
+    const childNodes = doc.body.children;
+    for (let i = 0; i < childNodes.length; i++) {
+      const element = childNodes[i];
+      if (element.tagName === "H3") {
+        const text = element.textContent.toLowerCase().trim();
+        if (text.includes("thông số")) {
+          currenSection = "thongso";
+          continue;
+        } else if (text.includes("chức năng")) {
+          currenSection = "chucnang";
+          continue;
+        } else if (text.includes("thông tin")) {
+          currenSection = "thongtin";
+          continue;
+        }
+      }
+      if (currenSection === "chucnang") {
+        chucNangHTML += element.outerHTML;
+      }
+    }
+    console.log(chucNangHTML);
+    document.querySelectorAll(".targetDeviceInfo")[i].innerHTML =
+      chucNangHTML || "<p>Đang cập nhật chức năng thiết bị</p>";
+  }
 });
 document.addEventListener("DOMContentLoaded", () => {
   const hamburgerBtn = document.getElementById("hamburgerBtn");

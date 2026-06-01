@@ -865,11 +865,13 @@ document.getElementById("formFuncDevice").addEventListener("submit", (e) => {
           document.getElementById("idFuncDevice").value = "";
           document.getElementById("listFuncDevice").value = "";
           document.getElementById("btnFuncDevice").value = "Tạo";
+          document.getElementById("btnCancleUpdateFuncDevice").style.display="none";
           alert("Thông báo", mess, "#80a710");
         } else {
           document.getElementById("idFuncDevice").value = "";
           document.getElementById("listFuncDevice").value = "";
           document.getElementById("btnFuncDevice").value = "Tạo";
+          document.getElementById("btnCancleUpdateFuncDevice").style.display="none";
           alert("Lỗi", `${mess}\n${error}`, "red");
         }
       })
@@ -897,6 +899,11 @@ document.getElementById("formFuncDevice").addEventListener("submit", (e) => {
       });
   }
 });
+document.getElementById("btnCancleUpdateFuncDevice").addEventListener("click",()=>{
+  document.getElementById("formFuncDevice").reset();
+  document.getElementById("btnFuncDevice").value = "Tạo";
+  document.getElementById("btnCancleUpdateFuncDevice").style.display="none";
+})
 document.querySelectorAll(".btnUpdateFuncDevice").forEach((btn) => {
   btn.addEventListener("click", () => {
     const id = btn.getAttribute("data-idfuncdevice");
@@ -910,6 +917,7 @@ document.querySelectorAll(".btnUpdateFuncDevice").forEach((btn) => {
           document.getElementById("idFuncDevice").value = data._id;
           document.getElementById("listFuncDevice").value = data.name;
           document.getElementById("btnFuncDevice").value = "Cập nhật";
+          document.getElementById("btnCancleUpdateFuncDevice").style.display="inline-block";
         }
       })
       .catch((error) => {
@@ -1034,8 +1042,8 @@ document.querySelectorAll(".btnUpdateDevice").forEach((btn) => {
             const newRow = document.createElement("div");
             newRow.className = "color-row";
             newRow.innerHTML = `
-             <input type="text" name="colorNames" class="colorNames" placeholder="VD:Đen" required>
-             <input type="number" name="colorIndex" class="colorIndex" placeholder="Nhập index" required>
+             <input type="text" name="colorNames" class="colorNames" placeholder="VD:Đen">
+             <input type="number" name="colorIndex" class="colorIndex" placeholder="Nhập index">
              <input type="file" class="imgDevice" name="colorImg" accept="image/webp">
              <button type="button" class="btnRemoveColor">Xóa</button>
             `;
@@ -1125,6 +1133,8 @@ document
       console.error("Biến quill không tồn tại");
     }
     this.style.display = "none";
+    document.getElementById("deleteImageDevice").style.display ="none";
+    document.getElementById("deleteImageColor").style.display ="none";
   });
 document.querySelectorAll(".btnDeleteDevice").forEach((btn) => {
   btn.addEventListener("click", async () => {

@@ -101,7 +101,10 @@
               </div>
               <div class="device-content">
                 <h4><%=device.name%></h4>
-                <%-device.info.replace(/&nbsp;|&#160;/gi," ")%>
+                <div class="rawDeviceInfo">
+                  <%-device.info.replace(/&nbsp;|&#160;/gi," ")%>
+                </div>
+                <div class="targetDeviceInfo"></div>
               </div>
             </div>
             </a>
@@ -158,14 +161,10 @@
                 <h4><%=blog.title%></h4>
                 <p>
                    <%
-                  let plainText=blog.info.replace(/<\/?[^>]+(>|$)/g,"");
-                  plainText=plainText.replace(/&nbsp;|&#160;/gi," ");
-                  plainText = plainText.replace(/&quot;/g, '"');
-                  plainText = plainText.replace(/&#39;/g, "'");
-                  plainText=plainText.replace(/\s+/g," ").trim();
+                  let plainText=blog.info.replace(/&nbsp;|&#160;/gi," ");
                   let shortText=plainText.length>200?plainText.substring(0,200)+"...":plainText;
                   %>
-                  <%=shortText%>
+                  <%-shortText%>
                 </p>
               </div>
             </div>

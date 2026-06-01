@@ -328,7 +328,8 @@
               <input type="submit" value="Tạo" id="btnBanner">
               <button type="button" id="btnCancleUpdateBN">Hủy cập nhật</button><br>
             </form>
-            <table id="tableBN">
+            <div id="divTableBN">
+              <table id="tableBN">
               <tr>
                 <th>Trang</th>
                 <th>Hình ảnh</th>
@@ -349,6 +350,7 @@
               </tr>
               <%})%>
             </table>
+            </div>
           </div>
           <div id="softwareMng" class="tabContent">
             <h2 class="flag-item">Quản lý chức năng phần mềm</h2>
@@ -428,7 +430,9 @@
               <label for="listFuncDevice">Chức năng thiết bị</label><br>
               <input type="text" name="listFuncDevice" id="listFuncDevice"><br>
               <input type="submit" value="Tạo" id="btnFuncDevice">
+              <button type="button" id="btnCancleUpdateFuncDevice">Hủy cập nhật</button>
             </form>
+            <div id="divTableFuncDevice">
                 <table id="tableFuncDevice">
               <tr>
                 <th>Tên chức năng</th>
@@ -446,6 +450,7 @@
               </tr>
               <%})%>
             </table>
+            </div>
             <h2 class="flag-item">Quản lý thiết bị</h2>
             <form enctype="multipart/form-data" id="formDevice">
               <input type="hidden" name="idDevice" id="idDevice">
@@ -460,8 +465,8 @@
               <label for="">Màu sắc</label>
               <div id="color-container">
                 <div class="color-row">
-                  <input type="text" name="colorNames" class="colorNames" placeholder="VD:Đen" required>
-                  <input type="number" name="colorIndex" class="colorIndex" placeholder="Nhập index" required>
+                  <input type="text" name="colorNames" class="colorNames" placeholder="VD:Đen">
+                  <input type="number" name="colorIndex" class="colorIndex" placeholder="Nhập index">
                   <input type="file" class="imgDevice" name="colorImg" accept="image/webp">
                   <button type="button" class="btnRemoveColor">Xóa</button>
                 </div>
@@ -480,7 +485,7 @@
               <label for="instrucDevice">Video hướng dẫn</label><br>
               <input type="text" name="instrucDevice" id="instrucDevice"><br>
               <input type="submit" id="btnDevice" value="Tạo">
-              <button id="btnCancleUpdateDevice">Hủy cập nhật</button>
+              <button type="button" id="btnCancleUpdateDevice">Hủy cập nhật</button>
             </form>
             <em>Lưu ý: Nếu sai hình ảnh hãy xóa luôn thiết bị và tạo mới</em>
             <div id="divTableDevice">
@@ -508,7 +513,6 @@
               <%})%>
             </table>
             </div>
-            <h2 class="flag-item">Quản lý banner</h2>
           </div>
           <div id="blogsMng" class="tabContent">
             <h2 class="flag-item">Quản lý danh mục blog</h2>

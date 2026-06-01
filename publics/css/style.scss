@@ -35,6 +35,8 @@ $colorSecondaryText: #fafafa;
 }
 body {
   background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
 }
 body.no-scroll {
   overflow: hidden !important;
@@ -108,7 +110,7 @@ body.no-scroll {
 }
 //**CSS Header
 header {
-  width: 100%;
+  width: 100vw;
   height: 6.5rem;
   display: flex;
   flex-flow: row nowrap;
@@ -217,6 +219,7 @@ header {
     }
     h2 {
       color: $colorCTA;
+      margin-right: 1rem;
     }
   }
 }
@@ -308,11 +311,14 @@ header {
 //**CSS Dashboard
 #mainDashboard {
   display: flex;
-  width: 100%;
-  height: auto;
+  width: 100vw;
+  height: calc(100vh - 6.5rem - 1px);
   flex-flow: row nowrap;
+  overflow: hidden;
   #navDashboard {
     width: 20%;
+    height: 100%;
+    overflow-y: auto;
     border: 1px solid $colorCTA;
     div {
       padding: 0.5rem;
@@ -341,7 +347,7 @@ header {
   }
   #contentDashboard {
     width: 80%;
-    height: 50rem;
+    height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
     border: 1px solid $colorCTA;
@@ -536,6 +542,7 @@ header {
       }
     }
     #bannerMng {
+      width: 100%;
       #imgBanner::file-selector-button {
         @include button(0.5rem);
         background-color: $colorCTA;
@@ -563,7 +570,10 @@ header {
       select {
         height: 2rem;
       }
-      #tableBN,
+      #divTableBN{
+        width: 100%;
+        overflow-x: scroll;
+        #tableBN,
       th,
       td {
         border: 1px solid black;
@@ -586,6 +596,8 @@ header {
           color: $colorSecondaryText;
         }
       }
+      }
+      
     }
     #softwareMng {
       #imgApp::file-selector-button {
@@ -684,6 +696,7 @@ header {
         margin: 0.5rem 0;
       }
       #btnCancleUpdateDevice,
+      #btnCancleUpdateFuncDevice,
       #deleteImageDevice,
       #deleteImageColor {
         @include button(0.5rem);
@@ -738,6 +751,11 @@ header {
       em {
         color: red;
       }
+      #divTableFuncDevice{
+        width: fit-content;
+        height: 20rem;
+        overflow: scroll;
+      }
       #tableFuncDevice,
       th,
       td {
@@ -762,8 +780,9 @@ header {
         }
       }
       #divTableDevice {
-        width: 100%;
-        overflow-x: auto;
+        width: fit-content;
+        height: 20rem;
+        overflow:scroll;
         margin: 1rem 0;
       }
       #tableDevice,
@@ -2373,6 +2392,8 @@ header {
             p {
               font-size: 1.2rem;
               margin: 0.5rem;
+              font-weight: bold;
+              color: $colorCTA;
             }
           }
           .device-content {
@@ -2388,6 +2409,9 @@ header {
             h4 {
               font-size: 1.1rem;
               margin: 0;
+            }
+            .rawDeviceInfo{
+              display: none;
             }
             p {
               margin: 0.3rem 0;
@@ -2439,7 +2463,7 @@ header {
       a {
         display: inline-block;
         width: 100%;
-        height: 10rem;
+        height: 15rem;
         margin: 2% 1%;
         text-decoration: none;
         color: black;
@@ -2486,7 +2510,7 @@ header {
       a {
         display: inline-block;
         width: 100%;
-        height: 12rem;
+        height: 15rem;
         margin: 2% 1%;
         text-decoration: none;
         color: black;
@@ -2648,17 +2672,16 @@ header {
           display: flex;
           flex-flow: row wrap;
           width: 100%;
-          height: 3.5rem;
+          gap: 0.3rem;
           .colorDevice {
             border: 2px solid #bbb;
-            width: 6.5rem;
+            column-gap: 0.3rem;
             height: inherit;
             padding: 0.5rem;
             display: flex;
             flex-flow: row nowrap;
             justify-content: space-between;
             align-items: center;
-            margin-right: 0.5rem;
             cursor: pointer;
             img {
               width: 2.5rem;
@@ -2868,6 +2891,8 @@ header {
               p {
                 font-size: 1.2rem;
                 margin: 0.5rem;
+                color: $colorCTA;
+                font-weight: bold;
               }
             }
             .device-content {
@@ -2920,7 +2945,7 @@ header {
       a {
         display: inline-block;
         width: 100%;
-        height: 10rem;
+        height: 15rem;
         margin: 2% 1%;
         text-decoration: none;
         color: black;
@@ -2967,7 +2992,7 @@ header {
       a {
         display: inline-block;
         width: 100%;
-        height: 12rem;
+        height: 15rem;
         margin: 2% 1%;
         text-decoration: none;
         color: black;
@@ -3347,7 +3372,6 @@ footer {
       #listdevices {
         a {
           width: 100%;
-          height: 12rem;
           .device {
             width: 100%;
             height: 100%;
@@ -3366,6 +3390,21 @@ footer {
     }
     aside {
       width: 100%;
+    }
+  }
+  #mainDetailDevice{
+    #detailDevice{
+      #bodyDetailDevice{
+        #mainBodyDetailDevice{
+          #divParamDevice{
+            #targetThongSo{
+              img{
+                width: 100% !important;
+              }
+            }
+          }
+        }
+      }
     }
   }
   footer {
@@ -3403,9 +3442,11 @@ footer {
             height: 3rem;
             #btnCartDevice {
               font-size: 1rem;
+              padding: 0;
             }
             #btnShareDevice {
-              font-size: 1rem;
+              font-size: 0.9rem;
+              padding: 0;
             }
           }
         }
