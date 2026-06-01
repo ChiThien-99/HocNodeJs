@@ -1,6 +1,23 @@
 import { alert, confirm } from "./alert.js";
 import { jwtDecode } from "https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/+esm";
 import { authFetch, setAccessToken } from "./authFetch.js";
+const socket = io();
+socket.on("update-funcdevice", (data) => {
+  document.querySelector("#tableFuncDevice tbody").insertAdjacentHTML(
+    "afterbegin",
+    `
+      <tr>
+        <td>${data.name}</td>
+        <td>
+          <div class="btnGroup">
+            <button class="btnUpdateFuncDevice" data-idfuncdevice="${data._id}">Cập nhật</button>
+            <button class="btnDeleteFuncDevice" data-idfuncdevice="${data._id}">Xóa</button>
+          </div>
+        </td>
+      </tr>
+      `,
+  );
+});
 async function verifySession() {
   try {
     const response = await authFetch("/api/auth/me");
@@ -865,13 +882,15 @@ document.getElementById("formFuncDevice").addEventListener("submit", (e) => {
           document.getElementById("idFuncDevice").value = "";
           document.getElementById("listFuncDevice").value = "";
           document.getElementById("btnFuncDevice").value = "Tạo";
-          document.getElementById("btnCancleUpdateFuncDevice").style.display="none";
+          document.getElementById("btnCancleUpdateFuncDevice").style.display =
+            "none";
           alert("Thông báo", mess, "#80a710");
         } else {
           document.getElementById("idFuncDevice").value = "";
           document.getElementById("listFuncDevice").value = "";
           document.getElementById("btnFuncDevice").value = "Tạo";
-          document.getElementById("btnCancleUpdateFuncDevice").style.display="none";
+          document.getElementById("btnCancleUpdateFuncDevice").style.display =
+            "none";
           alert("Lỗi", `${mess}\n${error}`, "red");
         }
       })
@@ -899,13 +918,20 @@ document.getElementById("formFuncDevice").addEventListener("submit", (e) => {
       });
   }
 });
-document.getElementById("btnCancleUpdateFuncDevice").addEventListener("click",()=>{
-  document.getElementById("formFuncDevice").reset();
-  document.getElementById("btnFuncDevice").value = "Tạo";
-  document.getElementById("btnCancleUpdateFuncDevice").style.display="none";
-})
-document.querySelectorAll(".btnUpdateFuncDevice").forEach((btn) => {
-  btn.addEventListener("click", () => {
+document
+  .getElementById("btnCancleUpdateFuncDevice")
+  .addEventListener("click", () => {
+    document.getElementById("formFuncDevice").reset();
+    document.getElementById("btnFuncDevice").value = "Tạo";
+    document.getElementById("btnCancleUpdateFuncDevice").style.display = "none";
+  });
+document
+  .querySelector("#tableFuncDevice tbody")
+  .addEventListener("click", (e) => {
+    const btn = e.target.closest(".btnUpdateFuncDevice");
+    if (!btn) {
+      return;
+    }
     const id = btn.getAttribute("data-idfuncdevice");
     fetch(`/dashboard/updateFuncDevice/${id}`, {
       method: "GET",
@@ -917,17 +943,22 @@ document.querySelectorAll(".btnUpdateFuncDevice").forEach((btn) => {
           document.getElementById("idFuncDevice").value = data._id;
           document.getElementById("listFuncDevice").value = data.name;
           document.getElementById("btnFuncDevice").value = "Cập nhật";
-          document.getElementById("btnCancleUpdateFuncDevice").style.display="inline-block";
+          document.getElementById("btnCancleUpdateFuncDevice").style.display =
+            "inline-block";
         }
       })
       .catch((error) => {
         console.error(`Lỗi kết nối:${error}`);
       });
   });
-});
-document.querySelectorAll(".btnDeleteFuncDevice").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const confirmDelete = confirm(
+document
+  .querySelector("#tableFuncDevice tbody")
+  .addEventListener("click", async (e) => {
+    const btn = e.target.closest(".btnDeleteFuncDevice");
+    if (!btn) {
+      return;
+    }
+    const confirmDelete = await confirm(
       "Thông báo",
       "Bạn có chắc chắn muốn xóa chức năng này không",
       "#1877f2",
@@ -951,7 +982,6 @@ document.querySelectorAll(".btnDeleteFuncDevice").forEach((btn) => {
         });
     }
   });
-});
 const formDevice = document.getElementById("formDevice");
 formDevice.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -1133,8 +1163,8 @@ document
       console.error("Biến quill không tồn tại");
     }
     this.style.display = "none";
-    document.getElementById("deleteImageDevice").style.display ="none";
-    document.getElementById("deleteImageColor").style.display ="none";
+    document.getElementById("deleteImageDevice").style.display = "none";
+    document.getElementById("deleteImageColor").style.display = "none";
   });
 document.querySelectorAll(".btnDeleteDevice").forEach((btn) => {
   btn.addEventListener("click", async () => {

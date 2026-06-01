@@ -64,7 +64,7 @@ export const getDashboard = async (req, res) => {
   const bns = await bannerEntity.find();
   const listFuncApp = await funcAppEntity.find();
   const apps = await appEntity.find().sort("-createAt");
-  const listFuncDevice = await funcDeviceEntity.find();
+  const listFuncDevice = await funcDeviceEntity.find().sort("-createAt");
   const devices = await deviceEntity.find().sort("-createAt");
   const listCategoryblogs = await categoryblogsEntity.find();
   const listblogs = await blogsEntity.find().sort("-createAt");

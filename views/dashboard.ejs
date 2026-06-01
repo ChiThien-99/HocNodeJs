@@ -434,11 +434,14 @@
             </form>
             <div id="divTableFuncDevice">
                 <table id="tableFuncDevice">
-              <tr>
+              <thead>
+                <tr>
                 <th>Tên chức năng</th>
                 <th>Thao tác</th>
               </tr>
-              <%listFuncDevice.forEach((funcDevice)=>{%>
+              </thead>
+              <tbody>
+                <%listFuncDevice.forEach((funcDevice)=>{%>
               <tr>
                 <td><%=funcDevice.name%></td>
                 <td>
@@ -449,6 +452,7 @@
                 </td>
               </tr>
               <%})%>
+              </tbody>
             </table>
             </div>
             <h2 class="flag-item">Quản lý thiết bị</h2>
@@ -608,6 +612,7 @@
           </div>
         </div>
       </main>
+      <script src="/socket.io/socket.io.js"></script>
   </body>
   <script type="module" src="/dashboard.js" defer></script>
 </html>
