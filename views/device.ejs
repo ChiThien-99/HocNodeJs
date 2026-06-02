@@ -85,7 +85,7 @@
                 <div id="functionWrapper">
                 <div id="divFunctionDevice">
                   <%funcDevice.forEach((func)=>{%>
-                  <a class="functionDevice"><%=func.name%></a>
+                  <a class="functionDevice" data-idFuncDevice="<%=func._id%>"><%=func.name%></a>
                   <%})%>
                 </div>
                 <a id="filterFunctionDevice">Lọc</a>
@@ -93,7 +93,7 @@
             </div>
              <div id="listdevices">
             <%deviceList.forEach((device)=>{%>
-            <a href="/detailDevice/<%=device._id%>" target="_blank">
+            <a href="/detailDevice/<%=device._id%>" target="_blank" data-idDevice="<%=device._id%>">
               <div class="device">
               <div class="divImg">
                 <img src="<%=device.images[0].url%>" alt="device">

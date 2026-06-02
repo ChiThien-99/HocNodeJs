@@ -651,9 +651,12 @@ export const putUpdateFuncDevice = async (req, res) => {
   try {
     const { id } = req.params;
     const { listFuncDevice } = req.body;
-    await funcDeviceEntity.findByIdAndUpdate(id, {
-      name: listFuncDevice,
-    });
+    const updateFuncDevice=await funcDeviceEntity.findByIdAndUpdate(id, 
+      {name: listFuncDevice},
+      {new:true}
+    );
+    const io = req.app.get("socketio");
+    io.emit("update-funcdevice", updateFuncDevice);
     res.json({ mess: "Cập nhật chức năng thiết bị thành công", success: true });
   } catch (error) {
     res.json({
@@ -666,7 +669,9 @@ export const putUpdateFuncDevice = async (req, res) => {
 export const deleteFuncDevice = async (req, res) => {
   try {
     const { id } = req.params;
-    await funcDeviceEntity.findByIdAndDelete(id);
+    const deleteFuncDevice=await funcDeviceEntity.findByIdAndDelete(id);
+    const io = req.app.get("socketio");
+    io.emit("delete-funcdevice", deleteFuncDevice);
     res.json({ mess: "Xóa chức năng thiết bị thành công", success: true });
   } catch (error) {
     res.json({
@@ -812,9 +817,10 @@ export const putUpdateDevice = async (req, res) => {
       price: priceActual,
       func: funcDevice,
       instruction: instrucDevice,
-    });
+    },{new:true});
     const io = req.app.get("socketio");
     io.emit("update-detailDevice", updateDevice);
+    io.emit("update-device", updateDevice);
     res.json({ mess: "Cập nhật thiết bị thành công", success: true });
   } catch (error) {
     res.json({
@@ -891,10 +897,10 @@ export const deleteDevice = async (req, res) => {
       });
       await Promise.all(deletePromises);
     }
-    await deviceEntity.findByIdAndDelete(id);
+    const deleteDevice=await deviceEntity.findByIdAndDelete(id);
     const io = req.app.get("socketio");
     const allDevice = await deviceEntity.find().sort("-createAt");
-    io.emit("update-device", allDevice);
+    io.emit("delete-device",deleteDevice);
     res.json({ mess: "Xóa thiết bị thành công", success: true });
   } catch (error) {
     res.json({

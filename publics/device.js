@@ -2,7 +2,7 @@ const socket = io();
 const createDeviceHTML = (newDevice) => {
   return `
        <a href="/detailDevice/${newDevice._id}" target="_blank">
-        <div class="device">
+        <div class="device" data-idDevice="${newDevice._id}">
           <div class="divImg">
             <img src="${newDevice.images[0].url}" alt="device">
             <p>${newDevice.price.toLocaleString("vi-VN")} đ</p>
@@ -10,7 +10,7 @@ const createDeviceHTML = (newDevice) => {
           <div class="device-content">
             <h4>${newDevice.name}</h4>
             <div class="rawDeviceInfo">
-              ${device.info.replace(/&nbsp;|&#160;/gi," ")}
+              ${newDevice.info.replace(/&nbsp;|&#160;/gi," ")}
             </div>
             <div class="targetDeviceInfo"></div>
           </div>
@@ -18,20 +18,49 @@ const createDeviceHTML = (newDevice) => {
       </a>
   `;
 };
+
 socket.on("update-device", (data) => {
-  const listdevices = document.getElementById("listdevices");
-  if (!listdevices) {
-    return;
-  }
+  const existDevice=document.querySelector(`a[data-idDevice="${data._id}"]`)
   const urlParams = new URLSearchParams(window.location.search);
   const currentPage = parseInt(urlParams.get("page")) || 1;
-  if (Array.isArray(data)) {
+  if (existDevice) {
     if (currentPage === 1) {
-      listdevices.innerHTML = "";
-      const deviceToRender = data.slice(0, 12);
-      deviceToRender.forEach((device) => {
-        listdevices.insertAdjacentHTML("beforeend", createDeviceHTML(device));
-      });
+     existDevice.querySelector(".device .divImg img").src=data.images[0].url;
+     existDevice.querySelector(".device .divImg p").innerText=`${data.price.toLocaleString('vi-VN')}đ`;
+     existDevice.querySelector(".device .device-content h4").innerText=data.name;
+     existDevice.querySelector(".device .device-content .rawDeviceInfo").innerHTML=data.info.replace(/&nbsp;|&#160;/gi," ");
+     const device = document.querySelectorAll(".device");
+    for (let i = 0; i < device.length; i++) {
+    const rawDeviceInfo = document.querySelectorAll(
+      ".rawDeviceInfo",
+    )[i].innerHTML;
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(rawDeviceInfo, "text/html");
+    let chucNangHTML = "";
+    let currenSection = "";
+    const childNodes = doc.body.children;
+    for (let i = 0; i < childNodes.length; i++) {
+      const element = childNodes[i];
+      if (element.tagName === "H3") {
+        const text = element.textContent.toLowerCase().trim();
+        if (text.includes("thông số")) {
+          currenSection = "thongso";
+          continue;
+        } else if (text.includes("chức năng")) {
+          currenSection = "chucnang";
+          continue;
+        } else if (text.includes("thông tin")) {
+          currenSection = "thongtin";
+          continue;
+        }
+      }
+      if (currenSection === "chucnang") {
+        chucNangHTML += element.outerHTML;
+      }
+    }
+    document.querySelectorAll(".targetDeviceInfo")[i].innerHTML =
+      chucNangHTML || "<p>Đang cập nhật chức năng thiết bị</p>";
+  }
     }
   } else {
     if (currentPage === 1) {
@@ -44,6 +73,14 @@ socket.on("update-device", (data) => {
     }
   }
 });
+socket.on("delete-device",(data)=>{
+  if (data&&data._id) {
+    const rowToDelete=document.querySelector(`a[data-idDevice="${data._id}"]`);
+    if (rowToDelete) {
+      rowToDelete.remove();
+    }
+  }
+})
 socket.on("update-banner", (data) => {
   if (data.page !== "device") {
     return;
@@ -95,11 +132,24 @@ if (filterDeviceSpan) {
   });
 }
 socket.on("update-funcdevice", (newFuncDevice) => {
+  const existFuncDevice=document.querySelector(`a[data-idFuncDevice="${newFuncDevice._id}"]`);
+  if (existFuncDevice) {
+    existFuncDevice.innerText=newFuncDevice.name;
+  } else {
   const newFunc = `<a class="functionDevice">${newFuncDevice.name}</a>`;
   document
     .getElementById("divFunctionDevice")
     .insertAdjacentHTML("afterbegin", newFunc);
+  }
 });
+socket.on("delete-funcdevice",(data)=>{
+  if (data&&data._id) {
+    const rowToDelete=document.querySelector(`a[data-idFuncDevice="${data._id}"]`);
+    if (rowToDelete) {
+      rowToDelete.remove();
+    }
+  }
+})
 document.addEventListener("DOMContentLoaded", () => {
   const device = document.querySelectorAll(".device");
   for (let i = 0; i < device.length; i++) {
@@ -130,7 +180,6 @@ document.addEventListener("DOMContentLoaded", () => {
         chucNangHTML += element.outerHTML;
       }
     }
-    console.log(chucNangHTML);
     document.querySelectorAll(".targetDeviceInfo")[i].innerHTML =
       chucNangHTML || "<p>Đang cập nhật chức năng thiết bị</p>";
   }

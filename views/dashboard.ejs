@@ -442,8 +442,8 @@
               </thead>
               <tbody>
                 <%listFuncDevice.forEach((funcDevice)=>{%>
-              <tr>
-                <td><%=funcDevice.name%></td>
+              <tr data-rowId="<%=funcDevice._id%>">
+                <td class="cellNameDevice"><%=funcDevice.name%></td>
                 <td>
                   <div class="btnGroup">
                   <button class="btnUpdateFuncDevice" data-idfuncdevice="<%=funcDevice._id%>">Cập nhật</button>
@@ -494,19 +494,22 @@
             <em>Lưu ý: Nếu sai hình ảnh hãy xóa luôn thiết bị và tạo mới</em>
             <div id="divTableDevice">
               <table id="tableDevice">
-              <tr>
+                <thead>
+                <tr>
                 <th>Tên thiết bị</th>
                 <th>Giá</th>
                 <th>Chức năng</th>
                 <th>Ngày tạo</th>
                 <th>Thao tác</th>
-              </tr>
-              <%devices.forEach((device)=>{%>
-              <tr>
+                </tr>
+                </thead>
+                <tbody>
+                   <%devices.forEach((device)=>{%>
+              <tr data-rowId="<%=device._id%>">
                 <td><%=device.name%></td>
                 <td><%=device.price.toLocaleString('vi-VN')%>đ</td>
                 <td><%=device.func%></td>
-                <td><%=new Date(device.createAt).toLocaleString()%></td>
+                <td><%=new Date(device.createAt).toLocaleString('vi-VN')%></td>
                 <td>
                   <div class="btnGroup">
                     <button class="btnUpdateDevice" data-iddevice="<%=device._id%>">Cập nhật</button>
@@ -515,6 +518,7 @@
                 </td>
               </tr>
               <%})%>
+                </tbody>
             </table>
             </div>
           </div>
