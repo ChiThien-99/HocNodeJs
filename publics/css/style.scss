@@ -612,6 +612,13 @@ header {
         color: $colorSecondaryText;
         margin: 0.5rem 0;
       }
+      #btnCancelUDFuncApp {
+        @include button(0.5rem);
+        background-color: red;
+        color: $colorSecondaryText;
+        margin: 0.5rem 0.5rem;
+        display: none;
+      }
       input[type="text"] {
         width: 50%;
         height: 2rem;
@@ -619,6 +626,7 @@ header {
       }
       select {
         width: 50%;
+        height: 6rem;
       }
       .quill-editor {
         width: 100%;
@@ -629,6 +637,12 @@ header {
       }
       em {
         color: red;
+      }
+      #divTableFuncApp {
+        width: fit-content;
+        height: 20rem;
+        overflow-y: scroll;
+        margin: 1rem 0;
       }
       #tableFuncApp,
       th,
@@ -654,9 +668,9 @@ header {
         }
       }
       #divTableApp {
-        width: auto;
-        height: 30rem;
-        overflow: scroll;
+        width: fit-content;
+        height: 20rem;
+        overflow-y: scroll;
         margin: 1rem 0;
       }
       #tableApp,
@@ -725,6 +739,7 @@ header {
       }
       select {
         width: 50%;
+        height: 6rem;
       }
       #color-container {
         width: 100%;

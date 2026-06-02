@@ -696,6 +696,16 @@ header div:last-child h2 {
   color: #fafafa;
   margin: 0.5rem 0;
 }
+#mainDashboard #contentDashboard #softwareMng #btnCancelUDFuncApp {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: red;
+  color: #fafafa;
+  margin: 0.5rem 0.5rem;
+  display: none;
+}
 #mainDashboard #contentDashboard #softwareMng input[type=text] {
   width: 50%;
   height: 2rem;
@@ -703,6 +713,7 @@ header div:last-child h2 {
 }
 #mainDashboard #contentDashboard #softwareMng select {
   width: 50%;
+  height: 6rem;
 }
 #mainDashboard #contentDashboard #softwareMng .quill-editor {
   width: 100%;
@@ -713,6 +724,13 @@ header div:last-child h2 {
 }
 #mainDashboard #contentDashboard #softwareMng em {
   color: red;
+}
+#mainDashboard #contentDashboard #softwareMng #divTableFuncApp {
+  width: -moz-fit-content;
+  width: fit-content;
+  height: 20rem;
+  overflow-y: scroll;
+  margin: 1rem 0;
 }
 #mainDashboard #contentDashboard #softwareMng #tableFuncApp,
 #mainDashboard #contentDashboard #softwareMng th,
@@ -750,9 +768,10 @@ header div:last-child h2 {
   color: #fafafa;
 }
 #mainDashboard #contentDashboard #softwareMng #divTableApp {
-  width: auto;
-  height: 30rem;
-  overflow: scroll;
+  width: -moz-fit-content;
+  width: fit-content;
+  height: 20rem;
+  overflow-y: scroll;
   margin: 1rem 0;
 }
 #mainDashboard #contentDashboard #softwareMng #tableApp,
@@ -840,6 +859,7 @@ header div:last-child h2 {
 }
 #mainDashboard #contentDashboard #deviceMng select {
   width: 50%;
+  height: 6rem;
 }
 #mainDashboard #contentDashboard #deviceMng #color-container {
   width: 100%;

@@ -359,14 +359,19 @@
               <label for="listFuncApp">Chức năng phần mềm</label><br>
               <input type="text" name="listFuncApp" id="listFuncApp"><br>
               <input type="submit" value="Tạo" id="btnFuncApp">
+              <button type="button" id="btnCancelUDFuncApp">Hủy cập nhật</button>
             </form>
-            <table id="tableFuncApp">
-              <tr>
-                <th>Tên chức năng</th>
-                <th>Thao tác</th>
-              </tr>
-              <%listFuncApp.forEach((funcApp)=>{%>
-              <tr>
+            <div id="divTableFuncApp">
+              <table id="tableFuncApp">
+                <thead>
+                 <tr>
+                  <th>Tên chức năng</th>
+                  <th>Thao tác</th>
+                 </tr>
+                </thead>
+             <tbody>
+                <%listFuncApp.forEach((funcApp)=>{%>
+              <tr data-idFuncApp="<%=funcApp._id%>">
                 <td><%=funcApp.name%></td>
                 <td>
                   <div class="btnGroup">
@@ -376,7 +381,9 @@
                 </td>
               </tr>
               <%})%>
+             </tbody>
             </table>
+            </div>
             <h2 class="flag-item">Quản lý phần mềm</h2>
             <form enctype="multipart/form-data" id="formApp">
               <input type="hidden" name="idApp" id="idApp">
@@ -400,7 +407,6 @@
               <table id="tableApp">
               <tr>
                 <th>Tên phần mềm</th>
-                <th>Thông tin phần mềm</th>
                 <th>Chức năng</th>
                 <th>Ngày tạo</th>
                 <th>Thao tác</th>
@@ -408,7 +414,6 @@
               <%apps.forEach((app)=>{%>
               <tr>
                 <td><%=app.name%></td>
-                <td><%=app.info%></td>
                 <td><%=app.func%></td>
                 <td><%=new Date(app.createAt).toLocaleString()%></td>
                 <td>

@@ -3,13 +3,13 @@ import { jwtDecode } from "https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/+esm";
 import { authFetch, setAccessToken } from "./authFetch.js";
 const socket = io();
 socket.on("update-funcdevice", (data) => {
-  const existRow=document.querySelector(`tr[data-rowId="${data._id}"]`);
+  const existRow = document.querySelector(`tr[data-rowId="${data._id}"]`);
   if (existRow) {
-    existRow.querySelector(".cellNameDevice").innerText=data.name;
+    existRow.querySelector(".cellNameDevice").innerText = data.name;
   } else {
     document.querySelector("#tableFuncDevice tbody").insertAdjacentHTML(
-    "afterbegin",
-    `
+      "afterbegin",
+      `
       <tr data-rowId="${data._id}">
         <td class="cellNameDevice">${data.name}</td>
         <td>
@@ -20,33 +20,35 @@ socket.on("update-funcdevice", (data) => {
         </td>
       </tr>
       `,
-  );
+    );
   }
 });
-socket.on("delete-funcdevice",(data)=>{
-  if (data&&data._id) {
-    const rowToDelete=document.querySelector(`tr[data-rowId="${data._id}"]`);
+socket.on("delete-funcdevice", (data) => {
+  if (data && data._id) {
+    const rowToDelete = document.querySelector(`tr[data-rowId="${data._id}"]`);
     if (rowToDelete) {
       rowToDelete.remove();
     }
   }
-})
-socket.on("update-device",(data)=>{
-  const existRow=document.querySelector(`tr[data-rowId="${data._id}"]`);
+});
+socket.on("update-device", (data) => {
+  const existRow = document.querySelector(`tr[data-rowId="${data._id}"]`);
   if (existRow) {
-    existRow.cells[0].innerText=data.name;
-    existRow.cells[1].innerText=`${data.price.toLocaleString('vi-VN')}đ`;
-    existRow.cells[2].innerText=data.func;
-    existRow.cells[3].innerText=new Date(data.createAt).toLocaleString('vi-VN');
-  }else{
+    existRow.cells[0].innerText = data.name;
+    existRow.cells[1].innerText = `${data.price.toLocaleString("vi-VN")}đ`;
+    existRow.cells[2].innerText = data.func;
+    existRow.cells[3].innerText = new Date(data.createAt).toLocaleString(
+      "vi-VN",
+    );
+  } else {
     document.querySelector("#tableDevice tbody").insertAdjacentHTML(
-    "afterbegin",
-    `
+      "afterbegin",
+      `
       <tr data-rowId="${data._id}">
         <td>${data.name}</td>
-        <td>${data.price.toLocaleString('vi-VN')} đ</td>
+        <td>${data.price.toLocaleString("vi-VN")} đ</td>
         <td>${data.func}</td>
-        <td>${new Date(data.createAt).toLocaleString('vi-VN')}</td>
+        <td>${new Date(data.createAt).toLocaleString("vi-VN")}</td>
         <td>
           <div class="btnGroup">
             <button class="btnUpdateDevice" data-iddevice="${data._id}">Cập nhật</button>
@@ -55,17 +57,50 @@ socket.on("update-device",(data)=>{
         </td>
       </tr>
       `,
-  );
+    );
   }
 });
-socket.on("delete-device",(data)=>{
-  if (data&&data._id) {
-    const rowToDelete=document.querySelector(`tr[data-rowId="${data._id}"]`);
+socket.on("delete-device", (data) => {
+  if (data && data._id) {
+    const rowToDelete = document.querySelector(`tr[data-rowId="${data._id}"]`);
     if (rowToDelete) {
       rowToDelete.remove();
     }
   }
-})
+});
+socket.on("update-funcapp", (data) => {
+  const existFuncApp = document.querySelector(
+    `tr[data-idFuncApp="${data._id}"]`,
+  );
+  if (existFuncApp) {
+    existFuncApp.cells[0].innerText = data.name;
+  } else {
+    document.querySelector("#tableFuncApp tbody").insertAdjacentHTML(
+      "afterbegin",
+      `
+    <tr data-idFuncApp="${data._id}">
+      <td>${data.name}</td>
+      <td>
+        <div class="btnGroup">
+          <button class="btnUpdateFuncApp" data-idfuncapp="${data._id}">Cập nhật</button>
+          <button class="btnDeleteFuncApp" data-idfuncapp="${data._id}">Xóa</button>
+        </div>
+      </td>
+    </tr>
+    `,
+    );
+  }
+});
+socket.on("delete-funcapp", (data) => {
+  if (data && data._id) {
+    const rowToDelete = document.querySelector(
+      `tr[data-idFuncApp="${data._id}"]`,
+    );
+    if (rowToDelete) {
+      rowToDelete.remove();
+    }
+  }
+});
 async function verifySession() {
   try {
     const response = await authFetch("/api/auth/me");
@@ -573,11 +608,9 @@ document.getElementById("formFuncApp").addEventListener("submit", (e) => {
           document.getElementById("idFuncApp").value = "";
           document.getElementById("listFuncApp").value = "";
           document.getElementById("btnFuncApp").value = "Tạo";
+          document.getElementById("btnCancelUDFuncApp").style.display = "none";
           alert("Thông báo", mess, "#80a710");
         } else {
-          document.getElementById("idFuncApp").value = "";
-          document.getElementById("listFuncApp").value = "";
-          document.getElementById("btnFuncApp").value = "Tạo";
           alert("Lỗi", `${mess}\n${error}`, "red");
         }
       })
@@ -605,56 +638,66 @@ document.getElementById("formFuncApp").addEventListener("submit", (e) => {
       });
   }
 });
-document.querySelectorAll(".btnUpdateFuncApp").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const id = btn.getAttribute("data-idfuncapp");
-    fetch(`/dashboard/updateFuncApp/${id}`, {
-      method: "GET",
-      headers: { "Content-Type": "application/json;charset=UTF-8" },
-    })
-      .then((res) => res.json())
-      .then(({ data }) => {
-        if (data) {
-          document.getElementById("idFuncApp").value = data._id;
-          document.getElementById("listFuncApp").value = data.name;
-          document.getElementById("btnFuncApp").value = "Cập nhật";
-        } else {
-          console.error("Không nhận được data");
-        }
-      })
-      .catch((error) => {
-        console.error("Lỗi kết nối");
-      });
-  });
-});
-document.querySelectorAll(".btnDeleteFuncApp").forEach((btn) => {
-  btn.addEventListener("click", async () => {
-    const confirmDelete = await confirm(
-      "Thông báo",
-      "Bạn có chắc nhắn muốn xóa chức năng này",
-      "#1877f2",
-    );
-    if (confirmDelete) {
-      const id = btn.getAttribute("data-idfuncapp");
-      fetch(`/dashboard/deleteFuncApp/${id}`, {
-        method: "DELETE",
+document
+  .querySelector("#tableFuncApp tbody")
+  .addEventListener("click", async (e) => {
+    const target = e.target;
+    if (target.classList.contains("btnUpdateFuncApp")) {
+      const id = target.getAttribute("data-idfuncapp");
+      fetch(`/dashboard/updateFuncApp/${id}`, {
+        method: "GET",
         headers: { "Content-Type": "application/json;charset=UTF-8" },
       })
         .then((res) => res.json())
-        .then(({ mess, success, error }) => {
-          if (success) {
-            alert("Thông báo", mess, "#80a710");
+        .then(({ data }) => {
+          if (data) {
+            document.getElementById("idFuncApp").value = data._id;
+            document.getElementById("listFuncApp").value = data.name;
+            document.getElementById("btnFuncApp").value = "Cập nhật";
+            document.getElementById("btnCancelUDFuncApp").style.display =
+              "inline-block";
           } else {
-            alert("Lỗi", `${mess}\n${error}`, "red");
+            console.error("Không nhận được data");
           }
         })
         .catch((error) => {
-          alert("Lỗi kết nối", error, "red");
+          console.error("Lỗi kết nối");
         });
     }
+    if (target.classList.contains("btnDeleteFuncApp")) {
+      const confirmDelete = await confirm(
+        "Thông báo",
+        "Bạn có chắc nhắn muốn xóa chức năng này",
+        "#1877f2",
+      );
+      if (confirmDelete) {
+        const id = target.getAttribute("data-idfuncapp");
+        fetch(`/dashboard/deleteFuncApp/${id}`, {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json;charset=UTF-8" },
+        })
+          .then((res) => res.json())
+          .then(({ mess, success, error }) => {
+            if (success) {
+              alert("Thông báo", mess, "#80a710");
+            } else {
+              alert("Lỗi", `${mess}\n${error}`, "red");
+            }
+          })
+          .catch((error) => {
+            alert("Lỗi kết nối", error, "red");
+          });
+      }
+    }
   });
-});
-
+document
+  .getElementById("btnCancelUDFuncApp")
+  .addEventListener("click", function () {
+    document.getElementById("formFuncApp").reset();
+    document.getElementById("idFuncApp").value = "";
+    document.getElementById("btnFuncApp").value = "Tạo";
+    this.style.display = "none";
+  });
 if (typeof Quill === "undefined") {
   console.error(
     "Quill.js chưa được tải thành công từ CDN! Vui lòng kiểm tra lại thẻ <script>.",
@@ -970,7 +1013,7 @@ document
   .getElementById("btnCancleUpdateFuncDevice")
   .addEventListener("click", () => {
     document.getElementById("formFuncDevice").reset();
-    document.getElementById("idFuncDevice").value="";
+    document.getElementById("idFuncDevice").value = "";
     document.getElementById("btnFuncDevice").value = "Tạo";
     document.getElementById("btnCancleUpdateFuncDevice").style.display = "none";
   });
@@ -1098,98 +1141,100 @@ priceDevice.addEventListener("input", (e) => {
     e.target.value = "";
   }
 });
-document.querySelector("#tableDevice tbody").addEventListener("click",async(e) => {
-  const target=e.target;
-  if(target.classList.contains("btnUpdateDevice")){
-    const id = target.getAttribute("data-iddevice");
-    fetch(`/dashboard/updateDevice/${id}`, {
-      method: "GET",
-      headers: { "Content-Type": "application/json;charset=UTF-8" },
-    })
-      .then((res) => res.json())
-      .then(({ data }) => {
-        if (data) {
-          document.getElementById("idDevice").value = data._id;
-          document.getElementById("nameDevice").value = data.name;
-          if (typeof quillInstances !== "undefined") {
-            quillInstances[1].clipboard.dangerouslyPasteHTML(data.info || "");
-          } else {
-            console.error("Biến quill chưa được khởi tạo");
-          }
-          document.getElementById("color-container").innerHTML = "";
-          for (let i = 0; i < data.color.length; i++) {
-            const colorContainer = document.getElementById("color-container");
-            const newRow = document.createElement("div");
-            newRow.className = "color-row";
-            newRow.innerHTML = `
+document
+  .querySelector("#tableDevice tbody")
+  .addEventListener("click", async (e) => {
+    const target = e.target;
+    if (target.classList.contains("btnUpdateDevice")) {
+      const id = target.getAttribute("data-iddevice");
+      fetch(`/dashboard/updateDevice/${id}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json;charset=UTF-8" },
+      })
+        .then((res) => res.json())
+        .then(({ data }) => {
+          if (data) {
+            document.getElementById("idDevice").value = data._id;
+            document.getElementById("nameDevice").value = data.name;
+            if (typeof quillInstances !== "undefined") {
+              quillInstances[1].clipboard.dangerouslyPasteHTML(data.info || "");
+            } else {
+              console.error("Biến quill chưa được khởi tạo");
+            }
+            document.getElementById("color-container").innerHTML = "";
+            for (let i = 0; i < data.color.length; i++) {
+              const colorContainer = document.getElementById("color-container");
+              const newRow = document.createElement("div");
+              newRow.className = "color-row";
+              newRow.innerHTML = `
              <input type="text" name="colorNames" class="colorNames" placeholder="VD:Đen">
              <input type="number" name="colorIndex" class="colorIndex" placeholder="Nhập index">
              <input type="file" class="imgDevice" name="colorImg" accept="image/webp">
              <button type="button" class="btnRemoveColor">Xóa</button>
             `;
-            colorContainer.appendChild(newRow);
-            newRow
-              .querySelector(".btnRemoveColor")
-              .addEventListener("click", () => {
-                newRow.remove();
-              });
-            document.querySelectorAll(".colorNames")[i].value =
-              data.color[i].name;
-            document.querySelectorAll(".colorIndex")[i].value =
-              data.color[i].index;
-          }
-          document.getElementById("priceDevice").value =
-            data.price.toLocaleString("vi-VN");
-          document.getElementById("priceActual").value = data.price;
-          document.getElementById("instrucDevice").value =
-            data.instruction || "";
-          document.getElementById("btnDevice").value = "Cập nhật";
-          document.getElementById("deleteImageDevice").style.display =
-            "inline-block";
-          document.getElementById("deleteImageColor").style.display =
-            "inline-block";
-          document.getElementById("btnCancleUpdateDevice").style.display =
-            "inline-block";
-          const dataFuncDevice = data.func;
-          const funcDevice = document.getElementById("funcDevice");
-          Array.from(funcDevice.options).forEach((option) => {
-            option.selected = dataFuncDevice.includes(option.value);
-          });
-        } else {
-          console.error("Không lấy được data");
-        }
-      })
-      .catch((error) => {
-        console.error(`Lỗi kết nối: ${error}`);
-      });
-  };
-  
-  if(target.classList.contains("btnDeleteDevice")){
-     const confirmDelete = await confirm(
-      "Thông báo",
-      "Bạn có chắc chắn muốn xóa thiết bị này",
-      "#1877f2",
-    );
-    if (confirmDelete) {
-      const id = target.getAttribute("data-iddevice");
-      fetch(`/dashboard/deleteDevice/${id}`, {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json;charset=UTF-8" },
-      })
-        .then((res) => res.json())
-        .then(({ mess, success, error }) => {
-          if (success) {
-            alert("Thông báo", mess, "#80a710");
+              colorContainer.appendChild(newRow);
+              newRow
+                .querySelector(".btnRemoveColor")
+                .addEventListener("click", () => {
+                  newRow.remove();
+                });
+              document.querySelectorAll(".colorNames")[i].value =
+                data.color[i].name;
+              document.querySelectorAll(".colorIndex")[i].value =
+                data.color[i].index;
+            }
+            document.getElementById("priceDevice").value =
+              data.price.toLocaleString("vi-VN");
+            document.getElementById("priceActual").value = data.price;
+            document.getElementById("instrucDevice").value =
+              data.instruction || "";
+            document.getElementById("btnDevice").value = "Cập nhật";
+            document.getElementById("deleteImageDevice").style.display =
+              "inline-block";
+            document.getElementById("deleteImageColor").style.display =
+              "inline-block";
+            document.getElementById("btnCancleUpdateDevice").style.display =
+              "inline-block";
+            const dataFuncDevice = data.func;
+            const funcDevice = document.getElementById("funcDevice");
+            Array.from(funcDevice.options).forEach((option) => {
+              option.selected = dataFuncDevice.includes(option.value);
+            });
           } else {
-            alert("Lỗi", `${mess}\n${error}`, "red");
+            console.error("Không lấy được data");
           }
         })
         .catch((error) => {
-          alert("Lỗi kết nối", error, "red");
+          console.error(`Lỗi kết nối: ${error}`);
         });
     }
-  };
-});
+
+    if (target.classList.contains("btnDeleteDevice")) {
+      const confirmDelete = await confirm(
+        "Thông báo",
+        "Bạn có chắc chắn muốn xóa thiết bị này",
+        "#1877f2",
+      );
+      if (confirmDelete) {
+        const id = target.getAttribute("data-iddevice");
+        fetch(`/dashboard/deleteDevice/${id}`, {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json;charset=UTF-8" },
+        })
+          .then((res) => res.json())
+          .then(({ mess, success, error }) => {
+            if (success) {
+              alert("Thông báo", mess, "#80a710");
+            } else {
+              alert("Lỗi", `${mess}\n${error}`, "red");
+            }
+          })
+          .catch((error) => {
+            alert("Lỗi kết nối", error, "red");
+          });
+      }
+    }
+  });
 document.getElementById("deleteImageDevice").addEventListener("click", () => {
   const idDevice = document.getElementById("idDevice").value;
   console.log(idDevice);
@@ -1233,7 +1278,7 @@ document
   .addEventListener("click", function () {
     document.getElementById("btnDevice").value = "Tạo";
     formDevice.reset();
-    document.getElementById("idDevice").value="";
+    document.getElementById("idDevice").value = "";
     if (typeof quillInstances !== "undefined") {
       quillInstances[1].setText("");
     } else {

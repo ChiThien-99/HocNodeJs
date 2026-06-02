@@ -62,7 +62,7 @@ export const getDashboard = async (req, res) => {
   const banners = await carouselEntity.find().sort("order");
   const notifys = await notifyEntity.find().sort("-createAt");
   const bns = await bannerEntity.find();
-  const listFuncApp = await funcAppEntity.find();
+  const listFuncApp = await funcAppEntity.find().sort("-createAt");
   const apps = await appEntity.find().sort("-createAt");
   const listFuncDevice = await funcDeviceEntity.find().sort("-createAt");
   const devices = await deviceEntity.find().sort("-createAt");
@@ -517,12 +517,15 @@ export const putUpdateFuncApp = async (req, res) => {
   try {
     const { id } = req.params;
     const { listFuncApp } = req.body;
-    const updateFuncApp = await funcAppEntity.findByIdAndUpdate(id, {
-      name: listFuncApp,
-    });
+    const updateFuncApp = await funcAppEntity.findByIdAndUpdate(
+      id,
+      {
+        name: listFuncApp,
+      },
+      { new: true },
+    );
     const io = req.app.get("socketio");
-    const allFuncApp = await funcAppEntity.find();
-    io.emit("update-funcapp", allFuncApp);
+    io.emit("update-funcapp", updateFuncApp);
     res.json({ mess: "Cập nhật chức năng phần mềm thành công", success: true });
   } catch (error) {
     res.json({
@@ -537,8 +540,7 @@ export const deleteFuncApp = async (req, res) => {
     const { id } = req.params;
     const deleteFuncApp = await funcAppEntity.findByIdAndDelete(id);
     const io = req.app.get("socketio");
-    const allFuncApp = await funcAppEntity.find();
-    io.emit("update-funcapp", allFuncApp);
+    io.emit("delete-funcapp", deleteFuncApp);
     res.json({ mess: "Xóa chức năng phần mềm thành công", success: true });
   } catch (error) {
     res.json({
@@ -651,9 +653,10 @@ export const putUpdateFuncDevice = async (req, res) => {
   try {
     const { id } = req.params;
     const { listFuncDevice } = req.body;
-    const updateFuncDevice=await funcDeviceEntity.findByIdAndUpdate(id, 
-      {name: listFuncDevice},
-      {new:true}
+    const updateFuncDevice = await funcDeviceEntity.findByIdAndUpdate(
+      id,
+      { name: listFuncDevice },
+      { new: true },
     );
     const io = req.app.get("socketio");
     io.emit("update-funcdevice", updateFuncDevice);
@@ -669,7 +672,7 @@ export const putUpdateFuncDevice = async (req, res) => {
 export const deleteFuncDevice = async (req, res) => {
   try {
     const { id } = req.params;
-    const deleteFuncDevice=await funcDeviceEntity.findByIdAndDelete(id);
+    const deleteFuncDevice = await funcDeviceEntity.findByIdAndDelete(id);
     const io = req.app.get("socketio");
     io.emit("delete-funcdevice", deleteFuncDevice);
     res.json({ mess: "Xóa chức năng thiết bị thành công", success: true });
@@ -809,15 +812,19 @@ export const putUpdateDevice = async (req, res) => {
       ? currentDevice.color
       : uploadedColorImages;
     console.log(color);
-    const updateDevice = await deviceEntity.findByIdAndUpdate(id, {
-      images: images,
-      name: nameDevice,
-      info: infoDevice,
-      color: color,
-      price: priceActual,
-      func: funcDevice,
-      instruction: instrucDevice,
-    },{new:true});
+    const updateDevice = await deviceEntity.findByIdAndUpdate(
+      id,
+      {
+        images: images,
+        name: nameDevice,
+        info: infoDevice,
+        color: color,
+        price: priceActual,
+        func: funcDevice,
+        instruction: instrucDevice,
+      },
+      { new: true },
+    );
     const io = req.app.get("socketio");
     io.emit("update-detailDevice", updateDevice);
     io.emit("update-device", updateDevice);
@@ -897,10 +904,10 @@ export const deleteDevice = async (req, res) => {
       });
       await Promise.all(deletePromises);
     }
-    const deleteDevice=await deviceEntity.findByIdAndDelete(id);
+    const deleteDevice = await deviceEntity.findByIdAndDelete(id);
     const io = req.app.get("socketio");
     const allDevice = await deviceEntity.find().sort("-createAt");
-    io.emit("delete-device",deleteDevice);
+    io.emit("delete-device", deleteDevice);
     res.json({ mess: "Xóa thiết bị thành công", success: true });
   } catch (error) {
     res.json({
