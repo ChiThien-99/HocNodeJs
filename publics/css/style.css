@@ -93,6 +93,11 @@ body.no-scroll {
 }
 
 .flag-item {
+  display: inline-block;
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
   background-color: #ff7e5f;
   color: #fafafa;
   width: -moz-fit-content;
@@ -121,6 +126,7 @@ header div:first-child {
   width: 20%;
   height: inherit;
   display: inline-block;
+  margin: 0.1rem 0 0 0.8rem;
 }
 header div:first-child .brand-group {
   transform: translate(4rem, 1rem);
@@ -696,7 +702,10 @@ header div:last-child h2 {
   color: #fafafa;
   margin: 0.5rem 0;
 }
-#mainDashboard #contentDashboard #softwareMng #btnCancelUDFuncApp, #mainDashboard #contentDashboard #softwareMng #btnCancelUpdateApp, #mainDashboard #contentDashboard #softwareMng #btnDeleteImgApp, #mainDashboard #contentDashboard #softwareMng #btnCancelAddApp {
+#mainDashboard #contentDashboard #softwareMng #btnCancelUDFuncApp,
+#mainDashboard #contentDashboard #softwareMng #btnCancelUpdateApp,
+#mainDashboard #contentDashboard #softwareMng #btnDeleteImgApp,
+#mainDashboard #contentDashboard #softwareMng #btnCancelAddApp {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -2483,7 +2492,6 @@ header div:last-child h2 {
   margin: 0 0 0.2rem 0;
 }
 #mainApp aside #listBlogs .blogCol div:last-child p {
-  font-size: 0.8rem;
   margin: 0;
 }
 #mainApp aside #listBlogs .blogCol div:last-child a {
@@ -2545,7 +2553,6 @@ header div:last-child h2 {
   display: none;
 }
 #mainApp aside #listDeviceCol .deviceCol .deviceContent p {
-  font-size: 0.8rem;
   margin: 0;
 }
 
@@ -2787,11 +2794,10 @@ header div:last-child h2 {
   overflow-y: scroll;
 }
 #mainDevice aside #listBlogs .blogCol div:last-child h4 {
-  font-size: 1rem;
+  font-size: 1.1rem;
   margin: 0 0 0.2rem 0;
 }
 #mainDevice aside #listBlogs .blogCol div:last-child p {
-  font-size: 0.8rem;
   margin: 0;
 }
 #mainDevice aside #listAppCol {
@@ -2840,7 +2846,6 @@ header div:last-child h2 {
   margin: 0 0 0.2rem 0;
 }
 #mainDevice aside #listAppCol .appCol div:nth-child(2) p {
-  font-size: 0.8rem;
   margin: 0.3rem 0;
 }
 
@@ -3461,7 +3466,7 @@ footer div:last-child input {
 
 @media screen and (max-width: 768px) {
   header {
-    height: 4rem;
+    height: 5rem;
   }
   header div:first-child .brand-group {
     transform: translate(12rem, 1rem);
@@ -3476,6 +3481,7 @@ footer div:last-child input {
     border: none;
     cursor: pointer;
     padding: 0;
+    margin: 0.5rem;
   }
   header .hamburger-btn .bar {
     width: 100%;
@@ -3486,7 +3492,7 @@ footer div:last-child input {
   header #navMenu {
     position: fixed;
     z-index: 100;
-    top: 4.5rem;
+    top: 5rem;
     right: 0;
     height: calc(100dvh - 4.5rem);
     width: 70%;
@@ -3616,23 +3622,14 @@ footer div:last-child input {
   #mainApp #listApp #listapps a .app {
     width: 100%;
   }
-  #mainApp #listApp #listapps a .app .app-content h4 {
-    font-size: 1rem;
-  }
   #mainApp #listApp #listapps a .app .app-content p {
     font-size: 0.8rem;
   }
   #mainApp aside {
     width: 100%;
   }
-  #mainApp aside #listBlogs .blogCol div:last-child h4 {
-    font-size: 1rem;
-  }
   #mainApp aside #listBlogs .blogCol div:last-child p {
     font-size: 0.8rem;
-  }
-  #mainApp aside #listDeviceCol .deviceCol div:last-child h4 {
-    font-size: 1.1rem;
   }
   #mainApp aside #listDeviceCol .deviceCol div:last-child p {
     font-size: 0.8rem;
@@ -3651,14 +3648,17 @@ footer div:last-child input {
   #mainDevice #listDevice #listdevices a .device .device-content {
     height: inherit;
   }
-  #mainDevice #listDevice #listdevices a .device .device-content h4 {
-    font-size: 1rem;
-  }
   #mainDevice #listDevice #listdevices a .device .device-content p {
     font-size: 0.8rem;
   }
   #mainDevice aside {
     width: 100%;
+  }
+  #mainDevice aside #listAppCol .appCol div:nth-child(2) p {
+    font-size: 0.8rem;
+  }
+  #mainDevice aside #listBlogs .blogCol div:last-child p {
+    font-size: 0.8rem;
   }
   #mainDetailDevice #detailDevice #bodyDetailDevice #mainBodyDetailDevice #divParamDevice #targetThongSo img {
     width: 100% !important;

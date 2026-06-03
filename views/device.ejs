@@ -69,7 +69,7 @@
     </header>
     <main id="mainDevice">
         <div id="listDevice">
-            <h3 class="flag-item">Thiết bị</h3>
+            <a class="flag-item" href="/device">Thiết bị</a>
             <div id="filterDevice">
                 <h3>Bộ lọc</h3>
                 <a href="/device?sort=-createAt" id="btnNewDevice" class="<%=sort==='-createAt'?'active':''%>">Mới nhất</a>
@@ -131,7 +131,7 @@
         </div>
         <%}%>
         <div>
-          <h3 class="flag-item">Phần mềm</h3>
+          <a class="flag-item" href="/app">Phần mềm</a>
           <div id="listAppCol">
             <%apps.forEach((app)=>{%>
             <a href="/detailApp/<%=app._id%>" target="_blank">
@@ -149,7 +149,7 @@
           </div>
         </div>
         <div>
-          <h3 class="flag-item">Blogs</h3>
+          <a class="flag-item" href="/blogs">Blogs</a>
           <div id="listBlogs">
             <%blogs.forEach((blog)=>{%>
             <a href="/blogs/detailBlog/<%=blog._id%>" target="_blank">

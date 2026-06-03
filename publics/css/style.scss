@@ -96,6 +96,11 @@ body.no-scroll {
   }
 }
 .flag-item {
+  display: inline-block;
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
   background-color: #ff7e5f;
   color: $colorSecondaryText;
   width: fit-content;
@@ -122,6 +127,7 @@ header {
     width: 20%;
     height: inherit;
     display: inline-block;
+    margin: 0.1rem 0 0 0.8rem;
     .brand-group {
       transform: translate(4rem, 1rem);
     }
@@ -612,7 +618,10 @@ header {
         color: $colorSecondaryText;
         margin: 0.5rem 0;
       }
-      #btnCancelUDFuncApp,#btnCancelUpdateApp,#btnDeleteImgApp,#btnCancelAddApp {
+      #btnCancelUDFuncApp,
+      #btnCancelUpdateApp,
+      #btnDeleteImgApp,
+      #btnCancelAddApp {
         @include button(0.5rem);
         background-color: red;
         color: $colorSecondaryText;
@@ -2114,7 +2123,7 @@ header {
       display: flex;
       flex-flow: row wrap;
       margin: 1rem 0;
-      a{
+      a {
         display: inline-block;
         width: 48%;
         height: 15rem;
@@ -2194,7 +2203,7 @@ header {
       display: flex;
       flex-direction: column;
       margin: 1rem 0;
-      a{
+      a {
         display: inline-block;
         width: 100%;
         height: 15rem;
@@ -2231,7 +2240,6 @@ header {
             margin: 0 0 0.2rem 0;
           }
           p {
-            font-size: 0.8rem;
             margin: 0;
           }
           a {
@@ -2245,7 +2253,7 @@ header {
       display: flex;
       flex-direction: column;
       margin: 1rem 0;
-      a{
+      a {
         display: inline-block;
         width: 100%;
         height: 15rem;
@@ -2289,10 +2297,9 @@ header {
             margin: 0 0 0.2rem 0;
           }
           .rawDeviceInfo {
-              display: none;
+            display: none;
           }
           p {
-            font-size: 0.8rem;
             margin: 0;
           }
         }
@@ -2521,11 +2528,10 @@ header {
           background-color: $colorPrimaryBG;
           overflow-y: scroll;
           h4 {
-            font-size: 1rem;
+            font-size: 1.1rem;
             margin: 0 0 0.2rem 0;
           }
           p {
-            font-size: 0.8rem;
             margin: 0;
           }
         }
@@ -2573,7 +2579,6 @@ header {
             margin: 0 0 0.2rem 0;
           }
           p {
-            font-size: 0.8rem;
             margin: 0.3rem 0;
           }
         }
@@ -3170,7 +3175,8 @@ footer {
 }
 @media screen and (max-width: 768px) {
   header {
-    height: 4rem;
+    height: 5rem;
+    // margin: 0.5rem;
     div:first-child {
       .brand-group {
         transform: translate(12rem, 1rem);
@@ -3186,6 +3192,7 @@ footer {
       border: none;
       cursor: pointer;
       padding: 0;
+      margin: 0.5rem;
     }
     .hamburger-btn .bar {
       width: 100%;
@@ -3196,7 +3203,7 @@ footer {
     #navMenu {
       position: fixed;
       z-index: 100;
-      top: 4.5rem;
+      top: 5rem;
       right: 0;
       height: calc(100dvh - 4.5rem);
       width: 70%;
@@ -3352,19 +3359,16 @@ footer {
       width: 100%;
       border-bottom: 1px solid $colorCTA;
       #listapps {
-        a{
+        a {
           width: 100%;
           .app {
-          width: 100%;
-          .app-content {
-            h4 {
-              font-size: 1rem;
-            }
-            p {
-              font-size: 0.8rem;
+            width: 100%;
+            .app-content {
+              p {
+                font-size: 0.8rem;
+              }
             }
           }
-        }
         }
       }
     }
@@ -3373,9 +3377,6 @@ footer {
       #listBlogs {
         .blogCol {
           div:last-child {
-            h4 {
-              font-size: 1rem;
-            }
             p {
               font-size: 0.8rem;
             }
@@ -3385,9 +3386,6 @@ footer {
       #listDeviceCol {
         .deviceCol {
           div:last-child {
-            h4 {
-              font-size: 1.1rem;
-            }
             p {
               font-size: 0.8rem;
             }
@@ -3408,9 +3406,6 @@ footer {
             height: 100%;
             .device-content {
               height: inherit;
-              h4 {
-                font-size: 1rem;
-              }
               p {
                 font-size: 0.8rem;
               }
@@ -3421,6 +3416,24 @@ footer {
     }
     aside {
       width: 100%;
+      #listAppCol {
+        .appCol {
+          div:nth-child(2) {
+            p {
+              font-size: 0.8rem;
+            }
+          }
+        }
+      }
+      #listBlogs {
+        .blogCol {
+          div:last-child {
+            p {
+              font-size: 0.8rem;
+            }
+          }
+        }
+      }
     }
   }
   #mainDetailDevice {

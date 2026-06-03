@@ -199,7 +199,7 @@
         </div>
         <%if(otherDevice.length>0){%>
         <div id="divOtherDevice">
-          <h3 class="flag-item">Các thiết bị khác</h3>
+          <a class="flag-item" href="/device">Các thiết bị khác</a>
           <div id="listOtherDevice">
             <%otherDevice.forEach((device)=>{%>
             <a href="/detailDevice/<%=device._id%>" target="_blank">
@@ -229,7 +229,7 @@
         </div>
         <%}%>
         <div>
-          <h3 class="flag-item">Phần mềm</h3>
+          <a class="flag-item" href="/app">Phần mềm</a>
           <div id="listAppCol">
             <%apps.forEach((app)=>{%>
             <a href="/detailApp/<%=app._id%>" target="_blank">
@@ -247,7 +247,7 @@
           </div>
         </div>
         <div>
-          <h3 class="flag-item">Blogs</h3>
+          <a class="flag-item" href="/blogs">Blogs</a>
           <div id="listBlogs">
             <%blogs.forEach((blog)=>{%>
             <a href="/blogs/detailBlog/<%=blog._id%>" target="_blank">
