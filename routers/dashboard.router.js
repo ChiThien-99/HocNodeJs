@@ -232,6 +232,11 @@ dashboardRouter.delete(
   dashboardController.deleteApp,
 );
 dashboardRouter.delete(
+  `${prefix}/deleteImgApp/:id`,
+  authenticateToken,
+  dashboardController.deleteImgApp,
+);
+dashboardRouter.delete(
   `${prefix}/deleteFuncDevice/:id`,
   authenticateToken,
   dashboardController.deleteFuncDevice,

@@ -66,7 +66,7 @@ export const getDashboard = async (req, res) => {
   const apps = await appEntity.find().sort("-createAt");
   const listFuncDevice = await funcDeviceEntity.find().sort("-createAt");
   const devices = await deviceEntity.find().sort("-createAt");
-  const listCategoryblogs = await categoryblogsEntity.find();
+  const listCategoryblogs = await categoryblogsEntity.find().sort("-createAt");
   const listblogs = await blogsEntity.find().sort("-createAt");
   const io = req.app.get("socketio");
   res.render("dashboard.ejs", {
@@ -560,7 +560,6 @@ export const addApp = async (req, res) => {
       info: infoApp,
       func: funcApp,
     });
-    console.log(newApp);
     const io = req.app.get("socketio");
     io.emit("update-app", newApp);
     res.json({ mess: "Tạo phần mềm thành công", success: true });
@@ -584,15 +583,26 @@ export const getUpdateApp = async (req, res) => {
 export const putUpdateApp = async (req, res) => {
   try {
     const { id } = req.params;
+    const currentApp=await appEntity.findById(id);
+    let image="";
+    let cloudinary_id="";
+    if (req.file) {
+      image = req.file.path;
+      cloudinary_id = req.file.filename;
+    } else {
+      image=currentApp.image;
+      cloudinary_id=currentApp.cloudinary_id;
+    }
     const { nameApp, infoApp, funcApp } = req.body;
     const updateApp = await appEntity.findByIdAndUpdate(id, {
+      image:image,
+      cloudinary_id:cloudinary_id,
       name: nameApp,
       info: infoApp,
       func: funcApp,
-    });
+    },{new:true});
     const io = req.app.get("socketio");
-    const allApp = await appEntity.find().sort("-createAt");
-    io.emit("update-app", allApp);
+    io.emit("update-app", updateApp);
     res.json({ mess: "Cập nhật phần mềm thành công", success: true });
   } catch (error) {
     res.json({
@@ -602,6 +612,22 @@ export const putUpdateApp = async (req, res) => {
     });
   }
 };
+export const deleteImgApp=async(req,res)=>{
+  try {
+  const {id}=req.params;
+  const appNeedDeleteImg=await appEntity.findById(id);
+  if (!appNeedDeleteImg) {
+    return res.json({mess:"Không tìm được app cần xóa hình",success:false});
+  }
+  if (appNeedDeleteImg.image&&appNeedDeleteImg.cloudinary_id) {
+    await cloudinary.uploader.destroy(appNeedDeleteImg.cloudinary_id);
+  }
+  res.json({mess:"Xóa hình app thành công",success:true});
+  } catch (error) {
+  res.json({mess:"Xóa hình app thất bại",success:false,error:error.message});
+  }
+  
+}
 export const deleteApp = async (req, res) => {
   try {
     const { id } = req.params;
@@ -610,10 +636,9 @@ export const deleteApp = async (req, res) => {
       res.json({ mess: "Không tìm thấy app", success: false });
     }
     await cloudinary.uploader.destroy(app.cloudinary_id);
-    await appEntity.findByIdAndDelete(id);
+    const deleteApp=await appEntity.findByIdAndDelete(id);
     const io = req.app.get("socketio");
-    const allApp = await appEntity.find().sort("-createAt");
-    io.emit("update-app", allApp);
+    io.emit("delete-app", deleteApp);
     res.json({ mess: "Xóa phần mềm thành công", success: true });
   } catch (error) {
     res.json({
@@ -843,7 +868,7 @@ export const deleteImgDevice = async (req, res) => {
     const device = await deviceEntity.findById(id);
     if (!device) {
       return res.json({
-        mess: "Không tim được device bằng id",
+        mess: "Không tim được device xóa hình",
         success: false,
       });
     }
@@ -941,15 +966,11 @@ export const addblogs = async (req, res) => {
 export const addCategoryblogs = async (req, res) => {
   try {
     const { categoryblogs } = req.body;
-    await categoryblogsEntity.create({
+    const newCategoryBlog=await categoryblogsEntity.create({
       name: categoryblogs,
     });
     const io = req.app.get("socketio");
-    const allCategoryblogs = await categoryblogsEntity
-      .find()
-      .sort("-createAt")
-      .limit(6);
-    io.emit("update-categoryblogs", allCategoryblogs);
+    io.emit("update-categoryblogs", newCategoryBlog);
     res.json({ mess: "Tạo danh mục blogs thành công", success: true });
   } catch (error) {
     res.json({

@@ -101,6 +101,49 @@ socket.on("delete-funcapp", (data) => {
     }
   }
 });
+socket.on("update-app",(data)=>{
+  const existRow=document.querySelector(`tr[data-idapp="${data._id}"]`);
+  if (existRow) {
+    existRow.cells[0].innerText=data.name;
+    existRow.cells[1].innerText=data.func;
+    existRow.cells[2].innerText=new Date(data.createAt).toLocaleString("vi-VN");
+  } else {
+    document.querySelector("#tableApp tbody").insertAdjacentHTML("afterbegin",`
+    <tr data-idapp="${data._id}">
+      <td>${data.name}</td>
+      <td>${data.func}</td>
+      <td>${new Date(data.createAt).toLocaleString("vi-VN")}</td>
+      <td>
+        <div class="btnGroup">
+          <button class="btnUpdateApp" data-idapp="${data._id}">Cập nhật</button>
+          <button class="btnDeleteApp" data-idapp="${data._id}">Xóa</button>
+        </div>
+      </td>
+    </tr>
+  `)
+  }
+});
+socket.on("delete-app", (data) => {
+  if (data && data._id) {
+    const rowToDelete = document.querySelector(`tr[data-idapp="${data._id}"]`);
+    if (rowToDelete) {
+      rowToDelete.remove();
+    }
+  }
+});
+socket.on("update-categoryblogs",(data)=>{
+  document.querySelector("#tableCategoryblogs tbody").insertAdjacentHTML("afterbegin",`
+    <tr data-idCategoryblogs="${data._id}">
+      <td>${data.name}</td>
+      <td>
+        <div class="btnGroup">
+          <button class="btnUpdateCategoryblogs" data-idnCategoryblogs="${data._id}">Cập nhật</button>
+          <button class="btnDeleteCategoryblogs" data-idCategoryblogs="${data._id}">Xóa</button>
+        </div>
+      </td>
+    </tr>
+  `)
+})
 async function verifySession() {
   try {
     const response = await authFetch("/api/auth/me");
@@ -816,6 +859,9 @@ quillEditor.forEach((element, index) => {
 });
 console.log(quillInstances);
 const formApp = document.getElementById("formApp");
+formApp.addEventListener("input",()=>{
+  checkFormEmptiness(formApp,"idApp","btnCancelAddApp");
+});
 formApp.addEventListener("submit", (e) => {
   e.preventDefault();
   const quillEditor = document.getElementsByClassName("quill-editor");
@@ -833,29 +879,17 @@ formApp.addEventListener("submit", (e) => {
       .then(({ mess, success, error }) => {
         if (success) {
           document.getElementById("idApp").value = "";
-          document.getElementById("imgApp").value = "";
-          document.getElementById("nameApp").value = "";
-          document.getElementById("infoApp").value = "";
+          formApp.reset();
           if (typeof quillInstances !== "undefined") {
             quillInstances[0].setText("");
           } else {
             console.error("Biến quill không tồn tại");
           }
-          document.getElementById("funcApp").value = "";
           document.getElementById("btnApp").value = "Tạo";
+          document.getElementById("btnDeleteImgApp").style.display="none";
+          document.getElementById("btnCancelUpdateApp").style.display="none";
           alert("Thông báo", mess, "#80a710");
         } else {
-          document.getElementById("idApp").value = "";
-          document.getElementById("imgApp").value = "";
-          document.getElementById("nameApp").value = "";
-          document.getElementById("infoApp").value = "";
-          if (typeof quillInstances !== "undefined") {
-            quillInstances[0].setText("");
-          } else {
-            console.error("Biến quill không tồn tại");
-          }
-          document.getElementById("funcApp").value = "";
-          document.getElementById("btnApp").value = "Tạo";
           alert("Lỗi", `${mess}\n${error}`, "red");
         }
       })
@@ -870,26 +904,15 @@ formApp.addEventListener("submit", (e) => {
       .then((res) => res.json())
       .then(({ mess, success, error }) => {
         if (success) {
-          document.getElementById("imgApp").value = "";
-          document.getElementById("nameApp").value = "";
-          document.getElementById("infoApp").value = "";
+          formApp.reset();
           if (typeof quillInstances !== "undefined") {
             quillInstances[0].setText("");
           } else {
             console.error("Biến quill không tồn tại");
           }
-          document.getElementById("funcApp").value = "";
+          document.getElementById("btnCancelAddApp").style.display="none";
           alert("Thông báo", mess, "#80a710");
         } else {
-          document.getElementById("imgApp").value = "";
-          document.getElementById("nameApp").value = "";
-          document.getElementById("infoApp").value = "";
-          if (typeof quillInstances !== "undefined") {
-            quillInstances[0].setText("");
-          } else {
-            console.error("Biến quill không tồn tại");
-          }
-          document.getElementById("funcApp").value = "";
           alert("Lỗi", `${mess}\n${error}`, "red");
         }
       })
@@ -898,9 +921,10 @@ formApp.addEventListener("submit", (e) => {
       });
   }
 });
-document.querySelectorAll(".btnUpdateApp").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const id = btn.getAttribute("data-idapp");
+document.querySelector("#tableApp tbody").addEventListener("click",async(e) => {
+  const target=e.target;
+  if (target.classList.contains("btnUpdateApp")) {
+    const id = target.getAttribute("data-idapp");
     fetch(`/dashboard/updateApp/${id}`, {
       method: "GET",
       headers: { "Content-Type": "application/json;charset=UTF-8" },
@@ -916,6 +940,8 @@ document.querySelectorAll(".btnUpdateApp").forEach((btn) => {
             console.error("Biến quill chưa được khởi tạo");
           }
           document.getElementById("btnApp").value = "Cập nhật";
+          document.getElementById("btnDeleteImgApp").style.display="inline-block";
+          document.getElementById("btnCancelUpdateApp").style.display="inline-block";
           const dataFuncApp = data.func;
           const funcApp = document.getElementById("funcApp");
           Array.from(funcApp.options).forEach((option) => {
@@ -928,17 +954,15 @@ document.querySelectorAll(".btnUpdateApp").forEach((btn) => {
       .catch((error) => {
         console.error("Lỗi kết nối");
       });
-  });
-});
-document.querySelectorAll(".btnDeleteApp").forEach((btn) => {
-  btn.addEventListener("click", async () => {
+  }
+  if (target.classList.contains("btnDeleteApp")) {
     const confirmDelete = await confirm(
       "Thông báo",
       "Bạn có chắc chắn xóa phần mềm này",
       "#1877f2",
     );
     if (confirmDelete) {
-      const id = btn.getAttribute("data-idapp");
+      const id = target.getAttribute("data-idapp");
       fetch(`/dashboard/deleteApp/${id}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json;charset=UTF-8" },
@@ -955,8 +979,47 @@ document.querySelectorAll(".btnDeleteApp").forEach((btn) => {
           alert("Lỗi kết nối", error, "red");
         });
     }
-  });
+  }
 });
+document.getElementById("btnDeleteImgApp").addEventListener("click",()=>{
+  const id=document.getElementById("idApp").value;
+  fetch(`/dashboard/deleteImgApp/${id}`,{
+    method:"DELETE",
+    headers:{"Content-Type":"application/json;charset=UTF-8"},
+  })
+  .then(res=>res.json())
+  .then(({mess,success,error})=>{
+    if (success) {
+      alert("Thông báo",mess,"#80a710");
+    } else {
+      alert("Lỗi",`${mess}\n${error}`,"red");
+    }
+  })
+  .catch((error)=>{
+    alert("Lỗi",error,"red");
+  });
+})
+document.getElementById("btnCancelUpdateApp").addEventListener("click",function(){
+  formApp.reset();
+  if (typeof quillInstances !== "undefined") {
+    quillInstances[0].setText("");
+  } else {
+    console.error("Biến quill không tồn tại");
+  }
+  document.getElementById("idApp").value="";
+  document.getElementById("btnApp").value="Tạo";
+  document.getElementById("btnDeleteImgApp").style.display="none";
+  this.style.display="none";
+})
+document.getElementById("btnCancelAddApp").addEventListener("click",function(){
+  formApp.reset();
+  if (typeof quillInstances !== "undefined") {
+    quillInstances[0].setText("");
+  } else {
+    console.error("Biến quill không tồn tại");
+  }
+  this.style.display="none";
+})
 document.getElementById("formFuncDevice").addEventListener("submit", (e) => {
   e.preventDefault();
   const listFuncDevice = document.getElementById("listFuncDevice").value;
@@ -1075,6 +1138,9 @@ document
     }
   });
 const formDevice = document.getElementById("formDevice");
+formDevice.addEventListener("input",()=>{
+  checkFormEmptiness(formDevice,"idDevice","btnCancelAddDevice");
+})
 formDevice.addEventListener("submit", (e) => {
   e.preventDefault();
   const dataform = new FormData(formDevice);
@@ -1120,6 +1186,7 @@ formDevice.addEventListener("submit", (e) => {
           } else {
             console.error("Biến quill không tồn tại");
           }
+          document.getElementById("btnCancelAddDevice").style.display="none";
           alert("Thông báo", mess, "#80a710");
         } else {
           alert("Lỗi", `${mess}\n${error}`, "red");
@@ -1288,7 +1355,15 @@ document
     document.getElementById("deleteImageDevice").style.display = "none";
     document.getElementById("deleteImageColor").style.display = "none";
   });
-
+document.getElementById("btnCancelAddDevice").addEventListener("click",function(){
+  formDevice.reset();
+    if (typeof quillInstances !== "undefined") {
+      quillInstances[1].setText("");
+    } else {
+      console.error("Biến quill không tồn tại");
+    }
+  this.style.display="none";
+})
 const formblogs = document.getElementById("formblogs");
 formblogs.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -1418,9 +1493,10 @@ document.getElementById("formCategoryblogs").addEventListener("submit", (e) => {
       });
   }
 });
-document.querySelectorAll(".btnUpdateCategoryblogs").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const id = btn.getAttribute("data-idnCategoryblogs");
+document.querySelector("#tableCategoryblogs tbody").addEventListener("click",async(e) => {
+  const target=e.target;
+  if (target.classList.contains("btnUpdateCategoryblogs")) {
+    const id = target.getAttribute("data-idnCategoryblogs");
     fetch(`/dashboard/updateCategoryblogs/${id}`, {
       method: "GET",
       headers: { "Content-Type": "application/json;charset=UTF-8" },
@@ -1438,17 +1514,15 @@ document.querySelectorAll(".btnUpdateCategoryblogs").forEach((btn) => {
       .catch((error) => {
         console.error(`Lỗi kết nối: ${error}`);
       });
-  });
-});
-document.querySelectorAll(".btnDeleteCategoryblogs").forEach((btn) => {
-  btn.addEventListener("click", async () => {
+  }
+  if (target.classList.contains("btnDeleteCategoryblogs")) {
     const confirmDelete = await confirm(
       "Thông báo",
       "Bạn có chắc chắn muốn xóa danh mục blogs này",
       "#1877f2",
     );
     if (confirmDelete) {
-      const id = btn.getAttribute("data-idCategoryblogs");
+      const id = target.getAttribute("data-idCategoryblogs");
       fetch(`/dashboard/deleteCategoryblogs/${id}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json;charset:UTF-8" },
@@ -1465,8 +1539,9 @@ document.querySelectorAll(".btnDeleteCategoryblogs").forEach((btn) => {
           alert("Lỗi kết nối", error, "red");
         });
     }
-  });
+  }
 });
+
 document.querySelectorAll(".btnUpdateblogs").forEach((btn) => {
   btn.addEventListener("click", () => {
     const id = btn.getAttribute("data-idblogs");
@@ -1667,3 +1742,23 @@ btnDeleteBN.forEach((btn) => {
     }
   });
 });
+function checkFormEmptiness(form,idHidden,btn){
+  const id=document.getElementById(idHidden).value;
+  if (id) {
+    document.getElementById(btn).style.display="none";
+    return;
+  }
+  const formData=new FormData(form);
+  let hasData=false;
+  for (let value of formData.values()) {
+    if (value.trim!="") {
+      hasData=true;
+      break;
+    }
+  }
+  if (hasData) {
+    document.getElementById(btn).style.display="inline-block";
+  } else {
+    document.getElementById(btn).style.display="none";
+  }
+}

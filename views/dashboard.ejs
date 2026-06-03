@@ -388,7 +388,8 @@
             <form enctype="multipart/form-data" id="formApp">
               <input type="hidden" name="idApp" id="idApp">
               <label for="imgApp">Hình ảnh</label><br>
-              <input type="file" accept="image/webp" name="imgApp" id="imgApp"><br>
+              <input type="file" accept="image/webp" name="imgApp" id="imgApp">
+              <button type="button" id="btnDeleteImgApp">Xóa hình</button><br>
               <label for="nameApp">Tên phần mềm (Không chứa khoảng trắng)</label><br>
               <input type="text" name="nameApp" id="nameApp"><br>
               <label for="infoApp">Thông tin phần mềm</label><br>
@@ -401,21 +402,26 @@
                 <%})%>
               </select><br>
               <input type="submit" id="btnApp" value="Tạo">
+              <button type="button" id="btnCancelAddApp">Hủy tạo</button>
+              <button type="button" id="btnCancelUpdateApp">Hủy cập nhật</button>
             </form>
             <em>Lưu ý: Nếu sai hình ảnh hãy xóa luôn app và tạo mới</em>
             <div id="divTableApp">
               <table id="tableApp">
-              <tr>
+              <thead>
+                <tr>
                 <th>Tên phần mềm</th>
                 <th>Chức năng</th>
                 <th>Ngày tạo</th>
                 <th>Thao tác</th>
               </tr>
-              <%apps.forEach((app)=>{%>
-              <tr>
+              </thead>
+              <tbody>
+                 <%apps.forEach((app)=>{%>
+              <tr data-idapp="<%=app._id%>">
                 <td><%=app.name%></td>
                 <td><%=app.func%></td>
-                <td><%=new Date(app.createAt).toLocaleString()%></td>
+                <td><%=new Date(app.createAt).toLocaleString("vi-VN")%></td>
                 <td>
                   <div class="btnGroup">
                     <button class="btnUpdateApp" data-idapp="<%=app._id%>">Cập nhật</button>
@@ -424,6 +430,8 @@
                 </td>
               </tr>
               <%})%>
+              </tbody>
+              
             </table>
             </div>
             
@@ -494,6 +502,7 @@
               <label for="instrucDevice">Video hướng dẫn</label><br>
               <input type="text" name="instrucDevice" id="instrucDevice"><br>
               <input type="submit" id="btnDevice" value="Tạo">
+              <button type="button" id="btnCancelAddDevice">Hủy tạo</button>
               <button type="button" id="btnCancleUpdateDevice">Hủy cập nhật</button>
             </form>
             <em>Lưu ý: Nếu sai hình ảnh hãy xóa luôn thiết bị và tạo mới</em>
@@ -537,12 +546,15 @@
             </form>
             <div id="divTableCategoryblogs">
               <table id="tableCategoryblogs">
-              <tr>
+              <thead>
+                <tr>
                 <th>Danh mục</th>
                 <th>Thao tác</th>
               </tr>
-              <%listCategoryblogs.forEach((categoryblogs)=>{%>
-              <tr>
+              </thead>
+              <tbody>
+                <%listCategoryblogs.forEach((categoryblogs)=>{%>
+              <tr data-idCategoryblogs="<%=categoryblogs._id%>">
                 <td><%=categoryblogs.name%></td>
                 <td>
                   <div class="btnGroup">
@@ -552,6 +564,7 @@
                 </td>
               </tr>
               <%})%>
+              </tbody>
             </table>
             </div>
             <h2 class="flag-item">Quản lý blog</h2>
