@@ -1,18 +1,23 @@
 const socket = io();
 socket.on("update-blogs", (newBlog) => {
-  let plainText = newBlog.info.replace(/<\/?[^>]+(>|$)/g, "");
-  plainText = plainText.replace(/&nbsp;|&#160;/gi, " ");
-  plainText = plainText.replace(/\s+/g, " ").trim();
-  let shortText =
-    plainText.length > 200 ? plainText.substring(0, 200) + "..." : plainText;
+  const currentBlog=document.querySelector(`a[data-idBlog="${newBlog._id}"]`);
+  let plainText=newBlog.info.replace(/&nbsp;|&#160;/gi," ");
+  let shortText=plainText.length>200?plainText.substring(0,200)+"...":plainText;
+  if (currentBlog) {
+    currentBlog.querySelector(".blogs img").src=newBlog.image;
+    currentBlog.querySelector(".blogs .blogs-content h4").innerText=newBlog.title;
+    currentBlog.querySelector(".blogs .blogs-content div").innerHTML=shortText;
+  } else {
   const newBlogHTML = `
-  <div class="blogs">
-    <a href="/blogs/detailBlog/${newBlog._id}" target="_blank" class="linkImg"><img src="${newBlog.image}" alt="blogs"></a>
-  <div class="blogs-content">
-    <a href="/blogs/detailBlog/${newBlog._id}" target="_blank"><h4>${newBlog.title}</h4></a>
-    <p>${shortText}</p> 
-  </div>
-  </div>
+  <a href="/blogs/detailBlog/${newBlog._id}" target="_blank" class="linkImg" data-idBlog="${newBlog._id}">
+    <div class="blogs">
+      <img src="${newBlog.image}" alt="blogs">
+      <div class="blogs-content">
+        <h4>${newBlog.title}</h4>
+        <div>${shortText}</div>
+      </div>
+    </div>
+  </a>
   `;
   const urlParams = new URLSearchParams(window.location.search);
   const currentPage = parseInt(urlParams.get("page")) || 1;
@@ -26,7 +31,17 @@ socket.on("update-blogs", (newBlog) => {
     }
     blogs = document.querySelectorAll(".blogs");
   }
+  }
+  
 });
+socket.on("delete-blogs",(data)=>{
+  if (data && data._id) {
+    const rowToDelete = document.querySelector(`a[data-idBlog="${data._id}"]`);
+    if (rowToDelete) {
+      rowToDelete.remove();
+    }
+  }
+})
 socket.on("update-banner", (data) => {
   console.log(data);
   if (data.page !== "blog") {
@@ -80,9 +95,24 @@ if (filterBlogsSpan) {
     window.location.href = "/blogs";
   });
 }
-socket.on("update-categoryblogs", (allCategoryblogs) => {
-  renderCategoryblogs(allCategoryblogs);
+socket.on("update-categoryblogs", (data) => {
+  const categoryNeedUD=document.querySelector(`a[data-idCategoryBlog="${data._id}"]`);
+  if (categoryNeedUD) {
+    categoryNeedUD.innerText=data.name;
+  } else {
+    document.getElementById("divCategoryBlog").insertAdjacentHTML("afterbegin",`
+  <a class="categoryblogs" data-idCategoryBlog="${data._id}">${data.name}</a>  
+  `)
+  }
 });
+socket.on("delete-categoryblogs",(data)=>{
+  if (data && data._id) {
+    const categoryNeedDelete = document.querySelector(`a[data-idCategoryBlog="${data._id}"]`);
+    if (categoryNeedDelete) {
+      categoryNeedDelete.remove();
+    }
+  }
+})
 function renderCategoryblogs(list_categoryblogs) {
   document.getElementById("divCategoryBlog").innerHTML = list_categoryblogs
     .map(
@@ -91,7 +121,41 @@ function renderCategoryblogs(list_categoryblogs) {
   `,
     )
     .join("");
-}
+};
+document.addEventListener("DOMContentLoaded", () => {
+  const device = document.querySelectorAll(".deviceCol");
+  for (let i = 0; i < device.length; i++) {
+    const rawDeviceInfo = document.querySelectorAll(
+      ".rawDeviceInfo",
+    )[i].innerHTML;
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(rawDeviceInfo, "text/html");
+    let chucNangHTML = "";
+    let currenSection = "";
+    const childNodes = doc.body.children;
+    for (let i = 0; i < childNodes.length; i++) {
+      const element = childNodes[i];
+      if (element.tagName === "H3") {
+        const text = element.textContent.toLowerCase().trim();
+        if (text.includes("thông số")) {
+          currenSection = "thongso";
+          continue;
+        } else if (text.includes("chức năng")) {
+          currenSection = "chucnang";
+          continue;
+        } else if (text.includes("thông tin")) {
+          currenSection = "thongtin";
+          continue;
+        }
+      }
+      if (currenSection === "chucnang") {
+        chucNangHTML += element.outerHTML;
+      }
+    }
+    document.querySelectorAll(".targetDeviceInfo")[i].innerHTML =
+      chucNangHTML || "<p>Đang cập nhật chức năng thiết bị</p>";
+  }
+});
 document.addEventListener("DOMContentLoaded", () => {
   const hamburgerBtn = document.getElementById("hamburgerBtn");
   const navMenu = document.getElementById("navMenu");

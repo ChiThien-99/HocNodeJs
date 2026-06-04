@@ -848,6 +848,13 @@ header {
         color: $colorSecondaryText;
         margin: 0.5rem 0;
       }
+      #btnCancleUDCategory,#btnCancleAddBlog,#btnCancleUpdateBlog,#btnDeleteImgBlog{
+        @include button(0.5rem);
+        background-color: red;
+        color: $colorSecondaryText;
+        margin: 0.5rem 0.5rem;
+        display: none;
+      }
       input[type="text"] {
         width: 50%;
         height: 2rem;
@@ -896,9 +903,9 @@ header {
         }
       }
       #divTableblogs {
-        width: 100%;
-        height: 30rem;
-        overflow: scroll;
+        width: fit-content;
+        height: 20rem;
+        overflow-y: scroll;
         margin: 1rem 0;
       }
       #tableblogs,
@@ -1497,7 +1504,6 @@ header {
         padding: 0.5rem 0.8rem;
         display: flex;
         flex-direction: column;
-
         a {
           text-decoration: none;
           color: black;
@@ -1654,51 +1660,57 @@ header {
       display: flex;
       flex-flow: row wrap;
       margin: 1rem 0;
-      .blogs {
+      a{
+        display: inline-block;
+        text-decoration: none;
+        color: black;
         width: 48%;
         height: 15rem;
+        margin: 1%;
+        .blogs {
+        width: 100%;
+        height: inherit;
         border: 1px solid black;
         border-radius: 5px;
         background-color: $colorPrimaryBG;
-        margin: 1%;
         display: flex;
         flex-flow: row nowrap;
         overflow: hidden;
-        .linkImg {
-          width: 50%;
-          height: 100%;
-          img {
-            width: 100%;
-            height: 100%;
+        img {
+            width: 50%;
+            height: inherit;
             object-fit: cover;
             margin: 0;
           }
-        }
         .blogs-content {
           width: 50%;
+          height: inherit;
           padding: 0.5rem 0.8rem;
           display: flex;
           flex-direction: column;
-          a {
-            text-decoration: none;
-            color: black;
-            h4 {
+          overflow-y: scroll;
+          h4 {
               font-size: 1.1rem;
               margin: 0;
-            }
+          }
+          p{
+            margin: 0.3rem 0;
           }
         }
       }
+      }
+      
     }
   }
   aside {
     width: 20%;
+    padding: 0 0.5rem;
     #banner {
       width: 100%;
       height: 35rem;
       border: 1px solid black;
       border-radius: 5px;
-      margin: 0.5rem 1% 1rem;
+      margin: 0.5rem 0 1rem;
       img {
         width: 100%;
         height: 100%;
@@ -1708,15 +1720,21 @@ header {
       display: flex;
       flex-direction: column;
       margin: 1rem 0;
-      .appCol {
+      a{
+        display: inline-block;
+        width: 100%;
+        height: 15rem;
+        margin: 2% 0;
+        text-decoration: none;
+        color: black;
+        .appCol {
+        width: 100%;
+        height: inherit;
         display: flex;
         flex-flow: row nowrap;
         overflow: hidden;
-        width: 100%;
-        height: 10rem;
         border: 1px solid black;
         border-radius: 5px;
-        margin: 2% 1%;
         div:first-child {
           width: 50%;
           height: inherit;
@@ -1733,42 +1751,38 @@ header {
           padding: 0.5rem 0.8rem;
           position: relative;
           background-color: $colorPrimaryBG;
+          overflow-y: scroll;
           h4 {
             font-size: 1.1rem;
             margin: 0 0 0.2rem 0;
           }
           p {
-            font-size: 0.8rem;
             margin: 0;
-          }
-          a {
-            display: inline-block;
-            text-decoration: none;
-            background-color: $colorCTA;
-            color: $colorSecondaryText;
-            @include button(0.5rem);
-            position: absolute;
-            bottom: 0.5rem;
-            right: 0.5rem;
-            width: 60%;
-            text-align: center;
           }
         }
       }
+      }
+      
     }
     #listDeviceCol {
       display: flex;
       flex-direction: column;
       margin: 1rem 0;
-      .deviceCol {
+      a{
+        display: inline-block;
+        text-decoration: none;
+        color: black;
+        width: 100%;
+        height: 15rem;
+        margin: 2% 0;
+        .deviceCol {
+        width: 100%;
+        height: inherit;
         display: flex;
         flex-flow: row nowrap;
         overflow: hidden;
-        width: 100%;
-        height: 12rem;
         border: 1px solid black;
         border-radius: 5px;
-        margin: 2% 1%;
         div:first-child {
           width: 50%;
           height: inherit;
@@ -1781,35 +1795,29 @@ header {
           p {
             margin: 0.5rem;
             font-size: 1.2rem;
+            font-weight: bold;
+            color: $colorCTA;
           }
         }
-        div:last-child {
+        .deviceContent {
           width: 50%;
           height: inherit;
           padding: 0.5rem 0.8rem;
           position: relative;
           background-color: $colorPrimaryBG;
+          overflow-y: scroll;
           h4 {
             font-size: 1.1rem;
             margin: 0 0 0.2rem 0;
           }
+          .rawDeviceInfo{
+            display: none;
+          }
           p {
-            font-size: 0.8rem;
             margin: 0;
           }
-          a {
-            display: inline-block;
-            text-decoration: none;
-            background-color: $colorCTA;
-            color: $colorSecondaryText;
-            @include button(0.5rem);
-            position: absolute;
-            bottom: 0.5rem;
-            right: 0.5rem;
-            width: 80%;
-            text-align: center;
-          }
         }
+      }
       }
     }
   }
@@ -1818,6 +1826,7 @@ header {
   width: 100%;
   display: flex;
   flex-flow: row wrap;
+  padding: 0 0.5rem;
   #listBlog {
     width: 75%;
     #filterBlogs {
@@ -1877,40 +1886,44 @@ header {
       display: flex;
       flex-flow: row wrap;
       margin: 1rem 0;
-      .blogs {
+      a{
+        display: inline-block;
         width: 48%;
         height: 15rem;
+        margin: 1%;
+        text-decoration: none;
+        color: black;
+        .blogs {
+        width: 100%;
+        height: inherit;
         border: 1px solid black;
         border-radius: 5px;
         background-color: $colorPrimaryBG;
-        margin: 1%;
         display: flex;
         flex-flow: row nowrap;
         overflow: hidden;
-        .linkImg {
-          width: 50%;
-          height: 100%;
-          img {
-            width: 100%;
-            height: 100%;
+        img {
+            width: 50%;
+            height: inherit;
             object-fit: cover;
             margin: 0;
           }
-        }
         .blogs-content {
           width: 50%;
+          height: inherit;
           padding: 0.5rem 0.8rem;
           display: flex;
           flex-direction: column;
-          a {
-            text-decoration: none;
-            color: black;
-            h4 {
+          overflow-y: scroll;
+          h4 {
               font-size: 1.1rem;
               margin: 0;
             }
+          p{
+            margin: 0.3rem 0;
           }
         }
+      }
       }
     }
     .paginationBar {
@@ -1943,7 +1956,7 @@ header {
       height: 35rem;
       border: 1px solid black;
       border-radius: 5px;
-      margin: 0.5rem 1% 1rem;
+      margin: 0.5rem 0 1rem;
       img {
         width: 100%;
         height: 100%;
@@ -1953,15 +1966,22 @@ header {
       display: flex;
       flex-direction: column;
       margin: 1rem 0;
+      a{
+        display: inline-block;
+        text-decoration: none;
+        color: black;
+        width: 100%;
+        height: 15rem;
+        margin: 2% 0;
+      }
       .appCol {
+        width: 100%;
+        height: inherit;
         display: flex;
         flex-flow: row nowrap;
         overflow: hidden;
-        width: 100%;
-        height: 10rem;
         border: 1px solid black;
         border-radius: 5px;
-        margin: 2% 1%;
         div:first-child {
           width: 50%;
           height: inherit;
@@ -1978,25 +1998,13 @@ header {
           padding: 0.5rem 0.8rem;
           position: relative;
           background-color: $colorPrimaryBG;
+          overflow-y: scroll;
           h4 {
             font-size: 1.1rem;
             margin: 0 0 0.2rem 0;
           }
           p {
-            font-size: 0.8rem;
             margin: 0;
-          }
-          a {
-            display: inline-block;
-            text-decoration: none;
-            background-color: $colorCTA;
-            color: $colorSecondaryText;
-            @include button(0.5rem);
-            position: absolute;
-            bottom: 0.5rem;
-            right: 0.5rem;
-            width: 60%;
-            text-align: center;
           }
         }
       }
@@ -2005,15 +2013,22 @@ header {
       display: flex;
       flex-direction: column;
       margin: 1rem 0;
+      a{
+        display: inline-block;
+        text-decoration: none;
+        color: black;
+        width: 100%;
+        height: 15rem;
+        margin: 2% 0;
+      }
       .deviceCol {
+        width: 100%;
+        height: inherit;
         display: flex;
         flex-flow: row nowrap;
         overflow: hidden;
-        width: 100%;
-        height: 12rem;
         border: 1px solid black;
         border-radius: 5px;
-        margin: 2% 1%;
         div:first-child {
           width: 50%;
           height: inherit;
@@ -2026,33 +2041,26 @@ header {
           p {
             margin: 0.5rem;
             font-size: 1.2rem;
+            font-weight: bold;
+            color: $colorCTA;
           }
         }
-        div:last-child {
+        .deviceContent {
           width: 50%;
           height: inherit;
           padding: 0.5rem 0.8rem;
           position: relative;
           background-color: $colorPrimaryBG;
+          overflow-y: scroll;
           h4 {
             font-size: 1.1rem;
             margin: 0 0 0.2rem 0;
           }
-          p {
-            font-size: 0.8rem;
-            margin: 0;
+          .rawDeviceInfo{
+            display: none;
           }
-          a {
-            display: inline-block;
-            text-decoration: none;
-            background-color: $colorCTA;
-            color: $colorSecondaryText;
-            @include button(0.5rem);
-            position: absolute;
-            bottom: 0.5rem;
-            right: 0.5rem;
-            width: 80%;
-            text-align: center;
+          p {
+            margin: 0;
           }
         }
       }
@@ -2899,7 +2907,7 @@ header {
           display: inline-block;
           width: 48%;
           height: 15rem;
-          margin: 1%;
+          margin: 1% 0;
           .device {
             width: 100%;
             height: inherit;
@@ -2963,7 +2971,7 @@ header {
       height: 35rem;
       border: 1px solid black;
       border-radius: 5px;
-      margin: 0 1% 1rem;
+      margin: 0 0 1rem;
       img {
         width: 100%;
         height: 100%;
@@ -2980,7 +2988,7 @@ header {
         display: inline-block;
         width: 100%;
         height: 15rem;
-        margin: 2% 1%;
+        margin: 2% 0;
         text-decoration: none;
         color: black;
       }
@@ -3027,7 +3035,7 @@ header {
         display: inline-block;
         width: 100%;
         height: 15rem;
-        margin: 2% 1%;
+        margin: 2% 0;
         text-decoration: none;
         color: black;
       }
@@ -3273,20 +3281,17 @@ footer {
         }
       }
       #listblogs {
-        .blogs {
+        a{
           width: 100%;
-          height: 10rem;
+          .blogs {
+          width: 100%;
           .blogs-content {
-            height: inherit;
-            overflow-y: scroll;
-            h4 {
-              font-size: 1rem;
-            }
             p {
               font-size: 0.8rem;
             }
           }
         }
+        } 
       }
     }
     aside {
@@ -3294,9 +3299,6 @@ footer {
       #listAppCol {
         .appCol {
           div:last-child {
-            h4 {
-              font-size: 1rem;
-            }
             p {
               font-size: 0.8rem;
             }
@@ -3310,15 +3312,12 @@ footer {
       width: 100%;
       border-bottom: 1px solid $colorCTA;
       #listblogs {
+        a{
+          width: 100%;
+        }
         .blogs {
           width: 100%;
-          height: 10rem;
           .blogs-content {
-            height: inherit;
-            overflow-y: scroll;
-            h4 {
-              font-size: 1rem;
-            }
             p {
               font-size: 0.8rem;
             }
@@ -3331,9 +3330,6 @@ footer {
       #listAppCol {
         .appCol {
           div:last-child {
-            h4 {
-              font-size: 1.1rem;
-            }
             p {
               font-size: 0.8rem;
             }
@@ -3343,9 +3339,6 @@ footer {
       #listDeviceCol {
         .deviceCol {
           div:last-child {
-            h4 {
-              font-size: 1.1rem;
-            }
             p {
               font-size: 0.8rem;
             }

@@ -132,7 +132,11 @@ socket.on("delete-app", (data) => {
   }
 });
 socket.on("update-categoryblogs",(data)=>{
-  document.querySelector("#tableCategoryblogs tbody").insertAdjacentHTML("afterbegin",`
+  const existRow=document.querySelector(`tr[data-idCategoryblogs="${data._id}"]`);
+  if (existRow) {
+    existRow.cells[0].innerText=data.name;
+  } else {
+    document.querySelector("#tableCategoryblogs tbody").insertAdjacentHTML("afterbegin",`
     <tr data-idCategoryblogs="${data._id}">
       <td>${data.name}</td>
       <td>
@@ -143,6 +147,45 @@ socket.on("update-categoryblogs",(data)=>{
       </td>
     </tr>
   `)
+  }
+})
+socket.on("delete-categoryblogs",(data)=>{
+  if (data && data._id) {
+    const rowToDelete = document.querySelector(`tr[data-idCategoryblogs="${data._id}"]`);
+    if (rowToDelete) {
+      rowToDelete.remove();
+    }
+  }
+})
+socket.on("update-blogs",(data)=>{
+  const existBlog=document.querySelector(`tr[data-idblogs="${data._id}"]`);
+  if (existBlog) {
+    existBlog.cells[0].innerText=data.title;
+    existBlog.cells[1].innerText=data.category;
+    existBlog.cells[2].innerText=new Date(data.createAt).toLocaleString("vi-VN");
+  } else {
+    document.querySelector("#tableblogs tbody").insertAdjacentHTML("afterbegin",`
+    <tr data-idblogs="${data._id}">
+      <td>${data.title}</td>
+      <td>${data.category}</td>
+      <td>${new Date(data.createAt).toLocaleString("vi-VN")}</td>
+      <td>
+        <div class="btnGroup">
+          <button class="btnUpdateblogs" data-idblogs="${data._id}">Cập nhật</button>
+          <button class="btnDeleteblogs" data-idblogs="${data._id}">Xóa</button>
+        </div>
+      </td>
+    </tr>  
+  `)
+  }
+})
+socket.on("delete-blogs",(data)=>{
+  if (data && data._id) {
+    const rowToDelete = document.querySelector(`tr[data-idblogs="${data._id}"]`);
+    if (rowToDelete) {
+      rowToDelete.remove();
+    }
+  }
 })
 async function verifySession() {
   try {
@@ -1365,6 +1408,9 @@ document.getElementById("btnCancelAddDevice").addEventListener("click",function(
   this.style.display="none";
 })
 const formblogs = document.getElementById("formblogs");
+formblogs.addEventListener("input",()=>{
+  checkFormEmptiness(formblogs,"idblogs","btnCancleAddBlog");
+})
 formblogs.addEventListener("submit", (e) => {
   e.preventDefault();
   const quillEditor = document.getElementsByClassName("quill-editor");
@@ -1382,27 +1428,16 @@ formblogs.addEventListener("submit", (e) => {
       .then(({ mess, success, error }) => {
         if (success) {
           document.getElementById("idblogs").value = "";
-          document.getElementById("titleblogs").value = "";
-          document.getElementById("infoblogs").value = "";
+          formblogs.reset();
           if (typeof quillInstances !== "undefined") {
             quillInstances[2].setText("");
           } else {
             console.error("Biến quill không tồn tại");
           }
-          document.getElementById("categoryblogs").value = "";
           document.getElementById("btnblogs").value = "Tạo";
+          document.getElementById("btnCancleUpdateBlog").style.display="none";
           alert("Thông báo", mess, "#80a710");
         } else {
-          document.getElementById("idblogs").value = "";
-          document.getElementById("titleblogs").value = "";
-          document.getElementById("infoblogs").value = "";
-          if (typeof quillInstances !== "undefined") {
-            quillInstances[2].setText("");
-          } else {
-            console.error("Biến quill không tồn tại");
-          }
-          document.getElementById("categoryblogs").value = "";
-          document.getElementById("btnblogs").value = "Tạo";
           alert("Lỗi", `${mess}\n${error}`, "red");
         }
       })
@@ -1417,26 +1452,15 @@ formblogs.addEventListener("submit", (e) => {
       .then((res) => res.json())
       .then(({ mess, success, error }) => {
         if (success) {
-          document.getElementById("imgblogs").value = "";
-          document.getElementById("titleblogs").value = "";
-          document.getElementById("infoblogs").value = "";
+          formblogs.reset();
           if (typeof quillInstances !== "undefined") {
             quillInstances[2].setText("");
           } else {
             console.error("Biến quill không tồn tại");
           }
-          document.getElementById("categoryblogs").value = "";
+          document.getElementById("btnCancleAddBlog").style.display="none";
           alert("Thông báo", mess, "#80a710");
         } else {
-          document.getElementById("imgblogs").value = "";
-          document.getElementById("titleblogs").value = "";
-          document.getElementById("infoblogs").value = "";
-          if (typeof quillInstances !== "undefined") {
-            quillInstances[2].setText("");
-          } else {
-            console.error("Biến quill không tồn tại");
-          }
-          document.getElementById("categoryblogs").value = "";
           alert("Lỗi", `${mess}\n${error}`, "red");
         }
       })
@@ -1445,6 +1469,26 @@ formblogs.addEventListener("submit", (e) => {
       });
   }
 });
+document.getElementById("btnCancleAddBlog").addEventListener("click",function(){
+  formblogs.reset();
+  if (typeof quillInstances !== "undefined") {
+    quillInstances[2].setText("");
+  } else {
+    console.error("Biến quill không tồn tại");
+  }
+  this.style.display="none";
+})
+document.getElementById("btnCancleUpdateBlog").addEventListener("click",function(){
+  formblogs.reset();
+  document.getElementById("idblogs").value = "";
+  if (typeof quillInstances !== "undefined") {
+    quillInstances[2].setText("");
+  } else {
+    console.error("Biến quill không tồn tại");
+  }
+  document.getElementById("btnblogs").value = "Tạo";
+  this.style.display="none";
+})
 document.getElementById("formCategoryblogs").addEventListener("submit", (e) => {
   e.preventDefault();
   const categoryblogs = document.getElementById("listCategoryblogs").value;
@@ -1461,11 +1505,9 @@ document.getElementById("formCategoryblogs").addEventListener("submit", (e) => {
           document.getElementById("idCategoryblogs").value = "";
           document.getElementById("listCategoryblogs").value = "";
           document.getElementById("btnCategoryblogs").value = "Tạo";
+          document.getElementById("btnCancleUDCategory").style.display="none";
           alert("Thông báo", mess, "#80a710");
         } else {
-          document.getElementById("idCategoryblogs").value = "";
-          document.getElementById("listCategoryblogs").value = "";
-          document.getElementById("btnCategoryblogs").value = "Tạo";
           alert("Lỗi", `${mess}\n${error}`, "red");
         }
       })
@@ -1484,7 +1526,6 @@ document.getElementById("formCategoryblogs").addEventListener("submit", (e) => {
           document.getElementById("listCategoryblogs").value = "";
           alert("Thông báo", mess, "#80a710");
         } else {
-          document.getElementById("listCategoryblogs").value = "";
           alert("Lỗi", `${mess}\n${error}`, "red");
         }
       })
@@ -1507,6 +1548,7 @@ document.querySelector("#tableCategoryblogs tbody").addEventListener("click",asy
           document.getElementById("idCategoryblogs").value = data._id;
           document.getElementById("listCategoryblogs").value = data.name;
           document.getElementById("btnCategoryblogs").value = "Cập nhật";
+          document.getElementById("btnCancleUDCategory").style.display="inline-block";
         } else {
           console.error("Lỗi không lấy được data");
         }
@@ -1541,10 +1583,16 @@ document.querySelector("#tableCategoryblogs tbody").addEventListener("click",asy
     }
   }
 });
-
-document.querySelectorAll(".btnUpdateblogs").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const id = btn.getAttribute("data-idblogs");
+document.getElementById("btnCancleUDCategory").addEventListener("click",function(){
+  document.getElementById("idCategoryblogs").value = "";
+  document.getElementById("listCategoryblogs").value = "";
+  document.getElementById("btnCategoryblogs").value = "Tạo";
+  this.style.display="none";
+})
+document.querySelector("#tableblogs tbody").addEventListener("click",async(e) => {
+  const target=e.target;
+  if (target.classList.contains("btnUpdateblogs")) {
+    const id = target.getAttribute("data-idblogs");
     fetch(`/dashboard/updateblogs/${id}`, {
       method: "GET",
       headers: { "Content-Type": "application/json;charset=UTF-8" },
@@ -1554,17 +1602,19 @@ document.querySelectorAll(".btnUpdateblogs").forEach((btn) => {
         if (data) {
           document.getElementById("idblogs").value = data._id;
           document.getElementById("titleblogs").value = data.title;
-          if (typeof quill !== "undefined") {
-            quill.clipboard.dangerouslyPasteHTML(data.info || "");
-          } else {
-            console.error("Biến quill chưa được khởi tạo");
-          }
+          if (typeof quillInstances !== "undefined") {
+              quillInstances[2].clipboard.dangerouslyPasteHTML(data.info || "");
+            } else {
+              console.error("Biến quill chưa được khởi tạo");
+            }
           const dataCategoryblogs = data.category;
           const categoryblogs = document.getElementById("categoryblogs");
           Array.from(categoryblogs.options).forEach((option) => {
             option.selected = dataCategoryblogs.includes(option.value);
           });
           document.getElementById("btnblogs").value = "Cập nhật";
+          document.getElementById("btnCancleUpdateBlog").style.display="inline-block";
+          document.getElementById("btnDeleteImgBlog").style.display="inline-block";
         } else {
           console.error("Lỗi không lấy được data");
         }
@@ -1572,17 +1622,15 @@ document.querySelectorAll(".btnUpdateblogs").forEach((btn) => {
       .catch((error) => {
         console.error(`Lỗi kết nối ${error}`);
       });
-  });
-});
-document.querySelectorAll(".btnDeleteblogs").forEach((btn) => {
-  btn.addEventListener("click", async () => {
+  }
+  if (target.classList.contains("btnDeleteblogs")) {
     const confirmDelete = await confirm(
       "Thông báo",
       "Bạn có chắc chắn muốn xóa blogs này",
       "#1877f2",
     );
     if (confirmDelete) {
-      const id = btn.getAttribute("data-idblogs");
+      const id = target.getAttribute("data-idblogs");
       fetch(`/dashboard/deleteblogs/${id}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json;charset=UTF-8" },
@@ -1599,8 +1647,29 @@ document.querySelectorAll(".btnDeleteblogs").forEach((btn) => {
           alert("Lỗi kết nối", error, "red");
         });
     }
-  });
+  }
 });
+document.getElementById("btnDeleteImgBlog").addEventListener("click",async()=>{
+  const confirmDelete=await confirm("Thông báo","Bạn có chắc chắn muốn xóa hỉnh ảnh blog này","#1877f2");
+  if (confirmDelete) {
+    const id=document.getElementById("idblogs").value;
+  fetch(`/dashboard/deleteImgBlog/${id}`,{
+    method:"DELETE",
+    headers:{"Content-Type":"application/json;charset=UTF-8"},
+  })
+  .then(res=>res.json())
+  .then(({mess,success,error})=>{
+    if (success) {
+      alert("Thông báo",mess,"#80a710");
+    } else {
+      alert("Lỗi",`${mess}\n${error}`,"red");
+    }
+  })
+  .catch((error)=>{
+    alert("Lỗi",error,"red");
+  });
+  }
+})
 document.getElementById("btnAddColor").addEventListener("click", () => {
   const colorContainer = document.getElementById("color-container");
   const newRow = document.createElement("div");
@@ -1658,6 +1727,7 @@ formBanner.addEventListener("submit", (e) => {
       });
   }
 });
+
 const btnUpdateBN = document.querySelectorAll(".btnUpdateBN");
 btnUpdateBN.forEach((btn) => {
   btn.addEventListener("click", () => {

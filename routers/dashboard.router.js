@@ -256,6 +256,7 @@ dashboardRouter.delete(
   authenticateToken,
   dashboardController.deleteImgColorDevice,
 );
+dashboardRouter.delete(`${prefix}/deleteImgBlog/:id`,authenticateToken,dashboardController.deleteImgBlog)
 dashboardRouter.delete(
   `${prefix}/deleteCategoryblogs/:id`,
   dashboardController.deleteCategoryblogs,

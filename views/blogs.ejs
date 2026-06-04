@@ -69,7 +69,7 @@
     </header>
     <main id="mainBlogs">
         <div id="listBlog">
-            <h3 class="flag-item">Blog</h3>
+            <a class="flag-item" href="/blogs">Blog</a>
             <div id="filterBlogs">
                 <h3>Bộ lọc</h3>
                 <a href="/blogs?sort=createAt" id="btnNewBlog" class="<%=sort==='createAt'?'active':''%>">Mới nhất</a>
@@ -83,7 +83,7 @@
                 <div id="categoryWrapper">
                 <div id="divCategoryBlog">
                   <%categoryblogs.forEach((category)=>{%>
-                  <a class="categoryblogs"><%=category.name%></a>
+                  <a class="categoryblogs" data-idCategoryBlog="<%=category._id%>"><%=category.name%></a>
                   <%})%>
                 </div>
                 <a id="filterCategoryBlog">Lọc</a>
@@ -91,24 +91,21 @@
             </div>
              <div id="listblogs">
             <%blogList.forEach((blogs)=>{%>
-            
-            <div class="blogs">
-              <a href="/blogs/detailBlog/<%=blogs._id%>" target="_blank" class="linkImg"><img src="<%=blogs.image%>" alt="blogs"></a>
+            <a href="/blogs/detailBlog/<%=blogs._id%>" target="_blank" class="linkImg" data-idBlog="<%=blogs._id%>">
+               <div class="blogs">
+              <img src="<%=blogs.image%>" alt="blogs">
               <div class="blogs-content">
-                <a href="/blogs/detailBlog/<%=blogs._id%>" target="_blank"><h4><%=blogs.title%></h4></a>
-                <p>
+                <h4><%=blogs.title%></h4>
+                <div>
                   <%
-                  let plainText=blogs.info.replace(/<\/?[^>]+(>|$)/g,"");
-                  plainText=plainText.replace(/&nbsp;|&#160;/gi," ");
-                  plainText=plainText.replace(/&quot;/gi,'"');
-                  plainText=plainText.replace(/&#39;/gi,"'");
-                  plainText=plainText.replace(/\s+/g," ").trim();
+                  let plainText=blogs.info.replace(/&nbsp;|&#160;/gi," ");
                   let shortText=plainText.length>200?plainText.substring(0,200)+"...":plainText;
                   %>
-                  <%=shortText%>
-                </p> 
+                  <%-shortText%>
+                </div> 
               </div>
             </div>
+            </a>
             <%})%>
           </div>
           <%if(totalPage>1){%>
@@ -132,53 +129,42 @@
         </div>
         <%}%>
         <div>
-          <h3 class="flag-item">Phần mềm</h3>
+          <a class="flag-item" href="/app">Phần mềm</a>
           <div id="listAppCol">
             <%apps.forEach((app)=>{%>
-            <div class="appCol">
+            <a href="/detailApp/<%=app._id%>" target="_blank">
+              <div class="appCol">
               <div>
                 <img src="<%=app.image%>" alt="app">
               </div>
               <div>
                 <h4><%=app.name%></h4>
-                <p>
-                   <%
-                  let plainText=app.info.replace(/<\/?[^>]+(>|$)/g,"");
-                  plainText=plainText.replace(/&nbsp;|&#160;/gi," ");
-                  plainText=plainText.replace(/\s+/g," ").trim();
-                  let shortText=plainText.length>200?plainText.substring(0,200)+"...":plainText;
-                  %>
-                  <%=shortText%>
-                </p>
-                <a href="/app/<%=app.name%>/<%=app._id%>" target="_blank">Truy cập</a>
+                <%-app.info.replace(/&nbsp;|&#160;/gi," ")%>
               </div>
             </div>
+            </a>
             <%})%>
           </div>
         </div>
         <div>
-          <h3 class="flag-item">Thiết bị</h3>
+          <a class="flag-item" href="/device">Thiết bị</a>
           <div id="listDeviceCol">
             <%devices.forEach((device)=>{%>
-            <div class="deviceCol">
+             <a href="/detailDevice/<%=device._id%>" target="_blank">
+              <div class="deviceCol">
               <div>
-                <img src="<%=device.image%>" alt="device">
+                <img src="<%=device.images[0].url%>" alt="device">
                 <p><%=device.price.toLocaleString('vi-VN')%>đ</p>
               </div>
-              <div>
+              <div class="deviceContent">
                 <h4><%=device.name%></h4>
-                <p>
-                  <%
-                  let plainText=device.info.replace(/<\/?[^>]+(>|$)/g,"");
-                  plainText=plainText.replace(/&nbsp;|&#160;/gi," ");
-                  plainText=plainText.replace(/\s+/g," ").trim();
-                  let shortText=plainText.length>200?plainText.substring(0,200)+"...":plainText;
-                  %>
-                  <%=shortText%>
-                </p>
-                <a href="/device/<%=device.name%>/<%=device._id%>" target="_blank">Xem chi tiết</a>
+                <div class="rawDeviceInfo">
+                  <%-device.info.replace(/&nbsp;|&#160;/gi," ")%>
+                </div>
+                <div class="targetDeviceInfo"></div>
               </div>
             </div>
+            </a>
             <%})%>
           </div>
         </div>

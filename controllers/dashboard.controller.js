@@ -993,13 +993,9 @@ export const putUpdateCategoryblogs = async (req, res) => {
   try {
     const { id } = req.params;
     const { categoryblogs } = req.body;
-    await categoryblogsEntity.findByIdAndUpdate(id, { name: categoryblogs });
+    const updateCategoryBlog=await categoryblogsEntity.findByIdAndUpdate(id, { name: categoryblogs },{new:true});
     const io = req.app.get("socketio");
-    const allCategoryblogs = await categoryblogsEntity
-      .find()
-      .sort("-createAt")
-      .limit(6);
-    io.emit("update-categoryblogs", allCategoryblogs);
+    io.emit("update-categoryblogs", updateCategoryBlog);
     res.json({ mess: "Cập nhật danh mục blogs thành công", success: true });
   } catch (error) {
     res.json({
@@ -1012,13 +1008,9 @@ export const putUpdateCategoryblogs = async (req, res) => {
 export const deleteCategoryblogs = async (req, res) => {
   try {
     const { id } = req.params;
-    await categoryblogsEntity.findByIdAndDelete(id);
+    const deleteCategoryBlog=await categoryblogsEntity.findByIdAndDelete(id);
     const io = req.app.get("socketio");
-    const allCategoryblogs = await categoryblogsEntity
-      .find()
-      .sort("-createAt")
-      .limit(6);
-    io.emit("update-categoryblogs", allCategoryblogs);
+    io.emit("delete-categoryblogs", deleteCategoryBlog);
     res.json({ mess: "Xóa danh mục blogs thành công", success: true });
   } catch (error) {
     res.json({
@@ -1040,15 +1032,26 @@ export const getUpdateblogs = async (req, res) => {
 export const putUpdateblogs = async (req, res) => {
   try {
     const { id } = req.params;
+    const currentBlog=await blogsEntity.findById(id);
     const { titleblogs, infoblogs, categoryblogs } = req.body;
-    await blogsEntity.findByIdAndUpdate(id, {
+    let image="";
+    let cloudinary_id="";
+    if (req.file) {
+      image= req.file.path;
+      cloudinary_id= req.file.filename;
+    } else {
+      image= currentBlog.image;
+      cloudinary_id= currentBlog.cloudinary_id;
+    }
+    const updateBlog=await blogsEntity.findByIdAndUpdate(id, {
+      image:image,
+      cloudinary_id:cloudinary_id,
       title: titleblogs,
       info: infoblogs,
       category: categoryblogs,
-    });
+    },{new:true});
     const io = req.app.get("socketio");
-    const allblogs = await blogsEntity.find().sort("-createAt").limit(6);
-    io.emit("update-blogs", allblogs);
+    io.emit("update-blogs", updateBlog);
     res.json({ mess: "Cập nhật blogs thành công", success: true });
   } catch (error) {
     res.json({
@@ -1058,6 +1061,16 @@ export const putUpdateblogs = async (req, res) => {
     });
   }
 };
+export const deleteImgBlog=async(req,res)=>{
+  try {
+  const {id}=req.params;
+  const blogNeedDelete=await blogsEntity.findById(id);
+  await cloudinary.uploader.destroy(blogNeedDelete.cloudinary_id);
+  res.json({mess:"Xóa hình ảnh blog thành công",success:true});
+  } catch (error) {
+  res.json({mess:"Xóa hình ảnh blog thất bại",success:false});
+  }
+}
 export const deleteblogs = async (req, res) => {
   try {
     const { id } = req.params;
@@ -1066,10 +1079,9 @@ export const deleteblogs = async (req, res) => {
       return res.json({ mess: "Không lấy được blogs để xóa", success: false });
     }
     await cloudinary.uploader.destroy(blogs.cloudinary_id);
-    await blogsEntity.findByIdAndDelete(id);
+    const deleteBlog=await blogsEntity.findByIdAndDelete(id);
     const io = req.app.get("socketio");
-    const allblogs = await blogsEntity.find().sort("-createAt").limit(6);
-    io.emit("update-blogs", allblogs);
+    io.emit("delete-blogs", deleteBlog);
     res.json({ mess: "Xóa blogs thành công", success: true });
   } catch (error) {
     res.json({

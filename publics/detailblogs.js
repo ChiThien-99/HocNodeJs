@@ -159,6 +159,40 @@ document.getElementById("btnShareZL").addEventListener("click", () => {
   );
 });
 document.addEventListener("DOMContentLoaded", () => {
+  const device = document.querySelectorAll(".deviceCol");
+  for (let i = 0; i < device.length; i++) {
+    const rawDeviceInfo = document.querySelectorAll(
+      ".rawDeviceInfo",
+    )[i].innerHTML;
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(rawDeviceInfo, "text/html");
+    let chucNangHTML = "";
+    let currenSection = "";
+    const childNodes = doc.body.children;
+    for (let i = 0; i < childNodes.length; i++) {
+      const element = childNodes[i];
+      if (element.tagName === "H3") {
+        const text = element.textContent.toLowerCase().trim();
+        if (text.includes("thông số")) {
+          currenSection = "thongso";
+          continue;
+        } else if (text.includes("chức năng")) {
+          currenSection = "chucnang";
+          continue;
+        } else if (text.includes("thông tin")) {
+          currenSection = "thongtin";
+          continue;
+        }
+      }
+      if (currenSection === "chucnang") {
+        chucNangHTML += element.outerHTML;
+      }
+    }
+    document.querySelectorAll(".targetDeviceInfo")[i].innerHTML =
+      chucNangHTML || "<p>Đang cập nhật chức năng thiết bị</p>";
+  }
+});
+document.addEventListener("DOMContentLoaded", () => {
   const hamburgerBtn = document.getElementById("hamburgerBtn");
   const navMenu = document.getElementById("navMenu");
   if (hamburgerBtn && navMenu) {

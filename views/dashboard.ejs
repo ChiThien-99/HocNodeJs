@@ -543,6 +543,7 @@
               <label for="listCategoryblogs">Danh mục blog</label><br>
               <input type="text" name="listCategoryblogs" id="listCategoryblogs"><br>
               <input type="submit" value="Tạo" id="btnCategoryblogs">
+              <button type="button" id="btnCancleUDCategory">Hủy cập nhật</button>
             </form>
             <div id="divTableCategoryblogs">
               <table id="tableCategoryblogs">
@@ -571,7 +572,8 @@
             <form enctype="multipart/form-data" id="formblogs">
               <input type="hidden" name="idblogs" id="idblogs">
               <label for="imgblogs">Hình ảnh</label><br>
-              <input type="file" accept="image/webp" name="imgblogs" id="imgblogs"><br>
+              <input type="file" accept="image/webp" name="imgblogs" id="imgblogs">
+              <button type="button" id="btnDeleteImgBlog">Xóa hình</button><br>
               <label for="titleblogs">Tiêu đề blog</label><br>
               <input type="text" name="titleblogs" id="titleblogs"><br>
               <label for="infoblogs">Nội dung blog</label><br>
@@ -584,31 +586,26 @@
                 <%})%>
               </select><br>
               <input type="submit" id="btnblogs" value="Tạo">
+              <button type="button" id="btnCancleAddBlog">Hủy tạo</button>
+              <button type="button" id="btnCancleUpdateBlog">Hủy cập nhật</button>
             </form>
             <em>Lưu ý: Nếu sai hình ảnh hãy xóa luôn blog và tạo mới</em>
              <div id="divTableblogs">
               <table id="tableblogs">
-              <tr>
+                <thead>
+                   <tr>
                 <th>Tiêu đề blog</th>
-                <th>Nội dung blog</th>
                 <th>Danh mục</th>
                 <th>Ngày tạo</th>
                 <th>Thao tác</th>
               </tr>
-              <%listblogs.forEach((blogs)=>{%>
-              <tr>
+                </thead>
+              <tbody>
+                 <%listblogs.forEach((blogs)=>{%>
+              <tr data-idblogs="<%=blogs._id%>">
                 <td><%=blogs.title%></td>
-                <td><p>
-                  <%
-                  let plainText=blogs.info.replace(/<\/?[^>]+(>|$)/g,"");
-                  plainText=plainText.replace(/&nbsp;|&#160;/gi," ");
-                  plainText=plainText.replace(/\s+/g," ").trim();
-                  let shortText=plainText.length>200?plainText.substring(0,200)+"...":plainText;
-                  %>
-                  <%=shortText%>
-                </p></td>
                 <td><%=blogs.category%></td>
-                <td><%=new Date(blogs.createAt).toLocaleString()%></td>
+                <td><%=new Date(blogs.createAt).toLocaleString("vi-VN")%></td>
                 <td>
                   <div class="btnGroup">
                     <button class="btnUpdateblogs" data-idblogs="<%=blogs._id%>">Cập nhật</button>
@@ -617,6 +614,7 @@
                 </td>
               </tr>
               <%})%>
+              </tbody>
             </table>
             </div>
           </div>
