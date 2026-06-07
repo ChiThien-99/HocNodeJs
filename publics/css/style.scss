@@ -1244,6 +1244,9 @@ header {
       font-weight: bold;
       height: 2.4rem;
       @include button(0.5rem);
+      i {
+        font-size: 0.9rem;
+      }
     }
   }
   #groupFilterApp {
@@ -1362,6 +1365,9 @@ header {
       font-weight: bold;
       height: 2.4rem;
       @include button(0.5rem);
+      i {
+        font-size: 0.9rem;
+      }
     }
   }
   #groupFilterDeviceIndex {
@@ -1490,6 +1496,9 @@ header {
       font-weight: bold;
       height: 2.4rem;
       @include button(0.5rem);
+      i {
+        font-size: 0.9rem;
+      }
     }
   }
   #groupFilterCategoryblogs {

@@ -1465,6 +1465,9 @@ header div:last-child h2 {
   cursor: pointer;
   padding: 0.5rem;
 }
+#divApp #headerApp a:nth-child(2) i {
+  font-size: 0.9rem;
+}
 #divApp #groupFilterApp {
   display: flex;
   flex-flow: row nowrap;
@@ -1590,6 +1593,9 @@ header div:last-child h2 {
   border-radius: 5px;
   cursor: pointer;
   padding: 0.5rem;
+}
+#divDeviceIndex #headerDeviceIndex a:nth-child(2) i {
+  font-size: 0.9rem;
 }
 #divDeviceIndex #groupFilterDeviceIndex {
   display: flex;
@@ -1726,6 +1732,9 @@ header div:last-child h2 {
   border-radius: 5px;
   cursor: pointer;
   padding: 0.5rem;
+}
+#divblogs #headerblogs a:nth-child(2) i {
+  font-size: 0.9rem;
 }
 #divblogs #groupFilterCategoryblogs {
   display: flex;
