@@ -520,6 +520,18 @@ header div:last-child h2 {
   color: #fafafa;
   margin: 1rem 0;
 }
+#mainDashboard #contentDashboard #homeMng #btnCancelCarousel,
+#mainDashboard #contentDashboard #homeMng #btnDeleteImgCarousel,
+#mainDashboard #contentDashboard #homeMng #btnCancelNotify {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: red;
+  color: #fafafa;
+  margin: 0.5rem 0.5rem;
+  display: none;
+}
 #mainDashboard #contentDashboard #homeMng select {
   height: 2.5rem;
   font-size: 1rem;
@@ -527,12 +539,14 @@ header div:last-child h2 {
 #mainDashboard #contentDashboard #homeMng em {
   color: red;
 }
-#mainDashboard #contentDashboard #homeMng #divTableBanner {
-  width: 100%;
-  overflow: scroll;
+#mainDashboard #contentDashboard #homeMng #divTableCarousel {
+  width: -moz-fit-content;
+  width: fit-content;
+  height: 20rem;
+  overflow-y: scroll;
   margin: 1rem 0;
 }
-#mainDashboard #contentDashboard #homeMng #tableBanner,
+#mainDashboard #contentDashboard #homeMng #tableCarousel,
 #mainDashboard #contentDashboard #homeMng th,
 #mainDashboard #contentDashboard #homeMng td {
   border: 1px solid black;
@@ -540,16 +554,16 @@ header div:last-child h2 {
   padding: 0.5rem;
   text-align: left;
 }
-#mainDashboard #contentDashboard #homeMng #tableBanner .btnGroup,
+#mainDashboard #contentDashboard #homeMng #tableCarousel .btnGroup,
 #mainDashboard #contentDashboard #homeMng th .btnGroup,
 #mainDashboard #contentDashboard #homeMng td .btnGroup {
   display: flex;
   flex-direction: row nowrap;
   gap: 0.5rem;
 }
-#mainDashboard #contentDashboard #homeMng #tableBanner .btnUpdateBanner,
-#mainDashboard #contentDashboard #homeMng th .btnUpdateBanner,
-#mainDashboard #contentDashboard #homeMng td .btnUpdateBanner {
+#mainDashboard #contentDashboard #homeMng #tableCarousel .btnUpdateCarousel,
+#mainDashboard #contentDashboard #homeMng th .btnUpdateCarousel,
+#mainDashboard #contentDashboard #homeMng td .btnUpdateCarousel {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -557,9 +571,9 @@ header div:last-child h2 {
   background-color: #80a710;
   color: #fafafa;
 }
-#mainDashboard #contentDashboard #homeMng #tableBanner .btnDeleteBanner,
-#mainDashboard #contentDashboard #homeMng th .btnDeleteBanner,
-#mainDashboard #contentDashboard #homeMng td .btnDeleteBanner {
+#mainDashboard #contentDashboard #homeMng #tableCarousel .btnDeleteCarousel,
+#mainDashboard #contentDashboard #homeMng th .btnDeleteCarousel,
+#mainDashboard #contentDashboard #homeMng td .btnDeleteCarousel {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -568,8 +582,10 @@ header div:last-child h2 {
   color: #fafafa;
 }
 #mainDashboard #contentDashboard #homeMng #divTableNotify {
-  width: 100%;
-  overflow: scroll;
+  width: -moz-fit-content;
+  width: fit-content;
+  height: 20rem;
+  overflow-y: scroll;
   margin: 1rem 0;
 }
 #mainDashboard #contentDashboard #homeMng #tableNotify,
@@ -618,8 +634,8 @@ header div:last-child h2 {
   background-color: #80a710;
   color: #fafafa;
 }
-#mainDashboard #contentDashboard #bannerMng #btnDeleteBN,
-#mainDashboard #contentDashboard #bannerMng #btnCancleUpdateBN {
+#mainDashboard #contentDashboard #bannerMng #btnDeleteImgBN,
+#mainDashboard #contentDashboard #bannerMng #btnCancleBN {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -647,8 +663,9 @@ header div:last-child h2 {
   height: 2rem;
 }
 #mainDashboard #contentDashboard #bannerMng #divTableBN {
-  width: 100%;
-  overflow-x: scroll;
+  width: -moz-fit-content;
+  width: fit-content;
+  height: auto;
 }
 #mainDashboard #contentDashboard #bannerMng #divTableBN #tableBN,
 #mainDashboard #contentDashboard #bannerMng #divTableBN th,
@@ -702,10 +719,9 @@ header div:last-child h2 {
   color: #fafafa;
   margin: 0.5rem 0;
 }
-#mainDashboard #contentDashboard #softwareMng #btnCancelUDFuncApp,
-#mainDashboard #contentDashboard #softwareMng #btnCancelUpdateApp,
-#mainDashboard #contentDashboard #softwareMng #btnDeleteImgApp,
-#mainDashboard #contentDashboard #softwareMng #btnCancelAddApp {
+#mainDashboard #contentDashboard #softwareMng #btnCancelFuncApp,
+#mainDashboard #contentDashboard #softwareMng #btnCancelApp,
+#mainDashboard #contentDashboard #softwareMng #btnDeleteImgApp {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -836,11 +852,10 @@ header div:last-child h2 {
   color: #fafafa;
   margin: 0.5rem 0;
 }
-#mainDashboard #contentDashboard #deviceMng #btnCancleUpdateDevice,
-#mainDashboard #contentDashboard #deviceMng #btnCancleUpdateFuncDevice,
+#mainDashboard #contentDashboard #deviceMng #btnCancleFuncDevice,
 #mainDashboard #contentDashboard #deviceMng #deleteImageDevice,
 #mainDashboard #contentDashboard #deviceMng #deleteImageColor,
-#mainDashboard #contentDashboard #deviceMng #btnCancelAddDevice {
+#mainDashboard #contentDashboard #deviceMng #btnCancelDevice {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -1004,12 +1019,34 @@ header div:last-child h2 {
   color: #fafafa;
   margin: 0.5rem 0;
 }
-#mainDashboard #contentDashboard #blogsMng #btnCancleUDCategory, #mainDashboard #contentDashboard #blogsMng #btnCancleAddBlog, #mainDashboard #contentDashboard #blogsMng #btnCancleUpdateBlog, #mainDashboard #contentDashboard #blogsMng #btnDeleteImgBlog {
+#mainDashboard #contentDashboard #blogsMng #btnPostDraft {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #80a710;
+  color: #fafafa;
+  margin: 0.5rem 0;
+  display: none;
+}
+#mainDashboard #contentDashboard #blogsMng #btnCancleUDCategory,
+#mainDashboard #contentDashboard #blogsMng #btnCancleBlog,
+#mainDashboard #contentDashboard #blogsMng #btnDeleteImgBlog {
   border: none;
   border-radius: 5px;
   cursor: pointer;
   padding: 0.5rem;
   background-color: red;
+  color: #fafafa;
+  margin: 0.5rem 0.5rem;
+  display: none;
+}
+#mainDashboard #contentDashboard #blogsMng #btnSaveDraft {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #1877f2;
   color: #fafafa;
   margin: 0.5rem 0.5rem;
   display: none;
@@ -1074,6 +1111,60 @@ header div:last-child h2 {
   background-color: red;
   color: #fafafa;
 }
+#mainDashboard #contentDashboard #blogsMng b {
+  text-align: left;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background-color: #80a710;
+}
+#mainDashboard #contentDashboard #blogsMng #divTableBlogsDraft {
+  width: -moz-fit-content;
+  width: fit-content;
+  height: 10rem;
+  overflow-y: scroll;
+  margin: 1rem 0;
+}
+#mainDashboard #contentDashboard #blogsMng #tableBlogsDraft,
+#mainDashboard #contentDashboard #blogsMng th,
+#mainDashboard #contentDashboard #blogsMng td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 0.5rem;
+  text-align: left;
+}
+#mainDashboard #contentDashboard #blogsMng #tableBlogsDraft .btnGroup,
+#mainDashboard #contentDashboard #blogsMng th .btnGroup,
+#mainDashboard #contentDashboard #blogsMng td .btnGroup {
+  display: flex;
+  flex-direction: row nowrap;
+  gap: 0.5rem;
+}
+#mainDashboard #contentDashboard #blogsMng #tableBlogsDraft .btnEditBlogsDraft,
+#mainDashboard #contentDashboard #blogsMng th .btnEditBlogsDraft,
+#mainDashboard #contentDashboard #blogsMng td .btnEditBlogsDraft {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #80a710;
+  color: #fafafa;
+}
+#mainDashboard #contentDashboard #blogsMng #tableBlogsDraft .btnDeleteBlogsDraft,
+#mainDashboard #contentDashboard #blogsMng th .btnDeleteBlogsDraft,
+#mainDashboard #contentDashboard #blogsMng td .btnDeleteBlogsDraft {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: red;
+  color: #fafafa;
+}
+#mainDashboard #contentDashboard #blogsMng b {
+  text-align: left;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background-color: #80a710;
+}
 #mainDashboard #contentDashboard #blogsMng #divTableblogs {
   width: -moz-fit-content;
   width: fit-content;
@@ -1121,6 +1212,7 @@ header div:last-child h2 {
   width: 20%;
   height: 8rem;
   margin: auto;
+  padding-top: 1rem;
 }
 #logoLogin .brand-group {
   transform: translate(4rem, 1rem);
@@ -1216,13 +1308,13 @@ header div:last-child h2 {
   display: flex;
   flex-flow: row nowrap;
   width: 100%;
-  height: auto;
-  border: 1px solid black;
+  height: 30rem;
+  margin-top: 1rem;
 }
 #divAboutAndBanner #notification-container {
   width: 40%;
-  height: 25rem;
-  padding: 0.5rem;
+  height: inherit;
+  padding: 0 0.5rem;
 }
 #divAboutAndBanner #notification-container #headerNotification {
   display: flex;
@@ -1248,7 +1340,7 @@ header div:last-child h2 {
   background-color: #f5f5f5;
 }
 #divAboutAndBanner #notification-container #bodyNotification {
-  height: 19rem;
+  height: 25rem;
   overflow-y: scroll;
 }
 #divAboutAndBanner #notification-container #bodyNotification .notify {
@@ -1266,12 +1358,15 @@ header div:last-child h2 {
 }
 #divAboutAndBanner #notification-container #bodyNotification .notify a p {
   color: black;
+  text-decoration: underline;
 }
 #divAboutAndBanner #carousel-container {
   width: 60%;
-  height: 25rem;
+  height: inherit;
   overflow: hidden;
   position: relative;
+  border: 0;
+  border-radius: 5px;
 }
 #divAboutAndBanner #carousel-container #carousel-wrapper {
   display: flex;
@@ -1295,9 +1390,10 @@ header div:last-child h2 {
   bottom: 0;
   height: 30%;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.5);
   color: #fafafa;
   padding: 1rem;
+  font-size: 1.3rem;
 }
 #divAboutAndBanner #carousel-container #prev,
 #divAboutAndBanner #carousel-container #next {
@@ -1318,10 +1414,10 @@ header div:last-child h2 {
   background-color: rgba(0, 0, 0, 0.8);
 }
 #divAboutAndBanner #carousel-container #prev {
-  left: 0.5rem;
+  left: 0;
 }
 #divAboutAndBanner #carousel-container #next {
-  right: 0.5rem;
+  right: 0;
 }
 #divAboutAndBanner #carousel-container #indicators {
   position: absolute;
@@ -1348,7 +1444,6 @@ header div:last-child h2 {
 #divApp {
   width: 100%;
   height: auto;
-  border: 1px solid black;
   padding: 1rem;
 }
 #divApp #headerApp {
@@ -1357,12 +1452,13 @@ header div:last-child h2 {
   justify-content: space-between;
   align-items: center;
 }
-#divApp #headerApp a {
+#divApp #headerApp a:nth-child(2) {
   display: inline-block;
   text-decoration: none;
   background-color: #80a710;
   color: #fafafa;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
+  font-weight: bold;
   height: 2.4rem;
   border: none;
   border-radius: 5px;
@@ -1427,18 +1523,24 @@ header div:last-child h2 {
 #divApp #listApp {
   display: flex;
   flex-flow: row wrap;
-  border: 1px solid black;
   margin: 1rem 0;
+}
+#divApp #listApp a {
+  display: inline-block;
+  width: 48%;
+  height: 15rem;
+  margin: 1%;
+  color: black;
+  text-decoration: none;
 }
 #divApp #listApp .app {
   display: flex;
   flex-flow: row nowrap;
   overflow: hidden;
-  width: 48%;
-  height: 15rem;
+  width: 100%;
+  height: inherit;
   border: 1px solid black;
   border-radius: 5px;
-  margin: 1%;
 }
 #divApp #listApp .app div:first-child {
   width: 50%;
@@ -1455,46 +1557,19 @@ header div:last-child h2 {
   width: 50%;
   height: inherit;
   padding: 0.5rem 0.8rem;
-  position: relative;
-  background-color: #f5f5f5;
+  overflow-y: scroll;
 }
 #divApp #listApp .app div:last-child h4 {
   font-size: 1.1rem;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.5;
-  max-height: 3em;
   margin: 0;
 }
 #divApp #listApp .app div:last-child p {
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 7;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.5;
-  max-height: 10.5em;
-  margin: 0;
-}
-#divApp #listApp .app div:last-child a {
-  display: inline-block;
-  text-decoration: none;
-  background-color: #80a710;
-  color: #fafafa;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  padding: 0.5rem;
-  position: absolute;
-  bottom: 0.5rem;
-  right: 0.5rem;
+  margin: 0.3rem 0;
 }
 
 #divDeviceIndex {
   width: 100%;
   height: auto;
-  border: 1px solid black;
   padding: 1rem;
 }
 #divDeviceIndex #headerDeviceIndex {
@@ -1503,12 +1578,13 @@ header div:last-child h2 {
   justify-content: space-between;
   align-items: center;
 }
-#divDeviceIndex #headerDeviceIndex a {
+#divDeviceIndex #headerDeviceIndex a:nth-child(2) {
   display: inline-block;
   text-decoration: none;
   background-color: #80a710;
   color: #fafafa;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
+  font-weight: bold;
   height: 2.4rem;
   border: none;
   border-radius: 5px;
@@ -1573,18 +1649,24 @@ header div:last-child h2 {
 #divDeviceIndex #listDeviceIndex {
   display: flex;
   flex-flow: row wrap;
-  border: 1px solid black;
   margin: 1rem 0;
+}
+#divDeviceIndex #listDeviceIndex a {
+  display: inline-block;
+  width: 48%;
+  height: 15rem;
+  margin: 1%;
+  color: black;
+  text-decoration: none;
 }
 #divDeviceIndex #listDeviceIndex .deviceIndex {
   display: flex;
   flex-flow: row nowrap;
   overflow: hidden;
-  width: 48%;
-  height: 15rem;
+  width: 100%;
+  height: inherit;
   border: 1px solid black;
   border-radius: 5px;
-  margin: 1%;
 }
 #divDeviceIndex #listDeviceIndex .deviceIndex div:first-child {
   width: 50%;
@@ -1600,52 +1682,30 @@ header div:last-child h2 {
 #divDeviceIndex #listDeviceIndex .deviceIndex div:first-child p {
   margin: 0.5rem;
   font-size: 1.2rem;
+  font-weight: bold;
+  color: #80a710;
 }
-#divDeviceIndex #listDeviceIndex .deviceIndex div:last-child {
+#divDeviceIndex #listDeviceIndex .deviceIndex .device-content {
   width: 50%;
   height: inherit;
   padding: 0.5rem 0.8rem;
-  position: relative;
   background-color: #f5f5f5;
+  overflow-y: scroll;
 }
-#divDeviceIndex #listDeviceIndex .deviceIndex div:last-child h4 {
+#divDeviceIndex #listDeviceIndex .deviceIndex .device-content h4 {
   font-size: 1.1rem;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.5;
-  max-height: 3em;
   margin: 0;
 }
-#divDeviceIndex #listDeviceIndex .deviceIndex div:last-child p {
-  font-size: 1.1rem;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 7;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.5;
-  max-height: 10.5em;
-  margin: 0;
+#divDeviceIndex #listDeviceIndex .deviceIndex .device-content .rawDeviceInfo {
+  display: none;
 }
-#divDeviceIndex #listDeviceIndex .deviceIndex div:last-child a {
-  display: inline-block;
-  text-decoration: none;
-  background-color: #80a710;
-  color: #fafafa;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  padding: 0.5rem;
-  position: absolute;
-  bottom: 0.5rem;
-  right: 0.5rem;
+#divDeviceIndex #listDeviceIndex .deviceIndex .device-content p {
+  margin: 0.3rem 0;
 }
 
 #divblogs {
   width: 100%;
   height: auto;
-  border: 1px solid black;
   padding: 1rem;
 }
 #divblogs #headerblogs {
@@ -1654,12 +1714,13 @@ header div:last-child h2 {
   justify-content: space-between;
   align-items: center;
 }
-#divblogs #headerblogs a {
+#divblogs #headerblogs a:nth-child(2) {
   display: inline-block;
   text-decoration: none;
   background-color: #80a710;
   color: #fafafa;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
+  font-weight: bold;
   height: 2.4rem;
   border: none;
   border-radius: 5px;
@@ -1693,26 +1754,28 @@ header div:last-child h2 {
 #divblogs #listblogs {
   display: flex;
   flex-flow: row wrap;
-  border: 1px solid black;
   margin: 1rem 0;
 }
-#divblogs #listblogs .blogs {
+#divblogs #listblogs a {
+  display: inline-block;
   width: 48%;
   height: 15rem;
+  margin: 1%;
+  color: black;
+  text-decoration: none;
+}
+#divblogs #listblogs .blogs {
+  width: 100%;
+  height: inherit;
   border: 1px solid black;
   border-radius: 5px;
   background-color: #f5f5f5;
-  margin: 1%;
   display: flex;
   flex-flow: row nowrap;
   overflow: hidden;
 }
-#divblogs #listblogs .blogs .linkImg {
+#divblogs #listblogs .blogs img {
   width: 50%;
-  height: 100%;
-}
-#divblogs #listblogs .blogs .linkImg img {
-  width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
@@ -1720,17 +1783,18 @@ header div:last-child h2 {
 }
 #divblogs #listblogs .blogs .blogs-content {
   width: 50%;
+  height: inherit;
   padding: 0.5rem 0.8rem;
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
 }
-#divblogs #listblogs .blogs .blogs-content a {
-  text-decoration: none;
-  color: black;
-}
-#divblogs #listblogs .blogs .blogs-content a h4 {
+#divblogs #listblogs .blogs .blogs-content h4 {
   font-size: 1.1rem;
   margin: 0;
+}
+#divblogs #listblogs .blogs .blogs-content p {
+  margin: 0.3rem 0;
 }
 
 #mainDetailblogs {
@@ -3234,6 +3298,7 @@ header div:last-child h2 {
 }
 #mainDetailDevice aside {
   width: 25%;
+  padding: 0 0.5rem;
 }
 #mainDetailDevice aside #banner {
   width: 100%;

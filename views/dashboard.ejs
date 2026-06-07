@@ -228,41 +228,47 @@
           
           </div>
           <div id="homeMng" class="tabContent">
-            <h2 class="flag-item">Quản lý banner</h2>
-            <form id="formAddBanner" enctype="multipart/form-data">
-            <input type="hidden" name="idbanner" id="idbanner">
-            <label for="imageBanner">Hình ảnh banner</label><br>
-            <input type="file" name="imageBanner" id="imageBanner" accept="image/webp"><br>
+            <h2 class="flag-item">Quản lý carousel</h2>
+            <form id="formCarousel" enctype="multipart/form-data">
+            <input type="hidden" name="idCarousel" id="idCarousel">
+            <label for="imageCarousel">Hình ảnh banner</label><br>
+            <input type="file" name="imageCarousel" id="imageCarousel" accept="image/webp">
+            <button type="button" id="btnDeleteImgCarousel">Xóa hình</button><br>
             <label for="captionBanner">Caption banner</label><br>
-            <input type="text" name="captionBanner" id="captionBanner" required><br>
-            <label for="urlBanner">Đường dẫn banner</label><br>
-            <input type="text" name="urlBanner" id="urlBanner" required><br>
-            <label for="orderBanner">Order</label><br>
-            <input type="number" name="orderBanner" id="orderBanner" required><br>
-            <input type="submit" id="btnAddBanner" value="Tạo">
+            <input type="text" name="captionCarousel" id="captionCarousel" required><br>
+            <label for="urlCarousel">Đường dẫn banner</label><br>
+            <input type="text" name="urlCarousel" id="urlCarousel" required><br>
+            <label for="orderCarousel">Order</label><br>
+            <input type="number" name="orderCarousel" id="orderCarousel" required><br>
+            <input type="submit" id="btnAddCarousel" value="Tạo">
+            <button type="button" id="btnCancelCarousel">Hủy</button>
             </form>
             <em>Lưu ý: Nếu sai hình ảnh hãy xóa luôn banner và tạo mới</em>
-            <div id="divTableBanner">
-              <table id="tableBanner">
-              <tr>
+            <div id="divTableCarousel">
+              <table id="tableCarousel">
+              <thead>
+                <tr>
                 <th>Caption</th>
                 <th>Url</th>
                 <th>Order</th>
                 <th>Thao tác</th>
               </tr>
-              <%banners.forEach((banner)=>{%>
-              <tr>
-                <td><%=banner.caption%></td>
-                <td><%=banner.url%></td>
-                <td><%=banner.order%></td>
+              </thead>
+              <tbody>
+              <%carousels.forEach((carousel)=>{%>
+              <tr data-idCarousel="<%=carousel._id%>">
+                <td><%=carousel.caption%></td>
+                <td><%=carousel.url%></td>
+                <td><%=carousel.order%></td>
                 <td>
                   <div class="btnGroup">
-                  <button class="btnUpdateBanner" data-idbanner="<%=banner._id%>">Cập nhật</button>
-                  <button class="btnDeleteBanner" data-idbanner="<%=banner._id%>">Xóa</button>
+                  <button class="btnUpdateCarousel" data-idCarousel="<%=carousel._id%>">Cập nhật</button>
+                  <button class="btnDeleteCarousel" data-idCarousel="<%=carousel._id%>">Xóa</button>
                   </div>
                 </td>
               </tr>
               <%})%>
+              </tbody>
             </table>
             </div>
             <h2 class="flag-item">Quản lý thông báo</h2>
@@ -284,20 +290,26 @@
               <label for="expiredNotify">Thời gian hết hạn</label><br>
               <input type="datetime-local" name="expiredNotify" id="expiredNotify"><br>
               <input type="submit" id="btnNotify" value="Tạo">
+              <button type="button" id="btnCancelNotify">Hủy</button>
             </form>
             <div id="divTableNotify">
             <table id="tableNotify">
-              <tr>
+              <thead>
+                <tr>
                 <th>Loại thông báo</th>
                 <th>Nội dung thông báo</th>
                 <th>Đường dẫn</th>
+                <th>Hết hạn</th>
                 <th>Thao tác</th>
               </tr>
+              </thead>
+              <tbody>
               <%notifys.forEach(notify=>{%>
-              <tr>
+              <tr data-idnotify="<%=notify._id%>">
                 <td><%=notify.type%></td>
                 <td><%=notify.content%></td>
                 <td><%=notify.url%></td>
+                <td><%=new Date(notify.expireAt).toLocaleString("vi-VN")%></td>
                 <td>
                   <div class="btnGroup">
                   <button class="btnUpdateNotify" data-idnotify="<%=notify._id%>">Cập nhật</button>
@@ -306,6 +318,7 @@
                 </td>
               </tr>
               <%})%>
+              </tbody>
             </table>
             </div>
             
@@ -322,24 +335,25 @@
               </select><br>
               <label for="imgBanner">Hình ảnh</label><br>
               <input type="file" name="imgBanner" id="imgBanner">
-              <button type="button" id="btnDeleteBN">Xóa hình</button><br>
+              <button type="button" id="btnDeleteImgBN">Xóa hình</button><br>
               <label for="urlBN">URL</label><br>
               <input type="text" name="urlBN" id="urlBN"><br>
               <input type="submit" value="Tạo" id="btnBanner">
-              <button type="button" id="btnCancleUpdateBN">Hủy cập nhật</button><br>
+              <button type="button" id="btnCancleBN">Hủy</button><br>
             </form>
             <div id="divTableBN">
               <table id="tableBN">
-              <tr>
+                <thead>
+                <tr>
                 <th>Trang</th>
-                <th>Hình ảnh</th>
                 <th>Url</th>
                 <th>Thao tác</th>
-              </tr>
-              <%bns.forEach((bn)=>{%>
-              <tr>
+                </tr>
+                </thead>
+                <tbody>
+                  <%bns.forEach((bn)=>{%>
+                <tr data-idBN="<%=bn._id%>">
                 <td><%=bn.page%></td>
-                <td><%=bn.image%></td>
                 <td><%=bn.url%></td>
                 <td>
                   <div class="btnGroup">
@@ -349,6 +363,7 @@
                 </td>
               </tr>
               <%})%>
+                </tbody>
             </table>
             </div>
           </div>
@@ -359,7 +374,7 @@
               <label for="listFuncApp">Chức năng phần mềm</label><br>
               <input type="text" name="listFuncApp" id="listFuncApp"><br>
               <input type="submit" value="Tạo" id="btnFuncApp">
-              <button type="button" id="btnCancelUDFuncApp">Hủy cập nhật</button>
+              <button type="button" id="btnCancelFuncApp">Hủy</button>
             </form>
             <div id="divTableFuncApp">
               <table id="tableFuncApp">
@@ -402,8 +417,7 @@
                 <%})%>
               </select><br>
               <input type="submit" id="btnApp" value="Tạo">
-              <button type="button" id="btnCancelAddApp">Hủy tạo</button>
-              <button type="button" id="btnCancelUpdateApp">Hủy cập nhật</button>
+              <button type="button" id="btnCancelApp">Hủy</button>
             </form>
             <em>Lưu ý: Nếu sai hình ảnh hãy xóa luôn app và tạo mới</em>
             <div id="divTableApp">
@@ -443,7 +457,7 @@
               <label for="listFuncDevice">Chức năng thiết bị</label><br>
               <input type="text" name="listFuncDevice" id="listFuncDevice"><br>
               <input type="submit" value="Tạo" id="btnFuncDevice">
-              <button type="button" id="btnCancleUpdateFuncDevice">Hủy cập nhật</button>
+              <button type="button" id="btnCancleFuncDevice">Hủy</button>
             </form>
             <div id="divTableFuncDevice">
                 <table id="tableFuncDevice">
@@ -502,8 +516,7 @@
               <label for="instrucDevice">Video hướng dẫn</label><br>
               <input type="text" name="instrucDevice" id="instrucDevice"><br>
               <input type="submit" id="btnDevice" value="Tạo">
-              <button type="button" id="btnCancelAddDevice">Hủy tạo</button>
-              <button type="button" id="btnCancleUpdateDevice">Hủy cập nhật</button>
+              <button type="button" id="btnCancelDevice">Hủy</button>
             </form>
             <em>Lưu ý: Nếu sai hình ảnh hãy xóa luôn thiết bị và tạo mới</em>
             <div id="divTableDevice">
@@ -543,7 +556,7 @@
               <label for="listCategoryblogs">Danh mục blog</label><br>
               <input type="text" name="listCategoryblogs" id="listCategoryblogs"><br>
               <input type="submit" value="Tạo" id="btnCategoryblogs">
-              <button type="button" id="btnCancleUDCategory">Hủy cập nhật</button>
+              <button type="button" id="btnCancleUDCategory">Hủy</button>
             </form>
             <div id="divTableCategoryblogs">
               <table id="tableCategoryblogs">
@@ -586,10 +599,38 @@
                 <%})%>
               </select><br>
               <input type="submit" id="btnblogs" value="Tạo">
-              <button type="button" id="btnCancleAddBlog">Hủy tạo</button>
-              <button type="button" id="btnCancleUpdateBlog">Hủy cập nhật</button>
+              <button type="button" id="btnPostDraft">Đăng</button>
+              <button type="button" id="btnSaveDraft">Lưu nháp</button>
+              <button type="button" id="btnCancleBlog">Hủy</button>
             </form>
-            <em>Lưu ý: Nếu sai hình ảnh hãy xóa luôn blog và tạo mới</em>
+            <em>Lưu ý: Nếu sai hình ảnh hãy xóa luôn blog và tạo mới</em><br><br>
+            <b>Blogs nháp</b>
+            <div id="divTableBlogsDraft">
+              <table id="tableBlogsDraft">
+                <thead>
+                   <tr>
+                <th>Tiêu đề blog</th>
+                <th>Danh mục</th>
+                <th>Thao tác</th>
+              </tr>
+                </thead>
+              <tbody>
+                 <%listblogsdraft.forEach((blogsdraft)=>{%>
+              <tr data-idblogsdraft="<%=blogsdraft._id%>">
+                <td><%=blogsdraft.title%></td>
+                <td><%=blogsdraft.category%></td>
+                <td>
+                  <div class="btnGroup">
+                    <button class="btnEditBlogsDraft" data-idblogsdraft="<%=blogsdraft._id%>">Chỉnh sửa</button>
+                    <button class="btnDeleteBlogsDraft" data-idblogsdraft="<%=blogsdraft._id%>">Xóa</button>
+                  </div>
+                </td>
+              </tr>
+              <%})%>
+              </tbody>
+            </table>
+            </div>
+            <b>Blogs đã đăng</b>
              <div id="divTableblogs">
               <table id="tableblogs">
                 <thead>

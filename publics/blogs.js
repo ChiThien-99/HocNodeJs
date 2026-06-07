@@ -1,14 +1,17 @@
 const socket = io();
 socket.on("update-blogs", (newBlog) => {
-  const currentBlog=document.querySelector(`a[data-idBlog="${newBlog._id}"]`);
-  let plainText=newBlog.info.replace(/&nbsp;|&#160;/gi," ");
-  let shortText=plainText.length>200?plainText.substring(0,200)+"...":plainText;
+  const currentBlog = document.querySelector(`a[data-idBlog="${newBlog._id}"]`);
+  let plainText = newBlog.info.replace(/&nbsp;|&#160;/gi, " ");
+  let shortText =
+    plainText.length > 200 ? plainText.substring(0, 200) + "..." : plainText;
   if (currentBlog) {
-    currentBlog.querySelector(".blogs img").src=newBlog.image;
-    currentBlog.querySelector(".blogs .blogs-content h4").innerText=newBlog.title;
-    currentBlog.querySelector(".blogs .blogs-content div").innerHTML=shortText;
+    currentBlog.querySelector(".blogs img").src = newBlog.image;
+    currentBlog.querySelector(".blogs .blogs-content h4").innerText =
+      newBlog.title;
+    currentBlog.querySelector(".blogs .blogs-content div").innerHTML =
+      shortText;
   } else {
-  const newBlogHTML = `
+    const newBlogHTML = `
   <a href="/blogs/detailBlog/${newBlog._id}" target="_blank" class="linkImg" data-idBlog="${newBlog._id}">
     <div class="blogs">
       <img src="${newBlog.image}" alt="blogs">
@@ -19,38 +22,55 @@ socket.on("update-blogs", (newBlog) => {
     </div>
   </a>
   `;
-  const urlParams = new URLSearchParams(window.location.search);
-  const currentPage = parseInt(urlParams.get("page")) || 1;
-  if (currentPage === 1) {
-    document
-      .getElementById("listblogs")
-      .insertAdjacentHTML("afterbegin", newBlogHTML);
-    let blogs = document.querySelectorAll(".blogs");
-    if (blogs.length > 12) {
-      blogs[blogs.length - 1].remove();
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentPage = parseInt(urlParams.get("page")) || 1;
+    if (currentPage === 1) {
+      document
+        .getElementById("listblogs")
+        .insertAdjacentHTML("afterbegin", newBlogHTML);
+      let blogs = document.querySelectorAll(".blogs");
+      if (blogs.length > 12) {
+        blogs[blogs.length - 1].remove();
+      }
+      blogs = document.querySelectorAll(".blogs");
     }
-    blogs = document.querySelectorAll(".blogs");
   }
-  }
-  
 });
-socket.on("delete-blogs",(data)=>{
+socket.on("delete-blogs", (data) => {
   if (data && data._id) {
     const rowToDelete = document.querySelector(`a[data-idBlog="${data._id}"]`);
     if (rowToDelete) {
       rowToDelete.remove();
     }
   }
-})
+});
 socket.on("update-banner", (data) => {
-  console.log(data);
   if (data.page !== "blog") {
     return;
   } else {
-    const banner = document.getElementById("banner");
-    banner.innerHTML = `
+    const currentBanner = document.querySelector(
+      `div[data-idBN="${data._id}"]`,
+    );
+    if (currentBanner) {
+      currentBanner.querySelector("a").href = data.url;
+      currentBanner.querySelector("a img").src = data.image;
+    } else {
+      const div = document.createElement("div");
+      div.id = "banner";
+      div.setAttribute("data-idBN", data._id);
+      div.innerHTML = `
       <a href="${data.url}"><img src="${data.image}" alt="banner"></a>
      `;
+      document.querySelector("aside").prepend(div);
+    }
+  }
+});
+socket.on("delete-banner", (data) => {
+  if (data && data._id) {
+    const rowToDelete = document.querySelector(`div[data-idBN="${data._id}"]`);
+    if (rowToDelete) {
+      rowToDelete.remove();
+    }
   }
 });
 
@@ -96,23 +116,30 @@ if (filterBlogsSpan) {
   });
 }
 socket.on("update-categoryblogs", (data) => {
-  const categoryNeedUD=document.querySelector(`a[data-idCategoryBlog="${data._id}"]`);
+  const categoryNeedUD = document.querySelector(
+    `a[data-idCategoryBlog="${data._id}"]`,
+  );
   if (categoryNeedUD) {
-    categoryNeedUD.innerText=data.name;
+    categoryNeedUD.innerText = data.name;
   } else {
-    document.getElementById("divCategoryBlog").insertAdjacentHTML("afterbegin",`
+    document.getElementById("divCategoryBlog").insertAdjacentHTML(
+      "afterbegin",
+      `
   <a class="categoryblogs" data-idCategoryBlog="${data._id}">${data.name}</a>  
-  `)
+  `,
+    );
   }
 });
-socket.on("delete-categoryblogs",(data)=>{
+socket.on("delete-categoryblogs", (data) => {
   if (data && data._id) {
-    const categoryNeedDelete = document.querySelector(`a[data-idCategoryBlog="${data._id}"]`);
+    const categoryNeedDelete = document.querySelector(
+      `a[data-idCategoryBlog="${data._id}"]`,
+    );
     if (categoryNeedDelete) {
       categoryNeedDelete.remove();
     }
   }
-})
+});
 function renderCategoryblogs(list_categoryblogs) {
   document.getElementById("divCategoryBlog").innerHTML = list_categoryblogs
     .map(
@@ -121,13 +148,12 @@ function renderCategoryblogs(list_categoryblogs) {
   `,
     )
     .join("");
-};
+}
 document.addEventListener("DOMContentLoaded", () => {
   const device = document.querySelectorAll(".deviceCol");
   for (let i = 0; i < device.length; i++) {
-    const rawDeviceInfo = document.querySelectorAll(
-      ".rawDeviceInfo",
-    )[i].innerHTML;
+    const rawDeviceInfo =
+      document.querySelectorAll(".rawDeviceInfo")[i].innerHTML;
     const parser = new DOMParser();
     const doc = parser.parseFromString(rawDeviceInfo, "text/html");
     let chucNangHTML = "";

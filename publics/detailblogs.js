@@ -1,13 +1,31 @@
 const socket = io();
 socket.on("update-banner", (data) => {
-  console.log(data);
   if (data.page !== "blog") {
     return;
   } else {
-    const banner = document.getElementById("banner");
-    banner.innerHTML = `
+    const currentBanner = document.querySelector(
+      `div[data-idBN="${data._id}"]`,
+    );
+    if (currentBanner) {
+      currentBanner.querySelector("a").href = data.url;
+      currentBanner.querySelector("a img").src = data.image;
+    } else {
+      const div = document.createElement("div");
+      div.id = "banner";
+      div.setAttribute("data-idBN", data._id);
+      div.innerHTML = `
       <a href="${data.url}"><img src="${data.image}" alt="banner"></a>
      `;
+      document.querySelector("aside").prepend(div);
+    }
+  }
+});
+socket.on("delete-banner", (data) => {
+  if (data && data._id) {
+    const rowToDelete = document.querySelector(`div[data-idBN="${data._id}"]`);
+    if (rowToDelete) {
+      rowToDelete.remove();
+    }
   }
 });
 document.addEventListener("DOMContentLoaded", () => {
@@ -161,9 +179,8 @@ document.getElementById("btnShareZL").addEventListener("click", () => {
 document.addEventListener("DOMContentLoaded", () => {
   const device = document.querySelectorAll(".deviceCol");
   for (let i = 0; i < device.length; i++) {
-    const rawDeviceInfo = document.querySelectorAll(
-      ".rawDeviceInfo",
-    )[i].innerHTML;
+    const rawDeviceInfo =
+      document.querySelectorAll(".rawDeviceInfo")[i].innerHTML;
     const parser = new DOMParser();
     const doc = parser.parseFromString(rawDeviceInfo, "text/html");
     let chucNangHTML = "";

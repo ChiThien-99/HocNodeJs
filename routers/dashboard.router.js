@@ -70,6 +70,10 @@ dashboardRouter.get(
   `${prefix}/updateblogs/:id`,
   dashboardController.getUpdateblogs,
 );
+dashboardRouter.get(
+  `${prefix}/editBlogDraft/:id`,
+  dashboardController.getEditBlogDraft,
+);
 dashboardRouter.post(
   `${prefix}/registerAdmin`,
   authLimit,
@@ -77,10 +81,10 @@ dashboardRouter.post(
   dashboardController.postRegisterAdmin,
 );
 dashboardRouter.post(
-  `${prefix}/banner/add`,
+  `${prefix}/addCarousel`,
   authenticateToken,
-  upload.single("imageBanner"),
-  dashboardController.postBanner,
+  upload.single("imageCarousel"),
+  dashboardController.postCarousel,
 );
 dashboardRouter.post(
   `${prefix}/addNotify`,
@@ -123,10 +127,22 @@ dashboardRouter.post(
   dashboardController.addCategoryblogs,
 );
 dashboardRouter.post(
-  `${prefix}/addblogs`,
+  `${prefix}/addblogs/`,
   authenticateToken,
   upload.single("imgblogs"),
   dashboardController.addblogs,
+);
+dashboardRouter.post(
+  `${prefix}/addBlogDraft`,
+  authenticateToken,
+  upload.single("imgblogs"),
+  dashboardController.addBlogDraft,
+);
+dashboardRouter.post(
+  `${prefix}/postDraft/:id`,
+  authenticateToken,
+  upload.single("imgblogs"),
+  dashboardController.postDraft,
 );
 dashboardRouter.post(
   `${prefix}/uploadImage`,
@@ -145,10 +161,10 @@ dashboardRouter.put(
   dashboardController.putUpdatePWAdmin,
 );
 dashboardRouter.put(
-  `${prefix}/updateBanner/:id`,
+  `${prefix}/updateCarousel/:id`,
   authenticateToken,
-  upload.single("imageBanner"),
-  dashboardController.putUpdateBanner,
+  upload.single("imageCarousel"),
+  dashboardController.putUpdateCarousel,
 );
 dashboardRouter.put(
   `${prefix}/updateNotify/:id`,
@@ -196,15 +212,26 @@ dashboardRouter.put(
   upload.single("imgblogs"),
   dashboardController.putUpdateblogs,
 );
+dashboardRouter.put(
+  `${prefix}/editBlogDraft/:id`,
+  authenticateToken,
+  upload.single("imgblogs"),
+  dashboardController.putEditBlogDraft,
+);
 dashboardRouter.delete(
   `${prefix}/deleteUserAdmin/:idDelete`,
   authenticateToken,
   dashboardController.deleteUserAdminById,
 );
 dashboardRouter.delete(
-  `${prefix}/deleteBanner/:id`,
+  `${prefix}/deleteImgCarousel/:id`,
   authenticateToken,
-  dashboardController.deleteBanner,
+  dashboardController.deleteImgCarousel,
+);
+dashboardRouter.delete(
+  `${prefix}/deleteCarousel/:id`,
+  authenticateToken,
+  dashboardController.deleteCarousel,
 );
 dashboardRouter.delete(
   `${prefix}/deleteNotify/:id`,
@@ -256,7 +283,11 @@ dashboardRouter.delete(
   authenticateToken,
   dashboardController.deleteImgColorDevice,
 );
-dashboardRouter.delete(`${prefix}/deleteImgBlog/:id`,authenticateToken,dashboardController.deleteImgBlog)
+dashboardRouter.delete(
+  `${prefix}/deleteImgBlog/:id`,
+  authenticateToken,
+  dashboardController.deleteImgBlog,
+);
 dashboardRouter.delete(
   `${prefix}/deleteCategoryblogs/:id`,
   dashboardController.deleteCategoryblogs,
@@ -264,4 +295,8 @@ dashboardRouter.delete(
 dashboardRouter.delete(
   `${prefix}/deleteblogs/:id`,
   dashboardController.deleteblogs,
+);
+dashboardRouter.delete(
+  `${prefix}/deleteBlogDraft/:id`,
+  dashboardController.deleteBlogDraft,
 );

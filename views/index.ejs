@@ -99,11 +99,11 @@
             </div>
             <div id="bodyNotification">
               <%notifys.forEach((notify)=>{%>
-              <div class="notify">
+              <div class="notify" data-idNotify="<%=notify._id%>">
                 <a href="<%=notify.url%>" target="_blank">
                <div class="headerNotify">
-                <span><%=notify.type%></span>
-                <span><%=new Date(notify.createAt).toLocaleString()%></span>
+                <span class="headerNotifyType"><%=notify.type%></span>
+                <span class="headerNotifyCreateAt"><%=new Date(notify.createAt).toLocaleString("vi-VN")%></span>
               </div>
               <p><%=notify.content%></p>
                 </a>
@@ -113,11 +113,11 @@
           </div>
           <div id="carousel-container">
             <div id="carousel-wrapper">
-              <%banners.forEach((banner)=>{%>
-              <div class="carousel-slide">
-                <a href="<%=banner.url%>" target="_blank">
-                   <img src="<%=banner.image%>" loading="lazy" alt="banner1">
-                   <div class="carousel-caption"><%=banner.caption%></div>
+              <%carousels.forEach((carousel)=>{%>
+              <div class="carousel-slide" data-idCarousel="<%=carousel._id%>">
+                <a href="<%=carousel.url%>" target="_blank">
+                   <img src="<%=carousel.image%>" loading="lazy" alt="carousel">
+                   <div class="carousel-caption"><%=carousel.caption%></div>
                 </a>
               </div>
               <%})%>
@@ -125,7 +125,7 @@
             <button id="prev" data-index="-1"><i class="fa-solid fa-angle-left"></i></button>
             <button id="next" data-index="1"><i class="fa-solid fa-angle-right"></i></button>
             <div id="indicators">
-              <%banners.forEach((_,i)=>{%>
+              <%carousels.forEach((_,i)=>{%>
               <span class="dot <%=(i===0)?'active':''%>" data-index="<%=i%>"></span>
               <%})%>
             </div>
@@ -133,102 +133,72 @@
         </div>
         <div id="divApp">
           <div id="headerApp">
-            <h2 class="flag-item">Phần mềm</h2>
-            <a href="/app" target="_blank">Xem tất cả</a>
-          </div>
-          <div id="groupFilterApp">
-            <button id="btnNewApp" class="active">Mới nhất</button>
-            <button id="btnPopularApp">Phổ biến</button>
-            <button id="btnFuncApp">Chức năng <i class="fa-solid fa-caret-right"></i></button>
-            <div id="divFuncBtns">
-            <div id="funcBtns">
-              <div id="divDeleteFuncBtn"><a id="deleteFuncBtn"><i class="fa-solid fa-filter-circle-xmark"></i>Xóa lọc</a></div>
-              <%funcApps.forEach((funcApp)=>{%>
-              <button class="funcBtn"><%=funcApp.name%></button>
-              <%})%>
-            </div>
-            </div>
+            <a class="flag-item" href="/app">Phần mềm</a>
+            <a href="/app" target="_blank">Xem tất cả <i class="fa-solid fa-angles-right"></i></a>
           </div>
           <div id="listApp">
             <%apps.forEach((app)=>{%>
-            <div class="app">
+            <a href="/detailApp/<%=app._id%>" target="_blank">
+              <div class="app">
               <div>
                 <img src="<%=app.image%>" alt="app">
               </div>
               <div>
                 <h4><%=app.name%></h4>
-                <p><%=app.info%></p>
-                <a href="/app/<%=app.name%>/<%=app._id%>" target="_blank">Truy cập</a>
+                <p><%-app.info.replace(/&nbsp;|&#160;/gi," ")%></p>
               </div>
             </div>
+            </a>
             <%})%>
           </div>
         </div>
         <div id="divDeviceIndex">
           <div id="headerDeviceIndex">
-            <h2 class="flag-item">Thiết bị</h2>
-            <a href="/device" target="_blank">Xem tất cả</a>
-          </div>
-          <div id="groupFilterDeviceIndex">
-            <button id="btnNewDevice" class="active">Mới nhất</button>
-            <button id="btnPopularDevice">Phổ biến</button>
-            <button id="btnPriceLowHigh">Giá Thấp->Cao</button>
-            <button id="btnPriceHighLow">Giá Cao->Thấp</button>
-            <button id="btnFuncDevice">Chức năng <i class="fa-solid fa-caret-right"></i></button>
-            <div id="divFuncDeviceBtnsIndex">
-            <div id="funcDeviceBtnsIndex">
-              <div id="divDeleteFuncDeviceBtnIndex"><a id="deleteFuncDeviceBtnIndex"><i class="fa-solid fa-filter-circle-xmark"></i>Xóa lọc</a></div>
-              <%funcDevices.forEach((funcDevice)=>{%>
-              <button class="funcDeviceBtn"><%=funcDevice.name%></button>
-              <%})%>
-            </div>
-            </div>
+            <a class="flag-item" href="/device">Thiết bị</a>
+            <a href="/device" target="_blank">Xem tất cả <i class="fa-solid fa-angles-right"></i></a>
           </div>
           <div id="listDeviceIndex">
             <%devices.forEach((device)=>{%>
-            <div class="deviceIndex">
+            <a href="/detailDevice/<%=device._id%>" target="_blank">
+              <div class="deviceIndex">
               <div>
-                <img src="<%=device.image%>" alt="device">
+                <img src="<%=device.images[0].url%>" alt="device">
                 <p><%=device.price.toLocaleString('vi-VN')%>đ</p>
               </div>
-              <div>
+              <div class="device-content">
                 <h4><%=device.name%></h4>
-                <p><%=device.info%></p>
-                <a href="/device/<%=device.name%>/<%=device._id%>" target="_blank">Xem chi tiết</a>
+                <div class="rawDeviceInfo">
+                  <%-device.info.replace(/&nbsp;|&#160;/gi," ")%>
+                </div>
+                <div class="targetDeviceInfo"></div>
               </div>
             </div>
+            </a>
             <%})%>
           </div>
         </div>
         <div id="divblogs">
           <div id="headerblogs">
-            <h2 class="flag-item">Blog</h2>
-            <a href="/blogs" target="_blank">Xem tất cả</a>
+            <a class="flag-item" href="/blogs">Blog</a>
+            <a href="/blogs" target="_blank">Xem tất cả <i class="fa-solid fa-angles-right"></i></a>
           </div>
-           <div id="groupFilterCategoryblogs">
-              <%listCategoryblogs.forEach((categoryblogs)=>{%>
-              <button class="categoryblogs"><%=categoryblogs.name%></button>
-              <%})%>
-            </div>
           <div id="listblogs">
             <%listblogs.forEach((blogs)=>{%>
-            <div class="blogs">
-              <a href="/blogs/detailBlog/<%=blogs._id%>" target="_blank" class="linkImg"><img src="<%=blogs.image%>" alt="blogs"></a>
+            <a href="/blogs/detailBlog/<%=blogs._id%>" target="_blank">
+              <div class="blogs">
+              <img src="<%=blogs.image%>" alt="blogs">
               <div class="blogs-content">
-                <a href="/blogs/detailBlog/<%=blogs._id%>" target="_blank"><h4><%=blogs.title%></h4></a>
+                <h4><%=blogs.title%></h4>
                 <p>
                   <%
-                  let plainText=blogs.info.replace(/<\/?[^>]+(>|$)/g,"");
-                  plainText=plainText.replace(/&nbsp;|&#160;/gi," ");
-                  plainText=plainText.replace(/&quot;/gi,'"');
-                  plainText=plainText.replace(/&#39;/gi,"'");
-                  plainText=plainText.replace(/\s+/g," ").trim();
+                  let plainText=blogs.info.replace(/&nbsp;|&#160;/gi," ");
                   let shortText=plainText.length>200?plainText.substring(0,200)+"...":plainText;
                   %>
-                  <%=shortText%>
+                  <%-shortText%>
                 </p> 
               </div>
             </div>
+            </a>
             <%})%>
           </div>
         </div>

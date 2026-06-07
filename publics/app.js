@@ -1,10 +1,11 @@
 const socket = io();
 socket.on("update-app", (newApp) => {
-  const existApp=document.querySelector(`a[data-idApp="${newApp._id}"]`);
+  const existApp = document.querySelector(`a[data-idApp="${newApp._id}"]`);
   if (existApp) {
-    existApp.querySelector(".app img").src=newApp.image;
-    existApp.querySelector(".app .app-content h4").innerText=newApp.name;
-    existApp.querySelector(".app .app-content div").innerHTML=newApp.info.replace(/&nbsp;|&#160;/gi, " ");
+    existApp.querySelector(".app img").src = newApp.image;
+    existApp.querySelector(".app .app-content h4").innerText = newApp.name;
+    existApp.querySelector(".app .app-content div").innerHTML =
+      newApp.info.replace(/&nbsp;|&#160;/gi, " ");
   } else {
     const newAppHTML = `
     <a href="/detailApp/${newApp._id}" data-idApp="${newApp._id}" target="_blank">
@@ -19,39 +20,57 @@ socket.on("update-app", (newApp) => {
       </div>
     </a>
   `;
-  const urlParams = new URLSearchParams(window.location.search);
-  const currentPage = parseInt(urlParams.get("page")) || 1;
-  if (currentPage === 1) {
-    document
-      .getElementById("listapps")
-      .insertAdjacentHTML("afterbegin", newAppHTML);
-    let app = document.querySelectorAll(".app");
-    if (app.length > 12) {
-      app[app.length - 1].remove();
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentPage = parseInt(urlParams.get("page")) || 1;
+    if (currentPage === 1) {
+      document
+        .getElementById("listapps")
+        .insertAdjacentHTML("afterbegin", newAppHTML);
+      let app = document.querySelectorAll(".app");
+      if (app.length > 12) {
+        app[app.length - 1].remove();
+      }
+      app = document.querySelectorAll(".app");
     }
-    app = document.querySelectorAll(".app");
   }
-  }
-  
 });
 socket.on("update-banner", (data) => {
   if (data.page !== "app") {
     return;
   } else {
-    const banner = document.getElementById("banner");
-    banner.innerHTML = `
+    const currentBanner = document.querySelector(
+      `div[data-idBN="${data._id}"]`,
+    );
+    if (currentBanner) {
+      currentBanner.querySelector("a").href = data.url;
+      currentBanner.querySelector("a img").src = data.image;
+    } else {
+      const div = document.createElement("div");
+      div.id = "banner";
+      div.setAttribute("data-idBN", data._id);
+      div.innerHTML = `
       <a href="${data.url}"><img src="${data.image}" alt="banner"></a>
      `;
+      document.querySelector("aside").prepend(div);
+    }
   }
 });
-socket.on("delete-app",(data)=>{
+socket.on("delete-banner", (data) => {
+  if (data && data._id) {
+    const rowToDelete = document.querySelector(`div[data-idBN="${data._id}"]`);
+    if (rowToDelete) {
+      rowToDelete.remove();
+    }
+  }
+});
+socket.on("delete-app", (data) => {
   if (data && data._id) {
     const rowToDelete = document.querySelector(`a[data-idApp="${data._id}"]`);
     if (rowToDelete) {
       rowToDelete.remove();
     }
   }
-})
+});
 document.getElementById("btnFuncApp").addEventListener("click", function () {
   const functionWrapper = document.getElementById("functionWrapper");
   const type = functionWrapper.style.display === "block" ? "none" : "block";
@@ -123,9 +142,8 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("DOMContentLoaded", () => {
   const device = document.querySelectorAll(".deviceCol");
   for (let i = 0; i < device.length; i++) {
-    const rawDeviceInfo = document.querySelectorAll(
-      ".rawDeviceInfo",
-    )[i].innerHTML;
+    const rawDeviceInfo =
+      document.querySelectorAll(".rawDeviceInfo")[i].innerHTML;
     const parser = new DOMParser();
     const doc = parser.parseFromString(rawDeviceInfo, "text/html");
     let chucNangHTML = "";

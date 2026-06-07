@@ -10,7 +10,7 @@ const createDeviceHTML = (newDevice) => {
           <div class="device-content">
             <h4>${newDevice.name}</h4>
             <div class="rawDeviceInfo">
-              ${newDevice.info.replace(/&nbsp;|&#160;/gi," ")}
+              ${newDevice.info.replace(/&nbsp;|&#160;/gi, " ")}
             </div>
             <div class="targetDeviceInfo"></div>
           </div>
@@ -20,47 +20,50 @@ const createDeviceHTML = (newDevice) => {
 };
 
 socket.on("update-device", (data) => {
-  const existDevice=document.querySelector(`a[data-idDevice="${data._id}"]`)
+  const existDevice = document.querySelector(`a[data-idDevice="${data._id}"]`);
   const urlParams = new URLSearchParams(window.location.search);
   const currentPage = parseInt(urlParams.get("page")) || 1;
   if (existDevice) {
     if (currentPage === 1) {
-     existDevice.querySelector(".device .divImg img").src=data.images[0].url;
-     existDevice.querySelector(".device .divImg p").innerText=`${data.price.toLocaleString('vi-VN')}đ`;
-     existDevice.querySelector(".device .device-content h4").innerText=data.name;
-     existDevice.querySelector(".device .device-content .rawDeviceInfo").innerHTML=data.info.replace(/&nbsp;|&#160;/gi," ");
-     const device = document.querySelectorAll(".device");
-    for (let i = 0; i < device.length; i++) {
-    const rawDeviceInfo = document.querySelectorAll(
-      ".rawDeviceInfo",
-    )[i].innerHTML;
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(rawDeviceInfo, "text/html");
-    let chucNangHTML = "";
-    let currenSection = "";
-    const childNodes = doc.body.children;
-    for (let i = 0; i < childNodes.length; i++) {
-      const element = childNodes[i];
-      if (element.tagName === "H3") {
-        const text = element.textContent.toLowerCase().trim();
-        if (text.includes("thông số")) {
-          currenSection = "thongso";
-          continue;
-        } else if (text.includes("chức năng")) {
-          currenSection = "chucnang";
-          continue;
-        } else if (text.includes("thông tin")) {
-          currenSection = "thongtin";
-          continue;
+      existDevice.querySelector(".device .divImg img").src = data.images[0].url;
+      existDevice.querySelector(".device .divImg p").innerText =
+        `${data.price.toLocaleString("vi-VN")}đ`;
+      existDevice.querySelector(".device .device-content h4").innerText =
+        data.name;
+      existDevice.querySelector(
+        ".device .device-content .rawDeviceInfo",
+      ).innerHTML = data.info.replace(/&nbsp;|&#160;/gi, " ");
+      const device = document.querySelectorAll(".device");
+      for (let i = 0; i < device.length; i++) {
+        const rawDeviceInfo =
+          document.querySelectorAll(".rawDeviceInfo")[i].innerHTML;
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(rawDeviceInfo, "text/html");
+        let chucNangHTML = "";
+        let currenSection = "";
+        const childNodes = doc.body.children;
+        for (let i = 0; i < childNodes.length; i++) {
+          const element = childNodes[i];
+          if (element.tagName === "H3") {
+            const text = element.textContent.toLowerCase().trim();
+            if (text.includes("thông số")) {
+              currenSection = "thongso";
+              continue;
+            } else if (text.includes("chức năng")) {
+              currenSection = "chucnang";
+              continue;
+            } else if (text.includes("thông tin")) {
+              currenSection = "thongtin";
+              continue;
+            }
+          }
+          if (currenSection === "chucnang") {
+            chucNangHTML += element.outerHTML;
+          }
         }
+        document.querySelectorAll(".targetDeviceInfo")[i].innerHTML =
+          chucNangHTML || "<p>Đang cập nhật chức năng thiết bị</p>";
       }
-      if (currenSection === "chucnang") {
-        chucNangHTML += element.outerHTML;
-      }
-    }
-    document.querySelectorAll(".targetDeviceInfo")[i].innerHTML =
-      chucNangHTML || "<p>Đang cập nhật chức năng thiết bị</p>";
-  }
     }
   } else {
     if (currentPage === 1) {
@@ -73,21 +76,44 @@ socket.on("update-device", (data) => {
     }
   }
 });
-socket.on("delete-device",(data)=>{
-  if (data&&data._id) {
-    const rowToDelete=document.querySelector(`a[data-idDevice="${data._id}"]`);
+socket.on("delete-device", (data) => {
+  if (data && data._id) {
+    const rowToDelete = document.querySelector(
+      `a[data-idDevice="${data._id}"]`,
+    );
     if (rowToDelete) {
       rowToDelete.remove();
     }
   }
-})
+});
 socket.on("update-banner", (data) => {
+  console.log(data);
   if (data.page !== "device") {
     return;
   } else {
-    document.getElementById("banner").innerHTML = `
+    const currentBanner = document.querySelector(
+      `div[data-idBN="${data._id}"]`,
+    );
+    if (currentBanner) {
+      currentBanner.querySelector("a").href = data.url;
+      currentBanner.querySelector("a img").src = data.image;
+    } else {
+      const div = document.createElement("div");
+      div.id = "banner";
+      div.setAttribute("data-idBN", data._id);
+      div.innerHTML = `
       <a href="${data.url}"><img src="${data.image}" alt="banner"></a>
      `;
+      document.querySelector("aside").prepend(div);
+    }
+  }
+});
+socket.on("delete-banner", (data) => {
+  if (data && data._id) {
+    const rowToDelete = document.querySelector(`div[data-idBN="${data._id}"]`);
+    if (rowToDelete) {
+      rowToDelete.remove();
+    }
   }
 });
 document.getElementById("btnFuncDevice").addEventListener("click", function () {
@@ -132,30 +158,33 @@ if (filterDeviceSpan) {
   });
 }
 socket.on("update-funcdevice", (newFuncDevice) => {
-  const existFuncDevice=document.querySelector(`a[data-idFuncDevice="${newFuncDevice._id}"]`);
+  const existFuncDevice = document.querySelector(
+    `a[data-idFuncDevice="${newFuncDevice._id}"]`,
+  );
   if (existFuncDevice) {
-    existFuncDevice.innerText=newFuncDevice.name;
+    existFuncDevice.innerText = newFuncDevice.name;
   } else {
-  const newFunc = `<a class="functionDevice">${newFuncDevice.name}</a>`;
-  document
-    .getElementById("divFunctionDevice")
-    .insertAdjacentHTML("afterbegin", newFunc);
+    const newFunc = `<a class="functionDevice">${newFuncDevice.name}</a>`;
+    document
+      .getElementById("divFunctionDevice")
+      .insertAdjacentHTML("afterbegin", newFunc);
   }
 });
-socket.on("delete-funcdevice",(data)=>{
-  if (data&&data._id) {
-    const rowToDelete=document.querySelector(`a[data-idFuncDevice="${data._id}"]`);
+socket.on("delete-funcdevice", (data) => {
+  if (data && data._id) {
+    const rowToDelete = document.querySelector(
+      `a[data-idFuncDevice="${data._id}"]`,
+    );
     if (rowToDelete) {
       rowToDelete.remove();
     }
   }
-})
+});
 document.addEventListener("DOMContentLoaded", () => {
   const device = document.querySelectorAll(".device");
   for (let i = 0; i < device.length; i++) {
-    const rawDeviceInfo = document.querySelectorAll(
-      ".rawDeviceInfo",
-    )[i].innerHTML;
+    const rawDeviceInfo =
+      document.querySelectorAll(".rawDeviceInfo")[i].innerHTML;
     const parser = new DOMParser();
     const doc = parser.parseFromString(rawDeviceInfo, "text/html");
     let chucNangHTML = "";

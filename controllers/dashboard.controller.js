@@ -10,6 +10,7 @@ import { funcDeviceEntity } from "../models/funcDevice.model.js";
 import { deviceEntity } from "../models/device.model.js";
 import { categoryblogsEntity } from "../models/categoryblogs.model.js";
 import { blogsEntity } from "../models/blogs.model.js";
+import { blogsDraftEntity } from "../models/blogDraft.model.js";
 import { v2 as cloudinary } from "cloudinary";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -59,7 +60,7 @@ const jsonSystemInfo = JSON.stringify(systemInfo, null, 2);
 
 export const getDashboard = async (req, res) => {
   const admins = await adminEntity.find();
-  const banners = await carouselEntity.find().sort("order");
+  const carousels = await carouselEntity.find().sort("order");
   const notifys = await notifyEntity.find().sort("-createAt");
   const bns = await bannerEntity.find();
   const listFuncApp = await funcAppEntity.find().sort("-createAt");
@@ -68,11 +69,12 @@ export const getDashboard = async (req, res) => {
   const devices = await deviceEntity.find().sort("-createAt");
   const listCategoryblogs = await categoryblogsEntity.find().sort("-createAt");
   const listblogs = await blogsEntity.find().sort("-createAt");
+  const listblogsdraft = await blogsDraftEntity.find();
   const io = req.app.get("socketio");
   res.render("dashboard.ejs", {
     jsonSystemInfo,
     admins,
-    banners,
+    carousels,
     notifys,
     bns,
     listFuncApp,
@@ -81,6 +83,7 @@ export const getDashboard = async (req, res) => {
     devices,
     listCategoryblogs,
     listblogs,
+    listblogsdraft,
   });
 };
 export const postRegisterAdmin = async (req, res) => {
@@ -217,19 +220,19 @@ export const deleteUserAdminById = async (req, res) => {
     });
   }
 };
-export const postBanner = async (req, res) => {
+export const postCarousel = async (req, res) => {
   try {
-    const { captionBanner, urlBanner, orderBanner } = req.body;
-    const newBanner = await carouselEntity.create({
-      caption: captionBanner,
-      url: urlBanner,
-      order: orderBanner,
+    const { captionCarousel, urlCarousel, orderCarousel } = req.body;
+    const newCarousel = await carouselEntity.create({
+      caption: captionCarousel,
+      url: urlCarousel,
+      order: orderCarousel,
       image: req.file.path,
       cloudinary_id: req.file.filename,
     });
     const io = req.app.get("socketio");
-    const allBanner = await carouselEntity.find().sort("order");
-    io.emit("update-carousel", allBanner);
+    const allCarousel = await carouselEntity.find();
+    io.emit("update-carousel", allCarousel);
     res.json({ mess: "Tạo banner thành công", success: "true" });
   } catch (error) {
     res.json({
@@ -243,48 +246,77 @@ export const getBannerById = async (req, res) => {
   try {
     const { id } = req.params;
     const banner = await carouselEntity.findById(id);
-    res.json({ banner: banner });
+    res.json({ data: banner });
   } catch (error) {
     console.error(error.message);
   }
 };
-export const putUpdateBanner = async (req, res) => {
+export const putUpdateCarousel = async (req, res) => {
   try {
     const { id } = req.params;
-    const { captionBanner, urlBanner, orderBanner } = req.body;
-    const updateBanner = await carouselEntity.findByIdAndUpdate(id, {
-      caption: captionBanner,
-      url: urlBanner,
-      order: orderBanner,
-    });
+    const currentCarousel = await carouselEntity.findById(id);
+    const { captionCarousel, urlCarousel, orderCarousel } = req.body;
+    let image = "";
+    let cloudinary_id = "";
+    if (req.file) {
+      image = req.file.path;
+      cloudinary_id = req.file.filename;
+    } else {
+      image = currentCarousel.image;
+      cloudinary_id = currentCarousel.cloudinary_id;
+    }
+    const updateBanner = await carouselEntity.findByIdAndUpdate(
+      id,
+      {
+        image: image,
+        cloudinary_id: cloudinary_id,
+        caption: captionCarousel,
+        url: urlCarousel,
+        order: orderCarousel,
+      },
+      { new: true },
+    );
     const io = req.app.get("socketio");
-    const allBanner = await carouselEntity.find().sort("order");
-    io.emit("update-carousel", allBanner);
-    res.json({ mess: "Cập nhật thành công", success: true });
+    io.emit("update-carousel", updateBanner);
+    res.json({ mess: "Cập nhật carousel thành công", success: true });
   } catch (error) {
     res.json({
-      mess: "Cập nhật thất bại",
+      mess: "Cập nhật carousel thất bại",
       success: false,
       error: error.message,
     });
   }
 };
-export const deleteBanner = async (req, res) => {
+export const deleteImgCarousel = async (req, res) => {
   try {
     const { id } = req.params;
-    const banner = await carouselEntity.findById(id);
-    if (!banner) {
-      res.json({ mess: "Không tìm thấy banner", success: false });
-    }
-    await cloudinary.uploader.destroy(banner.cloudinary_id);
-    await carouselEntity.findByIdAndDelete(id);
-    const io = req.app.get("socketio");
-    const allBanner = await carouselEntity.find().sort("order");
-    io.emit("update-carousel", allBanner);
-    res.json({ mess: "Xóa banner thành công", success: true });
+    const carouselNeedDeleteImg = await carouselEntity.findById(id);
+    await cloudinary.uploader.destroy(carouselNeedDeleteImg.cloudinary_id);
+    res.json({ mess: "Xóa hình carousel thành công", success: true });
   } catch (error) {
     res.json({
-      mess: "Xóa banner thất bại",
+      mess: "Xóa hình carousel thất bại",
+      success: false,
+      error: error.message,
+    });
+  }
+};
+export const deleteCarousel = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const carousel = await carouselEntity.findById(id);
+    if (!carousel) {
+      res.json({ mess: "Không tìm thấy banner", success: false });
+    }
+    await cloudinary.uploader.destroy(carousel.cloudinary_id);
+    const deleteCarousel = await carouselEntity.findByIdAndDelete(id);
+    const allCarousel = await carouselEntity.find();
+    const io = req.app.get("socketio");
+    io.emit("delete-carousel", { allCarousel, deleteCarousel });
+    res.json({ mess: "Xóa carousel thành công", success: true });
+  } catch (error) {
+    res.json({
+      mess: "Xóa carousel thất bại",
       success: false,
       error: error.message,
     });
@@ -314,15 +346,14 @@ export const addNotify = async (req, res) => {
       expireAt: expiredDate,
     });
     const io = req.app.get("socketio");
-    const allNotify = await notifyEntity.find().sort("-createAt");
-    io.emit("update-notify", allNotify);
+    io.emit("update-notify", newNotify);
     const delay = expiredDate.getTime() - Date.now();
     console.log(delay);
     setTimeout(async () => {
       const allNotify = await notifyEntity.find().sort("-createAt");
       io.emit("update-notify", allNotify);
       console.log("Đã cập nhật lại thông báo");
-    }, delay + 180000);
+    }, delay + 60000);
     res.json({ mess: "Tạo thông báo thành công", success: true });
   } catch (error) {
     res.json({
@@ -358,15 +389,18 @@ export const putUpdateNotify = async (req, res) => {
         success: false,
       });
     }
-    const updateNotify = await notifyEntity.findByIdAndUpdate(id, {
-      type: typeNotify,
-      content: contentNotify,
-      url: urlNotify,
-      expireAt: expiredDate,
-    });
+    const updateNotify = await notifyEntity.findByIdAndUpdate(
+      id,
+      {
+        type: typeNotify,
+        content: contentNotify,
+        url: urlNotify,
+        expireAt: expiredDate,
+      },
+      { new: true },
+    );
     const io = req.app.get("socketio");
-    const allNotify = await notifyEntity.find().sort("-createAt");
-    io.emit("update-notify", allNotify);
+    io.emit("update-notify", updateNotify);
     const delay = expiredDate.getTime() - Date.now();
     console.log(delay);
     setTimeout(async () => {
@@ -387,8 +421,7 @@ export const deleteNotify = async (req, res) => {
     const { id } = req.params;
     const delNotify = await notifyEntity.findByIdAndDelete(id);
     const io = req.app.get("socketio");
-    const allNotify = await notifyEntity.find().sort("-createAt");
-    io.emit("update-notify", allNotify);
+    io.emit("delete-notify", delNotify);
     res.json({ mess: "Xóa thông báo thành công", success: true });
   } catch (error) {
     res.json({
@@ -457,12 +490,16 @@ export const putUpdateBN = async (req, res) => {
       image = currentBanner.image;
       cloudinary_id = currentBanner.cloudinary_id;
     }
-    const updateBanner = await bannerEntity.findByIdAndUpdate(id, {
-      page: pageBanner,
-      image: image,
-      cloudinary_id: cloudinary_id,
-      url: urlBN,
-    });
+    const updateBanner = await bannerEntity.findByIdAndUpdate(
+      id,
+      {
+        page: pageBanner,
+        image: image,
+        cloudinary_id: cloudinary_id,
+        url: urlBN,
+      },
+      { new: true },
+    );
     const io = req.app.get("socketio");
     io.emit("update-banner", updateBanner);
     res.json({ mess: "Cập nhật banner thành công", success: true });
@@ -479,7 +516,9 @@ export const deleteBN = async (req, res) => {
     const { id } = req.params;
     const banner = await bannerEntity.findById(id);
     await cloudinary.uploader.destroy(banner.cloudinary_id);
-    await bannerEntity.findByIdAndDelete(id);
+    const deleteBanner = await bannerEntity.findByIdAndDelete(id);
+    const io = req.app.get("socketio");
+    io.emit("delete-banner", deleteBanner);
     res.json({ mess: "Xóa banner thành công", success: true });
   } catch (error) {
     res.json({
@@ -583,24 +622,28 @@ export const getUpdateApp = async (req, res) => {
 export const putUpdateApp = async (req, res) => {
   try {
     const { id } = req.params;
-    const currentApp=await appEntity.findById(id);
-    let image="";
-    let cloudinary_id="";
+    const currentApp = await appEntity.findById(id);
+    let image = "";
+    let cloudinary_id = "";
     if (req.file) {
       image = req.file.path;
       cloudinary_id = req.file.filename;
     } else {
-      image=currentApp.image;
-      cloudinary_id=currentApp.cloudinary_id;
+      image = currentApp.image;
+      cloudinary_id = currentApp.cloudinary_id;
     }
     const { nameApp, infoApp, funcApp } = req.body;
-    const updateApp = await appEntity.findByIdAndUpdate(id, {
-      image:image,
-      cloudinary_id:cloudinary_id,
-      name: nameApp,
-      info: infoApp,
-      func: funcApp,
-    },{new:true});
+    const updateApp = await appEntity.findByIdAndUpdate(
+      id,
+      {
+        image: image,
+        cloudinary_id: cloudinary_id,
+        name: nameApp,
+        info: infoApp,
+        func: funcApp,
+      },
+      { new: true },
+    );
     const io = req.app.get("socketio");
     io.emit("update-app", updateApp);
     res.json({ mess: "Cập nhật phần mềm thành công", success: true });
@@ -612,22 +655,28 @@ export const putUpdateApp = async (req, res) => {
     });
   }
 };
-export const deleteImgApp=async(req,res)=>{
+export const deleteImgApp = async (req, res) => {
   try {
-  const {id}=req.params;
-  const appNeedDeleteImg=await appEntity.findById(id);
-  if (!appNeedDeleteImg) {
-    return res.json({mess:"Không tìm được app cần xóa hình",success:false});
-  }
-  if (appNeedDeleteImg.image&&appNeedDeleteImg.cloudinary_id) {
-    await cloudinary.uploader.destroy(appNeedDeleteImg.cloudinary_id);
-  }
-  res.json({mess:"Xóa hình app thành công",success:true});
+    const { id } = req.params;
+    const appNeedDeleteImg = await appEntity.findById(id);
+    if (!appNeedDeleteImg) {
+      return res.json({
+        mess: "Không tìm được app cần xóa hình",
+        success: false,
+      });
+    }
+    if (appNeedDeleteImg.image && appNeedDeleteImg.cloudinary_id) {
+      await cloudinary.uploader.destroy(appNeedDeleteImg.cloudinary_id);
+    }
+    res.json({ mess: "Xóa hình app thành công", success: true });
   } catch (error) {
-  res.json({mess:"Xóa hình app thất bại",success:false,error:error.message});
+    res.json({
+      mess: "Xóa hình app thất bại",
+      success: false,
+      error: error.message,
+    });
   }
-  
-}
+};
 export const deleteApp = async (req, res) => {
   try {
     const { id } = req.params;
@@ -636,7 +685,7 @@ export const deleteApp = async (req, res) => {
       res.json({ mess: "Không tìm thấy app", success: false });
     }
     await cloudinary.uploader.destroy(app.cloudinary_id);
-    const deleteApp=await appEntity.findByIdAndDelete(id);
+    const deleteApp = await appEntity.findByIdAndDelete(id);
     const io = req.app.get("socketio");
     io.emit("delete-app", deleteApp);
     res.json({ mess: "Xóa phần mềm thành công", success: true });
@@ -963,10 +1012,135 @@ export const addblogs = async (req, res) => {
     });
   }
 };
+export const postDraft = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const blogsDraft = await blogsDraftEntity.findById(id);
+    if (!blogsDraft) {
+      return res.json({
+        mess: "Không lấy được blogs nháp để xóa",
+        success: false,
+      });
+    }
+    const { titleblogs, infoblogs, categoryblogs } = req.body;
+    let image = "";
+    let cloudinary_id = "";
+    if (req.file) {
+      image = req.file.path;
+      cloudinary_id = req.file.filename;
+    } else {
+      image = blogsDraft.image;
+      cloudinary_id = blogsDraft.cloudinary_id;
+    }
+    const newBlog = await blogsEntity.create({
+      image: image,
+      cloudinary_id: cloudinary_id,
+      title: titleblogs,
+      info: infoblogs,
+      category: categoryblogs,
+    });
+    const deleteBlog = await blogsDraftEntity.findByIdAndDelete(id);
+    const io = req.app.get("socketio");
+    io.emit("update-blogs", newBlog);
+    io.emit("delete-blogsdraft", deleteBlog);
+    res.json({ mess: "Tạo blogs thành công", success: true });
+  } catch (error) {
+    res.json({
+      mess: "Tạo blogs thất bại",
+      success: false,
+      error: error.message,
+    });
+  }
+};
+export const addBlogDraft = async (req, res) => {
+  try {
+    const { titleblogs, infoblogs, categoryblogs } = req.body;
+    const newBlog = await blogsDraftEntity.create({
+      image: req.file.path,
+      cloudinary_id: req.file.filename,
+      title: titleblogs,
+      info: infoblogs,
+      category: categoryblogs,
+    });
+    const io = req.app.get("socketio");
+    io.emit("update-blogsDraft", newBlog);
+    res.json({ mess: "Tạo nháp blogs thành công", success: true });
+  } catch (error) {
+    res.json({
+      mess: "Tạo nháp blogs thất bại",
+      success: false,
+      error: error.message,
+    });
+  }
+};
+export const getEditBlogDraft = async (req, res) => {
+  const { id } = req.params;
+  const editBlog = await blogsDraftEntity.findById(id);
+  res.json({ data: editBlog });
+};
+export const putEditBlogDraft = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const currentBlog = await blogsDraftEntity.findById(id);
+    const { titleblogs, infoblogs, categoryblogs } = req.body;
+    let image = "";
+    let cloudinary_id = "";
+    if (req.file) {
+      image = req.file.path;
+      cloudinary_id = req.file.filename;
+    } else {
+      image = currentBlog.image;
+      cloudinary_id = currentBlog.cloudinary_id;
+    }
+    const updateBlogDraft = await blogsDraftEntity.findByIdAndUpdate(
+      id,
+      {
+        image: image,
+        cloudinary_id: cloudinary_id,
+        title: titleblogs,
+        info: infoblogs,
+        category: categoryblogs,
+      },
+      { new: true },
+    );
+    const io = req.app.get("socketio");
+    io.emit("update-blogsDraft", updateBlogDraft);
+    res.json({ mess: "Lưu nháp blogs thành công", success: true });
+  } catch (error) {
+    res.json({
+      mess: "Lưu nháp blogs thất bại",
+      success: false,
+      error: error.message,
+    });
+  }
+};
+export const deleteBlogDraft = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const blogs = await blogsDraftEntity.findById(id);
+    if (!blogs) {
+      return res.json({
+        mess: "Không lấy được blogs nháp để xóa",
+        success: false,
+      });
+    }
+    await cloudinary.uploader.destroy(blogs.cloudinary_id);
+    const deleteBlog = await blogsDraftEntity.findByIdAndDelete(id);
+    const io = req.app.get("socketio");
+    io.emit("delete-blogsdraft", deleteBlog);
+    res.json({ mess: "Xóa blogs nháp thành công", success: true });
+  } catch (error) {
+    res.json({
+      mess: "Xóa blogs nháp thất bại",
+      success: false,
+      error: error.message,
+    });
+  }
+};
 export const addCategoryblogs = async (req, res) => {
   try {
     const { categoryblogs } = req.body;
-    const newCategoryBlog=await categoryblogsEntity.create({
+    const newCategoryBlog = await categoryblogsEntity.create({
       name: categoryblogs,
     });
     const io = req.app.get("socketio");
@@ -993,7 +1167,11 @@ export const putUpdateCategoryblogs = async (req, res) => {
   try {
     const { id } = req.params;
     const { categoryblogs } = req.body;
-    const updateCategoryBlog=await categoryblogsEntity.findByIdAndUpdate(id, { name: categoryblogs },{new:true});
+    const updateCategoryBlog = await categoryblogsEntity.findByIdAndUpdate(
+      id,
+      { name: categoryblogs },
+      { new: true },
+    );
     const io = req.app.get("socketio");
     io.emit("update-categoryblogs", updateCategoryBlog);
     res.json({ mess: "Cập nhật danh mục blogs thành công", success: true });
@@ -1008,7 +1186,7 @@ export const putUpdateCategoryblogs = async (req, res) => {
 export const deleteCategoryblogs = async (req, res) => {
   try {
     const { id } = req.params;
-    const deleteCategoryBlog=await categoryblogsEntity.findByIdAndDelete(id);
+    const deleteCategoryBlog = await categoryblogsEntity.findByIdAndDelete(id);
     const io = req.app.get("socketio");
     io.emit("delete-categoryblogs", deleteCategoryBlog);
     res.json({ mess: "Xóa danh mục blogs thành công", success: true });
@@ -1032,24 +1210,28 @@ export const getUpdateblogs = async (req, res) => {
 export const putUpdateblogs = async (req, res) => {
   try {
     const { id } = req.params;
-    const currentBlog=await blogsEntity.findById(id);
+    const currentBlog = await blogsEntity.findById(id);
     const { titleblogs, infoblogs, categoryblogs } = req.body;
-    let image="";
-    let cloudinary_id="";
+    let image = "";
+    let cloudinary_id = "";
     if (req.file) {
-      image= req.file.path;
-      cloudinary_id= req.file.filename;
+      image = req.file.path;
+      cloudinary_id = req.file.filename;
     } else {
-      image= currentBlog.image;
-      cloudinary_id= currentBlog.cloudinary_id;
+      image = currentBlog.image;
+      cloudinary_id = currentBlog.cloudinary_id;
     }
-    const updateBlog=await blogsEntity.findByIdAndUpdate(id, {
-      image:image,
-      cloudinary_id:cloudinary_id,
-      title: titleblogs,
-      info: infoblogs,
-      category: categoryblogs,
-    },{new:true});
+    const updateBlog = await blogsEntity.findByIdAndUpdate(
+      id,
+      {
+        image: image,
+        cloudinary_id: cloudinary_id,
+        title: titleblogs,
+        info: infoblogs,
+        category: categoryblogs,
+      },
+      { new: true },
+    );
     const io = req.app.get("socketio");
     io.emit("update-blogs", updateBlog);
     res.json({ mess: "Cập nhật blogs thành công", success: true });
@@ -1061,16 +1243,16 @@ export const putUpdateblogs = async (req, res) => {
     });
   }
 };
-export const deleteImgBlog=async(req,res)=>{
+export const deleteImgBlog = async (req, res) => {
   try {
-  const {id}=req.params;
-  const blogNeedDelete=await blogsEntity.findById(id);
-  await cloudinary.uploader.destroy(blogNeedDelete.cloudinary_id);
-  res.json({mess:"Xóa hình ảnh blog thành công",success:true});
+    const { id } = req.params;
+    const blogNeedDelete = await blogsEntity.findById(id);
+    await cloudinary.uploader.destroy(blogNeedDelete.cloudinary_id);
+    res.json({ mess: "Xóa hình ảnh blog thành công", success: true });
   } catch (error) {
-  res.json({mess:"Xóa hình ảnh blog thất bại",success:false});
+    res.json({ mess: "Xóa hình ảnh blog thất bại", success: false });
   }
-}
+};
 export const deleteblogs = async (req, res) => {
   try {
     const { id } = req.params;
@@ -1079,7 +1261,7 @@ export const deleteblogs = async (req, res) => {
       return res.json({ mess: "Không lấy được blogs để xóa", success: false });
     }
     await cloudinary.uploader.destroy(blogs.cloudinary_id);
-    const deleteBlog=await blogsEntity.findByIdAndDelete(id);
+    const deleteBlog = await blogsEntity.findByIdAndDelete(id);
     const io = req.app.get("socketio");
     io.emit("delete-blogs", deleteBlog);
     res.json({ mess: "Xóa blogs thành công", success: true });

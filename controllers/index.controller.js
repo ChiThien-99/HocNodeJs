@@ -7,16 +7,16 @@ import { deviceEntity } from "../models/device.model.js";
 import { categoryblogsEntity } from "../models/categoryblogs.model.js";
 import { blogsEntity } from "../models/blogs.model.js";
 export const getIndex = async (req, res) => {
-  const banners = await carouselEntity.find().sort("order");
+  const carousels = await carouselEntity.find().sort("order");
   const notifys = await notifyEntity.find().sort("-createAt");
-  const apps = await appEntity.find().sort("-createAt").limit(6);
+  const apps = await appEntity.find().sort("-createAt").limit(4);
   const funcApps = await funcAppEntity.find();
-  const devices = await deviceEntity.find().sort("-createAt").limit(6);
+  const devices = await deviceEntity.find().sort("-createAt").limit(4);
   const funcDevices = await funcDeviceEntity.find();
   const listCategoryblogs = await categoryblogsEntity.find();
   const listblogs = await blogsEntity.find().sort("-createAt").limit(6);
   res.render("index.ejs", {
-    banners,
+    carousels,
     notifys,
     apps,
     funcApps,
@@ -26,54 +26,7 @@ export const getIndex = async (req, res) => {
     listCategoryblogs,
   });
 };
-export const filterNewApp = async (req, res) => {
-  try {
-    const io = req.app.get("socketio");
-    const allApp = await appEntity.find().sort("-createAt").limit(6);
-    io.emit("update-app", allApp);
-    res.json({ mess: "Lọc app mới nhất thành công", success: true });
-  } catch (error) {
-    res.json({
-      mess: "Lọc app mới nhất thất bại",
-      success: false,
-      error: error.message,
-    });
-  }
-};
-export const filterPopularApp = async (req, res) => {
-  try {
-    const io = req.app.get("socketio");
-    const allApp = await appEntity.find().sort("-views").limit(6);
-    io.emit("update-app", allApp);
-    res.json({ mess: "Lọc app phổ biến thành công", success: true });
-  } catch (error) {
-    res.json({
-      mess: "Lọc app phổ biến thất bại",
-      success: false,
-      error: error.message,
-    });
-  }
-};
-export const filterFuncApp = async (req, res) => {
-  try {
-    const { names } = req.query;
-    const query = {};
-    if (names) {
-      const filterArray = Array.isArray(names) ? names : [names];
-      query.func = { $all: filterArray };
-    }
-    const io = req.app.get("socketio");
-    const allApp = await appEntity.find(query).sort("-createAt").limit(6);
-    io.emit("update-app", allApp);
-    res.json({ mess: "Lọc chức năng app thành công", success: true });
-  } catch (error) {
-    res.json({
-      mess: "Lọc chức năng app thất bại",
-      success: false,
-      error: error.message,
-    });
-  }
-};
+
 export const filterTypeNotify = async (req, res) => {
   try {
     const { type } = req.query;
@@ -88,94 +41,6 @@ export const filterTypeNotify = async (req, res) => {
   } catch (error) {
     res.json({
       mess: "Lọc type notify thất bại",
-      success: false,
-      error: error.message,
-    });
-  }
-};
-export const filterNewDevice = async (req, res) => {
-  try {
-    const io = req.app.get("socketio");
-    const allDevice = await deviceEntity.find().sort("-createAt");
-    io.emit("update-device", allDevice);
-    res.json({ mess: "Lọc thiết bị mới thành công", success: true });
-  } catch (error) {
-    res.json({
-      mess: "Lọc thiết bị mới thất bại",
-      success: false,
-      error: error.message,
-    });
-  }
-};
-export const filterPriceLowHigh = async (req, res) => {
-  try {
-    const io = req.app.get("socketio");
-    const allDevice = await deviceEntity.find().sort("price");
-    io.emit("update-device", allDevice);
-    res.json({
-      mess: "Lọc giá thiết bị từ thấp đến cao thành công",
-      success: true,
-    });
-  } catch (error) {
-    res.json({
-      mess: "Lọc giá thiết bị từ thấp đến cao thất bại",
-      success: false,
-      error: error.message,
-    });
-  }
-};
-export const filterPriceHighLow = async (req, res) => {
-  try {
-    const io = req.app.get("socketio");
-    const allDevice = await deviceEntity.find().sort("-price");
-    io.emit("update-device", allDevice);
-    res.json({
-      mess: "Lọc giá thiết bị từ cao đến thấp thành công",
-      success: true,
-    });
-  } catch (error) {
-    res.json({
-      mess: "Lọc giá thiết bị từ cao đến thấp thất bại",
-      success: false,
-      error: error.message,
-    });
-  }
-};
-export const filterFuncDevice = async (req, res) => {
-  try {
-    const { names } = req.query;
-    const query = {};
-    if (names) {
-      const filterArray = Array.isArray(names) ? names : [names];
-      query.func = { $all: filterArray };
-    }
-    const io = req.app.get("socketio");
-    const allDevice = await deviceEntity.find(query).sort("-createAt").limit(6);
-    io.emit("update-device", allDevice);
-    res.json({ mess: "Lọc chức năng thiết bị thành công", success: true });
-  } catch (error) {
-    res.json({
-      mess: "Lọc chức năng thiết bị thất bại",
-      success: false,
-      error: error.message,
-    });
-  }
-};
-export const filterCategoryblogs = async (req, res) => {
-  try {
-    const { names } = req.query;
-    const query = {};
-    if (names) {
-      const filterArray = Array.isArray(names) ? names : [names];
-      query.category = { $in: filterArray };
-    }
-    const io = req.app.get("socketio");
-    const allblogs = await blogsEntity.find(query).sort("-createAt").limit(6);
-    io.emit("update-blogs", allblogs);
-    res.json({ mess: "Lọc danh mục blogs thành công", success: true });
-  } catch (error) {
-    res.json({
-      mess: "Lọc danh mục blogs thất bại",
       success: false,
       error: error.message,
     });
