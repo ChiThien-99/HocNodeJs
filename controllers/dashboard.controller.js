@@ -11,6 +11,7 @@ import { deviceEntity } from "../models/device.model.js";
 import { categoryblogsEntity } from "../models/categoryblogs.model.js";
 import { blogsEntity } from "../models/blogs.model.js";
 import { blogsDraftEntity } from "../models/blogDraft.model.js";
+import { problemEntity } from "../models/problem.model.js";
 import { v2 as cloudinary } from "cloudinary";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -70,6 +71,7 @@ export const getDashboard = async (req, res) => {
   const listCategoryblogs = await categoryblogsEntity.find().sort("-createAt");
   const listblogs = await blogsEntity.find().sort("-createAt");
   const listblogsdraft = await blogsDraftEntity.find();
+  const problems = await problemEntity.find().sort("-createAt");
   const io = req.app.get("socketio");
   res.render("dashboard.ejs", {
     jsonSystemInfo,
@@ -84,6 +86,7 @@ export const getDashboard = async (req, res) => {
     listCategoryblogs,
     listblogs,
     listblogsdraft,
+    problems,
   });
 };
 export const postRegisterAdmin = async (req, res) => {

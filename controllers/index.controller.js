@@ -6,6 +6,7 @@ import { funcDeviceEntity } from "../models/funcDevice.model.js";
 import { deviceEntity } from "../models/device.model.js";
 import { categoryblogsEntity } from "../models/categoryblogs.model.js";
 import { blogsEntity } from "../models/blogs.model.js";
+import { problemEntity } from "../models/problem.model.js";
 export const getIndex = async (req, res) => {
   const carousels = await carouselEntity.find().sort("order");
   const notifys = await notifyEntity.find().sort("-createAt");
@@ -44,5 +45,29 @@ export const filterTypeNotify = async (req, res) => {
       success: false,
       error: error.message,
     });
+  }
+};
+export const postProblem = async (req, res) => {
+  try {
+    let { name, content } = req.body;
+    if (!name || name.trim() === "") {
+      name = "Ẩn danh";
+    }
+    if (!content || content.trim() === "") {
+      return res.json({
+        mess: `Vui lòng điền vấn đề của bạn vào khung nhập`,
+        success: true,
+      });
+    }
+    await problemEntity.create({
+      name: name,
+      content: content,
+    });
+    res.json({
+      mess: `Gửi thành công\nCảm ơn bạn rất nhiều \u{1F60A}`,
+      success: true,
+    });
+  } catch (error) {
+    res.json({ mess: "Gửi thất bại", success: false, error: error.message });
   }
 };

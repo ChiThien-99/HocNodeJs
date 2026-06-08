@@ -4,3 +4,4 @@ export const indexRouter = express.Router();
 const prefix = "/index";
 indexRouter.get("/", indexController.getIndex);
 indexRouter.get(`${prefix}/filterNotify`, indexController.filterTypeNotify);
+indexRouter.post(`${prefix}/postProblem`, indexController.postProblem);

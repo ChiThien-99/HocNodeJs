@@ -623,6 +623,12 @@ header div:last-child h2 {
   background-color: red;
   color: #fafafa;
 }
+#mainDashboard #contentDashboard #homeMng #divTableProblem {
+  width: -moz-fit-content;
+  width: fit-content;
+  height: 20rem;
+  overflow-y: scroll;
+}
 #mainDashboard #contentDashboard #bannerMng {
   width: 100%;
 }
@@ -1811,6 +1817,7 @@ header div:last-child h2 {
   height: 20rem;
   border: 1px solid black;
   padding: 2rem 0 0 0;
+  margin: 1rem 0;
   background-image: url("/img/bg_operasystem.webp");
 }
 #operaSystem #filterOpera {
@@ -1877,6 +1884,7 @@ header div:last-child h2 {
   width: 100%;
   height: 40rem;
   padding: 2rem 0 0 2rem;
+  margin: 1rem 0 2rem;
   border: 1px solid black;
   background-image: url("/img/bg_problem.webp");
   background-repeat: no-repeat;
@@ -1895,11 +1903,13 @@ header div:last-child h2 {
 #problem form input[type=text] {
   width: 100%;
   height: 2rem;
+  font-size: 1rem;
 }
 #problem form textarea {
   width: 100%;
   height: 20rem;
   resize: none;
+  font-size: 1rem;
 }
 #problem form a {
   top: auto !important;

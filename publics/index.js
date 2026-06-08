@@ -216,19 +216,42 @@ selectFilter.addEventListener("change", function () {
       console.error(`Lỗi kết nối: ${error}`);
     });
 });
-document.querySelectorAll("#filterOpera button").forEach((btn)=>{
-  btn.addEventListener("click",function(){
-    document.querySelectorAll("#filterOpera button").forEach((btn)=>{
+document.querySelectorAll("#filterOpera button").forEach((btn) => {
+  btn.addEventListener("click", function () {
+    document.querySelectorAll("#filterOpera button").forEach((btn) => {
       btn.classList.remove("active");
     });
     this.classList.add("active");
-    document.querySelectorAll("#contentOpera div").forEach((div)=>{
+    document.querySelectorAll("#contentOpera div").forEach((div) => {
       div.classList.remove("active");
-    })
-    const operaActive=this.getAttribute("data-opera");
+    });
+    const operaActive = this.getAttribute("data-opera");
     document.getElementById(operaActive).classList.add("active");
+  });
+});
+document.getElementById("formProblem").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const name = document.getElementById("name").value;
+  const content = document.getElementById("contentProblem").value;
+  fetch("/index/postProblem", {
+    method: "POST",
+    headers: { "Content-Type": "application/json;charset=UTF-8" },
+    body: JSON.stringify({ name, content }),
   })
-})
+    .then((res) => res.json())
+    .then(({ mess, success, error }) => {
+      if (success) {
+        document.getElementById("name").value = "";
+        document.getElementById("contentProblem").value = "";
+        alert("Thông báo", mess, "#80a710");
+      } else {
+        alert("Lỗi", `${mess}\n${error}`, "red");
+      }
+    })
+    .catch((error) => {
+      alert("Lỗi", error, "red");
+    });
+});
 document.addEventListener("DOMContentLoaded", () => {
   const device = document.querySelectorAll(".deviceIndex");
   for (let i = 0; i < device.length; i++) {

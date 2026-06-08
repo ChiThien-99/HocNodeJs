@@ -559,6 +559,11 @@ header {
           color: $colorSecondaryText;
         }
       }
+      #divTableProblem {
+        width: fit-content;
+        height: 20rem;
+        overflow-y: scroll;
+      }
     }
     #bannerMng {
       width: 100%;
@@ -1570,20 +1575,21 @@ header {
     }
   }
 }
-#operaSystem{
+#operaSystem {
   width: 100%;
   height: 20rem;
   border: 1px solid black;
   padding: 2rem 0 0 0;
+  margin: 1rem 0;
   background-image: url("/img/bg_operasystem.webp");
-  #filterOpera{
+  #filterOpera {
     width: 80%;
     margin: auto;
     height: 2rem;
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
-    button{
+    button {
       width: 20%;
       height: inherit;
       @include button(0.5rem);
@@ -1592,18 +1598,18 @@ header {
       border-radius: 5px;
       color: $colorCTA;
     }
-    .active{
+    .active {
       background-color: $colorCTA;
       color: $colorSecondaryText;
     }
   }
-  #contentOpera{
+  #contentOpera {
     width: 80%;
     margin: 1rem auto;
     height: 12rem;
     border: 1px solid $colorCTA;
     border-radius: 5px;
-    div{
+    div {
       width: 100%;
       height: inherit;
       padding: 1rem;
@@ -1611,12 +1617,12 @@ header {
       flex-flow: row nowrap;
       justify-content: start;
       align-items: center;
-      img{
+      img {
         width: 7rem;
         height: 7rem;
         margin-right: 1rem;
       }
-      button{
+      button {
         @include button(0.5rem);
         background-color: $colorCTA;
         color: $colorSecondaryText;
@@ -1624,37 +1630,40 @@ header {
         font-weight: bold;
       }
     }
-    .active{
+    .active {
       display: flex;
       background-color: $colorPrimaryBG;
     }
   }
 }
-#problem{
+#problem {
   width: 100%;
   height: 40rem;
   padding: 2rem 0 0 2rem;
+  margin: 1rem 0 2rem;
   border: 1px solid black;
   background-image: url("/img/bg_problem.webp");
   background-repeat: no-repeat;
   background-size: cover;
-  form{
+  form {
     width: 50%;
     height: 15rem;
-    label{
+    label {
       display: inline-block;
       color: $colorSecondaryText;
       font-weight: bold;
       margin: 0.5rem 0;
     }
-    input[type="text"]{
+    input[type="text"] {
       width: 100%;
       height: 2rem;
+      font-size: 1rem;
     }
-    textarea{
+    textarea {
       width: 100%;
       height: 20rem;
       resize: none;
+      font-size: 1rem;
     }
     a {
       top: auto !important;
@@ -1663,9 +1672,9 @@ header {
       svg {
         width: 1.2rem !important;
         height: 1.2rem !important;
-          }
       }
-    input[type="submit"]{
+    }
+    input[type="submit"] {
       width: 100%;
       height: 2rem;
       @include button(0.5rem);

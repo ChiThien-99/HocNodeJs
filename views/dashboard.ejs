@@ -366,6 +366,38 @@
                 </tbody>
             </table>
             </div>
+            <h2 class="flag-item">Quản lý problem</h2>
+            <form>
+              <label for="fullName">Tên</label>
+              <input type="text" name="fullName" id="fullName">
+              <label for="contentProblem">Vấn đề</label>
+              <textarea name="contentProblem" id="contentProblem"></textarea>
+            </form>
+            <div id="divTableProblem">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Tên</th>
+                    <th>Vấn đề</th>
+                    <th>Ngày</th>
+                    <th>Thao tác</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <%problems.forEach((problem)=>{%>
+                  <tr>
+                    <td><%=problem.name%></td>
+                    <td><%=problem.content%></td>
+                    <td><%=new Date(problem.createAt).toLocaleString("vi-VN")%></td>
+                    <td>
+                      <button type="button">Xem</button>
+                      <button type="button">Xóa</button>
+                    </td>
+                  </tr>
+                  <%})%>
+                </tbody>
+              </table>
+            </div>
           </div>
           <div id="softwareMng" class="tabContent">
             <h2 class="flag-item">Quản lý chức năng phần mềm</h2>
