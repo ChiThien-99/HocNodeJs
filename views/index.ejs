@@ -24,6 +24,7 @@
       src="https://kit.fontawesome.com/c1f12001f0.js"
       crossorigin="anonymous"
     ></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-emoji-picker@0.2.4/dist/emojiPicker.min.js"></script>
   </head>
   <body>
     <div id="alert">
@@ -202,7 +203,38 @@
             <%})%>
           </div>
         </div>
-        <div></div>
+        <a class="flag-item" href="/app">Các phiên bản khác</a>
+        <div id="operaSystem">
+          <div id="filterOpera">
+            <button data-opera="android" class="active"><i class="fa-brands fa-android"></i> ANDROID</button>
+            <button data-opera="ios"><i class="fa-brands fa-apple"></i> IOS</button>
+            <button data-opera="windows"><i class="fa-brands fa-windows"></i> WINDOWS</button>
+          </div>
+          <div id="contentOpera">
+            <div id="android" class="active">
+              <img src="/img/QR_Code.webp" alt="QR Android">
+              <h3>Quét mã QR để tải ứng dụng từ CH Play</h3>
+            </div>
+            <div id="ios">
+              <img src="/img/QR_Code.webp" alt="QR IOS">
+              <h3>Quét mã QR để tải ứng dụng từ App Store</h3>
+            </div>
+            <div id="windows">
+              <button><i class="fa-solid fa-download"></i> Tải về</button>
+              <h3>Click nút để tải phần mềm về máy của bạn</h3>
+            </div>
+          </div>
+        </div>
+        <a class="flag-item" href="/app">Your Problem?</a>
+        <div id="problem">
+          <form>
+            <label for="fullName">Tên (Để trống nếu muốn ẩn danh)</label><br>
+            <input type="text" name="fullName" id="fullName"><br>
+            <label for="contentProblem">Vấn đề của bạn</label><br>
+            <textarea name="contentProblem" id="contentProblem" placeholder="Vấn để của bạn sẽ được lắng nghe và trở thành nền tảng để chúng tôi phát triển sản phẩm công nghệ giải quyết các vấn để trong tương lai" data-emoji-picker="true"></textarea><br>
+            <input type="submit" value="Gửi">
+          </form>
+        </div>
       </main>
       <footer>
         <div>

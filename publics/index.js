@@ -216,6 +216,19 @@ selectFilter.addEventListener("change", function () {
       console.error(`Lỗi kết nối: ${error}`);
     });
 });
+document.querySelectorAll("#filterOpera button").forEach((btn)=>{
+  btn.addEventListener("click",function(){
+    document.querySelectorAll("#filterOpera button").forEach((btn)=>{
+      btn.classList.remove("active");
+    });
+    this.classList.add("active");
+    document.querySelectorAll("#contentOpera div").forEach((div)=>{
+      div.classList.remove("active");
+    })
+    const operaActive=this.getAttribute("data-opera");
+    document.getElementById(operaActive).classList.add("active");
+  })
+})
 document.addEventListener("DOMContentLoaded", () => {
   const device = document.querySelectorAll(".deviceIndex");
   for (let i = 0; i < device.length; i++) {
@@ -247,5 +260,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     document.querySelectorAll(".targetDeviceInfo")[i].innerHTML =
       chucNangHTML || "<p>Đang cập nhật chức năng thiết bị</p>";
+  }
+});
+document.addEventListener("DOMContentLoaded", () => {
+  if (typeof EmojiPicker !== "undefined") {
+    new EmojiPicker();
+  } else {
+    console.error("Lỗi: Thư viện EmojiPicker chưa được tải thành công");
   }
 });

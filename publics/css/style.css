@@ -1806,6 +1806,122 @@ header div:last-child h2 {
   margin: 0.3rem 0;
 }
 
+#operaSystem {
+  width: 100%;
+  height: 20rem;
+  border: 1px solid black;
+  padding: 2rem 0 0 0;
+  background-image: url("/img/bg_operasystem.webp");
+}
+#operaSystem #filterOpera {
+  width: 80%;
+  margin: auto;
+  height: 2rem;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+#operaSystem #filterOpera button {
+  width: 20%;
+  height: inherit;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  font-weight: bold;
+  border: 1px solid #80a710;
+  border-radius: 5px;
+  color: #80a710;
+}
+#operaSystem #filterOpera .active {
+  background-color: #80a710;
+  color: #fafafa;
+}
+#operaSystem #contentOpera {
+  width: 80%;
+  margin: 1rem auto;
+  height: 12rem;
+  border: 1px solid #80a710;
+  border-radius: 5px;
+}
+#operaSystem #contentOpera div {
+  width: 100%;
+  height: inherit;
+  padding: 1rem;
+  display: none;
+  flex-flow: row nowrap;
+  justify-content: start;
+  align-items: center;
+}
+#operaSystem #contentOpera div img {
+  width: 7rem;
+  height: 7rem;
+  margin-right: 1rem;
+}
+#operaSystem #contentOpera div button {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #80a710;
+  color: #fafafa;
+  margin-right: 1rem;
+  font-weight: bold;
+}
+#operaSystem #contentOpera .active {
+  display: flex;
+  background-color: #f5f5f5;
+}
+
+#problem {
+  width: 100%;
+  height: 40rem;
+  padding: 2rem 0 0 2rem;
+  border: 1px solid black;
+  background-image: url("/img/bg_problem.webp");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+#problem form {
+  width: 50%;
+  height: 15rem;
+}
+#problem form label {
+  display: inline-block;
+  color: #fafafa;
+  font-weight: bold;
+  margin: 0.5rem 0;
+}
+#problem form input[type=text] {
+  width: 100%;
+  height: 2rem;
+}
+#problem form textarea {
+  width: 100%;
+  height: 20rem;
+  resize: none;
+}
+#problem form a {
+  top: auto !important;
+  right: 1rem !important;
+  bottom: 1rem !important;
+}
+#problem form a svg {
+  width: 1.2rem !important;
+  height: 1.2rem !important;
+}
+#problem form input[type=submit] {
+  width: 100%;
+  height: 2rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #80a710;
+  color: #fafafa;
+  font-weight: bold;
+}
+
 #mainDetailblogs {
   display: flex;
   flex-flow: row wrap;

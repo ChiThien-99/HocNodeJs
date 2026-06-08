@@ -1570,6 +1570,111 @@ header {
     }
   }
 }
+#operaSystem{
+  width: 100%;
+  height: 20rem;
+  border: 1px solid black;
+  padding: 2rem 0 0 0;
+  background-image: url("/img/bg_operasystem.webp");
+  #filterOpera{
+    width: 80%;
+    margin: auto;
+    height: 2rem;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    button{
+      width: 20%;
+      height: inherit;
+      @include button(0.5rem);
+      font-weight: bold;
+      border: 1px solid $colorCTA;
+      border-radius: 5px;
+      color: $colorCTA;
+    }
+    .active{
+      background-color: $colorCTA;
+      color: $colorSecondaryText;
+    }
+  }
+  #contentOpera{
+    width: 80%;
+    margin: 1rem auto;
+    height: 12rem;
+    border: 1px solid $colorCTA;
+    border-radius: 5px;
+    div{
+      width: 100%;
+      height: inherit;
+      padding: 1rem;
+      display: none;
+      flex-flow: row nowrap;
+      justify-content: start;
+      align-items: center;
+      img{
+        width: 7rem;
+        height: 7rem;
+        margin-right: 1rem;
+      }
+      button{
+        @include button(0.5rem);
+        background-color: $colorCTA;
+        color: $colorSecondaryText;
+        margin-right: 1rem;
+        font-weight: bold;
+      }
+    }
+    .active{
+      display: flex;
+      background-color: $colorPrimaryBG;
+    }
+  }
+}
+#problem{
+  width: 100%;
+  height: 40rem;
+  padding: 2rem 0 0 2rem;
+  border: 1px solid black;
+  background-image: url("/img/bg_problem.webp");
+  background-repeat: no-repeat;
+  background-size: cover;
+  form{
+    width: 50%;
+    height: 15rem;
+    label{
+      display: inline-block;
+      color: $colorSecondaryText;
+      font-weight: bold;
+      margin: 0.5rem 0;
+    }
+    input[type="text"]{
+      width: 100%;
+      height: 2rem;
+    }
+    textarea{
+      width: 100%;
+      height: 20rem;
+      resize: none;
+    }
+    a {
+      top: auto !important;
+      right: 1rem !important;
+      bottom: 1rem !important;
+      svg {
+        width: 1.2rem !important;
+        height: 1.2rem !important;
+          }
+      }
+    input[type="submit"]{
+      width: 100%;
+      height: 2rem;
+      @include button(0.5rem);
+      background-color: $colorCTA;
+      color: $colorSecondaryText;
+      font-weight: bold;
+    }
+  }
+}
 #mainDetailblogs {
   display: flex;
   flex-flow: row wrap;
