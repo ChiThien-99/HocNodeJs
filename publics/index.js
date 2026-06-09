@@ -252,29 +252,33 @@ document.getElementById("formProblem").addEventListener("submit", (e) => {
       alert("Lỗi", error, "red");
     });
 });
-document.getElementById("formSubscribers").addEventListener("submit",(e)=>{
+document.getElementById("formSubscribers").addEventListener("submit", (e) => {
   e.preventDefault();
-  const nameSubscribers=document.getElementById("nameSubscribers").value;
-  const emailSubscribers=document.getElementById("emailSubscribers").value;
-  const telSubscribers=document.getElementById("telSubscribers").value;
-  fetch("/index/postSubscribers",{
-    method:"POST",
-    headers:{"Content-Type":"application/json;charset=UTF-8"},
-    body:JSON.stringify({nameSubscribers,emailSubscribers,telSubscribers}),
+  const nameSubscribers = document.getElementById("nameSubscribers").value;
+  const emailSubscribers = document.getElementById("emailSubscribers").value;
+  const telSubscribers = document.getElementById("telSubscribers").value;
+  fetch("/index/postSubscribers", {
+    method: "POST",
+    headers: { "Content-Type": "application/json;charset=UTF-8" },
+    body: JSON.stringify({ nameSubscribers, emailSubscribers, telSubscribers }),
   })
-  .then(res=>res.json())
-  .then(({mess,success,error})=>{
-    if (success) {
-      document.getElementById("formSubscribers").reset();
-      alert("Thông báo",mess,"#80a710")
-    } else {
-      alert("Lỗi",`${mess}\n${error}`,"red");
-    }
-  })
-  .catch((error)=>{
-    alert("Lỗi",error,"red");
-  });
-})
+    .then((res) => res.json())
+    .then(({ mess, success, error }) => {
+      if (success) {
+        document.getElementById("formSubscribers").reset();
+        alert("Thông báo", mess, "#80a710");
+      } else {
+        if (error) {
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        } else {
+          alert("Lỗi", mess, "red");
+        }
+      }
+    })
+    .catch((error) => {
+      alert("Lỗi", error, "red");
+    });
+});
 document.addEventListener("DOMContentLoaded", () => {
   const device = document.querySelectorAll(".deviceIndex");
   for (let i = 0; i < device.length; i++) {

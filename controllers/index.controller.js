@@ -60,7 +60,7 @@ export const postProblem = async (req, res) => {
         success: true,
       });
     }
-    const newProblem=await problemEntity.create({
+    const newProblem = await problemEntity.create({
       name: name,
       content: content,
     });
@@ -74,28 +74,41 @@ export const postProblem = async (req, res) => {
     res.json({ mess: "Gửi thất bại", success: false, error: error.message });
   }
 };
-export const postSubscribers=async(req,res)=>{
+export const postSubscribers = async (req, res) => {
   try {
-    let {nameSubscribers,emailSubscribers,telSubscribers}=req.body;
-  if (!nameSubscribers || nameSubscribers.trim()==="") {
-    return res.json({mess:"Vui lòng điền tên của bạn",success:true});
-  }
-  if ((!emailSubscribers || emailSubscribers.trim()==="") && (!telSubscribers || telSubscribers.trim()==="")) {
-    return res.json({mess:"Vui lòng điền email hoặc số điện thoại của bạn",success:true});
-  }
-  if (!emailSubscribers || emailSubscribers.trim()==="") {
-    emailSubscribers="Ẩn";
-  }
-  if (!telSubscribers || telSubscribers.trim()==="") {
-    telSubscribers="Ẩn";
-  }
-  await subscribersEntity.create({
-    name:nameSubscribers,
-    email:emailSubscribers,
-    tel:telSubscribers,
-  })
-  res.json({mess:`Đăng ký nhận khuyến mãi thành công\u{1F389}`,success:true});
+    let { nameSubscribers, emailSubscribers, telSubscribers } = req.body;
+    if (!nameSubscribers || nameSubscribers.trim() === "") {
+      return res.json({ mess: "Vui lòng điền tên của bạn", success: false });
+    }
+    if (
+      (!emailSubscribers || emailSubscribers.trim() === "") &&
+      (!telSubscribers || telSubscribers.trim() === "")
+    ) {
+      return res.json({
+        mess: "Vui lòng điền email hoặc số điện thoại của bạn",
+        success: false,
+      });
+    }
+    if (!emailSubscribers || emailSubscribers.trim() === "") {
+      emailSubscribers = "Ẩn";
+    }
+    if (!telSubscribers || telSubscribers.trim() === "") {
+      telSubscribers = "Ẩn";
+    }
+    await subscribersEntity.create({
+      name: nameSubscribers,
+      email: emailSubscribers,
+      tel: telSubscribers,
+    });
+    res.json({
+      mess: `Đăng ký nhận khuyến mãi thành công\u{1F389}`,
+      success: true,
+    });
   } catch (error) {
-  res.json({mess:"Đăng ký nhận khuyến mãi thất bại",success:false,error:error.message});
+    res.json({
+      mess: "Đăng ký nhận khuyến mãi thất bại",
+      success: false,
+      error: error.message,
+    });
   }
-}
+};
