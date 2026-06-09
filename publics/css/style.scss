@@ -559,10 +559,46 @@ header {
           color: $colorSecondaryText;
         }
       }
+      #formProblem{
+        width: 50%;
+        label{
+          display: inline-block;
+          margin: 0.5rem 0;
+          font-weight: bold;
+        }
+        input[type="text"]{
+          width: 100%;
+          height: 2rem;
+          font-size: 1rem;
+        }
+        textarea{
+          width: 100%;
+          height: 20rem;
+          resize: none;
+          font-size: 1rem;
+        }
+      }
       #divTableProblem {
         width: fit-content;
         height: 20rem;
         overflow-y: scroll;
+        margin-top: 1rem;
+        #tableProblem,th,td{
+          border: 1px solid black;
+          border-collapse: collapse;
+          padding: 0.5rem;
+          text-align: left;
+          .btnWatchProblem{
+            @include button(0.5rem);
+            background-color: $colorCTA;
+            color: $colorSecondaryText;
+          }
+          .btnDeleteProblem{
+            @include button(0.5rem);
+            background-color: red;
+            color: $colorSecondaryText;
+          }
+        }
       }
     }
     #bannerMng {
@@ -1099,7 +1135,7 @@ header {
 }
 #divAboutAndBanner {
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: row wrap;
   width: 100%;
   height: 30rem;
   margin-top: 1rem;
@@ -1133,6 +1169,7 @@ header {
     #bodyNotification {
       height: 25rem;
       overflow-y: scroll;
+      border-bottom: 1px solid black;
       .notify {
         border: 1px solid black;
         padding: 0.5rem;
@@ -1234,7 +1271,8 @@ header {
 #divApp {
   width: 100%;
   height: auto;
-  padding: 1rem;
+  padding: 1rem 0.5rem;
+  margin-top: 2rem;
   #headerApp {
     display: flex;
     flex-flow: row nowrap;
@@ -1309,7 +1347,7 @@ header {
   #listApp {
     display: flex;
     flex-flow: row wrap;
-    margin: 1rem 0;
+    margin: 1rem 0 0;
     a {
       display: inline-block;
       width: 48%;
@@ -1355,7 +1393,7 @@ header {
 #divDeviceIndex {
   width: 100%;
   height: auto;
-  padding: 1rem;
+  padding: 1rem 0.5rem;
   #headerDeviceIndex {
     display: flex;
     flex-flow: row nowrap;
@@ -1430,7 +1468,7 @@ header {
   #listDeviceIndex {
     display: flex;
     flex-flow: row wrap;
-    margin: 1rem 0;
+    margin: 1rem 0 0;
     a {
       display: inline-block;
       width: 48%;
@@ -1486,7 +1524,7 @@ header {
 #divblogs {
   width: 100%;
   height: auto;
-  padding: 1rem;
+  padding: 1rem 0.5rem;
   #headerblogs {
     display: flex;
     flex-flow: row nowrap;
@@ -1533,7 +1571,7 @@ header {
   #listblogs {
     display: flex;
     flex-flow: row wrap;
-    margin: 1rem 0;
+    margin: 1rem 0 0;
     a {
       display: inline-block;
       width: 48%;
@@ -1574,6 +1612,9 @@ header {
       }
     }
   }
+}
+.flag-item-problem,.flag-item-opera{
+  margin-left: 0.5rem;
 }
 #operaSystem {
   width: 100%;
@@ -3276,11 +3317,13 @@ footer {
       color: $colorSecondaryText;
       margin: 0 0 0.5rem 0;
     }
-    button {
+    input[type="submit"] {
       background-color: $colorPrimaryBG;
       color: $colorCTA;
       font-weight: bold;
       @include button(0.5rem);
+      height: 2rem !important;
+      margin-top: 0.5rem;
     }
     &:last-child {
       p,
@@ -3289,7 +3332,8 @@ footer {
       }
       input {
         width: 90%;
-        height: 1.5rem;
+        height: 2rem;
+        font-size: 1rem;
       }
     }
   }
@@ -3609,6 +3653,97 @@ footer {
           }
         }
       }
+    }
+  }
+  #divAboutAndBanner{
+    width: 100%;
+    height: 60rem;
+    padding: 0 0.5rem;
+    #notification-container{
+      width: 100%;
+      height: 30rem;
+      padding: 0;
+      margin-bottom: 1rem;
+      #headerNotification{
+        #filterNotification{
+          width: 33%;
+        }
+      }
+    }
+    #carousel-container{
+      width: 100%;
+      height: 30rem;
+      #carousel-wrapper{
+        .carousel-slide{
+          .carousel-caption{
+            font-size: 1.1rem;
+          }
+        }
+      }
+    }
+  }
+  #divApp{
+    #listApp{
+      a{
+        width: 100%;
+        .app{
+          div:last-child{
+            p{
+              font-size: 0.8rem;
+            }
+          }
+        }
+      }
+    }
+  }
+  #divDeviceIndex{
+    #listDeviceIndex{
+      a{
+        width: 100%;
+        .deviceIndex{
+          .device-content{
+            p{
+              font-size: 0.8rem;
+            }
+          }
+        }
+      }
+    }
+  }
+  #divblogs{
+    #listblogs{
+      a{
+        width: 100%;
+        .blogs{
+          .blogs-content{
+            p{
+              font-size: 0.8rem;
+            }
+          }
+        }
+      }
+    }
+  }
+  #operaSystem{
+    #filterOpera{
+      button{
+        width: 33%;
+        font-size: 0.8rem;
+      }
+    }
+    #contentOpera{
+      div{
+        button{
+          width: 10rem;
+        }
+      }
+    }
+  }
+  #problem{
+    padding: 2rem 0.5rem 2rem !important;
+    form{
+      width: 100%;
+      height: 30rem;
     }
   }
   footer {

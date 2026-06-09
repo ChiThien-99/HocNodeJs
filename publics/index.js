@@ -252,6 +252,29 @@ document.getElementById("formProblem").addEventListener("submit", (e) => {
       alert("Lỗi", error, "red");
     });
 });
+document.getElementById("formSubscribers").addEventListener("submit",(e)=>{
+  e.preventDefault();
+  const nameSubscribers=document.getElementById("nameSubscribers").value;
+  const emailSubscribers=document.getElementById("emailSubscribers").value;
+  const telSubscribers=document.getElementById("telSubscribers").value;
+  fetch("/index/postSubscribers",{
+    method:"POST",
+    headers:{"Content-Type":"application/json;charset=UTF-8"},
+    body:JSON.stringify({nameSubscribers,emailSubscribers,telSubscribers}),
+  })
+  .then(res=>res.json())
+  .then(({mess,success,error})=>{
+    if (success) {
+      document.getElementById("formSubscribers").reset();
+      alert("Thông báo",mess,"#80a710")
+    } else {
+      alert("Lỗi",`${mess}\n${error}`,"red");
+    }
+  })
+  .catch((error)=>{
+    alert("Lỗi",error,"red");
+  });
+})
 document.addEventListener("DOMContentLoaded", () => {
   const device = document.querySelectorAll(".deviceIndex");
   for (let i = 0; i < device.length; i++) {
@@ -283,6 +306,29 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     document.querySelectorAll(".targetDeviceInfo")[i].innerHTML =
       chucNangHTML || "<p>Đang cập nhật chức năng thiết bị</p>";
+  }
+});
+document.addEventListener("DOMContentLoaded", () => {
+  const hamburgerBtn = document.getElementById("hamburgerBtn");
+  const navMenu = document.getElementById("navMenu");
+  if (hamburgerBtn && navMenu) {
+    hamburgerBtn.addEventListener("click", () => {
+      hamburgerBtn.classList.toggle("active");
+      navMenu.classList.toggle("active");
+      if (navMenu.classList.contains("active")) {
+        document.body.classList.add("no-scroll");
+      } else {
+        document.body.classList.remove("no-scroll");
+      }
+    });
+    const navLink = navMenu.querySelectorAll("a");
+    navLink.forEach((link) => {
+      link.addEventListener("click", () => {
+        hamburgerBtn.classList.remove("active");
+        navMenu.classList.remove("active");
+        document.body.classList.remove("no-scroll");
+      });
+    });
   }
 });
 document.addEventListener("DOMContentLoaded", () => {

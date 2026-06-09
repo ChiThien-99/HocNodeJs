@@ -74,6 +74,10 @@ dashboardRouter.get(
   `${prefix}/editBlogDraft/:id`,
   dashboardController.getEditBlogDraft,
 );
+dashboardRouter.get(
+  `${prefix}/getProblemById/:id`,
+  dashboardController.getProblemById,
+);
 dashboardRouter.post(
   `${prefix}/registerAdmin`,
   authLimit,
@@ -299,4 +303,8 @@ dashboardRouter.delete(
 dashboardRouter.delete(
   `${prefix}/deleteBlogDraft/:id`,
   dashboardController.deleteBlogDraft,
+);
+dashboardRouter.delete(
+  `${prefix}/deleteProblemById/:id`,
+  dashboardController.deleteProblemById,
 );

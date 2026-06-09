@@ -7,6 +7,7 @@ import { deviceEntity } from "../models/device.model.js";
 import { categoryblogsEntity } from "../models/categoryblogs.model.js";
 import { blogsEntity } from "../models/blogs.model.js";
 import { problemEntity } from "../models/problem.model.js";
+import { subscribersEntity } from "../models/subscribers.model.js";
 export const getIndex = async (req, res) => {
   const carousels = await carouselEntity.find().sort("order");
   const notifys = await notifyEntity.find().sort("-createAt");
@@ -59,10 +60,12 @@ export const postProblem = async (req, res) => {
         success: true,
       });
     }
-    await problemEntity.create({
+    const newProblem=await problemEntity.create({
       name: name,
       content: content,
     });
+    const io = req.app.get("socketio");
+    io.emit("update-problem", newProblem);
     res.json({
       mess: `Gửi thành công\nCảm ơn bạn rất nhiều \u{1F60A}`,
       success: true,
@@ -71,3 +74,28 @@ export const postProblem = async (req, res) => {
     res.json({ mess: "Gửi thất bại", success: false, error: error.message });
   }
 };
+export const postSubscribers=async(req,res)=>{
+  try {
+    let {nameSubscribers,emailSubscribers,telSubscribers}=req.body;
+  if (!nameSubscribers || nameSubscribers.trim()==="") {
+    return res.json({mess:"Vui lòng điền tên của bạn",success:true});
+  }
+  if ((!emailSubscribers || emailSubscribers.trim()==="") && (!telSubscribers || telSubscribers.trim()==="")) {
+    return res.json({mess:"Vui lòng điền email hoặc số điện thoại của bạn",success:true});
+  }
+  if (!emailSubscribers || emailSubscribers.trim()==="") {
+    emailSubscribers="Ẩn";
+  }
+  if (!telSubscribers || telSubscribers.trim()==="") {
+    telSubscribers="Ẩn";
+  }
+  await subscribersEntity.create({
+    name:nameSubscribers,
+    email:emailSubscribers,
+    tel:telSubscribers,
+  })
+  res.json({mess:`Đăng ký nhận khuyến mãi thành công\u{1F389}`,success:true});
+  } catch (error) {
+  res.json({mess:"Đăng ký nhận khuyến mãi thất bại",success:false,error:error.message});
+  }
+}

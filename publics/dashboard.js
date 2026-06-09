@@ -355,6 +355,29 @@ socket.on("delete-notify", (data) => {
     }
   }
 });
+socket.on("update-problem",(data)=>{
+  document.querySelector("#tableProblem tbody").insertAdjacentHTML("afterbegin",`
+    <tr data-idProblem="${data._id}">
+      <td>${data.name}</td>
+      <td>${data.content}</td>
+      <td>${new Date(data.createAt).toLocaleString("vi-VN")}</td>
+      <td>
+        <button type="button" class="btnWatchProblem" data-idProblem="${data._id}">Xem</button>
+        <button type="button" class="btnDeleteProblem" data-idProblem="${data._id}">Xóa</button>
+      </td>
+    </tr>
+  `)
+})
+socket.on("delete-problem",(data)=>{
+  if (data && data._id) {
+    const rowToDelete = document.querySelector(
+      `tr[data-idProblem="${data._id}"]`,
+    );
+    if (rowToDelete) {
+      rowToDelete.remove();
+    }
+  }
+})
 async function verifySession() {
   try {
     const response = await authFetch("/api/auth/me");
@@ -2196,7 +2219,45 @@ document
         });
     }
   });
-
+document.querySelector("#tableProblem tbody").addEventListener("click",async(e)=>{
+  const target=e.target;
+  if (target.classList.contains("btnWatchProblem")) {
+    const id=target.getAttribute("data-idProblem");
+    fetch(`/dashboard/getProblemById/${id}`,{
+      method:"GET",
+      headers:{"Content-Type":"application/json;charset=UTF-8"},
+    })
+    .then(res=>res.json())
+    .then(({data})=>{
+      document.getElementById("name").value=data.name;
+      document.getElementById("contentProblem").value=data.content;
+    })
+    .catch((error)=>{
+      alert("Lỗi",error,"red");
+    });
+  }
+  if (target.classList.contains("btnDeleteProblem")) {
+    const confirmDelete=await confirm("Thông báo","Bạn có chắc chắn xóa problem này","#1877f2");
+    if (confirmDelete) {
+    const id=target.getAttribute("data-idProblem");
+    fetch(`/dashboard/deleteProblemById/${id}`,{
+      method:"DELETE",
+      headers:{"Content-Type":"application/json;charset=UTF-8"},
+    })
+    .then(res=>res.json())
+    .then(({mess,success,error})=>{
+      if (success) {
+        alert("Thông báo",mess,"#80a710");
+      } else {
+        alert("Lỗi",`${mess}\n${error}`,"red");
+      }
+    })
+    .catch((error)=>{
+      alert("Lỗi",error,"red");
+    });
+    }
+  }
+})
 function checkFormEmptiness(form, btn) {
   const formData = new FormData(form);
   let hasData = false;

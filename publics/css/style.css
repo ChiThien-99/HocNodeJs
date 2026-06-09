@@ -623,11 +623,53 @@ header div:last-child h2 {
   background-color: red;
   color: #fafafa;
 }
+#mainDashboard #contentDashboard #homeMng #formProblem {
+  width: 50%;
+}
+#mainDashboard #contentDashboard #homeMng #formProblem label {
+  display: inline-block;
+  margin: 0.5rem 0;
+  font-weight: bold;
+}
+#mainDashboard #contentDashboard #homeMng #formProblem input[type=text] {
+  width: 100%;
+  height: 2rem;
+  font-size: 1rem;
+}
+#mainDashboard #contentDashboard #homeMng #formProblem textarea {
+  width: 100%;
+  height: 20rem;
+  resize: none;
+  font-size: 1rem;
+}
 #mainDashboard #contentDashboard #homeMng #divTableProblem {
   width: -moz-fit-content;
   width: fit-content;
   height: 20rem;
   overflow-y: scroll;
+  margin-top: 1rem;
+}
+#mainDashboard #contentDashboard #homeMng #divTableProblem #tableProblem, #mainDashboard #contentDashboard #homeMng #divTableProblem th, #mainDashboard #contentDashboard #homeMng #divTableProblem td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 0.5rem;
+  text-align: left;
+}
+#mainDashboard #contentDashboard #homeMng #divTableProblem #tableProblem .btnWatchProblem, #mainDashboard #contentDashboard #homeMng #divTableProblem th .btnWatchProblem, #mainDashboard #contentDashboard #homeMng #divTableProblem td .btnWatchProblem {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #80a710;
+  color: #fafafa;
+}
+#mainDashboard #contentDashboard #homeMng #divTableProblem #tableProblem .btnDeleteProblem, #mainDashboard #contentDashboard #homeMng #divTableProblem th .btnDeleteProblem, #mainDashboard #contentDashboard #homeMng #divTableProblem td .btnDeleteProblem {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: red;
+  color: #fafafa;
 }
 #mainDashboard #contentDashboard #bannerMng {
   width: 100%;
@@ -1312,7 +1354,7 @@ header div:last-child h2 {
 
 #divAboutAndBanner {
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: row wrap;
   width: 100%;
   height: 30rem;
   margin-top: 1rem;
@@ -1348,6 +1390,7 @@ header div:last-child h2 {
 #divAboutAndBanner #notification-container #bodyNotification {
   height: 25rem;
   overflow-y: scroll;
+  border-bottom: 1px solid black;
 }
 #divAboutAndBanner #notification-container #bodyNotification .notify {
   border: 1px solid black;
@@ -1450,7 +1493,8 @@ header div:last-child h2 {
 #divApp {
   width: 100%;
   height: auto;
-  padding: 1rem;
+  padding: 1rem 0.5rem;
+  margin-top: 2rem;
 }
 #divApp #headerApp {
   display: flex;
@@ -1532,7 +1576,7 @@ header div:last-child h2 {
 #divApp #listApp {
   display: flex;
   flex-flow: row wrap;
-  margin: 1rem 0;
+  margin: 1rem 0 0;
 }
 #divApp #listApp a {
   display: inline-block;
@@ -1579,7 +1623,7 @@ header div:last-child h2 {
 #divDeviceIndex {
   width: 100%;
   height: auto;
-  padding: 1rem;
+  padding: 1rem 0.5rem;
 }
 #divDeviceIndex #headerDeviceIndex {
   display: flex;
@@ -1661,7 +1705,7 @@ header div:last-child h2 {
 #divDeviceIndex #listDeviceIndex {
   display: flex;
   flex-flow: row wrap;
-  margin: 1rem 0;
+  margin: 1rem 0 0;
 }
 #divDeviceIndex #listDeviceIndex a {
   display: inline-block;
@@ -1718,7 +1762,7 @@ header div:last-child h2 {
 #divblogs {
   width: 100%;
   height: auto;
-  padding: 1rem;
+  padding: 1rem 0.5rem;
 }
 #divblogs #headerblogs {
   display: flex;
@@ -1769,7 +1813,7 @@ header div:last-child h2 {
 #divblogs #listblogs {
   display: flex;
   flex-flow: row wrap;
-  margin: 1rem 0;
+  margin: 1rem 0 0;
 }
 #divblogs #listblogs a {
   display: inline-block;
@@ -1810,6 +1854,10 @@ header div:last-child h2 {
 }
 #divblogs #listblogs .blogs .blogs-content p {
   margin: 0.3rem 0;
+}
+
+.flag-item-problem, .flag-item-opera {
+  margin-left: 0.5rem;
 }
 
 #operaSystem {
@@ -3579,7 +3627,7 @@ footer div a {
   color: #fafafa;
   margin: 0 0 0.5rem 0;
 }
-footer div button {
+footer div input[type=submit] {
   background-color: #f5f5f5;
   color: #80a710;
   font-weight: bold;
@@ -3587,6 +3635,8 @@ footer div button {
   border-radius: 5px;
   cursor: pointer;
   padding: 0.5rem;
+  height: 2rem !important;
+  margin-top: 0.5rem;
 }
 footer div:last-child p,
 footer div:last-child button {
@@ -3594,7 +3644,8 @@ footer div:last-child button {
 }
 footer div:last-child input {
   width: 90%;
-  height: 1.5rem;
+  height: 2rem;
+  font-size: 1rem;
 }
 
 /* =======================================================
@@ -3842,6 +3893,59 @@ footer div:last-child input {
   }
   #mainDetailDevice #detailDevice #bodyDetailDevice #mainBodyDetailDevice #divParamDevice #targetThongSo img {
     width: 100% !important;
+  }
+  #divAboutAndBanner {
+    width: 100%;
+    height: 60rem;
+    padding: 0 0.5rem;
+  }
+  #divAboutAndBanner #notification-container {
+    width: 100%;
+    height: 30rem;
+    padding: 0;
+    margin-bottom: 1rem;
+  }
+  #divAboutAndBanner #notification-container #headerNotification #filterNotification {
+    width: 33%;
+  }
+  #divAboutAndBanner #carousel-container {
+    width: 100%;
+    height: 30rem;
+  }
+  #divAboutAndBanner #carousel-container #carousel-wrapper .carousel-slide .carousel-caption {
+    font-size: 1.1rem;
+  }
+  #divApp #listApp a {
+    width: 100%;
+  }
+  #divApp #listApp a .app div:last-child p {
+    font-size: 0.8rem;
+  }
+  #divDeviceIndex #listDeviceIndex a {
+    width: 100%;
+  }
+  #divDeviceIndex #listDeviceIndex a .deviceIndex .device-content p {
+    font-size: 0.8rem;
+  }
+  #divblogs #listblogs a {
+    width: 100%;
+  }
+  #divblogs #listblogs a .blogs .blogs-content p {
+    font-size: 0.8rem;
+  }
+  #operaSystem #filterOpera button {
+    width: 33%;
+    font-size: 0.8rem;
+  }
+  #operaSystem #contentOpera div button {
+    width: 10rem;
+  }
+  #problem {
+    padding: 2rem 0.5rem 2rem !important;
+  }
+  #problem form {
+    width: 100%;
+    height: 30rem;
   }
   footer div {
     width: 50%;

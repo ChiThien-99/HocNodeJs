@@ -1284,3 +1284,19 @@ export const uploadImage = async (req, res) => {
     console.error(`Không lấy được url image blogs: ${error.message}`);
   }
 };
+export const getProblemById=async(req,res)=>{
+  const {id}=req.params;
+  const currentProblem=await problemEntity.findById(id);
+  res.json({data:currentProblem});
+}
+export const deleteProblemById=async(req,res)=>{
+  try {
+  const {id}=req.params;
+  const deleteProblem=await problemEntity.findByIdAndDelete(id);
+  const io = req.app.get("socketio");
+  io.emit("delete-problem", deleteProblem);
+  res.json({mess:"Xóa problem thành công",success:true});
+  } catch (error) {
+  res.json({mess:"Xóa problem thất bại",success:false,error:error.message});
+  }
+}

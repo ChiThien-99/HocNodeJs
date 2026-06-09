@@ -203,7 +203,7 @@
             <%})%>
           </div>
         </div>
-        <a class="flag-item" href="/app">Các phiên bản khác</a>
+        <a class="flag-item flag-item-opera">Các phiên bản khác</a>
         <div id="operaSystem">
           <div id="filterOpera">
             <button data-opera="android" class="active"><i class="fa-brands fa-android"></i> ANDROID</button>
@@ -225,7 +225,7 @@
             </div>
           </div>
         </div>
-        <a class="flag-item" href="/app">Your Problem?</a>
+        <a class="flag-item flag-item-problem">Your Problem?</a>
         <div id="problem">
           <form id="formProblem">
             <label for="name">Tên của bạn (Để trống nếu muốn ẩn danh)</label><br>
@@ -270,18 +270,24 @@
           <a href="/"><img src="/img/logo_bank.webp" alt="logo_bank" /></a>
         </div>
         <div>
-          <h3>Công cụ</h3>
-          <a href="/">To Do List</a><br />
-          <a href="/">Ứng dụng 2</a><br />
-          <a href="/">Ứng dụng 3</a><br />
+          <h3>Danh mục</h3>
+          <a href="/" target="_blank">Trang chủ</a><br />
+          <a href="/app" target="_blank">Phần mềm</a><br />
+          <a href="/device" target="_blank">Thiết bị</a><br />
+          <a href="/blogs" target="_blank">Blogs</a><br />
         </div>
         <div>
           <h3>Đăng ký nhận tin khuyến mãi</h3>
-          <p>Email</p>
-          <input type="text" /><br />
-          <p>Số điện thoại</p>
-          <input type="text" /><br />
-          <button>Đăng ký</button>
+          <form id="formSubscribers">
+          <label for="nameSubscribers">Tên</label><br>
+          <input type="text" name="nameSubscribers" id="nameSubscribers"><br>
+          <label for="emailSubscribers">Email</label><br>
+          <input type="email" name="emailSubscribers" id="emailSubscribers"><br>
+          <p>Hoặc</p>
+          <label for="telSubscribers">Số điện thoại</label><br>
+          <input type="tel" name="telSubscribers" id="telSubscribers"><br>
+          <input type="submit" value="Đăng ký">
+          </form>
         </div>
       </footer>
     <script src="/socket.io/socket.io.js"></script>

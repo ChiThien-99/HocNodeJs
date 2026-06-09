@@ -5,3 +5,5 @@ const prefix = "/index";
 indexRouter.get("/", indexController.getIndex);
 indexRouter.get(`${prefix}/filterNotify`, indexController.filterTypeNotify);
 indexRouter.post(`${prefix}/postProblem`, indexController.postProblem);
+indexRouter.post(`${prefix}/postSubscribers`, indexController.postSubscribers);
+
