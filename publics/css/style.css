@@ -208,7 +208,9 @@ header div:last-child nav li a {
 header div:last-child #groupBtn {
   width: 30%;
 }
-header div:last-child #groupBtn button {
+header div:last-child #groupBtn a {
+  display: inline-block;
+  text-decoration: none;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -217,13 +219,14 @@ header div:last-child #groupBtn button {
   font-weight: bold;
   font-size: 1rem;
   margin: 0 0.3rem;
+  text-align: center;
 }
-header div:last-child #groupBtn button:first-child {
+header div:last-child #groupBtn a:first-child {
   background-color: #bbb;
   width: 30%;
   height: 40%;
 }
-header div:last-child #groupBtn button:last-child {
+header div:last-child #groupBtn a:last-child {
   background-color: #80a710;
   width: 35%;
   height: 40%;
@@ -649,13 +652,17 @@ header div:last-child h2 {
   overflow-y: scroll;
   margin-top: 1rem;
 }
-#mainDashboard #contentDashboard #homeMng #divTableProblem #tableProblem, #mainDashboard #contentDashboard #homeMng #divTableProblem th, #mainDashboard #contentDashboard #homeMng #divTableProblem td {
+#mainDashboard #contentDashboard #homeMng #divTableProblem #tableProblem,
+#mainDashboard #contentDashboard #homeMng #divTableProblem th,
+#mainDashboard #contentDashboard #homeMng #divTableProblem td {
   border: 1px solid black;
   border-collapse: collapse;
   padding: 0.5rem;
   text-align: left;
 }
-#mainDashboard #contentDashboard #homeMng #divTableProblem #tableProblem .btnWatchProblem, #mainDashboard #contentDashboard #homeMng #divTableProblem th .btnWatchProblem, #mainDashboard #contentDashboard #homeMng #divTableProblem td .btnWatchProblem {
+#mainDashboard #contentDashboard #homeMng #divTableProblem #tableProblem .btnWatchProblem,
+#mainDashboard #contentDashboard #homeMng #divTableProblem th .btnWatchProblem,
+#mainDashboard #contentDashboard #homeMng #divTableProblem td .btnWatchProblem {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -663,7 +670,9 @@ header div:last-child h2 {
   background-color: #80a710;
   color: #fafafa;
 }
-#mainDashboard #contentDashboard #homeMng #divTableProblem #tableProblem .btnDeleteProblem, #mainDashboard #contentDashboard #homeMng #divTableProblem th .btnDeleteProblem, #mainDashboard #contentDashboard #homeMng #divTableProblem td .btnDeleteProblem {
+#mainDashboard #contentDashboard #homeMng #divTableProblem #tableProblem .btnDeleteProblem,
+#mainDashboard #contentDashboard #homeMng #divTableProblem th .btnDeleteProblem,
+#mainDashboard #contentDashboard #homeMng #divTableProblem td .btnDeleteProblem {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -1352,6 +1361,40 @@ header div:last-child h2 {
   display: none;
 }
 
+#loginClientContainer {
+  width: 70%;
+  margin: 1rem auto;
+}
+#loginClientContainer #headerLogin {
+  width: 100%;
+  border: 1px solid #80a710;
+  border-radius: 10px 10px 0 0;
+  height: 4rem;
+  display: flex;
+  flex-flow: row nowrap;
+  overflow: hidden;
+}
+#loginClientContainer #headerLogin button {
+  width: 50%;
+  height: inherit;
+  background-color: #bbb;
+  color: #fafafa;
+  font-weight: bold;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  border: none;
+}
+#loginClientContainer #headerLogin .active {
+  background-color: #80a710;
+  color: #fafafa;
+}
+#loginClientContainer #bodyLogin {
+  border: 1px solid #80a710;
+  border-radius: 0 0 10px 10px;
+  padding: 0.5rem;
+}
+
 #divAboutAndBanner {
   display: flex;
   flex-flow: row wrap;
@@ -1856,7 +1899,8 @@ header div:last-child h2 {
   margin: 0.3rem 0;
 }
 
-.flag-item-problem, .flag-item-opera {
+.flag-item-problem,
+.flag-item-opera {
   margin-left: 0.5rem;
 }
 

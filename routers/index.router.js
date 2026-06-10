@@ -6,6 +6,7 @@ export const indexRouter = express.Router();
 const prefix = "/index";
 indexRouter.get("/", indexController.getIndex);
 indexRouter.get(`${prefix}/filterNotify`, indexController.filterTypeNotify);
+indexRouter.get(`${prefix}/loginClient`, indexController.loginClient);
 indexRouter.post(
   `${prefix}/postProblem`,
   generalLimit,

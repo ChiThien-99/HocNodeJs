@@ -112,3 +112,8 @@ export const postSubscribers = async (req, res) => {
     });
   }
 };
+export const loginClient = (req, res) => {
+  const { headerActive } = req.query;
+  console.log(headerActive);
+  res.render("loginClient.ejs", { headerActive });
+};
