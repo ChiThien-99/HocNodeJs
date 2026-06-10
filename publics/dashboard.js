@@ -514,7 +514,6 @@ function getUserFromCookie() {
       document.getElementById("roleAd").innerText =
         `Chức vụ: ${decodedUser.role}`;
       const decent = decodedUser.decent;
-      console.log(decent);
       function applyPermission() {
         const buttons = document.querySelectorAll(".navBtnDB");
         buttons.forEach((btn) => {
@@ -1126,7 +1125,6 @@ quillEditor.forEach((element, index) => {
   });
   quillInstances.push(quill);
 });
-console.log(quillInstances);
 const formApp = document.getElementById("formApp");
 formApp.addEventListener("input", () => {
   checkFormEmptiness(formApp, "btnCancelApp");

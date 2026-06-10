@@ -1,5 +1,12 @@
-
-let accessToken = null;
+const getCookie=(name)=>{
+  const value=`; ${document.cookie}`;
+  const parts=value.split(`; ${name}=`);
+  if (parts.length===2) {
+    return parts.pop().split(";").shift();
+  }
+  return null;
+}
+let accessToken=getCookie("accessToken") || null;
 let isRefreshing = false;
 let refreshSubcribers = [];
 
@@ -13,7 +20,7 @@ const onRefresh = (token) => {
 export const setAccessToken = (token) => {
   if (token) {
    accessToken=token;
-   document.cookie=`accessToken=${token};path=/;max-age=900;SameSite=none;Secure`;
+   document.cookie=`accessToken=${token};path=/;max-age=28800;SameSite=none;Secure`;
   } else {
     accessToken=null;
     document.cookie="accessToken=;path=/;max-age=0";
@@ -31,12 +38,6 @@ export const authFetch = async (url, options = {}) => {
   };
   let response = await fetch(url, options);
   if (response.status === 401) {
-    const retryOriginalRequest = new Promise((resolve) => {
-      subcribeTokenRefresh((currentToken) => {
-        options.headers["authorization"] = `Bearer ${currentToken}`;
-        resolve(fetch(url, options));
-      });
-    });
     if (!isRefreshing) {
       isRefreshing = true;
       console.warn(
@@ -50,19 +51,27 @@ export const authFetch = async (url, options = {}) => {
         if (refreshRes.ok) {
           const data = await refreshRes.json();
           setAccessToken(data.accessToken);
-          options.headers["authorization"] = `Bearer ${accessToken}`;
-          return authFetch(url, options);
+          onRefresh(data.accessToken);
+          isRefreshing=false;
+          options.headers["authorization"] = `Bearer ${data.accessToken}`;
+          return fetch(url, options);
         } else {
-          console.error("Refresh token failed. Redirecting to login...");
-          window.location.href = "/loginAdmin";
+          throw new Error("Refresh token expired");
         }
       } catch (error) {
         isRefreshing = false;
+        refreshSubcribers=[];
+        window.location.href="/loginAdmin"
         return Promise.reject(error);
       }
     }
 
-    return retryOriginalRequest;
+    return new Promise((resolve)=>{
+      subcribeTokenRefresh((token)=>{
+        options.headers["Authorization"]=`Bearer ${token}`;
+        resolve(fetch(url,options));
+      })
+    })
   }
   return response;
 };
