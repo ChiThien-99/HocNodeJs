@@ -1394,7 +1394,8 @@ header div:last-child h2 {
   border-radius: 0 0 10px 10px;
   padding: 1rem;
 }
-#loginClientContainer #bodyLogin #registerClient, #loginClientContainer #bodyLogin #loginClient {
+#loginClientContainer #bodyLogin #registerClient,
+#loginClientContainer #bodyLogin #loginClient {
   display: none;
 }
 #loginClientContainer #bodyLogin .active {
@@ -1437,6 +1438,9 @@ header div:last-child h2 {
   color: transparent;
   position: relative;
 }
+#loginClientContainer #bodyLogin #registerClient form div .date-input-container #dateBirthClient:focus {
+  color: #333 !important;
+}
 #loginClientContainer #bodyLogin #registerClient form div .date-input-container #dateBirthClient::before {
   content: attr(data-date);
   position: absolute;
@@ -1445,7 +1449,11 @@ header div:last-child h2 {
   transform: translateY(-50%);
   color: #333;
 }
-#loginClientContainer #bodyLogin #registerClient form div #togglePwClient, #loginClientContainer #bodyLogin #registerClient form div #togglePwReClient {
+#loginClientContainer #bodyLogin #registerClient form div .date-input-container #dateBirthClient:focus::before {
+  display: none;
+}
+#loginClientContainer #bodyLogin #registerClient form div #togglePwClient,
+#loginClientContainer #bodyLogin #registerClient form div #togglePwReClient {
   border: none;
   border-radius: 5px;
   cursor: pointer;
