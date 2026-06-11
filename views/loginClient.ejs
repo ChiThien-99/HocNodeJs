@@ -83,35 +83,57 @@
         </button>
       </div>
       <div id="bodyLogin">
-        <div id="registerClient">
-          <form>
+        <div id="registerClient" class="<%=headerActive==='registerClient'?'active':''%>">
+          <p><sup>*</sup>Trường bắt buộc</p>
+          <form id="formRegisterClient">
             <div>
-              <label for="fullNameClient">Họ và tên</label>
-              <input type="text" name="fullNameClient" id="fullNameClient" />
+              <label for="fullNameClient">Họ và tên<sup>*</sup></label><br>
+              <input type="text" name="fullNameClient" id="fullNameClient" required/>
             </div>
             <div>
-              <label for="dateBirthClient">Ngày/tháng/năm sinh</label>
-              <input
-                type="datetime-local"
+              <label for="dateBirthClient">Ngày/tháng/năm sinh<sup>*</sup></label><br>
+              <div class="date-input-container">
+                 <input
+                type="date"
                 name="dateBirthClient"
                 id="dateBirthClient"
+                data-date="Ngày/tháng/năm"
+                required
               />
+              </div>
             </div>
             <div>
-              <label for="telClient">Số điện thoại</label>
+              <label for="telClient">Số điện thoại</label><br>
               <input type="tel" name="telClient" id="telClient" />
             </div>
             <div>
-              <label for="emailClient">Email</label>
-              <input type="email" name="emailClient" id="emailClient" />
+              <label for="emailClient">Email<sup>*</sup></label><br>
+              <input type="email" name="emailClient" id="emailClient" required/>
             </div>
             <div>
+              <label for="pwClient">Mật khẩu<sup>*</sup></label><br>
+              <input type="password" name="pwClient" id="pwClient" required/>
+              <button id="togglePwClient">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+              <p>Mật khẩu có ít nhất 8 ký tự</p>
+              <p>Mật khẩu phải chứa ít nhất 1 chữ cái, 1 chữ số, 1 ký tự đặc biệt</p>
+            </div>
+            <div>
+              <label for="pwReClient">Nhập lại mật khẩu<sup>*</sup></label><br>
+              <input type="password" name="pwReClient" id="pwReClient" required/>
+              <button id="togglePwReClient">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+              <p id="checkPw"></p>
+            </div>
+            <div>
+              <input type="submit" value="Đăng ký" id="btnSubmitRegister"/>
               <button id="btnCancelRegister">Hủy</button>
-              <input type="submit" value="Đăng ký" />
             </div>
           </form>
         </div>
-        <div id="loginClient">
+        <div id="loginClient" class="<%=headerActive==='loginClient'?'active':''%>">
           <form id="loginForm" method="post">
             <div>
               <label for="emailClient">Email</label><br />
