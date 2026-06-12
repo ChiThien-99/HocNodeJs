@@ -29,7 +29,7 @@ export const authTokens = async (req, res) => {
           decent: admin.decent,
         },
         process.env.ACCESS_SECRET,
-        { expiresIn: "8h" },
+        { expiresIn: "15m" },
       );
       console.log(`newAccessToken: ${newAccessToken}`);
       const newRefreshToken = jwt.sign(

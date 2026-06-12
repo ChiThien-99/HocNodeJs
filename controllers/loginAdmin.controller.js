@@ -24,7 +24,7 @@ export const postLoginAdmin = async (req, res) => {
         decent: user.decent,
       },
       process.env.ACCESS_SECRET,
-      { expiresIn: "8h" },
+      { expiresIn: "15m" },
     );
     const refreshToken = jwt.sign(
       {
@@ -47,7 +47,6 @@ export const postLoginAdmin = async (req, res) => {
     res.cookie("accessToken", accessToken, {
       httpOnly: false,
       secure: true,
-      maxAge: 8 * 60 * 60 * 1000,
       sameSite: "none",
       path: "/",
     });

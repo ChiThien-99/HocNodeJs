@@ -1,4 +1,5 @@
 import { alert } from "./alert.js";
+import { setAccessToken } from "./authFetch.js";
 document.querySelectorAll("#headerLogin button").forEach((btn) => {
   btn.addEventListener("click", function () {
     document.querySelectorAll("#headerLogin button").forEach((btn) => {
@@ -121,6 +122,18 @@ togglePwReClient.addEventListener("click", function (e) {
       ? "<i class='fa-solid fa-eye'></i>"
       : "<i class='fa-solid fa-eye-slash'></i>";
 });
+const pwClient2 = document.getElementById("pwClient2");
+const togglePwClient2 = document.getElementById("togglePwClient2");
+togglePwClient2.addEventListener("click", function (e) {
+  e.preventDefault();
+  const type =
+    pwClient2.getAttribute("type") === "password" ? "text" : "password";
+  pwClient2.setAttribute("type", type);
+  this.innerHTML =
+    type === "password"
+      ? "<i class='fa-solid fa-eye'></i>"
+      : "<i class='fa-solid fa-eye-slash'></i>";
+});
 document.getElementById("pwClient").addEventListener("input", function (e) {
   e.preventDefault();
   const pwReClient = document.getElementById("pwReClient").value;
@@ -149,3 +162,100 @@ document.getElementById("pwReClient").addEventListener("input", function (e) {
     checkPw.style.display = "block";
   }
 });
+const loginForm=document.getElementById("loginForm");
+loginForm.addEventListener("submit",(e)=>{
+  e.preventDefault();
+  const emailClient=document.getElementById("emailClient").value;
+  const pwClient2=document.getElementById("pwClient2").value;
+  fetch("/loginClient/login",{
+    method:"POST",
+    headers:{"Content-Type":"application/json;charset=UTF-8"},
+    body:JSON.stringify({emailClient,pwClient2}),
+  })
+  .then(res=>res.json())
+  .then(({mess,success,error,accessToken})=>{
+    if (success&&accessToken) {
+      setAccessToken(accessToken);
+      const urlParams=new URLSearchParams(window.location.search);
+      const redirectTo=urlParams.get("redirect");
+      if (redirectTo && redirectTo.startsWith("/")) {
+        window.location.href=decodeURIComponent(redirectTo);
+      } else {
+        window.location.href="/";
+      }
+    } else {
+      if (error) {
+        alert("Lỗi",`${mess}\n${error}`,"red");
+      } else {
+        alert("Lỗi",mess,"red");
+      }
+    }
+  })
+  .catch((error)=>{
+    alert("Lỗi",error,"red");
+  });
+})
+const updateRateLimitUI = (limitHeader, remainingHeader) => {
+  document.getElementById("messLoginClient").style.display = "inline";
+  document.getElementById("limitRate").innerText = limitHeader;
+  document.getElementById("remainingRate").innerText = remainingHeader;
+  if (remainingHeader <= 2) {
+    document.getElementById("messLoginClient").style.color = "red";
+  }
+};
+// updateRateLimitUI(20, 2);
+let countdownTimer = 0;
+const startCountdown = (resetTimestamp) => {
+  clearInterval(countdownTimer);
+  const rateLimitAlert = document.getElementById("rateLimitAlert");
+  const remainingTime = document.getElementById("remainingTime");
+  const btnLoginClient = document.getElementById("btnLoginClient");
+  rateLimitAlert.style.display = "block";
+  btnLoginClient.disabled = true;
+  btnLoginClient.style.opacity = 0.5;
+  btnLoginClient.style.cursor = "not-allowed";
+  countdownTimer = setInterval(() => {
+    const now = Math.floor(Date.now() / 1000);
+    const secondsLeft = resetTimestamp - now;
+    if (secondsLeft <= 0) {
+      clearInterval(countdownTimer);
+      remainingTime.innerText = "Bạn có thể thử lại ngay bây giờ";
+      btnLoginClient.disabled = false;
+      btnLoginClient.style.opacity = 1;
+      btnLoginClient.style.cursor = "pointer";
+      return;
+    }
+    const minutes = Math.floor(secondsLeft / 60);
+    const seconds = secondsLeft % 60;
+    remainingTime.innerText = `Thử lại sau: ${minutes}p ${seconds < 10 ? "0" : ""}${seconds}s`;
+  }, 1000);
+};
+axios.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    const response = error.response;
+    if (response) {
+      const limitHeader = response.headers["ratelimit-limit"];
+      const remainingHeader = response.headers["ratelimit-remaining"];
+      const resetTime = response.headers["ratelimit-reset"];
+      console.log(`${limitHeader},${remainingHeader},${resetTime}`);
+      if (limitHeader && remainingHeader) {
+        updateRateLimitUI(limitHeader, remainingHeader);
+      }
+      if (response.status === 429 && resetTime) {
+        const secondsToWait = parseInt(resetTime);
+        const unlockTimeStamp = Math.floor(Date.now() / 1000) + secondsToWait;
+        startCountdown(unlockTimeStamp);
+      }
+      if (response.status === 401 || response.status === 403) {
+        localStorage.removeItem("token");
+      }
+    } else {
+      console.error("Lỗi mạng hoặc server không phản hồi");
+    }
+
+    return Promise.reject(error);
+  },
+);

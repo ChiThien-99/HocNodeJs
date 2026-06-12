@@ -18,6 +18,14 @@
 //   }
 // }
 // window.onload = typeWriter;
+document.getElementById("btnRegisterClient").addEventListener("click",()=>{
+  const currentPath=window.location.pathname+window.location.search;
+  window.location.href=`/index/loginClient?headerActive=registerClient&redirect=${encodeURIComponent(currentPath)}`;
+});
+document.getElementById("btnLoginClient").addEventListener("click",()=>{
+  const currentPath=window.location.pathname+window.location.search;
+  window.location.href=`/index/loginClient?headerActive=loginClient&redirect=${encodeURIComponent(currentPath)}`;
+});
 import { alert, confirm } from "./alert.js";
 const wrapper = document.getElementById("carousel-wrapper");
 let slides = document.querySelectorAll(".carousel-slide");

@@ -208,9 +208,7 @@ header div:last-child nav li a {
 header div:last-child #groupBtn {
   width: 30%;
 }
-header div:last-child #groupBtn a {
-  display: inline-block;
-  text-decoration: none;
+header div:last-child #groupBtn button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -221,12 +219,12 @@ header div:last-child #groupBtn a {
   margin: 0 0.3rem;
   text-align: center;
 }
-header div:last-child #groupBtn a:first-child {
+header div:last-child #groupBtn button:first-child {
   background-color: #bbb;
   width: 30%;
   height: 40%;
 }
-header div:last-child #groupBtn a:last-child {
+header div:last-child #groupBtn button:last-child {
   background-color: #80a710;
   width: 35%;
   height: 40%;
@@ -1496,6 +1494,103 @@ header div:last-child h2 {
   background-color: red;
   color: #fafafa;
   font-weight: bold;
+  display: none;
+}
+#loginClientContainer #bodyLogin #loginClient form {
+  display: grid;
+  grid-template-columns: 50%;
+  grid-template-rows: 4rem 5rem 3rem auto;
+  gap: 1rem;
+}
+#loginClientContainer #bodyLogin #loginClient form label {
+  font-weight: bold;
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+#loginClientContainer #bodyLogin #loginClient form label[for=rememberMe] {
+  font-weight: lighter !important;
+}
+#loginClientContainer #bodyLogin #loginClient form input[type=email] {
+  width: 100%;
+  height: 2rem;
+  font-size: 1rem;
+}
+#loginClientContainer #bodyLogin #loginClient form #pwClient2 {
+  width: 89%;
+  height: 2rem;
+  font-size: 1rem;
+}
+#loginClientContainer #bodyLogin #loginClient form #togglePwClient2 {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #80a710;
+  color: #fafafa;
+  width: 10%;
+  margin: 0;
+}
+#loginClientContainer #bodyLogin #loginClient form .tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+#loginClientContainer #bodyLogin #loginClient form .tooltiptext {
+  visibility: hidden;
+  width: 23rem;
+  background-color: #80a710;
+  color: #fafafa;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -60px;
+}
+#loginClientContainer #bodyLogin #loginClient form .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 17%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #80a710 transparent transparent transparent;
+}
+#loginClientContainer #bodyLogin #loginClient form .tooltip:hover {
+  color: #80a710;
+}
+#loginClientContainer #bodyLogin #loginClient form .tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+#loginClientContainer #bodyLogin #loginClient form div:nth-child(3) {
+  text-align: right;
+}
+#loginClientContainer #bodyLogin #loginClient form div:nth-child(3) #btnLoginClient {
+  width: 30%;
+  height: inherit;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #80a710;
+  color: #fafafa;
+  font-weight: bold;
+  margin: 0.5rem 0.5rem 0 0;
+}
+#loginClientContainer #bodyLogin #loginClient form div:nth-child(4) #messLoginClient {
+  display: none;
+}
+#loginClientContainer #bodyLogin #loginClient form div:nth-child(4) #rateLimitAlert {
+  width: 100%;
+  height: auto;
+  border: none;
+  border-radius: 5px;
+  padding: 0.8rem;
+  background-color: rgba(255, 0, 0, 0.8);
+  color: #fafafa;
   display: none;
 }
 

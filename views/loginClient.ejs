@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login Admin</title>
+    <title>Login Client</title>
     <link rel="stylesheet" href="/css/style.css" />
     <link
       rel="shortcut icon"
@@ -134,20 +134,25 @@
           </form>
         </div>
         <div id="loginClient" class="<%=headerActive==='loginClient'?'active':''%>">
-          <form id="loginForm" method="post">
+          <form id="loginForm">
             <div>
               <label for="emailClient">Email</label><br />
               <input type="email" name="emailClient" id="emailClient" />
             </div>
             <div>
-              <label for="pwClient">Mật khẩu</label><br />
-              <input type="password" name="pwClient" id="pwClient" />
-              <button id="togglePwClient">
+              <label for="pwClient2">Mật khẩu</label><br />
+              <input type="password" name="pwClient2" id="pwClient2" />
+              <button id="togglePwClient2">
                 <i class="fa-solid fa-eye"></i>
-              </button>
+              </button><br>
+              <input type="checkbox" name="rememberMe" id="rememberMe">
+              <label for="rememberMe">Lưu trạng thái đăng nhập <p class="tooltip"><i class="fa-solid fa-circle-info"></i><span class="tooltiptext">Trạng thái đăng nhập sẽ được duy trì trong 30 ngày</span></p></label>
             </div>
-            <button type="submit" id="btnLoginClient">Đăng nhập</button><br />
-            <em id="messLoginClient">
+            <div>
+              <button type="submit" id="btnLoginClient">Đăng nhập</button><br />
+            </div>
+            <div>
+              <em id="messLoginClient">
               Số lần đăng nhập còn lại <span id="remainingRate">--</span>/<span
                 id="limitRate"
                 >--</span
@@ -156,6 +161,7 @@
             <div id="rateLimitAlert">
               <strong>Quá nhiều lần thử !</strong>
               <p id="remainingTime">Vui lòng chờ...</p>
+            </div>
             </div>
           </form>
         </div>

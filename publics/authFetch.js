@@ -20,10 +20,10 @@ const onRefresh = (token) => {
 export const setAccessToken = (token) => {
   if (token) {
    accessToken=token;
-   document.cookie=`accessToken=${token};path=/;max-age=28800;SameSite=none;Secure`;
+   document.cookie=`accessToken=${token};path=/;SameSite=none;Secure`;
   } else {
     accessToken=null;
-    document.cookie="accessToken=;path=/;max-age=0";
+    document.cookie="accessToken=;path=/;max-age=0;SameSite=none;Secure";
   }
 };
 export const authFetch = async (url, options = {}) => {
@@ -53,7 +53,7 @@ export const authFetch = async (url, options = {}) => {
           setAccessToken(data.accessToken);
           onRefresh(data.accessToken);
           isRefreshing=false;
-          options.headers["authorization"] = `Bearer ${data.accessToken}`;
+          options.headers["Authorization"] = `Bearer ${data.accessToken}`;
           return fetch(url, options);
         } else {
           throw new Error("Refresh token expired");
@@ -67,8 +67,8 @@ export const authFetch = async (url, options = {}) => {
     }
 
     return new Promise((resolve)=>{
-      subcribeTokenRefresh((token)=>{
-        options.headers["Authorization"]=`Bearer ${token}`;
+      subcribeTokenRefresh((newToken)=>{
+        options.headers["Authorization"]=`Bearer ${newToken}`;
         resolve(fetch(url,options));
       })
     })
