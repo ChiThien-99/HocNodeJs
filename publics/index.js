@@ -18,13 +18,28 @@
 //   }
 // }
 // window.onload = typeWriter;
-document.getElementById("btnRegisterClient").addEventListener("click",()=>{
-  const currentPath=window.location.pathname+window.location.search;
-  window.location.href=`/index/loginClient?headerActive=registerClient&redirect=${encodeURIComponent(currentPath)}`;
+import { authFetch2 } from "./authFetch.js";
+async function verifySession() {
+  try {
+    const response = await authFetch2("/api/auth/me2");
+    if (!response.ok) {
+      throw new Error("Session Expired");
+    }
+    console.log("Phiên làm việc hợp lệ");
+  } catch (error) {
+    console.error("Không thể refresh token, quay về login");
+    const currentPath = window.location.pathname + window.location.search;
+    window.location.href = `/index/loginClient?headerActive=loginClient&redirect=${encodeURIComponent(currentPath)}`;
+  }
+}
+verifySession();
+document.getElementById("btnRegisterClient").addEventListener("click", () => {
+  const currentPath = window.location.pathname + window.location.search;
+  window.location.href = `/index/loginClient?headerActive=registerClient&redirect=${encodeURIComponent(currentPath)}`;
 });
-document.getElementById("btnLoginClient").addEventListener("click",()=>{
-  const currentPath=window.location.pathname+window.location.search;
-  window.location.href=`/index/loginClient?headerActive=loginClient&redirect=${encodeURIComponent(currentPath)}`;
+document.getElementById("btnLoginClient").addEventListener("click", () => {
+  const currentPath = window.location.pathname + window.location.search;
+  window.location.href = `/index/loginClient?headerActive=loginClient&redirect=${encodeURIComponent(currentPath)}`;
 });
 import { alert, confirm } from "./alert.js";
 const wrapper = document.getElementById("carousel-wrapper");

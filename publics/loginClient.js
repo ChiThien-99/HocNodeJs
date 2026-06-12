@@ -1,5 +1,6 @@
+import axios from "https://cdn.jsdelivr.net/npm/axios@1.6.7/+esm";
 import { alert } from "./alert.js";
-import { setAccessToken } from "./authFetch.js";
+import { setAccessToken2 } from "./authFetch.js";
 document.querySelectorAll("#headerLogin button").forEach((btn) => {
   btn.addEventListener("click", function () {
     document.querySelectorAll("#headerLogin button").forEach((btn) => {
@@ -162,39 +163,66 @@ document.getElementById("pwReClient").addEventListener("input", function (e) {
     checkPw.style.display = "block";
   }
 });
-const loginForm=document.getElementById("loginForm");
-loginForm.addEventListener("submit",(e)=>{
+const loginForm = document.getElementById("loginForm");
+loginForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  const emailClient=document.getElementById("emailClient").value;
-  const pwClient2=document.getElementById("pwClient2").value;
-  fetch("/loginClient/login",{
-    method:"POST",
-    headers:{"Content-Type":"application/json;charset=UTF-8"},
-    body:JSON.stringify({emailClient,pwClient2}),
-  })
-  .then(res=>res.json())
-  .then(({mess,success,error,accessToken})=>{
-    if (success&&accessToken) {
-      setAccessToken(accessToken);
-      const urlParams=new URLSearchParams(window.location.search);
-      const redirectTo=urlParams.get("redirect");
-      if (redirectTo && redirectTo.startsWith("/")) {
-        window.location.href=decodeURIComponent(redirectTo);
+  const emailClient2 = document.getElementById("emailClient2").value;
+  const pwClient2 = document.getElementById("pwClient2").value;
+  console.log(emailClient2);
+  console.log(pwClient2);
+  // fetch("/loginClient/login", {
+  //   method: "POST",
+  //   headers: { "Content-Type": "application/json;charset=UTF-8" },
+  //   body: JSON.stringify({ emailClient, pwClient2 }),
+  // })
+  //   .then((res) => res.json())
+  //   .then(({ mess, success, error, accessToken }) => {
+  //     if (success && accessToken) {
+  //       setAccessToken(accessToken);
+  //       const urlParams = new URLSearchParams(window.location.search);
+  //       const redirectTo = urlParams.get("redirect");
+  //       if (redirectTo && redirectTo.startsWith("/")) {
+  //         window.location.href = decodeURIComponent(redirectTo);
+  //       } else {
+  //         window.location.href = "/";
+  //       }
+  //     } else {
+  //       if (error) {
+  //         alert("Lỗi", `${mess}\n${error}`, "red");
+  //       } else {
+  //         alert("Lỗi", mess, "red");
+  //       }
+  //     }
+  //   })
+  //   .catch((error) => {
+  //     alert("Lỗi", error, "red");
+  //   });
+  axios
+    .post("/loginClient/login", { emailClient2, pwClient2 })
+    .then((res) => {
+      const { mess, success, error, accessToken } = res.data;
+      if (success && accessToken) {
+        setAccessToken2(accessToken);
+        const urlParams = new URLSearchParams(window.location.search);
+        const redirectTo = urlParams.get("redirect");
+        if (redirectTo && redirectTo.startsWith("/")) {
+          window.location.href = decodeURIComponent(redirectTo);
+        } else {
+          window.location.href = "/index";
+        }
       } else {
-        window.location.href="/";
+        if (error) {
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        } else {
+          alert("Lỗi", mess, "red");
+        }
       }
-    } else {
-      if (error) {
-        alert("Lỗi",`${mess}\n${error}`,"red");
-      } else {
-        alert("Lỗi",mess,"red");
-      }
-    }
-  })
-  .catch((error)=>{
-    alert("Lỗi",error,"red");
-  });
-})
+    })
+    .catch((err) => {
+      const mess = err.response?.data?.mess || "Có lỗi xảy ra";
+      alert("Lỗi", mess, "red");
+    });
+});
 const updateRateLimitUI = (limitHeader, remainingHeader) => {
   document.getElementById("messLoginClient").style.display = "inline";
   document.getElementById("limitRate").innerText = limitHeader;

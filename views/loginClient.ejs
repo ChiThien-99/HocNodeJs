@@ -83,85 +83,122 @@
         </button>
       </div>
       <div id="bodyLogin">
-        <div id="registerClient" class="<%=headerActive==='registerClient'?'active':''%>">
+        <div
+          id="registerClient"
+          class="<%=headerActive==='registerClient'?'active':''%>"
+        >
           <p><sup>*</sup>Trường bắt buộc</p>
           <form id="formRegisterClient">
             <div>
-              <label for="fullNameClient">Họ và tên<sup>*</sup></label><br>
-              <input type="text" name="fullNameClient" id="fullNameClient" required/>
-            </div>
-            <div>
-              <label for="dateBirthClient">Ngày/tháng/năm sinh<sup>*</sup></label><br>
-              <div class="date-input-container">
-                 <input
-                type="date"
-                name="dateBirthClient"
-                id="dateBirthClient"
-                data-date="Ngày/tháng/năm"
+              <label for="fullNameClient">Họ và tên<sup>*</sup></label
+              ><br />
+              <input
+                type="text"
+                name="fullNameClient"
+                id="fullNameClient"
                 required
               />
+            </div>
+            <div>
+              <label for="dateBirthClient"
+                >Ngày/tháng/năm sinh<sup>*</sup></label
+              ><br />
+              <div class="date-input-container">
+                <input
+                  type="date"
+                  name="dateBirthClient"
+                  id="dateBirthClient"
+                  data-date="Ngày/tháng/năm"
+                  required
+                />
               </div>
             </div>
             <div>
-              <label for="telClient">Số điện thoại</label><br>
+              <label for="telClient">Số điện thoại</label><br />
               <input type="tel" name="telClient" id="telClient" />
             </div>
             <div>
-              <label for="emailClient">Email<sup>*</sup></label><br>
-              <input type="email" name="emailClient" id="emailClient" required/>
+              <label for="emailClient">Email<sup>*</sup></label
+              ><br />
+              <input
+                type="email"
+                name="emailClient"
+                id="emailClient"
+                required
+              />
             </div>
             <div>
-              <label for="pwClient">Mật khẩu<sup>*</sup></label><br>
-              <input type="password" name="pwClient" id="pwClient" required/>
+              <label for="pwClient">Mật khẩu<sup>*</sup></label
+              ><br />
+              <input type="password" name="pwClient" id="pwClient" required />
               <button id="togglePwClient">
                 <i class="fa-solid fa-eye"></i>
               </button>
               <p>Mật khẩu có ít nhất 8 ký tự</p>
-              <p>Mật khẩu phải chứa ít nhất 1 chữ cái, 1 chữ số, 1 ký tự đặc biệt</p>
+              <p>
+                Mật khẩu phải chứa ít nhất 1 chữ cái, 1 chữ số, 1 ký tự đặc biệt
+              </p>
             </div>
             <div>
-              <label for="pwReClient">Nhập lại mật khẩu<sup>*</sup></label><br>
-              <input type="password" name="pwReClient" id="pwReClient" required/>
+              <label for="pwReClient">Nhập lại mật khẩu<sup>*</sup></label
+              ><br />
+              <input
+                type="password"
+                name="pwReClient"
+                id="pwReClient"
+                required
+              />
               <button id="togglePwReClient">
                 <i class="fa-solid fa-eye"></i>
               </button>
               <p id="checkPw"></p>
             </div>
             <div>
-              <input type="submit" value="Đăng ký" id="btnSubmitRegister"/>
+              <input type="submit" value="Đăng ký" id="btnSubmitRegister" />
               <button id="btnCancelRegister">Hủy</button>
             </div>
           </form>
         </div>
-        <div id="loginClient" class="<%=headerActive==='loginClient'?'active':''%>">
+        <div
+          id="loginClient"
+          class="<%=headerActive==='loginClient'?'active':''%>"
+        >
           <form id="loginForm">
             <div>
-              <label for="emailClient">Email</label><br />
-              <input type="email" name="emailClient" id="emailClient" />
+              <label for="emailClient2">Email</label><br />
+              <input type="email" name="emailClient2" id="emailClient2" />
             </div>
             <div>
               <label for="pwClient2">Mật khẩu</label><br />
               <input type="password" name="pwClient2" id="pwClient2" />
               <button id="togglePwClient2">
-                <i class="fa-solid fa-eye"></i>
-              </button><br>
-              <input type="checkbox" name="rememberMe" id="rememberMe">
-              <label for="rememberMe">Lưu trạng thái đăng nhập <p class="tooltip"><i class="fa-solid fa-circle-info"></i><span class="tooltiptext">Trạng thái đăng nhập sẽ được duy trì trong 30 ngày</span></p></label>
+                <i class="fa-solid fa-eye"></i></button
+              ><br />
+              <input type="checkbox" name="rememberMe" id="rememberMe" />
+              <label for="rememberMe"
+                >Lưu trạng thái đăng nhập
+                <p class="tooltip">
+                  <i class="fa-solid fa-circle-info"></i
+                  ><span class="tooltiptext"
+                    >Trạng thái đăng nhập sẽ được duy trì trong 30 ngày</span
+                  >
+                </p></label
+              >
             </div>
             <div>
               <button type="submit" id="btnLoginClient">Đăng nhập</button><br />
             </div>
             <div>
               <em id="messLoginClient">
-              Số lần đăng nhập còn lại <span id="remainingRate">--</span>/<span
-                id="limitRate"
-                >--</span
-              >
-            </em>
-            <div id="rateLimitAlert">
-              <strong>Quá nhiều lần thử !</strong>
-              <p id="remainingTime">Vui lòng chờ...</p>
-            </div>
+                Số lần đăng nhập còn lại
+                <span id="remainingRate">--</span>/<span id="limitRate"
+                  >--</span
+                >
+              </em>
+              <div id="rateLimitAlert">
+                <strong>Quá nhiều lần thử !</strong>
+                <p id="remainingTime">Vui lòng chờ...</p>
+              </div>
             </div>
           </form>
         </div>

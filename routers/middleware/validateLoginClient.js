@@ -1,6 +1,6 @@
 import { body, validationResult } from "express-validator";
 export const validateLoginClient = [
-  body("emailClient")
+  body("emailClient2")
     .isEmail()
     .withMessage("Email không đúng định dạng")
     .normalizeEmail(),
