@@ -82,21 +82,14 @@ formRegisterClient.addEventListener("submit", (e) => {
       alert("Lỗi", error, "red");
     });
 });
-const dateBirthClient = document.getElementById("dateBirthClient");
-dateBirthClient.addEventListener("change", function (e) {
-  e.preventDefault();
-  const rawValue = this.value;
-  if (!rawValue) {
-    return;
-  }
-  const [year, month, day] = rawValue.split("-");
-  const formattedDate = `${day}/${month}/${year}`;
-  this.setAttribute("data-date", formattedDate);
+new Cleave('#dateBirthClient', {
+    date: true,
+    delimiter: '/',
+    datePattern: ['d', 'm', 'Y'] // Ép buộc cấu trúc gõ: ngày (d), tháng (m), năm (Y)
 });
 document.getElementById("btnCancelRegister").addEventListener("click", (e) => {
   e.preventDefault();
   formRegisterClient.reset();
-  dateBirthClient.setAttribute("data-date", "Ngày/tháng/năm");
   document.getElementById("checkPw").style.display = "none";
 });
 const pwClient = document.getElementById("pwClient");
@@ -168,41 +161,13 @@ loginForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const emailClient2 = document.getElementById("emailClient2").value;
   const pwClient2 = document.getElementById("pwClient2").value;
-  console.log(emailClient2);
-  console.log(pwClient2);
-  // fetch("/loginClient/login", {
-  //   method: "POST",
-  //   headers: { "Content-Type": "application/json;charset=UTF-8" },
-  //   body: JSON.stringify({ emailClient, pwClient2 }),
-  // })
-  //   .then((res) => res.json())
-  //   .then(({ mess, success, error, accessToken }) => {
-  //     if (success && accessToken) {
-  //       setAccessToken(accessToken);
-  //       const urlParams = new URLSearchParams(window.location.search);
-  //       const redirectTo = urlParams.get("redirect");
-  //       if (redirectTo && redirectTo.startsWith("/")) {
-  //         window.location.href = decodeURIComponent(redirectTo);
-  //       } else {
-  //         window.location.href = "/";
-  //       }
-  //     } else {
-  //       if (error) {
-  //         alert("Lỗi", `${mess}\n${error}`, "red");
-  //       } else {
-  //         alert("Lỗi", mess, "red");
-  //       }
-  //     }
-  //   })
-  //   .catch((error) => {
-  //     alert("Lỗi", error, "red");
-  //   });
+  const rememberMe=document.getElementById("rememberMe").checked;
   axios
-    .post("/loginClient/login", { emailClient2, pwClient2 })
+    .post("/loginClient/login", { emailClient2, pwClient2,rememberMe })
     .then((res) => {
-      const { mess, success, error, accessToken } = res.data;
-      if (success && accessToken) {
-        setAccessToken2(accessToken);
+      const { mess, success, error, accessToken,cookieMaxAge } = res.data;
+      if (success && accessToken&&cookieMaxAge) {
+        setAccessToken2(accessToken,cookieMaxAge);
         const urlParams = new URLSearchParams(window.location.search);
         const redirectTo = urlParams.get("redirect");
         if (redirectTo && redirectTo.startsWith("/")) {

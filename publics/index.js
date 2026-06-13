@@ -18,7 +18,11 @@
 //   }
 // }
 // window.onload = typeWriter;
-import { authFetch2 } from "./authFetch.js";
+import { authFetch2, setAccessToken2 } from "./authFetch.js";
+import { jwtDecode } from "https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/+esm";
+// window.addEventListener("beforeunload",function(e){
+//   document.cookie = "accessToken2=;path=/;max-age=0;SameSite=none;Secure";
+// })
 async function verifySession() {
   try {
     const response = await authFetch2("/api/auth/me2");
@@ -28,11 +32,66 @@ async function verifySession() {
     console.log("Phiên làm việc hợp lệ");
   } catch (error) {
     console.error("Không thể refresh token, quay về login");
-    const currentPath = window.location.pathname + window.location.search;
-    window.location.href = `/index/loginClient?headerActive=loginClient&redirect=${encodeURIComponent(currentPath)}`;
+    // const currentPath = window.location.pathname + window.location.search;
+    // window.location.href = `/index/loginClient?headerActive=loginClient&redirect=${encodeURIComponent(currentPath)}`;
   }
 }
 verifySession();
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) {
+    return parts.pop().split(";").shift();
+  }
+  return null;
+}
+function getUserFromCookie() {
+  const token = getCookie("accessToken2");
+  if (token) {
+    try {
+      document.querySelector("#navMenu #groupBtn").style.display="none";
+      document.querySelector("#navMenu #containerUserLogin").style.display="block";
+      const decodedUser = jwtDecode(token);
+      document.querySelector("#infoUserLogin h3").innerText = decodedUser.fullname;
+      return decodedUser;
+    } catch (error) {
+      console.error(`Token không hợp lệ hoặc đã bị can thiệp ${error}`);
+      return null;
+    }
+  } else {
+    document.querySelector("#navMenu #groupBtn").style.display="block";
+    document.querySelector("#navMenu #containerUserLogin").style.display="none";
+    return null;
+  }
+}
+window.onload = getUserFromCookie;
+document.getElementById("btnLogoutUserLogin").addEventListener("click",(e)=>{
+  e.preventDefault();
+  fetch("/api/auth/logout",{
+    method:"POST",
+    credentials:"include",
+  })
+  .then(res=>res.json())
+  .then(({mess,error,success})=>{
+    if (success) {
+      setAccessToken2(null);
+      const currentPath = window.location.pathname + window.location.search;
+      window.location.href = `/index/loginClient?headerActive=loginClient&redirect=${encodeURIComponent(currentPath)}`;
+    } else {
+      alert("Lỗi",`${mess}\n${error}`,red);
+    }
+  })
+  .catch((error)=>{
+    alert("Lỗi",error,red);
+    setAccessToken2(null);
+    const currentPath = window.location.pathname + window.location.search;
+    window.location.href = `/index/loginClient?headerActive=loginClient&redirect=${encodeURIComponent(currentPath)}`;
+  });
+});
+document.getElementById("btnDashboardUserLogin").addEventListener("click",(e)=>{
+  e.preventDefault();
+  window.open("/dashboardClient","_blank");
+})
 document.getElementById("btnRegisterClient").addEventListener("click", () => {
   const currentPath = window.location.pathname + window.location.search;
   window.location.href = `/index/loginClient?headerActive=registerClient&redirect=${encodeURIComponent(currentPath)}`;

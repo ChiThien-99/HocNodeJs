@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="shortcut icon" href="/img/logo_imzai_1.ico" type="image/x-icon" />
+    <link
+      rel="preload"
+      href="/Minecraft.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/OpenSans-Regular.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <script
+      src="https://kit.fontawesome.com/c1f12001f0.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/gh/scrapooo/quill-resize-module@1.0.2/dist/quill-resize-module.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/quill-table-better@1/dist/quill-table-better.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/quill-table-better@1/dist/quill-table-better.js"></script>
+  </head>
+  <body>
+    <div id="alert">
+        <h4 id="headingAlert">Tiêu đề thông báo</h4>
+        <p id="contentAlert">Thông báo lần 1</p>
+      </div>
+      <div id="confirm">
+        <h4 id="headingConfirm">Tiêu đề thông báo</h4>
+        <p id="contentConfirm">Thông báo lần 1</p>
+        <div>
+          <button id="btnConfirm"><i class="fa-solid fa-check"></i> Xác nhận</button>
+          <button id="btnDeny"><i class="fa-solid fa-xmark"></i> Từ chối</button>
+        </div>
+      </div>
+      <header>
+      <div>
+        <a href="/" class="logo-link">
+          <svg viewBox="0 0 200 200" width="200" height="200">
+            <defs>
+              <path id="circlePath" d="M -210,90 A 85,85 0 1,1 -40,90 A 85,85 0 1,1 -210,90" />
+            </defs>
+            <g class="brand-group">
+              <image href="/img/logo_imzai_1.webp" x="-200" y="15" width="150" height="150" clip-path="circle()" />
+            <text class="rotating-text">
+              <textPath href="#circlePath" startOffset="30%" text-anchor="middle">
+               IMZEN
+              </textPath>
+            </text>
+            </g>
+          </svg>
+        </a>
+      </div>
+      <div id="navMenu">
+        <h2>Dashboard</h2>
+      </div>
+    </header>
+      <main id="mainDashboardClient">
+        <div id="navDashboardClient">
+          <div>
+            <h2 id="fullnameClient">Tên user</h2>
+            <em id="idClient"></em>
+          </div>
+          <button data-target="infoMng" class="navBtnDB active">
+            <i class="fa-solid fa-circle-user"></i> Thông tin tài khoản
+          </button>
+          <button data-target="voucherMng" class="navBtnDB">
+            <i class="fa-solid fa-ticket"></i> Kho Voucher
+          </button>
+          <button data-target="historyMng" class="navBtnDB">
+            <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử mua hàng
+          </button>
+        </div>
+        <div id="contentDashboardClient">
+          <div id="infoMng" class="tabContent active">
+            <h2 class="flag-item">Thông tin cá nhân</h2>
+            <form id="formInfoClient">
+                <label for="fullname">Họ và tên</label><br>
+                <input type="text" name="fullname" id="fullname"><br>
+                <label for="dateBirth">Ngày/tháng/năm sinh</label><br>
+                <input type="text" name="dateBirth" id="dateBirth"><br>
+                <label for="tel">Số điện thoại</label><br>
+                <input type="tel" name="tel" id="tel"><br>
+                <label for="email">Email</label><br>
+                <input type="email" name="email" id="email"><br>
+                <em>**Vui lòng điền mật khẩu hiện tại trước khi cập nhật mật khẩu mới</em><br>
+                <label for="currentPw">Mật khẩu hiện tại</label><br>
+                <input type="password" name="currentPw" id="currentPw"><br>
+                <label for="newPw">Mật khẩu mới</label><br>
+                <input type="password" name="newPw" id="newPw"><br>
+                <button type="button" id="btnUpdateInfoClient">Cập nhật</button>
+                <button type="button" id="btnRestoreInfoClient">Khôi phục</button>
+            </form>
+          </div>
+          <div id="voucherMng" class="tabContent">
+            <h2 class="flag-item">Kho voucher</h2>
+          </div>
+          <div id="historyMng" class="tabContent">
+            <h2 class="flag-item">Lịch sử mua hàng</h2>
+          </div>
+      </main>
+      <script src="/socket.io/socket.io.js"></script>
+  </body>
+  <script type="module" src="/dashboardClient.js" defer></script>
+</html>

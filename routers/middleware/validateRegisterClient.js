@@ -34,10 +34,11 @@ export const validateRegisterClient = [
       return true;
     }),
   body("dateBirthClient")
-    .isISO8601()
-    .withMessage("Ngày sinh không đúng định dạng")
+    .matches(/^(\d{2})\/(\d{2})\/(\d{4})$/)
+    .withMessage("Chưa đúng định dạng dd/mm/yyyy")
     .custom((value) => {
-      const inputDate = new Date(value);
+      const [day,month,year]=value.split("/");
+      const inputDate = new Date(year,month-1,day);
       const currentDate = new Date();
       inputDate.setHours(0, 0, 0, 0);
       currentDate.setHours(0, 0, 0, 0);

@@ -13,6 +13,10 @@ export const validateLoginClient = [
     .withMessage("Mật khẩu phải chứa ít nhất 1 chữ số")
     .matches(/[!@#$%^&*(),.?":{}|<>]/)
     .withMessage("Mật khấu phải chứa ít nhất một ký tự đặc biệt"),
+  body("rememberMe")
+    .optional()
+    .isBoolean()
+    .withMessage("Dữ liệu rememberMe phải là kiểu true/false"),
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

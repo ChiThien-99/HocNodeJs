@@ -103,15 +103,17 @@
               <label for="dateBirthClient"
                 >Ngày/tháng/năm sinh<sup>*</sup></label
               ><br />
-              <div class="date-input-container">
-                <input
-                  type="date"
+              <input
+                  type="text"
                   name="dateBirthClient"
                   id="dateBirthClient"
-                  data-date="Ngày/tháng/năm"
+                  placeholder="dd/mm/yyyy"
+                  maxlength="10"
                   required
                 />
-              </div>
+              <!-- <div class="date-input-container">
+                
+              </div> -->
             </div>
             <div>
               <label for="telClient">Số điện thoại</label><br />
@@ -204,6 +206,7 @@
         </div>
       </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js"></script>
   </body>
   <script type="module" src="/loginClient.js" defer></script>
 </html>

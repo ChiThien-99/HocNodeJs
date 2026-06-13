@@ -31,6 +31,7 @@ import { deviceRouter } from "./routers/device.router.js";
 import { blogsRouter } from "./routers/blogs.router.js";
 import { detailDeviceRouter } from "./routers/detailDevice.router.js";
 import { clientRouter } from "./routers/loginClient.router.js";
+import { dbClientRouter } from "./routers/dashboardClient.router.js";
 import { adminEntity } from "./models/admin.model.js";
 
 app.use(
@@ -125,6 +126,7 @@ app.use("/",deviceRouter);
 app.use("/",detailDeviceRouter);
 app.use("/", blogsRouter);
 app.use("/",clientRouter);
+app.use("/",dbClientRouter);
 
 // Xử lý lỗi middleware
 app.use((err, req, res, next) => {

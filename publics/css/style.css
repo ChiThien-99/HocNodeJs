@@ -207,6 +207,8 @@ header div:last-child nav li a {
 }
 header div:last-child #groupBtn {
   width: 30%;
+  text-align: end;
+  padding-right: 1rem;
 }
 header div:last-child #groupBtn button {
   border: none;
@@ -232,6 +234,48 @@ header div:last-child #groupBtn button:last-child {
 header div:last-child h2 {
   color: #80a710;
   margin-right: 1rem;
+}
+header div:last-child #containerUserLogin {
+  width: 30%;
+  text-align: end;
+  display: none;
+  position: relative;
+}
+header div:last-child #containerUserLogin #infoUserLogin {
+  width: -moz-fit-content;
+  width: fit-content;
+  height: 4rem;
+  display: flex;
+  flex-flow: column;
+  align-items: start;
+  padding-right: 1rem;
+  position: absolute;
+  right: 0;
+}
+header div:last-child #containerUserLogin #infoUserLogin h3 {
+  margin: 0.5rem 0;
+}
+header div:last-child #containerUserLogin #infoUserLogin #groupBtnUserLogin {
+  width: 100%;
+}
+header div:last-child #containerUserLogin #infoUserLogin #groupBtnUserLogin #btnDashboardUserLogin {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.4rem;
+  background-color: #80a710;
+  color: #fafafa;
+  margin-right: 0.5rem;
+  font-size: 0.7rem;
+}
+header div:last-child #containerUserLogin #infoUserLogin #groupBtnUserLogin #btnLogoutUserLogin {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.4rem;
+  background-color: red;
+  color: #fafafa;
+  font-size: 0.7rem;
 }
 
 #addTask {
@@ -1263,6 +1307,99 @@ header div:last-child h2 {
   color: #fafafa;
 }
 
+#mainDashboardClient {
+  display: flex;
+  width: 100vw;
+  height: calc(100vh - 6.5rem - 1px);
+  flex-flow: row nowrap;
+  overflow: hidden;
+}
+#mainDashboardClient #navDashboardClient {
+  width: 20%;
+  height: 100%;
+  overflow-y: auto;
+  border: 1px solid #80a710;
+}
+#mainDashboardClient #navDashboardClient div {
+  padding: 0.5rem;
+}
+#mainDashboardClient #navDashboardClient div h2,
+#mainDashboardClient #navDashboardClient div em {
+  color: black;
+  margin: 0.5rem 0;
+}
+#mainDashboardClient #navDashboardClient .navBtnDB {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid #80a710;
+  color: #80a710;
+  cursor: pointer;
+  background-color: white;
+  font-size: 1rem;
+  text-align: start;
+}
+#mainDashboardClient #navDashboardClient .navBtnDB.active {
+  background-color: #80a710;
+  color: #fafafa;
+}
+#mainDashboardClient #contentDashboardClient {
+  width: 80%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border: 1px solid #80a710;
+  position: relative;
+}
+#mainDashboardClient #contentDashboardClient .tabContent {
+  opacity: 0;
+  visibility: hidden;
+  height: 0;
+  overflow: hidden;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  padding: 0 1rem;
+}
+#mainDashboardClient #contentDashboardClient .tabContent.active {
+  opacity: 1;
+  visibility: visible;
+  height: auto;
+  overflow: visible;
+  padding: 1rem;
+}
+#mainDashboardClient #contentDashboardClient #infoMng label {
+  font-weight: bold;
+  display: inline-block;
+  margin: 0.5rem 0;
+}
+#mainDashboardClient #contentDashboardClient #infoMng input {
+  width: 50%;
+  height: 2rem;
+  font-size: 1rem;
+}
+#mainDashboardClient #contentDashboardClient #infoMng em {
+  color: red;
+  display: inline-block;
+  margin-top: 0.5rem;
+}
+#mainDashboardClient #contentDashboardClient #infoMng #btnUpdateInfoClient {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #80a710;
+  color: #fafafa;
+  margin-top: 0.5rem;
+}
+#mainDashboardClient #contentDashboardClient #infoMng #btnRestoreInfoClient {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #1877f2;
+  color: #fafafa;
+  margin-top: 0.5rem;
+  display: none;
+}
+
 #logoLogin {
   width: 20%;
   height: 8rem;
@@ -1426,29 +1563,6 @@ header div:last-child h2 {
   width: 80%;
   height: 2rem;
   font-size: 1rem;
-}
-#loginClientContainer #bodyLogin #registerClient form div .date-input-container {
-  position: relative;
-  width: 80%;
-}
-#loginClientContainer #bodyLogin #registerClient form div .date-input-container #dateBirthClient {
-  width: 100%;
-  color: transparent;
-  position: relative;
-}
-#loginClientContainer #bodyLogin #registerClient form div .date-input-container #dateBirthClient:focus {
-  color: #333 !important;
-}
-#loginClientContainer #bodyLogin #registerClient form div .date-input-container #dateBirthClient::before {
-  content: attr(data-date);
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #333;
-}
-#loginClientContainer #bodyLogin #registerClient form div .date-input-container #dateBirthClient:focus::before {
-  display: none;
 }
 #loginClientContainer #bodyLogin #registerClient form div #togglePwClient,
 #loginClientContainer #bodyLogin #registerClient form div #togglePwReClient {

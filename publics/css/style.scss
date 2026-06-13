@@ -207,6 +207,8 @@ header {
     }
     #groupBtn {
       width: 30%;
+      text-align: end;
+      padding-right: 1rem;
       button {
         @include button(0.7rem);
         color: $colorSecondaryText;
@@ -229,6 +231,41 @@ header {
     h2 {
       color: $colorCTA;
       margin-right: 1rem;
+    }
+    #containerUserLogin{
+      width: 30%;
+      text-align: end;
+      display: none;
+      position: relative;
+       #infoUserLogin{
+      width: fit-content;
+      height: 4rem;
+      display: flex;
+      flex-flow: column;
+      align-items: start;
+      padding-right: 1rem;
+      position: absolute;
+      right: 0;
+      h3{
+        margin: 0.5rem 0;
+      }
+      #groupBtnUserLogin{
+        width: 100%;
+        #btnDashboardUserLogin{
+      @include button(0.4rem);
+      background-color: $colorCTA;
+      color: $colorSecondaryText;
+      margin-right: 0.5rem;
+      font-size: 0.7rem;
+    }
+    #btnLogoutUserLogin{
+      @include button(0.4rem);
+      background-color: red;
+      color: $colorSecondaryText;
+      font-size: 0.7rem;
+    }
+      }
+  }
     }
   }
 }
@@ -1044,6 +1081,97 @@ header {
     }
   }
 }
+#mainDashboardClient {
+  display: flex;
+  width: 100vw;
+  height: calc(100vh - 6.5rem - 1px);
+  flex-flow: row nowrap;
+  overflow: hidden;
+  #navDashboardClient {
+    width: 20%;
+    height: 100%;
+    overflow-y: auto;
+    border: 1px solid $colorCTA;
+    div {
+      padding: 0.5rem;
+      h2,
+      em {
+        color: black;
+        margin: 0.5rem 0;
+        // color: white;
+      }
+    }
+    .navBtnDB {
+      width: 100%;
+      padding: 1rem;
+      border: 1px solid $colorCTA;
+      color: $colorCTA;
+      cursor: pointer;
+      background-color: white;
+      font-size: 1rem;
+      text-align: start;
+    }
+    .navBtnDB.active {
+      background-color: $colorCTA;
+      color: $colorSecondaryText;
+    }
+  }
+  #contentDashboardClient {
+    width: 80%;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: 1px solid $colorCTA;
+    position: relative;
+    .tabContent {
+      opacity: 0;
+      visibility: hidden;
+      height: 0;
+      overflow: hidden;
+      transition:
+      opacity 0.3s ease-in-out,
+      visibility 0.3s ease-in-out;
+      padding: 0 1rem;
+    }
+    .tabContent.active {
+      opacity: 1;
+      visibility: visible;
+      height: auto;
+      overflow: visible;
+      padding: 1rem;
+    }
+    #infoMng{
+      label{
+        font-weight: bold;
+        display: inline-block;
+        margin: 0.5rem 0;
+      }
+      input{
+        width: 50%;
+        height: 2rem;
+        font-size: 1rem;
+      }
+      em{
+        color: red;
+        display: inline-block;
+        margin-top: 0.5rem;
+      }
+      #btnUpdateInfoClient{
+        @include button(0.5rem);
+        background-color: $colorCTA;
+        color: $colorSecondaryText;
+        margin-top: 0.5rem;
+      }
+      #btnRestoreInfoClient{
+        @include button(0.5rem);
+        background-color: #1877f2;
+        color: $colorSecondaryText;
+        margin-top: 0.5rem;
+        display: none;
+      }
+    }
+  }
+}
 //**CSS Login
 #logoLogin {
   width: 20%;
@@ -1203,29 +1331,14 @@ header {
             height: 2rem;
             font-size: 1rem;
           }
-          .date-input-container {
-            position: relative;
-            width: 80%;
-            #dateBirthClient {
-              width: 100%;
-              color: transparent;
-              position: relative;
-              &:focus {
-                color: #333 !important;
-              }
-              &::before {
-                content: attr(data-date);
-                position: absolute;
-                left: 10px;
-                top: 50%;
-                transform: translateY(-50%);
-                color: #333;
-              }
-              &:focus::before {
-                display: none;
-              }
-            }
-          }
+          // .date-input-container {
+          //   position: relative;
+          //   width: 80%;
+          //   #dateBirthClient {
+          //     width: 100%;
+          //     position: relative;
+          //   }
+          // }
           #togglePwClient,
           #togglePwReClient {
             @include button(0.5rem);

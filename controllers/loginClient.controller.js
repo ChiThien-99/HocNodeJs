@@ -23,6 +23,8 @@ export const postClient = async (req, res) => {
     if (!telClient) {
       telClient = 0;
     }
+    const [day,month,year]=dateBirthClient.split("/");
+    dateBirthClient=new Date(year,month-1,day);
     await clientEntity.create({
       fullname: fullNameClient,
       datebirth: dateBirthClient,
@@ -44,13 +46,16 @@ export const postClient = async (req, res) => {
 };
 export const loginClient = async (req, res) => {
   try {
-    const { emailClient2, pwClient2 } = req.body;
+    const { emailClient2, pwClient2,rememberMe } = req.body;
     const client = await clientEntity.findOne({ email: emailClient2 });
     if (!client || !(await bcrypt.compare(pwClient2, client.password))) {
       return res
         .status(401)
         .json({ mess: "Sai thông tin đăng nhập", success: false });
     }
+    console.log(rememberMe);
+    const cookieMaxAge=rememberMe===true?30*24*60*60*1000:0;
+    console.log(cookieMaxAge);
     const accessToken = jwt.sign(
       {
         id: client._id,
@@ -83,12 +88,13 @@ export const loginClient = async (req, res) => {
     res.cookie("accessToken2", accessToken, {
       httpOnly: false,
       secure: true,
+      maxAge:cookieMaxAge,
       sameSite: "none",
       path: "/",
     });
     res
       .status(200)
-      .json({ mess: "Đăng nhập thành công", success: true, accessToken });
+      .json({ mess: "Đăng nhập thành công", success: true, accessToken,cookieMaxAge });
   } catch (error) {
     console.error(error);
     res.status(500).json({ mess: "Lỗi máy chủ nội bộ", success: false });
