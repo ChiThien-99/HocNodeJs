@@ -2,6 +2,7 @@ import { clientEntity } from "../models/client.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
+import { sendVerificationEmail } from "../services/email.service.js";
 export const postClient = async (req, res) => {
   try {
     let {
@@ -23,17 +24,30 @@ export const postClient = async (req, res) => {
     if (!telClient) {
       telClient = 0;
     }
-    const [day,month,year]=dateBirthClient.split("/");
-    dateBirthClient=new Date(year,month-1,day);
+    if (emailClient) {
+      emailClient = emailClient.trim().toLowerCase();
+    }
+    const [day, month, year] = dateBirthClient.split("/");
+    dateBirthClient = new Date(year, month - 1, day);
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otpExpired = new Date(Date.now() + 5 * 60 * 1000);
     await clientEntity.create({
       fullname: fullNameClient,
       datebirth: dateBirthClient,
       tel: telClient,
       email: emailClient,
       password: pwClient,
+      otpCode: otp,
+      otpExpired: otpExpired,
+      isVerified: false,
     });
+    const emailSend = await sendVerificationEmail(
+      emailClient,
+      fullNameClient,
+      otp,
+    );
     res.json({
-      mess: `Tạo tài khoản thành viên thành công\nĐã chuyển qua tab đăng nhập`,
+      mess: `Tạo tài khoản thành viên thành công`,
       success: true,
     });
   } catch (error) {
@@ -44,9 +58,39 @@ export const postClient = async (req, res) => {
     });
   }
 };
+export const checkOtp = async (req, res) => {
+  try {
+    let { email, otpCode } = req.body;
+    console.log(email);
+    if (email) {
+      email = email.trim().toLowerCase();
+    }
+    const client = await clientEntity.findOne({ email: email });
+    if (!client) {
+      return res.json({ mess: "Không tìm thấy tài khoản", success: false });
+    }
+    if (client.otpCode !== otpCode || client.otpExpired < new Date()) {
+      return res.json({ mess: "Mã OTP sai hoặc đã hết hạn", success: false });
+    }
+    client.isVerified = true;
+    client.otpCode = undefined;
+    client.otpExpired = undefined;
+    await client.save();
+    res.json({
+      mess: "Kích hoạt tài khoản thành công\nĐã chuyển sang tab đăng nhập",
+      success: true,
+    });
+  } catch (error) {
+    res.json({
+      mess: "Kích hoạt tài khoản thất bại",
+      success: false,
+      error: error.message,
+    });
+  }
+};
 export const loginClient = async (req, res) => {
   try {
-    const { emailClient2, pwClient2,rememberMe } = req.body;
+    const { emailClient2, pwClient2, rememberMe } = req.body;
     const client = await clientEntity.findOne({ email: emailClient2 });
     if (!client || !(await bcrypt.compare(pwClient2, client.password))) {
       return res
@@ -54,7 +98,7 @@ export const loginClient = async (req, res) => {
         .json({ mess: "Sai thông tin đăng nhập", success: false });
     }
     console.log(rememberMe);
-    const cookieMaxAge=rememberMe===true?30*24*60*60*1000:0;
+    const cookieMaxAge = rememberMe === true ? 30 * 24 * 60 * 60 * 1000 : 0;
     console.log(cookieMaxAge);
     const accessToken = jwt.sign(
       {
@@ -88,15 +132,21 @@ export const loginClient = async (req, res) => {
     res.cookie("accessToken2", accessToken, {
       httpOnly: false,
       secure: true,
-      maxAge:cookieMaxAge,
+      maxAge: cookieMaxAge,
       sameSite: "none",
       path: "/",
     });
-    res
-      .status(200)
-      .json({ mess: "Đăng nhập thành công", success: true, accessToken,cookieMaxAge });
+    res.json({
+      mess: "Đăng nhập thành công",
+      success: true,
+      accessToken,
+      cookieMaxAge,
+    });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ mess: "Lỗi máy chủ nội bộ", success: false });
+    res.json({
+      mess: "Lỗi máy chủ nội bộ",
+      success: false,
+      error: error.message,
+    });
   }
 };

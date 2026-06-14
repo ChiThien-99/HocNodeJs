@@ -232,40 +232,40 @@ header {
       color: $colorCTA;
       margin-right: 1rem;
     }
-    #containerUserLogin{
+    #containerUserLogin {
       width: 30%;
       text-align: end;
       display: none;
       position: relative;
-       #infoUserLogin{
-      width: fit-content;
-      height: 4rem;
-      display: flex;
-      flex-flow: column;
-      align-items: start;
-      padding-right: 1rem;
-      position: absolute;
-      right: 0;
-      h3{
-        margin: 0.5rem 0;
+      #infoUserLogin {
+        width: fit-content;
+        height: 4rem;
+        display: flex;
+        flex-flow: column;
+        align-items: start;
+        padding-right: 1rem;
+        position: absolute;
+        right: 0;
+        h3 {
+          margin: 0.5rem 0;
+        }
+        #groupBtnUserLogin {
+          width: 100%;
+          #btnDashboardUserLogin {
+            @include button(0.4rem);
+            background-color: $colorCTA;
+            color: $colorSecondaryText;
+            margin-right: 0.5rem;
+            font-size: 0.7rem;
+          }
+          #btnLogoutUserLogin {
+            @include button(0.4rem);
+            background-color: red;
+            color: $colorSecondaryText;
+            font-size: 0.7rem;
+          }
+        }
       }
-      #groupBtnUserLogin{
-        width: 100%;
-        #btnDashboardUserLogin{
-      @include button(0.4rem);
-      background-color: $colorCTA;
-      color: $colorSecondaryText;
-      margin-right: 0.5rem;
-      font-size: 0.7rem;
-    }
-    #btnLogoutUserLogin{
-      @include button(0.4rem);
-      background-color: red;
-      color: $colorSecondaryText;
-      font-size: 0.7rem;
-    }
-      }
-  }
     }
   }
 }
@@ -1129,8 +1129,8 @@ header {
       height: 0;
       overflow: hidden;
       transition:
-      opacity 0.3s ease-in-out,
-      visibility 0.3s ease-in-out;
+        opacity 0.3s ease-in-out,
+        visibility 0.3s ease-in-out;
       padding: 0 1rem;
     }
     .tabContent.active {
@@ -1140,29 +1140,40 @@ header {
       overflow: visible;
       padding: 1rem;
     }
-    #infoMng{
-      label{
+    #infoMng {
+      label {
         font-weight: bold;
         display: inline-block;
         margin: 0.5rem 0;
       }
-      input{
+      input:not([type="submit"]) {
         width: 50%;
         height: 2rem;
         font-size: 1rem;
       }
-      em{
+      #toggleCurrentPw,
+      #toggleNewPw {
+        @include button(0.5rem);
+        background-color: $colorCTA;
+        color: $colorSecondaryText;
+        width: 3rem;
+        margin: 0;
+      }
+      #idInfoClient {
+        display: none;
+      }
+      em {
         color: red;
         display: inline-block;
         margin-top: 0.5rem;
       }
-      #btnUpdateInfoClient{
+      #btnUpdateInfoClient {
         @include button(0.5rem);
         background-color: $colorCTA;
         color: $colorSecondaryText;
         margin-top: 0.5rem;
       }
-      #btnRestoreInfoClient{
+      #btnRestoreInfoClient {
         @include button(0.5rem);
         background-color: #1877f2;
         color: $colorSecondaryText;
@@ -1261,6 +1272,39 @@ header {
       background-color: rgba(255, 0, 0, 0.8);
       color: $colorSecondaryText;
       display: none;
+    }
+  }
+}
+#myModal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.5);
+  #modalContent {
+    background-color: #f5f5f5;
+    width: fit-content;
+    height: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 1rem;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: fixed;
+    input[type="number"] {
+      width: 30%;
+      height: 2rem;
+      font-size: 1rem;
+    }
+    input[type="submit"] {
+      @include button(0.5rem);
+      background-color: $colorCTA;
+      color: white;
     }
   }
 }
@@ -1379,78 +1423,78 @@ header {
         }
       }
     }
-    #loginClient{
-      form{
+    #loginClient {
+      form {
         display: grid;
         grid-template-columns: 50%;
         grid-template-rows: 4rem 5rem 3rem auto;
         gap: 1rem;
         label {
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 0.5rem;
-            &[for="rememberMe"]{
-              font-weight: lighter !important;
-            }
+          font-weight: bold;
+          display: inline-block;
+          margin-bottom: 0.5rem;
+          &[for="rememberMe"] {
+            font-weight: lighter !important;
           }
-          input[type="email"]{
-            width: 100%;
-            height: 2rem;
-            font-size: 1rem;
-          }
-      #pwClient2{
-            width: 89%;
-            height: 2rem;
-            font-size: 1rem;
-          }
-      #togglePwClient2 {
-            @include button(0.5rem);
-            background-color: $colorCTA;
-            color: $colorSecondaryText;
-            width: 10%;
-            margin: 0;
-          }
-          .tooltip {
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-}
+        }
+        input[type="email"] {
+          width: 100%;
+          height: 2rem;
+          font-size: 1rem;
+        }
+        #pwClient2 {
+          width: 89%;
+          height: 2rem;
+          font-size: 1rem;
+        }
+        #togglePwClient2 {
+          @include button(0.5rem);
+          background-color: $colorCTA;
+          color: $colorSecondaryText;
+          width: 10%;
+          margin: 0;
+        }
+        .tooltip {
+          position: relative;
+          display: inline-block;
+          cursor: pointer;
+        }
 
-.tooltiptext {
-  visibility: hidden;
-  width: 23rem;
-  background-color: $colorCTA;
-  color: $colorSecondaryText;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
-  position: absolute;
-  z-index: 1;
-  bottom: 150%;
-  left: 50%;
-  margin-left: -60px;
-}
+        .tooltiptext {
+          visibility: hidden;
+          width: 23rem;
+          background-color: $colorCTA;
+          color: $colorSecondaryText;
+          text-align: center;
+          border-radius: 6px;
+          padding: 5px 0;
+          position: absolute;
+          z-index: 1;
+          bottom: 150%;
+          left: 50%;
+          margin-left: -60px;
+        }
 
-.tooltiptext::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 17%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: $colorCTA transparent transparent transparent;
-}
+        .tooltiptext::after {
+          content: "";
+          position: absolute;
+          top: 100%;
+          left: 17%;
+          margin-left: -5px;
+          border-width: 5px;
+          border-style: solid;
+          border-color: $colorCTA transparent transparent transparent;
+        }
 
-.tooltip:hover{
-  color: $colorCTA;
-  .tooltiptext{
-    visibility: visible;
-  } 
-}
-          div:nth-child(3){
-            text-align: right;
-             #btnLoginClient {
+        .tooltip:hover {
+          color: $colorCTA;
+          .tooltiptext {
+            visibility: visible;
+          }
+        }
+        div:nth-child(3) {
+          text-align: right;
+          #btnLoginCL {
             width: 30%;
             height: inherit;
             @include button(0.5rem);
@@ -1459,22 +1503,22 @@ header {
             font-weight: bold;
             margin: 0.5rem 0.5rem 0 0;
           }
+        }
+        div:nth-child(4) {
+          #messLoginClient {
+            display: none;
           }
-          div:nth-child(4){
-            #messLoginClient{
-        display: none;
-      }
-      #rateLimitAlert {
-      width: 100%;
-      height: auto;
-      border: none;
-      border-radius: 5px;
-      padding: 0.8rem;
-      background-color: rgba(255, 0, 0, 0.8);
-      color: $colorSecondaryText;
-      display: none;
-    }
+          #rateLimitAlert {
+            width: 100%;
+            height: auto;
+            border: none;
+            border-radius: 5px;
+            padding: 0.8rem;
+            background-color: rgba(255, 0, 0, 0.8);
+            color: $colorSecondaryText;
+            display: none;
           }
+        }
       }
     }
   }

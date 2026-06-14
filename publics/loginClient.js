@@ -56,20 +56,8 @@ formRegisterClient.addEventListener("submit", (e) => {
     .then((res) => res.json())
     .then(({ mess, success, error }) => {
       if (success) {
-        formRegisterClient.reset();
-        document
-          .getElementById("dateBirthClient")
-          .setAttribute("data-date", "Ngày/tháng/năm");
-        document.getElementById("checkPw").style.display = "none";
         alert("Thông báo", mess, "#80a710");
-        document.querySelectorAll("#headerLogin button").forEach((btn) => {
-          btn.classList.remove("active");
-        });
-        document.getElementById("btnLoginClient").classList.add("active");
-        document.querySelectorAll("#bodyLogin div").forEach((div) => {
-          div.classList.remove("active");
-        });
-        document.getElementById("loginClient").classList.add("active");
+        document.getElementById("myModal").style.display = "block";
       } else {
         if (error) {
           alert("Lỗi", `${mess}\n${error}`, "red");
@@ -82,10 +70,47 @@ formRegisterClient.addEventListener("submit", (e) => {
       alert("Lỗi", error, "red");
     });
 });
-new Cleave('#dateBirthClient', {
-    date: true,
-    delimiter: '/',
-    datePattern: ['d', 'm', 'Y'] // Ép buộc cấu trúc gõ: ngày (d), tháng (m), năm (Y)
+const formOtp = document.getElementById("formOtp");
+formOtp.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const otpCode = document.getElementById("otpCode").value;
+  const email = document.getElementById("emailClient").value;
+  console.log(email);
+  fetch("/loginClient/checkOtp", {
+    method: "POST",
+    headers: { "Content-Type": "application/json;charset=UTF-8" },
+    body: JSON.stringify({ email, otpCode }),
+  })
+    .then((res) => res.json())
+    .then(({ mess, success, error }) => {
+      if (success) {
+        formRegisterClient.reset();
+        document
+          .getElementById("dateBirthClient")
+          .setAttribute("data-date", "Ngày/tháng/năm");
+        document.getElementById("checkPw").style.display = "none";
+        document.getElementById("myModal").style.display = "none";
+        alert("Thông báo", mess, "#80a710");
+        document.querySelectorAll("#headerLogin button").forEach((btn) => {
+          btn.classList.remove("active");
+        });
+        document.getElementById("btnLoginClient").classList.add("active");
+        document.querySelectorAll("#bodyLogin div").forEach((div) => {
+          div.classList.remove("active");
+        });
+        document.getElementById("loginClient").classList.add("active");
+      } else {
+        alert("Lỗi", `${mess}\n${error}`, "red");
+      }
+    })
+    .catch((error) => {
+      alert("Lỗi", error, "red");
+    });
+});
+new Cleave("#dateBirthClient", {
+  date: true,
+  delimiter: "/",
+  datePattern: ["d", "m", "Y"], // Ép buộc cấu trúc gõ: ngày (d), tháng (m), năm (Y)
 });
 document.getElementById("btnCancelRegister").addEventListener("click", (e) => {
   e.preventDefault();
@@ -161,13 +186,13 @@ loginForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const emailClient2 = document.getElementById("emailClient2").value;
   const pwClient2 = document.getElementById("pwClient2").value;
-  const rememberMe=document.getElementById("rememberMe").checked;
+  const rememberMe = document.getElementById("rememberMe").checked;
   axios
-    .post("/loginClient/login", { emailClient2, pwClient2,rememberMe })
+    .post("/loginClient/login", { emailClient2, pwClient2, rememberMe })
     .then((res) => {
-      const { mess, success, error, accessToken,cookieMaxAge } = res.data;
-      if (success && accessToken&&cookieMaxAge) {
-        setAccessToken2(accessToken,cookieMaxAge);
+      const { mess, success, error, accessToken, cookieMaxAge } = res.data;
+      if ((success && accessToken) || cookieMaxAge) {
+        setAccessToken2(accessToken, cookieMaxAge);
         const urlParams = new URLSearchParams(window.location.search);
         const redirectTo = urlParams.get("redirect");
         if (redirectTo && redirectTo.startsWith("/")) {
@@ -202,7 +227,7 @@ const startCountdown = (resetTimestamp) => {
   clearInterval(countdownTimer);
   const rateLimitAlert = document.getElementById("rateLimitAlert");
   const remainingTime = document.getElementById("remainingTime");
-  const btnLoginClient = document.getElementById("btnLoginClient");
+  const btnLoginClient = document.getElementById("btnLoginCL");
   rateLimitAlert.style.display = "block";
   btnLoginClient.disabled = true;
   btnLoginClient.style.opacity = 0.5;

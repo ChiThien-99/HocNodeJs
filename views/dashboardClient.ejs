@@ -85,20 +85,23 @@
           <div id="infoMng" class="tabContent active">
             <h2 class="flag-item">Thông tin cá nhân</h2>
             <form id="formInfoClient">
+                <input type="text" name="idClient" id="idInfoClient">
                 <label for="fullname">Họ và tên</label><br>
-                <input type="text" name="fullname" id="fullname"><br>
+                <input type="text" name="fullname" id="fullname" required><br>
                 <label for="dateBirth">Ngày/tháng/năm sinh</label><br>
-                <input type="text" name="dateBirth" id="dateBirth"><br>
+                <input type="text" name="dateBirth" id="dateBirth" required><br>
                 <label for="tel">Số điện thoại</label><br>
-                <input type="tel" name="tel" id="tel"><br>
+                <input type="tel" name="tel" id="tel" required><br>
                 <label for="email">Email</label><br>
-                <input type="email" name="email" id="email"><br>
+                <input type="email" name="email" id="email" required><br>
                 <em>**Vui lòng điền mật khẩu hiện tại trước khi cập nhật mật khẩu mới</em><br>
                 <label for="currentPw">Mật khẩu hiện tại</label><br>
-                <input type="password" name="currentPw" id="currentPw"><br>
+                <input type="password" name="currentPw" id="currentPw">
+                <button id="toggleCurrentPw"><i class="fa-solid fa-eye"></i></button><br />
                 <label for="newPw">Mật khẩu mới</label><br>
-                <input type="password" name="newPw" id="newPw"><br>
-                <button type="button" id="btnUpdateInfoClient">Cập nhật</button>
+                <input type="password" name="newPw" id="newPw">
+                <button id="toggleNewPw"><i class="fa-solid fa-eye"></i></button><br />
+                <input type="submit" id="btnUpdateInfoClient" value="Cập nhật">
                 <button type="button" id="btnRestoreInfoClient">Khôi phục</button>
             </form>
           </div>
@@ -110,6 +113,7 @@
           </div>
       </main>
       <script src="/socket.io/socket.io.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js"></script>
   </body>
   <script type="module" src="/dashboardClient.js" defer></script>
 </html>

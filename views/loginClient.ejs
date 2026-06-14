@@ -34,6 +34,16 @@
       <h4 id="headingAlert">Tiêu đề thông báo</h4>
       <p id="contentAlert">Thông báo lần 1</p>
     </div>
+    <div id="myModal">
+      <div id="modalContent">
+        <p>Điền mã OTP được gửi về mail của bạn để kích hoạt tài khoản</p>
+        <form id="formOtp">
+          <label for="otpCode">Mã OTP</label><br />
+          <input type="number" name="otpCode" id="otpCode" required />
+          <input type="submit" value="Kích hoạt" />
+        </form>
+      </div>
+    </div>
     <div id="logoLogin">
       <a href="/" class="logo-link">
         <svg viewBox="0 0 200 200" width="200" height="200">
@@ -104,13 +114,13 @@
                 >Ngày/tháng/năm sinh<sup>*</sup></label
               ><br />
               <input
-                  type="text"
-                  name="dateBirthClient"
-                  id="dateBirthClient"
-                  placeholder="dd/mm/yyyy"
-                  maxlength="10"
-                  required
-                />
+                type="text"
+                name="dateBirthClient"
+                id="dateBirthClient"
+                placeholder="dd/mm/yyyy"
+                maxlength="10"
+                required
+              />
               <!-- <div class="date-input-container">
                 
               </div> -->
@@ -188,7 +198,7 @@
               >
             </div>
             <div>
-              <button type="submit" id="btnLoginClient">Đăng nhập</button><br />
+              <button type="submit" id="btnLoginCL">Đăng nhập</button><br />
             </div>
             <div>
               <em id="messLoginClient">
