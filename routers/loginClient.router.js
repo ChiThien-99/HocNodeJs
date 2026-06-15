@@ -17,3 +17,11 @@ clientRouter.post(
   clientController.loginClient,
 );
 clientRouter.post(`${prefix}/checkOtp`, clientController.checkOtp);
+clientRouter.post(`${prefix}/resendOtp`, clientController.resendOtp);
+clientRouter.post(`${prefix}/checkMailForgotPW`, clientController.checkMailForgotPW);
+clientRouter.post(`${prefix}/checkOtpForgotPW`, clientController.checkOtpForgotPW);
+clientRouter.post(`${prefix}/changeForgotPW`, clientController.changeForgotPW);
+
+
+
+

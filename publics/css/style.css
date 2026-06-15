@@ -1534,6 +1534,20 @@ header div:last-child #containerUserLogin #infoUserLogin #groupBtnUserLogin #btn
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   position: fixed;
 }
+#myModal #modalContent label {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+#myModal #modalContent #btnResendOtp {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #80a710;
+  color: white;
+  display: none;
+  margin-left: 0.5rem;
+}
 #myModal #modalContent input[type=number] {
   width: 30%;
   height: 2rem;
@@ -1662,31 +1676,31 @@ header div:last-child #containerUserLogin #infoUserLogin #groupBtnUserLogin #btn
   font-weight: bold;
   display: none;
 }
-#loginClientContainer #bodyLogin #loginClient form {
+#loginClientContainer #bodyLogin #loginClient #loginForm {
   display: grid;
   grid-template-columns: 50%;
   grid-template-rows: 4rem 5rem 3rem auto;
   gap: 1rem;
 }
-#loginClientContainer #bodyLogin #loginClient form label {
+#loginClientContainer #bodyLogin #loginClient #loginForm label {
   font-weight: bold;
   display: inline-block;
   margin-bottom: 0.5rem;
 }
-#loginClientContainer #bodyLogin #loginClient form label[for=rememberMe] {
+#loginClientContainer #bodyLogin #loginClient #loginForm label[for=rememberMe] {
   font-weight: lighter !important;
 }
-#loginClientContainer #bodyLogin #loginClient form input[type=email] {
+#loginClientContainer #bodyLogin #loginClient #loginForm input[type=email] {
   width: 100%;
   height: 2rem;
   font-size: 1rem;
 }
-#loginClientContainer #bodyLogin #loginClient form #pwClient2 {
+#loginClientContainer #bodyLogin #loginClient #loginForm #pwClient2 {
   width: 89%;
   height: 2rem;
   font-size: 1rem;
 }
-#loginClientContainer #bodyLogin #loginClient form #togglePwClient2 {
+#loginClientContainer #bodyLogin #loginClient #loginForm #togglePwClient2 {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -1696,12 +1710,18 @@ header div:last-child #containerUserLogin #infoUserLogin #groupBtnUserLogin #btn
   width: 10%;
   margin: 0;
 }
-#loginClientContainer #bodyLogin #loginClient form .tooltip {
+#loginClientContainer #bodyLogin #loginClient #loginForm #btnForgotPass {
+  margin: 0;
+  color: #1877f2;
+  text-decoration: underline;
+  cursor: pointer;
+}
+#loginClientContainer #bodyLogin #loginClient #loginForm .tooltip {
   position: relative;
   display: inline-block;
   cursor: pointer;
 }
-#loginClientContainer #bodyLogin #loginClient form .tooltiptext {
+#loginClientContainer #bodyLogin #loginClient #loginForm .tooltiptext {
   visibility: hidden;
   width: 23rem;
   background-color: #80a710;
@@ -1715,7 +1735,7 @@ header div:last-child #containerUserLogin #infoUserLogin #groupBtnUserLogin #btn
   left: 50%;
   margin-left: -60px;
 }
-#loginClientContainer #bodyLogin #loginClient form .tooltiptext::after {
+#loginClientContainer #bodyLogin #loginClient #loginForm .tooltiptext::after {
   content: "";
   position: absolute;
   top: 100%;
@@ -1725,16 +1745,16 @@ header div:last-child #containerUserLogin #infoUserLogin #groupBtnUserLogin #btn
   border-style: solid;
   border-color: #80a710 transparent transparent transparent;
 }
-#loginClientContainer #bodyLogin #loginClient form .tooltip:hover {
+#loginClientContainer #bodyLogin #loginClient #loginForm .tooltip:hover {
   color: #80a710;
 }
-#loginClientContainer #bodyLogin #loginClient form .tooltip:hover .tooltiptext {
+#loginClientContainer #bodyLogin #loginClient #loginForm .tooltip:hover .tooltiptext {
   visibility: visible;
 }
-#loginClientContainer #bodyLogin #loginClient form div:nth-child(3) {
+#loginClientContainer #bodyLogin #loginClient #loginForm div:nth-child(3) {
   text-align: right;
 }
-#loginClientContainer #bodyLogin #loginClient form div:nth-child(3) #btnLoginCL {
+#loginClientContainer #bodyLogin #loginClient #loginForm div:nth-child(3) #btnLoginCL {
   width: 30%;
   height: inherit;
   border: none;
@@ -1746,10 +1766,10 @@ header div:last-child #containerUserLogin #infoUserLogin #groupBtnUserLogin #btn
   font-weight: bold;
   margin: 0.5rem 0.5rem 0 0;
 }
-#loginClientContainer #bodyLogin #loginClient form div:nth-child(4) #messLoginClient {
+#loginClientContainer #bodyLogin #loginClient #loginForm div:nth-child(4) #messLoginClient {
   display: none;
 }
-#loginClientContainer #bodyLogin #loginClient form div:nth-child(4) #rateLimitAlert {
+#loginClientContainer #bodyLogin #loginClient #loginForm div:nth-child(4) #rateLimitAlert {
   width: 100%;
   height: auto;
   border: none;
@@ -1758,6 +1778,68 @@ header div:last-child #containerUserLogin #infoUserLogin #groupBtnUserLogin #btn
   background-color: rgba(255, 0, 0, 0.8);
   color: #fafafa;
   display: none;
+}
+#loginClientContainer #bodyLogin #loginClient #formForgotPass {
+  grid-template-columns: 50%;
+  grid-template-rows: 5rem 4rem 4rem 4rem;
+  gap: 1rem;
+  display: none;
+}
+#loginClientContainer #bodyLogin #loginClient #formForgotPass label {
+  display: inline-block;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+#loginClientContainer #bodyLogin #loginClient #formForgotPass div:nth-child(1) #btnBackLoginFrom {
+  margin: 0 0 0.5rem 0;
+  color: #1877f2;
+  cursor: pointer;
+}
+#loginClientContainer #bodyLogin #loginClient #formForgotPass div:nth-child(1) input[type=email] {
+  width: 100%;
+  height: 2rem;
+  font-size: 1rem;
+}
+#loginClientContainer #bodyLogin #loginClient #formForgotPass div:nth-child(2) {
+  display: none;
+}
+#loginClientContainer #bodyLogin #loginClient #formForgotPass div:nth-child(2) input[type=number] {
+  width: 30%;
+  height: 2rem;
+  font-size: 1rem;
+}
+#loginClientContainer #bodyLogin #loginClient #formForgotPass div:nth-child(3) {
+  display: none;
+}
+#loginClientContainer #bodyLogin #loginClient #formForgotPass div:nth-child(3) #newPass {
+  width: 89%;
+  height: 2rem;
+  font-size: 1rem;
+}
+#loginClientContainer #bodyLogin #loginClient #formForgotPass div:nth-child(3) #toggleNewPW {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #80a710;
+  color: #fafafa;
+  width: 10%;
+  margin: 0;
+}
+#loginClientContainer #bodyLogin #loginClient #formForgotPass div:nth-child(4) {
+  text-align: right;
+}
+#loginClientContainer #bodyLogin #loginClient #formForgotPass div:nth-child(4) #btnHandleForgotPass {
+  width: 30%;
+  height: inherit;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #80a710;
+  color: #fafafa;
+  font-weight: bold;
+  margin: 0.5rem 0.5rem 0 0;
 }
 
 #divAboutAndBanner {

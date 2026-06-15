@@ -1296,6 +1296,17 @@ header {
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     position: fixed;
+    label{
+      display: inline-block;
+      margin-bottom: 0.5rem;
+    }
+    #btnResendOtp{
+      @include button(0.5rem);
+      background-color: $colorCTA;
+      color: white;
+      display: none;
+      margin-left: 0.5rem;
+    }
     input[type="number"] {
       width: 30%;
       height: 2rem;
@@ -1424,7 +1435,7 @@ header {
       }
     }
     #loginClient {
-      form {
+      #loginForm {
         display: grid;
         grid-template-columns: 50%;
         grid-template-rows: 4rem 5rem 3rem auto;
@@ -1453,6 +1464,12 @@ header {
           color: $colorSecondaryText;
           width: 10%;
           margin: 0;
+        }
+        #btnForgotPass{
+          margin: 0;
+          color: #1877f2;
+          text-decoration: underline;
+          cursor: pointer;
         }
         .tooltip {
           position: relative;
@@ -1519,6 +1536,64 @@ header {
             display: none;
           }
         }
+      }
+      #formForgotPass{
+        grid-template-columns: 50%;
+        grid-template-rows: 5rem 4rem 4rem 4rem;
+        gap: 1rem;
+        display: none;
+        label{
+            display: inline-block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+          }
+        div:nth-child(1){
+          #btnBackLoginFrom{
+          margin: 0 0 0.5rem 0;
+          color: #1877f2;
+          cursor: pointer;
+        }
+        input[type="email"]{
+            width: 100%;
+            height: 2rem;
+            font-size: 1rem;
+          }
+        }
+        div:nth-child(2){
+          display: none;
+           input[type="number"]{
+            width: 30%;
+            height: 2rem;
+            font-size: 1rem;
+          }
+        }
+        div:nth-child(3){
+          display: none;
+          #newPass{
+            width: 89%;
+            height: 2rem;
+            font-size: 1rem;
+          }
+          #toggleNewPW{
+          @include button(0.5rem);
+          background-color: $colorCTA;
+          color: $colorSecondaryText;
+          width: 10%;
+          margin: 0;
+          }
+        }
+        div:nth-child(4){
+            text-align: right;
+            #btnHandleForgotPass{
+            width: 30%;
+            height: inherit;
+            @include button(0.5rem);
+            background-color: $colorCTA;
+            color: $colorSecondaryText;
+            font-weight: bold;
+            margin: 0.5rem 0.5rem 0 0;
+          }
+          }
       }
     }
   }

@@ -47,6 +47,7 @@ function getCookie(name) {
 }
 function getUserFromCookie() {
   const token = getCookie("accessToken2");
+  console.log(token);
   if (token) {
     try {
       document.querySelector("#navMenu #groupBtn").style.display="none";

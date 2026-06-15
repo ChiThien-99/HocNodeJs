@@ -38,7 +38,8 @@
       <div id="modalContent">
         <p>Điền mã OTP được gửi về mail của bạn để kích hoạt tài khoản</p>
         <form id="formOtp">
-          <label for="otpCode">Mã OTP</label><br />
+          <label for="otpCode">Mã OTP sẽ hết hạn sau <span id="countdownTimer">05:00</span></label>
+          <button type="button" id="btnResendOtp">Gửi lại mã OTP</button><br>
           <input type="number" name="otpCode" id="otpCode" required />
           <input type="submit" value="Kích hoạt" />
         </form>
@@ -186,6 +187,7 @@
               <button id="togglePwClient2">
                 <i class="fa-solid fa-eye"></i></button
               ><br />
+              <p id="btnForgotPass">Quên mật khẩu</p>
               <input type="checkbox" name="rememberMe" id="rememberMe" />
               <label for="rememberMe"
                 >Lưu trạng thái đăng nhập
@@ -211,6 +213,27 @@
                 <strong>Quá nhiều lần thử !</strong>
                 <p id="remainingTime">Vui lòng chờ...</p>
               </div>
+            </div>
+          </form>
+          <form id="formForgotPass">
+            <div id="divFirstForgotPW">
+              <p id="btnBackLoginFrom"><i class="fa-solid fa-arrow-left-long"></i> Quay lại</p>
+              <label for="emailForgotPass">Email</label><br>
+              <input type="email" name="emailForgotPass" id="emailForgotPass">
+            </div>
+            <div id="divSecondForgotPW">
+              <label for="otpForgotPass">Mã OTP</label><br>
+              <input type="number" name="otpForgotPass" id="otpForgotPass">
+            </div>
+            <div id="divThridForgotPW">
+              <label for="newPass">Mật khẩu mới</label><br>
+              <input type="password" name="newPass" id="newPass">
+              <button id="toggleNewPW">
+                <i class="fa-solid fa-eye"></i></button
+              >
+            </div>
+            <div>
+              <button type="button" id="btnHandleForgotPass">Tiếp tục</button>
             </div>
           </form>
         </div>

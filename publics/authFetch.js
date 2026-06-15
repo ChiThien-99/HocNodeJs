@@ -30,7 +30,8 @@ export const setAccessToken = (token) => {
 export const setAccessToken2 = (token,cookieMaxAge) => {
   if (token) {
     accessToken2 = token;
-    document.cookie = `accessToken2=${token};max-age=${cookieMaxAge};path=/;SameSite=none;Secure`;
+    const maxAgeString=cookieMaxAge?`;max-age=${cookieMaxAge}`:"";
+    document.cookie = `accessToken2=${token};path=/${maxAgeString};SameSite=none;Secure`;
   } else {
     accessToken2 = null;
     document.cookie = "accessToken2=;path=/;max-age=0;SameSite=none;Secure";
@@ -120,8 +121,8 @@ export const authFetch2 = async (url, options = {}) => {
       } catch (error) {
         isRefreshing = false;
         refreshSubcribers = [];
-        // const currentPath = window.location.pathname + window.location.search;
-        // window.location.href = `/index/loginClient?headerActive=loginClient&redirect=${encodeURIComponent(currentPath)}`;
+        const currentPath = window.location.pathname + window.location.search;
+        window.location.href = `/index/loginClient?headerActive=loginClient&redirect=${encodeURIComponent(currentPath)}`;
         return Promise.reject(error);
       }
     }

@@ -88,6 +88,34 @@ export const checkOtp = async (req, res) => {
     });
   }
 };
+export const resendOtp=async(req,res)=>{
+  try {
+     let {email}=req.body;
+  if (!email) {
+    return res.json({mess:"Không tìm thấy email",success:false});
+  }
+  email=email.trim().toLowerCase();
+  const client=await clientEntity.findOne({email:email});
+  if (!client) {
+    return res.json({mess:"Không tìm thấy client từ email",success:false});
+  }
+  const fullnameClient=client.fullname;
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+  const otpExpired = new Date(Date.now() + 5 * 60 * 1000);
+  client.otpCode=otp;
+  client.otpExpired=otpExpired;
+  await client.save();
+  const emailSend = await sendVerificationEmail(
+      email,
+      fullnameClient,
+      otp,
+    );
+  res.json({mess:"Mã OTP đã được gửi lại qua mail",success:true});
+  } catch (error) {
+  res.json({mess:"Mã OTP gửi lại thất bại",success:false,error:error.message});
+  }
+ 
+}
 export const loginClient = async (req, res) => {
   try {
     const { emailClient2, pwClient2, rememberMe } = req.body;
@@ -150,3 +178,78 @@ export const loginClient = async (req, res) => {
     });
   }
 };
+export const checkMailForgotPW=async(req,res)=>{
+  try {
+    let {emailForgotPass}=req.body;
+  if (!emailForgotPass) {
+    return res.json({mess:"Vui lòng điền email để lấy lại mật khẩu",success:false})
+  }
+  emailForgotPass=emailForgotPass.trim().toLowerCase();
+  const client = await clientEntity.findOne({email:emailForgotPass});
+  if (!client) {
+    return res.json({mess:"Email chưa được đăng ký",success:false})
+  }
+  const fullnameClient=client.fullname;
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+  const otpExpired = new Date(Date.now() + 5 * 60 * 1000);
+  client.otpCode=otp;
+  client.otpExpired=otpExpired;
+  await client.save();
+  const emailSend = await sendVerificationEmail(
+      emailForgotPass,
+      fullnameClient,
+      otp,
+    );
+  res.json({mess:"Điền mã OTP được gửi về email của bạn",success:true});
+  } catch (error) {
+  res.json({mess:"Có lỗi xảy ra",success:false,error:error.message});
+  }
+}
+export const checkOtpForgotPW=async(req,res)=>{
+  try {
+    let { emailForgotPass,otpCode } = req.body;
+    if (emailForgotPass) {
+      emailForgotPass = emailForgotPass.trim().toLowerCase();
+    }
+    const client = await clientEntity.findOne({ email: emailForgotPass });
+    if (!client) {
+      return res.json({ mess: "Không tìm thấy tài khoản", success: false });
+    }
+    if (client.otpCode !== otpCode || client.otpExpired < new Date()) {
+      return res.json({ mess: "Mã OTP sai hoặc đã hết hạn", success: false });
+    }
+    client.isVerified = true;
+    client.otpCode = undefined;
+    client.otpExpired = undefined;
+    await client.save();
+    res.json({
+      mess: "Nhập mật khẩu mới của bạn",
+      success: true,
+    });
+  } catch (error) {
+    res.json({
+      mess: "Có lỗi xảy ra",
+      success: false,
+      error: error.message,
+    });
+  }
+};
+export const changeForgotPW=async(req,res)=>{
+  try {
+    let {emailForgotPass,newPass}=req.body;
+    if (emailForgotPass) {
+      emailForgotPass = emailForgotPass.trim().toLowerCase();
+    }
+    const client = await clientEntity.findOne({ email: emailForgotPass });
+    if (!client) {
+      return res.json({ mess: "Không tìm thấy tài khoản", success: false });
+    }
+    const salt = await bcrypt.genSalt(10);
+    newPass = await bcrypt.hash(newPass, salt);
+    client.password=newPass;
+    client.save();
+    res.json({mess:"Tạo mật khẩu mới thành công\nĐã chuyển qua form đăng nhập",success:true});
+  } catch (error) {
+    res.json({mess:"Tạo mật khẩu mới thất bại",success:false,error:error.message});
+  }
+}

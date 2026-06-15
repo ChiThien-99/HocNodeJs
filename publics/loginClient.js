@@ -58,6 +58,7 @@ formRegisterClient.addEventListener("submit", (e) => {
       if (success) {
         alert("Thông báo", mess, "#80a710");
         document.getElementById("myModal").style.display = "block";
+        startCountdown2();
       } else {
         if (error) {
           alert("Lỗi", `${mess}\n${error}`, "red");
@@ -107,6 +108,54 @@ formOtp.addEventListener("submit", (e) => {
       alert("Lỗi", error, "red");
     });
 });
+let timeLeft=300;
+let timeInterval=null;
+const countdownTimer2=document.getElementById("countdownTimer");
+const btnResendOtp=document.getElementById("btnResendOtp");
+function startCountdown2(){
+  btnResendOtp.style.display="none";
+  timeLeft=300;
+  if (timeInterval) {
+    clearInterval(timeInterval);
+  }
+  timeInterval=setInterval(() => {
+    timeLeft--;
+    let minutes=Math.floor(timeLeft/60);
+    let seconds=timeLeft%60;
+    minutes=minutes<10?"0"+minutes:minutes;
+    seconds=seconds<10?"0"+seconds:seconds;
+    countdownTimer2.innerText=`${minutes}:${seconds}`;
+    if (timeLeft<=0) {
+      clearInterval(timeInterval);
+      btnResendOtp.style.display="inline-block";
+    }
+  }, 1000);
+}
+btnResendOtp.addEventListener("click",(e)=>{
+  e.preventDefault();
+  const email=document.getElementById("emailClient").value.trim().toLowerCase();
+  if (!email) {
+    alert("Lỗi","Không tìm thấy email","red");
+    return;
+  }
+  fetch("/loginClient/resendOtp",{
+    method:"POST",
+    headers:{"Content-Type":"application/json;charset=UTF-8"},
+    body:JSON.stringify({email}),
+  })
+  .then(res=>res.json())
+  .then(({mess,success,error})=>{
+    if (success) {
+      alert("Thông báo",mess,"#80a710");
+      startCountdown2();
+    } else {
+      alert("Lỗi",`${mess}\n${error}`,"red");
+    }
+  })
+  .catch((error)=>{
+    alert("Lỗi",error,"red");
+  });
+})
 new Cleave("#dateBirthClient", {
   date: true,
   delimiter: "/",
@@ -277,3 +326,104 @@ axios.interceptors.response.use(
     return Promise.reject(error);
   },
 );
+document.getElementById("btnForgotPass").addEventListener("click",(e)=>{
+  e.preventDefault();
+  document.getElementById("loginForm").style.display="none";
+  document.getElementById("formForgotPass").style.display="grid";
+});
+document.getElementById("btnBackLoginFrom").addEventListener("click",(e)=>{
+  e.preventDefault();
+  document.getElementById("loginForm").style.display="grid";
+  document.getElementById("formForgotPass").style.display="none";
+})
+
+document.getElementById("btnHandleForgotPass").addEventListener("click",(e)=>{
+  e.preventDefault();
+  let divFirstForgotPW=window.getComputedStyle(document.getElementById("divFirstForgotPW")).display ;
+  let divSecondForgotPW=window.getComputedStyle(document.getElementById("divSecondForgotPW")).display;
+  let divThridForgotPW=window.getComputedStyle(document.getElementById("divThridForgotPW")).display;
+  if (divFirstForgotPW==="block"&&divSecondForgotPW==="none"&&divThridForgotPW==="none") {
+    const emailForgotPass=document.getElementById("emailForgotPass").value;
+    fetch("/loginClient/checkMailForgotPW",{
+      method:"POST",
+      headers:{"Content-Type":"application/json;charset=UTF-8"},
+      body:JSON.stringify({emailForgotPass}),
+    })
+    .then(res=>res.json())
+    .then(({mess,success,error})=>{
+      if (success) {
+        alert("Thông báo",mess,"#80a710");
+        document.getElementById("emailForgotPass").disabled=true;
+        document.getElementById("divSecondForgotPW").style.display="block";
+      } else {
+        alert("Lỗi",`${mess}\n${error}`,"red");
+      }
+    })
+    .catch((error)=>{
+      alert("Lỗi",error,"red");
+    });
+  }
+  if (divFirstForgotPW==="block"&&divSecondForgotPW==="block"&&divThridForgotPW==="none") {
+    const emailForgotPass=document.getElementById("emailForgotPass").value;
+    const otpCode=document.getElementById("otpForgotPass").value;
+    fetch("/loginClient/checkOtpForgotPW",{
+      method:"POST",
+      headers:{"Content-Type":"application/json;charset=UTF-8"},
+      body:JSON.stringify({emailForgotPass,otpCode}),
+    })
+    .then(res=>res.json())
+    .then(({mess,success,error})=>{
+      if (success) {
+        alert("Thông báo",mess,"#80a710");
+        document.getElementById("otpForgotPass").disabled=true;
+        document.getElementById("divThridForgotPW").style.display="block";
+        document.getElementById("btnHandleForgotPass").innerText="Thay đổi";
+      } else {
+        alert("Lỗi",`${mess}\n${error}`,"red");
+      }
+    })
+    .catch((error)=>{
+      alert("Lỗi",error,"red");
+    });
+  }
+  if (divFirstForgotPW==="block"&&divSecondForgotPW==="block"&&divThridForgotPW==="block") {
+    const emailForgotPass=document.getElementById("emailForgotPass").value;
+    const newPass=document.getElementById("newPass").value;
+    fetch("/loginClient/changeForgotPW",{
+      method:"POST",
+      headers:{"Content-Type":"application/json;charset=UTF-8"},
+      body:JSON.stringify({emailForgotPass,newPass}),
+    })
+    .then(res=>res.json())
+    .then(({mess,success,error})=>{
+      if (success) {
+        alert("Thông báo",mess,"#80a710");
+        document.getElementById("loginForm").style.display="grid";
+        document.getElementById("formForgotPass").style.display="none";
+        document.getElementById("formForgotPass").reset();
+        document.getElementById("emailForgotPass").disabled=false;
+        document.getElementById("otpForgotPass").disabled=false;
+        document.getElementById("divSecondForgotPW").style.display="none";
+        document.getElementById("divThridForgotPW").style.display="none";
+        document.getElementById("btnHandleForgotPass").innerText="Tiếp tục";
+      } else {
+        alert("Lỗi",`${mess}\n${error}`,"red");
+      }
+    })
+    .catch((error)=>{
+      alert("Lỗi",error,"red");
+    });
+  }
+})
+const newPass = document.getElementById("newPass");
+const toggleNewPW = document.getElementById("toggleNewPW");
+toggleNewPW.addEventListener("click", function (e) {
+  e.preventDefault();
+  const type =
+    newPass.getAttribute("type") === "password" ? "text" : "password";
+  newPass.setAttribute("type", type);
+  this.innerHTML =
+    type === "password"
+      ? "<i class='fa-solid fa-eye'></i>"
+      : "<i class='fa-solid fa-eye-slash'></i>";
+});
