@@ -16,7 +16,11 @@ const appSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  price:{
+  priceLE:{
+    type:String,
+    required:true,
+  },
+  priceSI:{
     type:String,
     required:true,
   },

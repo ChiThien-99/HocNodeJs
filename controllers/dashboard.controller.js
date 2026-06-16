@@ -594,18 +594,22 @@ export const deleteFuncApp = async (req, res) => {
 };
 export const addApp = async (req, res) => {
   try {
-    const { nameApp, infoApp, funcApp,optionPrice,priceActualApp } = req.body;
-    let price="";
+    const { nameApp, infoApp, funcApp,optionPrice,priceLEActualApp,priceSIActualApp } = req.body;
+    let priceLE="";
+    let priceSI="";
     if (optionPrice==="freeApp") {
-      price="Miễn phí";
+      priceLE="Miễn phí";
+      priceSI="Miễn phí";
     } else {
-      price=priceActualApp;
+      priceLE=priceLEActualApp;
+      priceSI=priceSIActualApp;
     }
     const newApp = await appEntity.create({
       image: req.file.path,
       cloudinary_id: req.file.filename,
       name: nameApp,
-      price:price,
+      priceLE:priceLE,
+      priceSI:priceSI,
       info: infoApp,
       func: funcApp,
     });

@@ -840,7 +840,7 @@ header div:last-child #containerUserLogin #infoUserLogin #groupBtnUserLogin #btn
   height: 2rem;
   margin-bottom: 0.5rem;
 }
-#mainDashboard #contentDashboard #softwareMng #priceApp {
+#mainDashboard #contentDashboard #softwareMng #divPriceLEApp, #mainDashboard #contentDashboard #softwareMng #divPriceSIApp {
   display: none;
 }
 #mainDashboard #contentDashboard #softwareMng #funcApp {

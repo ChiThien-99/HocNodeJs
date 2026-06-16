@@ -154,10 +154,10 @@
               <div class="app">
               <div>
                 <img src="<%=app.image%>" alt="app">
-                <%if(app.price==="Miễn phí"){%>
+                <%if(app.priceLE==="Miễn phí"){%>
                   <p>Miễn phí</p>
                 <%}else{%>
-                  <p><%=Number(app.price).toLocaleString('vi-VN')%>đ%></p>
+                  <p><%=Number(app.priceLE).toLocaleString('vi-VN')%>đ%></p>
                   <p>Dùng thử 30 ngày</p>
                 <%}%>
               </div>

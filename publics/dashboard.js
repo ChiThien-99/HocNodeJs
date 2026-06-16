@@ -106,16 +106,36 @@ socket.on("update-app", (data) => {
   if (existRow) {
     existRow.cells[0].innerText = data.name;
     existRow.cells[1].innerText = data.func;
-    existRow.cells[2].innerText = new Date(data.createAt).toLocaleString(
+    if (data.priceLE==="Miễn phí"&&data.priceSI==="Miễn phí") {
+      existRow.cells[2].innerText = data.priceLE;
+      existRow.cells[3].innerText = data.priceSI;
+    } else {
+      existRow.cells[2].innerText = `${Number(data.priceLE).toLocaleString('vi-VN')}đ`;
+      existRow.cells[3].innerText = `${Number(data.priceSI).toLocaleString('vi-VN')}đ`;
+    }
+    existRow.cells[4].innerText = new Date(data.createAt).toLocaleString(
       "vi-VN",
     );
   } else {
+    let price="";
+    if (data.priceLE==="Miễn phí"&&data.priceSI==="Miễn phí") {
+      price=`
+      <td>${data.priceLE}</td>
+      <td>${data.priceSI}</td>
+      `
+    } else {
+      price=`
+      <td>${Number(data.priceLE).toLocaleString('vi-VN')}đ</td>
+      <td>${Number(data.priceSI).toLocaleString('vi-VN')}đ</td>
+      `
+    }
     document.querySelector("#tableApp tbody").insertAdjacentHTML(
       "afterbegin",
       `
     <tr data-idapp="${data._id}">
       <td>${data.name}</td>
       <td>${data.func}</td>
+      ${price}
       <td>${new Date(data.createAt).toLocaleString("vi-VN")}</td>
       <td>
         <div class="btnGroup">
@@ -1128,21 +1148,42 @@ quillEditor.forEach((element, index) => {
 const optionPrice=document.getElementById("optionPrice");
 optionPrice.addEventListener("change",()=>{
   if (optionPrice.value==="freeApp") {
-    document.getElementById("priceApp").value="";
-    document.getElementById("priceApp").style.display="none";
+    document.getElementById("priceLEApp").value="";
+    document.getElementById("divPriceLEApp").style.display="none";
+    document.getElementById("priceSIApp").value="";
+    document.getElementById("divPriceSIApp").style.display="none";
   } else {
-    document.getElementById("priceApp").style.display="inline-block";
+    document.getElementById("divPriceLEApp").style.display="block";
+    document.getElementById("divPriceSIApp").style.display="block";
   }
 })
-const priceApp = document.getElementById("priceApp");
-const priceActualApp = document.getElementById("priceActualApp");
-priceApp.addEventListener("input", (e) => {
+const priceSIApp = document.getElementById("priceSIApp");
+const priceSIActualApp = document.getElementById("priceSIActualApp");
+priceSIApp.addEventListener("input", (e) => {
   let rawValue = e.target.value.replace(/\D/g, "");
-  priceActualApp.value = rawValue;
+  priceSIActualApp.value = rawValue;
   if (rawValue) {
     e.target.value = Number(rawValue).toLocaleString("vi-VN");
   } else {
     e.target.value = "";
+  }
+});
+const priceLEApp = document.getElementById("priceLEApp");
+const priceLEActualApp = document.getElementById("priceLEActualApp");
+priceLEApp.addEventListener("input", (e) => {
+  let rawValue = e.target.value.replace(/\D/g, "");
+  priceLEActualApp.value = rawValue;
+  if (rawValue) {
+    e.target.value = Number(rawValue).toLocaleString("vi-VN");
+  } else {
+    e.target.value = "";
+  }
+  let rawValueSI=rawValue*0.8;
+  priceSIActualApp.value=rawValueSI;
+  if (rawValueSI) {
+    priceSIApp.value=Number(rawValueSI).toLocaleString("vi-VN");
+  } else {
+    priceSIApp.value="";
   }
 });
 const formApp = document.getElementById("formApp");

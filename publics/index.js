@@ -27,11 +27,11 @@ const socket = io();
 socket.on("update-app", (newApp) => {
   const existApp = document.querySelector(`a[data-idApp="${newApp._id}"]`);
   let price="";
-    if (newApp.price==="Miễn phí") {
+    if (newApp.priceLE==="Miễn phí") {
       price=`<p>Miễn phí</p>`;
     } else {
       price=
-      `<p>${Number(newApp.price).toLocaleString('vi-VN')}đ%></p>
+      `<p>${Number(newApp.priceLE).toLocaleString('vi-VN')}đ</p>
       <p>Dùng thử 30 ngày</p>`
     }
   if (existApp) {

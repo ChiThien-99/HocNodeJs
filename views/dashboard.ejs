@@ -446,8 +446,16 @@
                 <option value="freeApp">Miễn phí</option>
                 <option value="hasPriceApp">Giá</option>
               </select><br>
-              <input type="text" name="priceApp" id="priceApp"><br>
-              <input type="hidden" name="priceActualApp" id="priceActualApp">
+              <div id="divPriceLEApp">
+              <label for="priceLEApp">Giá lẻ</label><br>
+              <input type="text" name="priceLEApp" id="priceLEApp"><br>
+              <input type="hidden" name="priceLEActualApp" id="priceLEActualApp">
+              </div>
+              <div id="divPriceSIApp">
+              <label for="priceSIApp">Giá sỉ</label><br>
+              <input type="text" name="priceSIApp" id="priceSIApp"><br>
+              <input type="hidden" name="priceSIActualApp" id="priceSIActualApp">
+              </div>
               <label for="funcApp">Chức năng</label><br>
               <select name="funcApp" id="funcApp" multiple>
                 <%listFuncApp.forEach((funcApp)=>{%>
@@ -464,7 +472,8 @@
                 <tr>
                 <th>Tên phần mềm</th>
                 <th>Chức năng</th>
-                <th>Giá</th>
+                <th>Giá lẻ</th>
+                <th>Giá sỉ</th>
                 <th>Ngày tạo</th>
                 <th>Thao tác</th>
               </tr>
@@ -474,6 +483,13 @@
               <tr data-idapp="<%=app._id%>">
                 <td><%=app.name%></td>
                 <td><%=app.func%></td>
+                <%if(app.priceLE==="Miễn phí"&&app.priceSI==="Miễn phí"){%>
+                  <td><%=app.priceLE%></td>
+                  <td><%=app.priceSI%></td>
+                <%}else{%>
+                  <td><%=Number(app.priceLE).toLocaleString('vi-VN')%>đ</td>
+                  <td><%=Number(app.priceSI).toLocaleString('vi-VN')%>đ</td>
+                <%}%>
                 <td><%=new Date(app.createAt).toLocaleString("vi-VN")%></td>
                 <td>
                   <div class="btnGroup">
