@@ -24,40 +24,7 @@ import { jwtDecode } from "https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/+esm";
 //   document.cookie = "accessToken2=;path=/;max-age=0;SameSite=none;Secure";
 // })
 const socket = io();
-socket.on("update-app", (newApp) => {
-  const existApp = document.querySelector(`a[data-idApp="${newApp._id}"]`);
-  let price="";
-    if (newApp.priceLE==="Miễn phí") {
-      price=`<p>Miễn phí</p>`;
-    } else {
-      price=
-      `<p>${Number(newApp.priceLE).toLocaleString('vi-VN')}đ</p>
-      <p>Dùng thử 30 ngày</p>`
-    }
-  if (existApp) {
-    existApp.querySelector(".app img").src = newApp.image;
-    existApp.querySelector(".app img").after(price);
-    existApp.querySelector(".app .app-content h4").innerText = newApp.name;
-    existApp.querySelector(".app .app-content div").innerHTML =
-      newApp.info.replace(/&nbsp;|&#160;/gi, " ");
-  } else {
-    const newAppHTML = `
-    <a href="/detailApp/${newApp._id}" target="_blank" data-idApp="${newApp._id}">
-      <div class="app">
-        <div>
-          <img src="${newApp.image}" alt="app">
-          ${price}
-        </div>
-        <div class="app-content">
-          <h4>${newApp.name}</h4>
-          <p>${newApp.info.replace(/&nbsp;|&#160;/gi," ")}</p>
-        </div>
-      </div>
-    </a>
-  `;
-  document.getElementById("listApp").insertAdjacentHTML("afterbegin", newAppHTML);
-  }
-});
+
 async function verifySession() {
   try {
     const response = await authFetch2("/api/auth/me2");
@@ -84,49 +51,54 @@ function getUserFromCookie() {
   const token = getCookie("accessToken2");
   if (token) {
     try {
-      document.querySelector("#navMenu #groupBtn").style.display="none";
-      document.querySelector("#navMenu #containerUserLogin").style.display="block";
+      document.querySelector("#navMenu #groupBtn").style.display = "none";
+      document.querySelector("#navMenu #containerUserLogin").style.display =
+        "block";
       const decodedUser = jwtDecode(token);
-      document.querySelector("#infoUserLogin h3").innerText = decodedUser.fullname;
+      document.querySelector("#infoUserLogin h3").innerText =
+        decodedUser.fullname;
       return decodedUser;
     } catch (error) {
       console.error(`Token không hợp lệ hoặc đã bị can thiệp ${error}`);
       return null;
     }
   } else {
-    document.querySelector("#navMenu #groupBtn").style.display="block";
-    document.querySelector("#navMenu #containerUserLogin").style.display="none";
+    document.querySelector("#navMenu #groupBtn").style.display = "block";
+    document.querySelector("#navMenu #containerUserLogin").style.display =
+      "none";
     return null;
   }
 }
 window.onload = getUserFromCookie;
-document.getElementById("btnLogoutUserLogin").addEventListener("click",(e)=>{
+document.getElementById("btnLogoutUserLogin").addEventListener("click", (e) => {
   e.preventDefault();
-  fetch("/api/auth/logout",{
-    method:"POST",
-    credentials:"include",
+  fetch("/api/auth/logout", {
+    method: "POST",
+    credentials: "include",
   })
-  .then(res=>res.json())
-  .then(({mess,error,success})=>{
-    if (success) {
+    .then((res) => res.json())
+    .then(({ mess, error, success }) => {
+      if (success) {
+        setAccessToken2(null);
+        const currentPath = window.location.pathname + window.location.search;
+        window.location.href = `/index/loginClient?headerActive=loginClient&redirect=${encodeURIComponent(currentPath)}`;
+      } else {
+        alert("Lỗi", `${mess}\n${error}`, red);
+      }
+    })
+    .catch((error) => {
+      alert("Lỗi", error, red);
       setAccessToken2(null);
       const currentPath = window.location.pathname + window.location.search;
       window.location.href = `/index/loginClient?headerActive=loginClient&redirect=${encodeURIComponent(currentPath)}`;
-    } else {
-      alert("Lỗi",`${mess}\n${error}`,red);
-    }
-  })
-  .catch((error)=>{
-    alert("Lỗi",error,red);
-    setAccessToken2(null);
-    const currentPath = window.location.pathname + window.location.search;
-    window.location.href = `/index/loginClient?headerActive=loginClient&redirect=${encodeURIComponent(currentPath)}`;
-  });
+    });
 });
-document.getElementById("btnDashboardUserLogin").addEventListener("click",(e)=>{
-  e.preventDefault();
-  window.open("/dashboardClient","_blank");
-})
+document
+  .getElementById("btnDashboardUserLogin")
+  .addEventListener("click", (e) => {
+    e.preventDefault();
+    window.open("/dashboardClient", "_blank");
+  });
 document.getElementById("btnRegisterClient").addEventListener("click", () => {
   const currentPath = window.location.pathname + window.location.search;
   window.location.href = `/index/loginClient?headerActive=registerClient&redirect=${encodeURIComponent(currentPath)}`;

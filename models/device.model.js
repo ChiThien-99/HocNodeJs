@@ -22,7 +22,11 @@ const deviceSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  price: {
+  priceLE: {
+    type: Number,
+    required: true,
+  },
+  priceSI: {
     type: Number,
     required: true,
   },

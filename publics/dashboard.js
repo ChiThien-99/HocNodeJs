@@ -35,9 +35,10 @@ socket.on("update-device", (data) => {
   const existRow = document.querySelector(`tr[data-rowId="${data._id}"]`);
   if (existRow) {
     existRow.cells[0].innerText = data.name;
-    existRow.cells[1].innerText = `${data.price.toLocaleString("vi-VN")}đ`;
-    existRow.cells[2].innerText = data.func;
-    existRow.cells[3].innerText = new Date(data.createAt).toLocaleString(
+    existRow.cells[1].innerText = `${data.priceLE.toLocaleString("vi-VN")}đ`;
+    existRow.cells[2].innerText = `${data.priceSI.toLocaleString("vi-VN")}đ`;
+    existRow.cells[3].innerText = data.func;
+    existRow.cells[4].innerText = new Date(data.createAt).toLocaleString(
       "vi-VN",
     );
   } else {
@@ -46,7 +47,8 @@ socket.on("update-device", (data) => {
       `
       <tr data-rowId="${data._id}">
         <td>${data.name}</td>
-        <td>${data.price.toLocaleString("vi-VN")} đ</td>
+        <td>${data.priceLE.toLocaleString("vi-VN")}đ</td>
+        <td>${data.priceSI.toLocaleString("vi-VN")}đ</td>
         <td>${data.func}</td>
         <td>${new Date(data.createAt).toLocaleString("vi-VN")}</td>
         <td>
@@ -106,28 +108,28 @@ socket.on("update-app", (data) => {
   if (existRow) {
     existRow.cells[0].innerText = data.name;
     existRow.cells[1].innerText = data.func;
-    if (data.priceLE==="Miễn phí"&&data.priceSI==="Miễn phí") {
+    if (data.priceLE === "Miễn phí" && data.priceSI === "Miễn phí") {
       existRow.cells[2].innerText = data.priceLE;
       existRow.cells[3].innerText = data.priceSI;
     } else {
-      existRow.cells[2].innerText = `${Number(data.priceLE).toLocaleString('vi-VN')}đ`;
-      existRow.cells[3].innerText = `${Number(data.priceSI).toLocaleString('vi-VN')}đ`;
+      existRow.cells[2].innerText = `${Number(data.priceLE).toLocaleString("vi-VN")}đ`;
+      existRow.cells[3].innerText = `${Number(data.priceSI).toLocaleString("vi-VN")}đ`;
     }
     existRow.cells[4].innerText = new Date(data.createAt).toLocaleString(
       "vi-VN",
     );
   } else {
-    let price="";
-    if (data.priceLE==="Miễn phí"&&data.priceSI==="Miễn phí") {
-      price=`
+    let price = "";
+    if (data.priceLE === "Miễn phí" && data.priceSI === "Miễn phí") {
+      price = `
       <td>${data.priceLE}</td>
       <td>${data.priceSI}</td>
-      `
+      `;
     } else {
-      price=`
-      <td>${Number(data.priceLE).toLocaleString('vi-VN')}đ</td>
-      <td>${Number(data.priceSI).toLocaleString('vi-VN')}đ</td>
-      `
+      price = `
+      <td>${Number(data.priceLE).toLocaleString("vi-VN")}đ</td>
+      <td>${Number(data.priceSI).toLocaleString("vi-VN")}đ</td>
+      `;
     }
     document.querySelector("#tableApp tbody").insertAdjacentHTML(
       "afterbegin",
@@ -375,8 +377,10 @@ socket.on("delete-notify", (data) => {
     }
   }
 });
-socket.on("update-problem",(data)=>{
-  document.querySelector("#tableProblem tbody").insertAdjacentHTML("afterbegin",`
+socket.on("update-problem", (data) => {
+  document.querySelector("#tableProblem tbody").insertAdjacentHTML(
+    "afterbegin",
+    `
     <tr data-idProblem="${data._id}">
       <td>${data.name}</td>
       <td>${data.content}</td>
@@ -386,9 +390,10 @@ socket.on("update-problem",(data)=>{
         <button type="button" class="btnDeleteProblem" data-idProblem="${data._id}">Xóa</button>
       </td>
     </tr>
-  `)
-})
-socket.on("delete-problem",(data)=>{
+  `,
+  );
+});
+socket.on("delete-problem", (data) => {
   if (data && data._id) {
     const rowToDelete = document.querySelector(
       `tr[data-idProblem="${data._id}"]`,
@@ -397,7 +402,7 @@ socket.on("delete-problem",(data)=>{
       rowToDelete.remove();
     }
   }
-})
+});
 async function verifySession() {
   try {
     const response = await authFetch("/api/auth/me");
@@ -1145,18 +1150,18 @@ quillEditor.forEach((element, index) => {
   });
   quillInstances.push(quill);
 });
-const optionPrice=document.getElementById("optionPrice");
-optionPrice.addEventListener("change",()=>{
-  if (optionPrice.value==="freeApp") {
-    document.getElementById("priceLEApp").value="";
-    document.getElementById("divPriceLEApp").style.display="none";
-    document.getElementById("priceSIApp").value="";
-    document.getElementById("divPriceSIApp").style.display="none";
+const optionPrice = document.getElementById("optionPrice");
+optionPrice.addEventListener("change", () => {
+  if (optionPrice.value === "freeApp") {
+    document.getElementById("priceLEApp").value = "";
+    document.getElementById("divPriceLEApp").style.display = "none";
+    document.getElementById("priceSIApp").value = "";
+    document.getElementById("divPriceSIApp").style.display = "none";
   } else {
-    document.getElementById("divPriceLEApp").style.display="block";
-    document.getElementById("divPriceSIApp").style.display="block";
+    document.getElementById("divPriceLEApp").style.display = "block";
+    document.getElementById("divPriceSIApp").style.display = "block";
   }
-})
+});
 const priceSIApp = document.getElementById("priceSIApp");
 const priceSIActualApp = document.getElementById("priceSIActualApp");
 priceSIApp.addEventListener("input", (e) => {
@@ -1178,12 +1183,12 @@ priceLEApp.addEventListener("input", (e) => {
   } else {
     e.target.value = "";
   }
-  let rawValueSI=rawValue*0.8;
-  priceSIActualApp.value=rawValueSI;
+  let rawValueSI = rawValue * 0.8;
+  priceSIActualApp.value = rawValueSI;
   if (rawValueSI) {
-    priceSIApp.value=Number(rawValueSI).toLocaleString("vi-VN");
+    priceSIApp.value = Number(rawValueSI).toLocaleString("vi-VN");
   } else {
-    priceSIApp.value="";
+    priceSIApp.value = "";
   }
 });
 const formApp = document.getElementById("formApp");
@@ -1269,6 +1274,7 @@ document
             } else {
               console.error("Biến quill chưa được khởi tạo");
             }
+            document.getElementById("optionPrice").value = "hasPriceApp";
             document.getElementById("btnApp").value = "Cập nhật";
             document.getElementById("btnDeleteImgApp").style.display =
               "inline-block";
@@ -1528,15 +1534,33 @@ formDevice.addEventListener("submit", (e) => {
       });
   }
 });
-const priceDevice = document.getElementById("priceDevice");
-const priceActual = document.getElementById("priceActual");
-priceDevice.addEventListener("input", (e) => {
+const priceSIDevice = document.getElementById("priceSIDevice");
+const priceSIDeviceActual = document.getElementById("priceSIDeviceActual");
+priceSIDevice.addEventListener("input", (e) => {
   let rawValue = e.target.value.replace(/\D/g, "");
-  priceActual.value = rawValue;
+  priceSIDeviceActual.value = rawValue;
   if (rawValue) {
     e.target.value = Number(rawValue).toLocaleString("vi-VN");
   } else {
     e.target.value = "";
+  }
+});
+const priceLEDevice = document.getElementById("priceLEDevice");
+const priceLEDeviceActual = document.getElementById("priceLEDeviceActual");
+priceLEDevice.addEventListener("input", (e) => {
+  let rawValue = e.target.value.replace(/\D/g, "");
+  priceLEDeviceActual.value = rawValue;
+  if (rawValue) {
+    e.target.value = Number(rawValue).toLocaleString("vi-VN");
+  } else {
+    e.target.value = "";
+  }
+  let rawValueSI = rawValue * 0.8;
+  priceSIDeviceActual.value = rawValueSI;
+  if (rawValueSI) {
+    priceSIDevice.value = Number(rawValueSI).toLocaleString("vi-VN");
+  } else {
+    priceSIDevice.value = "";
   }
 });
 document
@@ -2278,45 +2302,51 @@ document
         });
     }
   });
-document.querySelector("#tableProblem tbody").addEventListener("click",async(e)=>{
-  const target=e.target;
-  if (target.classList.contains("btnWatchProblem")) {
-    const id=target.getAttribute("data-idProblem");
-    fetch(`/dashboard/getProblemById/${id}`,{
-      method:"GET",
-      headers:{"Content-Type":"application/json;charset=UTF-8"},
-    })
-    .then(res=>res.json())
-    .then(({data})=>{
-      document.getElementById("name").value=data.name;
-      document.getElementById("contentProblem").value=data.content;
-    })
-    .catch((error)=>{
-      alert("Lỗi",error,"red");
-    });
-  }
-  if (target.classList.contains("btnDeleteProblem")) {
-    const confirmDelete=await confirm("Thông báo","Bạn có chắc chắn xóa problem này","#1877f2");
-    if (confirmDelete) {
-    const id=target.getAttribute("data-idProblem");
-    fetch(`/dashboard/deleteProblemById/${id}`,{
-      method:"DELETE",
-      headers:{"Content-Type":"application/json;charset=UTF-8"},
-    })
-    .then(res=>res.json())
-    .then(({mess,success,error})=>{
-      if (success) {
-        alert("Thông báo",mess,"#80a710");
-      } else {
-        alert("Lỗi",`${mess}\n${error}`,"red");
-      }
-    })
-    .catch((error)=>{
-      alert("Lỗi",error,"red");
-    });
+document
+  .querySelector("#tableProblem tbody")
+  .addEventListener("click", async (e) => {
+    const target = e.target;
+    if (target.classList.contains("btnWatchProblem")) {
+      const id = target.getAttribute("data-idProblem");
+      fetch(`/dashboard/getProblemById/${id}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json;charset=UTF-8" },
+      })
+        .then((res) => res.json())
+        .then(({ data }) => {
+          document.getElementById("name").value = data.name;
+          document.getElementById("contentProblem").value = data.content;
+        })
+        .catch((error) => {
+          alert("Lỗi", error, "red");
+        });
     }
-  }
-})
+    if (target.classList.contains("btnDeleteProblem")) {
+      const confirmDelete = await confirm(
+        "Thông báo",
+        "Bạn có chắc chắn xóa problem này",
+        "#1877f2",
+      );
+      if (confirmDelete) {
+        const id = target.getAttribute("data-idProblem");
+        fetch(`/dashboard/deleteProblemById/${id}`, {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json;charset=UTF-8" },
+        })
+          .then((res) => res.json())
+          .then(({ mess, success, error }) => {
+            if (success) {
+              alert("Thông báo", mess, "#80a710");
+            } else {
+              alert("Lỗi", `${mess}\n${error}`, "red");
+            }
+          })
+          .catch((error) => {
+            alert("Lỗi", error, "red");
+          });
+      }
+    }
+  });
 function checkFormEmptiness(form, btn) {
   const formData = new FormData(form);
   let hasData = false;

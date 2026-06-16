@@ -594,22 +594,29 @@ export const deleteFuncApp = async (req, res) => {
 };
 export const addApp = async (req, res) => {
   try {
-    const { nameApp, infoApp, funcApp,optionPrice,priceLEActualApp,priceSIActualApp } = req.body;
-    let priceLE="";
-    let priceSI="";
-    if (optionPrice==="freeApp") {
-      priceLE="Miễn phí";
-      priceSI="Miễn phí";
+    const {
+      nameApp,
+      infoApp,
+      funcApp,
+      optionPrice,
+      priceLEActualApp,
+      priceSIActualApp,
+    } = req.body;
+    let priceLE = "";
+    let priceSI = "";
+    if (optionPrice === "freeApp") {
+      priceLE = "Miễn phí";
+      priceSI = "Miễn phí";
     } else {
-      priceLE=priceLEActualApp;
-      priceSI=priceSIActualApp;
+      priceLE = priceLEActualApp;
+      priceSI = priceSIActualApp;
     }
     const newApp = await appEntity.create({
       image: req.file.path,
       cloudinary_id: req.file.filename,
       name: nameApp,
-      priceLE:priceLE,
-      priceSI:priceSI,
+      priceLE: priceLE,
+      priceSI: priceSI,
       info: infoApp,
       func: funcApp,
     });
@@ -646,7 +653,17 @@ export const putUpdateApp = async (req, res) => {
       image = currentApp.image;
       cloudinary_id = currentApp.cloudinary_id;
     }
-    const { nameApp, infoApp, funcApp } = req.body;
+    const { nameApp, infoApp, funcApp, optionPrice, priceLEApp, priceSIApp } =
+      req.body;
+    let priceLE = "";
+    let priceSI = "";
+    if (optionPrice === "Miễn phí") {
+      priceLE = "Miễn phí";
+      priceSI = "Miễn phí";
+    } else {
+      priceLE = priceLEApp;
+      priceSI = priceSIApp;
+    }
     const updateApp = await appEntity.findByIdAndUpdate(
       id,
       {
@@ -654,6 +671,8 @@ export const putUpdateApp = async (req, res) => {
         cloudinary_id: cloudinary_id,
         name: nameApp,
         info: infoApp,
+        priceLE: priceLEApp,
+        priceSI: priceSIApp,
         func: funcApp,
       },
       { new: true },
@@ -780,7 +799,8 @@ export const addDevice = async (req, res) => {
       infoDevice,
       colorNames,
       colorIndex,
-      priceActual,
+      priceLEDeviceActual,
+      priceSIDeviceActual,
       funcDevice,
       instrucDevice,
     } = req.body;
@@ -821,7 +841,8 @@ export const addDevice = async (req, res) => {
       color: uploadedColorImages,
       name: nameDevice,
       info: infoDevice,
-      price: priceActual,
+      priceLE: priceLEDeviceActual,
+      priceSI: priceSIDeviceActual,
       func: funcDevice,
       instruction: instrucDevice,
     });
@@ -1295,19 +1316,23 @@ export const uploadImage = async (req, res) => {
     console.error(`Không lấy được url image blogs: ${error.message}`);
   }
 };
-export const getProblemById=async(req,res)=>{
-  const {id}=req.params;
-  const currentProblem=await problemEntity.findById(id);
-  res.json({data:currentProblem});
-}
-export const deleteProblemById=async(req,res)=>{
+export const getProblemById = async (req, res) => {
+  const { id } = req.params;
+  const currentProblem = await problemEntity.findById(id);
+  res.json({ data: currentProblem });
+};
+export const deleteProblemById = async (req, res) => {
   try {
-  const {id}=req.params;
-  const deleteProblem=await problemEntity.findByIdAndDelete(id);
-  const io = req.app.get("socketio");
-  io.emit("delete-problem", deleteProblem);
-  res.json({mess:"Xóa problem thành công",success:true});
+    const { id } = req.params;
+    const deleteProblem = await problemEntity.findByIdAndDelete(id);
+    const io = req.app.get("socketio");
+    io.emit("delete-problem", deleteProblem);
+    res.json({ mess: "Xóa problem thành công", success: true });
   } catch (error) {
-  res.json({mess:"Xóa problem thất bại",success:false,error:error.message});
+    res.json({
+      mess: "Xóa problem thất bại",
+      success: false,
+      error: error.message,
+    });
   }
-}
+};

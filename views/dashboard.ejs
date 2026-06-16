@@ -559,9 +559,12 @@
               </div>
               <button type="button" id="btnAddColor">Thêm màu</button>
               <button type="button" id="deleteImageColor">Xóa hình</button><br>
-              <label for="priceDevice">Giá thiết bị</label><br>
-              <input type="text" name="priceDevice" id="priceDevice"><br>
-              <input type="hidden" name="priceActual" id="priceActual">
+              <label for="priceDevice">Giá lẻ</label><br>
+              <input type="text" name="priceLEDevice" id="priceLEDevice"><br>
+              <input type="hidden" name="priceLEDeviceActual" id="priceLEDeviceActual">
+              <label for="priceDevice">Giá sỉ</label><br>
+              <input type="text" name="priceSIDevice" id="priceSIDevice"><br>
+              <input type="hidden" name="priceSIDeviceActual" id="priceSIDeviceActual">
               <label for="funcDevice">Chức năng</label><br>
               <select name="funcDevice" id="funcDevice" multiple>
                 <%listFuncDevice.forEach((funcDevice)=>{%>
@@ -579,7 +582,8 @@
                 <thead>
                 <tr>
                 <th>Tên thiết bị</th>
-                <th>Giá</th>
+                <th>Giá lẻ</th>
+                <th>Giá sỉ</th>
                 <th>Chức năng</th>
                 <th>Ngày tạo</th>
                 <th>Thao tác</th>
@@ -589,7 +593,8 @@
                    <%devices.forEach((device)=>{%>
               <tr data-rowId="<%=device._id%>">
                 <td><%=device.name%></td>
-                <td><%=device.price.toLocaleString('vi-VN')%>đ</td>
+                <td><%=device.priceLE.toLocaleString('vi-VN')%>đ</td>
+                <td><%=device.priceSI.toLocaleString('vi-VN')%>đ</td>
                 <td><%=device.func%></td>
                 <td><%=new Date(device.createAt).toLocaleString('vi-VN')%></td>
                 <td>
