@@ -23,6 +23,41 @@ import { jwtDecode } from "https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/+esm";
 // window.addEventListener("beforeunload",function(e){
 //   document.cookie = "accessToken2=;path=/;max-age=0;SameSite=none;Secure";
 // })
+const socket = io();
+socket.on("update-app", (newApp) => {
+  const existApp = document.querySelector(`a[data-idApp="${newApp._id}"]`);
+  let price="";
+    if (newApp.price==="Miễn phí") {
+      price=`<p>Miễn phí</p>`;
+    } else {
+      price=
+      `<p>${Number(newApp.price).toLocaleString('vi-VN')}đ%></p>
+      <p>Dùng thử 30 ngày</p>`
+    }
+  if (existApp) {
+    existApp.querySelector(".app img").src = newApp.image;
+    existApp.querySelector(".app img").after(price);
+    existApp.querySelector(".app .app-content h4").innerText = newApp.name;
+    existApp.querySelector(".app .app-content div").innerHTML =
+      newApp.info.replace(/&nbsp;|&#160;/gi, " ");
+  } else {
+    const newAppHTML = `
+    <a href="/detailApp/${newApp._id}" target="_blank" data-idApp="${newApp._id}">
+      <div class="app">
+        <div>
+          <img src="${newApp.image}" alt="app">
+          ${price}
+        </div>
+        <div class="app-content">
+          <h4>${newApp.name}</h4>
+          <p>${newApp.info.replace(/&nbsp;|&#160;/gi," ")}</p>
+        </div>
+      </div>
+    </a>
+  `;
+  document.getElementById("listApp").insertAdjacentHTML("afterbegin", newAppHTML);
+  }
+});
 async function verifySession() {
   try {
     const response = await authFetch2("/api/auth/me2");
@@ -47,7 +82,6 @@ function getCookie(name) {
 }
 function getUserFromCookie() {
   const token = getCookie("accessToken2");
-  console.log(token);
   if (token) {
     try {
       document.querySelector("#navMenu #groupBtn").style.display="none";
@@ -171,7 +205,7 @@ function resetTime() {
   startTime();
 }
 startTime();
-const socket = io();
+
 socket.on("update-carousel", (data) => {
   if (!Array.isArray(data)) {
     const currentCarousel = document.querySelector(

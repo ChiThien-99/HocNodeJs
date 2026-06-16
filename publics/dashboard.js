@@ -1125,6 +1125,26 @@ quillEditor.forEach((element, index) => {
   });
   quillInstances.push(quill);
 });
+const optionPrice=document.getElementById("optionPrice");
+optionPrice.addEventListener("change",()=>{
+  if (optionPrice.value==="freeApp") {
+    document.getElementById("priceApp").value="";
+    document.getElementById("priceApp").style.display="none";
+  } else {
+    document.getElementById("priceApp").style.display="inline-block";
+  }
+})
+const priceApp = document.getElementById("priceApp");
+const priceActualApp = document.getElementById("priceActualApp");
+priceApp.addEventListener("input", (e) => {
+  let rawValue = e.target.value.replace(/\D/g, "");
+  priceActualApp.value = rawValue;
+  if (rawValue) {
+    e.target.value = Number(rawValue).toLocaleString("vi-VN");
+  } else {
+    e.target.value = "";
+  }
+});
 const formApp = document.getElementById("formApp");
 formApp.addEventListener("input", () => {
   checkFormEmptiness(formApp, "btnCancelApp");

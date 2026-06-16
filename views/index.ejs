@@ -150,12 +150,18 @@
           </div>
           <div id="listApp">
             <%apps.forEach((app)=>{%>
-            <a href="/detailApp/<%=app._id%>" target="_blank">
+            <a href="/detailApp/<%=app._id%>" target="_blank" data-idApp="<%=app._id%>">
               <div class="app">
               <div>
                 <img src="<%=app.image%>" alt="app">
+                <%if(app.price==="Miễn phí"){%>
+                  <p>Miễn phí</p>
+                <%}else{%>
+                  <p><%=Number(app.price).toLocaleString('vi-VN')%>đ%></p>
+                  <p>Dùng thử 30 ngày</p>
+                <%}%>
               </div>
-              <div>
+              <div class="app-content">
                 <h4><%=app.name%></h4>
                 <p><%-app.info.replace(/&nbsp;|&#160;/gi," ")%></p>
               </div>

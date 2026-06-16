@@ -16,6 +16,10 @@ const appSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  price:{
+    type:String,
+    required:true,
+  },
   func: {
     type: Array,
     required: true,

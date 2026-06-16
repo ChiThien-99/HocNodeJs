@@ -441,6 +441,13 @@
               <label for="infoApp">Thông tin phần mềm</label><br>
               <div class="quill-editor"></div>
               <input type="hidden" name="infoApp" id="infoApp">
+              <label for="optionPrice">Giá</label><br>
+              <select name="optionPrice" id="optionPrice">
+                <option value="freeApp">Miễn phí</option>
+                <option value="hasPriceApp">Giá</option>
+              </select><br>
+              <input type="text" name="priceApp" id="priceApp"><br>
+              <input type="hidden" name="priceActualApp" id="priceActualApp">
               <label for="funcApp">Chức năng</label><br>
               <select name="funcApp" id="funcApp" multiple>
                 <%listFuncApp.forEach((funcApp)=>{%>
@@ -457,6 +464,7 @@
                 <tr>
                 <th>Tên phần mềm</th>
                 <th>Chức năng</th>
+                <th>Giá</th>
                 <th>Ngày tạo</th>
                 <th>Thao tác</th>
               </tr>
