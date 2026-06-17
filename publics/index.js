@@ -53,7 +53,7 @@ function getUserFromCookie() {
     try {
       document.querySelector("#navMenu #groupBtn").style.display = "none";
       document.querySelector("#navMenu #containerUserLogin").style.display =
-        "block";
+        "flex";
       const decodedUser = jwtDecode(token);
       document.querySelector("#infoUserLogin h3").innerText =
         decodedUser.fullname;
@@ -368,51 +368,58 @@ document.getElementById("formSubscribers").addEventListener("submit", (e) => {
       alert("Lỗi", error, "red");
     });
 });
-document.addEventListener("DOMContentLoaded",()=>{
+document.addEventListener("DOMContentLoaded", () => {
   const token = getCookie("accessToken2");
   if (!token) {
     return;
   }
-  const decodeToken=jwtDecode(token);
-  const idClient=decodeToken.id;
-  const listApp=document.querySelectorAll("#listApp #linkApp");
-  listApp.forEach((app)=>{
-    const idApp=app.getAttribute("data-idApp");
-    checkOrActivateTrial(idClient,idApp,app);
-    app.addEventListener("click",()=>{
-      checkOrActivateTrial(idClient,idApp,app,true);
-    })
-  })
-})
-function checkOrActivateTrial(idClient,idApp,app,isClientClick=false){
-  fetch("/index/softwareAccess",{
-    method:"POST",
-    headers:{"Content-Type":"application/json;charset=UTF-8"},
-    body:JSON.stringify({idClient,idApp,isClientClick}),
-  })
-  .then(res=>res.json())
-  .then(({success,daysLeft,isExpired,mess,error})=>{
-    if (success) {
-      if (isExpired) {
-        app.querySelector(".app div .statusTrial").innerText="Đã hết hạn dùng thử";
-        app.querySelector(".app div .statusTrial").style.backgroundColor="red";
-        if (isClientClick) {
-          alert("Thông báo","Bạn hết hạn dùng thử hãy mua để sử dụng thoải mái nhé","#80a710");
-        }
-      } else {
-        app.querySelector(".app div .statusTrial").innerHTML=`Dùng thử 30 ngày (Còn ${daysLeft} ngày)`;
-        if (isClientClick) {
-          window.open=`/detailApp/${idApp}`;
-        }
-      }
-    } else {
-      if (error) {
-        alert("Lỗi",`${mess}\n${error}`,"red");
-      } else {
-        alert("Lỗi",mess,"red");
-      }
-    }
+  const decodeToken = jwtDecode(token);
+  const idClient = decodeToken.id;
+  const listApp = document.querySelectorAll("#listApp #linkApp");
+  listApp.forEach((app) => {
+    const idApp = app.getAttribute("data-idApp");
+    checkOrActivateTrial(idClient, idApp, app);
+    app.addEventListener("click", () => {
+      checkOrActivateTrial(idClient, idApp, app, true);
+    });
   });
+});
+function checkOrActivateTrial(idClient, idApp, app, isClientClick = false) {
+  fetch("/index/softwareAccess", {
+    method: "POST",
+    headers: { "Content-Type": "application/json;charset=UTF-8" },
+    body: JSON.stringify({ idClient, idApp, isClientClick }),
+  })
+    .then((res) => res.json())
+    .then(({ success, daysLeft, isExpired, mess, error }) => {
+      if (success) {
+        if (isExpired) {
+          app.querySelector(".app div .statusTrial").innerText =
+            "Đã hết hạn dùng thử";
+          app.querySelector(".app div .statusTrial").style.backgroundColor =
+            "red";
+          if (isClientClick) {
+            alert(
+              "Thông báo",
+              "Bạn hết hạn dùng thử hãy mua để sử dụng thoải mái nhé",
+              "#80a710",
+            );
+          }
+        } else {
+          app.querySelector(".app div .statusTrial").innerHTML =
+            `Dùng thử 30 ngày (Còn ${daysLeft} ngày)`;
+          if (isClientClick) {
+            window.open = `/detailApp/${idApp}`;
+          }
+        }
+      } else {
+        if (error) {
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        } else {
+          alert("Lỗi", mess, "red");
+        }
+      }
+    });
 }
 document.addEventListener("DOMContentLoaded", () => {
   const device = document.querySelectorAll(".deviceIndex");

@@ -240,6 +240,9 @@ header div:last-child #containerUserLogin {
   text-align: end;
   display: none;
   position: relative;
+  flex-flow: row nowrap;
+  justify-content: end;
+  margin-right: 1rem;
 }
 header div:last-child #containerUserLogin #infoUserLogin {
   width: -moz-fit-content;
@@ -249,8 +252,6 @@ header div:last-child #containerUserLogin #infoUserLogin {
   flex-flow: column;
   align-items: start;
   padding-right: 1rem;
-  position: absolute;
-  right: 0;
 }
 header div:last-child #containerUserLogin #infoUserLogin h3 {
   margin: 0.5rem 0;
@@ -276,6 +277,28 @@ header div:last-child #containerUserLogin #infoUserLogin #groupBtnUserLogin #btn
   background-color: red;
   color: #fafafa;
   font-size: 0.7rem;
+}
+header div:last-child #containerUserLogin #bagShopping {
+  width: -moz-fit-content;
+  width: fit-content;
+  height: 4rem;
+  position: relative;
+}
+header div:last-child #containerUserLogin #bagShopping i {
+  font-size: 2.5rem;
+  color: #80a710;
+}
+header div:last-child #containerUserLogin #bagShopping span {
+  width: 1.1rem;
+  height: 1.1rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: none;
+  border-radius: 1000px;
+  background-color: #80a710;
+  color: #fafafa;
+  text-align: center;
 }
 
 #addTask {
@@ -840,7 +863,8 @@ header div:last-child #containerUserLogin #infoUserLogin #groupBtnUserLogin #btn
   height: 2rem;
   margin-bottom: 0.5rem;
 }
-#mainDashboard #contentDashboard #softwareMng #divPriceLEApp, #mainDashboard #contentDashboard #softwareMng #divPriceSIApp {
+#mainDashboard #contentDashboard #softwareMng #divPriceLEApp,
+#mainDashboard #contentDashboard #softwareMng #divPriceSIApp {
   display: none;
 }
 #mainDashboard #contentDashboard #softwareMng #funcApp {
