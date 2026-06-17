@@ -459,7 +459,7 @@
               <label for="funcApp">Chức năng</label><br>
               <select name="funcApp" id="funcApp" multiple>
                 <%listFuncApp.forEach((funcApp)=>{%>
-                <option value="<%=funcApp.name%>"><%=funcApp.name%></option>
+                <option value="<%=funcApp.name%>" data-optionFuncAppID="<%=funcApp._id%>"><%=funcApp.name%></option>
                 <%})%>
               </select><br>
               <input type="submit" id="btnApp" value="Tạo">
@@ -568,7 +568,7 @@
               <label for="funcDevice">Chức năng</label><br>
               <select name="funcDevice" id="funcDevice" multiple>
                 <%listFuncDevice.forEach((funcDevice)=>{%>
-                <option value="<%=funcDevice.name%>"><%=funcDevice.name%></option>
+                <option value="<%=funcDevice.name%>" data-optionFuncDVID="<%=funcDevice._id%>"><%=funcDevice.name%></option>
                 <%})%>
               </select><br>
               <label for="instrucDevice">Video hướng dẫn</label><br>

@@ -653,16 +653,16 @@ export const putUpdateApp = async (req, res) => {
       image = currentApp.image;
       cloudinary_id = currentApp.cloudinary_id;
     }
-    const { nameApp, infoApp, funcApp, optionPrice, priceLEApp, priceSIApp } =
+    const { nameApp, infoApp, funcApp, optionPrice, priceLEActualApp, priceSIActualApp } =
       req.body;
     let priceLE = "";
     let priceSI = "";
-    if (optionPrice === "Miễn phí") {
+    if (optionPrice === "freeApp") {
       priceLE = "Miễn phí";
       priceSI = "Miễn phí";
     } else {
-      priceLE = priceLEApp;
-      priceSI = priceSIApp;
+      priceLE = priceLEActualApp;
+      priceSI = priceSIActualApp;
     }
     const updateApp = await appEntity.findByIdAndUpdate(
       id,
@@ -671,8 +671,8 @@ export const putUpdateApp = async (req, res) => {
         cloudinary_id: cloudinary_id,
         name: nameApp,
         info: infoApp,
-        priceLE: priceLEApp,
-        priceSI: priceSIApp,
+        priceLE: priceLE,
+        priceSI: priceSI,
         func: funcApp,
       },
       { new: true },
@@ -879,7 +879,8 @@ export const putUpdateDevice = async (req, res) => {
     let {
       nameDevice,
       infoDevice,
-      priceActual,
+      priceLEDeviceActual,
+      priceSIDeviceActual,
       colorNames,
       colorIndex,
       funcDevice,
@@ -928,7 +929,8 @@ export const putUpdateDevice = async (req, res) => {
         name: nameDevice,
         info: infoDevice,
         color: color,
-        price: priceActual,
+        priceLE: priceLEDeviceActual,
+        priceSI:priceSIDeviceActual,
         func: funcDevice,
         instruction: instrucDevice,
       },

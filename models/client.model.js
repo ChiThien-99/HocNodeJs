@@ -33,6 +33,18 @@ const clientScheme = mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  softwareTrials:[
+    {
+      softwareId:{
+        type:String,
+        required:true,
+      },
+      startDate:{
+        type:Date,
+        default:Date.now,
+      },
+    }
+  ]
 });
 export const clientEntity = mongoose.model(
   "clientEntity",

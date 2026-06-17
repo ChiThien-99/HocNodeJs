@@ -18,3 +18,7 @@ indexRouter.post(
   validateSubscribers,
   indexController.postSubscribers,
 );
+indexRouter.post(
+  `${prefix}/softwareAccess`,
+  indexController.handleSoftwareAccess,
+);

@@ -8,6 +8,7 @@ import { categoryblogsEntity } from "../models/categoryblogs.model.js";
 import { blogsEntity } from "../models/blogs.model.js";
 import { problemEntity } from "../models/problem.model.js";
 import { subscribersEntity } from "../models/subscribers.model.js";
+import { clientEntity } from "../models/client.model.js";
 export const getIndex = async (req, res) => {
   const carousels = await carouselEntity.find().sort("order");
   const notifys = await notifyEntity.find().sort("-createAt");
@@ -117,3 +118,42 @@ export const loginClient = (req, res) => {
   console.log(headerActive);
   res.render("loginClient.ejs", { headerActive });
 };
+export const handleSoftwareAccess=async(req,res)=>{
+  try {
+    const {idClient,idApp,isClientClick}=req.body;
+  if (!idClient&&!idApp) {
+    return res.json({mess:"Không nhận được idClient và idApp",success:false});
+  }
+  const client=await clientEntity.findById(idClient);
+  if (!client) {
+    return res.json({mess:"Không tìm được client từ id",success:false});
+  }
+  const trialInfo=client.softwareTrials.find(item=>item.softwareId===idApp);
+  const trialDuration=30;
+  let daysLeft=trialDuration;
+  if (!trialInfo) {
+    if (isClientClick) {
+    const newTrial={
+      softwareId:idApp,
+      startDate:new Date(),
+    }
+    client.softwareTrials.push(newTrial);
+    await client.save();
+    }
+  daysLeft=trialDuration;
+  } else {
+    const nowDate=new Date();
+    const startDate=new Date(trialInfo.startDate);
+    const timeDiff=nowDate.getTime()-startDate.getTime();
+    const daysUsed=Math.floor(timeDiff/(1000*60*60*24));
+    daysLeft=trialDuration-daysUsed;
+    if (daysLeft<0) {
+      daysLeft=0;
+    }
+  }
+  res.json({success:true,daysLeft:daysLeft,isExpired:daysLeft<=0})
+  } catch (error) {
+  res.json({success:false,mess:"Lỗi không xử lý kết nối phần mềm",error:error.message});
+  }
+  
+}

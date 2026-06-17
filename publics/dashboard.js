@@ -22,6 +22,15 @@ socket.on("update-funcdevice", (data) => {
       `,
     );
   }
+  const existOption=document.querySelector(`option[data-optionFuncDVID="${data._id}"]`);
+  if (existOption) {
+    existOption.value=data.name;
+    existOption.innerText=data.name;
+  } else {
+    document.getElementById("funcDevice").insertAdjacentHTML("afterbegin",`
+      <option value="${data.name}" data-optionFuncDVID="${data._id}">${data.name}</option>  
+    `)
+  }
 });
 socket.on("delete-funcdevice", (data) => {
   if (data && data._id) {
@@ -29,14 +38,18 @@ socket.on("delete-funcdevice", (data) => {
     if (rowToDelete) {
       rowToDelete.remove();
     }
+    const optionToDelete=document.querySelector(`option[data-optionFuncDVID="${data._id}"]`);
+    if (optionToDelete) {
+      optionToDelete.remove();
+    }
   }
 });
 socket.on("update-device", (data) => {
   const existRow = document.querySelector(`tr[data-rowId="${data._id}"]`);
   if (existRow) {
     existRow.cells[0].innerText = data.name;
-    existRow.cells[1].innerText = `${data.priceLE.toLocaleString("vi-VN")}đ`;
-    existRow.cells[2].innerText = `${data.priceSI.toLocaleString("vi-VN")}đ`;
+    existRow.cells[1].innerText = `${Number(data.priceLE).toLocaleString("vi-VN")}đ`;
+    existRow.cells[2].innerText = `${Number(data.priceSI).toLocaleString("vi-VN")}đ`;
     existRow.cells[3].innerText = data.func;
     existRow.cells[4].innerText = new Date(data.createAt).toLocaleString(
       "vi-VN",
@@ -47,8 +60,8 @@ socket.on("update-device", (data) => {
       `
       <tr data-rowId="${data._id}">
         <td>${data.name}</td>
-        <td>${data.priceLE.toLocaleString("vi-VN")}đ</td>
-        <td>${data.priceSI.toLocaleString("vi-VN")}đ</td>
+        <td>${Number(data.priceLE).toLocaleString("vi-VN")}đ</td>
+        <td>${Number(data.priceSI).toLocaleString("vi-VN")}đ</td>
         <td>${data.func}</td>
         <td>${new Date(data.createAt).toLocaleString("vi-VN")}</td>
         <td>
@@ -92,6 +105,15 @@ socket.on("update-funcapp", (data) => {
     `,
     );
   }
+  const existOptionFuncApp=document.querySelector(`option[data-optionFuncAppID="${data._id}"]`);
+  if (existOptionFuncApp) {
+    existOptionFuncApp.value=data.name;
+    existOptionFuncApp.innerText=data.name;
+  } else {
+    document.getElementById("funcApp").insertAdjacentHTML("afterbegin",`
+      <option value="${data.name}" data-optionFuncAppID="${data._id}">${data.name}</option>  
+    `)
+  }
 });
 socket.on("delete-funcapp", (data) => {
   if (data && data._id) {
@@ -100,6 +122,10 @@ socket.on("delete-funcapp", (data) => {
     );
     if (rowToDelete) {
       rowToDelete.remove();
+    }
+    const optionToDelete=document.querySelector(`option[data-optionFuncAppID="${data._id}"]`);
+    if (optionToDelete) {
+      optionToDelete.remove();
     }
   }
 });
@@ -1218,6 +1244,9 @@ formApp.addEventListener("submit", (e) => {
           } else {
             console.error("Biến quill không tồn tại");
           }
+          document.getElementById("optionPrice").value="freeApp";
+          document.getElementById("divPriceLEApp").style.display="none";
+          document.getElementById("divPriceSIApp").style.display="none";
           document.getElementById("btnApp").value = "Tạo";
           document.getElementById("btnDeleteImgApp").style.display = "none";
           document.getElementById("btnCancelApp").style.display = "none";
@@ -1243,6 +1272,9 @@ formApp.addEventListener("submit", (e) => {
           } else {
             console.error("Biến quill không tồn tại");
           }
+          document.getElementById("optionPrice").value="freeApp";
+          document.getElementById("divPriceLEApp").style.display="none";
+          document.getElementById("divPriceSIApp").style.display="none";
           document.getElementById("btnCancelApp").style.display = "none";
           alert("Thông báo", mess, "#80a710");
         } else {
@@ -1274,7 +1306,27 @@ document
             } else {
               console.error("Biến quill chưa được khởi tạo");
             }
-            document.getElementById("optionPrice").value = "hasPriceApp";
+            if (data.priceLE!=="Miễn phí") {
+              document.getElementById("optionPrice").value = "hasPriceApp";
+              document.getElementById("divPriceLEApp").style.display="block";
+              document.getElementById("priceLEApp").value=Number(data.priceLE).toLocaleString("vi-VN");
+              console.log(Number(data.priceLE).toLocaleString("vi-VN"))
+              document.getElementById("priceLEActualApp").value=data.priceLE;
+              console.log(data.priceLE)
+              document.getElementById("divPriceSIApp").style.display="block";
+              document.getElementById("priceSIApp").value=Number(data.priceSI).toLocaleString("vi-VN");
+              console.log(Number(data.priceSI).toLocaleString("vi-VN"));
+              document.getElementById("priceSIActualApp").value=data.priceSI;
+              console.log(data.priceSI);
+            }else{
+              document.getElementById("optionPrice").value="freeApp";
+              document.getElementById("divPriceLEApp").style.display="none";
+              document.getElementById("priceLEApp").value="";
+              document.getElementById("priceLEActualApp").value="";
+              document.getElementById("divPriceSIApp").style.display="none";
+              document.getElementById("priceSIApp").value="";
+              document.getElementById("priceSIActualApp").value="";
+            }
             document.getElementById("btnApp").value = "Cập nhật";
             document.getElementById("btnDeleteImgApp").style.display =
               "inline-block";
@@ -1344,6 +1396,13 @@ document.getElementById("btnCancelApp").addEventListener("click", function () {
   } else {
     console.error("Biến quill không tồn tại");
   }
+  document.getElementById("optionPrice").value="freeApp";
+  document.getElementById("divPriceLEApp").style.display="none";
+  document.getElementById("priceLEApp").value="";
+  document.getElementById("priceLEActualApp").value="";
+  document.getElementById("divPriceSIApp").style.display="none";
+  document.getElementById("priceSIApp").value="";
+  document.getElementById("priceSIActualApp").value="";
   document.getElementById("idApp").value = "";
   document.getElementById("btnApp").value = "Tạo";
   document.getElementById("btnDeleteImgApp").style.display = "none";
@@ -1605,9 +1664,12 @@ document
               document.querySelectorAll(".colorIndex")[i].value =
                 data.color[i].index;
             }
-            document.getElementById("priceDevice").value =
-              data.price.toLocaleString("vi-VN");
-            document.getElementById("priceActual").value = data.price;
+            document.getElementById("priceLEDevice").value =
+              Number(data.priceLE).toLocaleString("vi-VN");
+            document.getElementById("priceLEDeviceActual").value = data.priceLE;
+            document.getElementById("priceSIDevice").value =
+              Number(data.priceSI).toLocaleString("vi-VN");
+            document.getElementById("priceSIDeviceActual").value = data.priceSI;
             document.getElementById("instrucDevice").value =
               data.instruction || "";
             document.getElementById("btnDevice").value = "Cập nhật";
