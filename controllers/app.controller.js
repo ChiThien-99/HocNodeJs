@@ -12,6 +12,7 @@ export const getAllApp = async (req, res) => {
   const currentPage = parseInt(req.query.page) || 1;
   const currentFunc = req.query.func || "";
   const sort = req.query.sort || "createAt";
+  const charge=req.query.charge || "";
   const query = {};
   let filterArray = [];
   if (currentFunc) {
@@ -19,6 +20,12 @@ export const getAllApp = async (req, res) => {
       ? currentFunc
       : currentFunc.split(",");
     query.func = { $all: filterArray };
+  }
+  if (charge==="charge") {
+    query.priceLE={$ne:"Miễn phí"};
+  }
+  if (charge==="freeCharge") {
+    query.priceLE="Miễn phí";
   }
   const skip = (currentPage - 1) * limit;
   const [appList, appTotal] = await Promise.all([
@@ -36,6 +43,7 @@ export const getAllApp = async (req, res) => {
     totalPage,
     currentFunc: currentFunc || "",
     sort,
+    charge,
     banners,
   });
 };

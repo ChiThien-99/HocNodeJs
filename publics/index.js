@@ -25,20 +25,20 @@ import { jwtDecode } from "https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/+esm";
 // })
 const socket = io();
 
-async function verifySession() {
-  try {
-    const response = await authFetch2("/api/auth/me2");
-    if (!response.ok) {
-      throw new Error("Session Expired");
-    }
-    console.log("Phiên làm việc hợp lệ");
-  } catch (error) {
-    console.error("Không thể refresh token, quay về login");
-    // const currentPath = window.location.pathname + window.location.search;
-    // window.location.href = `/index/loginClient?headerActive=loginClient&redirect=${encodeURIComponent(currentPath)}`;
-  }
-}
-verifySession();
+// async function verifySession() {
+//   try {
+//     const response = await authFetch2("/api/auth/me2");
+//     if (!response.ok) {
+//       throw new Error("Session Expired");
+//     }
+//     console.log("Phiên làm việc hợp lệ");
+//   } catch (error) {
+//     console.error("Không thể refresh token, quay về login");
+//     const currentPath = window.location.pathname + window.location.search;
+//     window.location.href = `/index/loginClient?headerActive=loginClient&redirect=${encodeURIComponent(currentPath)}`;
+//   }
+// }
+// verifySession();
 function getCookie(name) {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
@@ -370,16 +370,24 @@ document.getElementById("formSubscribers").addEventListener("submit", (e) => {
 });
 document.addEventListener("DOMContentLoaded", () => {
   const token = getCookie("accessToken2");
+  const listApp = document.querySelectorAll("#listApp .app");
+  listApp.forEach((app)=>{
+    app.addEventListener("click",()=>{
+      if (!token) {
+    alert("Thông báo","Vui lòng đăng nhập để tiếp tục","#80a710");
+    }
+    })
+  })
   if (!token) {
     return;
   }
   const decodeToken = jwtDecode(token);
   const idClient = decodeToken.id;
-  const listApp = document.querySelectorAll("#listApp #linkApp");
   listApp.forEach((app) => {
     const idApp = app.getAttribute("data-idApp");
     checkOrActivateTrial(idClient, idApp, app);
     app.addEventListener("click", () => {
+      console.log("OK");
       checkOrActivateTrial(idClient, idApp, app, true);
     });
   });
@@ -394,9 +402,9 @@ function checkOrActivateTrial(idClient, idApp, app, isClientClick = false) {
     .then(({ success, daysLeft, isExpired, mess, error }) => {
       if (success) {
         if (isExpired) {
-          app.querySelector(".app div .statusTrial").innerText =
+          app.querySelector(".priceApp .statusTrial").innerText =
             "Đã hết hạn dùng thử";
-          app.querySelector(".app div .statusTrial").style.backgroundColor =
+          app.querySelector(".priceApp .statusTrial").style.backgroundColor =
             "red";
           if (isClientClick) {
             alert(
@@ -406,10 +414,12 @@ function checkOrActivateTrial(idClient, idApp, app, isClientClick = false) {
             );
           }
         } else {
-          app.querySelector(".app div .statusTrial").innerHTML =
-            `Dùng thử 30 ngày (Còn ${daysLeft} ngày)`;
+          if (app.querySelector(".priceApp .statusTrial")) {
+            app.querySelector(".priceApp .statusTrial").innerHTML =
+            `Còn ${daysLeft} ngày dùng thử`;
+          }
           if (isClientClick) {
-            window.open = `/detailApp/${idApp}`;
+            window.open(`/detailApp/${idApp}`,"_blank");
           }
         }
       } else {

@@ -121,6 +121,10 @@ header {
   flex-flow: row nowrap;
   justify-content: space-between;
   border-bottom: 1px solid #80a710;
+  position: sticky;
+  top: 0;
+  background-color: #f5f5f5;
+  z-index: 2000;
 }
 header div:first-child {
   width: 20%;
@@ -180,6 +184,7 @@ header div:last-child nav ul {
   list-style: none;
   text-align: center;
   height: inherit;
+  padding: 0;
 }
 header div:last-child nav li {
   display: inline-block;
@@ -228,7 +233,7 @@ header div:last-child #groupBtn button:first-child {
 }
 header div:last-child #groupBtn button:last-child {
   background-color: #80a710;
-  width: 35%;
+  width: 37%;
   height: 40%;
 }
 header div:last-child h2 {
@@ -2044,35 +2049,44 @@ header div:last-child #containerUserLogin #bagShopping span {
   flex-flow: row wrap;
   margin: 1rem 0 0;
 }
-#divApp #listApp a {
-  display: inline-block;
+#divApp #listApp .app {
   width: 48%;
   height: 15rem;
   margin: 1%;
-  color: black;
-  text-decoration: none;
-}
-#divApp #listApp .app {
-  display: flex;
-  flex-flow: row nowrap;
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 80% 20%;
   overflow: hidden;
-  width: 100%;
-  height: inherit;
   border: 1px solid black;
   border-radius: 5px;
 }
-#divApp #listApp .app div:first-child {
-  width: 50%;
-  height: inherit;
-}
 #divApp #listApp .app div:first-child img {
   width: 100%;
-  height: 80%;
+  height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
   margin: 0;
 }
-#divApp #listApp .app div:first-child p {
+#divApp #listApp .app div:nth-child(2) {
+  padding: 0.5rem;
+  overflow-y: scroll;
+}
+#divApp #listApp .app div:nth-child(2) h4 {
+  font-size: 1.1rem;
+  margin: 0;
+}
+#divApp #listApp .app div:nth-child(2) p {
+  margin: 0.3rem 0;
+}
+#divApp #listApp .app div:last-child {
+  grid-column: span 2;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: start;
+  align-items: center;
+}
+#divApp #listApp .app div:last-child p {
   display: inline-block;
   padding: 0.55rem;
   color: #fafafa;
@@ -2080,24 +2094,11 @@ header div:last-child #containerUserLogin #bagShopping span {
   border: none;
   border-radius: 1000px;
 }
-#divApp #listApp .app div:first-child p:nth-child(2) {
+#divApp #listApp .app div:last-child p:nth-child(1) {
   background-color: #80a710;
 }
-#divApp #listApp .app div:first-child p:nth-child(3) {
+#divApp #listApp .app div:last-child p:nth-child(2) {
   background-color: #1877f2;
-}
-#divApp #listApp .app div:last-child {
-  width: 50%;
-  height: inherit;
-  padding: 0.5rem 0.8rem;
-  overflow-y: scroll;
-}
-#divApp #listApp .app div:last-child h4 {
-  font-size: 1.1rem;
-  margin: 0;
-}
-#divApp #listApp .app div:last-child p {
-  margin: 0.3rem 0;
 }
 
 #divDeviceIndex {
@@ -3043,34 +3044,27 @@ header div:last-child #containerUserLogin #bagShopping span {
   flex-flow: row wrap;
   margin: 1rem 0;
 }
-#mainApp #listApp #listapps a {
-  display: inline-block;
+#mainApp #listApp #listapps .app {
   width: 48%;
   height: 15rem;
   margin: 1%;
-  text-decoration: none;
-  color: black;
-}
-#mainApp #listApp #listapps .app {
   border: 1px solid black;
   border-radius: 5px;
   background-color: #f5f5f5;
-  display: flex;
-  flex-flow: row nowrap;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 80% 20%;
   overflow: hidden;
-  height: inherit;
 }
-#mainApp #listApp #listapps .app img {
-  width: 50%;
-  height: inherit;
+#mainApp #listApp #listapps .app div img {
+  width: 100%;
+  height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
   margin: 0;
 }
 #mainApp #listApp #listapps .app .app-content {
-  width: 50%;
-  height: inherit;
-  padding: 0.5rem 0.8rem;
+  padding: 0.5rem;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -3082,6 +3076,27 @@ header div:last-child #containerUserLogin #bagShopping span {
 }
 #mainApp #listApp #listapps .app .app-content p {
   margin: 0.3rem 0;
+}
+#mainApp #listApp #listapps .app .priceApp {
+  grid-column: span 2;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: start;
+  align-items: center;
+}
+#mainApp #listApp #listapps .app .priceApp p {
+  display: inline-block;
+  padding: 0.55rem;
+  color: #fafafa;
+  margin: 0 0.5rem;
+  border: none;
+  border-radius: 1000px;
+}
+#mainApp #listApp #listapps .app .priceApp p:nth-child(1) {
+  background-color: #80a710;
+}
+#mainApp #listApp #listapps .app .priceApp p:nth-child(2) {
+  background-color: #1877f2;
 }
 #mainApp #listApp .paginationBar {
   width: 100%;
@@ -4182,6 +4197,21 @@ footer div:last-child input {
     transform: translateX(100%);
     transition: transform 0.3s ease-in-out;
   }
+  header #navMenu #containerUserLogin {
+    width: 100%;
+    height: 5rem;
+    justify-content: center;
+    margin: 0;
+  }
+  header #navMenu #containerUserLogin #infoUserLogin h3 {
+    color: #fafafa;
+  }
+  header #navMenu #containerUserLogin #infoUserLogin #groupBtnUserLogin #btnDashboardUserLogin {
+    background-color: #1877f2;
+  }
+  header #navMenu #containerUserLogin #bagShopping i {
+    color: #fafafa;
+  }
   header #navMenu nav {
     width: 100%;
   }
@@ -4198,7 +4228,9 @@ footer div:last-child input {
   }
   header #navMenu #groupBtn {
     width: 100%;
-    height: 5rem;
+    height: 3rem;
+    margin-top: 1rem;
+    padding: 0;
   }
   header #navMenu #groupBtn button {
     border: none;
@@ -4207,8 +4239,9 @@ footer div:last-child input {
     padding: 0.5rem;
     background-color: #fafafa;
     color: #80a710;
-    font-size: 0.7rem;
-    width: 50%;
+    font-size: 1rem;
+    width: 45%;
+    height: 2.5rem;
   }
   header #navMenu.active {
     transform: translateX(0);
@@ -4222,6 +4255,43 @@ footer div:last-child input {
   }
   header .hamburger-btn.active .bar:nth-child(3) {
     transform: translateY(-0.4rem) rotate(-45deg);
+  }
+  #loginClientContainer {
+    width: 100%;
+    overflow: hidden;
+  }
+  #loginClientContainer #bodyLogin #registerClient form {
+    display: block;
+  }
+  #loginClientContainer #bodyLogin #registerClient form div {
+    margin-bottom: 1rem;
+  }
+  #loginClientContainer #bodyLogin #loginClient #loginForm {
+    grid-template-columns: 100%;
+  }
+  #loginClientContainer #bodyLogin #loginClient #loginForm #pwClient2 {
+    width: 88%;
+  }
+  #loginClientContainer #bodyLogin #loginClient #loginForm .tooltiptext {
+    width: 10rem;
+  }
+  #loginClientContainer #bodyLogin #loginClient #loginForm .tooltiptext::after {
+    left: 37%;
+  }
+  #loginClientContainer #bodyLogin #loginClient #formForgotPass {
+    grid-template-columns: 100%;
+  }
+  #loginClientContainer #bodyLogin #loginClient #formForgotPass div:nth-child(3) #newPass {
+    width: 88%;
+  }
+  #myModal #modalContent {
+    width: 15rem;
+  }
+  #myModal #modalContent input[type=number] {
+    width: 50%;
+  }
+  #alert {
+    width: 15rem;
   }
   #mainDetailblogs article {
     width: 100%;
@@ -4276,13 +4346,10 @@ footer div:last-child input {
     width: 100%;
     border-bottom: 1px solid #80a710;
   }
-  #mainApp #listApp #listapps a {
+  #mainApp #listApp #listapps .app {
     width: 100%;
   }
-  #mainApp #listApp #listapps a .app {
-    width: 100%;
-  }
-  #mainApp #listApp #listapps a .app .app-content p {
+  #mainApp #listApp #listapps .app .app-content p {
     font-size: 0.8rem;
   }
   #mainApp aside {
@@ -4344,10 +4411,10 @@ footer div:last-child input {
   #divAboutAndBanner #carousel-container #carousel-wrapper .carousel-slide .carousel-caption {
     font-size: 1.1rem;
   }
-  #divApp #listApp a {
+  #divApp #listApp .app {
     width: 100%;
   }
-  #divApp #listApp a .app div:last-child p {
+  #divApp #listApp .app div:nth-child(2) p {
     font-size: 0.8rem;
   }
   #divDeviceIndex #listDeviceIndex a {

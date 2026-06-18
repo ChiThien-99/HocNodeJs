@@ -69,7 +69,7 @@
       <div id="navMenu">
         <nav>
           <ul>
-            <li><a href="/" target="_blank">Trang chủ</a></li>
+            <li><a href="/">Trang chủ</a></li>
             <li>
               <a href="/app" id="navCongCu" target="_blank">Phần mềm</a>
             </li>
@@ -81,8 +81,6 @@
         <div id="groupBtn">
           <button type="button" id="btnRegisterClient">Đăng ký</button>
           <button type="button" id="btnLoginClient">Đăng nhập</button>
-          <!-- <a href="/index/loginClient?headerActive=registerClient">Đăng ký</a>
-          <a href="/index/loginClient?headerActive=loginClient">Đăng nhập</a> -->
         </div>
         <div id="containerUserLogin">
           <div id="infoUserLogin">
@@ -154,10 +152,15 @@
           </div>
           <div id="listApp">
             <%apps.forEach((app)=>{%>
-            <a href="/detailApp/<%=app._id%>" target="_blank" data-idApp="<%=app._id%>" id="linkApp">
-              <div class="app">
+            <div class="app" data-idApp="<%=app._id%>">
               <div>
                 <img src="<%=app.image%>" alt="app">
+              </div>
+              <div class="app-content">
+                <h4><%=app.name%></h4>
+                <p><%-app.info.replace(/&nbsp;|&#160;/gi," ")%></p>
+              </div>
+              <div class="priceApp">
                 <%if(app.priceLE==="Miễn phí"){%>
                   <p>Miễn phí</p>
                 <%}else{%>
@@ -165,12 +168,7 @@
                   <p class="statusTrial">Dùng thử 30 ngày</p>
                 <%}%>
               </div>
-              <div class="app-content">
-                <h4><%=app.name%></h4>
-                <p><%-app.info.replace(/&nbsp;|&#160;/gi," ")%></p>
-              </div>
             </div>
-            </a>
             <%})%>
           </div>
         </div>

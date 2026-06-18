@@ -52,18 +52,31 @@
       <div id="navMenu">
         <nav>
           <ul>
-            <li><a href="#">Trang chủ</a></li>
+            <li><a href="/">Trang chủ</a></li>
             <li>
-              <a href="#" id="navCongCu">Phần mềm</a>
+              <a href="/app" id="navCongCu" target="_blank">Phần mềm</a>
             </li>
-            <li><a href="#">Thiết bị</a></li>
-            <li><a href="#">Blog</a></li>
-            <li><a href="#">Problem?</a></li>
+            <li><a href="/device" target="_blank">Thiết bị</a></li>
+            <li><a href="/blogs" target="_blank">Blog</a></li>
+            <li><a href="#" target="_blank">Problem?</a></li>
           </ul>
         </nav>
         <div id="groupBtn">
-          <button>Đăng ký</button>
-          <button>Đăng nhập</button>
+          <button type="button" id="btnRegisterClient">Đăng ký</button>
+          <button type="button" id="btnLoginClient">Đăng nhập</button>
+        </div>
+        <div id="containerUserLogin">
+          <div id="infoUserLogin">
+          <h3>Tên user</h3>
+          <div id="groupBtnUserLogin">
+            <button id="btnDashboardUserLogin">Dashboard</button>
+            <button id="btnLogoutUserLogin">Đăng xuất</button>
+          </div>
+        </div>
+        <div id="bagShopping">
+           <i class="fa-brands fa-opencart"></i>
+           <span>0</span>
+        </div>
         </div>
       </div>
     </header>
@@ -74,6 +87,8 @@
                 <h3>Bộ lọc</h3>
                 <a href="/app?sort=createAt" id="btnNewApp" class="<%=sort==='createAt'?'active':''%>">Mới nhất</a>
                 <a href="/app?sort=views" id="btnViewsApp" class="<%=sort==='views'?'active':''%>">Truy cập nhiều</a>
+                <a href="/app?charge=charge" id="btnChargeApp" class="<%=charge==='charge'?'active':''%>">Tính phí</a>
+                <a href="/app?charge=freeCharge" id="btnFreeChargeApp" class="<%=charge==='freeCharge'?'active':''%>">Miễn phí</a>
                 <a id="btnFuncApp">Chức năng <i class="fa-solid fa-sort-down"></i></a>
                 <p>
                    <% if (currentFunc) { %>
@@ -91,17 +106,25 @@
             </div>
              <div id="listapps">
             <%appList.forEach((app)=>{%>
-            <a href="/detailApp/<%=app._id%>" data-idApp="<%=app._id%>" target="_blank">
-               <div class="app">
-              <img src="<%=app.image%>" alt="app">
+              <div class="app" data-idApp="<%=app._id%>">
+                <div>
+                  <img src="<%=app.image%>" alt="app">
+                </div>
               <div class="app-content">
                 <h4><%=app.name%></h4>
                 <div>
                   <%-app.info.replace(/&nbsp;|&#160;/gi," ")%>
                 </div>
               </div>
+              <div class="priceApp">
+                 <%if(app.priceLE==="Miễn phí"){%>
+                  <p>Miễn phí</p>
+                <%}else{%>
+                  <p><%=Number(app.priceLE).toLocaleString('vi-VN')%>đ%></p>
+                  <p class="statusTrial">Dùng thử 30 ngày</p>
+                <%}%>
+              </div>
             </div>
-            </a>
             <%})%>
           </div>
           <%if(totalPage>1){%>
@@ -132,7 +155,7 @@
               <div class="deviceCol">
               <div>
                 <img src="<%=device.images[0].url%>" alt="device">
-                <p><%=device.price.toLocaleString('vi-VN')%>đ</p>
+                <p><%=device.priceLE.toLocaleString('vi-VN')%>đ</p>
               </div>
               <div class="deviceContent">
                 <h4><%=device.name%></h4>
