@@ -124,7 +124,7 @@ header {
   position: sticky;
   top: 0;
   background-color: #f5f5f5;
-  z-index: 2000;
+  z-index: 900;
 }
 header div:first-child {
   width: 20%;
@@ -294,12 +294,12 @@ header div:last-child #containerUserLogin #bagShopping i {
   color: #80a710;
 }
 header div:last-child #containerUserLogin #bagShopping span {
-  width: 1.1rem;
-  height: 1.1rem;
+  width: 1.2rem;
+  height: 1.2rem;
   position: absolute;
   top: 0;
   right: 0;
-  border: none;
+  border: 1px solid #fafafa;
   border-radius: 1000px;
   background-color: #80a710;
   color: #fafafa;
@@ -2873,48 +2873,57 @@ header div:last-child #containerUserLogin #bagShopping span {
   flex-direction: column;
   margin: 1rem 0;
 }
-#mainBlogs aside #listAppCol a {
-  display: inline-block;
-  text-decoration: none;
-  color: black;
+#mainBlogs aside #listAppCol .app {
   width: 100%;
   height: 15rem;
   margin: 2% 0;
-}
-#mainBlogs aside #listAppCol .appCol {
-  width: 100%;
-  height: inherit;
-  display: flex;
-  flex-flow: row nowrap;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 80% 20%;
   overflow: hidden;
   border: 1px solid black;
   border-radius: 5px;
 }
-#mainBlogs aside #listAppCol .appCol div:first-child {
-  width: 50%;
-  height: inherit;
-}
-#mainBlogs aside #listAppCol .appCol div:first-child img {
+#mainBlogs aside #listAppCol .app div:first-child img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
   margin: 0;
 }
-#mainBlogs aside #listAppCol .appCol div:last-child {
-  width: 50%;
-  height: inherit;
-  padding: 0.5rem 0.8rem;
+#mainBlogs aside #listAppCol .app .app-content {
+  padding: 0.5rem;
   position: relative;
   background-color: #f5f5f5;
   overflow-y: scroll;
 }
-#mainBlogs aside #listAppCol .appCol div:last-child h4 {
+#mainBlogs aside #listAppCol .app .app-content h4 {
   font-size: 1.1rem;
   margin: 0 0 0.2rem 0;
 }
-#mainBlogs aside #listAppCol .appCol div:last-child p {
+#mainBlogs aside #listAppCol .app .app-content p {
   margin: 0;
+}
+#mainBlogs aside #listAppCol .app .priceApp {
+  grid-column: span 2;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: start;
+  align-items: center;
+}
+#mainBlogs aside #listAppCol .app .priceApp p {
+  display: inline-block;
+  padding: 0.55rem;
+  color: #fafafa;
+  margin: 0 0.5rem;
+  border: none;
+  border-radius: 1000px;
+}
+#mainBlogs aside #listAppCol .app .priceApp p:nth-child(1) {
+  background-color: #80a710;
+}
+#mainBlogs aside #listAppCol .app .priceApp p:nth-child(2) {
+  background-color: #1877f2;
 }
 #mainBlogs aside #listDeviceCol {
   display: flex;
@@ -2950,10 +2959,13 @@ header div:last-child #containerUserLogin #bagShopping span {
   margin: 0;
 }
 #mainBlogs aside #listDeviceCol .deviceCol div:first-child p {
-  margin: 0.5rem;
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #80a710;
+  display: inline-block;
+  padding: 0.55rem;
+  margin: 0 0.5rem;
+  background-color: #80a710;
+  color: #fafafa;
+  border: none;
+  border-radius: 1000px;
 }
 #mainBlogs aside #listDeviceCol .deviceCol .deviceContent {
   width: 50%;
@@ -3055,6 +3067,7 @@ header div:last-child #containerUserLogin #bagShopping span {
   grid-template-columns: 50% 50%;
   grid-template-rows: 80% 20%;
   overflow: hidden;
+  cursor: pointer;
 }
 #mainApp #listApp #listapps .app div img {
   width: 100%;
@@ -3222,10 +3235,13 @@ header div:last-child #containerUserLogin #bagShopping span {
   margin: 0;
 }
 #mainApp aside #listDeviceCol .deviceCol div:first-child p {
-  margin: 0.5rem;
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #80a710;
+  display: inline-block;
+  padding: 0.55rem;
+  margin: 0 0.5rem;
+  background-color: #80a710;
+  color: #fafafa;
+  border: none;
+  border-radius: 1000px;
 }
 #mainApp aside #listDeviceCol .deviceCol .deviceContent {
   width: 50%;
@@ -3365,10 +3381,7 @@ header div:last-child #containerUserLogin #bagShopping span {
 }
 #mainDevice #listDevice #listdevices a .device .divImg {
   width: 50%;
-  display: flex;
-  flex-flow: column;
-  justify-content: space-between;
-  align-items: start;
+  height: inherit;
 }
 #mainDevice #listDevice #listdevices a .device .divImg img {
   width: 100%;
@@ -3378,10 +3391,13 @@ header div:last-child #containerUserLogin #bagShopping span {
   margin: 0;
 }
 #mainDevice #listDevice #listdevices a .device .divImg p {
-  font-size: 1.2rem;
-  margin: 0.5rem;
-  font-weight: bold;
-  color: #80a710;
+  display: inline-block;
+  padding: 0.55rem;
+  margin: 0 0.5rem;
+  background-color: #80a710;
+  color: #fafafa;
+  border: none;
+  border-radius: 1000px;
 }
 #mainDevice #listDevice #listdevices a .device .device-content {
   width: 50%;
@@ -3495,48 +3511,58 @@ header div:last-child #containerUserLogin #bagShopping span {
   flex-direction: column;
   margin: 1rem 0;
 }
-#mainDevice aside #listAppCol a {
-  display: inline-block;
+#mainDevice aside #listAppCol .app {
   width: 100%;
   height: 15rem;
   margin: 2% 0;
-  text-decoration: none;
-  color: black;
-}
-#mainDevice aside #listAppCol .appCol {
-  display: flex;
-  flex-flow: row nowrap;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 80% 20%;
   overflow: hidden;
-  width: 100%;
-  height: 100%;
   border: 1px solid black;
   border-radius: 5px;
   position: relative;
+  cursor: pointer;
 }
-#mainDevice aside #listAppCol .appCol div:nth-child(1) {
-  width: 50%;
-  height: inherit;
-}
-#mainDevice aside #listAppCol .appCol div:nth-child(1) img {
+#mainDevice aside #listAppCol .app div:nth-child(1) img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
   margin: 0;
 }
-#mainDevice aside #listAppCol .appCol div:nth-child(2) {
-  width: 50%;
-  height: inherit;
-  padding: 0.5rem 0.8rem;
+#mainDevice aside #listAppCol .app .app-content {
+  padding: 0.5rem;
   background-color: #f5f5f5;
   overflow-y: scroll;
 }
-#mainDevice aside #listAppCol .appCol div:nth-child(2) h4 {
+#mainDevice aside #listAppCol .app .app-content h4 {
   font-size: 1.1rem;
   margin: 0 0 0.2rem 0;
 }
-#mainDevice aside #listAppCol .appCol div:nth-child(2) p {
+#mainDevice aside #listAppCol .app .app-content p {
   margin: 0.3rem 0;
+}
+#mainDevice aside #listAppCol .app div:nth-child(3) {
+  grid-column: span 2;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: start;
+  align-items: center;
+}
+#mainDevice aside #listAppCol .app div:nth-child(3) p {
+  display: inline-block;
+  padding: 0.55rem;
+  color: #fafafa;
+  margin: 0 0.5rem;
+  border: none;
+  border-radius: 1000px;
+}
+#mainDevice aside #listAppCol .app div:nth-child(3) p:nth-child(1) {
+  background-color: #80a710;
+}
+#mainDevice aside #listAppCol .app div:nth-child(3) p:nth-child(2) {
+  background-color: #1877f2;
 }
 
 #mainDetailDevice {

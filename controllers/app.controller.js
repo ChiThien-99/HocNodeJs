@@ -11,8 +11,8 @@ export const getAllApp = async (req, res) => {
   const limit = 12;
   const currentPage = parseInt(req.query.page) || 1;
   const currentFunc = req.query.func || "";
-  const sort = req.query.sort || "createAt";
-  const charge=req.query.charge || "";
+  const sort = req.query.sort || "";
+  const charge = req.query.charge || "";
   const query = {};
   let filterArray = [];
   if (currentFunc) {
@@ -21,17 +21,25 @@ export const getAllApp = async (req, res) => {
       : currentFunc.split(",");
     query.func = { $all: filterArray };
   }
-  if (charge==="charge") {
-    query.priceLE={$ne:"Miễn phí"};
+  if (charge === "charge") {
+    query.priceLE = { $ne: "Miễn phí" };
   }
-  if (charge==="freeCharge") {
-    query.priceLE="Miễn phí";
+  if (charge === "freeCharge") {
+    query.priceLE = "Miễn phí";
   }
   const skip = (currentPage - 1) * limit;
-  const [appList, appTotal] = await Promise.all([
-    appEntity.find(query).sort(`-${sort}`).skip(skip).limit(limit),
-    appEntity.countDocuments(query),
-  ]);
+  let [appList, appTotal] = [];
+  if (sort) {
+    [appList, appTotal] = await Promise.all([
+      appEntity.find(query).sort(`-${sort}`).skip(skip).limit(limit),
+      appEntity.countDocuments(query),
+    ]);
+  } else {
+    [appList, appTotal] = await Promise.all([
+      appEntity.find(query).skip(skip).limit(limit),
+      appEntity.countDocuments(query),
+    ]);
+  }
   const totalPage = Math.ceil(appTotal / limit);
   const banners = await bannerEntity.find({ page: "app" });
   res.render("app.ejs", {

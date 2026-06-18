@@ -26,6 +26,22 @@
     ></script>
 </head>
 <body>
+    <div id="alert">
+        <h4 id="headingAlert">Tiêu đề thông báo</h4>
+        <p id="contentAlert">Thông báo lần 1</p>
+      </div>
+      <div id="confirm">
+        <h4 id="headingConfirm">Tiêu đề thông báo</h4>
+        <p id="contentConfirm">Thông báo lần 1</p>
+        <div>
+          <button id="btnConfirm">
+            <i class="fa-solid fa-check"></i> Xác nhận
+          </button>
+          <button id="btnDeny">
+            <i class="fa-solid fa-xmark"></i> Từ chối
+          </button>
+        </div>
+      </div>
     <header>
       <div>
         <a href="/" class="logo-link">
@@ -52,18 +68,31 @@
       <div id="navMenu">
         <nav>
           <ul>
-            <li><a href="#">Trang chủ</a></li>
+            <li><a href="/">Trang chủ</a></li>
             <li>
-              <a href="#" id="navCongCu">Phần mềm</a>
+              <a href="/app?sort=createAt" id="navCongCu" target="_blank">Phần mềm</a>
             </li>
-            <li><a href="#">Thiết bị</a></li>
-            <li><a href="#">Blog</a></li>
-            <li><a href="#">Problem?</a></li>
+            <li><a href="/device" target="_blank">Thiết bị</a></li>
+            <li><a href="/blogs" target="_blank">Blog</a></li>
+            <li><a href="#" target="_blank">Problem?</a></li>
           </ul>
         </nav>
         <div id="groupBtn">
-          <button>Đăng ký</button>
-          <button>Đăng nhập</button>
+          <button type="button" id="btnRegisterClient">Đăng ký</button>
+          <button type="button" id="btnLoginClient">Đăng nhập</button>
+        </div>
+        <div id="containerUserLogin">
+          <div id="infoUserLogin">
+          <h3>Tên user</h3>
+          <div id="groupBtnUserLogin">
+            <button id="btnDashboardUserLogin">Dashboard</button>
+            <button id="btnLogoutUserLogin">Đăng xuất</button>
+          </div>
+        </div>
+        <div id="bagShopping">
+           <i class="fa-brands fa-opencart"></i>
+           <span>0</span>
+        </div>
         </div>
       </div>
     </header>
@@ -132,17 +161,25 @@
           <a class="flag-item" href="/app">Phần mềm</a>
           <div id="listAppCol">
             <%apps.forEach((app)=>{%>
-            <a href="/detailApp/<%=app._id%>" target="_blank">
-              <div class="appCol">
-              <div>
-                <img src="<%=app.image%>" alt="app">
-              </div>
-              <div>
+            <div class="app" data-idApp="<%=app._id%>">
+                <div>
+                  <img src="<%=app.image%>" alt="app">
+                </div>
+              <div class="app-content">
                 <h4><%=app.name%></h4>
-                <%-app.info.replace(/&nbsp;|&#160;/gi," ")%>
+                <div>
+                  <%-app.info.replace(/&nbsp;|&#160;/gi," ")%>
+                </div>
+              </div>
+              <div class="priceApp">
+                 <%if(app.priceLE==="Miễn phí"){%>
+                  <p>Miễn phí</p>
+                <%}else{%>
+                  <p><%=Number(app.priceLE).toLocaleString('vi-VN')%>đ%></p>
+                  <p class="statusTrial">Dùng thử 30 ngày</p>
+                <%}%>
               </div>
             </div>
-            </a>
             <%})%>
           </div>
         </div>
@@ -154,7 +191,7 @@
               <div class="deviceCol">
               <div>
                 <img src="<%=device.images[0].url%>" alt="device">
-                <p><%=device.price.toLocaleString('vi-VN')%>đ</p>
+                <p><%=device.priceLE.toLocaleString('vi-VN')%>đ</p>
               </div>
               <div class="deviceContent">
                 <h4><%=device.name%></h4>

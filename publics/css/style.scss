@@ -126,7 +126,7 @@ header {
   position: sticky;
   top: 0;
   background-color: #f5f5f5;
-  z-index: 2000;
+  z-index: 900;
   div:first-child {
     width: 20%;
     height: inherit;
@@ -281,12 +281,12 @@ header {
           color: $colorCTA;
         }
         span {
-          width: 1.1rem;
-          height: 1.1rem;
+          width: 1.2rem;
+          height: 1.2rem;
           position: absolute;
           top: 0;
           right: 0;
-          border: none;
+          border: 1px solid $colorSecondaryText;
           border-radius: 1000px;
           background-color: $colorCTA;
           color: $colorSecondaryText;
@@ -1830,13 +1830,13 @@ header {
           margin: 0.3rem 0;
         }
       }
-      div:last-child{
+      div:last-child {
         grid-column: span 2;
         display: flex;
         flex-flow: row nowrap;
         justify-content: start;
         align-items: center;
-         p {
+        p {
           display: inline-block;
           padding: 0.55rem;
           color: $colorSecondaryText;
@@ -2589,25 +2589,17 @@ header {
       display: flex;
       flex-direction: column;
       margin: 1rem 0;
-      a {
-        display: inline-block;
-        text-decoration: none;
-        color: black;
+      .app {
         width: 100%;
         height: 15rem;
         margin: 2% 0;
-      }
-      .appCol {
-        width: 100%;
-        height: inherit;
-        display: flex;
-        flex-flow: row nowrap;
+        display: grid;
+        grid-template-columns: 50% 50%;
+        grid-template-rows: 80% 20%;
         overflow: hidden;
         border: 1px solid black;
         border-radius: 5px;
         div:first-child {
-          width: 50%;
-          height: inherit;
           img {
             width: 100%;
             height: 100%;
@@ -2615,10 +2607,8 @@ header {
             margin: 0;
           }
         }
-        div:last-child {
-          width: 50%;
-          height: inherit;
-          padding: 0.5rem 0.8rem;
+        .app-content {
+          padding: 0.5rem;
           position: relative;
           background-color: $colorPrimaryBG;
           overflow-y: scroll;
@@ -2628,6 +2618,27 @@ header {
           }
           p {
             margin: 0;
+          }
+        }
+        .priceApp {
+          grid-column: span 2;
+          display: flex;
+          flex-flow: row nowrap;
+          justify-content: start;
+          align-items: center;
+          p {
+            display: inline-block;
+            padding: 0.55rem;
+            color: $colorSecondaryText;
+            margin: 0 0.5rem;
+            border: none;
+            border-radius: 1000px;
+            &:nth-child(1) {
+              background-color: $colorCTA;
+            }
+            &:nth-child(2) {
+              background-color: #1877f2;
+            }
           }
         }
       }
@@ -2662,10 +2673,13 @@ header {
             margin: 0;
           }
           p {
-            margin: 0.5rem;
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: $colorCTA;
+            display: inline-block;
+            padding: 0.55rem;
+            margin: 0 0.5rem;
+            background-color: $colorCTA;
+            color: $colorSecondaryText;
+            border: none;
+            border-radius: 1000px;
           }
         }
         .deviceContent {
@@ -2765,13 +2779,14 @@ header {
         grid-template-columns: 50% 50%;
         grid-template-rows: 80% 20%;
         overflow: hidden;
-        div{
+        cursor: pointer;
+        div {
           img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          margin: 0;
-        }
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            margin: 0;
+          }
         }
         .app-content {
           padding: 0.5rem;
@@ -2787,26 +2802,26 @@ header {
             margin: 0.3rem 0;
           }
         }
-        .priceApp{
+        .priceApp {
           grid-column: span 2;
           display: flex;
-        flex-flow: row nowrap;
-        justify-content: start;
-        align-items: center;
-         p {
-          display: inline-block;
-          padding: 0.55rem;
-          color: $colorSecondaryText;
-          margin: 0 0.5rem;
-          border: none;
-          border-radius: 1000px;
-          &:nth-child(1) {
-            background-color: $colorCTA;
+          flex-flow: row nowrap;
+          justify-content: start;
+          align-items: center;
+          p {
+            display: inline-block;
+            padding: 0.55rem;
+            color: $colorSecondaryText;
+            margin: 0 0.5rem;
+            border: none;
+            border-radius: 1000px;
+            &:nth-child(1) {
+              background-color: $colorCTA;
+            }
+            &:nth-child(2) {
+              background-color: #1877f2;
+            }
           }
-          &:nth-child(2) {
-            background-color: #1877f2;
-          }
-        }
         }
       }
     }
@@ -2926,10 +2941,13 @@ header {
             margin: 0;
           }
           p {
-            margin: 0.5rem;
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: $colorCTA;
+            display: inline-block;
+            padding: 0.55rem;
+            margin: 0 0.5rem;
+            background-color: $colorCTA;
+            color: $colorSecondaryText;
+            border: none;
+            border-radius: 1000px;
           }
         }
         .deviceContent {
@@ -3061,10 +3079,7 @@ header {
           position: relative;
           .divImg {
             width: 50%;
-            display: flex;
-            flex-flow: column;
-            justify-content: space-between;
-            align-items: start;
+            height: inherit;
             img {
               width: 100%;
               height: 80%;
@@ -3072,10 +3087,13 @@ header {
               margin: 0;
             }
             p {
-              font-size: 1.2rem;
-              margin: 0.5rem;
-              font-weight: bold;
-              color: $colorCTA;
+              display: inline-block;
+              padding: 0.55rem;
+              margin: 0 0.5rem;
+              background-color: $colorCTA;
+              color: $colorSecondaryText;
+              border: none;
+              border-radius: 1000px;
             }
           }
           .device-content {
@@ -3188,26 +3206,19 @@ header {
       display: flex;
       flex-direction: column;
       margin: 1rem 0;
-      a {
-        display: inline-block;
+      .app {
         width: 100%;
         height: 15rem;
         margin: 2% 0;
-        text-decoration: none;
-        color: black;
-      }
-      .appCol {
-        display: flex;
-        flex-flow: row nowrap;
+        display: grid;
+        grid-template-columns: 50% 50%;
+        grid-template-rows: 80% 20%;
         overflow: hidden;
-        width: 100%;
-        height: 100%;
         border: 1px solid black;
         border-radius: 5px;
         position: relative;
+        cursor: pointer;
         div:nth-child(1) {
-          width: 50%;
-          height: inherit;
           img {
             width: 100%;
             height: 100%;
@@ -3215,10 +3226,8 @@ header {
             margin: 0;
           }
         }
-        div:nth-child(2) {
-          width: 50%;
-          height: inherit;
-          padding: 0.5rem 0.8rem;
+        .app-content {
+          padding: 0.5rem;
           background-color: $colorPrimaryBG;
           overflow-y: scroll;
           h4 {
@@ -3227,6 +3236,27 @@ header {
           }
           p {
             margin: 0.3rem 0;
+          }
+        }
+        div:nth-child(3) {
+          grid-column: span 2;
+          display: flex;
+          flex-flow: row nowrap;
+          justify-content: start;
+          align-items: center;
+          p {
+            display: inline-block;
+            padding: 0.55rem;
+            color: $colorSecondaryText;
+            margin: 0 0.5rem;
+            border: none;
+            border-radius: 1000px;
+            &:nth-child(1) {
+              background-color: $colorCTA;
+            }
+            &:nth-child(2) {
+              background-color: #1877f2;
+            }
           }
         }
       }
@@ -3864,23 +3894,23 @@ footer {
       justify-content: start;
       transform: translateX(100%);
       transition: transform 0.3s ease-in-out;
-      #containerUserLogin{
+      #containerUserLogin {
         width: 100%;
         height: 5rem;
         justify-content: center;
         margin: 0;
-        #infoUserLogin{
-          h3{
+        #infoUserLogin {
+          h3 {
             color: $colorSecondaryText;
           }
-          #groupBtnUserLogin{
-            #btnDashboardUserLogin{
+          #groupBtnUserLogin {
+            #btnDashboardUserLogin {
               background-color: #1877f2;
             }
           }
         }
-        #bagShopping{
-          i{
+        #bagShopping {
+          i {
             color: $colorSecondaryText;
           }
         }
@@ -3929,35 +3959,35 @@ footer {
       transform: translateY(-0.4rem) rotate(-45deg);
     }
   }
-  #loginClientContainer{
+  #loginClientContainer {
     width: 100%;
     overflow: hidden;
-    #bodyLogin{
-      #registerClient{
-        form{
+    #bodyLogin {
+      #registerClient {
+        form {
           display: block;
-          div{
+          div {
             margin-bottom: 1rem;
           }
         }
       }
-      #loginClient{
-        #loginForm{
+      #loginClient {
+        #loginForm {
           grid-template-columns: 100%;
-          #pwClient2{
+          #pwClient2 {
             width: 88%;
           }
-          .tooltiptext{
+          .tooltiptext {
             width: 10rem;
-            &::after{
+            &::after {
               left: 37%;
             }
           }
         }
-        #formForgotPass{
+        #formForgotPass {
           grid-template-columns: 100%;
-          div:nth-child(3){
-            #newPass{
+          div:nth-child(3) {
+            #newPass {
               width: 88%;
             }
           }
@@ -3965,15 +3995,15 @@ footer {
       }
     }
   }
-  #myModal{
-    #modalContent{
+  #myModal {
+    #modalContent {
       width: 15rem;
-      input[type=number]{
+      input[type="number"] {
         width: 50%;
       }
     }
   }
-  #alert{
+  #alert {
     width: 15rem;
   }
   #mainDetailblogs {
@@ -4067,13 +4097,13 @@ footer {
       border-bottom: 1px solid $colorCTA;
       #listapps {
         .app {
-            width: 100%;
-            .app-content {
-              p {
-                font-size: 0.8rem;
-              }
+          width: 100%;
+          .app-content {
+            p {
+              font-size: 0.8rem;
             }
           }
+        }
       }
     }
     aside {
@@ -4186,12 +4216,12 @@ footer {
     #listApp {
       .app {
         width: 100%;
-          div:nth-child(2) {
-            p {
-              font-size: 0.8rem;
-            }
+        div:nth-child(2) {
+          p {
+            font-size: 0.8rem;
           }
         }
+      }
     }
   }
   #divDeviceIndex {
