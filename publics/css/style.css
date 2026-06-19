@@ -187,7 +187,8 @@ header div:first-child .rotating-text {
     transform: rotate(360deg);
   }
 }
-header .hamburger-btn, header #countCartHamburgerBtn {
+header .hamburger-btn,
+header #countCartHamburgerBtn {
   display: none;
 }
 header div:last-child {
@@ -322,7 +323,7 @@ header div:last-child #containerUserLogin #bagShopping span {
   right: 0;
   border: none;
   border-radius: 1000px;
-  background-color: #FD5E53;
+  background-color: #fd5e53;
   color: #fafafa;
   text-align: center;
 }
@@ -4275,7 +4276,7 @@ footer div:last-child input {
     height: 1rem;
     border: none;
     border-radius: 1000px;
-    background-color: #FD5E53;
+    background-color: #fd5e53;
     color: #fafafa;
     text-align: center;
     font-size: 0.9rem;
@@ -4465,7 +4466,9 @@ footer div:last-child input {
     display: flex;
     flex-direction: column;
   }
-  #mainDetailApp #headerDetailApp #groupBtn p, #mainDetailApp #headerDetailApp #groupBtn button, #mainDetailApp #headerDetailApp #groupBtn a {
+  #mainDetailApp #headerDetailApp #groupBtn p,
+  #mainDetailApp #headerDetailApp #groupBtn button,
+  #mainDetailApp #headerDetailApp #groupBtn a {
     font-size: 0.8rem;
     width: 11rem;
     margin: 0.1rem 0;

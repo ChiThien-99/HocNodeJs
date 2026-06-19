@@ -20,25 +20,27 @@ function getUserFromCookie() {
       const decodedUser = jwtDecode(token);
       document.querySelector("#infoUserLogin h3").innerText =
         decodedUser.fullname;
-      const idClient=decodedUser.id;
-      fetch(`/detailApp/cart/count?idClient=${idClient}`,{
-        method:"GET",
-        headers:{"Content-Type":"application/json;charset=UTF-8"},
+      const idClient = decodedUser.id;
+      fetch(`/detailApp/cart/count?idClient=${idClient}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json;charset=UTF-8" },
       })
-      .then(res=>res.json())
-      .then(({success,totalItems})=>{
-        if (success) {
-          const countCart=document.querySelector("#bagShopping span");
-          const countCartHamburgerBtn=document.getElementById("countCartHamburgerBtn");
-          if (countCart||countCartHamburgerBtn) {
-            countCart.innerText=totalItems;
-            countCartHamburgerBtn.innerText=totalItems;
+        .then((res) => res.json())
+        .then(({ success, totalItems }) => {
+          if (success) {
+            const countCart = document.querySelector("#bagShopping span");
+            const countCartHamburgerBtn = document.getElementById(
+              "countCartHamburgerBtn",
+            );
+            if (countCart || countCartHamburgerBtn) {
+              countCart.innerText = totalItems;
+              countCartHamburgerBtn.innerText = totalItems;
+            }
           }
-        }
-      })
-      .catch((error)=>{
-        alert("Lỗi",error,"red");
-      });
+        })
+        .catch((error) => {
+          alert("Lỗi", error, "red");
+        });
       return decodedUser;
     } catch (error) {
       console.error(`Token không hợp lệ hoặc đã bị can thiệp ${error}`);
@@ -48,9 +50,9 @@ function getUserFromCookie() {
     document.querySelector("#navMenu #groupBtn").style.display = "block";
     document.querySelector("#navMenu #containerUserLogin").style.display =
       "none";
-    const countCart=document.querySelector("#bagShopping span");
+    const countCart = document.querySelector("#bagShopping span");
     if (countCart) {
-      countCart.innerText=0;
+      countCart.innerText = 0;
     }
     return null;
   }
@@ -184,8 +186,8 @@ colorDevice.forEach((color) => {
       colorDevice[i].classList.remove("active");
     }
     this.classList.add("active");
-    const color=this.querySelector("p").innerText;
-    document.getElementById("inpColorDevice").value=color;
+    const color = this.querySelector("p").innerText;
+    document.getElementById("inpColorDevice").value = color;
   });
 });
 document
@@ -198,62 +200,72 @@ document
     const basePrice = Number(priceDevice.getAttribute("data-base-price"));
     const totalPrice = basePrice * Number(this.value);
     priceDevice.innerText = totalPrice.toLocaleString("vi-VN") + " đ";
+    document.getElementById("quantityDevice2").innerText = this.value;
   });
 document.getElementById("btnShareDevice").addEventListener("click", () => {
   const divShareSocial = document.getElementById("divShareSocial");
   let type = divShareSocial.style.display === "flex" ? "none" : "flex";
   divShareSocial.style.display = type;
 });
-document.getElementById("btnCartDevice").addEventListener("click",function(){
-  const token=getCookie("accessToken2");
-  const decodedeUser=jwtDecode(token);
-  const idClient=decodedeUser.id;
-  const productId=this.getAttribute("data-idDevice");
-  const productName=this.getAttribute("data-nameDevice");
-  const productPrice=this.getAttribute("data-priceDevice");
-  const productQuantity=document.getElementById("quantityDevice").value;
-  const productColor=document.getElementById("inpColorDevice").value;
+document.getElementById("btnCartDevice").addEventListener("click", function () {
+  const token = getCookie("accessToken2");
+  const decodedeUser = jwtDecode(token);
+  const idClient = decodedeUser.id;
+  const productId = this.getAttribute("data-idDevice");
+  const productName = this.getAttribute("data-nameDevice");
+  const productPrice = this.getAttribute("data-priceDevice");
+  const productQuantity = document.getElementById("quantityDevice").value;
+  const productColor = document.getElementById("inpColorDevice").value;
   console.log(productQuantity);
   console.log(productColor);
-  this.disabled=true;
-  this.style.cursor="not-allowed";
-  fetch("/detailDevice/cart/add",{
-    method:"POST",
-    headers:{"Content-Type":"application/json;charset=UTF-8"},
-    body:JSON.stringify({idClient,productId,productName,productPrice,productQuantity,productColor}),
+  this.disabled = true;
+  this.style.cursor = "not-allowed";
+  fetch("/detailDevice/cart/add", {
+    method: "POST",
+    headers: { "Content-Type": "application/json;charset=UTF-8" },
+    body: JSON.stringify({
+      idClient,
+      productId,
+      productName,
+      productPrice,
+      productQuantity,
+      productColor,
+    }),
   })
-  .then(res=>res.json())
-  .then(({success,mess,totalItems,error})=>{
-    this.disabled=false;
-    this.style.cursor="pointer";
-    if (success) {
-      // alert("Thông báo",mess,"#80a710");
-      const countCart=document.querySelector("#bagShopping span")
-      countCart.innerText=totalItems;
-      countCart.classList.remove("bounce-animation");
-      void countCart.offsetWidth;
-      countCart.classList.add("bounce-animation");
-      setTimeout(() => {
+    .then((res) => res.json())
+    .then(({ success, mess, totalItems, error }) => {
+      this.disabled = false;
+      this.style.cursor = "pointer";
+      if (success) {
+        // alert("Thông báo",mess,"#80a710");
+        const countCart = document.querySelector("#bagShopping span");
+        countCart.innerText = totalItems;
         countCart.classList.remove("bounce-animation");
-      }, 500);
-      const countCartHamburgerBtn=document.getElementById("countCartHamburgerBtn");
-      countCartHamburgerBtn.innerText=totalItems;
-      countCartHamburgerBtn.classList.remove("bounce-animation");
-      void countCartHamburgerBtn.offsetWidth;
-      countCartHamburgerBtn.classList.add("bounce-animation");
-      setTimeout(() => {
+        void countCart.offsetWidth;
+        countCart.classList.add("bounce-animation");
+        setTimeout(() => {
+          countCart.classList.remove("bounce-animation");
+        }, 500);
+        const countCartHamburgerBtn = document.getElementById(
+          "countCartHamburgerBtn",
+        );
+        countCartHamburgerBtn.innerText = totalItems;
         countCartHamburgerBtn.classList.remove("bounce-animation");
-      }, 500);
-    } else {
-      alert("Lỗi",`${mess}\n${error}`,"red");
-    }
-  })
-  .catch((error)=>{
-    this.disabled=false;
-    this.style.cursor="pointer";
-    alert("Lỗi",error,"red");
-  });
-})
+        void countCartHamburgerBtn.offsetWidth;
+        countCartHamburgerBtn.classList.add("bounce-animation");
+        setTimeout(() => {
+          countCartHamburgerBtn.classList.remove("bounce-animation");
+        }, 500);
+      } else {
+        alert("Lỗi", `${mess}\n${error}`, "red");
+      }
+    })
+    .catch((error) => {
+      this.disabled = false;
+      this.style.cursor = "pointer";
+      alert("Lỗi", error, "red");
+    });
+});
 const groupNavigationBodyDevice = document.querySelectorAll(
   "#groupNavigationBodyDevice button",
 );
@@ -478,13 +490,13 @@ document.getElementById("listCommentDevice").addEventListener("click", (e) => {
 document.addEventListener("DOMContentLoaded", () => {
   const token = getCookie("accessToken2");
   const listApp = document.querySelectorAll("#listAppCol .app");
-  listApp.forEach((app)=>{
-    app.addEventListener("click",()=>{
+  listApp.forEach((app) => {
+    app.addEventListener("click", () => {
       if (!token) {
-    alert("Thông báo","Vui lòng đăng nhập để tiếp tục","#80a710");
-    }
-    })
-  })
+        alert("Thông báo", "Vui lòng đăng nhập để tiếp tục", "#80a710");
+      }
+    });
+  });
   if (!token) {
     return;
   }
@@ -523,10 +535,10 @@ function checkOrActivateTrial(idClient, idApp, app, isClientClick = false) {
         } else {
           if (app.querySelector(".priceApp .statusTrial")) {
             app.querySelector(".priceApp .statusTrial").innerHTML =
-            `Còn ${daysLeft} ngày dùng thử`;
+              `Còn ${daysLeft} ngày dùng thử`;
           }
           if (isClientClick) {
-            window.open(`/detailApp/${idApp}`,"_blank");
+            window.open(`/detailApp/${idApp}`, "_blank");
           }
         }
       } else {
