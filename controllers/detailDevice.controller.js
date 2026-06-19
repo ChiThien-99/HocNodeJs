@@ -3,6 +3,7 @@ import { appEntity } from "../models/app.model.js";
 import { blogsEntity } from "../models/blogs.model.js";
 import { commentDeviceEntity } from "../models/commentDevice.model.js";
 import { bannerEntity } from "../models/banner.model.js";
+import { cartEntity } from "../models/cart.model.js";
 
 export const getDetailDevice = async (req, res) => {
   const { id } = req.params;
@@ -70,3 +71,36 @@ export const handleLike = async (req, res) => {
     res.json({ success: false, data: error.message });
   }
 };
+export const addCart=async(req,res)=>{
+   try {
+      const {idClient,productId,productName,productPrice,productQuantity,productColor}=req.body;
+      console.log(productQuantity);
+      console.log(productColor);
+      const numericPrice=Number(productPrice);
+      if (!idClient||!productId) {
+        return res.json({mess:"Thiếu thông tin client hoặc sản phẩm",success:false});
+      }
+      let cart=await cartEntity.findOne({clientId:idClient});
+      if (!cart) {
+        cart=new cartEntity({
+          clientId:idClient,
+          products:[{productId:`${productId}${productColor}`,productName:productName,price:numericPrice,quantity:productQuantity,color:productColor}],
+        })
+        await cart.save();
+      } else {
+        const productIndex=cart.products.findIndex(p=>p.productId===productId);
+        if (productIndex>-1) {
+          cart.products[productIndex].quantity+=productQuantity;
+        } else {
+          cart.products.push({productId:`${productId}${productColor}`,productName:productName,price:numericPrice,quantity:productQuantity,color:productColor})
+        }
+        cart.updateAt=new Date();
+        await cart.save();
+      }
+      const totalItems=cart.products.reduce((sum,item)=>sum+item.quantity,0);
+      res.json({mess:`Đã thêm thiết bị ${productName} vào giỏ hàng`,success:true,totalItems:totalItems});
+    } catch (error) {
+      const {productName}=req.body;
+      res.json({mess:`Thêm thiết bị ${productName} vào giỏ hàng thất bại`,success:false,error:error.message});
+    }
+}

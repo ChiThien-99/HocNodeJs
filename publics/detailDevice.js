@@ -1,4 +1,98 @@
 const socket = io();
+import { authFetch2, setAccessToken2 } from "./authFetch.js";
+import { jwtDecode } from "https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/+esm";
+import { alert, confirm } from "./alert.js";
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) {
+    return parts.pop().split(";").shift();
+  }
+  return null;
+}
+function getUserFromCookie() {
+  const token = getCookie("accessToken2");
+  if (token) {
+    try {
+      document.querySelector("#navMenu #groupBtn").style.display = "none";
+      document.querySelector("#navMenu #containerUserLogin").style.display =
+        "flex";
+      const decodedUser = jwtDecode(token);
+      document.querySelector("#infoUserLogin h3").innerText =
+        decodedUser.fullname;
+      const idClient=decodedUser.id;
+      fetch(`/detailApp/cart/count?idClient=${idClient}`,{
+        method:"GET",
+        headers:{"Content-Type":"application/json;charset=UTF-8"},
+      })
+      .then(res=>res.json())
+      .then(({success,totalItems})=>{
+        if (success) {
+          const countCart=document.querySelector("#bagShopping span");
+          const countCartHamburgerBtn=document.getElementById("countCartHamburgerBtn");
+          if (countCart||countCartHamburgerBtn) {
+            countCart.innerText=totalItems;
+            countCartHamburgerBtn.innerText=totalItems;
+          }
+        }
+      })
+      .catch((error)=>{
+        alert("Lỗi",error,"red");
+      });
+      return decodedUser;
+    } catch (error) {
+      console.error(`Token không hợp lệ hoặc đã bị can thiệp ${error}`);
+      return null;
+    }
+  } else {
+    document.querySelector("#navMenu #groupBtn").style.display = "block";
+    document.querySelector("#navMenu #containerUserLogin").style.display =
+      "none";
+    const countCart=document.querySelector("#bagShopping span");
+    if (countCart) {
+      countCart.innerText=0;
+    }
+    return null;
+  }
+}
+window.onload = getUserFromCookie;
+document.getElementById("btnLogoutUserLogin").addEventListener("click", (e) => {
+  e.preventDefault();
+  fetch("/api/auth/logout", {
+    method: "POST",
+    credentials: "include",
+  })
+    .then((res) => res.json())
+    .then(({ mess, error, success }) => {
+      if (success) {
+        setAccessToken2(null);
+        const currentPath = window.location.pathname + window.location.search;
+        window.location.href = `/index/loginClient?headerActive=loginClient&redirect=${encodeURIComponent(currentPath)}`;
+      } else {
+        alert("Lỗi", `${mess}\n${error}`, red);
+      }
+    })
+    .catch((error) => {
+      alert("Lỗi", error, red);
+      setAccessToken2(null);
+      const currentPath = window.location.pathname + window.location.search;
+      window.location.href = `/index/loginClient?headerActive=loginClient&redirect=${encodeURIComponent(currentPath)}`;
+    });
+});
+document
+  .getElementById("btnDashboardUserLogin")
+  .addEventListener("click", (e) => {
+    e.preventDefault();
+    window.open("/dashboardClient", "_blank");
+  });
+document.getElementById("btnRegisterClient").addEventListener("click", () => {
+  const currentPath = window.location.pathname + window.location.search;
+  window.location.href = `/index/loginClient?headerActive=registerClient&redirect=${encodeURIComponent(currentPath)}`;
+});
+document.getElementById("btnLoginClient").addEventListener("click", () => {
+  const currentPath = window.location.pathname + window.location.search;
+  window.location.href = `/index/loginClient?headerActive=loginClient&redirect=${encodeURIComponent(currentPath)}`;
+});
 socket.on("update-detailDevice", (data) => {
   const mainDetailDevice = document.getElementById("mainDetailDevice");
   const idDevice = mainDetailDevice.getAttribute("data-idDetailDevice");
@@ -90,6 +184,8 @@ colorDevice.forEach((color) => {
       colorDevice[i].classList.remove("active");
     }
     this.classList.add("active");
+    const color=this.querySelector("p").innerText;
+    document.getElementById("inpColorDevice").value=color;
   });
 });
 document
@@ -108,6 +204,56 @@ document.getElementById("btnShareDevice").addEventListener("click", () => {
   let type = divShareSocial.style.display === "flex" ? "none" : "flex";
   divShareSocial.style.display = type;
 });
+document.getElementById("btnCartDevice").addEventListener("click",function(){
+  const token=getCookie("accessToken2");
+  const decodedeUser=jwtDecode(token);
+  const idClient=decodedeUser.id;
+  const productId=this.getAttribute("data-idDevice");
+  const productName=this.getAttribute("data-nameDevice");
+  const productPrice=this.getAttribute("data-priceDevice");
+  const productQuantity=document.getElementById("quantityDevice").value;
+  const productColor=document.getElementById("inpColorDevice").value;
+  console.log(productQuantity);
+  console.log(productColor);
+  this.disabled=true;
+  this.style.cursor="not-allowed";
+  fetch("/detailDevice/cart/add",{
+    method:"POST",
+    headers:{"Content-Type":"application/json;charset=UTF-8"},
+    body:JSON.stringify({idClient,productId,productName,productPrice,productQuantity,productColor}),
+  })
+  .then(res=>res.json())
+  .then(({success,mess,totalItems,error})=>{
+    this.disabled=false;
+    this.style.cursor="pointer";
+    if (success) {
+      // alert("Thông báo",mess,"#80a710");
+      const countCart=document.querySelector("#bagShopping span")
+      countCart.innerText=totalItems;
+      countCart.classList.remove("bounce-animation");
+      void countCart.offsetWidth;
+      countCart.classList.add("bounce-animation");
+      setTimeout(() => {
+        countCart.classList.remove("bounce-animation");
+      }, 500);
+      const countCartHamburgerBtn=document.getElementById("countCartHamburgerBtn");
+      countCartHamburgerBtn.innerText=totalItems;
+      countCartHamburgerBtn.classList.remove("bounce-animation");
+      void countCartHamburgerBtn.offsetWidth;
+      countCartHamburgerBtn.classList.add("bounce-animation");
+      setTimeout(() => {
+        countCartHamburgerBtn.classList.remove("bounce-animation");
+      }, 500);
+    } else {
+      alert("Lỗi",`${mess}\n${error}`,"red");
+    }
+  })
+  .catch((error)=>{
+    this.disabled=false;
+    this.style.cursor="pointer";
+    alert("Lỗi",error,"red");
+  });
+})
 const groupNavigationBodyDevice = document.querySelectorAll(
   "#groupNavigationBodyDevice button",
 );
@@ -329,6 +475,69 @@ document.getElementById("listCommentDevice").addEventListener("click", (e) => {
   }
   parentInput.value = idComment;
 });
+document.addEventListener("DOMContentLoaded", () => {
+  const token = getCookie("accessToken2");
+  const listApp = document.querySelectorAll("#listAppCol .app");
+  listApp.forEach((app)=>{
+    app.addEventListener("click",()=>{
+      if (!token) {
+    alert("Thông báo","Vui lòng đăng nhập để tiếp tục","#80a710");
+    }
+    })
+  })
+  if (!token) {
+    return;
+  }
+  const decodeToken = jwtDecode(token);
+  const idClient = decodeToken.id;
+  listApp.forEach((app) => {
+    const idApp = app.getAttribute("data-idApp");
+    checkOrActivateTrial(idClient, idApp, app);
+    app.addEventListener("click", () => {
+      console.log("OK");
+      checkOrActivateTrial(idClient, idApp, app, true);
+    });
+  });
+});
+function checkOrActivateTrial(idClient, idApp, app, isClientClick = false) {
+  fetch("/index/softwareAccess", {
+    method: "POST",
+    headers: { "Content-Type": "application/json;charset=UTF-8" },
+    body: JSON.stringify({ idClient, idApp, isClientClick }),
+  })
+    .then((res) => res.json())
+    .then(({ success, daysLeft, isExpired, mess, error }) => {
+      if (success) {
+        if (isExpired) {
+          app.querySelector(".priceApp .statusTrial").innerText =
+            "Đã hết hạn dùng thử";
+          app.querySelector(".priceApp .statusTrial").style.backgroundColor =
+            "red";
+          if (isClientClick) {
+            alert(
+              "Thông báo",
+              "Bạn hết hạn dùng thử hãy mua để sử dụng thoải mái nhé",
+              "#80a710",
+            );
+          }
+        } else {
+          if (app.querySelector(".priceApp .statusTrial")) {
+            app.querySelector(".priceApp .statusTrial").innerHTML =
+            `Còn ${daysLeft} ngày dùng thử`;
+          }
+          if (isClientClick) {
+            window.open(`/detailApp/${idApp}`,"_blank");
+          }
+        }
+      } else {
+        if (error) {
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        } else {
+          alert("Lỗi", mess, "red");
+        }
+      }
+    });
+}
 document.addEventListener("DOMContentLoaded", () => {
   const hamburgerBtn = document.getElementById("hamburgerBtn");
   const navMenu = document.getElementById("navMenu");

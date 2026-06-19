@@ -113,6 +113,27 @@ body.no-scroll {
   transform: translateX(0.6rem);
 }
 
+.bounce-animation {
+  animation: bounceEffect 0.5s ease-in-out;
+}
+
+@keyframes bounceEffect {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  30% {
+    transform: translateY(-12px) scale(0.9);
+  }
+  50% {
+    transform: translateY(0) scale(1.05);
+  }
+  70% {
+    transform: translateY(-4px) scale(0.98);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
 header {
   width: 100%;
   height: 6.5rem;
@@ -166,7 +187,7 @@ header div:first-child .rotating-text {
     transform: rotate(360deg);
   }
 }
-header .hamburger-btn {
+header .hamburger-btn, header #countCartHamburgerBtn {
   display: none;
 }
 header div:last-child {
@@ -299,9 +320,9 @@ header div:last-child #containerUserLogin #bagShopping span {
   position: absolute;
   top: 0;
   right: 0;
-  border: 1px solid #fafafa;
+  border: none;
   border-radius: 1000px;
-  background-color: #80a710;
+  background-color: #FD5E53;
   color: #fafafa;
   text-align: center;
 }
@@ -3274,7 +3295,28 @@ header div:last-child #containerUserLogin #bagShopping span {
   height: 4rem;
   border-bottom: 1px solid #80a710;
 }
-#mainDetailApp #headerDetailApp a {
+#mainDetailApp #headerDetailApp #idApp {
+  display: none;
+}
+#mainDetailApp #headerDetailApp div p {
+  display: inline-block;
+  padding: 0.5rem;
+  color: #fafafa;
+  margin: 0 0.5rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #1877f2;
+}
+#mainDetailApp #headerDetailApp div button {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #80a710;
+  color: #fafafa;
+  margin: 0 0.5rem;
+}
+#mainDetailApp #headerDetailApp div a {
   display: inline-block;
   border: none;
   border-radius: 5px;
@@ -3282,7 +3324,6 @@ header div:last-child #containerUserLogin #bagShopping span {
   padding: 0.5rem;
   background-color: red;
   color: #fafafa;
-  height: 2rem;
   text-decoration: none;
   font-weight: bold;
 }
@@ -4020,49 +4061,58 @@ header div:last-child #containerUserLogin #bagShopping span {
   flex-direction: column;
   margin: 1rem 0;
 }
-#mainDetailDevice aside #listAppCol a {
-  display: inline-block;
+#mainDetailDevice aside #listAppCol .app {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 80% 20%;
   width: 100%;
   height: 15rem;
   margin: 2% 0;
-  text-decoration: none;
-  color: black;
-}
-#mainDetailDevice aside #listAppCol .appCol {
-  display: flex;
-  flex-flow: row nowrap;
   overflow: hidden;
-  width: 100%;
-  height: 100%;
   border: 1px solid black;
   border-radius: 5px;
   position: relative;
 }
-#mainDetailDevice aside #listAppCol .appCol div:nth-child(1) {
-  width: 50%;
-  height: inherit;
-}
-#mainDetailDevice aside #listAppCol .appCol div:nth-child(1) img {
+#mainDetailDevice aside #listAppCol .app div:nth-child(1) img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
   margin: 0;
 }
-#mainDetailDevice aside #listAppCol .appCol div:nth-child(2) {
-  width: 50%;
-  height: inherit;
-  padding: 0.5rem 0.8rem;
+#mainDetailDevice aside #listAppCol .app div:nth-child(2) {
+  padding: 0.5rem;
   background-color: #f5f5f5;
   overflow-y: scroll;
 }
-#mainDetailDevice aside #listAppCol .appCol div:nth-child(2) h4 {
+#mainDetailDevice aside #listAppCol .app div:nth-child(2) h4 {
   font-size: 1.1rem;
   margin: 0 0 0.2rem 0;
 }
-#mainDetailDevice aside #listAppCol .appCol div:nth-child(2) p {
+#mainDetailDevice aside #listAppCol .app div:nth-child(2) p {
   font-size: 0.8rem;
   margin: 0.3rem 0;
+}
+#mainDetailDevice aside #listAppCol .app div:nth-child(3) {
+  grid-column: span 2;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: start;
+  align-items: center;
+}
+#mainDetailDevice aside #listAppCol .app div:nth-child(3) p {
+  display: inline-block;
+  padding: 0.55rem;
+  color: #fafafa;
+  margin: 0 0.5rem;
+  border: none;
+  border-radius: 1000px;
+}
+#mainDetailDevice aside #listAppCol .app div:nth-child(3) p:nth-child(1) {
+  background-color: #80a710;
+}
+#mainDetailDevice aside #listAppCol .app div:nth-child(3) p:nth-child(2) {
+  background-color: #1877f2;
 }
 
 footer {
@@ -4191,7 +4241,14 @@ footer div:last-child input {
   header div:first-child .brand-group {
     transform: translate(12rem, 1rem);
   }
-  header .hamburger-btn {
+  header div:nth-child(2) {
+    position: relative;
+    width: -moz-fit-content;
+    width: fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
+  }
+  header div:nth-child(2) .hamburger-btn {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -4203,11 +4260,25 @@ footer div:last-child input {
     padding: 0;
     margin: 0.5rem;
   }
-  header .hamburger-btn .bar {
+  header div:nth-child(2) .hamburger-btn .bar {
     width: 100%;
     height: 0.2rem;
     background-color: #80a710;
     transition: all 0.3s ease-in-out;
+  }
+  header div:nth-child(2) #countCartHamburgerBtn {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    border: none;
+    border-radius: 1000px;
+    background-color: #FD5E53;
+    color: #fafafa;
+    text-align: center;
+    font-size: 0.9rem;
   }
   header #navMenu {
     position: fixed;
@@ -4386,6 +4457,18 @@ footer div:last-child input {
   }
   #mainApp aside #listDeviceCol .deviceCol div:last-child p {
     font-size: 0.8rem;
+  }
+  #mainDetailApp #headerDetailApp {
+    height: 8rem;
+  }
+  #mainDetailApp #headerDetailApp #groupBtn {
+    display: flex;
+    flex-direction: column;
+  }
+  #mainDetailApp #headerDetailApp #groupBtn p, #mainDetailApp #headerDetailApp #groupBtn button, #mainDetailApp #headerDetailApp #groupBtn a {
+    font-size: 0.8rem;
+    width: 11rem;
+    margin: 0.1rem 0;
   }
   #mainDevice #listDevice {
     width: 100%;

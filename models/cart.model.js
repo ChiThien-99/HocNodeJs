@@ -12,6 +12,7 @@ const cartScheme=mongoose.Schema({
             productName:{type:String,required:true},
             price:{type:Number,required:true},
             quantity:{type:Number,required:true,default:1},
+            color:{type:String,required:true},
         }
     ],
     updateAt:{

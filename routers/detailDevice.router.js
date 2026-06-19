@@ -6,3 +6,5 @@ const prefix="/detailDevice";
 detailDeviceRouter.get(`${prefix}/:id`,detailDeviceController.getDetailDevice);
 detailDeviceRouter.get(`${prefix}/commentLike/:id`, detailDeviceController.handleLike);
 detailDeviceRouter.post(`${prefix}/addComment/:id`, detailDeviceController.postAddComment);
+detailDeviceRouter.post(`${prefix}/cart/add`, detailDeviceController.addCart);
+

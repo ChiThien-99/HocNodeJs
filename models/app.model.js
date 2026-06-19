@@ -33,6 +33,10 @@ const appSchema = mongoose.Schema({
     default:0,
     min:0,
   },
+  instruction:{
+    type:String,
+    required:true,
+  },
   createAt: {
     type: Date,
     default: Date.now(),

@@ -601,6 +601,7 @@ export const addApp = async (req, res) => {
       optionPrice,
       priceLEActualApp,
       priceSIActualApp,
+      instructionApp,
     } = req.body;
     let priceLE = "";
     let priceSI = "";
@@ -619,6 +620,7 @@ export const addApp = async (req, res) => {
       priceSI: priceSI,
       info: infoApp,
       func: funcApp,
+      instruction:instructionApp,
     });
     const io = req.app.get("socketio");
     io.emit("update-app", newApp);
@@ -653,7 +655,7 @@ export const putUpdateApp = async (req, res) => {
       image = currentApp.image;
       cloudinary_id = currentApp.cloudinary_id;
     }
-    const { nameApp, infoApp, funcApp, optionPrice, priceLEActualApp, priceSIActualApp } =
+    const { nameApp, infoApp, funcApp, optionPrice, priceLEActualApp, priceSIActualApp,instructionApp } =
       req.body;
     let priceLE = "";
     let priceSI = "";
@@ -674,6 +676,7 @@ export const putUpdateApp = async (req, res) => {
         priceLE: priceLE,
         priceSI: priceSI,
         func: funcApp,
+        instruction:instructionApp,
       },
       { new: true },
     );

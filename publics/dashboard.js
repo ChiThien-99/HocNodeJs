@@ -1327,6 +1327,7 @@ document
               document.getElementById("priceSIApp").value="";
               document.getElementById("priceSIActualApp").value="";
             }
+            document.getElementById("instructionApp").value=data.instruction;
             document.getElementById("btnApp").value = "Cập nhật";
             document.getElementById("btnDeleteImgApp").style.display =
               "inline-block";

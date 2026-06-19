@@ -20,6 +20,25 @@ function getUserFromCookie() {
       const decodedUser = jwtDecode(token);
       document.querySelector("#infoUserLogin h3").innerText =
         decodedUser.fullname;
+      const idClient=decodedUser.id;
+      fetch(`/detailApp/cart/count?idClient=${idClient}`,{
+        method:"GET",
+        headers:{"Content-Type":"application/json;charset=UTF-8"},
+      })
+      .then(res=>res.json())
+      .then(({success,totalItems})=>{
+        if (success) {
+          const countCart=document.querySelector("#bagShopping span");
+          const countCartHamburgerBtn=document.getElementById("countCartHamburgerBtn");
+          if (countCart||countCartHamburgerBtn) {
+            countCart.innerText=totalItems;
+            countCartHamburgerBtn.innerText=totalItems;
+          }
+        }
+      })
+      .catch((error)=>{
+        alert("Lỗi",error,"red");
+      });
       return decodedUser;
     } catch (error) {
       console.error(`Token không hợp lệ hoặc đã bị can thiệp ${error}`);
@@ -29,6 +48,10 @@ function getUserFromCookie() {
     document.querySelector("#navMenu #groupBtn").style.display = "block";
     document.querySelector("#navMenu #containerUserLogin").style.display =
       "none";
+    const countCart=document.querySelector("#bagShopping span");
+    if (countCart) {
+      countCart.innerText=0;
+    }
     return null;
   }
 }
