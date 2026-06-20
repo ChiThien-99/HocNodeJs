@@ -297,6 +297,7 @@ header {
         width: fit-content;
         height: 4rem;
         position: relative;
+        cursor: pointer;
         i {
           font-size: 2.5rem;
           color: $colorCTA;
@@ -317,6 +318,38 @@ header {
     }
   }
 }
+#mainCart{
+    padding: 2rem;
+    display: flex;
+    flex-flow: row wrap;
+    div{
+      width: 50%;
+    #divOrder{
+      width: fit-content;
+      height: fit-content;
+      max-height: 20rem;
+      overflow-y: scroll;
+      #tableOrder,td,th{
+      border: 1px solid black;
+      border-collapse: collapse;
+      padding: 0.5rem;
+      text-align: center;
+      td,th{
+        width: max-content;
+        white-space: nowrap; 
+      }
+      .quantityProduct{
+        width: 3rem;
+      }
+      .btnDeleteProduct{
+        @include button(0.5rem);
+        background-color: red;
+        color: $colorSecondaryText;
+      }
+    }
+    }
+    }
+  }
 //**CSS Todolist
 #addTask {
   width: 70%;
@@ -3441,6 +3474,7 @@ header {
           }
           .active {
             border: 2px solid $colorCTA;
+            color: $colorCTA;
           }
         }
         #groupBtnDevice {

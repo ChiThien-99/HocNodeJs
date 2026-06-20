@@ -74,13 +74,16 @@ export const handleLike = async (req, res) => {
 export const addCart=async(req,res)=>{
    try {
       const {idClient,productId,productName,productPrice,productQuantity,productColor}=req.body;
-      console.log(productQuantity);
-      console.log(productColor);
+      if (!productColor) {
+        console.log(productColor);
+        return res.json({mess:"Vui lòng chọn màu thiết bị", success:false});
+      }
       const numericPrice=Number(productPrice);
       if (!idClient||!productId) {
         return res.json({mess:"Thiếu thông tin client hoặc sản phẩm",success:false});
       }
       let cart=await cartEntity.findOne({clientId:idClient});
+      let productIndex
       if (!cart) {
         cart=new cartEntity({
           clientId:idClient,
@@ -88,17 +91,23 @@ export const addCart=async(req,res)=>{
         })
         await cart.save();
       } else {
-        const productIndex=cart.products.findIndex(p=>p.productId===productId);
+        productIndex=cart.products.findIndex(p=>p.productId.toString()===`${productId}${productColor}`);
+        console.log(productIndex);
         if (productIndex>-1) {
-          cart.products[productIndex].quantity+=productQuantity;
+          cart.products[productIndex].quantity+=Number(productQuantity);
         } else {
           cart.products.push({productId:`${productId}${productColor}`,productName:productName,price:numericPrice,quantity:productQuantity,color:productColor})
         }
         cart.updateAt=new Date();
         await cart.save();
       }
+      if (productIndex===-1) {
+        productIndex=cart.products.findIndex(p=>p.productId.toString()===`${productId}${productColor}`);
+      }
       const totalItems=cart.products.reduce((sum,item)=>sum+item.quantity,0);
-      res.json({mess:`Đã thêm thiết bị ${productName} vào giỏ hàng`,success:true,totalItems:totalItems});
+      const io = req.app.get("socketio");
+      io.emit("updateCart", [cart.products[productIndex],totalItems]);
+      res.json({success:true,totalItems:totalItems});
     } catch (error) {
       const {productName}=req.body;
       res.json({mess:`Thêm thiết bị ${productName} vào giỏ hàng thất bại`,success:false,error:error.message});

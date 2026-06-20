@@ -41,6 +41,9 @@ function getUserFromCookie() {
         .catch((error) => {
           alert("Lỗi", error, "red");
         });
+        document.getElementById("bagShopping").addEventListener("click",()=>{
+          window.open(`/cart/${idClient}`,"_blank");
+        })
       return decodedUser;
     } catch (error) {
       console.error(`Token không hợp lệ hoặc đã bị can thiệp ${error}`);
@@ -190,6 +193,11 @@ colorDevice.forEach((color) => {
     document.getElementById("inpColorDevice").value = color;
   });
 });
+document.addEventListener("DOMContentLoaded",()=>{
+  colorDevice[0].classList.add("active");
+  const color = colorDevice[0].querySelector("p").innerText;
+  document.getElementById("inpColorDevice").value = color;
+})
 document
   .getElementById("quantityDevice")
   .addEventListener("change", function () {
@@ -237,7 +245,6 @@ document.getElementById("btnCartDevice").addEventListener("click", function () {
       this.disabled = false;
       this.style.cursor = "pointer";
       if (success) {
-        // alert("Thông báo",mess,"#80a710");
         const countCart = document.querySelector("#bagShopping span");
         countCart.innerText = totalItems;
         countCart.classList.remove("bounce-animation");
