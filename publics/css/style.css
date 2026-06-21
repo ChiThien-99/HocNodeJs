@@ -345,21 +345,32 @@ header div:last-child #containerUserLogin #bagShopping span {
   max-height: 20rem;
   overflow-y: scroll;
 }
-#mainCart div #divOrder #tableOrder, #mainCart div #divOrder td, #mainCart div #divOrder th {
+#mainCart div #divOrder #tableOrder,
+#mainCart div #divOrder td,
+#mainCart div #divOrder th {
   border: 1px solid black;
   border-collapse: collapse;
   padding: 0.5rem;
   text-align: center;
 }
-#mainCart div #divOrder #tableOrder td, #mainCart div #divOrder #tableOrder th, #mainCart div #divOrder td td, #mainCart div #divOrder td th, #mainCart div #divOrder th td, #mainCart div #divOrder th th {
+#mainCart div #divOrder #tableOrder td,
+#mainCart div #divOrder #tableOrder th,
+#mainCart div #divOrder td td,
+#mainCart div #divOrder td th,
+#mainCart div #divOrder th td,
+#mainCart div #divOrder th th {
   width: -moz-max-content;
   width: max-content;
   white-space: nowrap;
 }
-#mainCart div #divOrder #tableOrder .quantityProduct, #mainCart div #divOrder td .quantityProduct, #mainCart div #divOrder th .quantityProduct {
+#mainCart div #divOrder #tableOrder .quantityProduct,
+#mainCart div #divOrder td .quantityProduct,
+#mainCart div #divOrder th .quantityProduct {
   width: 3rem;
 }
-#mainCart div #divOrder #tableOrder .btnDeleteProduct, #mainCart div #divOrder td .btnDeleteProduct, #mainCart div #divOrder th .btnDeleteProduct {
+#mainCart div #divOrder #tableOrder .btnDeleteProduct,
+#mainCart div #divOrder td .btnDeleteProduct,
+#mainCart div #divOrder th .btnDeleteProduct {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -2680,48 +2691,58 @@ header div:last-child #containerUserLogin #bagShopping span {
   flex-direction: column;
   margin: 1rem 0;
 }
-#mainDetailblogs aside #listAppCol a {
-  display: inline-block;
+#mainDetailblogs aside #listAppCol .app {
   width: 100%;
   height: 15rem;
   margin: 2% 0;
-  text-decoration: none;
-  color: black;
-}
-#mainDetailblogs aside #listAppCol a .appCol {
-  width: 100%;
-  height: inherit;
-  display: flex;
-  flex-flow: row nowrap;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 80% 20%;
   overflow: hidden;
   border: 1px solid black;
   border-radius: 5px;
+  cursor: pointer;
 }
-#mainDetailblogs aside #listAppCol a .appCol div:first-child {
-  width: 50%;
-  height: inherit;
-}
-#mainDetailblogs aside #listAppCol a .appCol div:first-child img {
+#mainDetailblogs aside #listAppCol .app div:first-child img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
   margin: 0;
 }
-#mainDetailblogs aside #listAppCol a .appCol div:last-child {
-  width: 50%;
-  height: inherit;
-  padding: 0.5rem 0.8rem;
+#mainDetailblogs aside #listAppCol .app .app-content {
+  padding: 0.5rem;
   position: relative;
   background-color: #f5f5f5;
   overflow-y: scroll;
 }
-#mainDetailblogs aside #listAppCol a .appCol div:last-child h4 {
+#mainDetailblogs aside #listAppCol .app .app-content h4 {
   font-size: 1.1rem;
   margin: 0 0 0.2rem 0;
 }
-#mainDetailblogs aside #listAppCol a .appCol div:last-child p {
+#mainDetailblogs aside #listAppCol .app .app-content p {
   margin: 0;
+}
+#mainDetailblogs aside #listAppCol .app .priceApp {
+  grid-column: span 2;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: start;
+  align-items: center;
+}
+#mainDetailblogs aside #listAppCol .app .priceApp p {
+  display: inline-block;
+  padding: 0.55rem;
+  color: #fafafa;
+  margin: 0 0.5rem;
+  border: none;
+  border-radius: 1000px;
+}
+#mainDetailblogs aside #listAppCol .app .priceApp p:nth-child(1) {
+  background-color: #80a710;
+}
+#mainDetailblogs aside #listAppCol .app .priceApp p:nth-child(2) {
+  background-color: #1877f2;
 }
 #mainDetailblogs aside #listDeviceCol {
   display: flex;
@@ -2757,10 +2778,13 @@ header div:last-child #containerUserLogin #bagShopping span {
   margin: 0;
 }
 #mainDetailblogs aside #listDeviceCol a .deviceCol div:first-child p {
-  margin: 0.5rem;
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #80a710;
+  display: inline-block;
+  padding: 0.55rem;
+  color: #fafafa;
+  margin: 0 0.5rem;
+  border: none;
+  border-radius: 1000px;
+  background-color: #80a710;
 }
 #mainDetailblogs aside #listDeviceCol a .deviceCol .deviceContent {
   width: 50%;
@@ -2945,6 +2969,7 @@ header div:last-child #containerUserLogin #bagShopping span {
   overflow: hidden;
   border: 1px solid black;
   border-radius: 5px;
+  cursor: pointer;
 }
 #mainBlogs aside #listAppCol .app div:first-child img {
   width: 100%;

@@ -41,9 +41,9 @@ function getUserFromCookie() {
         .catch((error) => {
           alert("Lỗi", error, "red");
         });
-        document.getElementById("bagShopping").addEventListener("click",()=>{
-          window.open(`/cart/${idClient}`,"_blank");
-        })
+      document.getElementById("bagShopping").addEventListener("click", () => {
+        window.open(`/cart/${idClient}`, "_blank");
+      });
       return decodedUser;
     } catch (error) {
       console.error(`Token không hợp lệ hoặc đã bị can thiệp ${error}`);
@@ -97,6 +97,12 @@ document.getElementById("btnRegisterClient").addEventListener("click", () => {
 document.getElementById("btnLoginClient").addEventListener("click", () => {
   const currentPath = window.location.pathname + window.location.search;
   window.location.href = `/index/loginClient?headerActive=loginClient&redirect=${encodeURIComponent(currentPath)}`;
+});
+socket.on("update-totalItems", (totalItems) => {
+  const countBagShopping = document.querySelector("#bagShopping span");
+  if (countBagShopping) {
+    countBagShopping.innerText = totalItems;
+  }
 });
 socket.on("update-detailDevice", (data) => {
   const mainDetailDevice = document.getElementById("mainDetailDevice");
@@ -193,11 +199,11 @@ colorDevice.forEach((color) => {
     document.getElementById("inpColorDevice").value = color;
   });
 });
-document.addEventListener("DOMContentLoaded",()=>{
+document.addEventListener("DOMContentLoaded", () => {
   colorDevice[0].classList.add("active");
   const color = colorDevice[0].querySelector("p").innerText;
   document.getElementById("inpColorDevice").value = color;
-})
+});
 document
   .getElementById("quantityDevice")
   .addEventListener("change", function () {

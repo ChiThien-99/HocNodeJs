@@ -57,24 +57,29 @@ function getUserFromCookie() {
       const decodedUser = jwtDecode(token);
       document.querySelector("#infoUserLogin h3").innerText =
         decodedUser.fullname;
-      const idClient=decodedUser.id;
-      fetch(`/detailApp/cart/count?idClient=${idClient}`,{
-        method:"GET",
-        headers:{"Content-Type":"application/json;charset=UTF-8"},
+      const idClient = decodedUser.id;
+      fetch(`/detailApp/cart/count?idClient=${idClient}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json;charset=UTF-8" },
       })
-      .then(res=>res.json())
-      .then(({success,totalItems})=>{
-        if (success) {
-          const countCart=document.querySelector("#bagShopping span");
-          const countCartHamburgerBtn=document.getElementById("countCartHamburgerBtn");
-          if (countCart||countCartHamburgerBtn) {
-            countCart.innerText=totalItems;
-            countCartHamburgerBtn.innerText=totalItems;
+        .then((res) => res.json())
+        .then(({ success, totalItems }) => {
+          if (success) {
+            const countCart = document.querySelector("#bagShopping span");
+            const countCartHamburgerBtn = document.getElementById(
+              "countCartHamburgerBtn",
+            );
+            if (countCart || countCartHamburgerBtn) {
+              countCart.innerText = totalItems;
+              countCartHamburgerBtn.innerText = totalItems;
+            }
           }
-        }
-      })
-      .catch((error)=>{
-        alert("Lỗi",error,"red");
+        })
+        .catch((error) => {
+          alert("Lỗi", error, "red");
+        });
+      document.getElementById("bagShopping").addEventListener("click", () => {
+        window.open(`/cart/${idClient}`, "_blank");
       });
       return decodedUser;
     } catch (error) {
@@ -85,9 +90,9 @@ function getUserFromCookie() {
     document.querySelector("#navMenu #groupBtn").style.display = "block";
     document.querySelector("#navMenu #containerUserLogin").style.display =
       "none";
-    const countCart=document.querySelector("#bagShopping span");
+    const countCart = document.querySelector("#bagShopping span");
     if (countCart) {
-      countCart.innerText=0;
+      countCart.innerText = 0;
     }
     return null;
   }
@@ -200,7 +205,12 @@ function resetTime() {
   startTime();
 }
 startTime();
-
+socket.on("update-totalItems", (totalItems) => {
+  const countBagShopping = document.querySelector("#bagShopping span");
+  if (countBagShopping) {
+    countBagShopping.innerText = totalItems;
+  }
+});
 socket.on("update-carousel", (data) => {
   if (!Array.isArray(data)) {
     const currentCarousel = document.querySelector(
@@ -394,13 +404,13 @@ document.getElementById("formSubscribers").addEventListener("submit", (e) => {
 document.addEventListener("DOMContentLoaded", () => {
   const token = getCookie("accessToken2");
   const listApp = document.querySelectorAll("#listApp .app");
-  listApp.forEach((app)=>{
-    app.addEventListener("click",()=>{
+  listApp.forEach((app) => {
+    app.addEventListener("click", () => {
       if (!token) {
-    alert("Thông báo","Vui lòng đăng nhập để tiếp tục","#80a710");
-    }
-    })
-  })
+        alert("Thông báo", "Vui lòng đăng nhập để tiếp tục", "#80a710");
+      }
+    });
+  });
   if (!token) {
     return;
   }
@@ -439,10 +449,10 @@ function checkOrActivateTrial(idClient, idApp, app, isClientClick = false) {
         } else {
           if (app.querySelector(".priceApp .statusTrial")) {
             app.querySelector(".priceApp .statusTrial").innerHTML =
-            `Còn ${daysLeft} ngày dùng thử`;
+              `Còn ${daysLeft} ngày dùng thử`;
           }
           if (isClientClick) {
-            window.open(`/detailApp/${idApp}`,"_blank");
+            window.open(`/detailApp/${idApp}`, "_blank");
           }
         }
       } else {

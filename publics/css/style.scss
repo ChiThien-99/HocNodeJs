@@ -318,38 +318,41 @@ header {
     }
   }
 }
-#mainCart{
-    padding: 2rem;
-    display: flex;
-    flex-flow: row wrap;
-    div{
-      width: 50%;
-    #divOrder{
+#mainCart {
+  padding: 2rem;
+  display: flex;
+  flex-flow: row wrap;
+  div {
+    width: 50%;
+    #divOrder {
       width: fit-content;
       height: fit-content;
       max-height: 20rem;
       overflow-y: scroll;
-      #tableOrder,td,th{
-      border: 1px solid black;
-      border-collapse: collapse;
-      padding: 0.5rem;
-      text-align: center;
-      td,th{
-        width: max-content;
-        white-space: nowrap; 
+      #tableOrder,
+      td,
+      th {
+        border: 1px solid black;
+        border-collapse: collapse;
+        padding: 0.5rem;
+        text-align: center;
+        td,
+        th {
+          width: max-content;
+          white-space: nowrap;
+        }
+        .quantityProduct {
+          width: 3rem;
+        }
+        .btnDeleteProduct {
+          @include button(0.5rem);
+          background-color: red;
+          color: $colorSecondaryText;
+        }
       }
-      .quantityProduct{
-        width: 3rem;
-      }
-      .btnDeleteProduct{
-        @include button(0.5rem);
-        background-color: red;
-        color: $colorSecondaryText;
-      }
-    }
-    }
     }
   }
+}
 //**CSS Todolist
 #addTask {
   width: 70%;
@@ -2398,44 +2401,56 @@ header {
       display: flex;
       flex-direction: column;
       margin: 1rem 0;
-      a {
-        display: inline-block;
+      .app {
         width: 100%;
         height: 15rem;
         margin: 2% 0;
-        text-decoration: none;
-        color: black;
-        .appCol {
-          width: 100%;
-          height: inherit;
+        display: grid;
+        grid-template-columns: 50% 50%;
+        grid-template-rows: 80% 20%;
+        overflow: hidden;
+        border: 1px solid black;
+        border-radius: 5px;
+        cursor: pointer;
+        div:first-child {
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            margin: 0;
+          }
+        }
+        .app-content {
+          padding: 0.5rem;
+          position: relative;
+          background-color: $colorPrimaryBG;
+          overflow-y: scroll;
+          h4 {
+            font-size: 1.1rem;
+            margin: 0 0 0.2rem 0;
+          }
+          p {
+            margin: 0;
+          }
+        }
+        .priceApp {
+          grid-column: span 2;
           display: flex;
           flex-flow: row nowrap;
-          overflow: hidden;
-          border: 1px solid black;
-          border-radius: 5px;
-          div:first-child {
-            width: 50%;
-            height: inherit;
-            img {
-              width: 100%;
-              height: 100%;
-              object-fit: cover;
-              margin: 0;
+          justify-content: start;
+          align-items: center;
+          p {
+            display: inline-block;
+            padding: 0.55rem;
+            color: $colorSecondaryText;
+            margin: 0 0.5rem;
+            border: none;
+            border-radius: 1000px;
+            &:nth-child(1) {
+              background-color: $colorCTA;
             }
-          }
-          div:last-child {
-            width: 50%;
-            height: inherit;
-            padding: 0.5rem 0.8rem;
-            position: relative;
-            background-color: $colorPrimaryBG;
-            overflow-y: scroll;
-            h4 {
-              font-size: 1.1rem;
-              margin: 0 0 0.2rem 0;
-            }
-            p {
-              margin: 0;
+            &:nth-child(2) {
+              background-color: #1877f2;
             }
           }
         }
@@ -2470,10 +2485,13 @@ header {
               margin: 0;
             }
             p {
-              margin: 0.5rem;
-              font-size: 1.2rem;
-              font-weight: bold;
-              color: $colorCTA;
+              display: inline-block;
+              padding: 0.55rem;
+              color: $colorSecondaryText;
+              margin: 0 0.5rem;
+              border: none;
+              border-radius: 1000px;
+              background-color: $colorCTA;
             }
           }
           .deviceContent {
@@ -2653,6 +2671,7 @@ header {
         overflow: hidden;
         border: 1px solid black;
         border-radius: 5px;
+        cursor: pointer;
         div:first-child {
           img {
             width: 100%;

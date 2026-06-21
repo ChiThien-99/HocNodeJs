@@ -40,6 +40,22 @@
     <script src="https://cdn.jsdelivr.net/npm/vanilla-emoji-picker@0.2.4/dist/emojiPicker.min.js"></script>
   </head>
   <body>
+    <div id="alert">
+        <h4 id="headingAlert">Tiêu đề thông báo</h4>
+        <p id="contentAlert">Thông báo lần 1</p>
+      </div>
+      <div id="confirm">
+        <h4 id="headingConfirm">Tiêu đề thông báo</h4>
+        <p id="contentConfirm">Thông báo lần 1</p>
+        <div>
+          <button id="btnConfirm">
+            <i class="fa-solid fa-check"></i> Xác nhận
+          </button>
+          <button id="btnDeny">
+            <i class="fa-solid fa-xmark"></i> Từ chối
+          </button>
+        </div>
+      </div>
     <header>
       <div>
         <a href="/" class="logo-link">
@@ -48,7 +64,7 @@
               <path id="circlePath" d="M -210,90 A 85,85 0 1,1 -40,90 A 85,85 0 1,1 -210,90" />
             </defs>
             <g class="brand-group">
-              <image href="/img/logo_imzai_1.webp" x="-200" y="15" width="150" height="150" clip-path="circle()" loading="lazy"/>
+              <image href="/img/logo_imzai_1.webp" x="-200" y="15" width="150" height="150" clip-path="circle()" />
             <text class="rotating-text">
               <textPath href="#circlePath" startOffset="30%" text-anchor="middle">
                IMZEN
@@ -58,11 +74,15 @@
           </svg>
         </a>
       </div>
-      <button type="button" class="hamburger-btn" id="hamburgerBtn">
+      <div>
+        <button type="button" class="hamburger-btn" id="hamburgerBtn">
         <span class="bar"></span>
         <span class="bar"></span>
         <span class="bar"></span>
-      </button>
+       </button>
+       <span id="countCartHamburgerBtn">0</span>
+      </div>
+      
       <div id="navMenu">
         <nav>
           <ul>
@@ -76,8 +96,21 @@
           </ul>
         </nav>
         <div id="groupBtn">
-          <button>Đăng ký</button>
-          <button>Đăng nhập</button>
+          <button type="button" id="btnRegisterClient">Đăng ký</button>
+          <button type="button" id="btnLoginClient">Đăng nhập</button>
+        </div>
+        <div id="containerUserLogin">
+          <div id="infoUserLogin">
+          <h3>Tên user</h3>
+          <div id="groupBtnUserLogin">
+            <button id="btnDashboardUserLogin">Dashboard</button>
+            <button id="btnLogoutUserLogin">Đăng xuất</button>
+          </div>
+        </div>
+        <div id="bagShopping">
+           <i class="fa-brands fa-opencart"></i>
+           <span>0</span>
+        </div>
         </div>
       </div>
     </header>
@@ -204,17 +237,25 @@
           <a class="flag-item" href="/app" target="_blank">Phần mềm</a>
           <div id="listAppCol">
             <%apps.forEach((app)=>{%>
-            <a href="/detailApp/<%=app._id%>" target="_blank">
-              <div class="appCol">
-              <div>
-                <img src="<%=app.image%>" alt="app">
-              </div>
-              <div>
+            <div class="app" data-idApp="<%=app._id%>">
+                <div>
+                  <img src="<%=app.image%>" alt="app">
+                </div>
+              <div class="app-content">
                 <h4><%=app.name%></h4>
-                <%-app.info.replace(/&nbsp;|&#160;/gi," ")%>
+                <div>
+                  <%-app.info.replace(/&nbsp;|&#160;/gi," ")%>
+                </div>
               </div>
-            </div>
-            </a>         
+              <div class="priceApp">
+                 <%if(app.priceLE==="Miễn phí"){%>
+                  <p>Miễn phí</p>
+                <%}else{%>
+                  <p><%=Number(app.priceLE).toLocaleString('vi-VN')%>đ%></p>
+                  <p class="statusTrial">Dùng thử 30 ngày</p>
+                <%}%>
+              </div>
+            </div>        
             <%})%>
           </div>
         </div>
@@ -226,7 +267,7 @@
                <div class="deviceCol">
               <div>
                 <img src="<%=device.images[0].url%>" alt="device">
-                <p><%=device.price.toLocaleString('vi-VN')%>đ</p>
+                <p><%=device.priceLE.toLocaleString('vi-VN')%>đ</p>
               </div>
               <div class="deviceContent">
                 <h4><%=device.name%></h4>

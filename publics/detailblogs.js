@@ -1,4 +1,109 @@
+import { authFetch2, setAccessToken2 } from "./authFetch.js";
+import { jwtDecode } from "https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/+esm";
+import { alert, confirm } from "./alert.js";
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) {
+    return parts.pop().split(";").shift();
+  }
+  return null;
+}
+function getUserFromCookie() {
+  const token = getCookie("accessToken2");
+  if (token) {
+    try {
+      document.querySelector("#navMenu #groupBtn").style.display = "none";
+      document.querySelector("#navMenu #containerUserLogin").style.display =
+        "flex";
+      const decodedUser = jwtDecode(token);
+      document.querySelector("#infoUserLogin h3").innerText =
+        decodedUser.fullname;
+      const idClient = decodedUser.id;
+      fetch(`/detailApp/cart/count?idClient=${idClient}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json;charset=UTF-8" },
+      })
+        .then((res) => res.json())
+        .then(({ success, totalItems }) => {
+          if (success) {
+            const countCart = document.querySelector("#bagShopping span");
+            const countCartHamburgerBtn = document.getElementById(
+              "countCartHamburgerBtn",
+            );
+            if (countCart || countCartHamburgerBtn) {
+              countCart.innerText = totalItems;
+              countCartHamburgerBtn.innerText = totalItems;
+            }
+          }
+        })
+        .catch((error) => {
+          alert("Lỗi", error, "red");
+        });
+      document.getElementById("bagShopping").addEventListener("click", () => {
+        window.open(`/cart/${idClient}`, "_blank");
+      });
+      return decodedUser;
+    } catch (error) {
+      console.error(`Token không hợp lệ hoặc đã bị can thiệp ${error}`);
+      return null;
+    }
+  } else {
+    document.querySelector("#navMenu #groupBtn").style.display = "block";
+    document.querySelector("#navMenu #containerUserLogin").style.display =
+      "none";
+    const countCart = document.querySelector("#bagShopping span");
+    if (countCart) {
+      countCart.innerText = 0;
+    }
+    return null;
+  }
+}
+window.onload = getUserFromCookie;
+document.getElementById("btnLogoutUserLogin").addEventListener("click", (e) => {
+  e.preventDefault();
+  fetch("/api/auth/logout", {
+    method: "POST",
+    credentials: "include",
+  })
+    .then((res) => res.json())
+    .then(({ mess, error, success }) => {
+      if (success) {
+        setAccessToken2(null);
+        const currentPath = window.location.pathname + window.location.search;
+        window.location.href = `/index/loginClient?headerActive=loginClient&redirect=${encodeURIComponent(currentPath)}`;
+      } else {
+        alert("Lỗi", `${mess}\n${error}`, red);
+      }
+    })
+    .catch((error) => {
+      alert("Lỗi", error, red);
+      setAccessToken2(null);
+      const currentPath = window.location.pathname + window.location.search;
+      window.location.href = `/index/loginClient?headerActive=loginClient&redirect=${encodeURIComponent(currentPath)}`;
+    });
+});
+document
+  .getElementById("btnDashboardUserLogin")
+  .addEventListener("click", (e) => {
+    e.preventDefault();
+    window.open("/dashboardClient", "_blank");
+  });
+document.getElementById("btnRegisterClient").addEventListener("click", () => {
+  const currentPath = window.location.pathname + window.location.search;
+  window.location.href = `/index/loginClient?headerActive=registerClient&redirect=${encodeURIComponent(currentPath)}`;
+});
+document.getElementById("btnLoginClient").addEventListener("click", () => {
+  const currentPath = window.location.pathname + window.location.search;
+  window.location.href = `/index/loginClient?headerActive=loginClient&redirect=${encodeURIComponent(currentPath)}`;
+});
 const socket = io();
+socket.on("update-totalItems", (totalItems) => {
+  const countBagShopping = document.querySelector("#bagShopping span");
+  if (countBagShopping) {
+    countBagShopping.innerText = totalItems;
+  }
+});
 socket.on("update-banner", (data) => {
   if (data.page !== "blog") {
     return;
@@ -209,6 +314,69 @@ document.addEventListener("DOMContentLoaded", () => {
       chucNangHTML || "<p>Đang cập nhật chức năng thiết bị</p>";
   }
 });
+document.addEventListener("DOMContentLoaded", () => {
+  const token = getCookie("accessToken2");
+  const listApp = document.querySelectorAll("#listAppCol .app");
+  listApp.forEach((app) => {
+    app.addEventListener("click", () => {
+      if (!token) {
+        alert("Thông báo", "Vui lòng đăng nhập để tiếp tục", "#80a710");
+      }
+    });
+  });
+  if (!token) {
+    return;
+  }
+  const decodeToken = jwtDecode(token);
+  const idClient = decodeToken.id;
+  listApp.forEach((app) => {
+    const idApp = app.getAttribute("data-idApp");
+    checkOrActivateTrial(idClient, idApp, app);
+    app.addEventListener("click", () => {
+      console.log("OK");
+      checkOrActivateTrial(idClient, idApp, app, true);
+    });
+  });
+});
+function checkOrActivateTrial(idClient, idApp, app, isClientClick = false) {
+  fetch("/index/softwareAccess", {
+    method: "POST",
+    headers: { "Content-Type": "application/json;charset=UTF-8" },
+    body: JSON.stringify({ idClient, idApp, isClientClick }),
+  })
+    .then((res) => res.json())
+    .then(({ success, daysLeft, isExpired, mess, error }) => {
+      if (success) {
+        if (isExpired) {
+          app.querySelector(".priceApp .statusTrial").innerText =
+            "Đã hết hạn dùng thử";
+          app.querySelector(".priceApp .statusTrial").style.backgroundColor =
+            "red";
+          if (isClientClick) {
+            alert(
+              "Thông báo",
+              "Bạn hết hạn dùng thử hãy mua để sử dụng thoải mái nhé",
+              "#80a710",
+            );
+          }
+        } else {
+          if (app.querySelector(".priceApp .statusTrial")) {
+            app.querySelector(".priceApp .statusTrial").innerHTML =
+              `Còn ${daysLeft} ngày dùng thử`;
+          }
+          if (isClientClick) {
+            window.open(`/detailApp/${idApp}`, "_blank");
+          }
+        }
+      } else {
+        if (error) {
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        } else {
+          alert("Lỗi", mess, "red");
+        }
+      }
+    });
+}
 document.addEventListener("DOMContentLoaded", () => {
   const hamburgerBtn = document.getElementById("hamburgerBtn");
   const navMenu = document.getElementById("navMenu");
