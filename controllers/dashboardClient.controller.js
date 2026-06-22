@@ -2,8 +2,17 @@ import { clientEntity } from "../models/client.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
-export const getDashboardClient = (req, res) => {
-  res.render("dashboardClient.ejs");
+import { voucherEntity } from "../models/voucher.model.js";
+export const getDashboardClient = async (req, res) => {
+  const clientId = req.user.id;
+  const vouchers = await voucherEntity
+    .find({
+      isActive: true,
+      clientIds: { $in: [clientId] },
+      usersUsed: { $nin: [clientId] },
+    })
+    .select("code image title content discountPercentage createdAt");
+  res.render("dashboardClient.ejs", { vouchers });
 };
 export const putInfoClient = async (req, res) => {
   try {
