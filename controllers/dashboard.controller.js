@@ -15,6 +15,8 @@ import { problemEntity } from "../models/problem.model.js";
 import { v2 as cloudinary } from "cloudinary";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { voucherEntity } from "../models/voucher.model.js";
+import { clientEntity } from "../models/client.model.js";
 function getSystemInfo() {
   const info = {
     os: {
@@ -1341,3 +1343,59 @@ export const deleteProblemById = async (req, res) => {
     });
   }
 };
+function generateRandomCode(length=10){
+  const characters="ABCDEFGHJKLMNOPQRSTUVWXYZ0123456789";
+  let result="";
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random()*characters.length);
+    result+=characters.charAt(randomIndex);
+  }
+  return result;
+}
+export const addVoucher=async(req,res)=>{
+  try {
+    const {genderClient,titleVoucher,contentVoucher,discountPerVoucher}=req.body;
+  let uniqueCode="";
+  let isDuplicate=true;
+  while (isDuplicate) {
+    uniqueCode=generateRandomCode(10);
+    const existCodeVoucher=await voucherEntity.findOne({code:uniqueCode});
+    if (!existCodeVoucher) {
+      isDuplicate=false;
+    }
+  }
+  let client=[];
+  if (genderClient!="all") {
+    client=await clientEntity.find({gender:genderClient});
+  } else {
+    client=await clientEntity.find();
+  }
+  const clientsId=client.map(c=>c._id.toString());
+  if (!req.file) {
+    return res.json({mess:"Vui lòng chọn hình ảnh voucher",success:false});
+  }
+  if (!titleVoucher) {
+    return res.json({mess:"Vui lòng chọn tiêu đề voucher",success:false});
+  }
+  if (!contentVoucher) {
+    return res.json({mess:"Vui lòng chọn nội dung voucher",success:false});
+  }
+  if(!discountPerVoucher){
+    return res.json({mess:"Vui lòng chọn phần trăm giảm giá",success:false});
+  }
+  await voucherEntity.create({
+    code:uniqueCode,
+    clientIds:clientsId,
+    image: req.file.path,
+    cloudinary_id: req.file.filename,
+    title:titleVoucher,
+    content:contentVoucher,
+    discountPercentage:Number(discountPerVoucher),
+    usersUsed:[],
+  })
+  res.json({mess:"Tạo voucher thành công",success:true});
+  } catch (error) {
+  res.json({mess:"Tạo voucher thất bại",success:false,error:error.message});
+  }
+  
+}

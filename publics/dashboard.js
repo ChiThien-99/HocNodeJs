@@ -1226,7 +1226,7 @@ formApp.addEventListener("submit", (e) => {
   const quillEditor = document.getElementsByClassName("quill-editor");
   const infoApp = document.getElementById("infoApp");
   infoApp.value = quillEditor;
-  infoApp.value = quillInstances[0].getSemanticHTML();
+  infoApp.value = quillInstances[1].getSemanticHTML();
   const formData = new FormData(formApp);
   const idApp = document.getElementById("idApp").value;
   if (idApp) {
@@ -1240,7 +1240,7 @@ formApp.addEventListener("submit", (e) => {
           document.getElementById("idApp").value = "";
           formApp.reset();
           if (typeof quillInstances !== "undefined") {
-            quillInstances[0].setText("");
+            quillInstances[1].setText("");
           } else {
             console.error("Biến quill không tồn tại");
           }
@@ -1268,7 +1268,7 @@ formApp.addEventListener("submit", (e) => {
         if (success) {
           formApp.reset();
           if (typeof quillInstances !== "undefined") {
-            quillInstances[0].setText("");
+            quillInstances[1].setText("");
           } else {
             console.error("Biến quill không tồn tại");
           }
@@ -1302,7 +1302,7 @@ document
             document.getElementById("idApp").value = data._id;
             document.getElementById("nameApp").value = data.name;
             if (typeof quillInstances !== "undefined") {
-              quillInstances[0].clipboard.dangerouslyPasteHTML(data.info || "");
+              quillInstances[1].clipboard.dangerouslyPasteHTML(data.info || "");
             } else {
               console.error("Biến quill chưa được khởi tạo");
             }
@@ -1393,7 +1393,7 @@ document.getElementById("btnDeleteImgApp").addEventListener("click", () => {
 document.getElementById("btnCancelApp").addEventListener("click", function () {
   formApp.reset();
   if (typeof quillInstances !== "undefined") {
-    quillInstances[0].setText("");
+    quillInstances[1].setText("");
   } else {
     console.error("Biến quill không tồn tại");
   }
@@ -1412,7 +1412,7 @@ document.getElementById("btnCancelApp").addEventListener("click", function () {
 document.getElementById("btnCancelApp").addEventListener("click", function () {
   formApp.reset();
   if (typeof quillInstances !== "undefined") {
-    quillInstances[0].setText("");
+    quillInstances[1].setText("");
   } else {
     console.error("Biến quill không tồn tại");
   }
@@ -1540,7 +1540,7 @@ formDevice.addEventListener("input", () => {
 formDevice.addEventListener("submit", (e) => {
   e.preventDefault();
   const dataform = new FormData(formDevice);
-  const quillHTML = quillInstances[1].getSemanticHTML();
+  const quillHTML = quillInstances[2].getSemanticHTML();
   dataform.set("infoDevice", quillHTML);
   const id = document.getElementById("idDevice").value;
   if (id) {
@@ -1553,7 +1553,7 @@ formDevice.addEventListener("submit", (e) => {
         if (success) {
           formDevice.reset();
           if (typeof quillInstances !== "undefined") {
-            quillInstances[1].setText("");
+            quillInstances[2].setText("");
           } else {
             console.error("Biến quill không tồn tại");
           }
@@ -1579,7 +1579,7 @@ formDevice.addEventListener("submit", (e) => {
         if (success) {
           formDevice.reset();
           if (typeof quillInstances !== "undefined") {
-            quillInstances[1].setText("");
+            quillInstances[2].setText("");
           } else {
             console.error("Biến quill không tồn tại");
           }
@@ -1639,7 +1639,7 @@ document
             document.getElementById("idDevice").value = data._id;
             document.getElementById("nameDevice").value = data.name;
             if (typeof quillInstances !== "undefined") {
-              quillInstances[1].clipboard.dangerouslyPasteHTML(data.info || "");
+              quillInstances[2].clipboard.dangerouslyPasteHTML(data.info || "");
             } else {
               console.error("Biến quill chưa được khởi tạo");
             }
@@ -1765,7 +1765,7 @@ document
     formDevice.reset();
     document.getElementById("idDevice").value = "";
     if (typeof quillInstances !== "undefined") {
-      quillInstances[1].setText("");
+      quillInstances[2].setText("");
     } else {
       console.error("Biến quill không tồn tại");
     }
@@ -1778,7 +1778,7 @@ document
   .addEventListener("click", function () {
     formDevice.reset();
     if (typeof quillInstances !== "undefined") {
-      quillInstances[1].setText("");
+      quillInstances[2].setText("");
     } else {
       console.error("Biến quill không tồn tại");
     }
@@ -1795,7 +1795,7 @@ formblogs.addEventListener("submit", (e) => {
   const quillEditor = document.getElementsByClassName("quill-editor");
   const infoblogs = document.getElementById("infoblogs");
   infoblogs.value = quillEditor;
-  infoblogs.value = quillInstances[2].getSemanticHTML();
+  infoblogs.value = quillInstances[3].getSemanticHTML();
   const formData = new FormData(formblogs);
   const id = document.getElementById("idblogs").value;
   if (id) {
@@ -1809,7 +1809,7 @@ formblogs.addEventListener("submit", (e) => {
           document.getElementById("idblogs").value = "";
           formblogs.reset();
           if (typeof quillInstances !== "undefined") {
-            quillInstances[2].setText("");
+            quillInstances[3].setText("");
           } else {
             console.error("Biến quill không tồn tại");
           }
@@ -1833,7 +1833,7 @@ formblogs.addEventListener("submit", (e) => {
         if (success) {
           formblogs.reset();
           if (typeof quillInstances !== "undefined") {
-            quillInstances[2].setText("");
+            quillInstances[3].setText("");
           } else {
             console.error("Biến quill không tồn tại");
           }
@@ -1853,7 +1853,7 @@ document.getElementById("btnSaveDraft").addEventListener("click", function () {
   const quillEditor = document.getElementsByClassName("quill-editor");
   const infoblogs = document.getElementById("infoblogs");
   infoblogs.value = quillEditor;
-  infoblogs.value = quillInstances[2].getSemanticHTML();
+  infoblogs.value = quillInstances[3].getSemanticHTML();
   const formData = new FormData(formblogs);
   const id = document.getElementById("idblogs").value;
   if (id) {
@@ -1867,7 +1867,7 @@ document.getElementById("btnSaveDraft").addEventListener("click", function () {
           document.getElementById("idblogs").value = "";
           formblogs.reset();
           if (typeof quillInstances !== "undefined") {
-            quillInstances[2].setText("");
+            quillInstances[3].setText("");
           } else {
             console.error("Biến quill không tồn tại");
           }
@@ -1888,7 +1888,7 @@ document.getElementById("btnSaveDraft").addEventListener("click", function () {
         if (success) {
           formblogs.reset();
           if (typeof quillInstances !== "undefined") {
-            quillInstances[2].setText("");
+            quillInstances[3].setText("");
           } else {
             console.error("Biến quill không tồn tại");
           }
@@ -1908,7 +1908,7 @@ document.getElementById("btnPostDraft").addEventListener("click", function () {
   const quillEditor = document.getElementsByClassName("quill-editor");
   const infoblogs = document.getElementById("infoblogs");
   infoblogs.value = quillEditor;
-  infoblogs.value = quillInstances[2].getSemanticHTML();
+  infoblogs.value = quillInstances[3].getSemanticHTML();
   const formData = new FormData(formblogs);
   const id = document.getElementById("idblogs").value;
   fetch(`/dashboard/postDraft/${id}`, {
@@ -1920,7 +1920,7 @@ document.getElementById("btnPostDraft").addEventListener("click", function () {
       if (success) {
         formblogs.reset();
         if (typeof quillInstances !== "undefined") {
-          quillInstances[2].setText("");
+          quillInstances[3].setText("");
         } else {
           console.error("Biến quill không tồn tại");
         }
@@ -1952,7 +1952,7 @@ document
           document.getElementById("idblogs").value = data._id;
           document.getElementById("titleblogs").value = data.title;
           if (typeof quillInstances !== "undefined") {
-            quillInstances[2].clipboard.dangerouslyPasteHTML(data.info || "");
+            quillInstances[3].clipboard.dangerouslyPasteHTML(data.info || "");
           } else {
             console.error("Biến quill chưa được khởi tạo");
           }
@@ -2002,7 +2002,7 @@ document.getElementById("btnCancleBlog").addEventListener("click", function () {
   formblogs.reset();
   document.getElementById("idblogs").value = "";
   if (typeof quillInstances !== "undefined") {
-    quillInstances[2].setText("");
+    quillInstances[3].setText("");
   } else {
     console.error("Biến quill không tồn tại");
   }
@@ -2138,7 +2138,7 @@ document
             document.getElementById("idblogs").value = data._id;
             document.getElementById("titleblogs").value = data.title;
             if (typeof quillInstances !== "undefined") {
-              quillInstances[2].clipboard.dangerouslyPasteHTML(data.info || "");
+              quillInstances[3].clipboard.dangerouslyPasteHTML(data.info || "");
             } else {
               console.error("Biến quill chưa được khởi tạo");
             }
@@ -2365,6 +2365,36 @@ document
         });
     }
   });
+const formVoucher=document.getElementById("formVoucher");
+formVoucher.addEventListener("submit",(e)=>{
+  e.preventDefault();
+  const quillEditor = document.getElementsByClassName("quill-editor");
+  const contentVoucher = document.getElementById("contentVoucher");
+  contentVoucher.value = quillEditor;
+  contentVoucher.value = quillInstances[0].getSemanticHTML();
+  const dataForm=new FormData(formVoucher);
+  fetch("/dashboard/addVoucher",{
+    method:"POST",
+    body:dataForm,
+  })
+  .then(res=>res.json())
+  .then(({mess,success,error})=>{
+    if (success) {
+      formVoucher.reset();
+      if (typeof quillInstances !== "undefined") {
+            quillInstances[0].setText("");
+          } else {
+            console.error("Biến quill không tồn tại");
+          }
+      alert("Thông báo",mess,"#80a710");
+    } else {
+      alert("Lỗi",`${mess}\n${error}`,"red");
+    }
+  })
+  .catch((error)=>{
+    alert("Lỗi",error,"red");
+  });
+})
 document
   .querySelector("#tableProblem tbody")
   .addEventListener("click", async (e) => {

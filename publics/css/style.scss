@@ -725,7 +725,7 @@ header {
         }
       }
     }
-    #bannerMng {
+    #marketingMng {
       width: 100%;
       #imgBanner::file-selector-button {
         @include button(0.5rem);
@@ -757,6 +757,7 @@ header {
       #divTableBN {
         width: fit-content;
         height: auto;
+        margin-bottom: 1rem;
         #tableBN,
         th,
         td {
@@ -780,6 +781,25 @@ header {
             color: $colorSecondaryText;
           }
         }
+      }
+      #formVoucher{
+        #imgVoucher::file-selector-button {
+        @include button(0.5rem);
+        background-color: $colorCTA;
+        color: $colorSecondaryText;
+      }
+      .quill-editor {
+        width: 100%;
+        height: 20rem;
+        background-color: $colorPrimaryBG;
+        color: black;
+        font-size: 1.1rem;
+      }
+      #discountPerVoucher{
+        width: 3rem;
+        height: 2rem;
+        font-size: 1rem;
+      }
       }
     }
     #softwareMng {
@@ -1479,14 +1499,6 @@ header {
             height: 2rem;
             font-size: 1rem;
           }
-          // .date-input-container {
-          //   position: relative;
-          //   width: 80%;
-          //   #dateBirthClient {
-          //     width: 100%;
-          //     position: relative;
-          //   }
-          // }
           #togglePwClient,
           #togglePwReClient {
             @include button(0.5rem);
@@ -1500,6 +1512,26 @@ header {
             font-weight: bold;
             font-size: 0.8rem;
             margin: 0;
+          }
+        }
+        #divBirthAndGender{
+          width: 80%;
+          display: flex;
+          flex-flow: row nowrap;
+          #divDateBirthClient{
+            width: 70%;
+            input{
+              width: 100%;
+            }
+          }
+          #divGenderClient{
+            width: 30%;
+            text-align: end;
+            select{
+              height: 2rem;
+              font-size: 1rem;
+              width: 4.5rem;
+            }
           }
         }
         div:nth-child(7) {

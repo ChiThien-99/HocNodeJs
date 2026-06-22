@@ -8,6 +8,10 @@ const clientScheme = mongoose.Schema({
     type: Date,
     required: true,
   },
+  gender:{
+    type:String,
+    required:true,
+  },
   tel: {
     type: String,
     required: true,

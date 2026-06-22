@@ -84,8 +84,8 @@
           <button data-target="homeMng" class="navBtnDB">
             <i class="fa-solid fa-house"></i> Quản lý trang chủ
           </button>
-          <button data-target="bannerMng" class="navBtnDB">
-            <i class="fa-solid fa-rectangle-ad"></i> Quản lý banner
+          <button data-target="marketingMng" class="navBtnDB">
+            <i class="fa-solid fa-rectangle-ad"></i> Quản lý marketing
           </button>
           <button data-target="softwareMng" class="navBtnDB">
             <i class="fa-solid fa-code"></i> Quản lý phần mềm
@@ -95,9 +95,6 @@
           </button>
           <button data-target="blogsMng" class="navBtnDB">
             <i class="fa-regular fa-newspaper"></i> Quản lý blog
-          </button>
-          <button data-target="shareMng" class="navBtnDB">
-            <i class="fa-solid fa-circle-question"></i> Quản lý chia sẻ
           </button>
            <button data-target="passwordMng" class="navBtnDB">
             <i class="fa-solid fa-key"></i> Cập nhật mật khẩu
@@ -159,9 +156,9 @@
                   type="checkbox"
                   name="decentAdmin"
                   id="decentBanner"
-                  value="bannerMng"
+                  value="marketingMng"
                 />
-                <label for="decentBanner">Quản lý banner</label><br />
+                <label for="decentBanner">Quản lý marketing</label><br />
                 <input
                   type="checkbox"
                   name="decentAdmin"
@@ -183,13 +180,6 @@
                   value="blogsMng"
                 />
                 <label for="decentblogs">Quản lý blog</label><br />
-                <input
-                  type="checkbox"
-                  name="decentAdmin"
-                  id="decentFeedBack"
-                  value="qaMng"
-                />
-                <label for="decentFeedBack">Quản lý Q&A</label><br />
                 <input
                   type="checkbox"
                   name="decentAdmin"
@@ -354,7 +344,7 @@
               </table>
             </div>
           </div>
-          <div id="bannerMng" class="tabContent">
+          <div id="marketingMng" class="tabContent">
             <h2 class="flag-item">Quản lý banner</h2>
             <form id="formBanner">
               <input type="hidden" name="idBN" id="idBN">
@@ -397,6 +387,25 @@
                 </tbody>
             </table>
             </div>
+            <h2 class="flag-item">Quản lý voucher</h2>
+            <form id="formVoucher">
+              <label for="genderClient">Giới tính khách hàng</label><br>
+              <select name="genderClient" id="genderClient">
+                <option value="all">Tất cả</option>
+                <option value="male">Nam</option>
+                <option value="female">Nữ</option>
+              </select><br>
+              <label for="imgVoucher">Hình ảnh</label><br>
+              <input type="file" name="imgVoucher" id="imgVoucher"><br>
+              <label for="titleVoucher">Tiêu đề</label><br>
+              <input type="text" name="titleVoucher" id="titleVoucher"><br>
+              <label for="contentVoucher">Nội dung</label><br>
+              <div class="quill-editor"></div>
+              <input type="hidden" name="contentVoucher" id="contentVoucher">
+              <label for="discountPerVoucher">% giảm giá</label><br>
+              <input type="number" name="discountPerVoucher" id="discountPerVoucher"><br>
+              <input type="submit" value="Tạo" id="btnAddVoucher">
+            </form>
           </div>
           <div id="softwareMng" class="tabContent">
             <h2 class="flag-item">Quản lý chức năng phần mềm</h2>

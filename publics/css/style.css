@@ -823,10 +823,10 @@ header div:last-child #containerUserLogin #bagShopping span {
   background-color: red;
   color: #fafafa;
 }
-#mainDashboard #contentDashboard #bannerMng {
+#mainDashboard #contentDashboard #marketingMng {
   width: 100%;
 }
-#mainDashboard #contentDashboard #bannerMng #imgBanner::file-selector-button {
+#mainDashboard #contentDashboard #marketingMng #imgBanner::file-selector-button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -834,8 +834,8 @@ header div:last-child #containerUserLogin #bagShopping span {
   background-color: #80a710;
   color: #fafafa;
 }
-#mainDashboard #contentDashboard #bannerMng #btnDeleteImgBN,
-#mainDashboard #contentDashboard #bannerMng #btnCancleBN {
+#mainDashboard #contentDashboard #marketingMng #btnDeleteImgBN,
+#mainDashboard #contentDashboard #marketingMng #btnCancleBN {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -845,7 +845,7 @@ header div:last-child #containerUserLogin #bagShopping span {
   margin: 0.5rem 0.5rem;
   display: none;
 }
-#mainDashboard #contentDashboard #bannerMng input[type=submit] {
+#mainDashboard #contentDashboard #marketingMng input[type=submit] {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -854,37 +854,38 @@ header div:last-child #containerUserLogin #bagShopping span {
   color: #fafafa;
   margin: 0.5rem 0;
 }
-#mainDashboard #contentDashboard #bannerMng input[type=text] {
+#mainDashboard #contentDashboard #marketingMng input[type=text] {
   width: 50%;
   height: 2rem;
   font-size: 1rem;
 }
-#mainDashboard #contentDashboard #bannerMng select {
+#mainDashboard #contentDashboard #marketingMng select {
   height: 2rem;
 }
-#mainDashboard #contentDashboard #bannerMng #divTableBN {
+#mainDashboard #contentDashboard #marketingMng #divTableBN {
   width: -moz-fit-content;
   width: fit-content;
   height: auto;
+  margin-bottom: 1rem;
 }
-#mainDashboard #contentDashboard #bannerMng #divTableBN #tableBN,
-#mainDashboard #contentDashboard #bannerMng #divTableBN th,
-#mainDashboard #contentDashboard #bannerMng #divTableBN td {
+#mainDashboard #contentDashboard #marketingMng #divTableBN #tableBN,
+#mainDashboard #contentDashboard #marketingMng #divTableBN th,
+#mainDashboard #contentDashboard #marketingMng #divTableBN td {
   border: 1px solid black;
   border-collapse: collapse;
   padding: 0.5rem;
   text-align: left;
 }
-#mainDashboard #contentDashboard #bannerMng #divTableBN #tableBN .btnGroup,
-#mainDashboard #contentDashboard #bannerMng #divTableBN th .btnGroup,
-#mainDashboard #contentDashboard #bannerMng #divTableBN td .btnGroup {
+#mainDashboard #contentDashboard #marketingMng #divTableBN #tableBN .btnGroup,
+#mainDashboard #contentDashboard #marketingMng #divTableBN th .btnGroup,
+#mainDashboard #contentDashboard #marketingMng #divTableBN td .btnGroup {
   display: flex;
   flex-direction: row nowrap;
   gap: 0.5rem;
 }
-#mainDashboard #contentDashboard #bannerMng #divTableBN #tableBN .btnUpdateBN,
-#mainDashboard #contentDashboard #bannerMng #divTableBN th .btnUpdateBN,
-#mainDashboard #contentDashboard #bannerMng #divTableBN td .btnUpdateBN {
+#mainDashboard #contentDashboard #marketingMng #divTableBN #tableBN .btnUpdateBN,
+#mainDashboard #contentDashboard #marketingMng #divTableBN th .btnUpdateBN,
+#mainDashboard #contentDashboard #marketingMng #divTableBN td .btnUpdateBN {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -892,15 +893,35 @@ header div:last-child #containerUserLogin #bagShopping span {
   background-color: #80a710;
   color: #fafafa;
 }
-#mainDashboard #contentDashboard #bannerMng #divTableBN #tableBN .btnDeleteBN,
-#mainDashboard #contentDashboard #bannerMng #divTableBN th .btnDeleteBN,
-#mainDashboard #contentDashboard #bannerMng #divTableBN td .btnDeleteBN {
+#mainDashboard #contentDashboard #marketingMng #divTableBN #tableBN .btnDeleteBN,
+#mainDashboard #contentDashboard #marketingMng #divTableBN th .btnDeleteBN,
+#mainDashboard #contentDashboard #marketingMng #divTableBN td .btnDeleteBN {
   border: none;
   border-radius: 5px;
   cursor: pointer;
   padding: 0.5rem;
   background-color: red;
   color: #fafafa;
+}
+#mainDashboard #contentDashboard #marketingMng #formVoucher #imgVoucher::file-selector-button {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #80a710;
+  color: #fafafa;
+}
+#mainDashboard #contentDashboard #marketingMng #formVoucher .quill-editor {
+  width: 100%;
+  height: 20rem;
+  background-color: #f5f5f5;
+  color: black;
+  font-size: 1.1rem;
+}
+#mainDashboard #contentDashboard #marketingMng #formVoucher #discountPerVoucher {
+  width: 3rem;
+  height: 2rem;
+  font-size: 1rem;
 }
 #mainDashboard #contentDashboard #softwareMng #imgApp::file-selector-button {
   border: none;
@@ -1756,6 +1777,26 @@ header div:last-child #containerUserLogin #bagShopping span {
   font-weight: bold;
   font-size: 0.8rem;
   margin: 0;
+}
+#loginClientContainer #bodyLogin #registerClient form #divBirthAndGender {
+  width: 80%;
+  display: flex;
+  flex-flow: row nowrap;
+}
+#loginClientContainer #bodyLogin #registerClient form #divBirthAndGender #divDateBirthClient {
+  width: 70%;
+}
+#loginClientContainer #bodyLogin #registerClient form #divBirthAndGender #divDateBirthClient input {
+  width: 100%;
+}
+#loginClientContainer #bodyLogin #registerClient form #divBirthAndGender #divGenderClient {
+  width: 30%;
+  text-align: end;
+}
+#loginClientContainer #bodyLogin #registerClient form #divBirthAndGender #divGenderClient select {
+  height: 2rem;
+  font-size: 1rem;
+  width: 4.5rem;
 }
 #loginClientContainer #bodyLogin #registerClient form div:nth-child(7) {
   grid-column: 2;

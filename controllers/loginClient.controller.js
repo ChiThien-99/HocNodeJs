@@ -8,6 +8,7 @@ export const postClient = async (req, res) => {
     let {
       fullNameClient,
       dateBirthClient,
+      genderClient,
       telClient,
       emailClient,
       pwClient,
@@ -34,6 +35,7 @@ export const postClient = async (req, res) => {
     await clientEntity.create({
       fullname: fullNameClient,
       datebirth: dateBirthClient,
+      gender:genderClient,
       tel: telClient,
       email: emailClient,
       password: pwClient,

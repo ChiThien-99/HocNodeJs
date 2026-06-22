@@ -110,8 +110,9 @@
                 required
               />
             </div>
-            <div>
-              <label for="dateBirthClient"
+            <div id="divBirthAndGender">
+              <div id="divDateBirthClient">
+                 <label for="dateBirthClient"
                 >Ngày/tháng/năm sinh<sup>*</sup></label
               ><br />
               <input
@@ -122,9 +123,14 @@
                 maxlength="10"
                 required
               />
-              <!-- <div class="date-input-container">
-                
-              </div> -->
+              </div>
+              <div id="divGenderClient">
+                <label for="genderClient">Giới tính<sup>*</sup></label><br>
+                <select name="genderClient" id="genderClient">
+                  <option value="male">Nam</option>
+                  <option value="female">Nữ</option>
+                </select>
+              </div>
             </div>
             <div>
               <label for="telClient">Số điện thoại</label><br />

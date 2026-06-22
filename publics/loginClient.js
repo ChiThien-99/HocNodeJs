@@ -41,12 +41,14 @@ formRegisterClient.addEventListener("submit", (e) => {
   const emailClient = document.getElementById("emailClient").value;
   const pwClient = document.getElementById("pwClient").value;
   const pwReClient = document.getElementById("pwReClient").value;
+  const genderClient=document.getElementById("genderClient").value;
   fetch("/loginClient/postClient", {
     method: "POST",
     headers: { "Content-Type": "application/json;charset=UTF-8" },
     body: JSON.stringify({
       fullNameClient,
       dateBirthClient,
+      genderClient,
       telClient,
       emailClient,
       pwClient,

@@ -154,6 +154,12 @@ dashboardRouter.post(
   upload.single("imgblogs"),
   dashboardController.uploadImage,
 );
+dashboardRouter.post(
+  `${prefix}/addVoucher`,
+  authenticateToken,
+  upload.single("imgVoucher"),
+  dashboardController.addVoucher,
+);
 dashboardRouter.put(
   `${prefix}/updateAdmin/:idUpdate`,
   authenticateToken,
