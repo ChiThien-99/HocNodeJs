@@ -334,10 +334,10 @@ header div:last-child #containerUserLogin #bagShopping span {
   display: flex;
   flex-flow: row wrap;
 }
-#mainCart div {
+#mainCart #divFormCart {
   width: 50%;
 }
-#mainCart div #divOrder {
+#mainCart #divFormCart #divOrder {
   width: -moz-fit-content;
   width: fit-content;
   height: -moz-fit-content;
@@ -345,38 +345,166 @@ header div:last-child #containerUserLogin #bagShopping span {
   max-height: 20rem;
   overflow-y: scroll;
 }
-#mainCart div #divOrder #tableOrder,
-#mainCart div #divOrder td,
-#mainCart div #divOrder th {
+#mainCart #divFormCart #divOrder #tableOrder,
+#mainCart #divFormCart #divOrder td,
+#mainCart #divFormCart #divOrder th {
   border: 1px solid black;
   border-collapse: collapse;
   padding: 0.5rem;
   text-align: center;
 }
-#mainCart div #divOrder #tableOrder td,
-#mainCart div #divOrder #tableOrder th,
-#mainCart div #divOrder td td,
-#mainCart div #divOrder td th,
-#mainCart div #divOrder th td,
-#mainCart div #divOrder th th {
+#mainCart #divFormCart #divOrder #tableOrder td,
+#mainCart #divFormCart #divOrder #tableOrder th,
+#mainCart #divFormCart #divOrder td td,
+#mainCart #divFormCart #divOrder td th,
+#mainCart #divFormCart #divOrder th td,
+#mainCart #divFormCart #divOrder th th {
   width: -moz-max-content;
   width: max-content;
   white-space: nowrap;
 }
-#mainCart div #divOrder #tableOrder .quantityProduct,
-#mainCart div #divOrder td .quantityProduct,
-#mainCart div #divOrder th .quantityProduct {
+#mainCart #divFormCart #divOrder #tableOrder .quantityProduct,
+#mainCart #divFormCart #divOrder td .quantityProduct,
+#mainCart #divFormCart #divOrder th .quantityProduct {
   width: 3rem;
 }
-#mainCart div #divOrder #tableOrder .btnDeleteProduct,
-#mainCart div #divOrder td .btnDeleteProduct,
-#mainCart div #divOrder th .btnDeleteProduct {
+#mainCart #divFormCart #divOrder #tableOrder .btnDeleteProduct,
+#mainCart #divFormCart #divOrder td .btnDeleteProduct,
+#mainCart #divFormCart #divOrder th .btnDeleteProduct {
   border: none;
   border-radius: 5px;
   cursor: pointer;
   padding: 0.5rem;
   background-color: red;
   color: #fafafa;
+}
+#mainCart #divFormCart #listVoucher {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: auto;
+  gap: 2%;
+  width: 100%;
+  height: 30rem;
+  border: 1px solid #80a710;
+  border-radius: 5px;
+  padding: 1rem;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+#mainCart #divFormCart #listVoucher .voucher-wrapper {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(2px 3px 8px rgba(0, 0, 0, 0.15));
+}
+#mainCart #divFormCart #listVoucher .voucher-wrapper .voucher-sawtooth-zigzag {
+  background-color: white;
+  padding: 20px;
+  position: relative;
+  width: 100%;
+}
+#mainCart #divFormCart #listVoucher .voucher-wrapper .voucher-sawtooth-zigzag::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -10px;
+  width: 10px;
+  background-image: linear-gradient(45deg, white 25%, transparent 25%), linear-gradient(-45deg, white 25%, transparent 25%), linear-gradient(135deg, white 25%, transparent 25%), linear-gradient(-135deg, white 25%, transparent 25%);
+  background-size: 10px 10px;
+  background-repeat: repeat-y;
+}
+#mainCart #divFormCart #listVoucher .voucher-wrapper .voucher-sawtooth-zigzag::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: -10px;
+  width: 10px;
+  background-image: linear-gradient(45deg, transparent 75%, white 75%), linear-gradient(-45deg, transparent 75%, white 75%), linear-gradient(135deg, transparent 75%, white 75%), linear-gradient(-135deg, transparent 75%, white 75%);
+  background-size: 10px 10px;
+  background-repeat: repeat-y;
+}
+#mainCart #divFormCart #listVoucher .voucher-wrapper .voucher-sawtooth-zigzag .voucher {
+  width: 100%;
+  height: inherit;
+  display: flex;
+  flex-flow: row wrap;
+}
+#mainCart #divFormCart #listVoucher .voucher-wrapper .voucher-sawtooth-zigzag .voucher div:nth-child(1) {
+  width: 30%;
+  height: inherit;
+}
+#mainCart #divFormCart #listVoucher .voucher-wrapper .voucher-sawtooth-zigzag .voucher div:nth-child(1) img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  margin: 0;
+}
+#mainCart #divFormCart #listVoucher .voucher-wrapper .voucher-sawtooth-zigzag .voucher div:nth-child(2) {
+  width: 70%;
+  height: inherit;
+  padding: 0 0.5rem;
+  position: relative;
+}
+#mainCart #divFormCart #listVoucher .voucher-wrapper .voucher-sawtooth-zigzag .voucher div:nth-child(2) h3, #mainCart #divFormCart #listVoucher .voucher-wrapper .voucher-sawtooth-zigzag .voucher div:nth-child(2) p {
+  margin: 0.5rem 0;
+}
+#mainCart #divFormCart #listVoucher .voucher-wrapper .voucher-sawtooth-zigzag .voucher div:nth-child(2) .divApplyVoucher {
+  width: -moz-fit-content;
+  width: fit-content;
+  height: auto;
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+#mainCart #divFormCart #listVoucher .voucher-wrapper .voucher-sawtooth-zigzag .voucher div:nth-child(2) .divApplyVoucher span {
+  color: #80a710;
+}
+#mainCart #divFormCart #listVoucher .voucher-wrapper .voucher-sawtooth-zigzag .voucher div:nth-child(2) .divApplyVoucher .applyVoucher {
+  width: 1.5rem;
+  height: 1.5rem;
+  cursor: pointer;
+}
+#mainCart #divInfoCart {
+  width: 50%;
+}
+#mainCart #divInfoCart div {
+  width: 50%;
+  padding: 1rem;
+  border: 1px solid #bbb;
+  border-radius: 10px;
+  background-color: rgba(187, 187, 187, 0.4588235294);
+  margin: auto;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: auto;
+  gap: 1rem;
+}
+#mainCart #divInfoCart div p {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin: 0;
+}
+#mainCart #divInfoCart div span {
+  color: #80a710;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+#mainCart #divInfoCart div h2 {
+  grid-column: span 2;
+  margin: 0.5rem 0;
+}
+#mainCart #divInfoCart div #textFreeShip {
+  grid-column: span 2;
+  margin: 0;
+  color: #80a710;
+  font-weight: bold;
+  font-size: 1.2rem;
 }
 
 #addTask {
@@ -1543,6 +1671,74 @@ header div:last-child #containerUserLogin #bagShopping span {
   color: #fafafa;
   margin-top: 0.5rem;
   display: none;
+}
+#mainDashboardClient #contentDashboardClient #voucherMng #listVoucher {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: auto;
+  gap: 2%;
+}
+#mainDashboardClient #contentDashboardClient #voucherMng #listVoucher .voucher-wrapper {
+  width: 96%;
+  height: 12rem;
+  filter: drop-shadow(2px 3px 8px rgba(0, 0, 0, 0.15));
+}
+#mainDashboardClient #contentDashboardClient #voucherMng #listVoucher .voucher-wrapper .voucher-sawtooth-zigzag {
+  background-color: white;
+  padding: 20px;
+  position: relative;
+}
+#mainDashboardClient #contentDashboardClient #voucherMng #listVoucher .voucher-wrapper .voucher-sawtooth-zigzag::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -10px;
+  width: 10px;
+  background-image: linear-gradient(45deg, white 25%, transparent 25%), linear-gradient(-45deg, white 25%, transparent 25%), linear-gradient(135deg, white 25%, transparent 25%), linear-gradient(-135deg, white 25%, transparent 25%);
+  background-size: 10px 10px;
+  background-repeat: repeat-y;
+}
+#mainDashboardClient #contentDashboardClient #voucherMng #listVoucher .voucher-wrapper .voucher-sawtooth-zigzag::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: -10px;
+  width: 10px;
+  background-image: linear-gradient(45deg, transparent 75%, white 75%), linear-gradient(-45deg, transparent 75%, white 75%), linear-gradient(135deg, transparent 75%, white 75%), linear-gradient(-135deg, transparent 75%, white 75%);
+  background-size: 10px 10px;
+  background-repeat: repeat-y;
+}
+#mainDashboardClient #contentDashboardClient #voucherMng #listVoucher .voucher-wrapper .voucher-sawtooth-zigzag a {
+  text-decoration: none;
+  color: black;
+}
+#mainDashboardClient #contentDashboardClient #voucherMng #listVoucher .voucher-wrapper .voucher-sawtooth-zigzag a .voucher {
+  width: 100%;
+  height: inherit;
+  display: flex;
+  flex-flow: row wrap;
+}
+#mainDashboardClient #contentDashboardClient #voucherMng #listVoucher .voucher-wrapper .voucher-sawtooth-zigzag a .voucher div:nth-child(1) {
+  width: 30%;
+  height: inherit;
+}
+#mainDashboardClient #contentDashboardClient #voucherMng #listVoucher .voucher-wrapper .voucher-sawtooth-zigzag a .voucher div:nth-child(1) img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  margin: 0;
+}
+#mainDashboardClient #contentDashboardClient #voucherMng #listVoucher .voucher-wrapper .voucher-sawtooth-zigzag a .voucher div:nth-child(2) {
+  width: 70%;
+  height: inherit;
+  padding: 0 0.5rem;
+}
+#mainDashboardClient #contentDashboardClient #voucherMng #listVoucher .voucher-wrapper .voucher-sawtooth-zigzag a .voucher div:nth-child(2) h3, #mainDashboardClient #contentDashboardClient #voucherMng #listVoucher .voucher-wrapper .voucher-sawtooth-zigzag a .voucher div:nth-child(2) p {
+  margin: 0.5rem 0;
 }
 
 #logoLogin {

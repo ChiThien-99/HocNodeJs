@@ -218,6 +218,21 @@ document.querySelectorAll(".quantityProduct").forEach((inp) => {
           if (countBagShopping) {
             countBagShopping.innerText = totalItems;
           }
+          fetch("/cart/calMultiVouchers",{
+          method:"POST",
+          headers:{"Content-Type":"application/json;charset=UTF-8"},
+          body:JSON.stringify({selectedVoucherCode,idClient}),
+        })
+        .then(res=>res.json())
+        .then(({subTotal,discountAmount,finalTotal,success,mess,error})=>{
+          if (success) {
+          document.getElementById("subTotal").innerText=`${subTotal.toLocaleString("vi-VN")}đ`;
+          document.getElementById("discountAmount").innerText=`${discountAmount.toLocaleString("vi-VN")}đ`;
+          document.getElementById("finalTotal").innerText=`${finalTotal.toLocaleString("vi-VN")}đ`;
+          } else {
+          alert("Thông báo",`${mess}\n${error}`,"#80a710");
+          }
+        });
         } else {
           alert("Lỗi", `${mess}\n${error}`, "red");
         }
@@ -225,6 +240,7 @@ document.querySelectorAll(".quantityProduct").forEach((inp) => {
       .catch((error) => {
         alert("Lỗi", error, "red");
       });
+      
   });
 });
 document.addEventListener("DOMContentLoaded", () => {
@@ -250,3 +266,41 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+let selectedVoucherCode=[];
+document.querySelectorAll(".voucher").forEach((v)=>{
+    v.addEventListener("change",(e)=>{
+      if (e.target&&e.target.classList.contains("applyVoucher")) {
+        const checkbox=e.target;
+        const voucherCode=checkbox.getAttribute("data-codeVoucher");
+        if (checkbox.checked) {
+          if (!selectedVoucherCode.includes(voucherCode)) {
+            selectedVoucherCode.push(voucherCode);
+          }
+        } else {
+          selectedVoucherCode=selectedVoucherCode.filter(code=>code!==voucherCode);
+        }
+        const token = getCookie("accessToken2");
+    if (!token) {
+      return;
+    }
+    const decodedUser = jwtDecode(token);
+    const idClient = decodedUser.id;
+        fetch("/cart/calMultiVouchers",{
+          method:"POST",
+          headers:{"Content-Type":"application/json;charset=UTF-8"},
+          body:JSON.stringify({selectedVoucherCode,idClient}),
+        })
+        .then(res=>res.json())
+        .then(({subTotal,discountAmount,finalTotal,success,mess})=>{
+          if (success) {
+          document.getElementById("subTotal").innerText=`${subTotal.toLocaleString("vi-VN")}đ`;
+          document.getElementById("discountAmount").innerText=`${discountAmount.toLocaleString("vi-VN")}đ`;
+          document.getElementById("finalTotal").innerText=`${finalTotal.toLocaleString("vi-VN")}đ`;
+          } else {
+          alert("Thông báo",mess,"#80a710");
+          }
+        });
+      }
+    })
+})

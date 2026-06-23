@@ -1,8 +1,20 @@
 import { cartEntity } from "../models/cart.model.js";
+import { voucherEntity } from "../models/voucher.model.js";
 export const getCart = async (req, res) => {
   const { idClient } = req.params;
   const cart = await cartEntity.findOne({ clientId: idClient });
-  res.render("cart.ejs", { cart });
+  const vouchers = await voucherEntity
+      .find({
+        isActive: true,
+        clientIds: { $in: [idClient] },
+        usersUsed: { $nin: [idClient] },
+      })
+      .select("code image title content discountPercentage createdAt");
+  let subTotal=0;
+  cart.products.forEach(p=>{
+    subTotal+=p.price*p.quantity;
+  });
+  res.render("cart.ejs", { cart,vouchers,subTotal });
 };
 export const deleteProduct = async (req, res) => {
   try {
@@ -69,3 +81,33 @@ export const updateQuantity = async (req, res) => {
     });
   }
 };
+export const calMultiVouchers=async(req,res)=>{
+  try {
+    const {selectedVoucherCode,idClient}=req.body;
+  const cart=await cartEntity.findOne({clientId:idClient});
+  let subTotal=0;
+  cart.products.map((p)=>{subTotal+=p.price*p.quantity});
+  console.log(cart.products);
+  let totalDiscountPercent=0;
+  let discountAmount=0;
+  if (selectedVoucherCode&&Array.isArray(selectedVoucherCode)&&selectedVoucherCode.length>0) {
+    const upperCode=selectedVoucherCode.map(code=>code.toUpperCase());
+    const activeVoucher=await voucherEntity.find({
+      code:{$in:upperCode},
+      isActive:true,
+      clientIds:{$in:[idClient]},
+      usersUsed:{$nin:[idClient]},
+    })
+    activeVoucher.forEach(v=>{totalDiscountPercent+=v.discountPercentage});
+    if (totalDiscountPercent>80) {
+      return res.json({mess:"Voucher giảm giá chỉ được áp dụng tối đa 80%/phần mềm",success:false});
+    }
+    discountAmount=(subTotal*totalDiscountPercent)/100;
+  }
+  let finalTotal=subTotal-discountAmount;
+  res.json({subTotal,discountAmount,finalTotal,success:true});
+  } catch (error) {
+  res.json({mess:"Áp dụng voucher thất bại",success:false,error:error.message});
+  }
+  
+}

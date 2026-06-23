@@ -101,10 +101,10 @@
       </div>
     </header>
     <main id="mainCart">
-        <%if(cart.products.length===0){%>
+        <%if(!cart||cart.products.length===0){%>
             <h3>Bạn đang không có đơn hàng</h3>
         <%}else{%>
-        <div>
+        <div id="divFormCart">
             <h3>Thông tin đơn hàng</h3>
             <div id="divOrder">
                 <table id="tableOrder">
@@ -138,11 +138,40 @@
                 </table>
             </div>
             <h3>Voucher</h3>
-            <div id="voucher">
-              
+            <div id="listVoucher">
+              <%vouchers.forEach((voucher)=>{%>
+              <div class="voucher-wrapper">
+                <div class="voucher-sawtooth-zigzag">
+                <div class="voucher">
+                <div>
+                  <img src="<%=voucher.image%>" alt="imgVoucher">
+                </div>
+                <div>
+                  <h3><%=voucher.title%></h3>
+                  <%-voucher.content.replace(/&nbsp;|&#160;/gi," ")%>
+                  <div class="divApplyVoucher">
+                    <span>Áp dụng</span>
+                    <input type="checkbox" name="applyVoucher" class="applyVoucher" data-codeVoucher="<%=voucher.code%>">
+                  </div>
+                </div>
+              </div>
+                </div>
+              </div>
+              <%})%>
             </div>
         </div>
-        <aside></aside>
+        <div id="divInfoCart">
+          <div>
+            <h2>Đơn hàng</h2>
+            <p>Tạm tính:</p>
+            <span id="subTotal"><%=subTotal.toLocaleString('vi-VN')%>đ</span>
+            <p>Voucher giảm:</p>
+            <span id="discountAmount">0đ</span>
+            <p>Thành tiền:</p>
+            <span id="finalTotal"><%=subTotal.toLocaleString('vi-VN')%>đ</span>
+            <p id="textFreeShip">Miễn phí ship</p>
+          </div>
+        </div>
         <%}%>
     </main>
     <footer>

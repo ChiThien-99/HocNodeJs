@@ -108,14 +108,23 @@
           <div id="voucherMng" class="tabContent">
             <h2 class="flag-item">Kho voucher</h2>
             <div id="listVoucher">
-              <div class="voucher">
+              <%vouchers.forEach((voucher)=>{%>
+              <div class="voucher-wrapper">
+                <div class="voucher-sawtooth-zigzag">
+                <a href="/app" target="_blank">
+                  <div class="voucher" data-codeVoucher="<%=voucher.code%>" data-discountVoucher="<%=voucher.discountPercentage%>">
                 <div>
-                  <img src="" alt="">
+                  <img src="<%=voucher.image%>" alt="imgVoucher">
                 </div>
                 <div>
-                  <h3></h3>
+                  <h3><%=voucher.title%></h3>
+                  <%-voucher.content.replace(/&nbsp;|&#160;/gi," ")%>
                 </div>
               </div>
+                </a>
+                </div>
+              </div>
+              <%})%>
             </div>
           </div>
           <div id="historyMng" class="tabContent">

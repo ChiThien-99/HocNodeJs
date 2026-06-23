@@ -26,9 +26,11 @@ export const authenticateToken = (req, res, next) => {
   });
 };
 export const authenticateToken2 = (req, res, next) => {
-  const authHeader = req.headers["Authorization"];
+  const authHeader = req.headers["authorization"];
   const tokenFromHeader = authHeader && authHeader.split(" ")[1];
+  console.log(authHeader);
   const tokenFromCookie=req.cookies?req.cookies.accessToken2:null;
+  console.log(`tokenFromCookie: ${tokenFromCookie}`);
   const token=tokenFromHeader||tokenFromCookie;
   console.log(`Token: ${token}`);
   if (!token) {
@@ -36,6 +38,7 @@ export const authenticateToken2 = (req, res, next) => {
   }
   jwt.verify(token, process.env.ACCESS_SECRET, (err, decodedUser) => {
     if (err) {
+      console.log("--- JWT VERIFY ERROR ---", err);
       const errMsg =
         err.name === "TokenExpiredError"
           ? "Phiên làm việc đã hết hạn.Vui lòng đăng nhập lại"
