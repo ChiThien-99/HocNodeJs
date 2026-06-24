@@ -450,7 +450,37 @@ header {
         }
           }
         }
-        
+      }
+      #divPaymentMethod{
+        label{
+          display: flex;
+          flex-flow: row nowrap;
+          align-items: center;
+          width: 50%;
+          height: auto;
+          background-color: white;
+          border: none;
+          border-radius: 10px;
+          margin: 0.5rem 0;
+          cursor: pointer;
+          p{
+            display: flex;
+            flex-flow: row nowrap;
+            align-items: center;
+            margin-left: 1rem;
+            img{
+              width: 1.5rem;
+              height: 1.5rem;
+            }
+            #logoZalopay{
+              width: 4.4rem;
+              height: 1rem;
+            }
+            span{
+              margin-left: 1rem;
+            }
+          }
+        }
       }
   }
   #divInfoCart{
@@ -488,6 +518,37 @@ header {
         font-size: 1.2rem;
       }
     }
+  }
+  #headerReceivingInfor{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    button{
+      @include button(0.5rem);
+      color: $colorCTA;
+      border: 2px solid $colorCTA;
+    }
+  }
+  #formReceivingInfor{
+    padding: 1rem;
+    border: 1px solid $colorCTA;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    label{
+      display: inline-block;
+      margin: 0.5rem 0;
+    }
+    input{
+      width: 50%;
+      height: 2rem;
+      font-size: 1rem;
+    }
+  }
+  #contentReceivingInfor{
+    padding: 1rem;
+    border: 1px solid $colorCTA;
+    border-radius: 5px;
   }
 }
 //**CSS Todolist
@@ -1437,10 +1498,10 @@ header {
         display: grid;
         grid-template-columns: 50% 50%;
         grid-template-rows: auto;
-        gap: 2%;
+        gap: 4% 2%;
         .voucher-wrapper{
           width: 96%;
-          height: 12rem;
+          height: auto;
           filter: drop-shadow(2px 3px 8px rgba(0,0,0,0.15));
           .voucher-sawtooth-zigzag{
           background-color: white;

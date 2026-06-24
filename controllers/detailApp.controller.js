@@ -23,11 +23,13 @@ export const addCart = async (req, res) => {
       });
     }
     let cart = await cartEntity.findOne({ clientId: idClient });
+    let productIndex;
     if (!cart) {
       cart = new cartEntity({
         clientId: idClient,
         products: [
           {
+            category:"app",
             productId: productId,
             productName: productName,
             price: numericPrice,
@@ -38,13 +40,15 @@ export const addCart = async (req, res) => {
       });
       await cart.save();
     } else {
-      const productIndex = cart.products.findIndex(
-        (p) => p.productId === productId,
+      productIndex = cart.products.findIndex(
+        (p) => p.productId.toString() === `${productId}`,
       );
+      console.log(productIndex);
       if (productIndex > -1) {
         cart.products[productIndex].quantity += 1;
       } else {
         cart.products.push({
+          category:"app",
           productId: productId,
           productName: productName,
           price: numericPrice,
@@ -55,11 +59,18 @@ export const addCart = async (req, res) => {
       cart.updateAt = new Date();
       await cart.save();
     }
+    if (productIndex === -1) {
+      productIndex = cart.products.findIndex(
+        (p) => p.productId.toString() === `${productId}`,
+      );
+    }
     const totalItems = cart.products.reduce(
       (sum, item) => sum + item.quantity,
       0,
     );
     const io = req.app.get("socketio");
+    console.log(cart.products[productIndex])
+    io.emit("updateCart", [cart.products[productIndex], totalItems]);
     io.emit("update-totalItems", totalItems);
     res.json({
       mess: `Đã thêm phần mềm ${productName} vào giỏ hàng`,

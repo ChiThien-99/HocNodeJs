@@ -109,6 +109,12 @@ function getUserFromCookie() {
         .catch((error) => {
           alert("Lỗi", error, "red");
         });
+        document
+  .getElementById("btnDashboardUserLogin")
+  .addEventListener("click", (e) => {
+    e.preventDefault();
+    window.open(`/dashboardClient/${idClient}`, "_blank");
+  });
       return decodedUser;
     } catch (error) {
       console.error(`Token không hợp lệ hoặc đã bị can thiệp ${error}`);
@@ -149,12 +155,6 @@ document.getElementById("btnLogoutUserLogin").addEventListener("click", (e) => {
       window.location.href = `/index/loginClient?headerActive=loginClient&redirect=${encodeURIComponent(currentPath)}`;
     });
 });
-document
-  .getElementById("btnDashboardUserLogin")
-  .addEventListener("click", (e) => {
-    e.preventDefault();
-    window.open("/dashboardClient", "_blank");
-  });
 document.getElementById("btnRegisterClient").addEventListener("click", () => {
   const currentPath = window.location.pathname + window.location.search;
   window.location.href = `/index/loginClient?headerActive=registerClient&redirect=${encodeURIComponent(currentPath)}`;

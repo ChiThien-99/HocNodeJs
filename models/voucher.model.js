@@ -1,5 +1,10 @@
 import mongoose from "mongoose";
 const voucherSchema=mongoose.Schema({
+    applyToCategory:{
+        type:String,
+        enum:["app","device","all"],
+        required:true,
+    },
     code:{
         type:String,
         required:true,

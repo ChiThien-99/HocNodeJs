@@ -99,6 +99,7 @@ export const addCart = async (req, res) => {
         clientId: idClient,
         products: [
           {
+            category:"device",
             productId: `${productId}${productColor}`,
             productName: productName,
             price: numericPrice,
@@ -117,6 +118,7 @@ export const addCart = async (req, res) => {
         cart.products[productIndex].quantity += Number(productQuantity);
       } else {
         cart.products.push({
+          category:"device",
           productId: `${productId}${productColor}`,
           productName: productName,
           price: numericPrice,

@@ -470,6 +470,35 @@ header div:last-child #containerUserLogin #bagShopping span {
   height: 1.5rem;
   cursor: pointer;
 }
+#mainCart #divFormCart #divPaymentMethod label {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  width: 50%;
+  height: auto;
+  background-color: white;
+  border: none;
+  border-radius: 10px;
+  margin: 0.5rem 0;
+  cursor: pointer;
+}
+#mainCart #divFormCart #divPaymentMethod label p {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  margin-left: 1rem;
+}
+#mainCart #divFormCart #divPaymentMethod label p img {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+#mainCart #divFormCart #divPaymentMethod label p #logoZalopay {
+  width: 4.4rem;
+  height: 1rem;
+}
+#mainCart #divFormCart #divPaymentMethod label p span {
+  margin-left: 1rem;
+}
 #mainCart #divInfoCart {
   width: 50%;
 }
@@ -505,6 +534,40 @@ header div:last-child #containerUserLogin #bagShopping span {
   color: #80a710;
   font-weight: bold;
   font-size: 1.2rem;
+}
+#mainCart #headerReceivingInfor {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+#mainCart #headerReceivingInfor button {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: #80a710;
+  border: 2px solid #80a710;
+}
+#mainCart #formReceivingInfor {
+  padding: 1rem;
+  border: 1px solid #80a710;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+}
+#mainCart #formReceivingInfor label {
+  display: inline-block;
+  margin: 0.5rem 0;
+}
+#mainCart #formReceivingInfor input {
+  width: 50%;
+  height: 2rem;
+  font-size: 1rem;
+}
+#mainCart #contentReceivingInfor {
+  padding: 1rem;
+  border: 1px solid #80a710;
+  border-radius: 5px;
 }
 
 #addTask {
@@ -1677,11 +1740,11 @@ header div:last-child #containerUserLogin #bagShopping span {
   display: grid;
   grid-template-columns: 50% 50%;
   grid-template-rows: auto;
-  gap: 2%;
+  gap: 4% 2%;
 }
 #mainDashboardClient #contentDashboardClient #voucherMng #listVoucher .voucher-wrapper {
   width: 96%;
-  height: 12rem;
+  height: auto;
   filter: drop-shadow(2px 3px 8px rgba(0, 0, 0, 0.15));
 }
 #mainDashboardClient #contentDashboardClient #voucherMng #listVoucher .voucher-wrapper .voucher-sawtooth-zigzag {

@@ -48,6 +48,14 @@ const clientScheme = mongoose.Schema({
         default:Date.now,
       },
     }
+  ],
+  addressInfor:[
+    {
+      fullname:{type:String,required:true},
+      tel:{type:String,required:true},
+      address:{type:String,required:true},
+      category:{type:String,enum:["office","home"],required:true},
+    }
   ]
 });
 export const clientEntity = mongoose.model(

@@ -38,6 +38,27 @@ socket.on("updateCart", (data) => {
   if (countBagShopping) {
     countBagShopping.innerText = data[1];
   }
+  const token = getCookie("accessToken2");
+    if (!token) {
+      return;
+    }
+    const decodedUser = jwtDecode(token);
+    const idClient = decodedUser.id;
+  fetch("/cart/calMultiVouchers",{
+          method:"POST",
+          headers:{"Content-Type":"application/json;charset=UTF-8"},
+          body:JSON.stringify({selectedVoucherCode,idClient}),
+        })
+        .then(res=>res.json())
+        .then(({subTotal,totalDiscountAmount,finalTotal,success,mess,error})=>{
+          if (success) {
+          document.getElementById("subTotal").innerText=`${subTotal.toLocaleString("vi-VN")}đ`;
+          document.getElementById("discountAmount").innerText=`${totalDiscountAmount.toLocaleString("vi-VN")}đ`;
+          document.getElementById("finalTotal").innerText=`${finalTotal.toLocaleString("vi-VN")}đ`;
+          } else {
+          alert("Thông báo",`${mess}\n${error}`,"#80a710");
+          }
+        });
 });
 socket.on("update-totalItems", (totalItems) => {
   const countBagShopping = document.querySelector("#bagShopping span");
@@ -84,6 +105,12 @@ function getUserFromCookie() {
         .catch((error) => {
           alert("Lỗi", error, "red");
         });
+        document
+  .getElementById("btnDashboardUserLogin")
+  .addEventListener("click", (e) => {
+    e.preventDefault();
+    window.open(`/dashboardClient/${idClient}`, "_blank");
+  });
       return decodedUser;
     } catch (error) {
       console.error(`Token không hợp lệ hoặc đã bị can thiệp ${error}`);
@@ -124,12 +151,6 @@ document.getElementById("btnLogoutUserLogin").addEventListener("click", (e) => {
       window.location.href = `/index/loginClient?headerActive=loginClient&redirect=${encodeURIComponent(currentPath)}`;
     });
 });
-document
-  .getElementById("btnDashboardUserLogin")
-  .addEventListener("click", (e) => {
-    e.preventDefault();
-    window.open("/dashboardClient", "_blank");
-  });
 document.getElementById("btnRegisterClient").addEventListener("click", () => {
   const currentPath = window.location.pathname + window.location.search;
   window.location.href = `/index/loginClient?headerActive=registerClient&redirect=${encodeURIComponent(currentPath)}`;
@@ -181,6 +202,21 @@ document
               if (totalItems === 0) {
                 window.location.reload();
               }
+              fetch("/cart/calMultiVouchers",{
+          method:"POST",
+          headers:{"Content-Type":"application/json;charset=UTF-8"},
+          body:JSON.stringify({selectedVoucherCode,idClient}),
+        })
+        .then(res=>res.json())
+        .then(({subTotal,totalDiscountAmount,finalTotal,success,mess,error})=>{
+          if (success) {
+          document.getElementById("subTotal").innerText=`${subTotal.toLocaleString("vi-VN")}đ`;
+          document.getElementById("discountAmount").innerText=`${totalDiscountAmount.toLocaleString("vi-VN")}đ`;
+          document.getElementById("finalTotal").innerText=`${finalTotal.toLocaleString("vi-VN")}đ`;
+          } else {
+          alert("Thông báo",`${mess}\n${error}`,"#80a710");
+          }
+        });
             } else {
               alert("Lỗi", `${mess}\n${error}`, "red");
             }
@@ -224,10 +260,10 @@ document.querySelectorAll(".quantityProduct").forEach((inp) => {
           body:JSON.stringify({selectedVoucherCode,idClient}),
         })
         .then(res=>res.json())
-        .then(({subTotal,discountAmount,finalTotal,success,mess,error})=>{
+        .then(({subTotal,totalDiscountAmount,finalTotal,success,mess,error})=>{
           if (success) {
           document.getElementById("subTotal").innerText=`${subTotal.toLocaleString("vi-VN")}đ`;
-          document.getElementById("discountAmount").innerText=`${discountAmount.toLocaleString("vi-VN")}đ`;
+          document.getElementById("discountAmount").innerText=`${totalDiscountAmount.toLocaleString("vi-VN")}đ`;
           document.getElementById("finalTotal").innerText=`${finalTotal.toLocaleString("vi-VN")}đ`;
           } else {
           alert("Thông báo",`${mess}\n${error}`,"#80a710");
@@ -292,10 +328,10 @@ document.querySelectorAll(".voucher").forEach((v)=>{
           body:JSON.stringify({selectedVoucherCode,idClient}),
         })
         .then(res=>res.json())
-        .then(({subTotal,discountAmount,finalTotal,success,mess})=>{
+        .then(({subTotal,totalDiscountAmount,finalTotal,success,mess})=>{
           if (success) {
           document.getElementById("subTotal").innerText=`${subTotal.toLocaleString("vi-VN")}đ`;
-          document.getElementById("discountAmount").innerText=`${discountAmount.toLocaleString("vi-VN")}đ`;
+          document.getElementById("discountAmount").innerText=`${totalDiscountAmount.toLocaleString("vi-VN")}đ`;
           document.getElementById("finalTotal").innerText=`${finalTotal.toLocaleString("vi-VN")}đ`;
           } else {
           alert("Thông báo",mess,"#80a710");

@@ -83,13 +83,14 @@ export const updateQuantity = async (req, res) => {
 };
 export const calMultiVouchers=async(req,res)=>{
   try {
-    const {selectedVoucherCode,idClient}=req.body;
+  const {selectedVoucherCode,idClient}=req.body;
   const cart=await cartEntity.findOne({clientId:idClient});
   let subTotal=0;
   cart.products.map((p)=>{subTotal+=p.price*p.quantity});
   console.log(cart.products);
-  let totalDiscountPercent=0;
-  let discountAmount=0;
+  let poolDiscountApp=0;
+  let poolDiscountDevice=0;
+  let totalDiscountAmount=0;
   if (selectedVoucherCode&&Array.isArray(selectedVoucherCode)&&selectedVoucherCode.length>0) {
     const upperCode=selectedVoucherCode.map(code=>code.toUpperCase());
     const activeVoucher=await voucherEntity.find({
@@ -98,14 +99,40 @@ export const calMultiVouchers=async(req,res)=>{
       clientIds:{$in:[idClient]},
       usersUsed:{$nin:[idClient]},
     })
-    activeVoucher.forEach(v=>{totalDiscountPercent+=v.discountPercentage});
-    if (totalDiscountPercent>80) {
-      return res.json({mess:"Voucher giảm giá chỉ được áp dụng tối đa 80%/phần mềm",success:false});
-    }
-    discountAmount=(subTotal*totalDiscountPercent)/100;
+    activeVoucher.forEach(v=>{
+      if (v.applyToCategory==="app") {
+        poolDiscountApp+=v.discountPercentage;
+      } else if(v.applyToCategory==="device"){
+        poolDiscountDevice+=v.discountPercentage;
+      }else{
+        poolDiscountApp+=v.discountPercentage;
+        poolDiscountDevice+=v.discountPercentage;
+      }
+    });
+    cart.products.forEach(p=>{
+      const itemTotalOriginal=p.price*p.quantity;
+      if (p.category==="app") {
+        if (poolDiscountApp>0) {
+          const percentToApply=Math.min(poolDiscountApp,80);
+          const discountForThisItem=(itemTotalOriginal*percentToApply)/100;
+          totalDiscountAmount+=discountForThisItem;
+          poolDiscountApp-=percentToApply;
+        }
+      } else if(p.category==="device"){
+        if (poolDiscountDevice>0) {
+          const percentToApply=Math.min(poolDiscountApp,80);
+          const discountForThisItem=(itemTotalOriginal*percentToApply)/100;
+          totalDiscountAmount+=discountForThisItem;
+          poolDiscountDevice-=percentToApply;
+        }
+      }
+    })
   }
-  let finalTotal=subTotal-discountAmount;
-  res.json({subTotal,discountAmount,finalTotal,success:true});
+  let finalTotal=subTotal-totalDiscountAmount;
+  if (finalTotal<0) {
+    finalTotal=0;
+  }
+  res.json({subTotal,totalDiscountAmount,finalTotal,success:true});
   } catch (error) {
   res.json({mess:"Áp dụng voucher thất bại",success:false,error:error.message});
   }

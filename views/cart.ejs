@@ -159,6 +159,46 @@
               </div>
               <%})%>
             </div>
+            <h3>Phương thức thanh toán</h3>
+            <div id="divPaymentMethod">
+               <label for="cod">
+              <input type="radio" name="paymentMethod" value="cod" id="cod">
+              <p><img src="/img/cod.webp" alt="cod"><span>Thanh toán khi nhận hàng</span></p>
+            </label>
+            <label for="bank">
+              <input type="radio" name="paymentMethod" value="bank" id="bank">
+              <p><img src="/img/bank.webp" alt="bank"><span>Chuyển khoản ngân hàng/thẻ tín dụng</span></p>
+            </label>
+            <label for="momo">
+              <input type="radio" name="paymentMethod" value="momo" id="momo">
+              <p><img src="/img/logo_momo.webp" alt="momo"><span>Ví điện tử MoMo</span></p>
+            </label>
+            <label for="zalopay">
+              <input type="radio" name="paymentMethod" value="zalopay" id="zalopay">
+              <p><img src="/img/zalopay.webp" alt="zalopay" id="logoZalopay"><span>Ví điện tử ZaloPay</span></p>
+            </label>
+            <label for="vnpay">
+              <input type="radio" name="paymentMethod" value="vnpay" id="vnpay">
+              <p><img src="/img/logo_vnpay.webp" alt="vnpay"><span>Ví điện tử VNPay</span></p>
+            </label>
+            </div>
+            <div id="headerReceivingInfor">
+               <h3>Thông tin nhận hàng</h3>
+               <button><i class="fa-solid fa-plus"></i> Thêm thông tin</button>
+            </div>
+            <div id="formReceivingInfor">
+              <label for="fullname">Họ và tên</label><br>
+              <input type="text" name="fullname" id="fullname"><br>
+              <label for="tel">Số điện thoại</label><br>
+              <input type="tel" name="tel" id="tel"><br>
+              <label for="provinceCity">Tỉnh/Thành phố</label><br>
+              <select name="provinceCity" id="provinceCity">
+                <option value=""></option>
+              </select><br>
+            </div>
+            <div id="contentReceivingInfor">
+              <p>Chưa có thông tin nhận hàng</p>
+            </div>
         </div>
         <div id="divInfoCart">
           <div>

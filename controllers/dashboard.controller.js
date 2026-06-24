@@ -1354,7 +1354,7 @@ function generateRandomCode(length=10){
 }
 export const addVoucher=async(req,res)=>{
   try {
-    const {genderClient,titleVoucher,contentVoucher,discountPerVoucher}=req.body;
+    const {genderClient,categoryVoucher,titleVoucher,contentVoucher,discountPerVoucher}=req.body;
   let uniqueCode="";
   let isDuplicate=true;
   while (isDuplicate) {
@@ -1374,6 +1374,9 @@ export const addVoucher=async(req,res)=>{
   if (!req.file) {
     return res.json({mess:"Vui lòng chọn hình ảnh voucher",success:false});
   }
+  if (!categoryVoucher) {
+    return res.json({mess:"Vui lòng chọn sản phẩm áp dụng",success:false});
+  }
   if (!titleVoucher) {
     return res.json({mess:"Vui lòng chọn tiêu đề voucher",success:false});
   }
@@ -1384,6 +1387,7 @@ export const addVoucher=async(req,res)=>{
     return res.json({mess:"Vui lòng chọn phần trăm giảm giá",success:false});
   }
   await voucherEntity.create({
+    applyToCategory:categoryVoucher,
     code:uniqueCode,
     clientIds:clientsId,
     image: req.file.path,

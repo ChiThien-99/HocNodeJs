@@ -4,12 +4,12 @@ import jwt from "jsonwebtoken";
 import "dotenv/config";
 import { voucherEntity } from "../models/voucher.model.js";
 export const getDashboardClient = async (req, res) => {
-  const clientId = req.user.id;
+  const {idClient}=req.params;
   const vouchers = await voucherEntity
     .find({
       isActive: true,
-      clientIds: { $in: [clientId] },
-      usersUsed: { $nin: [clientId] },
+      clientIds: { $in: [idClient] },
+      usersUsed: { $nin: [idClient] },
     })
     .select("code image title content discountPercentage createdAt");
   res.render("dashboardClient.ejs", { vouchers });

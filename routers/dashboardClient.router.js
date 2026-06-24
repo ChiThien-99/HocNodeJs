@@ -5,8 +5,7 @@ import { authenticateToken2 } from "./middleware/authenticateToken.js";
 export const dbClientRouter = express.Router();
 const prefix = "/dashboardClient";
 dbClientRouter.get(
-  `${prefix}`,
-  authenticateToken2,
+  `${prefix}/:idClient`,
   dbClientController.getDashboardClient,
 );
 dbClientRouter.put(
