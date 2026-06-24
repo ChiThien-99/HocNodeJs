@@ -109,12 +109,16 @@ function getUserFromCookie() {
         .catch((error) => {
           alert("Lỗi", error, "red");
         });
-        document
-  .getElementById("btnDashboardUserLogin")
-  .addEventListener("click", (e) => {
-    e.preventDefault();
-    window.open(`/dashboardClient/${idClient}`, "_blank");
-  });
+      document.getElementById("bagShopping").addEventListener("click", () => {
+        window.open(`/cart/${idClient}`, "_blank");
+      });
+      document
+        .getElementById("btnDashboardUserLogin")
+        .addEventListener("click", (e) => {
+          e.preventDefault();
+          console.log("ok");
+          window.open(`/dashboardClient/${idClient}`, "_blank");
+        });
       return decodedUser;
     } catch (error) {
       console.error(`Token không hợp lệ hoặc đã bị can thiệp ${error}`);

@@ -448,7 +448,8 @@ header div:last-child #containerUserLogin #bagShopping span {
   padding: 0 0.5rem;
   position: relative;
 }
-#mainCart #divFormCart #listVoucher .voucher-wrapper .voucher-sawtooth-zigzag .voucher div:nth-child(2) h3, #mainCart #divFormCart #listVoucher .voucher-wrapper .voucher-sawtooth-zigzag .voucher div:nth-child(2) p {
+#mainCart #divFormCart #listVoucher .voucher-wrapper .voucher-sawtooth-zigzag .voucher div:nth-child(2) h3,
+#mainCart #divFormCart #listVoucher .voucher-wrapper .voucher-sawtooth-zigzag .voucher div:nth-child(2) p {
   margin: 0.5rem 0;
 }
 #mainCart #divFormCart #listVoucher .voucher-wrapper .voucher-sawtooth-zigzag .voucher div:nth-child(2) .divApplyVoucher {
@@ -561,6 +562,13 @@ header div:last-child #containerUserLogin #bagShopping span {
 }
 #mainCart #formReceivingInfor input {
   width: 50%;
+  height: 2rem;
+  font-size: 1rem;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}
+#mainCart #formReceivingInfor select {
+  width: 25%;
   height: 2rem;
   font-size: 1rem;
 }
@@ -1800,7 +1808,8 @@ header div:last-child #containerUserLogin #bagShopping span {
   height: inherit;
   padding: 0 0.5rem;
 }
-#mainDashboardClient #contentDashboardClient #voucherMng #listVoucher .voucher-wrapper .voucher-sawtooth-zigzag a .voucher div:nth-child(2) h3, #mainDashboardClient #contentDashboardClient #voucherMng #listVoucher .voucher-wrapper .voucher-sawtooth-zigzag a .voucher div:nth-child(2) p {
+#mainDashboardClient #contentDashboardClient #voucherMng #listVoucher .voucher-wrapper .voucher-sawtooth-zigzag a .voucher div:nth-child(2) h3,
+#mainDashboardClient #contentDashboardClient #voucherMng #listVoucher .voucher-wrapper .voucher-sawtooth-zigzag a .voucher div:nth-child(2) p {
   margin: 0.5rem 0;
 }
 

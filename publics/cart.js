@@ -39,26 +39,31 @@ socket.on("updateCart", (data) => {
     countBagShopping.innerText = data[1];
   }
   const token = getCookie("accessToken2");
-    if (!token) {
-      return;
-    }
-    const decodedUser = jwtDecode(token);
-    const idClient = decodedUser.id;
-  fetch("/cart/calMultiVouchers",{
-          method:"POST",
-          headers:{"Content-Type":"application/json;charset=UTF-8"},
-          body:JSON.stringify({selectedVoucherCode,idClient}),
-        })
-        .then(res=>res.json())
-        .then(({subTotal,totalDiscountAmount,finalTotal,success,mess,error})=>{
-          if (success) {
-          document.getElementById("subTotal").innerText=`${subTotal.toLocaleString("vi-VN")}đ`;
-          document.getElementById("discountAmount").innerText=`${totalDiscountAmount.toLocaleString("vi-VN")}đ`;
-          document.getElementById("finalTotal").innerText=`${finalTotal.toLocaleString("vi-VN")}đ`;
-          } else {
-          alert("Thông báo",`${mess}\n${error}`,"#80a710");
-          }
-        });
+  if (!token) {
+    return;
+  }
+  const decodedUser = jwtDecode(token);
+  const idClient = decodedUser.id;
+  fetch("/cart/calMultiVouchers", {
+    method: "POST",
+    headers: { "Content-Type": "application/json;charset=UTF-8" },
+    body: JSON.stringify({ selectedVoucherCode, idClient }),
+  })
+    .then((res) => res.json())
+    .then(
+      ({ subTotal, totalDiscountAmount, finalTotal, success, mess, error }) => {
+        if (success) {
+          document.getElementById("subTotal").innerText =
+            `${subTotal.toLocaleString("vi-VN")}đ`;
+          document.getElementById("discountAmount").innerText =
+            `${totalDiscountAmount.toLocaleString("vi-VN")}đ`;
+          document.getElementById("finalTotal").innerText =
+            `${finalTotal.toLocaleString("vi-VN")}đ`;
+        } else {
+          alert("Thông báo", `${mess}\n${error}`, "#80a710");
+        }
+      },
+    );
 });
 socket.on("update-totalItems", (totalItems) => {
   const countBagShopping = document.querySelector("#bagShopping span");
@@ -105,12 +110,12 @@ function getUserFromCookie() {
         .catch((error) => {
           alert("Lỗi", error, "red");
         });
-        document
-  .getElementById("btnDashboardUserLogin")
-  .addEventListener("click", (e) => {
-    e.preventDefault();
-    window.open(`/dashboardClient/${idClient}`, "_blank");
-  });
+      document
+        .getElementById("btnDashboardUserLogin")
+        .addEventListener("click", (e) => {
+          e.preventDefault();
+          window.open(`/dashboardClient/${idClient}`, "_blank");
+        });
       return decodedUser;
     } catch (error) {
       console.error(`Token không hợp lệ hoặc đã bị can thiệp ${error}`);
@@ -202,21 +207,33 @@ document
               if (totalItems === 0) {
                 window.location.reload();
               }
-              fetch("/cart/calMultiVouchers",{
-          method:"POST",
-          headers:{"Content-Type":"application/json;charset=UTF-8"},
-          body:JSON.stringify({selectedVoucherCode,idClient}),
-        })
-        .then(res=>res.json())
-        .then(({subTotal,totalDiscountAmount,finalTotal,success,mess,error})=>{
-          if (success) {
-          document.getElementById("subTotal").innerText=`${subTotal.toLocaleString("vi-VN")}đ`;
-          document.getElementById("discountAmount").innerText=`${totalDiscountAmount.toLocaleString("vi-VN")}đ`;
-          document.getElementById("finalTotal").innerText=`${finalTotal.toLocaleString("vi-VN")}đ`;
-          } else {
-          alert("Thông báo",`${mess}\n${error}`,"#80a710");
-          }
-        });
+              fetch("/cart/calMultiVouchers", {
+                method: "POST",
+                headers: { "Content-Type": "application/json;charset=UTF-8" },
+                body: JSON.stringify({ selectedVoucherCode, idClient }),
+              })
+                .then((res) => res.json())
+                .then(
+                  ({
+                    subTotal,
+                    totalDiscountAmount,
+                    finalTotal,
+                    success,
+                    mess,
+                    error,
+                  }) => {
+                    if (success) {
+                      document.getElementById("subTotal").innerText =
+                        `${subTotal.toLocaleString("vi-VN")}đ`;
+                      document.getElementById("discountAmount").innerText =
+                        `${totalDiscountAmount.toLocaleString("vi-VN")}đ`;
+                      document.getElementById("finalTotal").innerText =
+                        `${finalTotal.toLocaleString("vi-VN")}đ`;
+                    } else {
+                      alert("Thông báo", `${mess}\n${error}`, "#80a710");
+                    }
+                  },
+                );
             } else {
               alert("Lỗi", `${mess}\n${error}`, "red");
             }
@@ -254,21 +271,33 @@ document.querySelectorAll(".quantityProduct").forEach((inp) => {
           if (countBagShopping) {
             countBagShopping.innerText = totalItems;
           }
-          fetch("/cart/calMultiVouchers",{
-          method:"POST",
-          headers:{"Content-Type":"application/json;charset=UTF-8"},
-          body:JSON.stringify({selectedVoucherCode,idClient}),
-        })
-        .then(res=>res.json())
-        .then(({subTotal,totalDiscountAmount,finalTotal,success,mess,error})=>{
-          if (success) {
-          document.getElementById("subTotal").innerText=`${subTotal.toLocaleString("vi-VN")}đ`;
-          document.getElementById("discountAmount").innerText=`${totalDiscountAmount.toLocaleString("vi-VN")}đ`;
-          document.getElementById("finalTotal").innerText=`${finalTotal.toLocaleString("vi-VN")}đ`;
-          } else {
-          alert("Thông báo",`${mess}\n${error}`,"#80a710");
-          }
-        });
+          fetch("/cart/calMultiVouchers", {
+            method: "POST",
+            headers: { "Content-Type": "application/json;charset=UTF-8" },
+            body: JSON.stringify({ selectedVoucherCode, idClient }),
+          })
+            .then((res) => res.json())
+            .then(
+              ({
+                subTotal,
+                totalDiscountAmount,
+                finalTotal,
+                success,
+                mess,
+                error,
+              }) => {
+                if (success) {
+                  document.getElementById("subTotal").innerText =
+                    `${subTotal.toLocaleString("vi-VN")}đ`;
+                  document.getElementById("discountAmount").innerText =
+                    `${totalDiscountAmount.toLocaleString("vi-VN")}đ`;
+                  document.getElementById("finalTotal").innerText =
+                    `${finalTotal.toLocaleString("vi-VN")}đ`;
+                } else {
+                  alert("Thông báo", `${mess}\n${error}`, "#80a710");
+                }
+              },
+            );
         } else {
           alert("Lỗi", `${mess}\n${error}`, "red");
         }
@@ -276,7 +305,6 @@ document.querySelectorAll(".quantityProduct").forEach((inp) => {
       .catch((error) => {
         alert("Lỗi", error, "red");
       });
-      
   });
 });
 document.addEventListener("DOMContentLoaded", () => {
@@ -303,40 +331,58 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-let selectedVoucherCode=[];
-document.querySelectorAll(".voucher").forEach((v)=>{
-    v.addEventListener("change",(e)=>{
-      if (e.target&&e.target.classList.contains("applyVoucher")) {
-        const checkbox=e.target;
-        const voucherCode=checkbox.getAttribute("data-codeVoucher");
-        if (checkbox.checked) {
-          if (!selectedVoucherCode.includes(voucherCode)) {
-            selectedVoucherCode.push(voucherCode);
-          }
-        } else {
-          selectedVoucherCode=selectedVoucherCode.filter(code=>code!==voucherCode);
+let selectedVoucherCode = [];
+document.querySelectorAll(".voucher").forEach((v) => {
+  v.addEventListener("change", (e) => {
+    if (e.target && e.target.classList.contains("applyVoucher")) {
+      const checkbox = e.target;
+      const voucherCode = checkbox.getAttribute("data-codeVoucher");
+      if (checkbox.checked) {
+        if (!selectedVoucherCode.includes(voucherCode)) {
+          selectedVoucherCode.push(voucherCode);
         }
-        const token = getCookie("accessToken2");
-    if (!token) {
-      return;
-    }
-    const decodedUser = jwtDecode(token);
-    const idClient = decodedUser.id;
-        fetch("/cart/calMultiVouchers",{
-          method:"POST",
-          headers:{"Content-Type":"application/json;charset=UTF-8"},
-          body:JSON.stringify({selectedVoucherCode,idClient}),
-        })
-        .then(res=>res.json())
-        .then(({subTotal,totalDiscountAmount,finalTotal,success,mess})=>{
-          if (success) {
-          document.getElementById("subTotal").innerText=`${subTotal.toLocaleString("vi-VN")}đ`;
-          document.getElementById("discountAmount").innerText=`${totalDiscountAmount.toLocaleString("vi-VN")}đ`;
-          document.getElementById("finalTotal").innerText=`${finalTotal.toLocaleString("vi-VN")}đ`;
-          } else {
-          alert("Thông báo",mess,"#80a710");
-          }
-        });
+      } else {
+        selectedVoucherCode = selectedVoucherCode.filter(
+          (code) => code !== voucherCode,
+        );
       }
-    })
-})
+      const token = getCookie("accessToken2");
+      if (!token) {
+        return;
+      }
+      const decodedUser = jwtDecode(token);
+      const idClient = decodedUser.id;
+      fetch("/cart/calMultiVouchers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json;charset=UTF-8" },
+        body: JSON.stringify({ selectedVoucherCode, idClient }),
+      })
+        .then((res) => res.json())
+        .then(
+          ({ subTotal, totalDiscountAmount, finalTotal, success, mess }) => {
+            if (success) {
+              document.getElementById("subTotal").innerText =
+                `${subTotal.toLocaleString("vi-VN")}đ`;
+              document.getElementById("discountAmount").innerText =
+                `${totalDiscountAmount.toLocaleString("vi-VN")}đ`;
+              document.getElementById("finalTotal").innerText =
+                `${finalTotal.toLocaleString("vi-VN")}đ`;
+            } else {
+              alert("Thông báo", mess, "#80a710");
+            }
+          },
+        );
+    }
+  });
+});
+$(document).ready(function () {
+  // Chỉ cần gọi hàm select2() là khung search tự động xuất hiện
+  $("#provinceCity").select2({
+    placeholder: "Chọn tỉnh/thành phố",
+    allowClear: true, // Cho phép bấm dấu x để xóa nhanh lựa chọn
+  });
+  $("#wardsCommunes").select2({
+    placeholder: "Chọn phường/xã",
+    allowClear: true, // Cho phép bấm dấu x để xóa nhanh lựa chọn
+  });
+});

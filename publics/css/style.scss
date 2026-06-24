@@ -351,141 +351,140 @@ header {
         }
       }
     }
-    #listVoucher{
-        margin-top: 1rem;
-        display: grid;
-        grid-template-columns: 100%;
-        grid-template-rows: auto;
-        gap: 2%;
+    #listVoucher {
+      margin-top: 1rem;
+      display: grid;
+      grid-template-columns: 100%;
+      grid-template-rows: auto;
+      gap: 2%;
+      width: 100%;
+      height: 30rem;
+      border: 1px solid $colorCTA;
+      border-radius: 5px;
+      padding: 1rem;
+      overflow-y: scroll;
+      overflow-x: hidden;
+      .voucher-wrapper {
         width: 100%;
-        height: 30rem;
-        border: 1px solid $colorCTA;
-        border-radius: 5px;
-        padding: 1rem;
-        overflow-y: scroll;
-        overflow-x: hidden;
-        .voucher-wrapper{
-          width: 100%;
-          height: auto;
-          filter: drop-shadow(2px 3px 8px rgba(0,0,0,0.15));
-          .voucher-sawtooth-zigzag{
+        height: auto;
+        filter: drop-shadow(2px 3px 8px rgba(0, 0, 0, 0.15));
+        .voucher-sawtooth-zigzag {
           background-color: white;
           padding: 20px;
           position: relative;
           width: 100%;
-          &::before{
+          &::before {
             content: "";
             position: absolute;
             top: 0;
             bottom: 0;
             left: -10px;
             width: 10px;
-            background-image: 
-            linear-gradient(45deg,white 25%,transparent 25%),
-            linear-gradient(-45deg,white 25%,transparent 25%),
-            linear-gradient(135deg,white 25%,transparent 25%),
-            linear-gradient(-135deg,white 25%,transparent 25%),;
-            ;
+            background-image:
+              linear-gradient(45deg, white 25%, transparent 25%),
+              linear-gradient(-45deg, white 25%, transparent 25%),
+              linear-gradient(135deg, white 25%, transparent 25%),
+              linear-gradient(-135deg, white 25%, transparent 25%);
             background-size: 10px 10px;
             background-repeat: repeat-y;
           }
-          &::after{
+          &::after {
             content: "";
             position: absolute;
             top: 0;
             bottom: 0;
             right: -10px;
             width: 10px;
-            background-image: 
-            linear-gradient(45deg,transparent 75%,white 75%),
-            linear-gradient(-45deg,transparent 75%,white 75%),
-            linear-gradient(135deg,transparent 75%,white 75%),
-            linear-gradient(-135deg,transparent 75%,white 75%),;
-            ;
+            background-image:
+              linear-gradient(45deg, transparent 75%, white 75%),
+              linear-gradient(-45deg, transparent 75%, white 75%),
+              linear-gradient(135deg, transparent 75%, white 75%),
+              linear-gradient(-135deg, transparent 75%, white 75%);
             background-size: 10px 10px;
             background-repeat: repeat-y;
           }
-          .voucher{
-          width: 100%;
-          height: inherit;
-          display: flex;
-          flex-flow: row wrap;
-          div:nth-child(1){
-             width: 30%;
-             height: inherit;
-             img{
-              width: 100%;
-              height: 100%;
-              object-fit: cover;
-              margin: 0;
-             }
-          }
-          div:nth-child(2){
-            width: 70%;
+          .voucher {
+            width: 100%;
             height: inherit;
-            padding: 0 0.5rem;
-            position: relative;
-            h3,p{
-              margin: 0.5rem 0;
-            }
-            .divApplyVoucher{
-              width: fit-content;
-              height: auto;
-              position: absolute;
-              top: 0;
-              right: 0;
-              display: flex;
-              flex-flow: row nowrap;
-              align-items: center;
-              span{
-                color: $colorCTA;
-              }
-              .applyVoucher{
-                width: 1.5rem;
-                height: 1.5rem;
-                cursor: pointer;
+            display: flex;
+            flex-flow: row wrap;
+            div:nth-child(1) {
+              width: 30%;
+              height: inherit;
+              img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                margin: 0;
               }
             }
-          }
-        }
+            div:nth-child(2) {
+              width: 70%;
+              height: inherit;
+              padding: 0 0.5rem;
+              position: relative;
+              h3,
+              p {
+                margin: 0.5rem 0;
+              }
+              .divApplyVoucher {
+                width: fit-content;
+                height: auto;
+                position: absolute;
+                top: 0;
+                right: 0;
+                display: flex;
+                flex-flow: row nowrap;
+                align-items: center;
+                span {
+                  color: $colorCTA;
+                }
+                .applyVoucher {
+                  width: 1.5rem;
+                  height: 1.5rem;
+                  cursor: pointer;
+                }
+              }
+            }
           }
         }
       }
-      #divPaymentMethod{
-        label{
+    }
+    #divPaymentMethod {
+      label {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        width: 50%;
+        height: auto;
+        background-color: white;
+        border: none;
+        border-radius: 10px;
+        margin: 0.5rem 0;
+        cursor: pointer;
+        p {
           display: flex;
           flex-flow: row nowrap;
           align-items: center;
-          width: 50%;
-          height: auto;
-          background-color: white;
-          border: none;
-          border-radius: 10px;
-          margin: 0.5rem 0;
-          cursor: pointer;
-          p{
-            display: flex;
-            flex-flow: row nowrap;
-            align-items: center;
+          margin-left: 1rem;
+          img {
+            width: 1.5rem;
+            height: 1.5rem;
+          }
+          #logoZalopay {
+            width: 4.4rem;
+            height: 1rem;
+          }
+          span {
             margin-left: 1rem;
-            img{
-              width: 1.5rem;
-              height: 1.5rem;
-            }
-            #logoZalopay{
-              width: 4.4rem;
-              height: 1rem;
-            }
-            span{
-              margin-left: 1rem;
-            }
           }
         }
       }
+    }
   }
-  #divInfoCart{
+  #divInfoCart {
     width: 50%;
-    div{
+    div {
       width: 50%;
       padding: 1rem;
       border: 1px solid #bbb;
@@ -496,21 +495,21 @@ header {
       grid-template-columns: 50% 50%;
       grid-template-rows: auto;
       gap: 1rem;
-      p{
+      p {
         font-weight: bold;
         font-size: 1.2rem;
         margin: 0;
       }
-      span{
+      span {
         color: $colorCTA;
         font-size: 1.2rem;
         font-weight: bold;
       }
-      h2{
+      h2 {
         grid-column: span 2;
         margin: 0.5rem 0;
       }
-      #textFreeShip{
+      #textFreeShip {
         grid-column: span 2;
         margin: 0;
         color: $colorCTA;
@@ -519,33 +518,40 @@ header {
       }
     }
   }
-  #headerReceivingInfor{
+  #headerReceivingInfor {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: center;
-    button{
+    button {
       @include button(0.5rem);
       color: $colorCTA;
       border: 2px solid $colorCTA;
     }
   }
-  #formReceivingInfor{
+  #formReceivingInfor {
     padding: 1rem;
     border: 1px solid $colorCTA;
     border-radius: 5px;
     margin-bottom: 1rem;
-    label{
+    label {
       display: inline-block;
       margin: 0.5rem 0;
     }
-    input{
+    input {
       width: 50%;
+      height: 2rem;
+      font-size: 1rem;
+      border: 1px solid #aaa;
+      border-radius: 4px;
+    }
+    select {
+      width: 25%;
       height: 2rem;
       font-size: 1rem;
     }
   }
-  #contentReceivingInfor{
+  #contentReceivingInfor {
     padding: 1rem;
     border: 1px solid $colorCTA;
     border-radius: 5px;
@@ -980,24 +986,24 @@ header {
           }
         }
       }
-      #formVoucher{
+      #formVoucher {
         #imgVoucher::file-selector-button {
-        @include button(0.5rem);
-        background-color: $colorCTA;
-        color: $colorSecondaryText;
-      }
-      .quill-editor {
-        width: 100%;
-        height: 20rem;
-        background-color: $colorPrimaryBG;
-        color: black;
-        font-size: 1.1rem;
-      }
-      #discountPerVoucher{
-        width: 3rem;
-        height: 2rem;
-        font-size: 1rem;
-      }
+          @include button(0.5rem);
+          background-color: $colorCTA;
+          color: $colorSecondaryText;
+        }
+        .quill-editor {
+          width: 100%;
+          height: 20rem;
+          background-color: $colorPrimaryBG;
+          color: black;
+          font-size: 1.1rem;
+        }
+        #discountPerVoucher {
+          width: 3rem;
+          height: 2rem;
+          font-size: 1rem;
+        }
       }
     }
     #softwareMng {
@@ -1492,84 +1498,82 @@ header {
         display: none;
       }
     }
-    #voucherMng{
-      #listVoucher{
+    #voucherMng {
+      #listVoucher {
         margin-top: 1rem;
         display: grid;
         grid-template-columns: 50% 50%;
         grid-template-rows: auto;
         gap: 4% 2%;
-        .voucher-wrapper{
+        .voucher-wrapper {
           width: 96%;
           height: auto;
-          filter: drop-shadow(2px 3px 8px rgba(0,0,0,0.15));
-          .voucher-sawtooth-zigzag{
-          background-color: white;
-          padding: 20px;
-          position: relative;
-          &::before{
-            content: "";
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: -10px;
-            width: 10px;
-            background-image: 
-            linear-gradient(45deg,white 25%,transparent 25%),
-            linear-gradient(-45deg,white 25%,transparent 25%),
-            linear-gradient(135deg,white 25%,transparent 25%),
-            linear-gradient(-135deg,white 25%,transparent 25%),;
-            ;
-            background-size: 10px 10px;
-            background-repeat: repeat-y;
-          }
-          &::after{
-            content: "";
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            right: -10px;
-            width: 10px;
-            background-image: 
-            linear-gradient(45deg,transparent 75%,white 75%),
-            linear-gradient(-45deg,transparent 75%,white 75%),
-            linear-gradient(135deg,transparent 75%,white 75%),
-            linear-gradient(-135deg,transparent 75%,white 75%),;
-            ;
-            background-size: 10px 10px;
-            background-repeat: repeat-y;
-          }
-          a{
-            text-decoration: none;
-            color: black;
-            .voucher{
-          width: 100%;
-          height: inherit;
-          display: flex;
-          flex-flow: row wrap;
-          div:nth-child(1){
-             width: 30%;
-             height: inherit;
-             img{
-              width: 100%;
-              height: 100%;
-              object-fit: cover;
-              margin: 0;
-             }
-          }
-          div:nth-child(2){
-            width: 70%;
-            height: inherit;
-            padding: 0 0.5rem;
-            h3,p{
-              margin: 0.5rem 0;
+          filter: drop-shadow(2px 3px 8px rgba(0, 0, 0, 0.15));
+          .voucher-sawtooth-zigzag {
+            background-color: white;
+            padding: 20px;
+            position: relative;
+            &::before {
+              content: "";
+              position: absolute;
+              top: 0;
+              bottom: 0;
+              left: -10px;
+              width: 10px;
+              background-image:
+                linear-gradient(45deg, white 25%, transparent 25%),
+                linear-gradient(-45deg, white 25%, transparent 25%),
+                linear-gradient(135deg, white 25%, transparent 25%),
+                linear-gradient(-135deg, white 25%, transparent 25%);
+              background-size: 10px 10px;
+              background-repeat: repeat-y;
+            }
+            &::after {
+              content: "";
+              position: absolute;
+              top: 0;
+              bottom: 0;
+              right: -10px;
+              width: 10px;
+              background-image:
+                linear-gradient(45deg, transparent 75%, white 75%),
+                linear-gradient(-45deg, transparent 75%, white 75%),
+                linear-gradient(135deg, transparent 75%, white 75%),
+                linear-gradient(-135deg, transparent 75%, white 75%);
+              background-size: 10px 10px;
+              background-repeat: repeat-y;
+            }
+            a {
+              text-decoration: none;
+              color: black;
+              .voucher {
+                width: 100%;
+                height: inherit;
+                display: flex;
+                flex-flow: row wrap;
+                div:nth-child(1) {
+                  width: 30%;
+                  height: inherit;
+                  img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    margin: 0;
+                  }
+                }
+                div:nth-child(2) {
+                  width: 70%;
+                  height: inherit;
+                  padding: 0 0.5rem;
+                  h3,
+                  p {
+                    margin: 0.5rem 0;
+                  }
+                }
+              }
             }
           }
         }
-          }
-          }
-        }
-        
       }
     }
   }
@@ -1792,20 +1796,20 @@ header {
             margin: 0;
           }
         }
-        #divBirthAndGender{
+        #divBirthAndGender {
           width: 80%;
           display: flex;
           flex-flow: row nowrap;
-          #divDateBirthClient{
+          #divDateBirthClient {
             width: 70%;
-            input{
+            input {
               width: 100%;
             }
           }
-          #divGenderClient{
+          #divGenderClient {
             width: 30%;
             text-align: end;
-            select{
+            select {
               height: 2rem;
               font-size: 1rem;
               width: 4.5rem;

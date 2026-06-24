@@ -60,6 +60,7 @@ app.use(
           "https://cdn.jsdelivr.net",
           "https://cdnjs.cloudflare.com",
           "https://unpkg.com",
+          "https://code.jquery.com",
         ],
         "connect-src": [
           "'self'",
@@ -68,7 +69,12 @@ app.use(
           "https: data:",
           "res.cloudinary.com",
         ],
-        "img-src": ["'self'", "https: data:", "res.cloudinary.com","https://*.ytimg.com"],
+        "img-src": [
+          "'self'",
+          "https: data:",
+          "res.cloudinary.com",
+          "https://*.ytimg.com",
+        ],
       },
     },
   }),
@@ -115,21 +121,18 @@ app.get("/api/status", (req, res) => {
   });
 });
 
-
-
 app.use("/", dashboardRouter);
 app.use("/", routerLoginAdmin);
 app.use("/", authRouter);
 app.use("/", indexRouter);
 app.use("/", detailAppRouter);
 app.use("/", appRouter);
-app.use("/",deviceRouter);
-app.use("/",detailDeviceRouter);
+app.use("/", deviceRouter);
+app.use("/", detailDeviceRouter);
 app.use("/", blogsRouter);
-app.use("/",clientRouter);
-app.use("/",dbClientRouter);
-app.use("/",cartRouter);
-
+app.use("/", clientRouter);
+app.use("/", dbClientRouter);
+app.use("/", cartRouter);
 
 // Xử lý lỗi middleware
 app.use((err, req, res, next) => {
