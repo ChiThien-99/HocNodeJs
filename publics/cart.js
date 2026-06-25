@@ -375,6 +375,21 @@ document.querySelectorAll(".voucher").forEach((v) => {
     }
   });
 });
+const addReceivingInfor=document.getElementById("addReceivingInfor");
+addReceivingInfor.addEventListener("click",function(){
+  const displayFormReceivingInfor=document.getElementById("formReceivingInfor");
+  const type=displayFormReceivingInfor.style.display==="block"?"none":"block";
+  const textBtn=displayFormReceivingInfor.style.display==="block"?`<i class="fa-solid fa-plus"></i> Thêm thông tin`:"Đóng form";
+  displayFormReceivingInfor.style.display=type;
+  this.innerHTML=textBtn;
+  if (textBtn==="Đóng form") {
+    this.style.color="red";
+    this.style.borderColor="red";
+  } else {
+    this.style.color="#80a710";
+    this.style.borderColor="#80a710";
+  }
+})
 $(document).ready(function () {
   // Chỉ cần gọi hàm select2() là khung search tự động xuất hiện
   $("#provinceCity").select2({
@@ -384,5 +399,50 @@ $(document).ready(function () {
   $("#wardsCommunes").select2({
     placeholder: "Chọn phường/xã",
     allowClear: true, // Cho phép bấm dấu x để xóa nhanh lựa chọn
+  });
+  // 2. HÀNH ĐỘNG FIX: Lắng nghe sự kiện change thông qua Select2 của jQuery [cite: 2026-01-28]
+  $("#provinceCity").on("change", function () {
+    const province = this.value; // Lấy giá trị value (mã tỉnh) [cite: 2026-01-28]
+    
+    // ĐỊNH VỊ Ô PHƯỜNG XÃ
+    const $wardsSelect = $("#wardsCommunes");
+
+    // BIỆN PHÁP PHÒNG THỦ 1: Reset sạch danh sách phường xã cũ khi chọn lại tỉnh khác [cite: 2026-01-28]
+    // Hàm .html() rỗng giúp xóa option cũ, .val(null).trigger('change') giúp Select2 cập nhật lại giao diện trống [cite: 2026-01-28]
+    $wardsSelect.html('<option value=""></option>').val(null).trigger('change');
+
+    if (!province) {
+      return; // Nếu người dùng bấm nút xóa (Clear choice), dừng lại tại đây [cite: 2026-01-28]
+    }
+
+    // Gửi dữ liệu về Server xử lý [cite: 2026-01-28]
+    fetch("/cart/filterProvinceWards", {
+      method: "POST",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
+      body: JSON.stringify({ province }),
+    })
+      .then((res) => res.json())
+      .then(({ wards, mess, success, error }) => {
+        if (success) {
+          // BIỆN PHÁP PHÒNG THỦ 2: Tạo chuỗi html chứa danh sách option mới [cite: 2026-01-28]
+          let optionsHtml = '<option value=""></option>'; // Dòng trống cho placeholder của Select2 [cite: 2026-01-28]
+          
+          wards.forEach((w) => {
+            optionsHtml += `<option value="${w.name}">${w.name}</option>`;
+          });
+
+          // Đổ toàn bộ danh sách mới vào thẻ select gốc [cite: 2026-01-28]
+          $wardsSelect.html(optionsHtml);
+
+          // HÀNH ĐỘNG CỐT LÕI: Ép Select2 cập nhật lại giao diện hiển thị từ danh sách gốc mới [cite: 2026-01-28]
+          $wardsSelect.trigger('change');
+          
+        } else {
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        }
+      })
+      .catch((error) => {
+        alert("Lỗi", error, "red");
+      });
   });
 });

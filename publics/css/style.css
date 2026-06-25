@@ -555,6 +555,7 @@ header div:last-child #containerUserLogin #bagShopping span {
   border: 1px solid #80a710;
   border-radius: 5px;
   margin-bottom: 1rem;
+  display: none;
 }
 #mainCart #formReceivingInfor label {
   display: inline-block;
@@ -568,9 +569,19 @@ header div:last-child #containerUserLogin #bagShopping span {
   border-radius: 4px;
 }
 #mainCart #formReceivingInfor select {
-  width: 25%;
   height: 2rem;
   font-size: 1rem;
+}
+#mainCart #formReceivingInfor #submitFormReceivingInfor {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #80a710;
+  color: #fafafa;
+  width: 4rem;
+  height: auto;
+  margin-top: 1rem;
 }
 #mainCart #contentReceivingInfor {
   padding: 1rem;

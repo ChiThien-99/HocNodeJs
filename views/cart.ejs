@@ -187,7 +187,7 @@
             </div>
             <div id="headerReceivingInfor">
                <h3>Thông tin nhận hàng</h3>
-               <button><i class="fa-solid fa-plus"></i> Thêm thông tin</button>
+               <button id="addReceivingInfor"><i class="fa-solid fa-plus"></i> Thêm thông tin</button>
             </div>
             <div id="formReceivingInfor">
               <label for="fullname">Họ và tên</label><br>
@@ -196,18 +196,23 @@
               <input type="tel" name="tel" id="tel"><br>
               <label for="provinceCity">Tỉnh/Thành phố</label><br>
               <select name="provinceCity" id="provinceCity">
-                <%provinceCityArray.forEach((p)=>{%>
-                  <option value="<%=p%>"><%=p%></option>
-                <%})%>
+                  <option value="">--Chọn Tỉnh/Thành phố--</option>
+                  <%province.forEach(p=>{%>
+                    <option value="<%=p%>"><%=p%></option>
+                  <%})%>
               </select><br>
               <label for="provinceCity">Phường/Xã</label><br>
               <select name="wardsCommunes" id="wardsCommunes">
-                <%wardsCommunesArray.forEach((w)=>{%>
-                  <option value="<%=w%>"><%=w%></option>
-                <%})%>
+                  <option value="">--Chọn Phường/Xã--</option>
               </select><br>
               <label for="numberHouse">Tên đường, tòa nhà, số nhà</label><br>
               <input type="text" name="numberHouse" id="numberHouse"><br>
+              <label for="categoryAddress">Loại địa chỉ</label><br>
+              <select name="categoryAddress" id="categoryAddress">
+                <option value="office">Văn phòng</option>
+                <option value="home">Nhà riêng</option>
+              </select><br>
+              <input type="submit" value="Thêm" id="submitFormReceivingInfor">
             </div>
             <div id="contentReceivingInfor">
               <p>Chưa có thông tin nhận hàng</p>

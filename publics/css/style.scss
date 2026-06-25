@@ -534,6 +534,7 @@ header {
     border: 1px solid $colorCTA;
     border-radius: 5px;
     margin-bottom: 1rem;
+    display: none;
     label {
       display: inline-block;
       margin: 0.5rem 0;
@@ -546,9 +547,16 @@ header {
       border-radius: 4px;
     }
     select {
-      width: 25%;
       height: 2rem;
       font-size: 1rem;
+    }
+    #submitFormReceivingInfor{
+      @include button(0.5rem);
+      background-color: $colorCTA;
+      color: $colorSecondaryText;
+      width: 4rem;
+      height: auto;
+      margin-top: 1rem;
     }
   }
   #contentReceivingInfor {
