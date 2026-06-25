@@ -191,22 +191,22 @@
             </div>
             <div id="formReceivingInfor">
               <label for="fullname">Họ và tên</label><br>
-              <input type="text" name="fullname" id="fullname"><br>
+              <input type="text" name="fullname" id="fullname" required><br>
               <label for="tel">Số điện thoại</label><br>
-              <input type="tel" name="tel" id="tel"><br>
+              <input type="tel" name="tel" id="tel" required><br>
               <label for="provinceCity">Tỉnh/Thành phố</label><br>
-              <select name="provinceCity" id="provinceCity">
+              <select name="provinceCity" id="provinceCity" required>
                   <option value="">--Chọn Tỉnh/Thành phố--</option>
                   <%province.forEach(p=>{%>
                     <option value="<%=p%>"><%=p%></option>
                   <%})%>
               </select><br>
               <label for="provinceCity">Phường/Xã</label><br>
-              <select name="wardsCommunes" id="wardsCommunes">
+              <select name="wardsCommunes" id="wardsCommunes" required>
                   <option value="">--Chọn Phường/Xã--</option>
               </select><br>
               <label for="numberHouse">Tên đường, tòa nhà, số nhà</label><br>
-              <input type="text" name="numberHouse" id="numberHouse"><br>
+              <input type="text" name="numberHouse" id="numberHouse" required><br>
               <label for="categoryAddress">Loại địa chỉ</label><br>
               <select name="categoryAddress" id="categoryAddress">
                 <option value="office">Văn phòng</option>

@@ -1,6 +1,9 @@
 import { cartEntity } from "../models/cart.model.js";
 import { voucherEntity } from "../models/voucher.model.js";
 import { provinceWardsEntity } from "../models/provinceWards.model.js";
+import { clientEntity } from "../models/client.model.js";
+import { otpEntity } from "../models/otp.model.js";
+import { body } from "express-validator";
 export const getCart = async (req, res) => {
   const { idClient } = req.params;
   const cart = await cartEntity.findOne({ clientId: idClient });
@@ -16,7 +19,7 @@ export const getCart = async (req, res) => {
     subTotal += p.price * p.quantity;
   });
   const provinceWards = await provinceWardsEntity.find();
-  const province=provinceWards.map(pw=>pw.province);
+  const province = provinceWards.map((pw) => pw.province);
   res.render("cart.ejs", {
     cart,
     vouchers,
@@ -157,14 +160,82 @@ export const calMultiVouchers = async (req, res) => {
     });
   }
 };
-export const filterProvinceWards=async(req,res)=>{
+export const filterProvinceWards = async (req, res) => {
   try {
-  const {province}=req.body;
-  const currentProvince=await provinceWardsEntity.findOne({province:province});
-  const wards=currentProvince.wards;
-  res.json({success:true,wards:wards});
+    const { province } = req.body;
+    const currentProvince = await provinceWardsEntity.findOne({
+      province: province,
+    });
+    const wards = currentProvince.wards;
+    res.json({ success: true, wards: wards });
   } catch (error) {
-  res.json({mess:"Lỗi lọc ProvinceWards",success:false,error:error.message})
+    res.json({
+      mess: "Lỗi lọc ProvinceWards",
+      success: false,
+      error: error.message,
+    });
   }
-  
-}
+};
+export const addReceivingInfor = async (req, res) => {
+  try {
+    const {
+      idClient,
+      fullname,
+      tel,
+      provinceCity,
+      wardsCommunes,
+      numberHouse,
+      categoryAddress,
+    } = req.body;
+    const client = await clientEntity.findById(idClient);
+    client.addressInfor.push({
+      fullname: fullname,
+      tel: tel,
+      address: `${numberHouse},${wardsCommunes},${provinceCity}`,
+      category: categoryAddress,
+    });
+    const accountSid = process.env.TWILIO_ACCOUNT_SID;
+    const authToken = process.env.TWILIO_AUTH_TOKEN;
+    const tw = require("twilio")(accountSid, authToken);
+
+    tw.verify.v2
+      .services("VA7d4f026ffd2e1f3c9567af8cdb54af9c")
+      .verifications.create({ to: "+840966159722", channel: "sms" })
+      .then((verification) => console.log(verification.sid));
+    const formatPhoneNumber = (phone) => {
+      let formatted = phone.trim();
+      if (formatted.startsWith("0")) {
+        formatted = "+84" + formatted.slice(1);
+      }
+      return formatted;
+    };
+    const internationalPhone = formatPhoneNumber(tel);
+    const existingOtp = await otpEntity.findOne({ tel: tel });
+    if (existingOtp) {
+      return res.json({
+        mess: "Mã OTP đã được gửi, vui lòng thử lại sau ít phút|",
+        success: true,
+      });
+    }
+    const generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+    await otpEntity.create({
+      tel: tel,
+      otpCode: generatedOtp,
+    });
+    await tw.messages.create({
+      body: `Mã OTP xác thực của bạn là ${generatedOtp}.Mã có hiệu lực trong 3 phút.`,
+      from: process.env.TWILIO_PHONE_NUMBER,
+      to: internationalPhone,
+    });
+    res.json({
+      mess: "Điền mã OTP được gửi qua số điện thoại của bạn",
+      success: true,
+    });
+  } catch (error) {
+    res.json({
+      mess: "Mã OTP gửi thất bại",
+      success: false,
+      error: error.message,
+    });
+  }
+};

@@ -8,9 +8,9 @@ const clientScheme = mongoose.Schema({
     type: Date,
     required: true,
   },
-  gender:{
-    type:String,
-    required:true,
+  gender: {
+    type: String,
+    required: true,
   },
   tel: {
     type: String,
@@ -37,26 +37,26 @@ const clientScheme = mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  softwareTrials:[
+  softwareTrials: [
     {
-      softwareId:{
-        type:String,
-        required:true,
+      softwareId: {
+        type: String,
+        required: true,
       },
-      startDate:{
-        type:Date,
-        default:Date.now,
+      startDate: {
+        type: Date,
+        default: Date.now,
       },
-    }
+    },
   ],
-  addressInfor:[
+  addressInfor: [
     {
-      fullname:{type:String,required:true},
-      tel:{type:String,required:true},
-      address:{type:String,required:true},
-      category:{type:String,enum:["office","home"],required:true},
-    }
-  ]
+      fullname: { type: String, required: true },
+      tel: { type: String, required: true },
+      address: { type: String, required: true },
+      category: { type: String, enum: ["office", "home"], required: true },
+    },
+  ],
 });
 export const clientEntity = mongoose.model(
   "clientEntity",
