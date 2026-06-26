@@ -57,6 +57,14 @@ const clientScheme = mongoose.Schema({
       category: { type: String, enum: ["office", "home"], required: true },
     },
   ],
+  invoiceInfor: [
+    {
+      nameCompany: { type: String, required: true },
+      mstCompany: { type: String, required: true },
+      addressCompany: { type: String, required: true },
+      mailInvoice: { type: String, required: true },
+    },
+  ],
 });
 export const clientEntity = mongoose.model(
   "clientEntity",

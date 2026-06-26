@@ -71,24 +71,52 @@ socket.on("update-totalItems", (totalItems) => {
     countBagShopping.innerText = totalItems;
   }
 });
-socket.on("update-deliveryAddress",(data)=>{
+socket.on("update-deliveryAddress", (data) => {
   console.log(data);
-  document.getElementById("contentReceivingInfor").innerHTML="";
-  document.getElementById("contentReceivingInfor").innerHTML=data.map((da)=>`
+  document.getElementById("contentReceivingInfor").innerHTML = "";
+  document.getElementById("contentReceivingInfor").innerHTML = data
+    .map(
+      (da) => `
   <div data-idAddress="${da._id}">
     <p><span>Tên người nhận:</span> ${da.fullname}</p>
     <p><span>Số điện thoại:</span> ${da.tel}</p>
-    <p><span>Địa chỉ:</span> ${da.address} (${da.category==="home"?"Nhà riêng":"Văn phòng"})</p>
+    <p><span>Địa chỉ:</span> ${da.address} (${da.category === "home" ? "Nhà riêng" : "Văn phòng"})</p>
     <button type="button" class="btnDeleteAddress" data-idAddress="${da._id}"><i class="fa-solid fa-xmark"></i></button>
   </div>
-  `).join("")
-})
-socket.on("delete-deliveryAddress",(data)=>{
-  const deleteAddress=document.querySelector(`div[data-idAddress="${data}"]`);
+  `,
+    )
+    .join("");
+});
+socket.on("delete-deliveryAddress", (data) => {
+  const deleteAddress = document.querySelector(`div[data-idAddress="${data}"]`);
   if (deleteAddress) {
     deleteAddress.remove();
   }
-})
+});
+socket.on("update-invoiceInfo", (data) => {
+  document.getElementById("contentInvoice").innerHTML = "";
+  document.getElementById("contentInvoice").innerHTML = data
+    .map(
+      (da) => `
+  <div data-idInvoiceInfor="${da._id}">
+    <p><span>Tên công ty:</span> ${da.nameCompany}</p>
+    <p><span>Mã số thuế:</span> ${da.mstCompany}</p>
+    <p><span>Địa chỉ:</span> ${da.addressCompany}</p>
+    <p><span>Mail nhận hóa đơn:</span> ${da.mailInvoice}</p>
+    <button type="button" class="btnDeleteInvoice" data-idInvoiceInfor="${da._id}"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  `,
+    )
+    .join("");
+});
+socket.on("delete-inforInvoice", (data) => {
+  const deleteInforInvoice = document.querySelector(
+    `div[data-idInvoiceInfor="${data}"]`,
+  );
+  if (deleteInforInvoice) {
+    deleteInforInvoice.remove();
+  }
+});
 function getCookie(name) {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
@@ -467,6 +495,59 @@ $(document).ready(function () {
         alert("Lỗi", error, "red");
       });
   });
+  // Chỉ cần gọi hàm select2() là khung search tự động xuất hiện
+  $("#provinceCityInvoice").select2({
+    placeholder: "Chọn tỉnh/thành phố",
+    allowClear: true, // Cho phép bấm dấu x để xóa nhanh lựa chọn
+  });
+  $("#wardsCommunesInvoice").select2({
+    placeholder: "Chọn phường/xã",
+    allowClear: true, // Cho phép bấm dấu x để xóa nhanh lựa chọn
+  });
+  // 2. HÀNH ĐỘNG FIX: Lắng nghe sự kiện change thông qua Select2 của jQuery [cite: 2026-01-28]
+  $("#provinceCityInvoice").on("change", function () {
+    const province = this.value; // Lấy giá trị value (mã tỉnh) [cite: 2026-01-28]
+
+    // ĐỊNH VỊ Ô PHƯỜNG XÃ
+    const $wardsSelect = $("#wardsCommunesInvoice");
+
+    // BIỆN PHÁP PHÒNG THỦ 1: Reset sạch danh sách phường xã cũ khi chọn lại tỉnh khác [cite: 2026-01-28]
+    // Hàm .html() rỗng giúp xóa option cũ, .val(null).trigger('change') giúp Select2 cập nhật lại giao diện trống [cite: 2026-01-28]
+    $wardsSelect.html('<option value=""></option>').val(null).trigger("change");
+
+    if (!province) {
+      return; // Nếu người dùng bấm nút xóa (Clear choice), dừng lại tại đây [cite: 2026-01-28]
+    }
+
+    // Gửi dữ liệu về Server xử lý [cite: 2026-01-28]
+    fetch("/cart/filterProvinceWards", {
+      method: "POST",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
+      body: JSON.stringify({ province }),
+    })
+      .then((res) => res.json())
+      .then(({ wards, mess, success, error }) => {
+        if (success) {
+          // BIỆN PHÁP PHÒNG THỦ 2: Tạo chuỗi html chứa danh sách option mới [cite: 2026-01-28]
+          let optionsHtml = '<option value=""></option>'; // Dòng trống cho placeholder của Select2 [cite: 2026-01-28]
+
+          wards.forEach((w) => {
+            optionsHtml += `<option value="${w.name}">${w.name}</option>`;
+          });
+
+          // Đổ toàn bộ danh sách mới vào thẻ select gốc [cite: 2026-01-28]
+          $wardsSelect.html(optionsHtml);
+
+          // HÀNH ĐỘNG CỐT LÕI: Ép Select2 cập nhật lại giao diện hiển thị từ danh sách gốc mới [cite: 2026-01-28]
+          $wardsSelect.trigger("change");
+        } else {
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        }
+      })
+      .catch((error) => {
+        alert("Lỗi", error, "red");
+      });
+  });
 });
 document
   .getElementById("submitFormReceivingInfor")
@@ -499,10 +580,12 @@ document
       .then((res) => res.json())
       .then(({ mess, success, error }) => {
         if (success) {
-          document.getElementById("addReceivingInfor").style.borderColor="#80a710";
-          document.getElementById("addReceivingInfor").style.color="#80a710";
-          document.getElementById("addReceivingInfor").innerHTML=`<i class="fa-solid fa-plus"></i> Thêm thông tin`;
-          document.getElementById("formReceivingInfor").style.display="none";
+          document.getElementById("addReceivingInfor").style.borderColor =
+            "#80a710";
+          document.getElementById("addReceivingInfor").style.color = "#80a710";
+          document.getElementById("addReceivingInfor").innerHTML =
+            `<i class="fa-solid fa-plus"></i> Thêm thông tin`;
+          document.getElementById("formReceivingInfor").style.display = "none";
           alert("Thông báo", mess, "#80a710");
         } else {
           alert("Lỗi", `${mess}\n${error}`, "red");
@@ -512,58 +595,60 @@ document
         alert("Lỗi", error, "red");
       });
   });
-const listDeliveryAddress=document.querySelectorAll("#contentReceivingInfor div")
-listDeliveryAddress.forEach((address)=>{
-  address.addEventListener("click",function(){
-    listDeliveryAddress.forEach((address)=>{
+const listDeliveryAddress = document.querySelectorAll(
+  "#contentReceivingInfor div",
+);
+listDeliveryAddress.forEach((address) => {
+  address.addEventListener("click", function () {
+    listDeliveryAddress.forEach((address) => {
       address.classList.remove("active");
-    })
-    this.classList.add("active")
-  })
-})
-document.getElementById("contentReceivingInfor").addEventListener("click",(e)=>{
-const target=e.target;
-const btnDeleteAddress=target.closest(".btnDeleteAddress");
-if (!btnDeleteAddress) {
- return
-}
- const idAddress=btnDeleteAddress.getAttribute("data-idAddress");
-  const token = getCookie("accessToken2");
+    });
+    this.classList.add("active");
+  });
+});
+document
+  .getElementById("contentReceivingInfor")
+  .addEventListener("click", (e) => {
+    const target = e.target;
+    const btnDeleteAddress = target.closest(".btnDeleteAddress");
+    if (!btnDeleteAddress) {
+      return;
+    }
+    const idAddress = btnDeleteAddress.getAttribute("data-idAddress");
+    const token = getCookie("accessToken2");
     if (!token) {
       return;
     }
     const decodedUser = jwtDecode(token);
     const idClient = decodedUser.id;
-  fetch(`/cart/deleteAddress`,{
-    method:"DELETE",
-    headers:{"Content-Type":"application/json;charset=UTF-8"},
-    body:JSON.stringify({idClient,idAddress}),
-  })
-  .then(res=>res.json())
-  .then(({mess,success,error})=>{
-    if (success) {
-      alert("Thông báo",mess,"#80a710");
-    } else {
-      alert("Lỗi",`${mess}\n${error}`,"red");
-    }
-  })
-  .catch((error)=>{
-    alert("Lỗi",error,"red");
+    fetch(`/cart/deleteAddress`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
+      body: JSON.stringify({ idClient, idAddress }),
+    })
+      .then((res) => res.json())
+      .then(({ mess, success, error }) => {
+        if (success) {
+          alert("Thông báo", mess, "#80a710");
+        } else {
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        }
+      })
+      .catch((error) => {
+        alert("Lỗi", error, "red");
+      });
   });
-})
-document.getElementById("cbInvoice").addEventListener("change",function(){
+document.getElementById("cbInvoice").addEventListener("change", function () {
   if (this.checked) {
-    document.getElementById("divInvoice").style.display="block";
-  }else{
-    document.getElementById("divInvoice").style.display="none";
+    document.getElementById("divInvoice").style.display = "block";
+  } else {
+    document.getElementById("divInvoice").style.display = "none";
   }
-})
+});
 const addIssueInvoice = document.getElementById("addIssueInvoice");
 addIssueInvoice.addEventListener("click", function () {
-  const formIssueInvoice =
-    document.getElementById("formIssueInvoice");
-  const type =
-    formIssueInvoice.style.display === "block" ? "none" : "block";
+  const formIssueInvoice = document.getElementById("formIssueInvoice");
+  const type = formIssueInvoice.style.display === "block" ? "none" : "block";
   const textBtn =
     formIssueInvoice.style.display === "block"
       ? `<i class="fa-solid fa-plus"></i> Thêm thông tin`
@@ -577,4 +662,93 @@ addIssueInvoice.addEventListener("click", function () {
     this.style.color = "#80a710";
     this.style.borderColor = "#80a710";
   }
+});
+document.getElementById("submitIssueInvoice").addEventListener("click", () => {
+  const nameCompany = document.getElementById("nameCompany").value;
+  const mstCompany = document.getElementById("mstCompany").value;
+  const mailInvoice = document.getElementById("mailInvoice").value;
+  const provinceCityInvoice = document.getElementById(
+    "provinceCityInvoice",
+  ).value;
+  const wardsCommunesInvoice = document.getElementById(
+    "wardsCommunesInvoice",
+  ).value;
+  const numberCompany = document.getElementById("numberCompany").value;
+  const token = getCookie("accessToken2");
+  if (!token) {
+    return;
+  }
+  const decodedUser = jwtDecode(token);
+  const idClient = decodedUser.id;
+  fetch("/cart/addInfoInvoice", {
+    method: "POST",
+    headers: { "Content-Type": "application/json;charset=UTF-8" },
+    body: JSON.stringify({
+      idClient,
+      nameCompany,
+      mstCompany,
+      provinceCityInvoice,
+      wardsCommunesInvoice,
+      numberCompany,
+      mailInvoice,
+    }),
+  })
+    .then((res) => res.json())
+    .then(({ mess, success, error }) => {
+      if (success) {
+        document.getElementById("addIssueInvoice").style.borderColor =
+          "#80a710";
+        document.getElementById("addIssueInvoice").style.color = "#80a710";
+        document.getElementById("addIssueInvoice").innerHTML =
+          `<i class="fa-solid fa-plus"></i> Thêm thông tin`;
+        document.getElementById("formIssueInvoice").style.display = "none";
+        alert("Thông báo", mess, "#80a710");
+      } else {
+        alert("Lỗi", `${mess}\n${error}`, "red");
+      }
+    })
+    .catch((error) => {
+      alert("Lỗi", error, "red");
+    });
+});
+const listInfoInvoice = document.querySelectorAll("#contentInvoice div");
+listInfoInvoice.forEach((info) => {
+  info.addEventListener("click", function () {
+    listInfoInvoice.forEach((info) => {
+      info.classList.remove("active");
+    });
+    this.classList.add("active");
+  });
+});
+document.getElementById("contentInvoice").addEventListener("click", (e) => {
+  const target = e.target;
+  const btnDeleteInforInvoice = target.closest(".btnDeleteInvoice");
+  if (!btnDeleteInforInvoice) {
+    return;
+  }
+  const idInforInvoice = btnDeleteInforInvoice.getAttribute(
+    "data-idInvoiceInfor",
+  );
+  const token = getCookie("accessToken2");
+  if (!token) {
+    return;
+  }
+  const decodedUser = jwtDecode(token);
+  const idClient = decodedUser.id;
+  fetch(`/cart/deleteInvoiceInfor`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json;charset=UTF-8" },
+    body: JSON.stringify({ idClient, idInforInvoice }),
+  })
+    .then((res) => res.json())
+    .then(({ mess, success, error }) => {
+      if (success) {
+        alert("Thông báo", mess, "#80a710");
+      } else {
+        alert("Lỗi", `${mess}\n${error}`, "red");
+      }
+    })
+    .catch((error) => {
+      alert("Lỗi", error, "red");
+    });
 });

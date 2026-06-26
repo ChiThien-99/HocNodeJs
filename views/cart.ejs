@@ -201,7 +201,7 @@
                     <option value="<%=p%>"><%=p%></option>
                   <%})%>
               </select><br>
-              <label for="provinceCity">Phường/Xã</label><br>
+              <label for="wardsCommunes">Phường/Xã</label><br>
               <select name="wardsCommunes" id="wardsCommunes" required>
                   <option value="">--Chọn Phường/Xã--</option>
               </select><br>
@@ -229,7 +229,7 @@
               <%}%>
             </div>
             <input type="checkbox" name="cbInvoice" id="cbInvoice">
-            <b>Xuất hóa đơn công ty</b>
+            <label for="cbInvoice">Xuất hóa đơn công ty</label>
             <div id="divInvoice">
                <div id="headerIssueInvoice">
                <h3>Thông tin xuất hóa đơn</h3>
@@ -240,26 +240,38 @@
               <input type="text" name="nameCompany" id="nameCompany" required><br>
               <label for="mstCompany">Mã số thuế</label><br>
               <input type="text" name="mstCompany" id="mstCompany" required><br>
-              <label for="addressCompany">Địa chỉ công ty</label><br>
-              <input type="text" name="addressCompany" id="addressCompany" required><br>
-              <label for="addressCompany">Mail nhận hóa đơn</label><br>
+              <p>Địa chỉ công ty</p>
+              <label for="provinceCityInvoice">Tỉnh/Thành phố</label><br>
+              <select name="provinceCityInvoice" id="provinceCityInvoice" required>
+                  <option value="">--Chọn Tỉnh/Thành phố--</option>
+                  <%province.forEach(p=>{%>
+                    <option value="<%=p%>"><%=p%></option>
+                  <%})%>
+              </select><br>
+              <label for="wardsCommunesInvoice">Phường/Xã</label><br>
+              <select name="wardsCommunesInvoice" id="wardsCommunesInvoice" required>
+                  <option value="">--Chọn Phường/Xã--</option>
+              </select><br>
+              <label for="numberCompany">Tên đường, tòa nhà, số nhà</label><br>
+              <input type="text" name="numberCompany" id="numberCompany" required><br>
+              <label for="mailInvoice">Mail nhận hóa đơn</label><br>
               <input type="email" name="mailInvoice" id="mailInvoice" required><br>
               <button type="button" id="submitIssueInvoice">Thêm</button>
             </div>
             <div id="contentInvoice">
-              <!-- <%if(deliveryAddress.length===0){%>
-              <p>Chưa có thông tin nhận hàng</p>
+              <%if(listInvoiceInfor.length===0){%>
+              <p>Chưa có thông tin xuất hóa đơn</p>
               <%}else{%>
-                <%deliveryAddress.forEach((da)=>{%>
-                <div data-idAddress="<%=da._id%>">
-                  <p><span>Tên người nhận:</span> <%=da.fullname%></p>
-                  <p><span>Số điện thoại:</span> <%=da.tel%></p>
-                  <p><span>Địa chỉ:</span> <%=da.address%> (<%=da.category==="home"?"Nhà riêng":"Văn phòng"%>)</p>
-                  <button type="button" class="btnDeleteInvoic" data-idAddress="<%=da._id%>"><i class="fa-solid fa-xmark"></i></button>
+                <%listInvoiceInfor.forEach((da)=>{%>
+                <div data-idInvoiceInfor="<%=da._id%>">
+                  <p><span>Tên công ty:</span> <%=da.nameCompany%></p>
+                  <p><span>Mã số thuế:</span> <%=da.mstCompany%></p>
+                  <p><span>Địa chỉ:</span> <%=da.addressCompany%></p>
+                  <p><span>Mail nhận hóa đơn:</span> <%=da.mailInvoice%></p>
+                  <button type="button" class="btnDeleteInvoice" data-idInvoiceInfor="<%=da._id%>"><i class="fa-solid fa-xmark"></i></button>
                 </div>
                 <%})%>
-              <%}%> -->
-              <p>Chưa có thông tin xuất hóa đơn</p>
+              <%}%>
             </div>
             </div>
         </div>

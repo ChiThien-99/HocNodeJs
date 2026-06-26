@@ -14,7 +14,11 @@ cartRouter.post(
   validateTelDelivery,
   cartController.addReceivingInfor,
 );
+cartRouter.post(`${prefix}/addInfoInvoice`, cartController.addInfoInvoice);
 cartRouter.put(`${prefix}/updateQuantity`, cartController.updateQuantity);
 cartRouter.delete(`${prefix}/deleteProduct`, cartController.deleteProduct);
 cartRouter.delete(`${prefix}/deleteAddress`, cartController.deleteAddress);
-
+cartRouter.delete(
+  `${prefix}/deleteInvoiceInfor`,
+  cartController.deleteInvoiceInfor,
+);

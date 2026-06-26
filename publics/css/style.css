@@ -624,6 +624,9 @@ header div:last-child #containerUserLogin #bagShopping span {
   background-color: #80a710;
   color: #fafafa;
 }
+#mainCart label[for=cbInvoice] {
+  font-weight: bold;
+}
 #mainCart #divInvoice {
   display: none;
 }
@@ -651,6 +654,9 @@ header div:last-child #containerUserLogin #bagShopping span {
 #mainCart #divInvoice #formIssueInvoice label {
   display: inline-block;
   margin: 0.5rem 0;
+}
+#mainCart #divInvoice #formIssueInvoice p {
+  margin: 0.5rem 0 0 0;
 }
 #mainCart #divInvoice #formIssueInvoice input {
   width: 50%;

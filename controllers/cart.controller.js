@@ -19,14 +19,16 @@ export const getCart = async (req, res) => {
   });
   const provinceWards = await provinceWardsEntity.find();
   const province = provinceWards.map((pw) => pw.province);
-  const client=await clientEntity.findById(idClient);
-  const deliveryAddress=client.addressInfor;
+  const client = await clientEntity.findById(idClient);
+  const deliveryAddress = client.addressInfor;
+  const listInvoiceInfor = client.invoiceInfor;
   res.render("cart.ejs", {
     cart,
     vouchers,
     subTotal,
     province,
     deliveryAddress,
+    listInvoiceInfor,
   });
 };
 export const deleteProduct = async (req, res) => {
@@ -197,7 +199,7 @@ export const addReceivingInfor = async (req, res) => {
       category: categoryAddress,
     });
     await client.save();
-    const listAddress=client.addressInfor;
+    const listAddress = client.addressInfor;
     const io = req.app.get("socketio");
     io.emit("update-deliveryAddress", listAddress);
     res.json({
@@ -214,7 +216,7 @@ export const addReceivingInfor = async (req, res) => {
 };
 export const deleteAddress = async (req, res) => {
   try {
-    const { idClient,idAddress } = req.body;
+    const { idClient, idAddress } = req.body;
     if (!idAddress || !idClient) {
       return res.json({
         mess: "Không tìm được idAddress,idClient",
@@ -232,10 +234,70 @@ export const deleteAddress = async (req, res) => {
     );
     const io = req.app.get("socketio");
     io.emit("delete-deliveryAddress", idAddress);
-    res.json({ mess: "Xóa địa chỉ thành công", success: true});
+    res.json({ mess: "Xóa thông tin nhận hàng thành công", success: true });
   } catch (error) {
     res.json({
-      mess: "Xóa địa chỉ thất bại",
+      mess: "Xóa thông tin nhận hàng thất bại",
+      success: false,
+      error: error.message,
+    });
+  }
+};
+export const addInfoInvoice = async (req, res) => {
+  try {
+    const {
+      idClient,
+      nameCompany,
+      mstCompany,
+      provinceCityInvoice,
+      wardsCommunesInvoice,
+      numberCompany,
+      mailInvoice,
+    } = req.body;
+    const client = await clientEntity.findById(idClient);
+    client.invoiceInfor.push({
+      nameCompany: nameCompany,
+      mstCompany: mstCompany,
+      addressCompany: `${numberCompany},${wardsCommunesInvoice},${provinceCityInvoice}`,
+      mailInvoice: mailInvoice,
+    });
+    await client.save();
+    const listInvoiceInfor = client.invoiceInfor;
+    const io = req.app.get("socketio");
+    io.emit("update-invoiceInfo", listInvoiceInfor);
+    res.json({ mess: "Tạo thông tin hóa đơn thành công", success: true });
+  } catch (error) {
+    res.json({
+      mess: "Tạo thông tin hóa đơn thất bại",
+      success: false,
+      error: error.message,
+    });
+  }
+};
+export const deleteInvoiceInfor = async (req, res) => {
+  try {
+    const { idClient, idInforInvoice } = req.body;
+    if (!idInforInvoice || !idClient) {
+      return res.json({
+        mess: "Không tìm được idInforInvoice,idClient",
+        success: false,
+      });
+    }
+    const deleteInforInvoice = await clientEntity.findOneAndUpdate(
+      { _id: idClient },
+      {
+        $pull: {
+          invoiceInfor: { _id: idInforInvoice },
+        },
+      },
+      { new: true },
+    );
+    const io = req.app.get("socketio");
+    io.emit("delete-inforInvoice", idInforInvoice);
+    res.json({ mess: "Xóa thông tin xuất hóa đơn thành công", success: true });
+  } catch (error) {
+    res.json({
+      mess: "Xóa thông tin xuất hóa đơn thất bại",
       success: false,
       error: error.message,
     });

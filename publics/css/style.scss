@@ -550,7 +550,7 @@ header {
       height: 2rem;
       font-size: 1rem;
     }
-    #submitFormReceivingInfor{
+    #submitFormReceivingInfor {
       @include button(0.5rem);
       background-color: $colorCTA;
       color: $colorSecondaryText;
@@ -564,7 +564,7 @@ header {
     border: 1px solid $colorCTA;
     border-radius: 5px;
     margin-bottom: 1rem;
-    div{
+    div {
       background-color: white;
       border: none;
       border-radius: 5px;
@@ -572,13 +572,13 @@ header {
       padding: 0.5rem;
       margin: 0.5rem 0;
       position: relative;
-      p{
+      p {
         margin: 0.5rem 0;
-        span{
+        span {
           font-weight: bold;
         }
       }
-      .btnDeleteAddress{
+      .btnDeleteAddress {
         display: inline-block;
         background: none;
         border: none;
@@ -586,100 +586,106 @@ header {
         top: 0.5rem;
         right: 0.5rem;
         cursor: pointer;
-        &:hover{
+        &:hover {
           color: red;
         }
       }
-      &:hover{
+      &:hover {
         background-color: $colorCTA;
         color: $colorSecondaryText;
       }
     }
-    .active{
+    .active {
       background-color: $colorCTA;
       color: $colorSecondaryText;
     }
   }
-  #divInvoice{
+  label[for="cbInvoice"] {
+    font-weight: bold;
+  }
+  #divInvoice {
     display: none;
     #headerIssueInvoice {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-    align-items: center;
-    button {
-      @include button(0.5rem);
-      color: $colorCTA;
-      border: 2px solid $colorCTA;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      align-items: center;
+      button {
+        @include button(0.5rem);
+        color: $colorCTA;
+        border: 2px solid $colorCTA;
+      }
     }
-  }
-  #formIssueInvoice {
-    padding: 1rem;
-    border: 1px solid $colorCTA;
-    border-radius: 5px;
-    margin-bottom: 1rem;
-    display: none;
-    label {
-      display: inline-block;
-      margin: 0.5rem 0;
-    }
-    input {
-      width: 50%;
-      height: 2rem;
-      font-size: 1rem;
-      border: 1px solid #aaa;
-      border-radius: 4px;
-    }
-    #submitIssueInvoice{
-      @include button(0.5rem);
-      background-color: $colorCTA;
-      color: $colorSecondaryText;
-      width: 4rem;
-      height: auto;
-      margin-top: 1rem;
-    }
-  }
-  #contentInvoice {
-    padding: 1rem;
-    border: 1px solid $colorCTA;
-    border-radius: 5px;
-    margin-bottom: 1rem;
-    div{
-      background-color: white;
-      border: none;
+    #formIssueInvoice {
+      padding: 1rem;
+      border: 1px solid $colorCTA;
       border-radius: 5px;
-      cursor: pointer;
-      padding: 0.5rem;
-      margin: 0.5rem 0;
-      position: relative;
-      p{
-        margin: 0.5rem 0;
-        span{
-          font-weight: bold;
-        }
-      }
-      .btnDeleteInvoice{
+      margin-bottom: 1rem;
+      display: none;
+      label {
         display: inline-block;
-        background: none;
+        margin: 0.5rem 0;
+      }
+      p {
+        margin: 0.5rem 0 0 0;
+      }
+      input {
+        width: 50%;
+        height: 2rem;
+        font-size: 1rem;
+        border: 1px solid #aaa;
+        border-radius: 4px;
+      }
+      #submitIssueInvoice {
+        @include button(0.5rem);
+        background-color: $colorCTA;
+        color: $colorSecondaryText;
+        width: 4rem;
+        height: auto;
+        margin-top: 1rem;
+      }
+    }
+    #contentInvoice {
+      padding: 1rem;
+      border: 1px solid $colorCTA;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+      div {
+        background-color: white;
         border: none;
-        position: absolute;
-        top: 0.5rem;
-        right: 0.5rem;
+        border-radius: 5px;
         cursor: pointer;
-        &:hover{
-          color: red;
+        padding: 0.5rem;
+        margin: 0.5rem 0;
+        position: relative;
+        p {
+          margin: 0.5rem 0;
+          span {
+            font-weight: bold;
+          }
+        }
+        .btnDeleteInvoice {
+          display: inline-block;
+          background: none;
+          border: none;
+          position: absolute;
+          top: 0.5rem;
+          right: 0.5rem;
+          cursor: pointer;
+          &:hover {
+            color: red;
+          }
+        }
+        &:hover {
+          background-color: $colorCTA;
+          color: $colorSecondaryText;
         }
       }
-      &:hover{
+      .active {
         background-color: $colorCTA;
         color: $colorSecondaryText;
       }
     }
-    .active{
-      background-color: $colorCTA;
-      color: $colorSecondaryText;
-    }
-  }
   }
 }
 //**CSS Todolist
