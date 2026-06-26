@@ -16,3 +16,5 @@ cartRouter.post(
 );
 cartRouter.put(`${prefix}/updateQuantity`, cartController.updateQuantity);
 cartRouter.delete(`${prefix}/deleteProduct`, cartController.deleteProduct);
+cartRouter.delete(`${prefix}/deleteAddress`, cartController.deleteAddress);
+

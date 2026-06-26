@@ -587,6 +587,129 @@ header div:last-child #containerUserLogin #bagShopping span {
   padding: 1rem;
   border: 1px solid #80a710;
   border-radius: 5px;
+  margin-bottom: 1rem;
+}
+#mainCart #contentReceivingInfor div {
+  background-color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  position: relative;
+}
+#mainCart #contentReceivingInfor div p {
+  margin: 0.5rem 0;
+}
+#mainCart #contentReceivingInfor div p span {
+  font-weight: bold;
+}
+#mainCart #contentReceivingInfor div .btnDeleteAddress {
+  display: inline-block;
+  background: none;
+  border: none;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  cursor: pointer;
+}
+#mainCart #contentReceivingInfor div .btnDeleteAddress:hover {
+  color: red;
+}
+#mainCart #contentReceivingInfor div:hover {
+  background-color: #80a710;
+  color: #fafafa;
+}
+#mainCart #contentReceivingInfor .active {
+  background-color: #80a710;
+  color: #fafafa;
+}
+#mainCart #divInvoice {
+  display: none;
+}
+#mainCart #divInvoice #headerIssueInvoice {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+#mainCart #divInvoice #headerIssueInvoice button {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: #80a710;
+  border: 2px solid #80a710;
+}
+#mainCart #divInvoice #formIssueInvoice {
+  padding: 1rem;
+  border: 1px solid #80a710;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  display: none;
+}
+#mainCart #divInvoice #formIssueInvoice label {
+  display: inline-block;
+  margin: 0.5rem 0;
+}
+#mainCart #divInvoice #formIssueInvoice input {
+  width: 50%;
+  height: 2rem;
+  font-size: 1rem;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}
+#mainCart #divInvoice #formIssueInvoice #submitIssueInvoice {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #80a710;
+  color: #fafafa;
+  width: 4rem;
+  height: auto;
+  margin-top: 1rem;
+}
+#mainCart #divInvoice #contentInvoice {
+  padding: 1rem;
+  border: 1px solid #80a710;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+}
+#mainCart #divInvoice #contentInvoice div {
+  background-color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  position: relative;
+}
+#mainCart #divInvoice #contentInvoice div p {
+  margin: 0.5rem 0;
+}
+#mainCart #divInvoice #contentInvoice div p span {
+  font-weight: bold;
+}
+#mainCart #divInvoice #contentInvoice div .btnDeleteInvoice {
+  display: inline-block;
+  background: none;
+  border: none;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  cursor: pointer;
+}
+#mainCart #divInvoice #contentInvoice div .btnDeleteInvoice:hover {
+  color: red;
+}
+#mainCart #divInvoice #contentInvoice div:hover {
+  background-color: #80a710;
+  color: #fafafa;
+}
+#mainCart #divInvoice #contentInvoice .active {
+  background-color: #80a710;
+  color: #fafafa;
 }
 
 #addTask {

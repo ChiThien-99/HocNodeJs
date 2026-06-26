@@ -212,10 +212,55 @@
                 <option value="office">Văn phòng</option>
                 <option value="home">Nhà riêng</option>
               </select><br>
-              <input type="submit" value="Thêm" id="submitFormReceivingInfor">
+              <button type="button" id="submitFormReceivingInfor">Thêm</button>
             </div>
             <div id="contentReceivingInfor">
+              <%if(deliveryAddress.length===0){%>
               <p>Chưa có thông tin nhận hàng</p>
+              <%}else{%>
+                <%deliveryAddress.forEach((da)=>{%>
+                <div data-idAddress="<%=da._id%>">
+                  <p><span>Tên người nhận:</span> <%=da.fullname%></p>
+                  <p><span>Số điện thoại:</span> <%=da.tel%></p>
+                  <p><span>Địa chỉ:</span> <%=da.address%> (<%=da.category==="home"?"Nhà riêng":"Văn phòng"%>)</p>
+                  <button type="button" class="btnDeleteAddress" data-idAddress="<%=da._id%>"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <%})%>
+              <%}%>
+            </div>
+            <input type="checkbox" name="cbInvoice" id="cbInvoice">
+            <b>Xuất hóa đơn công ty</b>
+            <div id="divInvoice">
+               <div id="headerIssueInvoice">
+               <h3>Thông tin xuất hóa đơn</h3>
+               <button id="addIssueInvoice"><i class="fa-solid fa-plus"></i> Thêm thông tin</button>
+            </div>
+            <div id="formIssueInvoice">
+              <label for="nameCompany">Tên công ty</label><br>
+              <input type="text" name="nameCompany" id="nameCompany" required><br>
+              <label for="mstCompany">Mã số thuế</label><br>
+              <input type="text" name="mstCompany" id="mstCompany" required><br>
+              <label for="addressCompany">Địa chỉ công ty</label><br>
+              <input type="text" name="addressCompany" id="addressCompany" required><br>
+              <label for="addressCompany">Mail nhận hóa đơn</label><br>
+              <input type="email" name="mailInvoice" id="mailInvoice" required><br>
+              <button type="button" id="submitIssueInvoice">Thêm</button>
+            </div>
+            <div id="contentInvoice">
+              <!-- <%if(deliveryAddress.length===0){%>
+              <p>Chưa có thông tin nhận hàng</p>
+              <%}else{%>
+                <%deliveryAddress.forEach((da)=>{%>
+                <div data-idAddress="<%=da._id%>">
+                  <p><span>Tên người nhận:</span> <%=da.fullname%></p>
+                  <p><span>Số điện thoại:</span> <%=da.tel%></p>
+                  <p><span>Địa chỉ:</span> <%=da.address%> (<%=da.category==="home"?"Nhà riêng":"Văn phòng"%>)</p>
+                  <button type="button" class="btnDeleteInvoic" data-idAddress="<%=da._id%>"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <%})%>
+              <%}%> -->
+              <p>Chưa có thông tin xuất hóa đơn</p>
+            </div>
             </div>
         </div>
         <div id="divInfoCart">
