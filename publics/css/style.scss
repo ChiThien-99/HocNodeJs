@@ -143,7 +143,7 @@ header {
   flex-flow: row nowrap;
   justify-content: space-between;
   border-bottom: 1px solid $colorCTA;
-  position: sticky;
+  position: fixed;
   top: 0;
   background-color: #f5f5f5;
   z-index: 900;
@@ -319,11 +319,12 @@ header {
   }
 }
 #mainCart {
-  padding: 2rem;
+  padding: 6.5rem 1rem 1rem 1rem;
   display: flex;
   flex-flow: row wrap;
+  position: relative;
   #divFormCart {
-    width: 50%;
+    width: 70%;
     #divOrder {
       width: fit-content;
       height: fit-content;
@@ -483,26 +484,28 @@ header {
     }
   }
   #divInfoCart {
-    width: 50%;
+    width: 30%;
+    position: fixed;
+    right: 0;
     div {
-      width: 50%;
+      width: 100%;
       padding: 1rem;
-      border: 1px solid #bbb;
+      border: none;
       border-radius: 10px;
-      background-color: #bbbbbb75;
-      margin: auto;
+      background-color: white;
       display: grid;
-      grid-template-columns: 50% 50%;
+      grid-template-columns: 40% 60%;
       grid-template-rows: auto;
-      gap: 1rem;
+      gap: 0.5rem;
+      overflow-x: scroll;
       p {
         font-weight: bold;
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         margin: 0;
       }
       span {
         color: $colorCTA;
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         font-weight: bold;
       }
       h2 {
@@ -514,7 +517,19 @@ header {
         margin: 0;
         color: $colorCTA;
         font-weight: bold;
-        font-size: 1.2rem;
+        font-size: 1.1rem;
+      }
+      i{
+        color: red;
+        grid-column: span 2;
+      }
+      button{
+        @include button(0.5rem);
+        background-color: $colorCTA;
+        color: $colorSecondaryText;
+        grid-column: span 2;
+        font-size: 1.1rem;
+        font-weight: bold;
       }
     }
   }
@@ -602,6 +617,7 @@ header {
   }
   label[for="cbInvoice"] {
     font-weight: bold;
+    cursor: pointer;
   }
   #divInvoice {
     display: none;
@@ -1535,6 +1551,7 @@ header {
   height: calc(100vh - 6.5rem - 1px);
   flex-flow: row nowrap;
   overflow: hidden;
+  padding: 6.5rem 0.5rem 0 0.5rem;
   #navDashboardClient {
     width: 20%;
     height: 100%;
@@ -2135,7 +2152,9 @@ header {
     }
   }
 }
-#divAboutAndBanner {
+#mainIndex{
+  padding-top: 6.5rem;
+  #divAboutAndBanner {
   display: flex;
   flex-flow: row wrap;
   width: 100%;
@@ -2643,9 +2662,11 @@ header {
     }
   }
 }
+}
 #mainDetailblogs {
   display: flex;
   flex-flow: row wrap;
+  padding: 6.5rem 0.5rem 0 0.5rem;
   article {
     width: 80%;
     border-bottom: 1px solid $colorCTA;
@@ -2966,7 +2987,7 @@ header {
   width: 100%;
   display: flex;
   flex-flow: row wrap;
-  padding: 0 0.5rem;
+  padding: 6.5rem 0.5rem 0 0.5rem;
   #listBlog {
     width: 75%;
     #filterBlogs {
@@ -3226,7 +3247,7 @@ header {
   width: 100%;
   display: flex;
   flex-flow: row wrap;
-  padding: 0 0.5rem;
+  padding: 6.5rem 0.5rem 0 0.5rem;
   #listApp {
     width: 75%;
     #filterApp {
@@ -3491,7 +3512,7 @@ header {
   }
 }
 #mainDetailApp {
-  padding: 0 0.5rem;
+  padding: 6.5rem 0.5rem 0 0.5rem;
   #headerDetailApp {
     display: flex;
     flex-flow: row nowrap;
@@ -3534,7 +3555,7 @@ header {
   width: 100%;
   display: flex;
   flex-flow: row wrap;
-  padding: 0 0.5rem;
+  padding: 6.5rem 0.5rem 0 0.5rem;
   #listDevice {
     width: 75%;
     #filterDevice {
@@ -3805,7 +3826,7 @@ header {
   display: flex;
   flex-flow: row wrap;
   margin-top: 2rem;
-  padding: 0 0.5rem;
+  padding: 6.5rem 0.5rem 0 0.5rem;
   #rawQuillContent {
     display: none;
   }
@@ -4575,6 +4596,7 @@ footer {
     width: 15rem;
   }
   #mainDetailblogs {
+    padding: 5rem 0.5rem 0 0.5rem;
     article {
       width: 100%;
       h1 {
@@ -4620,6 +4642,7 @@ footer {
     }
   }
   #mainBlogs {
+    padding: 5rem 0.5rem 0 0.5rem;
     #listBlog {
       width: 100%;
       border-bottom: 1px solid $colorCTA;
@@ -4660,6 +4683,7 @@ footer {
     }
   }
   #mainApp {
+    padding:5rem 0.5rem 0 0.5rem;
     #listApp {
       width: 100%;
       border-bottom: 1px solid $colorCTA;
@@ -4697,6 +4721,7 @@ footer {
     }
   }
   #mainDetailApp {
+    padding: 5rem 0.5rem 0 0.5rem;
     #headerDetailApp {
       height: 8rem;
       #groupBtn {
@@ -4708,11 +4733,13 @@ footer {
           font-size: 0.8rem;
           width: 11rem;
           margin: 0.1rem 0;
+          text-align: center;
         }
       }
     }
   }
   #mainDevice {
+    padding: 5rem 0.5rem 0 0.5rem;
     #listDevice {
       width: 100%;
       border-bottom: 1px solid $colorCTA;
@@ -4755,6 +4782,7 @@ footer {
     }
   }
   #mainDetailDevice {
+    padding: 5rem 0.5rem 0 0.5rem;
     #detailDevice {
       #bodyDetailDevice {
         #mainBodyDetailDevice {
@@ -4769,7 +4797,9 @@ footer {
       }
     }
   }
-  #divAboutAndBanner {
+  #mainIndex{
+    padding-top: 5rem;
+    #divAboutAndBanner {
     width: 100%;
     height: 60rem;
     padding: 0 0.5rem;
@@ -4858,6 +4888,7 @@ footer {
       height: 30rem;
     }
   }
+  }
   footer {
     div {
       width: 50%;
@@ -4939,6 +4970,53 @@ footer {
     }
     aside {
       width: 100%;
+    }
+  }
+  #mainCart{
+    padding: 5rem 0.5rem 0.5rem 0.5rem;
+    #divFormCart{
+      width: 100%;
+      #divOrder{
+        width: 100%;
+      }
+      #listVoucher{
+        .voucher-wrapper{
+          height: 15rem;
+          .voucher-sawtooth-zigzag{
+            height: inherit;
+            padding: 0.5rem;
+            .voucher{
+              height: 100%;
+              position: relative;
+              div:nth-child(1){
+                width: 50%;
+              }
+              div:nth-child(2){
+                width: 50%;
+                height: inherit;
+                overflow-y: scroll;
+                position: static;
+                .divApplyVoucher{
+                  left: 0;
+                  span{
+                    display: none;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      #divPaymentMethod{
+        label{
+          width: 100%;
+        }
+      }
+    }
+    #divInfoCart{
+      width: 100%;
+      position: relative;
+      margin: 0.5rem 0;
     }
   }
 }

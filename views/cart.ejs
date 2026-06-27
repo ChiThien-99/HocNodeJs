@@ -97,8 +97,8 @@
           </div>
         </div>
         <div id="bagShopping">
-           <i class="fa-brands fa-opencart"></i>
-           <span>0</span>
+          <i class="fa-brands fa-opencart"></i>
+          <span>0</span>
         </div>
         </div>
       </div>
@@ -165,23 +165,23 @@
             <h3>Phương thức thanh toán</h3>
             <div id="divPaymentMethod">
                <label for="cod">
-              <input type="radio" name="paymentMethod" value="cod" id="cod">
+              <input type="radio" name="paymentMethod" value="cod" id="cod" data-paymentMethod="Thanh toán khi nhận hàng">
               <p><img src="/img/cod.webp" alt="cod"><span>Thanh toán khi nhận hàng</span></p>
             </label>
             <label for="bank">
-              <input type="radio" name="paymentMethod" value="bank" id="bank">
+              <input type="radio" name="paymentMethod" value="bank" id="bank" data-paymentMethod="Chuyển khoản ngân hàng/thẻ tín dụng">
               <p><img src="/img/bank.webp" alt="bank"><span>Chuyển khoản ngân hàng/thẻ tín dụng</span></p>
             </label>
             <label for="momo">
-              <input type="radio" name="paymentMethod" value="momo" id="momo">
+              <input type="radio" name="paymentMethod" value="momo" id="momo" data-paymentMethod="Ví điện tử MoMo">
               <p><img src="/img/logo_momo.webp" alt="momo"><span>Ví điện tử MoMo</span></p>
             </label>
             <label for="zalopay">
-              <input type="radio" name="paymentMethod" value="zalopay" id="zalopay">
+              <input type="radio" name="paymentMethod" value="zalopay" id="zalopay" data-paymentMethod="Ví điện tử ZaloPay">
               <p><img src="/img/zalopay.webp" alt="zalopay" id="logoZalopay"><span>Ví điện tử ZaloPay</span></p>
             </label>
             <label for="vnpay">
-              <input type="radio" name="paymentMethod" value="vnpay" id="vnpay">
+              <input type="radio" name="paymentMethod" value="vnpay" id="vnpay" data-paymentMethod="Ví điện tử VNPay">
               <p><img src="/img/logo_vnpay.webp" alt="vnpay"><span>Ví điện tử VNPay</span></p>
             </label>
             </div>
@@ -285,6 +285,24 @@
             <p>Thành tiền:</p>
             <span id="finalTotal"><%=subTotal.toLocaleString('vi-VN')%>đ</span>
             <p id="textFreeShip">Miễn phí ship</p>
+            <p>Phương thức thanh toán:</p>
+            <span id="paymentOrder">--</span>
+            <p>Tên người nhận:</p>
+            <span id="nameDelivery">--</span>
+            <p>Số điện thoại:</p>
+            <span id="telDelivery">--</span>
+            <p>Địa chỉ:</p>
+            <span id="addressDelivery">--</span>
+            <p>Tên công ty:</p>
+            <span id="nameCompanyOrder">--</span>
+            <p>Mã số thuế:</p>
+            <span id="mstCompanyOrder">--</span>
+            <p>Địa chỉ:</p>
+            <span id="addressCompanyOrder">--</span>
+            <p>Mail nhận hóa đơn:</p>
+            <span id="mailInvoiceOrder">--</span>
+            <i>Kiểm tra lại thông tin trước khi tiếp tục bạn nhé!</i>
+            <button type="button" id="btnOrder">Thanh toán</button>
           </div>
         </div>
         <%}%>

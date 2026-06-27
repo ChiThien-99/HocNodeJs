@@ -14,9 +14,11 @@ export const getCart = async (req, res) => {
     })
     .select("code image title content discountPercentage createdAt");
   let subTotal = 0;
-  cart.products.forEach((p) => {
+  if (cart) {
+     cart.products.forEach((p) => {
     subTotal += p.price * p.quantity;
   });
+  }
   const provinceWards = await provinceWardsEntity.find();
   const province = provinceWards.map((pw) => pw.province);
   const client = await clientEntity.findById(idClient);
@@ -142,7 +144,7 @@ export const calMultiVouchers = async (req, res) => {
           }
         } else if (p.category === "device") {
           if (poolDiscountDevice > 0) {
-            const percentToApply = Math.min(poolDiscountApp, 80);
+            const percentToApply = Math.min(poolDiscountDevice, 80);
             const discountForThisItem =
               (itemTotalOriginal * percentToApply) / 100;
             totalDiscountAmount += discountForThisItem;
@@ -195,7 +197,7 @@ export const addReceivingInfor = async (req, res) => {
     client.addressInfor.push({
       fullname: fullname,
       tel: tel,
-      address: `${numberHouse},${wardsCommunes},${provinceCity}`,
+      address: `${numberHouse}, ${wardsCommunes}, ${provinceCity}`,
       category: categoryAddress,
     });
     await client.save();
@@ -258,7 +260,7 @@ export const addInfoInvoice = async (req, res) => {
     client.invoiceInfor.push({
       nameCompany: nameCompany,
       mstCompany: mstCompany,
-      addressCompany: `${numberCompany},${wardsCommunesInvoice},${provinceCityInvoice}`,
+      addressCompany: `${numberCompany}, ${wardsCommunesInvoice}, ${provinceCityInvoice}`,
       mailInvoice: mailInvoice,
     });
     await client.save();

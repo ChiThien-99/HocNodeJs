@@ -156,6 +156,9 @@ function getUserFromCookie() {
         .catch((error) => {
           alert("Lỗi", error, "red");
         });
+      document.getElementById("bagShopping").addEventListener("click", () => {
+        window.open(`/cart/${idClient}`, "_self");
+      });
       document
         .getElementById("btnDashboardUserLogin")
         .addEventListener("click", (e) => {
@@ -580,6 +583,12 @@ document
       .then((res) => res.json())
       .then(({ mess, success, error }) => {
         if (success) {
+          document.getElementById("fullname").value="";
+          document.getElementById("tel").value="";
+          $("#provinceCity").val(null).trigger("change"); 
+          $("#wardsCommunes").val(null).trigger("change");
+          document.getElementById("numberHouse").value="";
+          document.getElementById("categoryAddress").value="";
           document.getElementById("addReceivingInfor").style.borderColor =
             "#80a710";
           document.getElementById("addReceivingInfor").style.color = "#80a710";
@@ -595,17 +604,30 @@ document
         alert("Lỗi", error, "red");
       });
   });
-const listDeliveryAddress = document.querySelectorAll(
-  "#contentReceivingInfor div",
+const listDeliveryAddress = document.getElementById(
+  "contentReceivingInfor",
 );
-listDeliveryAddress.forEach((address) => {
-  address.addEventListener("click", function () {
-    listDeliveryAddress.forEach((address) => {
-      address.classList.remove("active");
-    });
-    this.classList.add("active");
+listDeliveryAddress.addEventListener("click",(e)=>{
+  const clickAddressDelivery=e.target.closest("div[data-idAddress]");
+  if (!clickAddressDelivery) {
+    return
+  }
+  if (e.target.closest(".btnDeleteAddress")) {
+    return
+  }
+  const addressDelivery=listDeliveryAddress.querySelectorAll("div[data-idAddress]");
+  addressDelivery.forEach((address)=>{
+    address.classList.remove("active");
   });
-});
+  clickAddressDelivery.classList.add("active");
+  addressDelivery.forEach((address)=>{
+    if (address.classList.contains("active")) {
+      document.getElementById("nameDelivery").innerText=address.querySelectorAll("p")[0].childNodes[1].textContent.trim();
+      document.getElementById("telDelivery").innerText=address.querySelectorAll("p")[1].childNodes[1].textContent.trim();
+      document.getElementById("addressDelivery").innerText=address.querySelectorAll("p")[2].childNodes[1].textContent.trim();
+    }
+  })
+})
 document
   .getElementById("contentReceivingInfor")
   .addEventListener("click", (e) => {
@@ -696,6 +718,12 @@ document.getElementById("submitIssueInvoice").addEventListener("click", () => {
     .then((res) => res.json())
     .then(({ mess, success, error }) => {
       if (success) {
+        document.getElementById("nameCompany").value="";
+        document.getElementById("mstCompany").value="";
+        document.getElementById("mailInvoice").value="";
+        $("#provinceCityInvoice").val(null).trigger("change"); 
+        $("#wardsCommunesInvoice").val(null).trigger("change");
+        document.getElementById("numberCompany").value="";
         document.getElementById("addIssueInvoice").style.borderColor =
           "#80a710";
         document.getElementById("addIssueInvoice").style.color = "#80a710";
@@ -711,15 +739,31 @@ document.getElementById("submitIssueInvoice").addEventListener("click", () => {
       alert("Lỗi", error, "red");
     });
 });
-const listInfoInvoice = document.querySelectorAll("#contentInvoice div");
-listInfoInvoice.forEach((info) => {
-  info.addEventListener("click", function () {
-    listInfoInvoice.forEach((info) => {
-      info.classList.remove("active");
-    });
-    this.classList.add("active");
+const contentInvoice = document.getElementById(
+  "contentInvoice",
+);
+contentInvoice.addEventListener("click",(e)=>{
+  const clickContentInvoice=e.target.closest("div[data-idInvoiceInfor]");
+  if (!clickContentInvoice) {
+    return
+  }
+  if (e.target.closest(".btnDeleteInvoice")) {
+    return
+  }
+  const oneContentInvoice=contentInvoice.querySelectorAll("div[data-idInvoiceInfor]");
+  oneContentInvoice.forEach((inv)=>{
+    inv.classList.remove("active");
   });
-});
+  clickContentInvoice.classList.add("active");
+  oneContentInvoice.forEach((inv)=>{
+    if (inv.classList.contains("active")) {
+      document.getElementById("nameCompanyOrder").innerText=inv.querySelectorAll("p")[0].childNodes[1].textContent.trim();
+      document.getElementById("mstCompanyOrder").innerText=inv.querySelectorAll("p")[1].childNodes[1].textContent.trim();
+      document.getElementById("addressCompanyOrder").innerText=inv.querySelectorAll("p")[2].childNodes[1].textContent.trim();
+      document.getElementById("mailInvoiceOrder").innerText=inv.querySelectorAll("p")[3].childNodes[1].textContent.trim();
+    }
+  })
+})
 document.getElementById("contentInvoice").addEventListener("click", (e) => {
   const target = e.target;
   const btnDeleteInforInvoice = target.closest(".btnDeleteInvoice");
@@ -752,3 +796,17 @@ document.getElementById("contentInvoice").addEventListener("click", (e) => {
       alert("Lỗi", error, "red");
     });
 });
+document.querySelectorAll('input[name="paymentMethod"]').forEach((radio)=>{
+  radio.addEventListener("change",function(){
+    if (this.checked) {
+      document.getElementById("paymentOrder").innerText=this.getAttribute("data-paymentMethod");
+      if (this.getAttribute("data-paymentMethod")==="Thanh toán khi nhận hàng") {
+        document.getElementById("btnOrder").innerText="Đặt hàng";
+      }else{
+        document.getElementById("btnOrder").innerText="Thanh toán";
+      }
+    }else{
+      return
+    } 
+  })
+})
