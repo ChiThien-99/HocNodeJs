@@ -736,6 +736,58 @@ header div:last-child #containerUserLogin #bagShopping span {
   background-color: #80a710;
   color: #fafafa;
 }
+#mainCart #orderForm {
+  padding: 0.5rem;
+  background-color: white;
+  position: relative;
+}
+#mainCart #orderForm #divPaid {
+  position: absolute;
+  top: 30%;
+  right: 10%;
+  width: -moz-fit-content;
+  width: fit-content;
+  height: auto;
+  padding: 1rem;
+  border: 3px solid #bbb;
+  color: #bbb;
+}
+#mainCart #orderForm #divPaid h2 {
+  margin: 0;
+}
+#mainCart #orderForm p,
+#mainCart #orderForm h2 {
+  margin: 0.5rem 0;
+}
+#mainCart #orderForm #divHeaderOrder {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: start;
+}
+#mainCart #orderForm #divHeaderOrder img {
+  width: 6rem;
+  height: 6rem;
+  margin-right: 1rem;
+}
+#mainCart #orderForm #divTitleOrder {
+  text-align: center;
+}
+#mainCart #orderForm table,
+#mainCart #orderForm th,
+#mainCart #orderForm td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 0.5rem;
+}
+#mainCart #orderForm table {
+  width: 100%;
+}
+#mainCart #orderForm #divSign {
+  height: 10rem;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+}
 
 #addTask {
   width: 70%;

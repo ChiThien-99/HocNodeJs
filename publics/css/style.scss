@@ -519,11 +519,11 @@ header {
         font-weight: bold;
         font-size: 1.1rem;
       }
-      i{
+      i {
         color: red;
         grid-column: span 2;
       }
-      button{
+      button {
         @include button(0.5rem);
         background-color: $colorCTA;
         color: $colorSecondaryText;
@@ -701,6 +701,57 @@ header {
         background-color: $colorCTA;
         color: $colorSecondaryText;
       }
+    }
+  }
+  #orderForm {
+    padding: 0.5rem;
+    background-color: white;
+    position: relative;
+    #divPaid {
+      position: absolute;
+      top: 30%;
+      right: 10%;
+      width: fit-content;
+      height: auto;
+      padding: 1rem;
+      border: 3px solid #bbb;
+      color: #bbb;
+      h2 {
+        margin: 0;
+      }
+    }
+    p,
+    h2 {
+      margin: 0.5rem 0;
+    }
+    #divHeaderOrder {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: start;
+      img {
+        width: 6rem;
+        height: 6rem;
+        margin-right: 1rem;
+      }
+    }
+    #divTitleOrder {
+      text-align: center;
+    }
+    table,
+    th,
+    td {
+      border: 1px solid black;
+      border-collapse: collapse;
+      padding: 0.5rem;
+    }
+    table {
+      width: 100%;
+    }
+    #divSign {
+      height: 10rem;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-around;
     }
   }
 }
@@ -2152,516 +2203,516 @@ header {
     }
   }
 }
-#mainIndex{
+#mainIndex {
   padding-top: 6.5rem;
   #divAboutAndBanner {
-  display: flex;
-  flex-flow: row wrap;
-  width: 100%;
-  height: 30rem;
-  margin-top: 1rem;
-  #notification-container {
-    width: 40%;
-    height: inherit;
-    padding: 0 0.5rem;
-    #headerNotification {
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
+    height: 30rem;
+    margin-top: 1rem;
+    #notification-container {
+      width: 40%;
+      height: inherit;
+      padding: 0 0.5rem;
+      #headerNotification {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        align-items: center;
+        border: none;
+        border-radius: 10px 10px 0 0;
+        background-color: #0b57d0;
+        color: $colorSecondaryText;
+        padding: 0.5rem;
+        height: 5rem;
+        #filterNotification {
+          font-size: 1rem;
+          font-weight: bold;
+          width: 22%;
+          height: 3rem;
+          padding: 0.5rem;
+          border: none;
+          border-radius: 10px 10px;
+          cursor: pointer;
+          background-color: $colorPrimaryBG;
+        }
+      }
+      #bodyNotification {
+        height: 25rem;
+        overflow-y: scroll;
+        border-bottom: 1px solid black;
+        .notify {
+          border: 1px solid black;
+          padding: 0.5rem;
+          a {
+            text-decoration: none;
+            .headerNotify {
+              display: flex;
+              flex-flow: row nowrap;
+              justify-content: space-between;
+              color: #bbb;
+            }
+            p {
+              color: black;
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+    #carousel-container {
+      width: 60%;
+      height: inherit;
+      overflow: hidden;
+      position: relative;
+      border: 0;
+      border-radius: 5px;
+      #carousel-wrapper {
+        display: flex;
+        flex-flow: row nowrap;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.5s ease-in-out;
+        .carousel-slide {
+          min-width: 100%;
+          position: relative;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+          .carousel-caption {
+            position: absolute;
+            bottom: 0;
+            height: 30%;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: $colorSecondaryText;
+            padding: 1rem;
+            font-size: 1.3rem;
+          }
+        }
+      }
+      #prev,
+      #next {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(0, 0, 0, 0.6);
+        color: $colorSecondaryText;
+        padding: 1rem;
+        cursor: pointer;
+        border: none;
+        border-radius: 50% 50%;
+        transition: 0.3s;
+        z-index: 10;
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.8);
+        }
+      }
+      #prev {
+        left: 0;
+      }
+      #next {
+        right: 0;
+      }
+      #indicators {
+        position: absolute;
+        bottom: 1rem;
+        width: 100%;
+        text-align: center;
+        z-index: 10;
+        height: 1rem;
+        .dot {
+          height: 0.8rem;
+          width: 0.8rem;
+          margin: 0 0.3rem;
+          background-color: #bbb;
+          border-radius: 50%;
+          display: inline-block;
+          cursor: pointer;
+          transition: 0.3s;
+        }
+        .active {
+          background-color: $colorSecondaryText;
+        }
+      }
+    }
+  }
+  #divApp {
+    width: 100%;
+    height: auto;
+    padding: 1rem 0.5rem;
+    margin-top: 2rem;
+    #headerApp {
       display: flex;
       flex-flow: row nowrap;
       justify-content: space-between;
       align-items: center;
-      border: none;
-      border-radius: 10px 10px 0 0;
-      background-color: #0b57d0;
-      color: $colorSecondaryText;
-      padding: 0.5rem;
-      height: 5rem;
-      #filterNotification {
-        font-size: 1rem;
+      a:nth-child(2) {
+        display: inline-block;
+        text-decoration: none;
+        background-color: $colorCTA;
+        color: $colorSecondaryText;
+        font-size: 1.1rem;
         font-weight: bold;
-        width: 22%;
-        height: 3rem;
-        padding: 0.5rem;
-        border: none;
-        border-radius: 10px 10px;
-        cursor: pointer;
-        background-color: $colorPrimaryBG;
+        height: 2.4rem;
+        @include button(0.5rem);
+        i {
+          font-size: 0.9rem;
+        }
       }
     }
-    #bodyNotification {
-      height: 25rem;
-      overflow-y: scroll;
-      border-bottom: 1px solid black;
-      .notify {
+    #listApp {
+      display: flex;
+      flex-flow: row wrap;
+      margin: 1rem 0 0;
+      .app {
+        width: 48%;
+        height: 15rem;
+        margin: 1%;
+        cursor: pointer;
+        display: grid;
+        grid-template-columns: 50% 50%;
+        grid-template-rows: 80% 20%;
+        overflow: hidden;
         border: 1px solid black;
-        padding: 0.5rem;
-        a {
-          text-decoration: none;
-          .headerNotify {
-            display: flex;
-            flex-flow: row nowrap;
-            justify-content: space-between;
-            color: #bbb;
+        border-radius: 5px;
+        div:first-child {
+          // width: 50%;
+          // height: inherit;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            margin: 0;
+          }
+        }
+        div:nth-child(2) {
+          // width: 50%;
+          // height: inherit;
+          padding: 0.5rem;
+          overflow-y: scroll;
+          h4 {
+            font-size: 1.1rem;
+            margin: 0;
           }
           p {
-            color: black;
-            text-decoration: underline;
+            margin: 0.3rem 0;
+          }
+        }
+        div:last-child {
+          grid-column: span 2;
+          display: flex;
+          flex-flow: row nowrap;
+          justify-content: start;
+          align-items: center;
+          p {
+            display: inline-block;
+            padding: 0.55rem;
+            color: $colorSecondaryText;
+            margin: 0 0.5rem;
+            border: none;
+            border-radius: 1000px;
+            &:nth-child(1) {
+              background-color: $colorCTA;
+            }
+            &:nth-child(2) {
+              background-color: #1877f2;
+            }
           }
         }
       }
     }
   }
-  #carousel-container {
-    width: 60%;
-    height: inherit;
-    overflow: hidden;
-    position: relative;
-    border: 0;
-    border-radius: 5px;
-    #carousel-wrapper {
+  #divDeviceIndex {
+    width: 100%;
+    height: auto;
+    padding: 1rem 0.5rem;
+    #headerDeviceIndex {
       display: flex;
       flex-flow: row nowrap;
-      width: 100%;
-      height: 100%;
-      transition: transform 0.5s ease-in-out;
-      .carousel-slide {
-        min-width: 100%;
-        position: relative;
-        img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-        .carousel-caption {
-          position: absolute;
-          bottom: 0;
-          height: 30%;
-          width: 100%;
-          background-color: rgba(0, 0, 0, 0.5);
-          color: $colorSecondaryText;
-          padding: 1rem;
-          font-size: 1.3rem;
-        }
-      }
-    }
-    #prev,
-    #next {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background-color: rgba(0, 0, 0, 0.6);
-      color: $colorSecondaryText;
-      padding: 1rem;
-      cursor: pointer;
-      border: none;
-      border-radius: 50% 50%;
-      transition: 0.3s;
-      z-index: 10;
-      &:hover {
-        background-color: rgba(0, 0, 0, 0.8);
-      }
-    }
-    #prev {
-      left: 0;
-    }
-    #next {
-      right: 0;
-    }
-    #indicators {
-      position: absolute;
-      bottom: 1rem;
-      width: 100%;
-      text-align: center;
-      z-index: 10;
-      height: 1rem;
-      .dot {
-        height: 0.8rem;
-        width: 0.8rem;
-        margin: 0 0.3rem;
-        background-color: #bbb;
-        border-radius: 50%;
+      justify-content: space-between;
+      align-items: center;
+      a:nth-child(2) {
         display: inline-block;
+        text-decoration: none;
+        background-color: $colorCTA;
+        color: $colorSecondaryText;
+        font-size: 1.1rem;
+        font-weight: bold;
+        height: 2.4rem;
+        @include button(0.5rem);
+        i {
+          font-size: 0.9rem;
+        }
+      }
+    }
+    #listDeviceIndex {
+      display: flex;
+      flex-flow: row wrap;
+      margin: 1rem 0 0;
+      a {
+        display: inline-block;
+        width: 48%;
+        height: 15rem;
+        margin: 1%;
+        color: black;
+        text-decoration: none;
+      }
+      .deviceIndex {
+        display: flex;
+        flex-flow: row nowrap;
+        overflow: hidden;
+        width: 100%;
+        height: inherit;
+        border: 1px solid black;
+        border-radius: 5px;
+        div:first-child {
+          width: 50%;
+          height: inherit;
+          img {
+            width: 100%;
+            height: 80%;
+            object-fit: cover;
+            margin: 0;
+          }
+          p {
+            display: inline-block;
+            padding: 0.55rem;
+            margin: 0 0.5rem;
+            background-color: $colorCTA;
+            color: $colorSecondaryText;
+            border: none;
+            border-radius: 1000px;
+          }
+        }
+        .device-content {
+          width: 50%;
+          height: inherit;
+          padding: 0.5rem 0.8rem;
+          background-color: $colorPrimaryBG;
+          overflow-y: scroll;
+          h4 {
+            font-size: 1.1rem;
+            margin: 0;
+          }
+          .rawDeviceInfo {
+            display: none;
+          }
+          p {
+            margin: 0.3rem 0;
+          }
+        }
+      }
+    }
+  }
+  #divblogs {
+    width: 100%;
+    height: auto;
+    padding: 1rem 0.5rem;
+    #headerblogs {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      align-items: center;
+      a:nth-child(2) {
+        display: inline-block;
+        text-decoration: none;
+        background-color: $colorCTA;
+        color: $colorSecondaryText;
+        font-size: 1.1rem;
+        font-weight: bold;
+        height: 2.4rem;
+        @include button(0.5rem);
+        i {
+          font-size: 0.9rem;
+        }
+      }
+    }
+    #groupFilterCategoryblogs {
+      display: flex;
+      flex-flow: row nowrap;
+      gap: 1rem;
+      button {
+        border: 2px solid $colorCTA;
+        border-radius: 1000px;
+        background-color: $colorPrimaryBG;
         cursor: pointer;
-        transition: 0.3s;
+        padding: 0.5rem;
+        font-weight: bold;
+        font-size: 1rem;
+        height: 3rem;
+        color: $colorCTA;
+        &:hover {
+          background-color: $colorCTA;
+          color: $colorSecondaryText;
+        }
       }
       .active {
-        background-color: $colorSecondaryText;
+        background-color: $colorCTA;
+        color: $colorSecondaryText;
       }
     }
-  }
-}
-#divApp {
-  width: 100%;
-  height: auto;
-  padding: 1rem 0.5rem;
-  margin-top: 2rem;
-  #headerApp {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-    align-items: center;
-    a:nth-child(2) {
-      display: inline-block;
-      text-decoration: none;
-      background-color: $colorCTA;
-      color: $colorSecondaryText;
-      font-size: 1.1rem;
-      font-weight: bold;
-      height: 2.4rem;
-      @include button(0.5rem);
-      i {
-        font-size: 0.9rem;
+    #listblogs {
+      display: flex;
+      flex-flow: row wrap;
+      margin: 1rem 0 0;
+      a {
+        display: inline-block;
+        width: 48%;
+        height: 15rem;
+        margin: 1%;
+        color: black;
+        text-decoration: none;
       }
-    }
-  }
-  #listApp {
-    display: flex;
-    flex-flow: row wrap;
-    margin: 1rem 0 0;
-    .app {
-      width: 48%;
-      height: 15rem;
-      margin: 1%;
-      cursor: pointer;
-      display: grid;
-      grid-template-columns: 50% 50%;
-      grid-template-rows: 80% 20%;
-      overflow: hidden;
-      border: 1px solid black;
-      border-radius: 5px;
-      div:first-child {
-        // width: 50%;
-        // height: inherit;
+      .blogs {
+        width: 100%;
+        height: inherit;
+        border: 1px solid black;
+        border-radius: 5px;
+        background-color: $colorPrimaryBG;
+        display: flex;
+        flex-flow: row nowrap;
+        overflow: hidden;
         img {
-          width: 100%;
+          width: 50%;
           height: 100%;
           object-fit: cover;
           margin: 0;
         }
-      }
-      div:nth-child(2) {
-        // width: 50%;
-        // height: inherit;
-        padding: 0.5rem;
-        overflow-y: scroll;
-        h4 {
-          font-size: 1.1rem;
-          margin: 0;
+        .blogs-content {
+          width: 50%;
+          height: inherit;
+          padding: 0.5rem 0.8rem;
+          display: flex;
+          flex-direction: column;
+          overflow-y: scroll;
+          h4 {
+            font-size: 1.1rem;
+            margin: 0;
+          }
+          p {
+            margin: 0.3rem 0;
+          }
         }
-        p {
-          margin: 0.3rem 0;
-        }
       }
-      div:last-child {
-        grid-column: span 2;
-        display: flex;
+    }
+  }
+  .flag-item-problem,
+  .flag-item-opera {
+    margin-left: 0.5rem;
+  }
+  #operaSystem {
+    width: 100%;
+    height: 20rem;
+    border: 1px solid black;
+    padding: 2rem 0 0 0;
+    margin: 1rem 0;
+    background-image: url("/img/bg_operasystem.webp");
+    #filterOpera {
+      width: 80%;
+      margin: auto;
+      height: 2rem;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      button {
+        width: 20%;
+        height: inherit;
+        @include button(0.5rem);
+        font-weight: bold;
+        border: 1px solid $colorCTA;
+        border-radius: 5px;
+        color: $colorCTA;
+      }
+      .active {
+        background-color: $colorCTA;
+        color: $colorSecondaryText;
+      }
+    }
+    #contentOpera {
+      width: 80%;
+      margin: 1rem auto;
+      height: 12rem;
+      border: 1px solid $colorCTA;
+      border-radius: 5px;
+      div {
+        width: 100%;
+        height: inherit;
+        padding: 1rem;
+        display: none;
         flex-flow: row nowrap;
         justify-content: start;
         align-items: center;
-        p {
-          display: inline-block;
-          padding: 0.55rem;
-          color: $colorSecondaryText;
-          margin: 0 0.5rem;
-          border: none;
-          border-radius: 1000px;
-          &:nth-child(1) {
-            background-color: $colorCTA;
-          }
-          &:nth-child(2) {
-            background-color: #1877f2;
-          }
-        }
-      }
-    }
-  }
-}
-#divDeviceIndex {
-  width: 100%;
-  height: auto;
-  padding: 1rem 0.5rem;
-  #headerDeviceIndex {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-    align-items: center;
-    a:nth-child(2) {
-      display: inline-block;
-      text-decoration: none;
-      background-color: $colorCTA;
-      color: $colorSecondaryText;
-      font-size: 1.1rem;
-      font-weight: bold;
-      height: 2.4rem;
-      @include button(0.5rem);
-      i {
-        font-size: 0.9rem;
-      }
-    }
-  }
-  #listDeviceIndex {
-    display: flex;
-    flex-flow: row wrap;
-    margin: 1rem 0 0;
-    a {
-      display: inline-block;
-      width: 48%;
-      height: 15rem;
-      margin: 1%;
-      color: black;
-      text-decoration: none;
-    }
-    .deviceIndex {
-      display: flex;
-      flex-flow: row nowrap;
-      overflow: hidden;
-      width: 100%;
-      height: inherit;
-      border: 1px solid black;
-      border-radius: 5px;
-      div:first-child {
-        width: 50%;
-        height: inherit;
         img {
-          width: 100%;
-          height: 80%;
-          object-fit: cover;
-          margin: 0;
+          width: 7rem;
+          height: 7rem;
+          margin-right: 1rem;
         }
-        p {
-          display: inline-block;
-          padding: 0.55rem;
-          margin: 0 0.5rem;
+        button {
+          @include button(0.5rem);
           background-color: $colorCTA;
           color: $colorSecondaryText;
-          border: none;
-          border-radius: 1000px;
+          margin-right: 1rem;
+          font-weight: bold;
         }
       }
-      .device-content {
-        width: 50%;
-        height: inherit;
-        padding: 0.5rem 0.8rem;
-        background-color: $colorPrimaryBG;
-        overflow-y: scroll;
-        h4 {
-          font-size: 1.1rem;
-          margin: 0;
-        }
-        .rawDeviceInfo {
-          display: none;
-        }
-        p {
-          margin: 0.3rem 0;
-        }
-      }
-    }
-  }
-}
-#divblogs {
-  width: 100%;
-  height: auto;
-  padding: 1rem 0.5rem;
-  #headerblogs {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-    align-items: center;
-    a:nth-child(2) {
-      display: inline-block;
-      text-decoration: none;
-      background-color: $colorCTA;
-      color: $colorSecondaryText;
-      font-size: 1.1rem;
-      font-weight: bold;
-      height: 2.4rem;
-      @include button(0.5rem);
-      i {
-        font-size: 0.9rem;
-      }
-    }
-  }
-  #groupFilterCategoryblogs {
-    display: flex;
-    flex-flow: row nowrap;
-    gap: 1rem;
-    button {
-      border: 2px solid $colorCTA;
-      border-radius: 1000px;
-      background-color: $colorPrimaryBG;
-      cursor: pointer;
-      padding: 0.5rem;
-      font-weight: bold;
-      font-size: 1rem;
-      height: 3rem;
-      color: $colorCTA;
-      &:hover {
-        background-color: $colorCTA;
-        color: $colorSecondaryText;
-      }
-    }
-    .active {
-      background-color: $colorCTA;
-      color: $colorSecondaryText;
-    }
-  }
-  #listblogs {
-    display: flex;
-    flex-flow: row wrap;
-    margin: 1rem 0 0;
-    a {
-      display: inline-block;
-      width: 48%;
-      height: 15rem;
-      margin: 1%;
-      color: black;
-      text-decoration: none;
-    }
-    .blogs {
-      width: 100%;
-      height: inherit;
-      border: 1px solid black;
-      border-radius: 5px;
-      background-color: $colorPrimaryBG;
-      display: flex;
-      flex-flow: row nowrap;
-      overflow: hidden;
-      img {
-        width: 50%;
-        height: 100%;
-        object-fit: cover;
-        margin: 0;
-      }
-      .blogs-content {
-        width: 50%;
-        height: inherit;
-        padding: 0.5rem 0.8rem;
+      .active {
         display: flex;
-        flex-direction: column;
-        overflow-y: scroll;
-        h4 {
-          font-size: 1.1rem;
-          margin: 0;
-        }
-        p {
-          margin: 0.3rem 0;
-        }
+        background-color: $colorPrimaryBG;
       }
     }
   }
-}
-.flag-item-problem,
-.flag-item-opera {
-  margin-left: 0.5rem;
-}
-#operaSystem {
-  width: 100%;
-  height: 20rem;
-  border: 1px solid black;
-  padding: 2rem 0 0 0;
-  margin: 1rem 0;
-  background-image: url("/img/bg_operasystem.webp");
-  #filterOpera {
-    width: 80%;
-    margin: auto;
-    height: 2rem;
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-    button {
-      width: 20%;
-      height: inherit;
-      @include button(0.5rem);
-      font-weight: bold;
-      border: 1px solid $colorCTA;
-      border-radius: 5px;
-      color: $colorCTA;
-    }
-    .active {
-      background-color: $colorCTA;
-      color: $colorSecondaryText;
-    }
-  }
-  #contentOpera {
-    width: 80%;
-    margin: 1rem auto;
-    height: 12rem;
-    border: 1px solid $colorCTA;
-    border-radius: 5px;
-    div {
-      width: 100%;
-      height: inherit;
-      padding: 1rem;
-      display: none;
-      flex-flow: row nowrap;
-      justify-content: start;
-      align-items: center;
-      img {
-        width: 7rem;
-        height: 7rem;
-        margin-right: 1rem;
+  #problem {
+    width: 100%;
+    height: 40rem;
+    padding: 2rem 0 0 2rem;
+    margin: 1rem 0 2rem;
+    border: 1px solid black;
+    background-image: url("/img/bg_problem.webp");
+    background-repeat: no-repeat;
+    background-size: cover;
+    form {
+      width: 50%;
+      height: 15rem;
+      label {
+        display: inline-block;
+        color: $colorSecondaryText;
+        font-weight: bold;
+        margin: 0.5rem 0;
       }
-      button {
+      input[type="text"] {
+        width: 100%;
+        height: 2rem;
+        font-size: 1rem;
+      }
+      textarea {
+        width: 100%;
+        height: 20rem;
+        resize: none;
+        font-size: 1rem;
+      }
+      a {
+        top: auto !important;
+        right: 1rem !important;
+        bottom: 1rem !important;
+        svg {
+          width: 1.2rem !important;
+          height: 1.2rem !important;
+        }
+      }
+      input[type="submit"] {
+        width: 100%;
+        height: 2rem;
         @include button(0.5rem);
         background-color: $colorCTA;
         color: $colorSecondaryText;
-        margin-right: 1rem;
         font-weight: bold;
       }
     }
-    .active {
-      display: flex;
-      background-color: $colorPrimaryBG;
-    }
   }
-}
-#problem {
-  width: 100%;
-  height: 40rem;
-  padding: 2rem 0 0 2rem;
-  margin: 1rem 0 2rem;
-  border: 1px solid black;
-  background-image: url("/img/bg_problem.webp");
-  background-repeat: no-repeat;
-  background-size: cover;
-  form {
-    width: 50%;
-    height: 15rem;
-    label {
-      display: inline-block;
-      color: $colorSecondaryText;
-      font-weight: bold;
-      margin: 0.5rem 0;
-    }
-    input[type="text"] {
-      width: 100%;
-      height: 2rem;
-      font-size: 1rem;
-    }
-    textarea {
-      width: 100%;
-      height: 20rem;
-      resize: none;
-      font-size: 1rem;
-    }
-    a {
-      top: auto !important;
-      right: 1rem !important;
-      bottom: 1rem !important;
-      svg {
-        width: 1.2rem !important;
-        height: 1.2rem !important;
-      }
-    }
-    input[type="submit"] {
-      width: 100%;
-      height: 2rem;
-      @include button(0.5rem);
-      background-color: $colorCTA;
-      color: $colorSecondaryText;
-      font-weight: bold;
-    }
-  }
-}
 }
 #mainDetailblogs {
   display: flex;
@@ -4683,7 +4734,7 @@ footer {
     }
   }
   #mainApp {
-    padding:5rem 0.5rem 0 0.5rem;
+    padding: 5rem 0.5rem 0 0.5rem;
     #listApp {
       width: 100%;
       border-bottom: 1px solid $colorCTA;
@@ -4797,53 +4848,40 @@ footer {
       }
     }
   }
-  #mainIndex{
+  #mainIndex {
     padding-top: 5rem;
     #divAboutAndBanner {
-    width: 100%;
-    height: 60rem;
-    padding: 0 0.5rem;
-    #notification-container {
       width: 100%;
-      height: 30rem;
-      padding: 0;
-      margin-bottom: 1rem;
-      #headerNotification {
-        #filterNotification {
-          width: 33%;
+      height: 60rem;
+      padding: 0 0.5rem;
+      #notification-container {
+        width: 100%;
+        height: 30rem;
+        padding: 0;
+        margin-bottom: 1rem;
+        #headerNotification {
+          #filterNotification {
+            width: 33%;
+          }
         }
       }
-    }
-    #carousel-container {
-      width: 100%;
-      height: 30rem;
-      #carousel-wrapper {
-        .carousel-slide {
-          .carousel-caption {
-            font-size: 1.1rem;
+      #carousel-container {
+        width: 100%;
+        height: 30rem;
+        #carousel-wrapper {
+          .carousel-slide {
+            .carousel-caption {
+              font-size: 1.1rem;
+            }
           }
         }
       }
     }
-  }
-  #divApp {
-    #listApp {
-      .app {
-        width: 100%;
-        div:nth-child(2) {
-          p {
-            font-size: 0.8rem;
-          }
-        }
-      }
-    }
-  }
-  #divDeviceIndex {
-    #listDeviceIndex {
-      a {
-        width: 100%;
-        .deviceIndex {
-          .device-content {
+    #divApp {
+      #listApp {
+        .app {
+          width: 100%;
+          div:nth-child(2) {
             p {
               font-size: 0.8rem;
             }
@@ -4851,43 +4889,56 @@ footer {
         }
       }
     }
-  }
-  #divblogs {
-    #listblogs {
-      a {
-        width: 100%;
-        .blogs {
-          .blogs-content {
-            p {
-              font-size: 0.8rem;
+    #divDeviceIndex {
+      #listDeviceIndex {
+        a {
+          width: 100%;
+          .deviceIndex {
+            .device-content {
+              p {
+                font-size: 0.8rem;
+              }
             }
           }
         }
       }
     }
-  }
-  #operaSystem {
-    #filterOpera {
-      button {
-        width: 33%;
-        font-size: 0.8rem;
+    #divblogs {
+      #listblogs {
+        a {
+          width: 100%;
+          .blogs {
+            .blogs-content {
+              p {
+                font-size: 0.8rem;
+              }
+            }
+          }
+        }
       }
     }
-    #contentOpera {
-      div {
+    #operaSystem {
+      #filterOpera {
         button {
-          width: 10rem;
+          width: 33%;
+          font-size: 0.8rem;
+        }
+      }
+      #contentOpera {
+        div {
+          button {
+            width: 10rem;
+          }
         }
       }
     }
-  }
-  #problem {
-    padding: 2rem 0.5rem 2rem !important;
-    form {
-      width: 100%;
-      height: 30rem;
+    #problem {
+      padding: 2rem 0.5rem 2rem !important;
+      form {
+        width: 100%;
+        height: 30rem;
+      }
     }
-  }
   }
   footer {
     div {
@@ -4972,33 +5023,33 @@ footer {
       width: 100%;
     }
   }
-  #mainCart{
+  #mainCart {
     padding: 5rem 0.5rem 0.5rem 0.5rem;
-    #divFormCart{
+    #divFormCart {
       width: 100%;
-      #divOrder{
+      #divOrder {
         width: 100%;
       }
-      #listVoucher{
-        .voucher-wrapper{
+      #listVoucher {
+        .voucher-wrapper {
           height: 15rem;
-          .voucher-sawtooth-zigzag{
+          .voucher-sawtooth-zigzag {
             height: inherit;
             padding: 0.5rem;
-            .voucher{
+            .voucher {
               height: 100%;
               position: relative;
-              div:nth-child(1){
+              div:nth-child(1) {
                 width: 50%;
               }
-              div:nth-child(2){
+              div:nth-child(2) {
                 width: 50%;
                 height: inherit;
                 overflow-y: scroll;
                 position: static;
-                .divApplyVoucher{
+                .divApplyVoucher {
                   left: 0;
-                  span{
+                  span {
                     display: none;
                   }
                 }
@@ -5007,13 +5058,13 @@ footer {
           }
         }
       }
-      #divPaymentMethod{
-        label{
+      #divPaymentMethod {
+        label {
           width: 100%;
         }
       }
     }
-    #divInfoCart{
+    #divInfoCart {
       width: 100%;
       position: relative;
       margin: 0.5rem 0;
