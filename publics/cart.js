@@ -809,4 +809,37 @@ document.querySelectorAll('input[name="paymentMethod"]').forEach((radio)=>{
       return
     } 
   })
+});
+document.getElementById("btnOrder").addEventListener("click",()=>{
+  const token = getCookie("accessToken2");
+  if (!token) {
+    return;
+  }
+  const decodedUser = jwtDecode(token);
+  const idClient = decodedUser.id;
+  const discountAmount=document.getElementById("discountAmount").innerText;
+  const paymentOrder=document.getElementById("paymentOrder").innerText;
+  const nameDelivery=document.getElementById("nameDelivery").innerText;
+  const telDelivery=document.getElementById("telDelivery").innerText;
+  const addressDelivery=document.getElementById("addressDelivery").innerText;
+  const nameCompanyOrder=document.getElementById("nameCompanyOrder").innerText;
+  const mstCompanyOrder=document.getElementById("mstCompanyOrder").innerText;
+  const addressCompanyOrder=document.getElementById("addressCompanyOrder").innerText;
+  const mailInvoiceOrder=document.getElementById("mailInvoiceOrder").innerText;
+  fetch("/cart/addOrder",{
+    method:"POST",
+    headers:{"Content-Type":"application/json;charset=UTF-8"},
+    body:JSON.stringify({idClient,discountAmount,paymentOrder,nameDelivery,telDelivery,addressDelivery,nameCompanyOrder,mstCompanyOrder,addressCompanyOrder,mailInvoiceOrder}),
+  })
+  .then(res=>res.json())
+  .then(({mess,success,error})=>{
+    if (success) {
+      alert("Thông báo",mess,"#80a710");
+    } else {
+      alert("Lỗi",`${mess}\n${error}`,"red");
+    }
+  })
+  .catch((error)=>{
+    alert("Lỗi",error,"red");
+  });
 })

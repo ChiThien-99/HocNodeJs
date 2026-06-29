@@ -2,7 +2,7 @@ import { cartEntity } from "../models/cart.model.js";
 import { voucherEntity } from "../models/voucher.model.js";
 import { provinceWardsEntity } from "../models/provinceWards.model.js";
 import { clientEntity } from "../models/client.model.js";
-import { otpEntity } from "../models/otp.model.js";
+import { orderEntity } from "../models/order.model.js";
 export const getCart = async (req, res) => {
   const { idClient } = req.params;
   const cart = await cartEntity.findOne({ clientId: idClient });
@@ -305,3 +305,28 @@ export const deleteInvoiceInfor = async (req, res) => {
     });
   }
 };
+export const addOrder=async(req,res)=>{
+  try {
+    const {idClient,discountAmount,paymentOrder,nameDelivery,telDelivery,addressDelivery,nameCompanyOrder,mstCompanyOrder,addressCompanyOrder,mailInvoiceOrder}=req.body;
+  const cartOfClient=await cartEntity.findOne({clientId:idClient});
+  const productsCart=cartOfClient.products;
+  await orderEntity.create({
+    idClient:idClient,
+    products:productsCart,
+    voucherDiscount:discountAmount,
+    paymentMethod:paymentOrder,
+    fullnameDelivery:nameDelivery,
+    telDelivery:telDelivery,
+    addressDelivery:addressDelivery,
+    nameCompany:nameCompanyOrder,
+    mstCompany:mstCompanyOrder,
+    addressCompany:addressCompanyOrder,
+    mailInvoice:mailInvoiceOrder,
+  })
+  await cartEntity.findByIdAndDelete(cartOfClient._id);
+  res.json({mess:"Đặt hàng thành công",success:true});
+  } catch (error) {
+  res.json({mess:"Đặt hàng thất bại",success:false,error:error.message}); 
+  }
+  
+}
