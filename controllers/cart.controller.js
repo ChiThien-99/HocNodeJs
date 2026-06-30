@@ -4,6 +4,8 @@ import { provinceWardsEntity } from "../models/provinceWards.model.js";
 import { clientEntity } from "../models/client.model.js";
 import { orderEntity } from "../models/order.model.js";
 import PDFDocument from "pdfkit";
+import path from "path";
+import { fileURLToPath } from "url";
 export const getCart = async (req, res) => {
   const { idClient } = req.params;
   const cart = await cartEntity.findOne({ clientId: idClient });
@@ -16,9 +18,9 @@ export const getCart = async (req, res) => {
     .select("code image title content discountPercentage createdAt");
   let subTotal = 0;
   if (cart) {
-     cart.products.forEach((p) => {
-    subTotal += p.price * p.quantity;
-  });
+    cart.products.forEach((p) => {
+      subTotal += p.price * p.quantity;
+    });
   }
   const provinceWards = await provinceWardsEntity.find();
   const province = provinceWards.map((pw) => pw.province);
@@ -306,44 +308,74 @@ export const deleteInvoiceInfor = async (req, res) => {
     });
   }
 };
-export const addOrder=async(req,res)=>{
+export const addOrder = async (req, res) => {
   try {
-    const {idClient,discountAmount,paymentOrder,nameDelivery,telDelivery,addressDelivery,nameCompanyOrder,mstCompanyOrder,addressCompanyOrder,mailInvoiceOrder}=req.body;
-  const cartOfClient=await cartEntity.findOne({clientId:idClient});
-  const productsCart=cartOfClient.products;
-  await orderEntity.create({
-    idClient:idClient,
-    products:productsCart,
-    voucherDiscount:discountAmount,
-    paymentMethod:paymentOrder,
-    fullnameDelivery:nameDelivery,
-    telDelivery:telDelivery,
-    addressDelivery:addressDelivery,
-    nameCompany:nameCompanyOrder,
-    mstCompany:mstCompanyOrder,
-    addressCompany:addressCompanyOrder,
-    mailInvoice:mailInvoiceOrder,
-  })
-  await cartEntity.findByIdAndDelete(cartOfClient._id);
-  res.json({mess:"Đặt hàng thành công",success:true});
+    const {
+      idClient,
+      discountAmount,
+      paymentOrder,
+      nameDelivery,
+      telDelivery,
+      addressDelivery,
+      nameCompanyOrder,
+      mstCompanyOrder,
+      addressCompanyOrder,
+      mailInvoiceOrder,
+    } = req.body;
+    const cartOfClient = await cartEntity.findOne({ clientId: idClient });
+    const productsCart = cartOfClient.products;
+    await orderEntity.create({
+      idClient: idClient,
+      products: productsCart,
+      voucherDiscount: discountAmount,
+      paymentMethod: paymentOrder,
+      fullnameDelivery: nameDelivery,
+      telDelivery: telDelivery,
+      addressDelivery: addressDelivery,
+      nameCompany: nameCompanyOrder,
+      mstCompany: mstCompanyOrder,
+      addressCompany: addressCompanyOrder,
+      mailInvoice: mailInvoiceOrder,
+    });
+    await cartEntity.findByIdAndDelete(cartOfClient._id);
+    res.json({ mess: "Đặt hàng thành công", success: true });
   } catch (error) {
-  res.json({mess:"Đặt hàng thất bại",success:false,error:error.message}); 
+    res.json({
+      mess: "Đặt hàng thất bại",
+      success: false,
+      error: error.message,
+    });
   }
-}
-export const previewOrder=async(req,res)=>{
+};
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+export const previewOrder = async (req, res) => {
   try {
-    res.setHeader("Content-Type","application/pdf");
-    res.setHeader("Content-Disposition","inline; filename=previewOrder.pdf");
-    const doc=new PDFDocument({size:"A4",margin:50});
+    const fontPath = path.resolve(__dirname, "../publics/OpenSans-Regular.ttf");
+    const logoPath = path.resolve(__dirname, "../publics/img/logo_imzai_1.png");
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader("Content-Disposition", "inline; filename=previewOrder.pdf");
+    const doc = new PDFDocument({ size: "A4", margin: 50 });
     doc.pipe(res);
-    doc.font("/OpenSans-Regular.ttf");
-    doc.fontSize(16);
-    doc.text("CÔNG TY TNHH CÔNG NGHỆ IMZEN");
-    doc.text("MST: 0123456789");
-    doc.text("ĐỊA CHỈ: 236 LÊ THỊ NGAY, XÃ VĨNH LỘC, THÀNH PHỐ HỒ CHÍ MINH, VIỆT NAM");
-    doc.text("STK 0123456789 tại NGÂN HÀNG QUỐC TẾ (VIB)");
+    const headerTopY = doc.y;
+    doc.image(logoPath, 50, headerTopY, { width: 60 });
+    doc.font(fontPath).fontSize(10);
+    doc.text("CÔNG TY TNHH CÔNG NGHỆ IMZEN", 130, headerTopY);
+    doc.text("MST: 0123456789", 130, headerTopY + 15);
+    doc.text(
+      "ĐỊA CHỈ: 236 LÊ THỊ NGAY, XÃ VĨNH LỘC, THÀNH PHỐ HỒ CHÍ MINH, VIỆT NAM",
+      130,
+      headerTopY + 30,
+    );
+    doc.text(
+      "STK 0123456789 tại NGÂN HÀNG QUỐC TẾ (VIB)",
+      130,
+      headerTopY + 45,
+    );
+    doc.moveDown(2);
     doc.end();
   } catch (error) {
-    res.json({mess:"Lỗi tạo bản xem trước PDF",error:error.message});
+    res.setHeader("Content-Type", "text/html; charset=UTF-8");
+    res.send(`<h3>Lỗi tạo bản xem trước PDF: ${error.message}</h3>`);
   }
-}
+};
