@@ -3,6 +3,7 @@ import { voucherEntity } from "../models/voucher.model.js";
 import { provinceWardsEntity } from "../models/provinceWards.model.js";
 import { clientEntity } from "../models/client.model.js";
 import { orderEntity } from "../models/order.model.js";
+import PDFDocument from "pdfkit";
 export const getCart = async (req, res) => {
   const { idClient } = req.params;
   const cart = await cartEntity.findOne({ clientId: idClient });
@@ -328,5 +329,21 @@ export const addOrder=async(req,res)=>{
   } catch (error) {
   res.json({mess:"Đặt hàng thất bại",success:false,error:error.message}); 
   }
-  
+}
+export const previewOrder=async(req,res)=>{
+  try {
+    res.setHeader("Content-Type","application/pdf");
+    res.setHeader("Content-Disposition","inline; filename=previewOrder.pdf");
+    const doc=new PDFDocument({size:"A4",margin:50});
+    doc.pipe(res);
+    doc.font("/OpenSans-Regular.ttf");
+    doc.fontSize(16);
+    doc.text("CÔNG TY TNHH CÔNG NGHỆ IMZEN");
+    doc.text("MST: 0123456789");
+    doc.text("ĐỊA CHỈ: 236 LÊ THỊ NGAY, XÃ VĨNH LỘC, THÀNH PHỐ HỒ CHÍ MINH, VIỆT NAM");
+    doc.text("STK 0123456789 tại NGÂN HÀNG QUỐC TẾ (VIB)");
+    doc.end();
+  } catch (error) {
+    res.json({mess:"Lỗi tạo bản xem trước PDF",error:error.message});
+  }
 }

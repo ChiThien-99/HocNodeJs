@@ -3,6 +3,7 @@ import * as cartController from "../controllers/cart.controller.js";
 import { validateTelDelivery } from "./middleware/validateTelDelivery.js";
 export const cartRouter = express.Router();
 const prefix = "/cart";
+cartRouter.get(`${prefix}/previewOrder`, cartController.previewOrder);
 cartRouter.get(`${prefix}/:idClient`, cartController.getCart);
 cartRouter.post(`${prefix}/calMultiVouchers`, cartController.calMultiVouchers);
 cartRouter.post(
