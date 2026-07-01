@@ -754,6 +754,22 @@ header {
       justify-content: space-around;
     }
   }
+  #infoMailOrder{
+    background-color: white;
+    padding: 0.5rem;
+    margin-top: 1rem;
+    h2{
+      font-family: fontLogo;
+      color: $colorCTA;
+      letter-spacing: 0.4rem;
+    }
+    span{
+      color: $colorCTA;
+    }
+    p{
+      font-size: 1.1rem;
+    }
+  }
 }
 //**CSS Todolist
 #addTask {

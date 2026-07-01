@@ -788,6 +788,22 @@ header div:last-child #containerUserLogin #bagShopping span {
   flex-flow: row nowrap;
   justify-content: space-around;
 }
+#mainCart #infoMailOrder {
+  background-color: white;
+  padding: 0.5rem;
+  margin-top: 1rem;
+}
+#mainCart #infoMailOrder h2 {
+  font-family: fontLogo;
+  color: #80a710;
+  letter-spacing: 0.4rem;
+}
+#mainCart #infoMailOrder span {
+  color: #80a710;
+}
+#mainCart #infoMailOrder p {
+  font-size: 1.1rem;
+}
 
 #addTask {
   width: 70%;
