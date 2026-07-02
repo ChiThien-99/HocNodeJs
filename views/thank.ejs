@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đơn hàng</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="shortcut icon" href="/img/logo_imzai_1.ico" type="image/x-icon" />
+    <link
+      rel="preload"
+      href="/Minecraft.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/OpenSans-Regular.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script
+      src="https://kit.fontawesome.com/c1f12001f0.js"
+      crossorigin="anonymous"
+    ></script>
+</head>
+<body>
+  <div id="alert">
+        <h4 id="headingAlert">Tiêu đề thông báo</h4>
+        <p id="contentAlert">Thông báo lần 1</p>
+      </div>
+      <div id="confirm">
+        <h4 id="headingConfirm">Tiêu đề thông báo</h4>
+        <p id="contentConfirm">Thông báo lần 1</p>
+        <div>
+          <button id="btnConfirm">
+            <i class="fa-solid fa-check"></i> Xác nhận
+          </button>
+          <button id="btnDeny">
+            <i class="fa-solid fa-xmark"></i> Từ chối
+          </button>
+        </div>
+      </div>
+    <header>
+      <div>
+        <a href="/" class="logo-link">
+          <svg viewBox="0 0 200 200" width="200" height="200">
+            <defs>
+              <path id="circlePath" d="M -210,90 A 85,85 0 1,1 -40,90 A 85,85 0 1,1 -210,90" />
+            </defs>
+            <g class="brand-group">
+              <image href="/img/logo_imzai_1.webp" x="-200" y="15" width="150" height="150" clip-path="circle()" />
+            <text class="rotating-text">
+              <textPath href="#circlePath" startOffset="30%" text-anchor="middle">
+               IMZEN
+              </textPath>
+            </text>
+            </g>
+          </svg>
+        </a>
+      </div>
+      <div>
+        <button type="button" class="hamburger-btn" id="hamburgerBtn">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+       </button>
+       <span id="countCartHamburgerBtn">0</span>
+      </div>
+      
+      <div id="navMenu">
+        <nav>
+          <ul>
+            <li><a href="/">Trang chủ</a></li>
+            <li>
+              <a href="/app?sort=createAt" id="navCongCu">Phần mềm</a>
+            </li>
+            <li><a href="/device">Thiết bị</a></li>
+            <li><a href="/blogs">Blog</a></li>
+            <li><a href="#">Problem?</a></li>
+          </ul>
+        </nav>
+        <div id="groupBtn">
+          <button type="button" id="btnRegisterClient">Đăng ký</button>
+          <button type="button" id="btnLoginClient">Đăng nhập</button>
+        </div>
+        <div id="containerUserLogin">
+          <div id="infoUserLogin">
+          <h3>Tên user</h3>
+          <div id="groupBtnUserLogin">
+            <button id="btnDashboardUserLogin">Dashboard</button>
+            <button id="btnLogoutUserLogin">Đăng xuất</button>
+          </div>
+        </div>
+        <div id="bagShopping">
+          <i class="fa-brands fa-opencart"></i>
+          <span>0</span>
+        </div>
+        </div>
+      </div>
+    </header>
+    <main id="mainThank">
+        <div>
+            <p>Bạn đã đặt hàng thành công &#127881;</p>
+            <p>Đơn hàng đã được gửi qua mail</p>
+            <p>Cảm ơn bạn đã mua sắm tại <span>IMZEN</span></p>
+        </div>
+    </main>
+    <footer>
+        <div>
+          <h3>Thông tin doanh nghiệp</h3>
+          <p>Công Ty TNHH Công Nghệ IMZEN</p>
+          <p>MST:......</p>
+          <p>Địa chỉ:...... <a href="/">Xem bản đồ</a></p>
+          <p>Email:......</p>
+          <a href="/"
+            ><img src="/img/bocongthuong.webp" alt="logo_bocongthuong"
+          /></a>
+          <a href="/"
+            ><img src="/img/chung_chi_ssl.webp" alt="logo_chung_chi_ssl"
+          /></a>
+          <a href="/"><img src="/img/pci_dss.png" alt="logo_pci_dss" /></a>
+          <h3>Mạng xã hội</h3>
+          <a href="/"><img src="/img/logo_fb.webp" alt="logo_fb" /></a>
+          <a href="/"><img src="/img/logo_zalo.webp" alt="logo_zalo" /></a>
+          <a href="/"><img src="/img/tiktok2_trans_1.webp" alt="logo_tiktok" /></a>
+          <a href="/"
+            ><img src="/img/logo_youtube.webp" alt="logo_youtube"
+          /></a>
+        </div>
+        <div>
+          <h3>Chính sách</h3>
+          <a href="/">AI Privacy & Trust</a><br />
+          <a href="/">Điều khoản dịch vụ</a><br />
+          <a href="/">Tuyên bố từ chối trách nhiệm</a><br />
+          <h3>Cổng thanh toán</h3>
+          <a href="/"><img src="/img/logo_paypal.webp" alt="logo_paypal" /></a>
+          <a href="/"><img src="/img/logo_momo.webp" alt="logo_momo" /></a>
+          <a href="/"><img src="/img/logo_vnpay.webp" alt="logo_vnpay" /></a>
+          <a href="/"><img src="/img/logo_bank.webp" alt="logo_bank" /></a>
+        </div>
+        <div>
+          <h3>Sản phẩm</h3>
+          <a href="/">Phần mềm</a><br />
+          <a href="/">Thiết bị</a><br />
+          <h3><a href="/">Blog</a></h3>
+        </div>
+        <div>
+          <h3>Đăng ký nhận tin khuyến mãi</h3>
+          <p>Email</p>
+          <input type="text" /><br />
+          <p>Số điện thoại</p>
+          <input type="text" /><br />
+          <button>Đăng ký</button>
+        </div>
+      </footer>
+<script src="/socket.io/socket.io.js"></script>
+</body>
+<script type="module" src="/cart.js" defer></script>
+</html>

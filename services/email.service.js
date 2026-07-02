@@ -43,8 +43,96 @@ export const sendVerificationEmail = async (
     return false;
   }
 };
+const DocSoTienVietNam = (number) => {
+  const digits = ["không", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"];
+  const units = ["", "nghìn", "triệu", "tỷ", "nghìn tỷ", "triệu tỷ"];
+
+  if (number === 0) return "Không đồng";
+
+  let strNumber = String(Math.floor(Math.abs(number)));
+  // Đảm bảo độ dài chia hết cho 3 bằng cách bù số 0 vào đầu
+  while (strNumber.length % 3 !== 0) {
+    strNumber = "0" + strNumber;
+  }
+
+  let blocks = [];
+  for (let i = 0; i < strNumber.length; i += 3) {
+    blocks.push(strNumber.substr(i, 3));
+  }
+
+  let resultStrings = [];
+  let totalBlocks = blocks.length;
+
+  for (let i = 0; i < totalBlocks; i++) {
+    let block = blocks[i];
+    let h = Number(block[0]); // Hàng trăm
+    let t = Number(block[1]); // Hàng chục
+    let u = Number(block[2]); // Hàng đơn vị
+
+    // Nếu block toàn số 0 và không phải block cuối cùng thì bỏ qua
+    if (h === 0 && t === 0 && u === 0 && i !== totalBlocks - 1) {
+      continue;
+    }
+
+    let blockText = "";
+    // Đọc hàng trăm
+    blockText += digits[h] + " trăm ";
+
+    // Đọc hàng chục
+    if (t === 0) {
+      if (u !== 0) blockText += "lẻ ";
+    } else if (t === 1) {
+      blockText += "mười ";
+    } else {
+      blockText += digits[t] + " mươi ";
+    }
+
+    // Đọc hàng đơn vị
+    if (t !== 0 && t !== 1 && u === 1) {
+      blockText += "mốt";
+    } else if (t !== 0 && u === 5) {
+      blockText += "lăm";
+    } else if (u !== 0) {
+      blockText += digits[u];
+    }
+
+    // Cắt bỏ khoảng trắng thừa và thêm hàng đơn vị lớn (nghìn, triệu, tỷ...)
+    blockText = blockText.trim();
+    if (blockText !== "") {
+      const unitIndex = totalBlocks - 1 - i;
+      if (units[unitIndex] !== "") {
+        blockText += " " + units[unitIndex];
+      }
+      resultStrings.push(blockText);
+    }
+  }
+
+  // Ghép các chuỗi block lại thành chuỗi hoàn chỉnh
+  let finalResult = resultStrings.join(" ").replace(/\s+/g, " ").trim();
+
+  // Xử lý các trường hợp đọc "không trăm" dư thừa ở block đầu tiên nếu số nhỏ
+  if (finalResult.startsWith("không trăm mươi")) {
+    finalResult = finalResult.replace("không trăm mươi", "");
+  } else if (finalResult.startsWith("không trăm lẻ")) {
+    finalResult = finalResult.replace("không trăm lẻ", "");
+  } else if (finalResult.startsWith("không trăm")) {
+    finalResult = finalResult.replace("không trăm", "");
+  }
+
+  finalResult = finalResult.trim();
+  // Viết hoa chữ cái đầu tiên và thêm chữ "đồng" chuẩn hóa đơn kế toán
+  return finalResult.charAt(0).toUpperCase() + finalResult.slice(1) + " đồng";
+};
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+/** 
+ * @param {Object} order
+ * @param {String} nameClient
+*/
+const now=new Date();
+const day=String(now.getDate()).padStart(2,"0");
+const month=String(now.getMonth()+1).padStart(2,"0");
+const year=now.getFullYear();
 const generateInvoicePDFBuffer=(order,nameClient)=>{
   return new Promise((resolve,reject)=>{
     const doc = new PDFDocument({ size: "A4", margin: 50 });
@@ -72,8 +160,8 @@ const generateInvoicePDFBuffer=(order,nameClient)=>{
     );
     doc.moveDown(2);
     doc.font(fontBold).fontSize(14).text("Đơn hàng",0,headerTopY+75,{align:"center"});
-    doc.font(fontRegular).fontSize(10).text("Thời gian",{align:"center"});
-    doc.text("Số phiếu",{align:"center"});
+    doc.font(fontRegular).fontSize(10).text(`Thời gian: ${day}/${month}/${year}`,{align:"center"});
+    doc.text(`Số phiếu: ${order.orderNumber}`,{align:"center"});
     doc.text(`Người mua: ${nameClient}`,50,headerTopY+140);
     doc.text(`Tên khách hàng: ${order.nameCompany}`,50,headerTopY+140+15);
     doc.text(`Địa chỉ: ${order.addressCompany}`,50,headerTopY+140+30);
@@ -96,28 +184,32 @@ const generateInvoicePDFBuffer=(order,nameClient)=>{
     doc.text("Đơn giá (bao gồm VAT)",colPrice,tableTop);
     doc.text("Thành tiền",colTotal,tableTop);
     doc.moveTo(50,tableTop+15).lineTo(550,tableTop+15).stroke();
-    const itemY=tableTop+25;
+    let itemY=tableTop+25;
     doc.font(fontRegular)
+    let totalOrderPrice=0;
     order.products.forEach((prod,index) => {
     const itemTotal=prod.price*prod.quantity;
+    totalOrderPrice+=itemTotal;
     doc.text(index+1,colIndex,itemY);
     doc.text(prod.productName,colName,itemY);
     doc.text("Cái",colUnil,itemY);
     doc.text(prod.quantity,colQuantity,itemY);
-    doc.text(prod.price,colPrice,itemY);
-    doc.text(itemTotal,colTotal,itemY);
+    doc.text(prod.price.toLocaleString("vi-VN"),colPrice,itemY);
+    doc.text(itemTotal.toLocaleString("vi-VN"),colTotal,itemY);
     doc.moveTo(50,itemY+15).lineTo(550,itemY+15).strokeColor("#e0e0e0").stroke();
     itemY+=20;
     });
-    doc.font(fontBold).text("Tổng tiền:",50,itemY+45);
-    doc.font(fontRegular).text("10.000.000đ",430,itemY+45);
-    doc.font(fontBold).text("Số tiền bằng chữ: Mười triệu đồng",50,itemY+65);
-    doc.font(fontRegular).text("Hình thức thanh toán: TM/CK",50,itemY+85);
-    doc.font(fontRegular).text(`Thời hạn thanh toán: ${new Date().toLocaleString("vi-VN")}`,50,itemY+105);
-    doc.font(fontRegular).text("Người mua hàng",90,itemY+135);
-    doc.font(fontRegular).text("Người bán hàng",430,itemY+135);
-    doc.font(fontRegular).text("(Ký và ghi rõ họ tên)",90,itemY+150);
-    doc.font(fontRegular).text("(Ký và ghi rõ họ tên)",430,itemY+150);
+    const totalAfterDiscount=totalOrderPrice-order.voucherDiscount;
+    doc.font(fontBold).text("Chiết khấu:",50,itemY+15);
+    doc.font(fontRegular).text(`${order.voucherDiscount.toLocaleString("vi-VN")}đ`,430,itemY+15);
+    doc.font(fontBold).text("Tổng tiền:",50,itemY+35);
+    doc.font(fontRegular).text(`${totalAfterDiscount.toLocaleString("vi-VN")}đ`,430,itemY+35);
+    doc.font(fontBold).text(`Số tiền bằng chữ: ${DocSoTienVietNam(totalAfterDiscount)}`,50,itemY+55);
+    doc.font(fontRegular).text(`Hình thức thanh toán: ${order.paymentMethod}`,50,itemY+75);
+    doc.font(fontRegular).text("Người mua hàng",90,itemY+95);
+    doc.font(fontRegular).text("Người bán hàng",430,itemY+95);
+    doc.font(fontRegular).text("(Ký và ghi rõ họ tên)",90,itemY+110);
+    doc.font(fontRegular).text("(Ký và ghi rõ họ tên)",430,itemY+110);
     doc.end();
   })
 }
@@ -127,18 +219,18 @@ export const sendOrderEmail = async (
   newOrder,
 ) => {
   try {
-    const pdfBuffer=generateInvoicePDFBuffer(newOrder,nameClient);
+    const pdfBuffer= await generateInvoicePDFBuffer(newOrder,nameClient);
     const mailOptions = {
       from: `"Hệ thống Imzen" <${process.env.EMAIL_USER}>`,
       to: emailClient,
       subject: "IMZEN - Xác nhận đơn hàng",
       html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; padding: 0.5rem; border: 1px solid #e0e0e0; border-radius: 5px;">
-        <h2 style="font-family: fontLogo;color: $colorCTA;letter-spacing: 0.4rem">IMZEN</h2>
-        <p style="font-size: 1.1rem">Xin chào <b>${nameClient}</b></p>
-        <p style="font-size: 1.1rem">Đơn hàng của bạn đã được đặt thành công. Cảm ơn bạn đã mua sắm tại <span style="color: $colorCTA;">IMZEN</span></p>
-        <p style="font-size: 1.1rem">Vui lòng kiểm tra file đơn hàng được đính kèm trong mail</p>
-        <p style="font-size: 1.1rem">Mọi thắc mắc cần hỗ trợ xin liên hệ 0966159722</p>
+        <div style="font-family: Arial, sans-serif; width:fit-content;margin: 0 auto; padding: 1rem; border: 1px solid #e0e0e0; border-radius: 5px;">
+        <img src="https://res.cloudinary.com/doigxmzte/image/upload/v1782977806/logoImzenEmail_qkcq4s.webp" alt="logoImzenEmail">
+        <p style="font-size: 1.1rem; margin:0.5rem 0">Xin chào <b>${nameClient}</b></p>
+        <p style="font-size: 1.1rem; margin:0.5rem 0">Đơn hàng của bạn đã được đặt thành công. Cảm ơn bạn đã mua sắm tại <span style="color: #80a710;letter-spacing:0.1rem">IMZEN</span></p>
+        <p style="font-size: 1.1rem; margin:0.5rem 0">Vui lòng kiểm tra file đơn hàng được đính kèm trong mail</p>
+        <p style="font-size: 1.1rem; margin:0.5rem 0">Mọi thắc mắc cần hỗ trợ xin liên hệ 0966159722</p>
         </div>
       `,
       attachments:[
@@ -147,7 +239,7 @@ export const sendOrderEmail = async (
           content:pdfBuffer,
           contentType:"application/pdf"
         }
-      ]
+      ],
     };
     const info = await transporter.sendMail(mailOptions);
     console.log(

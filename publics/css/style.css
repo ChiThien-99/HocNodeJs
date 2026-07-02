@@ -793,16 +793,13 @@ header div:last-child #containerUserLogin #bagShopping span {
   padding: 0.5rem;
   margin-top: 1rem;
 }
-#mainCart #infoMailOrder h2 {
-  font-family: fontLogo;
-  color: #80a710;
-  letter-spacing: 0.4rem;
-}
 #mainCart #infoMailOrder span {
   color: #80a710;
+  letter-spacing: 0.2rem;
 }
 #mainCart #infoMailOrder p {
   font-size: 1.1rem;
+  margin: 0.5rem 0;
 }
 
 #addTask {
@@ -4715,6 +4712,25 @@ header div:last-child #containerUserLogin #bagShopping span {
 }
 #mainDetailDevice aside #listAppCol .app div:nth-child(3) p:nth-child(2) {
   background-color: #1877f2;
+}
+
+#mainThank div {
+  margin: 7.5rem auto 1rem;
+  padding: 1rem;
+  width: -moz-fit-content;
+  width: fit-content;
+  background-color: white;
+  border: 1px solid #80a710;
+  border-radius: 10px;
+}
+#mainThank div p {
+  margin: 0.5rem 0;
+  font-size: 1.2rem;
+}
+#mainThank div p span {
+  font-family: fontLogo;
+  color: #80a710;
+  letter-spacing: 0.2rem;
 }
 
 footer {

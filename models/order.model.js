@@ -1,5 +1,9 @@
 import mongoose from "mongoose";
 const orderSchema=mongoose.Schema({
+    orderNumber:{
+        type:String,
+        required:true,
+    },
     idClient:{
         type:String,
         required:true,

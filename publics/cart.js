@@ -57,6 +57,7 @@ socket.on("updateCart", (data) => {
             `${subTotal.toLocaleString("vi-VN")}đ`;
           document.getElementById("discountAmount").innerText =
             `${totalDiscountAmount.toLocaleString("vi-VN")}đ`;
+          document.getElementById("discountAmount").dataset.discount=totalDiscountAmount;
           document.getElementById("finalTotal").innerText =
             `${finalTotal.toLocaleString("vi-VN")}đ`;
         } else {
@@ -276,6 +277,7 @@ document
                         `${subTotal.toLocaleString("vi-VN")}đ`;
                       document.getElementById("discountAmount").innerText =
                         `${totalDiscountAmount.toLocaleString("vi-VN")}đ`;
+                      document.getElementById("discountAmount").dataset.discount=totalDiscountAmount;
                       document.getElementById("finalTotal").innerText =
                         `${finalTotal.toLocaleString("vi-VN")}đ`;
                     } else {
@@ -340,6 +342,7 @@ document.querySelectorAll(".quantityProduct").forEach((inp) => {
                     `${subTotal.toLocaleString("vi-VN")}đ`;
                   document.getElementById("discountAmount").innerText =
                     `${totalDiscountAmount.toLocaleString("vi-VN")}đ`;
+                  document.getElementById("discountAmount").dataset.discount=totalDiscountAmount;
                   document.getElementById("finalTotal").innerText =
                     `${finalTotal.toLocaleString("vi-VN")}đ`;
                 } else {
@@ -414,6 +417,7 @@ document.querySelectorAll(".voucher").forEach((v) => {
                 `${subTotal.toLocaleString("vi-VN")}đ`;
               document.getElementById("discountAmount").innerText =
                 `${totalDiscountAmount.toLocaleString("vi-VN")}đ`;
+              document.getElementById("discountAmount").dataset.discount=totalDiscountAmount;
               document.getElementById("finalTotal").innerText =
                 `${finalTotal.toLocaleString("vi-VN")}đ`;
             } else {
@@ -817,11 +821,12 @@ document.getElementById("btnOrder").addEventListener("click",()=>{
   }
   const decodedUser = jwtDecode(token);
   const idClient = decodedUser.id;
-  const discountAmount=document.getElementById("discountAmount").innerText;
+  const discountAmount=document.getElementById("discountAmount").getAttribute("data-discount");
   const paymentOrder=document.getElementById("paymentOrder").innerText;
   const nameDelivery=document.getElementById("nameDelivery").innerText;
   const telDelivery=document.getElementById("telDelivery").innerText;
   const addressDelivery=document.getElementById("addressDelivery").innerText;
+  const cbInvoice=document.getElementById("cbInvoice").checked;
   const nameCompanyOrder=document.getElementById("nameCompanyOrder").innerText;
   const mstCompanyOrder=document.getElementById("mstCompanyOrder").innerText;
   const addressCompanyOrder=document.getElementById("addressCompanyOrder").innerText;
@@ -829,14 +834,22 @@ document.getElementById("btnOrder").addEventListener("click",()=>{
   fetch("/cart/addOrder",{
     method:"POST",
     headers:{"Content-Type":"application/json;charset=UTF-8"},
-    body:JSON.stringify({idClient,discountAmount,paymentOrder,nameDelivery,telDelivery,addressDelivery,nameCompanyOrder,mstCompanyOrder,addressCompanyOrder,mailInvoiceOrder}),
+    body:JSON.stringify({idClient,discountAmount,paymentOrder,nameDelivery,telDelivery,addressDelivery,cbInvoice,nameCompanyOrder,mstCompanyOrder,addressCompanyOrder,mailInvoiceOrder}),
   })
   .then(res=>res.json())
   .then(({mess,success,error})=>{
     if (success) {
       alert("Thông báo",mess,"#80a710");
+      setTimeout(() => {
+        window.location.href="/cart/thank";
+      }, 3000);
     } else {
-      alert("Lỗi",`${mess}\n${error}`,"red");
+      if (error) {
+        alert("Lỗi",`${mess}\n${error}`,"red");
+      }else{
+        alert("Lỗi",mess,"red");
+      }
+      
     }
   })
   .catch((error)=>{

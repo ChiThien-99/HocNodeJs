@@ -758,16 +758,13 @@ header {
     background-color: white;
     padding: 0.5rem;
     margin-top: 1rem;
-    h2{
-      font-family: fontLogo;
-      color: $colorCTA;
-      letter-spacing: 0.4rem;
-    }
     span{
       color: $colorCTA;
+      letter-spacing: 0.2rem;
     }
     p{
       font-size: 1.1rem;
+      margin: 0.5rem 0;
     }
   }
 }
@@ -4380,6 +4377,25 @@ header {
             }
           }
         }
+      }
+    }
+  }
+}
+#mainThank{
+  div{
+    margin: 7.5rem auto 1rem;
+    padding: 1rem;
+    width: fit-content;
+    background-color: white;
+    border: 1px solid $colorCTA;
+    border-radius: 10px;
+    p{
+      margin: 0.5rem 0;
+      font-size: 1.2rem;
+      span{
+      font-family: fontLogo;
+      color: $colorCTA;
+      letter-spacing: 0.2rem;
       }
     }
   }
