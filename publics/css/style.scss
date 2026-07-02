@@ -754,15 +754,15 @@ header {
       justify-content: space-around;
     }
   }
-  #infoMailOrder{
+  #infoMailOrder {
     background-color: white;
     padding: 0.5rem;
     margin-top: 1rem;
-    span{
+    span {
       color: $colorCTA;
       letter-spacing: 0.2rem;
     }
-    p{
+    p {
       font-size: 1.1rem;
       margin: 0.5rem 0;
     }
@@ -860,6 +860,7 @@ header {
   height: calc(100vh - 6.5rem - 1px);
   flex-flow: row nowrap;
   overflow: hidden;
+  margin-top: 6.5rem;
   #navDashboard {
     width: 20%;
     height: 100%;
@@ -4381,21 +4382,21 @@ header {
     }
   }
 }
-#mainThank{
-  div{
+#mainThank {
+  div {
     margin: 7.5rem auto 1rem;
     padding: 1rem;
     width: fit-content;
     background-color: white;
     border: 1px solid $colorCTA;
     border-radius: 10px;
-    p{
+    p {
       margin: 0.5rem 0;
       font-size: 1.2rem;
-      span{
-      font-family: fontLogo;
-      color: $colorCTA;
-      letter-spacing: 0.2rem;
+      span {
+        font-family: fontLogo;
+        color: $colorCTA;
+        letter-spacing: 0.2rem;
       }
     }
   }

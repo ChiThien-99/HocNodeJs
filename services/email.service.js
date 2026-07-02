@@ -44,7 +44,18 @@ export const sendVerificationEmail = async (
   }
 };
 const DocSoTienVietNam = (number) => {
-  const digits = ["không", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"];
+  const digits = [
+    "không",
+    "một",
+    "hai",
+    "ba",
+    "bốn",
+    "năm",
+    "sáu",
+    "bảy",
+    "tám",
+    "chín",
+  ];
   const units = ["", "nghìn", "triệu", "tỷ", "nghìn tỷ", "triệu tỷ"];
 
   if (number === 0) return "Không đồng";
@@ -125,22 +136,25 @@ const DocSoTienVietNam = (number) => {
 };
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-/** 
+/**
  * @param {Object} order
  * @param {String} nameClient
-*/
-const now=new Date();
-const day=String(now.getDate()).padStart(2,"0");
-const month=String(now.getMonth()+1).padStart(2,"0");
-const year=now.getFullYear();
-const generateInvoicePDFBuffer=(order,nameClient)=>{
-  return new Promise((resolve,reject)=>{
+ */
+const now = new Date();
+const day = String(now.getDate()).padStart(2, "0");
+const month = String(now.getMonth() + 1).padStart(2, "0");
+const year = now.getFullYear();
+const generateInvoicePDFBuffer = (order, nameClient) => {
+  return new Promise((resolve, reject) => {
     const doc = new PDFDocument({ size: "A4", margin: 50 });
-    let buffers=[];
-    doc.on("data",(chunk)=>buffers.push(chunk));
-    doc.on("end",()=>resolve(Buffer.concat(buffers)));
-    doc.on("error",(err)=>reject(err));
-    const fontRegular = path.resolve(__dirname, "../publics/OpenSans-Regular.ttf");
+    let buffers = [];
+    doc.on("data", (chunk) => buffers.push(chunk));
+    doc.on("end", () => resolve(Buffer.concat(buffers)));
+    doc.on("error", (err) => reject(err));
+    const fontRegular = path.resolve(
+      __dirname,
+      "../publics/OpenSans-Regular.ttf",
+    );
     const fontBold = path.resolve(__dirname, "../publics/OpenSans-Bold.ttf");
     const logoPath = path.resolve(__dirname, "../publics/img/logo_imzai_1.png");
     const headerTopY = doc.y;
@@ -159,67 +173,121 @@ const generateInvoicePDFBuffer=(order,nameClient)=>{
       headerTopY + 45,
     );
     doc.moveDown(2);
-    doc.font(fontBold).fontSize(14).text("Đơn hàng",0,headerTopY+75,{align:"center"});
-    doc.font(fontRegular).fontSize(10).text(`Thời gian: ${day}/${month}/${year}`,{align:"center"});
-    doc.text(`Số phiếu: ${order.orderNumber}`,{align:"center"});
-    doc.text(`Người mua: ${nameClient}`,50,headerTopY+140);
-    doc.text(`Tên khách hàng: ${order.nameCompany}`,50,headerTopY+140+15);
-    doc.text(`Địa chỉ: ${order.addressCompany}`,50,headerTopY+140+30);
-    doc.text(`Điện thoại: ${order.telDelivery}`,50,headerTopY+140+45);
-    doc.text(`MST: ${order.mstCompany}`,50,headerTopY+140+60);
-    doc.text("Diễn giải: VAT",50,headerTopY+140+75);
-    doc.text("Loại tiền: VNĐ",50,headerTopY+140+90);
-    const tableTop=headerTopY+270;
-    const colIndex=50;
-    const colName=90;
-    const colUnil=210;
-    const colQuantity=250;
-    const colPrice=300;
-    const colTotal=430;
-    doc.font(fontBold)
-    doc.text("STT",colIndex,tableTop);
-    doc.text("Tên hàng",colName,tableTop);
-    doc.text("Đơn vị",colUnil,tableTop);
-    doc.text("Số lượng",colQuantity,tableTop);
-    doc.text("Đơn giá (bao gồm VAT)",colPrice,tableTop);
-    doc.text("Thành tiền",colTotal,tableTop);
-    doc.moveTo(50,tableTop+15).lineTo(550,tableTop+15).stroke();
-    let itemY=tableTop+25;
-    doc.font(fontRegular)
-    let totalOrderPrice=0;
-    order.products.forEach((prod,index) => {
-    const itemTotal=prod.price*prod.quantity;
-    totalOrderPrice+=itemTotal;
-    doc.text(index+1,colIndex,itemY);
-    doc.text(prod.productName,colName,itemY);
-    doc.text("Cái",colUnil,itemY);
-    doc.text(prod.quantity,colQuantity,itemY);
-    doc.text(prod.price.toLocaleString("vi-VN"),colPrice,itemY);
-    doc.text(itemTotal.toLocaleString("vi-VN"),colTotal,itemY);
-    doc.moveTo(50,itemY+15).lineTo(550,itemY+15).strokeColor("#e0e0e0").stroke();
-    itemY+=20;
+    doc
+      .font(fontBold)
+      .fontSize(14)
+      .text("Đơn hàng", 0, headerTopY + 75, { align: "center" });
+    doc
+      .font(fontRegular)
+      .fontSize(10)
+      .text(`Thời gian: ${day}/${month}/${year}`, { align: "center" });
+    doc.text(`Số phiếu: ${order.orderNumber}`, { align: "center" });
+    doc.text(`Người mua: ${nameClient}`, 50, headerTopY + 140);
+    if (
+      order.nameCompany === "--" &&
+      order.addressCompany === "--" &&
+      order.mstCompany === "--"
+    ) {
+      doc.text(
+        `Tên người nhận: ${order.fullnameDelivery}`,
+        50,
+        headerTopY + 140 + 15,
+      );
+      doc.text(
+        `Số điện thoại: ${order.telDelivery}`,
+        50,
+        headerTopY + 140 + 30,
+      );
+      doc.text(
+        `Địa chỉ nhận hàng: ${order.addressDelivery}`,
+        50,
+        headerTopY + 140 + 45,
+      );
+    } else {
+      doc.text(`Tên công ty: ${order.nameCompany}`, 50, headerTopY + 140 + 15);
+      doc.text(
+        `Địa chỉ công ty: ${order.addressCompany}`,
+        50,
+        headerTopY + 140 + 30,
+      );
+      doc.text(`MST: ${order.mstCompany}`, 50, headerTopY + 140 + 45);
+    }
+    doc.text(
+      `Diễn giải: VAT ${order.mailInvoice === "--" ? "" : ", " + order.mailInvoice}`,
+      50,
+      headerTopY + 140 + 60,
+    );
+    doc.text("Loại tiền: VNĐ", 50, headerTopY + 140 + 75);
+    const tableTop = headerTopY + 250;
+    const colIndex = 50;
+    const colName = 90;
+    const colUnil = 210;
+    const colQuantity = 250;
+    const colPrice = 300;
+    const colTotal = 430;
+    doc.font(fontBold);
+    doc.text("STT", colIndex, tableTop);
+    doc.text("Tên hàng", colName, tableTop);
+    doc.text("Đơn vị", colUnil, tableTop);
+    doc.text("Số lượng", colQuantity, tableTop);
+    doc.text("Đơn giá (bao gồm VAT)", colPrice, tableTop);
+    doc.text("Thành tiền", colTotal, tableTop);
+    doc
+      .moveTo(50, tableTop + 15)
+      .lineTo(550, tableTop + 15)
+      .stroke();
+    let itemY = tableTop + 25;
+    doc.font(fontRegular);
+    let totalOrderPrice = 0;
+    order.products.forEach((prod, index) => {
+      const itemTotal = prod.price * prod.quantity;
+      totalOrderPrice += itemTotal;
+      doc.text(index + 1, colIndex, itemY);
+      doc.text(prod.productName, colName, itemY);
+      doc.text("Cái", colUnil, itemY);
+      doc.text(prod.quantity, colQuantity, itemY);
+      doc.text(prod.price.toLocaleString("vi-VN"), colPrice, itemY);
+      doc.text(itemTotal.toLocaleString("vi-VN"), colTotal, itemY);
+      doc
+        .moveTo(50, itemY + 15)
+        .lineTo(550, itemY + 15)
+        .strokeColor("#e0e0e0")
+        .stroke();
+      itemY += 20;
     });
-    const totalAfterDiscount=totalOrderPrice-order.voucherDiscount;
-    doc.font(fontBold).text("Chiết khấu:",50,itemY+15);
-    doc.font(fontRegular).text(`${order.voucherDiscount.toLocaleString("vi-VN")}đ`,430,itemY+15);
-    doc.font(fontBold).text("Tổng tiền:",50,itemY+35);
-    doc.font(fontRegular).text(`${totalAfterDiscount.toLocaleString("vi-VN")}đ`,430,itemY+35);
-    doc.font(fontBold).text(`Số tiền bằng chữ: ${DocSoTienVietNam(totalAfterDiscount)}`,50,itemY+55);
-    doc.font(fontRegular).text(`Hình thức thanh toán: ${order.paymentMethod}`,50,itemY+75);
-    doc.font(fontRegular).text("Người mua hàng",90,itemY+95);
-    doc.font(fontRegular).text("Người bán hàng",430,itemY+95);
-    doc.font(fontRegular).text("(Ký và ghi rõ họ tên)",90,itemY+110);
-    doc.font(fontRegular).text("(Ký và ghi rõ họ tên)",430,itemY+110);
+    const totalAfterDiscount = totalOrderPrice - order.voucherDiscount;
+    doc.font(fontBold).text("Chiết khấu:", 50, itemY + 15);
+    doc
+      .font(fontRegular)
+      .text(
+        `${order.voucherDiscount.toLocaleString("vi-VN")}đ`,
+        430,
+        itemY + 15,
+      );
+    doc.font(fontBold).text("Tổng tiền:", 50, itemY + 35);
+    doc
+      .font(fontRegular)
+      .text(`${totalAfterDiscount.toLocaleString("vi-VN")}đ`, 430, itemY + 35);
+    doc
+      .font(fontBold)
+      .text(
+        `Số tiền bằng chữ: ${DocSoTienVietNam(totalAfterDiscount)}`,
+        50,
+        itemY + 55,
+      );
+    doc
+      .font(fontRegular)
+      .text(`Hình thức thanh toán: ${order.paymentMethod}`, 50, itemY + 75);
+    doc.font(fontRegular).text("Người mua hàng", 90, itemY + 95);
+    doc.font(fontRegular).text("Người bán hàng", 430, itemY + 95);
+    doc.font(fontRegular).text("(Ký và ghi rõ họ tên)", 90, itemY + 110);
+    doc.font(fontRegular).text("(Ký và ghi rõ họ tên)", 430, itemY + 110);
     doc.end();
-  })
-}
-export const sendOrderEmail = async (
-  emailClient,
-  nameClient,
-  newOrder,
-) => {
+  });
+};
+export const sendOrderEmail = async (emailClient, nameClient, newOrder) => {
   try {
-    const pdfBuffer= await generateInvoicePDFBuffer(newOrder,nameClient);
+    const pdfBuffer = await generateInvoicePDFBuffer(newOrder, nameClient);
     const mailOptions = {
       from: `"Hệ thống Imzen" <${process.env.EMAIL_USER}>`,
       to: emailClient,
@@ -233,12 +301,12 @@ export const sendOrderEmail = async (
         <p style="font-size: 1.1rem; margin:0.5rem 0">Mọi thắc mắc cần hỗ trợ xin liên hệ 0966159722</p>
         </div>
       `,
-      attachments:[
+      attachments: [
         {
-          filename:`Don_Hang.pdf`,
-          content:pdfBuffer,
-          contentType:"application/pdf"
-        }
+          filename: `Don_Hang.pdf`,
+          content: pdfBuffer,
+          contentType: "application/pdf",
+        },
       ],
     };
     const info = await transporter.sendMail(mailOptions);

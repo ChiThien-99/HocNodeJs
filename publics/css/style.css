@@ -906,6 +906,7 @@ header div:last-child #containerUserLogin #bagShopping span {
   height: calc(100vh - 6.5rem - 1px);
   flex-flow: row nowrap;
   overflow: hidden;
+  margin-top: 6.5rem;
 }
 #mainDashboard #navDashboard {
   width: 20%;
