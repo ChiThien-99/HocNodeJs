@@ -142,7 +142,10 @@
             </div>
             <h3>Voucher</h3>
             <div id="listVoucher">
-              <%vouchers.forEach((voucher)=>{%>
+              <%if(!vouchers||vouchers.length===0){%>
+                <b>Bạn đang không có voucher</b>
+              <%}else{%>
+                <%vouchers.forEach((voucher)=>{%>
               <div class="voucher-wrapper">
                 <div class="voucher-sawtooth-zigzag">
                 <div class="voucher">
@@ -161,6 +164,7 @@
                 </div>
               </div>
               <%})%>
+              <%}%>
             </div>
             <h3>Phương thức thanh toán</h3>
             <div id="divPaymentMethod">
@@ -254,8 +258,10 @@
               </select><br>
               <label for="numberCompany">Tên đường, tòa nhà, số nhà</label><br>
               <input type="text" name="numberCompany" id="numberCompany" required><br>
-              <label for="mailInvoice">Mail nhận hóa đơn</label><br>
-              <input type="email" name="mailInvoice" id="mailInvoice" required><br>
+              <label for="mailInvoice">Mail nhận hóa đơn ( Nếu nhiều mail vui lòng phân cách bằng dấu ; )</label><br>
+              <b>VD: mail01@gmail.com;mail02@gmail.com</b><br>
+              <!-- <input type="email" name="mailInvoice" id="mailInvoice" required><br> -->
+              <textarea name="mailInvoice" id="mailInvoice" required></textarea><br>
               <button type="button" id="submitIssueInvoice">Thêm</button>
             </div>
             <div id="contentInvoice">
@@ -273,90 +279,6 @@
                 <%})%>
               <%}%>
             </div>
-            </div>
-            <div id="orderForm">
-              <div id="divPaid">
-                <h2>ĐÃ THANH TOÁN</h2>
-              </div>
-              <div id="divHeaderOrder">
-                <img src="/img/logo_imzai_1.webp" alt="logoImzen">
-                <div>
-                <p>CÔNG TY TNHH CÔNG NGHỆ IMZEN</p>
-                <p>MST: 0123456789</p>
-                <p>ĐỊA CHỈ: 236 LÊ THỊ NGAY, XÃ VĨNH LỘC, THÀNH PHỐ HỒ CHÍ MINH</p>
-                <p>STK 0123456789 tại NGÂN HÀNG QUỐC TẾ (VIB)</p>
-                </div>
-              </div>
-              <div id="divTitleOrder">
-                <h2>Đơn hàng</h2>
-                <p>Thời gian</p>
-                <p>Số phiếu</p>
-              </div>
-              <div>
-                <p>Người mua: Nguyễn Văn A</p>
-                <p>Tên khách hàng: CÔNG TY TNHH TIN HỌC NGÔI SAO LỚN</p>
-                <p>Địa chỉ: 28-30 Trần Triệu Luật, Phường Tân Hòa, Thành Phố Hồ Chí Minh</p>
-                <p>Điện thoại: 09123456789</p>
-                <p>MST: 0123456789</p>
-                <p>Diễn giải: VAT</p>
-                <p>Nhân viên bán hàng: Lâm Chí Thiện</p>
-                <p>Loại tiền: VNĐ</p>
-              </div>
-              <table>
-                <tr>
-                  <th>STT</th>
-                  <th>Tên hàng</th>
-                  <th>Đơn vị</th>
-                  <th>Số lượng</th>
-                  <th>Đơn giá (bao gồm VAT)</th>
-                  <th>Thành tiền</th>
-                </tr>
-                <tr>
-                  <td>01</td>
-                  <td>Imzen Aruba 01</td>
-                  <td>Cái</td>
-                  <td>10</td>
-                  <td>450.000</td>
-                  <td>4.500.000</td>
-                </tr>
-                <tr>
-                  <td>02</td>
-                  <td>Imzen Aruba 02</td>
-                  <td>Cái</td>
-                  <td>20</td>
-                  <td>500.000</td>
-                  <td>10.000.000</td>
-                </tr>
-                <tr>
-                  <td colspan="5">Tổng tiền:</td>
-                  <td>14.500.000</td>
-                </tr>
-                <tr>
-                  <td colspan="6">Số tiền bằng chữ: Mười Bốn Triệu Năm Trăm Nghìn Đồng</td>
-                </tr>
-              </table>
-              <div>
-                <p>Hình thức thanh toán: TM/CK</p>
-                <p>Thời hạn thanh toán: 29/06/2026</p>
-              </div>
-              <div id="divSign">
-                <div>
-                  <p>Người mua hàng:</p>
-                  <p>(Ký và ghi rõ họ tên)</p>
-                </div>
-                <div>
-                  <p>Người bán hàng:</p>
-                  <p>(Ký và ghi rõ họ tên)</p>
-                </div>
-              </div>
-            </div>
-            <div id="infoMailOrder">
-              <img src="/img/logoImzenEmail.webp" alt="logoImzenEmail">
-              <p>Xin chào <b>Lâm Chí Thiện</b></p>
-              <p>Đơn hàng của bạn đã được đặt thành công. Cảm ơn bạn đã mua sắm tại <span>IMZEN</span></p>
-              <p>Vui lòng kiểm tra file đơn hàng được đính kèm trong mail</p>
-              <p>Mọi thắc mắc cần hỗ trợ xin liên hệ 0966159722</p>
-              <p>Trân trọng</p>
             </div>
         </div>
         <div id="divInfoCart">

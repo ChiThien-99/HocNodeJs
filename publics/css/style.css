@@ -386,7 +386,8 @@ header div:last-child #containerUserLogin #bagShopping span {
   grid-template-rows: auto;
   gap: 2%;
   width: 100%;
-  height: 30rem;
+  height: auto;
+  max-height: 30rem;
   border: 1px solid #80a710;
   border-radius: 5px;
   padding: 1rem;
@@ -683,6 +684,16 @@ header div:last-child #containerUserLogin #bagShopping span {
   font-size: 1rem;
   border: 1px solid #aaa;
   border-radius: 4px;
+}
+#mainCart #divInvoice #formIssueInvoice textarea {
+  width: 50%;
+  height: 5rem;
+  resize: none;
+  font-size: 1rem;
+}
+#mainCart #divInvoice #formIssueInvoice b {
+  display: inline-block;
+  margin: 0 0 0.5rem 0;
 }
 #mainCart #divInvoice #formIssueInvoice #submitIssueInvoice {
   border: none;
@@ -2142,7 +2153,7 @@ header div:last-child #containerUserLogin #bagShopping span {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1000;
+  z-index: 900;
   background-color: rgba(0, 0, 0, 0.5);
 }
 #myModal #modalContent {

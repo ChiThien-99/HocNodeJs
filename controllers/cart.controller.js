@@ -103,6 +103,7 @@ export const updateQuantity = async (req, res) => {
     });
   }
 };
+let activeVoucher=[];
 export const calMultiVouchers = async (req, res) => {
   try {
     const { selectedVoucherCode, idClient } = req.body;
@@ -121,7 +122,7 @@ export const calMultiVouchers = async (req, res) => {
       selectedVoucherCode.length > 0
     ) {
       const upperCode = selectedVoucherCode.map((code) => code.toUpperCase());
-      const activeVoucher = await voucherEntity.find({
+      activeVoucher = await voucherEntity.find({
         code: { $in: upperCode },
         isActive: true,
         clientIds: { $in: [idClient] },
@@ -189,7 +190,7 @@ export const filterProvinceWards = async (req, res) => {
 };
 export const addReceivingInfor = async (req, res) => {
   try {
-    const {
+    let {
       idClient,
       fullname,
       tel,
@@ -199,6 +200,10 @@ export const addReceivingInfor = async (req, res) => {
       categoryAddress,
     } = req.body;
     const client = await clientEntity.findById(idClient);
+    fullname=fullname.trim().toUpperCase();
+    provinceCity=provinceCity.trim().toLowerCase().split(" ").map(word=>word.charAt(0).toUpperCase()+word.slice(1)).join(" ");
+    wardsCommunes=wardsCommunes.trim().toLowerCase().split(" ").map(word=>word.charAt(0).toUpperCase()+word.slice(1)).join(" ");
+    numberHouse=numberHouse.trim().toLowerCase().split(" ").map(word=>word.charAt(0).toUpperCase()+word.slice(1)).join(" ");
     client.addressInfor.push({
       fullname: fullname,
       tel: tel,
@@ -252,7 +257,7 @@ export const deleteAddress = async (req, res) => {
 };
 export const addInfoInvoice = async (req, res) => {
   try {
-    const {
+    let {
       idClient,
       nameCompany,
       mstCompany,
@@ -262,6 +267,10 @@ export const addInfoInvoice = async (req, res) => {
       mailInvoice,
     } = req.body;
     const client = await clientEntity.findById(idClient);
+    nameCompany=nameCompany.trim().toUpperCase();
+    numberCompany=numberCompany.trim().toLowerCase().split(" ").map(word=>word.charAt(0).toUpperCase()+word.slice(1)).join(" ");
+    wardsCommunesInvoice=wardsCommunesInvoice.trim().toLowerCase().split(" ").map(word=>word.charAt(0).toUpperCase()+word.slice(1)).join(" ");
+    provinceCityInvoice=provinceCityInvoice.trim().toLowerCase().split(" ").map(word=>word.charAt(0).toUpperCase()+word.slice(1)).join(" ");
     client.invoiceInfor.push({
       nameCompany: nameCompany,
       mstCompany: mstCompany,
@@ -371,11 +380,13 @@ export const addOrder = async (req, res) => {
     const client=await clientEntity.findById(idClient);
     const emailClient=client.email;
     const nameClient=client.fullname;
-    console.log(idClient);
-    console.log(client)
-    console.log("emailClient",emailClient);
-    console.log("nameClient",nameClient);
-    console.log("newOrder:",newOrder)
+    console.log(`activeVoucher: ${activeVoucher}`);
+    activeVoucher.forEach(async(v)=>{
+      const usedVoucher=await voucherEntity.findOne({code:v.code});
+      usedVoucher.usersUsed.push(idClient);
+      usedVoucher.save();
+      console.log(`usedVoucher: ${usedVoucher}`);
+    })
     sendOrderEmail(emailClient,nameClient,newOrder);
     const io = req.app.get("socketio");
     const totalItems=0;

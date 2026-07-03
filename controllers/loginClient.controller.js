@@ -30,6 +30,7 @@ export const postClient = async (req, res) => {
     }
     const [day, month, year] = dateBirthClient.split("/");
     dateBirthClient = new Date(year, month - 1, day);
+    fullNameClient=fullNameClient.toUpperCase();
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const otpExpired = new Date(Date.now() + 5 * 60 * 1000);
     await clientEntity.create({

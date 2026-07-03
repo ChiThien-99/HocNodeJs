@@ -193,6 +193,17 @@ const generateInvoicePDFBuffer = (order, nameClient) => {
         50,
         headerTopY + 140 + 15,
       );
+      if (order.paymentMethod!="Thanh toán khi nhận hàng") {
+      const stampX=380;
+      const stampY=headerTopY+140+5;
+      doc.fillColor("#bbbbbb").strokeColor("#bbbbbb");
+      doc.font(fontBold).fontSize(15);
+      doc.text("ĐÃ THANH TOÁN",stampX+15,stampY+10,{width:150,align:"center"});
+      doc.lineWidth(3).rect(stampX,stampY,180,35).stroke();
+      doc.fillColor("#000000").strokeColor("#000000");
+      doc.font(fontRegular).fontSize(10);
+      doc.lineWidth(1);
+      }
       doc.text(
         `Số điện thoại: ${order.telDelivery}`,
         50,
@@ -205,6 +216,17 @@ const generateInvoicePDFBuffer = (order, nameClient) => {
       );
     } else {
       doc.text(`Tên công ty: ${order.nameCompany}`, 50, headerTopY + 140 + 15);
+      if (order.paymentMethod!="Thanh toán khi nhận hàng") {
+      const stampX=380;
+      const stampY=headerTopY+140+5;
+      doc.fillColor("#bbbbbb").strokeColor("#bbbbbb");
+      doc.font(fontBold).fontSize(15);
+      doc.text("ĐÃ THANH TOÁN",stampX+15,stampY+10,{width:150,align:"center"});
+      doc.lineWidth(3).rect(stampX,stampY,180,35).stroke();
+      doc.fillColor("#000000").strokeColor("#000000");
+      doc.font(fontRegular).fontSize(10);
+      doc.lineWidth(1);
+      }
       doc.text(
         `Địa chỉ công ty: ${order.addressCompany}`,
         50,
@@ -213,7 +235,7 @@ const generateInvoicePDFBuffer = (order, nameClient) => {
       doc.text(`MST: ${order.mstCompany}`, 50, headerTopY + 140 + 45);
     }
     doc.text(
-      `Diễn giải: VAT ${order.mailInvoice === "--" ? "" : ", " + order.mailInvoice}`,
+      "Diễn giải: VAT",
       50,
       headerTopY + 140 + 60,
     );
