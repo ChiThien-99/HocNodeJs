@@ -4,7 +4,16 @@ const orderSchema=mongoose.Schema({
         type:String,
         required:true,
     },
+    status:{
+        type:String,
+        enum:["Đang xử lý","Đang vận chuyển","Đã nhận hàng","Hủy"],
+        required:true,
+    },
     idClient:{
+        type:String,
+        required:true,
+    },
+    buyer:{
         type:String,
         required:true,
     },
@@ -16,6 +25,7 @@ const orderSchema=mongoose.Schema({
             price:{type:Number,required:true},
             quantity:{type:Number,required:true,default:1},
             color:{type:String,required:true},
+            img:{type:String,required:true},
         }
     ],
     voucherDiscount:{
@@ -33,5 +43,6 @@ const orderSchema=mongoose.Schema({
     mstCompany: { type: String, required: true },
     addressCompany: { type: String, required: true },
     mailInvoice: { type: String, required: true },
+    createAt:{type:Date,default:Date.now},
 })
 export const orderEntity=mongoose.model("orderEntity",orderSchema,"order");

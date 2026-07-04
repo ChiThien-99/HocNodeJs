@@ -108,7 +108,10 @@
           <div id="voucherMng" class="tabContent">
             <h2 class="flag-item">Kho voucher</h2>
             <div id="listVoucher">
-              <%vouchers.forEach((voucher)=>{%>
+              <%if(!vouchers||vouchers.length===0){%>
+                <h3>Bạn đang không có voucher</h3>
+              <%}else{%>
+                <%vouchers.forEach((voucher)=>{%>
               <div class="voucher-wrapper">
                 <div class="voucher-sawtooth-zigzag">
                 <a href="/app" target="_blank">
@@ -125,10 +128,76 @@
                 </div>
               </div>
               <%})%>
+              <%}%>
             </div>
           </div>
           <div id="historyMng" class="tabContent">
             <h2 class="flag-item">Lịch sử mua hàng</h2>
+            <%if(!orders||orders.length===0){%>
+              <h3>Bạn đang không có đơn hàng</h3>
+            <%}else{%>
+              <%orders.forEach((order)=>{%>
+              <div class="divOrder">
+                <div class="headerOrder">
+                  <div>
+                    <p>Mã đơn: <%=order.orderNumber%></p>
+                    <p>Ngày đặt: <%=order.createAt.toLocaleString("vi-VN")%></p>
+                  </div>
+                  <div>
+                    <p class="status"><%=order.status%></p>
+                  </div>
+                </div>
+                <div class="bodyOrder">
+                  <table class="tableProduct">
+                    <tr>
+                      <th>
+                        Tên sản phẩm
+                      </th>
+                      <th>Số lượng</th>
+                      <th>Giá</th>
+                      <th>Thành tiền</th>
+                      <th>Thao tác</th>
+                    </tr>
+                    <%order.products.forEach((product)=>{%>
+                    <tr>
+                      <td>
+                        <div>
+                        <img src="<%=product.img%>" alt="imgProduct">
+                        <p><%=product.productName%></p>
+                        </div>
+                      </td>
+                      <td>
+                        <p><%=product.quantity%></p>
+                      </td>
+                      <td>
+                        <p><%=product.price.toLocaleString("vi-VN")%>đ</p>
+                      </td>
+                      <td>
+                        <p><%=(product.quantity*product.price).toLocaleString("vi-VN")%>đ</p>
+                      </td>
+                      <td>
+                        <button type="button" class="btnBuyBack" data-idProduct="<%=product.category==='device'?'/detailDevice/'+product.productId.slice(0,24):'/detailApp/'+product.productId%>">Mua lại</button>
+                      </td>
+                    </tr>
+                    <%})%>
+                  </table>
+                  <div>
+                    <p>Chiết khấu: <%=order.voucherDiscount.toLocaleString("vi-VN")%>đ</p>
+                    <p>Thành tiền: 
+                      <%let subtotal=0;%>
+                      <%order.products.forEach((p)=>{%>
+                      <%subtotal+=p.quantity*p.price;%>
+                      <%})%>
+                      <%=(subtotal-order.voucherDiscount).toLocaleString("vi-VN")%>đ
+                    </p>
+                  </div>
+                  <div>
+                    <p>Phương thức thanh toán: <%=order.paymentMethod%></p>
+                  </div>
+                </div>
+              </div>
+            <%})%>
+            <%}%>
           </div>
       </main>
       <script src="/socket.io/socket.io.js"></script>

@@ -14,6 +14,7 @@ const cartScheme=mongoose.Schema({
             price:{type:Number,required:true},
             quantity:{type:Number,required:true,default:1},
             color:{type:String,required:true},
+            img:{type:String,required:true},
         }
     ],
     updateAt:{

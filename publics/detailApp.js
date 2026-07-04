@@ -29,12 +29,13 @@ document.getElementById("btnAddCart").addEventListener("click", function () {
   const productId = this.getAttribute("data-idApp");
   const productName = this.getAttribute("data-nameApp");
   const productPrice = this.getAttribute("data-priceApp");
+  const imgApp=document.getElementById("imgApp").value;
   this.disabled = true;
   this.style.cursor = "not-allowed";
   fetch("/detailApp/cart/add", {
     method: "POST",
     headers: { "Content-Type": "application/json;charset=UTF-8" },
-    body: JSON.stringify({ idClient, productId, productName, productPrice }),
+    body: JSON.stringify({ idClient, productId, productName, productPrice,imgApp }),
   })
     .then((res) => res.json())
     .then(({ success, mess, totalItems, error }) => {

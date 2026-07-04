@@ -40,12 +40,6 @@ function getUserFromCookie() {
       );
       document.getElementById("tel").value = decodedUser.tel;
       document.getElementById("email").value = decodedUser.email;
-      document
-  .getElementById("btnDashboardUserLogin")
-  .addEventListener("click", (e) => {
-    e.preventDefault();
-    window.open(`/dashboardClient/${idClient}`, "_blank");
-  });
       return decodedUser;
     } catch (error) {
       console.error(`Token không hợp lệ hoặc đã bị can thiệp ${error}`);
@@ -57,29 +51,6 @@ function getUserFromCookie() {
   }
 }
 window.onload = getUserFromCookie;
-document.getElementById("btnLogoutUserLogin").addEventListener("click", (e) => {
-  e.preventDefault();
-  fetch("/api/auth/logout", {
-    method: "POST",
-    credentials: "include",
-  })
-    .then((res) => res.json())
-    .then(({ mess, error, success }) => {
-      if (success) {
-        setAccessToken2(null);
-        const currentPath = window.location.pathname + window.location.search;
-        window.location.href = `/index/loginClient?headerActive=loginClient&redirect=${encodeURIComponent(currentPath)}`;
-      } else {
-        alert("Lỗi", `${mess}\n${error}`, red);
-      }
-    })
-    .catch((error) => {
-      alert("Lỗi", error, red);
-      setAccessToken2(null);
-      const currentPath = window.location.pathname + window.location.search;
-      window.location.href = `/index/loginClient?headerActive=loginClient&redirect=${encodeURIComponent(currentPath)}`;
-    });
-});
 function checkFormEmptiness(form, btn) {
   const formData = new FormData(form);
   let hasData = false;
@@ -175,3 +146,9 @@ formInfoClient.addEventListener("submit", function (e) {
       alert("Lỗi", error, "red");
     });
 });
+document.querySelectorAll(".btnBuyBack").forEach((btn)=>{
+  btn.addEventListener("click",()=>{
+    const id=btn.getAttribute("data-idProduct");
+    window.open(id,"_blank");
+  })
+})

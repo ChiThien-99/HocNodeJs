@@ -230,8 +230,8 @@ document.getElementById("btnCartDevice").addEventListener("click", function () {
   const productPrice = this.getAttribute("data-priceDevice");
   const productQuantity = document.getElementById("quantityDevice").value;
   const productColor = document.getElementById("inpColorDevice").value;
-  console.log(productQuantity);
-  console.log(productColor);
+  const imgProductColor=document.querySelector(".colorDevice.active img").src;
+  console.log(imgProductColor);
   this.disabled = true;
   this.style.cursor = "not-allowed";
   fetch("/detailDevice/cart/add", {
@@ -244,6 +244,7 @@ document.getElementById("btnCartDevice").addEventListener("click", function () {
       productPrice,
       productQuantity,
       productColor,
+      imgProductColor,
     }),
   })
     .then((res) => res.json())

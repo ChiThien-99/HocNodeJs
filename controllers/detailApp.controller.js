@@ -14,7 +14,7 @@ export const getDetailApp = async (req, res) => {
 };
 export const addCart = async (req, res) => {
   try {
-    const { idClient, productId, productName, productPrice } = req.body;
+    const { idClient, productId, productName, productPrice,imgApp } = req.body;
     const numericPrice = Number(productPrice);
     if (!idClient || !productId) {
       return res.json({
@@ -35,6 +35,7 @@ export const addCart = async (req, res) => {
             price: numericPrice,
             quantity: 1,
             color: "-",
+            img:imgApp,
           },
         ],
       });
@@ -54,6 +55,7 @@ export const addCart = async (req, res) => {
           price: numericPrice,
           quantity: 1,
           color: "-",
+          img:imgApp,
         });
       }
       cart.updateAt = new Date();
@@ -69,7 +71,6 @@ export const addCart = async (req, res) => {
       0,
     );
     const io = req.app.get("socketio");
-    console.log(cart.products[productIndex])
     io.emit("updateCart", [cart.products[productIndex], totalItems]);
     io.emit("update-totalItems", totalItems);
     res.json({

@@ -72,7 +72,10 @@
             <h3 id="roleAd">Chức vụ</h3>
             <em id="idAd"></em>
           </div>
-          <button data-target="workMng" class="navBtnDB active">
+          <button data-target="orderMng" class="navBtnDB active">
+            <i class="fa-solid fa-boxes-packing"></i> Quản lý đơn hàng
+          </button>
+          <button data-target="workMng" class="navBtnDB">
             <i class="fa-regular fa-clipboard"></i> Quản lý công việc
           </button>
           <button data-target="serverMng" class="navBtnDB">
@@ -101,7 +104,50 @@
           </button>
         </div>
         <div id="contentDashboard">
-          <div id="workMng" class="tabContent active">
+          <div id="orderMng" class="tabContent active">
+            <h2 class="flag-item">Quản lý đơn hàng</h2>
+            <table>
+              <thead>
+                 <tr>
+                <th>Đơn hàng</th>
+                <th>Người mua</th>
+                <th>Thành tiền</th>
+                <th>Hóa đơn</th>
+                <th>Tình trạng</th>
+                <th>Thao tác</th>
+              </tr>
+              </thead>
+              <tbody>
+                <%orders.forEach((order)=>{%>
+                  <tr data-idOrder="<%=order._id%>">
+                  <td><%=order.orderNumber%></td>
+                  <td><%=order.nameCompany==="--"?order.buyer:order.nameCompany%></td>
+                  <td>
+                    <%let subtotal=0;%>
+                    <%=order.products.forEach((p)=>{subtotal+=p.quantity*p.price;})%>
+                    <%=(subtotal-order.voucherDiscount).toLocaleString("vi-VN")%>
+                  </td>
+                  <td>
+                    <input type="text" name="invoice" id="invoice">
+                  </td>
+                  <td>
+                    <select name="status" id="status">
+                      <option value="processOrder">Đang xử lý</option>
+                      <option value="transitOrder">Đang vận chuyển</option>
+                      <option value="receivedOrder">Đã nhận hàng</option>
+                      <option value="cancleOrder">Hủy</option>
+                    </select>
+                  </td>
+                  <td>
+                    <button type="button" id="btnEditOrder">Chỉnh sửa</button>
+                    <button type="button" id="btnDetailOrder">Chi tiết</button>
+                  </td>
+                </tr>
+                <%})%>
+              </tbody>
+            </table>
+          </div>
+          <div id="workMng" class="tabContent">
             <h2>Nội dung quản lý công việc</h2>
           </div>
           <div id="serverMng" class="tabContent">
@@ -124,6 +170,13 @@
               <em>*Mật khẩu tối thiểu 1 chữ cái, 1 chữ số, 1 ký tự đặc biệt</em>
               <p>Phân quyền</p>
               <div id="formDecentralize">
+                <input
+                  type="checkbox"
+                  name="decentAdmin"
+                  id="decentOrder"
+                  value="orderMng"
+                />
+                <label for="decentOrder">Quản lý đơn hàng</label><br />
                 <input
                   type="checkbox"
                   name="decentAdmin"

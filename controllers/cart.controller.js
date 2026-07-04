@@ -362,9 +362,14 @@ export const addOrder = async (req, res) => {
     const cartOfClient = await cartEntity.findOne({ clientId: idClient });
     const productsCart = cartOfClient.products;
     const numberDiscountAmount=Number(discountAmount);
+    const client=await clientEntity.findById(idClient);
+    const emailClient=client.email;
+    const nameClient=client.fullname;
     const newOrder=await orderEntity.create({
       orderNumber:await generatedOrderCode(),
+      status:"Đang xử lý",
       idClient: idClient,
+      buyer:nameClient,
       products: productsCart,
       voucherDiscount: numberDiscountAmount,
       paymentMethod: paymentOrder,
@@ -377,9 +382,6 @@ export const addOrder = async (req, res) => {
       mailInvoice: mailInvoiceOrder,
     });
     await cartEntity.findByIdAndDelete(cartOfClient._id);
-    const client=await clientEntity.findById(idClient);
-    const emailClient=client.email;
-    const nameClient=client.fullname;
     console.log(`activeVoucher: ${activeVoucher}`);
     activeVoucher.forEach(async(v)=>{
       const usedVoucher=await voucherEntity.findOne({code:v.code});

@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 import { voucherEntity } from "../models/voucher.model.js";
+import {orderEntity} from "../models/order.model.js";
 export const getDashboardClient = async (req, res) => {
   const {idClient}=req.params;
   const vouchers = await voucherEntity
@@ -12,7 +13,8 @@ export const getDashboardClient = async (req, res) => {
       usersUsed: { $nin: [idClient] },
     })
     .select("code image title content discountPercentage createdAt");
-  res.render("dashboardClient.ejs", { vouchers });
+  const orders=await orderEntity.find({idClient:idClient});
+  res.render("dashboardClient.ejs", { vouchers,orders });
 };
 export const putInfoClient = async (req, res) => {
   try {

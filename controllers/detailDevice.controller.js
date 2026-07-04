@@ -80,9 +80,9 @@ export const addCart = async (req, res) => {
       productPrice,
       productQuantity,
       productColor,
+      imgProductColor,
     } = req.body;
     if (!productColor) {
-      console.log(productColor);
       return res.json({ mess: "Vui lòng chọn màu thiết bị", success: false });
     }
     const numericPrice = Number(productPrice);
@@ -105,6 +105,7 @@ export const addCart = async (req, res) => {
             price: numericPrice,
             quantity: productQuantity,
             color: productColor,
+            img:imgProductColor,
           },
         ],
       });
@@ -114,6 +115,7 @@ export const addCart = async (req, res) => {
         (p) => p.productId.toString() === `${productId}${productColor}`,
       );
       console.log(productIndex);
+      console.log(imgProductColor);
       if (productIndex > -1) {
         cart.products[productIndex].quantity += Number(productQuantity);
       } else {
@@ -124,6 +126,7 @@ export const addCart = async (req, res) => {
           price: numericPrice,
           quantity: productQuantity,
           color: productColor,
+          img:imgProductColor,
         });
       }
       cart.updateAt = new Date();

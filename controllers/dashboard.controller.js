@@ -17,6 +17,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { voucherEntity } from "../models/voucher.model.js";
 import { clientEntity } from "../models/client.model.js";
+import { orderEntity } from "../models/order.model.js";
 function getSystemInfo() {
   const info = {
     os: {
@@ -74,6 +75,7 @@ export const getDashboard = async (req, res) => {
   const listblogs = await blogsEntity.find().sort("-createAt");
   const listblogsdraft = await blogsDraftEntity.find();
   const problems = await problemEntity.find().sort("-createAt");
+  const orders=await orderEntity.find();
   const io = req.app.get("socketio");
   res.render("dashboard.ejs", {
     jsonSystemInfo,
@@ -89,6 +91,7 @@ export const getDashboard = async (req, res) => {
     listblogs,
     listblogsdraft,
     problems,
+    orders,
   });
 };
 export const postRegisterAdmin = async (req, res) => {
