@@ -222,7 +222,7 @@
               <button type="button" id="submitFormReceivingInfor">Thêm</button>
             </div>
             <div id="contentReceivingInfor">
-              <%if(deliveryAddress.length===0){%>
+              <%if(!deliveryAddress||deliveryAddress.length===0){%>
               <p>Chưa có thông tin nhận hàng</p>
               <%}else{%>
                 <%deliveryAddress.forEach((da)=>{%>
@@ -268,7 +268,7 @@
               <button type="button" id="submitIssueInvoice">Thêm</button>
             </div>
             <div id="contentInvoice">
-              <%if(listInvoiceInfor.length===0){%>
+              <%if(!listInvoiceInfor||listInvoiceInfor.length===0){%>
               <p>Chưa có thông tin xuất hóa đơn</p>
               <%}else{%>
                 <%listInvoiceInfor.forEach((da)=>{%>

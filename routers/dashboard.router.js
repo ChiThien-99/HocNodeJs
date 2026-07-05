@@ -228,6 +228,7 @@ dashboardRouter.put(
   upload.single("imgblogs"),
   dashboardController.putEditBlogDraft,
 );
+dashboardRouter.put(`${prefix}/updateOrder`, dashboardController.updateOrder);
 dashboardRouter.delete(
   `${prefix}/deleteUserAdmin/:idDelete`,
   authenticateToken,

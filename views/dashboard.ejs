@@ -106,7 +106,7 @@
         <div id="contentDashboard">
           <div id="orderMng" class="tabContent active">
             <h2 class="flag-item">Quản lý đơn hàng</h2>
-            <table>
+            <table id="tableOrder">
               <thead>
                  <tr>
                 <th>Đơn hàng</th>
@@ -124,23 +124,104 @@
                   <td><%=order.nameCompany==="--"?order.buyer:order.nameCompany%></td>
                   <td>
                     <%let subtotal=0;%>
-                    <%=order.products.forEach((p)=>{subtotal+=p.quantity*p.price;})%>
+                    <%order.products.forEach((p)=>{subtotal+=p.quantity*p.price;})%>
                     <%=(subtotal-order.voucherDiscount).toLocaleString("vi-VN")%>
                   </td>
                   <td>
-                    <input type="text" name="invoice" id="invoice">
+                    <input type="text" name="invoice" class="invoice" value="<%=order.invoice%>" disabled>
                   </td>
                   <td>
-                    <select name="status" id="status">
-                      <option value="processOrder">Đang xử lý</option>
-                      <option value="transitOrder">Đang vận chuyển</option>
-                      <option value="receivedOrder">Đã nhận hàng</option>
-                      <option value="cancleOrder">Hủy</option>
+                    <select name="status" class="status" disabled>
+                      <option value="Đang xử lý" <%=order.status==="Đang xử lý"?"selected":""%>>Đang xử lý</option>
+                      <option value="Đang vận chuyển" <%=order.status==="Đang vận chuyển"?"selected":""%>>Đang vận chuyển</option>
+                      <option value="Đã nhận hàng" <%=order.status==="Đã nhận hàng"?"selected":""%>>Đã nhận hàng</option>
+                      <option value="Hủy" <%=order.status==="Hủy"?"selected":""%>>Hủy</option>
                     </select>
                   </td>
                   <td>
-                    <button type="button" id="btnEditOrder">Chỉnh sửa</button>
-                    <button type="button" id="btnDetailOrder">Chi tiết</button>
+                    <button type="button" class="btnEditOrder">Chỉnh sửa</button>
+                    <button type="button" class="btnDetailOrder">Chi tiết</button>
+                    <div class="modalDetailOrder">
+                      <button type="button" class="btnCloseOrder"><i class="fa-solid fa-xmark"></i></button>
+                      <div class="detailOrder">
+              <div class="headerOrder">
+              <img src="/img/logo_imzai_1.webp" alt="logo">
+              <div>
+                <p>CÔNG TY TNHH CÔNG NGHỆ IMZEN</p>
+                <p>MST: 0123456789</p>
+                <p>ĐỊA CHỈ: 236 LÊ THỊ NGAY, XÃ VĨNH LỘC, THÀNH PHỐ HỒ CHÍ MINH, VIỆT NAM</p>
+                <p>STK 0123456789 tại NGÂN HÀNG QUỐC TẾ (VIB)</p>
+              </div>
+              </div>
+              <div class="bodyOrder">
+                <div class="titleOrder">
+                  <h2>Đơn hàng</h2>
+                  <p>Thời gian: <%=new Date(order.createAt).toLocaleDateString("vi-VN")%></p>
+                  <p>Số phiếu: <%=order.orderNumber%></p>
+                </div>
+                <div>
+                  <p>Người mua: <%=order.buyer%></p>
+                  <%if(order.nameCompany==="--"&&order.addressCompany==="--"&&order.mstCompany==="--"){%>
+                  <p>Tên người nhận: <%=order.fullnameDelivery%></p>
+                  <p>Số điện thoại: <%=order.telDelivery%></p>
+                  <p>Địa chỉ nhận hàng: <%=order.addressDelivery%></p>
+                  <%}else{%>
+                  <p>Tên công ty: <%=order.nameCompany%></p>
+                  <p>Địa chỉ công ty: <%=order.addressCompany%></p>
+                  <p>Mã số thuế: <%=order.mstCompany%></p>
+                  <%}%>
+                  <p>Diễn giải: VAT<%=order.mailInvoice==="--"?"":", "+order.mailInvoice%></p>
+                  <p>Loại tiền: VNĐ</p>
+                </div>
+                <table>
+                  <tr>
+                    <th>STT</th>
+                    <th>Tên hàng</th>
+                    <th>Đơn vị</th>
+                    <th>Số lượng</th>
+                    <th>Đơn giá (bao gồm VAT)</th>
+                    <th>Thành tiền</th>
+                  </tr>
+                  <%order.products.forEach((p,index)=>{%>
+                    <tr>
+                      <td><%=index+1%></td>
+                      <td><%=p.productName%></td>
+                      <td>Cái</td>
+                      <td><%=p.quantity%></td>
+                      <td><%=p.price.toLocaleString("vi-VN")%>đ</td>
+                      <td><%=(p.quantity*p.price).toLocaleString("vi-VN")%>đ</td>
+                    </tr>
+                  <%})%>
+                </table>
+                <div class="divDiscountAndTotal">
+                  <div>
+                    <p><b>Chiết khấu:</b></p>
+                    <p><b>Tổng tiền:</b></p>
+                  </div>
+                  <div>
+                    <p><%=order.voucherDiscount.toLocaleString("vi-VN")%>đ</p>
+                    <p>
+                      <%let subtotal2=0;%>
+                      <%order.products.forEach((p)=>{subtotal2+=p.price*p.quantity})%>
+                      <%=(subtotal2-order.voucherDiscount).toLocaleString("vi-VN")%>đ
+                    </p>
+                  </div>
+                </div>
+                <p>Số tiền bằng chữ: <span class="textMoney"></span></p>
+                <p>Hình thức thanh toán: <%=order.paymentMethod%></p>
+                <div class="divSign">
+                  <div>
+                    <p>Người mua hàng</p>
+                    <p>(Ký và ghi rõ họ tên)</p>
+                  </div>
+                  <div>
+                    <p>Người bán hàng</p>
+                    <p>(Ký và ghi rõ họ tên)</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+                    </div>
                   </td>
                 </tr>
                 <%})%>

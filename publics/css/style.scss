@@ -338,21 +338,21 @@ header {
         padding: 0.5rem;
         text-align: center;
         background-color: white;
-        td:nth-child(2){
-          div{
-        display: flex;
-        flex-flow: row nowrap;
-        align-items: center;
-        border: none;
-        height: 100%;
-        img{
-          width: 2.5rem;
-          height: 2.5rem;
-          margin-right: 0.5rem;
-          border: 1px solid $colorCTA;
-        }
+        td:nth-child(2) {
+          div {
+            display: flex;
+            flex-flow: row nowrap;
+            align-items: center;
+            border: none;
+            height: 100%;
+            img {
+              width: 2.5rem;
+              height: 2.5rem;
+              margin-right: 0.5rem;
+              border: 1px solid $colorCTA;
+            }
           }
-      }
+        }
         .quantityProduct {
           width: 3rem;
         }
@@ -362,7 +362,6 @@ header {
           color: $colorSecondaryText;
         }
       }
-      
     }
     #listVoucher {
       margin-top: 1rem;
@@ -665,13 +664,13 @@ header {
         border: 1px solid #aaa;
         border-radius: 4px;
       }
-      textarea{
+      textarea {
         width: 50%;
         height: 5rem;
         resize: none;
         font-size: 1rem;
       }
-      b{
+      b {
         display: inline-block;
         margin: 0 0 0.5rem 0;
       }
@@ -975,36 +974,119 @@ header {
         }
       }
     }
-    #orderMng{
-      table{
+    #orderMng {
+      table {
         width: 100%;
-        tbody{
+        border: 1px solid black;
+        border-collapse: collapse;
+        th,
+        td {
+          border: 1px solid black;
+          border-collapse: collapse;
+          padding: 0.5rem;
+        }
+        tbody {
           height: auto;
           max-height: 80%;
           overflow-y: scroll;
+          tr {
+            input {
+              width: 5rem;
+              height: 1.5rem;
+            }
+            select {
+              height: 1.5rem;
+            }
+            .btnEditOrder {
+              @include button(0.5rem);
+              background-color: cadetblue;
+              color: $colorSecondaryText;
+              border: none;
+              border-radius: 5px;
+            }
+            .btnDetailOrder {
+              @include button(0.5rem);
+              background-color: #1877f2;
+              color: $colorSecondaryText;
+              border: none;
+              border-radius: 5px;
+            }
+            .modalDetailOrder {
+              display: none;
+              position: fixed;
+              width: 100%;
+              height: 100%;
+              top: 0;
+              left: 0;
+              z-index: 900;
+              background-color: rgba(0, 0, 0, 0.5);
+              .btnCloseOrder {
+                position: fixed;
+                top: 1rem;
+                right: 1rem;
+                @include button(0.5rem);
+                background: none;
+                border: none;
+                color: white;
+                font-size: 2rem;
+              }
+              .detailOrder {
+                width: 80%;
+                height: auto;
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                padding: 1rem;
+                background-color: white;
+                p {
+                  margin: 0.5rem 0;
+                }
+                .headerOrder {
+                  display: flex;
+                  flex-flow: row nowrap;
+                  align-items: center;
+                  img {
+                    width: 6rem;
+                    height: 6rem;
+                    margin-right: 1rem;
+                  }
+                }
+                .bodyOrder {
+                  .titleOrder {
+                    text-align: center;
+                    h2 {
+                      margin: 0.5rem 0;
+                    }
+                  }
+                  table {
+                    width: 100%;
+                  }
+                  table,
+                  th,
+                  td {
+                    border: 1px solid #bbb;
+                    border-collapse: collapse;
+                    padding: 0.5rem;
+                  }
+                  .divDiscountAndTotal {
+                    display: flex;
+                    flex-flow: row nowrap;
+                    justify-content: space-between;
+                    align-items: center;
+                  }
+                  .divSign {
+                    display: flex;
+                    flex-flow: row nowrap;
+                    justify-content: space-around;
+                    align-items: start;
+                    height: 10rem;
+                  }
+                }
+              }
+            }
+          }
         }
-        input{
-          width: 5rem;
-        }
-        #btnEditOrder{
-          @include button(0.5rem);
-          background-color: cadetblue;
-          color: $colorSecondaryText;
-          border: none;
-          border-radius: 5px;
-        }
-        #btnDetailOrder{
-          @include button(0.5rem);
-          background-color: #1877f2;
-          color: $colorSecondaryText;
-          border: none;
-          border-radius: 5px;
-        }
-      }
-      table,th,td{
-        border: 1px solid black;
-        border-collapse: collapse;
-        padding: 0.5rem;
       }
     }
     #passwordMng {
@@ -1844,8 +1926,8 @@ header {
         }
       }
     }
-    #historyMng{
-      .divOrder{
+    #historyMng {
+      .divOrder {
         width: 100%;
         height: auto;
         background-color: white;
@@ -1853,14 +1935,14 @@ header {
         margin: 1rem 0;
         border: 1px solid #bbb;
         border-radius: 10px;
-        p{
+        p {
           margin: 0.5rem 0;
         }
-        .headerOrder{
+        .headerOrder {
           display: flex;
           flex-flow: row nowrap;
           justify-content: space-between;
-          .status{
+          .status {
             border: none;
             border-radius: 1000px;
             background-color: #81a710ae;
@@ -1868,40 +1950,42 @@ header {
             padding: 0.5rem;
           }
         }
-        .bodyOrder{
-          .tableProduct{
+        .bodyOrder {
+          .tableProduct {
             width: 100%;
           }
-          .tableProduct,th,td{
-          border: 1px solid #bbb;
-          border-collapse: collapse;
-          padding: 0.5rem;
-          text-align: center;
-          button{
-            @include button(0.5rem);
-            background:none;
-            border: 1px solid $colorCTA;
-            color: $colorCTA;
-          }
-          td:nth-child(1){
-            div{
-             display: flex;
-            flex-flow: row nowrap;
-            align-items: center;
-            img{
-            width: 2.5rem;
-            height: 2.5rem;
-            margin-right: 0.5rem;
-            border: 1px solid $colorCTA;
-          }
+          .tableProduct,
+          th,
+          td {
+            border: 1px solid #bbb;
+            border-collapse: collapse;
+            padding: 0.5rem;
+            text-align: center;
+            button {
+              @include button(0.5rem);
+              background: none;
+              border: 1px solid $colorCTA;
+              color: $colorCTA;
+            }
+            td:nth-child(1) {
+              div {
+                display: flex;
+                flex-flow: row nowrap;
+                align-items: center;
+                img {
+                  width: 2.5rem;
+                  height: 2.5rem;
+                  margin-right: 0.5rem;
+                  border: 1px solid $colorCTA;
+                }
+              }
             }
           }
-        }
-        div:nth-child(2){
-          display: flex;
-          flex-flow: row nowrap;
-          justify-content: space-between;
-        }
+          div:nth-child(2) {
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: space-between;
+          }
         }
       }
     }
@@ -2594,6 +2678,7 @@ header {
         background-color: white;
         border: 1px solid #bbb;
         border-radius: 10px;
+        overflow: hidden;
       }
       .deviceIndex {
         display: flex;
@@ -3816,6 +3901,7 @@ header {
         background-color: white;
         border: 1px solid #bbb;
         border-radius: 10px;
+        overflow: hidden;
         .device {
           width: 100%;
           height: inherit;
@@ -4292,7 +4378,7 @@ header {
         margin-top: 1rem;
         background-color: white;
         padding: 1rem;
-        #noCommentDevice{
+        #noCommentDevice {
           margin: 0.5rem;
         }
         .commentDevice {

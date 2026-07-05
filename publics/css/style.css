@@ -1022,16 +1022,28 @@ header div:last-child #containerUserLogin #bagShopping span {
 }
 #mainDashboard #contentDashboard #orderMng table {
   width: 100%;
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+#mainDashboard #contentDashboard #orderMng table th,
+#mainDashboard #contentDashboard #orderMng table td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 0.5rem;
 }
 #mainDashboard #contentDashboard #orderMng table tbody {
   height: auto;
   max-height: 80%;
   overflow-y: scroll;
 }
-#mainDashboard #contentDashboard #orderMng table input {
+#mainDashboard #contentDashboard #orderMng table tbody tr input {
   width: 5rem;
+  height: 1.5rem;
 }
-#mainDashboard #contentDashboard #orderMng table #btnEditOrder {
+#mainDashboard #contentDashboard #orderMng table tbody tr select {
+  height: 1.5rem;
+}
+#mainDashboard #contentDashboard #orderMng table tbody tr .btnEditOrder {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -1041,7 +1053,7 @@ header div:last-child #containerUserLogin #bagShopping span {
   border: none;
   border-radius: 5px;
 }
-#mainDashboard #contentDashboard #orderMng table #btnDetailOrder {
+#mainDashboard #contentDashboard #orderMng table tbody tr .btnDetailOrder {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -1051,10 +1063,80 @@ header div:last-child #containerUserLogin #bagShopping span {
   border: none;
   border-radius: 5px;
 }
-#mainDashboard #contentDashboard #orderMng table, #mainDashboard #contentDashboard #orderMng th, #mainDashboard #contentDashboard #orderMng td {
-  border: 1px solid black;
+#mainDashboard #contentDashboard #orderMng table tbody tr .modalDetailOrder {
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 900;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+#mainDashboard #contentDashboard #orderMng table tbody tr .modalDetailOrder .btnCloseOrder {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 2rem;
+}
+#mainDashboard #contentDashboard #orderMng table tbody tr .modalDetailOrder .detailOrder {
+  width: 80%;
+  height: auto;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 1rem;
+  background-color: white;
+}
+#mainDashboard #contentDashboard #orderMng table tbody tr .modalDetailOrder .detailOrder p {
+  margin: 0.5rem 0;
+}
+#mainDashboard #contentDashboard #orderMng table tbody tr .modalDetailOrder .detailOrder .headerOrder {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+#mainDashboard #contentDashboard #orderMng table tbody tr .modalDetailOrder .detailOrder .headerOrder img {
+  width: 6rem;
+  height: 6rem;
+  margin-right: 1rem;
+}
+#mainDashboard #contentDashboard #orderMng table tbody tr .modalDetailOrder .detailOrder .bodyOrder .titleOrder {
+  text-align: center;
+}
+#mainDashboard #contentDashboard #orderMng table tbody tr .modalDetailOrder .detailOrder .bodyOrder .titleOrder h2 {
+  margin: 0.5rem 0;
+}
+#mainDashboard #contentDashboard #orderMng table tbody tr .modalDetailOrder .detailOrder .bodyOrder table {
+  width: 100%;
+}
+#mainDashboard #contentDashboard #orderMng table tbody tr .modalDetailOrder .detailOrder .bodyOrder table,
+#mainDashboard #contentDashboard #orderMng table tbody tr .modalDetailOrder .detailOrder .bodyOrder th,
+#mainDashboard #contentDashboard #orderMng table tbody tr .modalDetailOrder .detailOrder .bodyOrder td {
+  border: 1px solid #bbb;
   border-collapse: collapse;
   padding: 0.5rem;
+}
+#mainDashboard #contentDashboard #orderMng table tbody tr .modalDetailOrder .detailOrder .bodyOrder .divDiscountAndTotal {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+#mainDashboard #contentDashboard #orderMng table tbody tr .modalDetailOrder .detailOrder .bodyOrder .divSign {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  align-items: start;
+  height: 10rem;
 }
 #mainDashboard #contentDashboard #passwordMng input {
   height: 2rem;
@@ -2120,13 +2202,17 @@ header div:last-child #containerUserLogin #bagShopping span {
 #mainDashboardClient #contentDashboardClient #historyMng .divOrder .bodyOrder .tableProduct {
   width: 100%;
 }
-#mainDashboardClient #contentDashboardClient #historyMng .divOrder .bodyOrder .tableProduct, #mainDashboardClient #contentDashboardClient #historyMng .divOrder .bodyOrder th, #mainDashboardClient #contentDashboardClient #historyMng .divOrder .bodyOrder td {
+#mainDashboardClient #contentDashboardClient #historyMng .divOrder .bodyOrder .tableProduct,
+#mainDashboardClient #contentDashboardClient #historyMng .divOrder .bodyOrder th,
+#mainDashboardClient #contentDashboardClient #historyMng .divOrder .bodyOrder td {
   border: 1px solid #bbb;
   border-collapse: collapse;
   padding: 0.5rem;
   text-align: center;
 }
-#mainDashboardClient #contentDashboardClient #historyMng .divOrder .bodyOrder .tableProduct button, #mainDashboardClient #contentDashboardClient #historyMng .divOrder .bodyOrder th button, #mainDashboardClient #contentDashboardClient #historyMng .divOrder .bodyOrder td button {
+#mainDashboardClient #contentDashboardClient #historyMng .divOrder .bodyOrder .tableProduct button,
+#mainDashboardClient #contentDashboardClient #historyMng .divOrder .bodyOrder th button,
+#mainDashboardClient #contentDashboardClient #historyMng .divOrder .bodyOrder td button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -2135,12 +2221,16 @@ header div:last-child #containerUserLogin #bagShopping span {
   border: 1px solid #80a710;
   color: #80a710;
 }
-#mainDashboardClient #contentDashboardClient #historyMng .divOrder .bodyOrder .tableProduct td:nth-child(1) div, #mainDashboardClient #contentDashboardClient #historyMng .divOrder .bodyOrder th td:nth-child(1) div, #mainDashboardClient #contentDashboardClient #historyMng .divOrder .bodyOrder td td:nth-child(1) div {
+#mainDashboardClient #contentDashboardClient #historyMng .divOrder .bodyOrder .tableProduct td:nth-child(1) div,
+#mainDashboardClient #contentDashboardClient #historyMng .divOrder .bodyOrder th td:nth-child(1) div,
+#mainDashboardClient #contentDashboardClient #historyMng .divOrder .bodyOrder td td:nth-child(1) div {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
 }
-#mainDashboardClient #contentDashboardClient #historyMng .divOrder .bodyOrder .tableProduct td:nth-child(1) div img, #mainDashboardClient #contentDashboardClient #historyMng .divOrder .bodyOrder th td:nth-child(1) div img, #mainDashboardClient #contentDashboardClient #historyMng .divOrder .bodyOrder td td:nth-child(1) div img {
+#mainDashboardClient #contentDashboardClient #historyMng .divOrder .bodyOrder .tableProduct td:nth-child(1) div img,
+#mainDashboardClient #contentDashboardClient #historyMng .divOrder .bodyOrder th td:nth-child(1) div img,
+#mainDashboardClient #contentDashboardClient #historyMng .divOrder .bodyOrder td td:nth-child(1) div img {
   width: 2.5rem;
   height: 2.5rem;
   margin-right: 0.5rem;
@@ -2866,6 +2956,7 @@ header div:last-child #containerUserLogin #bagShopping span {
   background-color: white;
   border: 1px solid #bbb;
   border-radius: 10px;
+  overflow: hidden;
 }
 #mainIndex #divDeviceIndex #listDeviceIndex .deviceIndex {
   display: flex;
@@ -4130,6 +4221,7 @@ header div:last-child #containerUserLogin #bagShopping span {
   background-color: white;
   border: 1px solid #bbb;
   border-radius: 10px;
+  overflow: hidden;
 }
 #mainDevice #listDevice #listdevices a .device {
   width: 100%;

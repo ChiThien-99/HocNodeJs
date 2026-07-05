@@ -75,7 +75,7 @@ export const getDashboard = async (req, res) => {
   const listblogs = await blogsEntity.find().sort("-createAt");
   const listblogsdraft = await blogsDraftEntity.find();
   const problems = await problemEntity.find().sort("-createAt");
-  const orders=await orderEntity.find();
+  const orders = await orderEntity.find();
   const io = req.app.get("socketio");
   res.render("dashboard.ejs", {
     jsonSystemInfo,
@@ -625,7 +625,7 @@ export const addApp = async (req, res) => {
       priceSI: priceSI,
       info: infoApp,
       func: funcApp,
-      instruction:instructionApp,
+      instruction: instructionApp,
     });
     const io = req.app.get("socketio");
     io.emit("update-app", newApp);
@@ -660,8 +660,15 @@ export const putUpdateApp = async (req, res) => {
       image = currentApp.image;
       cloudinary_id = currentApp.cloudinary_id;
     }
-    const { nameApp, infoApp, funcApp, optionPrice, priceLEActualApp, priceSIActualApp,instructionApp } =
-      req.body;
+    const {
+      nameApp,
+      infoApp,
+      funcApp,
+      optionPrice,
+      priceLEActualApp,
+      priceSIActualApp,
+      instructionApp,
+    } = req.body;
     let priceLE = "";
     let priceSI = "";
     if (optionPrice === "freeApp") {
@@ -681,7 +688,7 @@ export const putUpdateApp = async (req, res) => {
         priceLE: priceLE,
         priceSI: priceSI,
         func: funcApp,
-        instruction:instructionApp,
+        instruction: instructionApp,
       },
       { new: true },
     );
@@ -938,7 +945,7 @@ export const putUpdateDevice = async (req, res) => {
         info: infoDevice,
         color: color,
         priceLE: priceLEDeviceActual,
-        priceSI:priceSIDeviceActual,
+        priceSI: priceSIDeviceActual,
         func: funcDevice,
         instruction: instrucDevice,
       },
@@ -1346,63 +1353,105 @@ export const deleteProblemById = async (req, res) => {
     });
   }
 };
-function generateRandomCode(length=10){
-  const characters="ABCDEFGHJKLMNOPQRSTUVWXYZ0123456789";
-  let result="";
+function generateRandomCode(length = 10) {
+  const characters = "ABCDEFGHJKLMNOPQRSTUVWXYZ0123456789";
+  let result = "";
   for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random()*characters.length);
-    result+=characters.charAt(randomIndex);
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    result += characters.charAt(randomIndex);
   }
   return result;
 }
-export const addVoucher=async(req,res)=>{
+export const addVoucher = async (req, res) => {
   try {
-    const {genderClient,categoryVoucher,titleVoucher,contentVoucher,discountPerVoucher}=req.body;
-  let uniqueCode="";
-  let isDuplicate=true;
-  while (isDuplicate) {
-    uniqueCode=generateRandomCode(10);
-    const existCodeVoucher=await voucherEntity.findOne({code:uniqueCode});
-    if (!existCodeVoucher) {
-      isDuplicate=false;
+    const {
+      genderClient,
+      categoryVoucher,
+      titleVoucher,
+      contentVoucher,
+      discountPerVoucher,
+    } = req.body;
+    let uniqueCode = "";
+    let isDuplicate = true;
+    while (isDuplicate) {
+      uniqueCode = generateRandomCode(10);
+      const existCodeVoucher = await voucherEntity.findOne({
+        code: uniqueCode,
+      });
+      if (!existCodeVoucher) {
+        isDuplicate = false;
+      }
     }
-  }
-  let client=[];
-  if (genderClient!="all") {
-    client=await clientEntity.find({gender:genderClient});
-  } else {
-    client=await clientEntity.find();
-  }
-  const clientsId=client.map(c=>c._id.toString());
-  if (!req.file) {
-    return res.json({mess:"Vui lòng chọn hình ảnh voucher",success:false});
-  }
-  if (!categoryVoucher) {
-    return res.json({mess:"Vui lòng chọn sản phẩm áp dụng",success:false});
-  }
-  if (!titleVoucher) {
-    return res.json({mess:"Vui lòng chọn tiêu đề voucher",success:false});
-  }
-  if (!contentVoucher) {
-    return res.json({mess:"Vui lòng chọn nội dung voucher",success:false});
-  }
-  if(!discountPerVoucher){
-    return res.json({mess:"Vui lòng chọn phần trăm giảm giá",success:false});
-  }
-  await voucherEntity.create({
-    applyToCategory:categoryVoucher,
-    code:uniqueCode,
-    clientIds:clientsId,
-    image: req.file.path,
-    cloudinary_id: req.file.filename,
-    title:titleVoucher,
-    content:contentVoucher,
-    discountPercentage:Number(discountPerVoucher),
-    usersUsed:[],
-  })
-  res.json({mess:"Tạo voucher thành công",success:true});
+    let client = [];
+    if (genderClient != "all") {
+      client = await clientEntity.find({ gender: genderClient });
+    } else {
+      client = await clientEntity.find();
+    }
+    const clientsId = client.map((c) => c._id.toString());
+    if (!req.file) {
+      return res.json({
+        mess: "Vui lòng chọn hình ảnh voucher",
+        success: false,
+      });
+    }
+    if (!categoryVoucher) {
+      return res.json({
+        mess: "Vui lòng chọn sản phẩm áp dụng",
+        success: false,
+      });
+    }
+    if (!titleVoucher) {
+      return res.json({
+        mess: "Vui lòng chọn tiêu đề voucher",
+        success: false,
+      });
+    }
+    if (!contentVoucher) {
+      return res.json({
+        mess: "Vui lòng chọn nội dung voucher",
+        success: false,
+      });
+    }
+    if (!discountPerVoucher) {
+      return res.json({
+        mess: "Vui lòng chọn phần trăm giảm giá",
+        success: false,
+      });
+    }
+    await voucherEntity.create({
+      applyToCategory: categoryVoucher,
+      code: uniqueCode,
+      clientIds: clientsId,
+      image: req.file.path,
+      cloudinary_id: req.file.filename,
+      title: titleVoucher,
+      content: contentVoucher,
+      discountPercentage: Number(discountPerVoucher),
+      usersUsed: [],
+    });
+    res.json({ mess: "Tạo voucher thành công", success: true });
   } catch (error) {
-  res.json({mess:"Tạo voucher thất bại",success:false,error:error.message});
+    res.json({
+      mess: "Tạo voucher thất bại",
+      success: false,
+      error: error.message,
+    });
   }
-  
-}
+};
+export const updateOrder = async (req, res) => {
+  try {
+    const { id, valueInvoice, valueStatus } = req.body;
+    await orderEntity.findByIdAndUpdate(id, {
+      status: valueStatus,
+      invoice: valueInvoice,
+    });
+    res.json({ mess: "Cập nhật đơn hàng thành công", success: true });
+  } catch (error) {
+    res.json({
+      mess: "Cập nhật đơn hàng thất bại",
+      success: false,
+      error: error.message,
+    });
+  }
+};

@@ -22,14 +22,19 @@ socket.on("update-funcdevice", (data) => {
       `,
     );
   }
-  const existOption=document.querySelector(`option[data-optionFuncDVID="${data._id}"]`);
+  const existOption = document.querySelector(
+    `option[data-optionFuncDVID="${data._id}"]`,
+  );
   if (existOption) {
-    existOption.value=data.name;
-    existOption.innerText=data.name;
+    existOption.value = data.name;
+    existOption.innerText = data.name;
   } else {
-    document.getElementById("funcDevice").insertAdjacentHTML("afterbegin",`
+    document.getElementById("funcDevice").insertAdjacentHTML(
+      "afterbegin",
+      `
       <option value="${data.name}" data-optionFuncDVID="${data._id}">${data.name}</option>  
-    `)
+    `,
+    );
   }
 });
 socket.on("delete-funcdevice", (data) => {
@@ -38,7 +43,9 @@ socket.on("delete-funcdevice", (data) => {
     if (rowToDelete) {
       rowToDelete.remove();
     }
-    const optionToDelete=document.querySelector(`option[data-optionFuncDVID="${data._id}"]`);
+    const optionToDelete = document.querySelector(
+      `option[data-optionFuncDVID="${data._id}"]`,
+    );
     if (optionToDelete) {
       optionToDelete.remove();
     }
@@ -105,14 +112,19 @@ socket.on("update-funcapp", (data) => {
     `,
     );
   }
-  const existOptionFuncApp=document.querySelector(`option[data-optionFuncAppID="${data._id}"]`);
+  const existOptionFuncApp = document.querySelector(
+    `option[data-optionFuncAppID="${data._id}"]`,
+  );
   if (existOptionFuncApp) {
-    existOptionFuncApp.value=data.name;
-    existOptionFuncApp.innerText=data.name;
+    existOptionFuncApp.value = data.name;
+    existOptionFuncApp.innerText = data.name;
   } else {
-    document.getElementById("funcApp").insertAdjacentHTML("afterbegin",`
+    document.getElementById("funcApp").insertAdjacentHTML(
+      "afterbegin",
+      `
       <option value="${data.name}" data-optionFuncAppID="${data._id}">${data.name}</option>  
-    `)
+    `,
+    );
   }
 });
 socket.on("delete-funcapp", (data) => {
@@ -123,7 +135,9 @@ socket.on("delete-funcapp", (data) => {
     if (rowToDelete) {
       rowToDelete.remove();
     }
-    const optionToDelete=document.querySelector(`option[data-optionFuncAppID="${data._id}"]`);
+    const optionToDelete = document.querySelector(
+      `option[data-optionFuncAppID="${data._id}"]`,
+    );
     if (optionToDelete) {
       optionToDelete.remove();
     }
@@ -1244,9 +1258,9 @@ formApp.addEventListener("submit", (e) => {
           } else {
             console.error("Biến quill không tồn tại");
           }
-          document.getElementById("optionPrice").value="freeApp";
-          document.getElementById("divPriceLEApp").style.display="none";
-          document.getElementById("divPriceSIApp").style.display="none";
+          document.getElementById("optionPrice").value = "freeApp";
+          document.getElementById("divPriceLEApp").style.display = "none";
+          document.getElementById("divPriceSIApp").style.display = "none";
           document.getElementById("btnApp").value = "Tạo";
           document.getElementById("btnDeleteImgApp").style.display = "none";
           document.getElementById("btnCancelApp").style.display = "none";
@@ -1272,9 +1286,9 @@ formApp.addEventListener("submit", (e) => {
           } else {
             console.error("Biến quill không tồn tại");
           }
-          document.getElementById("optionPrice").value="freeApp";
-          document.getElementById("divPriceLEApp").style.display="none";
-          document.getElementById("divPriceSIApp").style.display="none";
+          document.getElementById("optionPrice").value = "freeApp";
+          document.getElementById("divPriceLEApp").style.display = "none";
+          document.getElementById("divPriceSIApp").style.display = "none";
           document.getElementById("btnCancelApp").style.display = "none";
           alert("Thông báo", mess, "#80a710");
         } else {
@@ -1306,28 +1320,32 @@ document
             } else {
               console.error("Biến quill chưa được khởi tạo");
             }
-            if (data.priceLE!=="Miễn phí") {
+            if (data.priceLE !== "Miễn phí") {
               document.getElementById("optionPrice").value = "hasPriceApp";
-              document.getElementById("divPriceLEApp").style.display="block";
-              document.getElementById("priceLEApp").value=Number(data.priceLE).toLocaleString("vi-VN");
-              console.log(Number(data.priceLE).toLocaleString("vi-VN"))
-              document.getElementById("priceLEActualApp").value=data.priceLE;
-              console.log(data.priceLE)
-              document.getElementById("divPriceSIApp").style.display="block";
-              document.getElementById("priceSIApp").value=Number(data.priceSI).toLocaleString("vi-VN");
+              document.getElementById("divPriceLEApp").style.display = "block";
+              document.getElementById("priceLEApp").value = Number(
+                data.priceLE,
+              ).toLocaleString("vi-VN");
+              console.log(Number(data.priceLE).toLocaleString("vi-VN"));
+              document.getElementById("priceLEActualApp").value = data.priceLE;
+              console.log(data.priceLE);
+              document.getElementById("divPriceSIApp").style.display = "block";
+              document.getElementById("priceSIApp").value = Number(
+                data.priceSI,
+              ).toLocaleString("vi-VN");
               console.log(Number(data.priceSI).toLocaleString("vi-VN"));
-              document.getElementById("priceSIActualApp").value=data.priceSI;
+              document.getElementById("priceSIActualApp").value = data.priceSI;
               console.log(data.priceSI);
-            }else{
-              document.getElementById("optionPrice").value="freeApp";
-              document.getElementById("divPriceLEApp").style.display="none";
-              document.getElementById("priceLEApp").value="";
-              document.getElementById("priceLEActualApp").value="";
-              document.getElementById("divPriceSIApp").style.display="none";
-              document.getElementById("priceSIApp").value="";
-              document.getElementById("priceSIActualApp").value="";
+            } else {
+              document.getElementById("optionPrice").value = "freeApp";
+              document.getElementById("divPriceLEApp").style.display = "none";
+              document.getElementById("priceLEApp").value = "";
+              document.getElementById("priceLEActualApp").value = "";
+              document.getElementById("divPriceSIApp").style.display = "none";
+              document.getElementById("priceSIApp").value = "";
+              document.getElementById("priceSIActualApp").value = "";
             }
-            document.getElementById("instructionApp").value=data.instruction;
+            document.getElementById("instructionApp").value = data.instruction;
             document.getElementById("btnApp").value = "Cập nhật";
             document.getElementById("btnDeleteImgApp").style.display =
               "inline-block";
@@ -1397,13 +1415,13 @@ document.getElementById("btnCancelApp").addEventListener("click", function () {
   } else {
     console.error("Biến quill không tồn tại");
   }
-  document.getElementById("optionPrice").value="freeApp";
-  document.getElementById("divPriceLEApp").style.display="none";
-  document.getElementById("priceLEApp").value="";
-  document.getElementById("priceLEActualApp").value="";
-  document.getElementById("divPriceSIApp").style.display="none";
-  document.getElementById("priceSIApp").value="";
-  document.getElementById("priceSIActualApp").value="";
+  document.getElementById("optionPrice").value = "freeApp";
+  document.getElementById("divPriceLEApp").style.display = "none";
+  document.getElementById("priceLEApp").value = "";
+  document.getElementById("priceLEActualApp").value = "";
+  document.getElementById("divPriceSIApp").style.display = "none";
+  document.getElementById("priceSIApp").value = "";
+  document.getElementById("priceSIActualApp").value = "";
   document.getElementById("idApp").value = "";
   document.getElementById("btnApp").value = "Tạo";
   document.getElementById("btnDeleteImgApp").style.display = "none";
@@ -1665,11 +1683,13 @@ document
               document.querySelectorAll(".colorIndex")[i].value =
                 data.color[i].index;
             }
-            document.getElementById("priceLEDevice").value =
-              Number(data.priceLE).toLocaleString("vi-VN");
+            document.getElementById("priceLEDevice").value = Number(
+              data.priceLE,
+            ).toLocaleString("vi-VN");
             document.getElementById("priceLEDeviceActual").value = data.priceLE;
-            document.getElementById("priceSIDevice").value =
-              Number(data.priceSI).toLocaleString("vi-VN");
+            document.getElementById("priceSIDevice").value = Number(
+              data.priceSI,
+            ).toLocaleString("vi-VN");
             document.getElementById("priceSIDeviceActual").value = data.priceSI;
             document.getElementById("instrucDevice").value =
               data.instruction || "";
@@ -2365,36 +2385,36 @@ document
         });
     }
   });
-const formVoucher=document.getElementById("formVoucher");
-formVoucher.addEventListener("submit",(e)=>{
+const formVoucher = document.getElementById("formVoucher");
+formVoucher.addEventListener("submit", (e) => {
   e.preventDefault();
   const quillEditor = document.getElementsByClassName("quill-editor");
   const contentVoucher = document.getElementById("contentVoucher");
   contentVoucher.value = quillEditor;
   contentVoucher.value = quillInstances[0].getSemanticHTML();
-  const dataForm=new FormData(formVoucher);
-  fetch("/dashboard/addVoucher",{
-    method:"POST",
-    body:dataForm,
+  const dataForm = new FormData(formVoucher);
+  fetch("/dashboard/addVoucher", {
+    method: "POST",
+    body: dataForm,
   })
-  .then(res=>res.json())
-  .then(({mess,success,error})=>{
-    if (success) {
-      formVoucher.reset();
-      if (typeof quillInstances !== "undefined") {
-            quillInstances[0].setText("");
-          } else {
-            console.error("Biến quill không tồn tại");
-          }
-      alert("Thông báo",mess,"#80a710");
-    } else {
-      alert("Lỗi",`${mess}\n${error}`,"red");
-    }
-  })
-  .catch((error)=>{
-    alert("Lỗi",error,"red");
-  });
-})
+    .then((res) => res.json())
+    .then(({ mess, success, error }) => {
+      if (success) {
+        formVoucher.reset();
+        if (typeof quillInstances !== "undefined") {
+          quillInstances[0].setText("");
+        } else {
+          console.error("Biến quill không tồn tại");
+        }
+        alert("Thông báo", mess, "#80a710");
+      } else {
+        alert("Lỗi", `${mess}\n${error}`, "red");
+      }
+    })
+    .catch((error) => {
+      alert("Lỗi", error, "red");
+    });
+});
 document
   .querySelector("#tableProblem tbody")
   .addEventListener("click", async (e) => {
@@ -2455,3 +2475,145 @@ function checkFormEmptiness(form, btn) {
     document.getElementById(btn).style.display = "none";
   }
 }
+const tableOrder = document.querySelector("#tableOrder");
+tableOrder.addEventListener("click", (e) => {
+  const target = e.target;
+  if (target.classList.contains("btnEditOrder")) {
+    const row = target.closest("tr");
+    let invoice = row.querySelector(".invoice");
+    let status = row.querySelector(".status");
+    if (invoice.disabled && status.disabled) {
+      invoice.disabled = false;
+      status.disabled = false;
+      target.innerText = "Xác nhận";
+      target.style.backgroundColor = "#80a710";
+    } else {
+      invoice.disabled = true;
+      status.disabled = true;
+      target.innerText = "Chỉnh sửa";
+      target.style.backgroundColor = "cadetblue";
+      const id = row.getAttribute("data-idOrder");
+      const valueInvoice = invoice.value;
+      const valueStatus = status.value;
+      fetch("/dashboard/updateOrder", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json;charset=UTF-8" },
+        body: JSON.stringify({ id, valueInvoice, valueStatus }),
+      })
+        .then((res) => res.json())
+        .then(({ mess, success, error }) => {
+          if (success) {
+            alert("Thông báo", mess, "#80a710");
+          } else {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          }
+        })
+        .catch((error) => {
+          alert("Lỗi", error, "red");
+        });
+    }
+  }
+  if (target.classList.contains("btnDetailOrder")) {
+    const row = target.closest("tr");
+    const modal = row.querySelector(".modalDetailOrder");
+    const display = modal.style.display === "block" ? "none" : "block";
+    modal.style.display = display;
+  }
+  if (target.closest(".btnCloseOrder")) {
+    const row = target.closest("tr");
+    const modal = row.querySelector(".modalDetailOrder");
+    const display = modal.style.display === "block" ? "none" : "block";
+    modal.style.display = display;
+  }
+});
+const DocSoTienVietNam = (number) => {
+  const digits = [
+    "không",
+    "một",
+    "hai",
+    "ba",
+    "bốn",
+    "năm",
+    "sáu",
+    "bảy",
+    "tám",
+    "chín",
+  ];
+  const units = ["", "nghìn", "triệu", "tỷ", "nghìn tỷ", "triệu tỷ"];
+
+  if (number === 0) return "Không đồng";
+
+  let strNumber = String(Math.floor(Math.abs(number)));
+  // Đảm bảo độ dài chia hết cho 3 bằng cách bù số 0 vào đầu
+  while (strNumber.length % 3 !== 0) {
+    strNumber = "0" + strNumber;
+  }
+
+  let blocks = [];
+  for (let i = 0; i < strNumber.length; i += 3) {
+    blocks.push(strNumber.substr(i, 3));
+  }
+
+  let resultStrings = [];
+  let totalBlocks = blocks.length;
+
+  for (let i = 0; i < totalBlocks; i++) {
+    let block = blocks[i];
+    let h = Number(block[0]); // Hàng trăm
+    let t = Number(block[1]); // Hàng chục
+    let u = Number(block[2]); // Hàng đơn vị
+
+    // Nếu block toàn số 0 và không phải block cuối cùng thì bỏ qua
+    if (h === 0 && t === 0 && u === 0 && i !== totalBlocks - 1) {
+      continue;
+    }
+
+    let blockText = "";
+    // Đọc hàng trăm
+    blockText += digits[h] + " trăm ";
+
+    // Đọc hàng chục
+    if (t === 0) {
+      if (u !== 0) blockText += "lẻ ";
+    } else if (t === 1) {
+      blockText += "mười ";
+    } else {
+      blockText += digits[t] + " mươi ";
+    }
+
+    // Đọc hàng đơn vị
+    if (t !== 0 && t !== 1 && u === 1) {
+      blockText += "mốt";
+    } else if (t !== 0 && u === 5) {
+      blockText += "lăm";
+    } else if (u !== 0) {
+      blockText += digits[u];
+    }
+
+    // Cắt bỏ khoảng trắng thừa và thêm hàng đơn vị lớn (nghìn, triệu, tỷ...)
+    blockText = blockText.trim();
+    if (blockText !== "") {
+      const unitIndex = totalBlocks - 1 - i;
+      if (units[unitIndex] !== "") {
+        blockText += " " + units[unitIndex];
+      }
+      resultStrings.push(blockText);
+    }
+  }
+
+  // Ghép các chuỗi block lại thành chuỗi hoàn chỉnh
+  let finalResult = resultStrings.join(" ").replace(/\s+/g, " ").trim();
+
+  // Xử lý các trường hợp đọc "không trăm" dư thừa ở block đầu tiên nếu số nhỏ
+  if (finalResult.startsWith("không trăm mươi")) {
+    finalResult = finalResult.replace("không trăm mươi", "");
+  } else if (finalResult.startsWith("không trăm lẻ")) {
+    finalResult = finalResult.replace("không trăm lẻ", "");
+  } else if (finalResult.startsWith("không trăm")) {
+    finalResult = finalResult.replace("không trăm", "");
+  }
+
+  finalResult = finalResult.trim();
+  // Viết hoa chữ cái đầu tiên và thêm chữ "đồng" chuẩn hóa đơn kế toán
+  return finalResult.charAt(0).toUpperCase() + finalResult.slice(1) + " đồng";
+};
