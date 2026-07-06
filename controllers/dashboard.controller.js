@@ -18,6 +18,9 @@ import jwt from "jsonwebtoken";
 import { voucherEntity } from "../models/voucher.model.js";
 import { clientEntity } from "../models/client.model.js";
 import { orderEntity } from "../models/order.model.js";
+import PDFDocument from "pdfkit";
+import path from "path";
+import { fileURLToPath } from "url";
 function getSystemInfo() {
   const info = {
     os: {
@@ -1453,5 +1456,267 @@ export const updateOrder = async (req, res) => {
       success: false,
       error: error.message,
     });
+  }
+};
+const DocSoTienVietNam = (number) => {
+  const digits = [
+    "không",
+    "một",
+    "hai",
+    "ba",
+    "bốn",
+    "năm",
+    "sáu",
+    "bảy",
+    "tám",
+    "chín",
+  ];
+  const units = ["", "nghìn", "triệu", "tỷ", "nghìn tỷ", "triệu tỷ"];
+
+  if (number === 0) return "Không đồng";
+
+  let strNumber = String(Math.floor(Math.abs(number)));
+  // Đảm bảo độ dài chia hết cho 3 bằng cách bù số 0 vào đầu
+  while (strNumber.length % 3 !== 0) {
+    strNumber = "0" + strNumber;
+  }
+
+  let blocks = [];
+  for (let i = 0; i < strNumber.length; i += 3) {
+    blocks.push(strNumber.substr(i, 3));
+  }
+
+  let resultStrings = [];
+  let totalBlocks = blocks.length;
+
+  for (let i = 0; i < totalBlocks; i++) {
+    let block = blocks[i];
+    let h = Number(block[0]); // Hàng trăm
+    let t = Number(block[1]); // Hàng chục
+    let u = Number(block[2]); // Hàng đơn vị
+
+    // Nếu block toàn số 0 và không phải block cuối cùng thì bỏ qua
+    if (h === 0 && t === 0 && u === 0 && i !== totalBlocks - 1) {
+      continue;
+    }
+
+    let blockText = "";
+    // Đọc hàng trăm
+    blockText += digits[h] + " trăm ";
+
+    // Đọc hàng chục
+    if (t === 0) {
+      if (u !== 0) blockText += "lẻ ";
+    } else if (t === 1) {
+      blockText += "mười ";
+    } else {
+      blockText += digits[t] + " mươi ";
+    }
+
+    // Đọc hàng đơn vị
+    if (t !== 0 && t !== 1 && u === 1) {
+      blockText += "mốt";
+    } else if (t !== 0 && u === 5) {
+      blockText += "lăm";
+    } else if (u !== 0) {
+      blockText += digits[u];
+    }
+
+    // Cắt bỏ khoảng trắng thừa và thêm hàng đơn vị lớn (nghìn, triệu, tỷ...)
+    blockText = blockText.trim();
+    if (blockText !== "") {
+      const unitIndex = totalBlocks - 1 - i;
+      if (units[unitIndex] !== "") {
+        blockText += " " + units[unitIndex];
+      }
+      resultStrings.push(blockText);
+    }
+  }
+
+  // Ghép các chuỗi block lại thành chuỗi hoàn chỉnh
+  let finalResult = resultStrings.join(" ").replace(/\s+/g, " ").trim();
+
+  // Xử lý các trường hợp đọc "không trăm" dư thừa ở block đầu tiên nếu số nhỏ
+  if (finalResult.startsWith("không trăm mươi")) {
+    finalResult = finalResult.replace("không trăm mươi", "");
+  } else if (finalResult.startsWith("không trăm lẻ")) {
+    finalResult = finalResult.replace("không trăm lẻ", "");
+  } else if (finalResult.startsWith("không trăm")) {
+    finalResult = finalResult.replace("không trăm", "");
+  }
+
+  finalResult = finalResult.trim();
+  // Viết hoa chữ cái đầu tiên và thêm chữ "đồng" chuẩn hóa đơn kế toán
+  return finalResult.charAt(0).toUpperCase() + finalResult.slice(1) + " đồng";
+};
+export const downloadOrder=async(req,res)=>{
+  try {
+    const {id}=req.params;
+    const order=await orderEntity.findById(id);
+    const client=await clientEntity.findById(order.idClient);
+    const clientName=client.fullname;
+    const doc = new PDFDocument({ size: "A4", margin: 50 });
+    res.setHeader("Content-Type","application/pdf");
+    res.setHeader("Content-Disposition",`attachment;filename=${order.orderNumber}.pdf`);
+    doc.pipe(res);
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
+    const fontRegular = path.resolve(
+      __dirname,
+      "../publics/OpenSans-Regular.ttf",
+    );
+    const fontBold = path.resolve(__dirname, "../publics/OpenSans-Bold.ttf");
+    const logoPath = path.resolve(__dirname, "../publics/img/logo_imzai_1.png");
+    const headerTopY = doc.y;
+    doc.image(logoPath, 50, headerTopY, { width: 60 });
+    doc.font(fontRegular).fontSize(10);
+    doc.text("CÔNG TY TNHH CÔNG NGHỆ IMZEN", 130, headerTopY);
+    doc.text("MST: 0123456789", 130, headerTopY + 15);
+    doc.text(
+      "ĐỊA CHỈ: 236 LÊ THỊ NGAY, XÃ VĨNH LỘC, THÀNH PHỐ HỒ CHÍ MINH, VIỆT NAM",
+      130,
+      headerTopY + 30,
+    );
+    doc.text(
+      "STK 0123456789 tại NGÂN HÀNG QUỐC TẾ (VIB)",
+      130,
+      headerTopY + 45,
+    );
+    doc.moveDown(2);
+    doc
+      .font(fontBold)
+      .fontSize(14)
+      .text("Đơn hàng", 0, headerTopY + 75, { align: "center" });
+    doc
+      .font(fontRegular)
+      .fontSize(10)
+      .text(`Thời gian: ${new Date(order.createAt).toLocaleDateString("vi-VN")}`, { align: "center" });
+    doc.text(`Số phiếu: ${order.orderNumber}`, { align: "center" });
+    doc.text(`Người mua: ${clientName}`, 50, headerTopY + 140);
+    if (
+      order.nameCompany === "--" &&
+      order.addressCompany === "--" &&
+      order.mstCompany === "--"
+    ) {
+      doc.text(
+        `Tên người nhận: ${order.fullnameDelivery}`,
+        50,
+        headerTopY + 140 + 15,
+      );
+      if (order.paymentMethod!="Thanh toán khi nhận hàng") {
+      const stampX=380;
+      const stampY=headerTopY+140+5;
+      doc.fillColor("#bbbbbb").strokeColor("#bbbbbb");
+      doc.font(fontBold).fontSize(15);
+      doc.text("ĐÃ THANH TOÁN",stampX+15,stampY+10,{width:150,align:"center"});
+      doc.lineWidth(3).rect(stampX,stampY,180,35).stroke();
+      doc.fillColor("#000000").strokeColor("#000000");
+      doc.font(fontRegular).fontSize(10);
+      doc.lineWidth(1);
+      }
+      doc.text(
+        `Số điện thoại: ${order.telDelivery}`,
+        50,
+        headerTopY + 140 + 30,
+      );
+      doc.text(
+        `Địa chỉ nhận hàng: ${order.addressDelivery}`,
+        50,
+        headerTopY + 140 + 45,
+      );
+    } else {
+      doc.text(`Tên công ty: ${order.nameCompany}`, 50, headerTopY + 140 + 15);
+      if (order.paymentMethod!="Thanh toán khi nhận hàng") {
+      const stampX=380;
+      const stampY=headerTopY+140+5;
+      doc.fillColor("#bbbbbb").strokeColor("#bbbbbb");
+      doc.font(fontBold).fontSize(15);
+      doc.text("ĐÃ THANH TOÁN",stampX+15,stampY+10,{width:150,align:"center"});
+      doc.lineWidth(3).rect(stampX,stampY,180,35).stroke();
+      doc.fillColor("#000000").strokeColor("#000000");
+      doc.font(fontRegular).fontSize(10);
+      doc.lineWidth(1);
+      }
+      doc.text(
+        `Địa chỉ công ty: ${order.addressCompany}`,
+        50,
+        headerTopY + 140 + 30,
+      );
+      doc.text(`MST: ${order.mstCompany}`, 50, headerTopY + 140 + 45);
+    }
+    doc.text(
+      "Diễn giải: VAT",
+      50,
+      headerTopY + 140 + 60,
+    );
+    doc.text("Loại tiền: VNĐ", 50, headerTopY + 140 + 75);
+    const tableTop = headerTopY + 250;
+    const colIndex = 50;
+    const colName = 90;
+    const colUnil = 210;
+    const colQuantity = 250;
+    const colPrice = 300;
+    const colTotal = 430;
+    doc.font(fontBold);
+    doc.text("STT", colIndex, tableTop);
+    doc.text("Tên hàng", colName, tableTop);
+    doc.text("Đơn vị", colUnil, tableTop);
+    doc.text("Số lượng", colQuantity, tableTop);
+    doc.text("Đơn giá (bao gồm VAT)", colPrice, tableTop);
+    doc.text("Thành tiền", colTotal, tableTop);
+    doc
+      .moveTo(50, tableTop + 15)
+      .lineTo(550, tableTop + 15)
+      .stroke();
+    let itemY = tableTop + 25;
+    doc.font(fontRegular);
+    let totalOrderPrice = 0;
+    order.products.forEach((prod, index) => {
+      const itemTotal = prod.price * prod.quantity;
+      totalOrderPrice += itemTotal;
+      doc.text(index + 1, colIndex, itemY);
+      doc.text(prod.productName, colName, itemY);
+      doc.text("Cái", colUnil, itemY);
+      doc.text(prod.quantity, colQuantity, itemY);
+      doc.text(prod.price.toLocaleString("vi-VN"), colPrice, itemY);
+      doc.text(itemTotal.toLocaleString("vi-VN"), colTotal, itemY);
+      doc
+        .moveTo(50, itemY + 15)
+        .lineTo(550, itemY + 15)
+        .strokeColor("#e0e0e0")
+        .stroke();
+      itemY += 20;
+    });
+    const totalAfterDiscount = totalOrderPrice - order.voucherDiscount;
+    doc.font(fontBold).text("Chiết khấu:", 50, itemY + 15);
+    doc
+      .font(fontRegular)
+      .text(
+        `${order.voucherDiscount.toLocaleString("vi-VN")}đ`,
+        430,
+        itemY + 15,
+      );
+    doc.font(fontBold).text("Tổng tiền:", 50, itemY + 35);
+    doc
+      .font(fontRegular)
+      .text(`${totalAfterDiscount.toLocaleString("vi-VN")}đ`, 430, itemY + 35);
+    doc
+      .font(fontBold)
+      .text(
+        `Số tiền bằng chữ: ${DocSoTienVietNam(totalAfterDiscount)}`,
+        50,
+        itemY + 55,
+      );
+    doc
+      .font(fontRegular)
+      .text(`Hình thức thanh toán: ${order.paymentMethod}`, 50, itemY + 75);
+    doc.font(fontRegular).text("Người mua hàng", 90, itemY + 95);
+    doc.font(fontRegular).text("Người bán hàng", 430, itemY + 95);
+    doc.font(fontRegular).text("(Ký và ghi rõ họ tên)", 90, itemY + 110);
+    doc.font(fontRegular).text("(Ký và ghi rõ họ tên)", 430, itemY + 110);
+    doc.end();
+  } catch (error) {
+    res.setHeader("Content-Type","application/json;charset=UTF-8");
+    res.json({mess:"Không thể tạo file pdf từ đơn hàng này",success:false,error:error.message});
   }
 };

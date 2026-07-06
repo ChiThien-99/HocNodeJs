@@ -1086,9 +1086,38 @@ header div:last-child #containerUserLogin #bagShopping span {
   color: white;
   font-size: 2rem;
 }
+#mainDashboard #contentDashboard #orderMng table tbody tr .modalDetailOrder .btnCaptureOrder {
+  position: fixed;
+  top: 4rem;
+  right: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #80a710;
+  color: #fafafa;
+  font-weight: bold;
+  border: none;
+  border-radius: 1000px;
+}
+#mainDashboard #contentDashboard #orderMng table tbody tr .modalDetailOrder .btnDownloadOrder {
+  position: fixed;
+  top: 7rem;
+  right: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #80a710;
+  color: #fafafa;
+  font-weight: bold;
+  border: none;
+  border-radius: 1000px;
+}
 #mainDashboard #contentDashboard #orderMng table tbody tr .modalDetailOrder .detailOrder {
   width: 80%;
-  height: auto;
+  height: 90%;
+  overflow-y: scroll;
   position: fixed;
   top: 50%;
   left: 50%;

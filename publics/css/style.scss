@@ -1030,9 +1030,32 @@ header {
                 color: white;
                 font-size: 2rem;
               }
+              .btnCaptureOrder{
+                position: fixed;
+                top: 4rem;
+                right: 1rem;
+                @include button(0.5rem);
+                background-color: $colorCTA;
+                color: $colorSecondaryText;
+                font-weight: bold;
+                border: none;
+                border-radius: 1000px;
+              }
+              .btnDownloadOrder{
+                position: fixed;
+                top: 7rem;
+                right: 1rem;
+                @include button(0.5rem);
+                background-color: $colorCTA;
+                color: $colorSecondaryText;
+                font-weight: bold;
+                border: none;
+                border-radius: 1000px;
+              }
               .detailOrder {
                 width: 80%;
-                height: auto;
+                height: 90%;
+                overflow-y: scroll;
                 position: fixed;
                 top: 50%;
                 left: 50%;

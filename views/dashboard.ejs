@@ -29,6 +29,7 @@
 <script src="https://cdn.jsdelivr.net/gh/scrapooo/quill-resize-module@1.0.2/dist/quill-resize-module.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/quill-table-better@1/dist/quill-table-better.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/quill-table-better@1/dist/quill-table-better.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   </head>
   <body>
     <div id="alert">
@@ -143,7 +144,9 @@
                     <button type="button" class="btnDetailOrder">Chi tiết</button>
                     <div class="modalDetailOrder">
                       <button type="button" class="btnCloseOrder"><i class="fa-solid fa-xmark"></i></button>
-                      <div class="detailOrder">
+                      <button type="button" class="btnCaptureOrder">Copy đơn hàng</button>
+                      <button type="button" class="btnDownloadOrder">Tải file pdf</button>
+                      <div class="detailOrder invoiceArea">
               <div class="headerOrder">
               <img src="/img/logo_imzai_1.webp" alt="logo">
               <div>

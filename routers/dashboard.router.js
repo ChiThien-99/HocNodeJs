@@ -78,6 +78,10 @@ dashboardRouter.get(
   `${prefix}/getProblemById/:id`,
   dashboardController.getProblemById,
 );
+dashboardRouter.get(
+  `${prefix}/downloadOrder/:id`,
+  dashboardController.downloadOrder,
+);
 dashboardRouter.post(
   `${prefix}/registerAdmin`,
   authLimit,
