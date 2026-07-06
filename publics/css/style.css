@@ -1088,7 +1088,7 @@ header div:last-child #containerUserLogin #bagShopping span {
 }
 #mainDashboard #contentDashboard #orderMng table tbody tr .modalDetailOrder .btnCaptureOrder {
   position: fixed;
-  top: 4rem;
+  top: 5rem;
   right: 1rem;
   border: none;
   border-radius: 5px;
@@ -1102,7 +1102,7 @@ header div:last-child #containerUserLogin #bagShopping span {
 }
 #mainDashboard #contentDashboard #orderMng table tbody tr .modalDetailOrder .btnDownloadOrder {
   position: fixed;
-  top: 7rem;
+  top: 8rem;
   right: 1rem;
   border: none;
   border-radius: 5px;

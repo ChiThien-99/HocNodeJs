@@ -1030,9 +1030,9 @@ header {
                 color: white;
                 font-size: 2rem;
               }
-              .btnCaptureOrder{
+              .btnCaptureOrder {
                 position: fixed;
-                top: 4rem;
+                top: 5rem;
                 right: 1rem;
                 @include button(0.5rem);
                 background-color: $colorCTA;
@@ -1041,9 +1041,9 @@ header {
                 border: none;
                 border-radius: 1000px;
               }
-              .btnDownloadOrder{
+              .btnDownloadOrder {
                 position: fixed;
-                top: 7rem;
+                top: 8rem;
                 right: 1rem;
                 @include button(0.5rem);
                 background-color: $colorCTA;

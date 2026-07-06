@@ -2476,7 +2476,7 @@ function checkFormEmptiness(form, btn) {
   }
 }
 const tableOrder = document.querySelector("#tableOrder");
-tableOrder.addEventListener("click", async(e) => {
+tableOrder.addEventListener("click", async (e) => {
   const target = e.target;
   if (target.classList.contains("btnEditOrder")) {
     const row = target.closest("tr");
@@ -2525,93 +2525,95 @@ tableOrder.addEventListener("click", async(e) => {
     const display = modal.style.display === "block" ? "none" : "block";
     modal.style.display = display;
   }
-  const btnCaptureOrder=target.classList.contains("btnCaptureOrder")
+  const btnCaptureOrder = target.classList.contains("btnCaptureOrder");
   if (btnCaptureOrder) {
-    const row=target.closest("tr");
-    const invoiceArea=row.querySelector(".invoiceArea");
+    const row = target.closest("tr");
+    const invoiceArea = row.querySelector(".invoiceArea");
     try {
-      target.innerText="Đang xử lý...";
-      target.disabled=true;
-      invoiceArea.style.transform="none";
-      invoiceArea.style.position="absolute";
-      invoiceArea.style.top="0px";
-      invoiceArea.style.left="0px";
-      invoiceArea.style.height="auto";
-      invoiceArea.style.overflowY="visible";
-      const canvas=await html2canvas(invoiceArea,{
-        useCORS:true,
-        scale:2,
-        backgroundColor:"#ffffff",
-        width:invoiceArea.scrollWidth,
-        height:invoiceArea.scrollHeight,
+      target.innerText = "Đang xử lý...";
+      target.disabled = true;
+      invoiceArea.style.transform = "none";
+      invoiceArea.style.position = "absolute";
+      invoiceArea.style.top = "0px";
+      invoiceArea.style.left = "0px";
+      invoiceArea.style.height = "auto";
+      invoiceArea.style.overflowY = "visible";
+      const canvas = await html2canvas(invoiceArea, {
+        useCORS: true,
+        scale: 2,
+        backgroundColor: "#ffffff",
+        width: invoiceArea.scrollWidth,
+        height: invoiceArea.scrollHeight,
         // windowWidth:invoiceArea.scrollWidth,
         // windowHeight:invoiceArea.scrollHeight,
         // scrollX:-window.scrollX-rect.left,
         // scrollY:-window.scrollY-rect.top,
-        logging:false,
-      })
-      invoiceArea.style.transform="translate(-50%, -50%)";
-      invoiceArea.style.position="fixed";
-      invoiceArea.style.top="50%";
-      invoiceArea.style.left="50%";
-      invoiceArea.style.height="90%";
-      invoiceArea.style.overflowY="scroll";
-      canvas.toBlob(async(blob)=>{
+        logging: false,
+      });
+      invoiceArea.style.transform = "translate(-50%, -50%)";
+      invoiceArea.style.position = "fixed";
+      invoiceArea.style.top = "50%";
+      invoiceArea.style.left = "50%";
+      invoiceArea.style.height = "90%";
+      invoiceArea.style.overflowY = "scroll";
+      canvas.toBlob(async (blob) => {
         if (!blob) {
-          alert("Lỗi","Lỗi bóc tách dữ liệu ảnh","red");
+          alert("Lỗi", "Lỗi bóc tách dữ liệu ảnh", "red");
           return;
         }
         try {
           await navigator.clipboard.write([
             new ClipboardItem({
-              [blob.type]:blob
-            })
-          ])
-          target.innerText="Đã copy";
+              [blob.type]: blob,
+            }),
+          ]);
+          target.innerText = "Đã copy";
           setTimeout(() => {
-            target.innerText="Copy đơn hàng";
-            target.disabled=false;
+            target.innerText = "Copy đơn hàng";
+            target.disabled = false;
           }, 2000);
         } catch (clipboardError) {
-          alert("Lỗi",`Lỗi clipboard\n${clipboardError}`,"red");
-          target.innerText="Copy đơn hàng";
-          target.disabled=false;
+          alert("Lỗi", `Lỗi clipboard\n${clipboardError}`, "red");
+          target.innerText = "Copy đơn hàng";
+          target.disabled = false;
         }
-      },"image/png");
+      }, "image/png");
     } catch (error) {
-      alert("Lỗi",`Lỗi: ${error}`,"red");
-      target.innerText="Copy đơn hàng";
-      target.disabled=false;
+      alert("Lỗi", `Lỗi: ${error}`, "red");
+      target.innerText = "Copy đơn hàng";
+      target.disabled = false;
     }
   }
   if (target.classList.contains("btnDownloadOrder")) {
-    const row=target.closest("tr");
-    const idOrder=row.getAttribute("data-idOrder");
-    fetch(`/dashboard/downloadOrder/${idOrder}`,{
-      method:"GET",
-      headers:{"Content-Type":"application/json;charset=UTF-8"},
+    const row = target.closest("tr");
+    const idOrder = row.getAttribute("data-idOrder");
+    fetch(`/dashboard/downloadOrder/${idOrder}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
     })
-    .then(async(res)=>{
-      const contentType=res.headers.get("content-type");
-      if (contentType&&contentType.includes("application/pdf")) {
-        const blob=res.blob();
-        const url=window.URL.createObjectURL(blob);
-        const a=document.createElement("a");
-        a.href=url;
-        a.download=`DonHang_${idOrder}.pdf`;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        a.remove();
-        alert("Thông báo","Tải file pdf thành công","#80a710")
-      }else{
-        const data=await res.json();
-        alert("Lỗi",`${data.mess}\n${data.error}`,"red");
-      }
-    })
-    .catch((error)=>{
-      alert("Lỗi",error,"red");
-    });
+      .then(async (res) => {
+        const contentType = res.headers.get("content-type");
+        if (contentType && contentType.includes("application/pdf")) {
+          const blob = await res.blob();
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          let orderNumber = row.querySelector(".orderNumber").innerText;
+          orderNumber = orderNumber.slice(10);
+          a.href = url;
+          a.download = `${orderNumber}.pdf`;
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(url);
+          a.remove();
+          alert("Thông báo", "Tải file pdf thành công", "#80a710");
+        } else {
+          const data = await res.json();
+          alert("Lỗi", `${data.mess}\n${data.error}`, "red");
+        }
+      })
+      .catch((error) => {
+        alert("Lỗi", error, "red");
+      });
   }
 });
 const DocSoTienVietNam = (number) => {
