@@ -73,8 +73,8 @@
             <h3 id="roleAd">Chức vụ</h3>
             <em id="idAd"></em>
           </div>
-          <button data-target="orderMng" class="navBtnDB active">
-            <i class="fa-solid fa-boxes-packing"></i> Quản lý đơn hàng
+          <button data-target="orderMng" class="navBtnDB active" id="btnOrderMng">
+            <i class="fa-solid fa-boxes-packing"></i> Quản lý đơn hàng <span id="generatedOrder">0</span>
           </button>
           <button data-target="workMng" class="navBtnDB">
             <i class="fa-regular fa-clipboard"></i> Quản lý công việc
@@ -106,16 +106,33 @@
         </div>
         <div id="contentDashboard">
           <div id="orderMng" class="tabContent active">
-            <h2 class="flag-item">Quản lý đơn hàng</h2>
+            <div id="headerOrderMng">
+              <h2 class="flag-item">Quản lý đơn hàng</h2>
+            <select name="status" id="changeStatusOrders">
+              <option value="Đang xử lý">Đang xử lý</option>
+              <option value="Đang vận chuyển">Đang vận chuyển</option>
+              <option value="Đã nhận hàng">Đã nhận hàng</option>
+              <option value="Hủy">Hủy</option>
+            </select>
+            </div>
             <table id="tableOrder">
               <thead>
                  <tr>
                 <th>Đơn hàng</th>
                 <th>Người mua</th>
                 <th>Thành tiền</th>
-                <th>Hóa đơn</th>
+                <th>Hóa đơn <span id="totalOrderHasInvoice">
+                  <%let totalOrderNoInvoice=0%>
+                  <%for(let i=0;i<orders.length;i++){%>
+                    <%if(orders[i].invoice==="--"){%>
+                      <%totalOrderNoInvoice+=1%>
+                    <%}%>
+                  <%}%>
+                  <%=orders.length-totalOrderNoInvoice%> /
+                </span><span id="totalOrder"><%=orders.length%></span></th>
                 <th>Tình trạng</th>
                 <th>Thao tác</th>
+                <th>Chọn</th>
               </tr>
               </thead>
               <tbody>
@@ -225,6 +242,9 @@
               </div>
             </div>
                     </div>
+                  </td>
+                  <td>
+                    <input type="checkbox" name="chooseOrders" class="chooseOrders">
                   </td>
                 </tr>
                 <%})%>
@@ -760,6 +780,42 @@
               </tr>
               <%})%>
                 </tbody>
+            </table>
+            </div>
+            <h2 class="flag-item">Nhập kho thiết bị</h2>
+            <div id="divImportDevice">
+              <table id="tableImportDevice">
+              <thead>
+                <tr>
+                <th>Tên thiết bị</th>
+                <th>Giá lẻ</th>
+                <th>Giá sỉ</th>
+                <th>Số lượng nhập</th>
+                <th>Giá vốn</th>
+                <th>Thao tác</th>
+              </tr>
+              </thead>
+              <tbody>
+                <%devices.forEach((device)=>{%>
+                <tr>
+                  <td><%=device.name%></td>
+                  <td><%=device.priceLE.toLocaleString('vi-VN')%>đ</td>
+                  <td><%=device.priceSI.toLocaleString('vi-VN')%>đ</td>
+                  <td>
+                    <input type="text" name="importQuantity" class="importQuantity">
+                    <input type="hidden" name="importQuantityActual" class="importQuantityActual">
+                  </td>
+                  <td>
+                    <input type="text" name="cost" class="cost">
+                    <input type="hidden" name="costActual" class="costActual">
+                  </td>
+                  <td>
+                    <button type="button" class="btnImportDevice">Nhập kho</button>
+                    <button type="button" class="btnCancleDevice">Hủy</button>
+                  </td>
+                </tr>
+                <%})%>
+              </tbody>
             </table>
             </div>
           </div>

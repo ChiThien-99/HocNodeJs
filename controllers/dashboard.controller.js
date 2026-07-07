@@ -1449,7 +1449,11 @@ export const updateOrder = async (req, res) => {
       status: valueStatus,
       invoice: valueInvoice,
     });
-    res.json({ mess: "Cập nhật đơn hàng thành công", success: true });
+    const totalOrder=await orderEntity.find();
+    const totalOrderNotInvoice=await orderEntity.find({invoice:"--"});
+    const totalOrderHasInvoiceLen=totalOrder.length-totalOrderNotInvoice.length;
+    const totalOrderLen=totalOrder.length;
+    res.json({ mess: "Cập nhật đơn hàng thành công", success: true,totalOrderLen,totalOrderHasInvoiceLen });
   } catch (error) {
     res.json({
       mess: "Cập nhật đơn hàng thất bại",
@@ -1720,3 +1724,20 @@ export const downloadOrder=async(req,res)=>{
     res.json({mess:"Không thể tạo file pdf từ đơn hàng này",success:false,error:error.message});
   }
 };
+export const changeStatusOrders=async(req,res)=>{
+  try {
+    const {arrChooseOrder,statusChange}=req.body;
+  if(!arrChooseOrder||!Array.isArray(arrChooseOrder)||arrChooseOrder.length===0){
+    return res.json({mess:"Danh sách đơn hàng không hợp lệ",success:false});
+  }
+  await orderEntity.updateMany(
+    {_id:{$in:arrChooseOrder}},
+    {status:statusChange}
+  )
+  const io = req.app.get("socketio");
+  io.emit("updateStatusOrder", [arrChooseOrder,statusChange]);
+  res.json({mess:"Cập nhật trạng thái đơn hàng thành công",success:true});
+  } catch (error) {
+  res.json({mess:"Cập nhật trạng thái đơn hàng thất bại",success:false,error:error.message});
+  }
+}

@@ -141,9 +141,16 @@ export const addCart = async (req, res) => {
       (sum, item) => sum + item.quantity,
       0,
     );
+    let totalDevice=0;
+    cart.products.forEach((product) => {
+      if (product.category="device") {
+        totalDevice+=1;
+      }
+    });
     const io = req.app.get("socketio");
     io.emit("updateCart", [cart.products[productIndex], totalItems]);
     io.emit("update-totalItems", totalItems);
+    io.emit("updateCod",totalDevice);
     res.json({ success: true, totalItems: totalItems });
   } catch (error) {
     const { productName } = req.body;

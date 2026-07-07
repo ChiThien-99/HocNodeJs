@@ -21,7 +21,10 @@ socket.on("updateCart", (data) => {
       <tr data-idProduct="${data[0].productId}">
         <td>${lengthTr}</td>
         <td>
+        <div>
+          <img src="${data[0].img}" alt="img">
           ${data[0].color === "-" ? data[0].productName : data[0].productName + " " + data[0].color}
+        </div>
         </td>
         <td><input type="number" name="quantityProduct" class="quantityProduct" value="${data[0].quantity}" data-idProduct="${data[0].productId}"></td>
         <input type="hidden" name="priceProduct" class="priceProduct" value="${data[0].price}">
@@ -118,6 +121,14 @@ socket.on("delete-inforInvoice", (data) => {
     deleteInforInvoice.remove();
   }
 });
+socket.on("updateCod",(data)=>{
+  const cod=document.querySelector("#divPaymentMethod label[for='cod']");
+  if (data>0) {
+    cod.style.display="flex";
+  } else {
+    cod.style.display="none";
+  }
+})
 function getCookie(name) {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);

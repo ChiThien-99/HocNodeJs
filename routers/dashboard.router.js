@@ -233,6 +233,7 @@ dashboardRouter.put(
   dashboardController.putEditBlogDraft,
 );
 dashboardRouter.put(`${prefix}/updateOrder`, dashboardController.updateOrder);
+dashboardRouter.put(`${prefix}/changeStatusOrders`, dashboardController.changeStatusOrders);
 dashboardRouter.delete(
   `${prefix}/deleteUserAdmin/:idDelete`,
   authenticateToken,

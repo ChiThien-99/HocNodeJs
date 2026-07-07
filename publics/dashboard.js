@@ -443,6 +443,22 @@ socket.on("delete-problem", (data) => {
     }
   }
 });
+socket.on("updateStatusOrder",(data)=>{
+  data[0].forEach((id)=>{
+    const tr=document.querySelector(`tr[data-idOrder="${id}"]`);
+    tr.querySelector(".status").value=data[1];
+  })
+})
+socket.on("updateGeneratedOrder",(data)=>{
+  const generatedOrder=document.getElementById("generatedOrder");
+  const computedStyle=window.getComputedStyle(generatedOrder);
+  if (computedStyle.display==="none") {
+    generatedOrder.style.display="inline-block";
+  }
+  let totalGeneratedOrder=Number(generatedOrder.innerText);
+  totalGeneratedOrder+=Number(data);
+  generatedOrder.innerText=totalGeneratedOrder;
+})
 async function verifySession() {
   try {
     const response = await authFetch("/api/auth/me");
@@ -1641,6 +1657,31 @@ priceLEDevice.addEventListener("input", (e) => {
     priceSIDevice.value = "";
   }
 });
+document.querySelector("#tableImportDevice").addEventListener("input",(e)=>{
+  const target=e.target;
+  if (target.classList.contains("cost")) {
+  let rawValue = target.value.replace(/\D/g, "");
+  const cell=target.closest("td");
+  const costActual=cell.querySelector(".costActual");
+  costActual.value = rawValue;
+  if (rawValue) {
+    target.value = Number(rawValue).toLocaleString("vi-VN");
+  } else {
+    target.value = "";
+  }
+  }
+  if (target.classList.contains("importQuantity")) {
+  let rawValue = target.value.replace(/\D/g, "");
+  const cell=target.closest("td");
+  const importQuantityActual=cell.querySelector(".importQuantityActual");
+  importQuantityActual.value = rawValue;
+  if (rawValue) {
+    target.value = Number(rawValue).toLocaleString("vi-VN");
+  } else {
+    target.value = "";
+  }
+  }
+})
 document
   .querySelector("#tableDevice tbody")
   .addEventListener("click", async (e) => {
@@ -2501,8 +2542,20 @@ tableOrder.addEventListener("click", async (e) => {
         body: JSON.stringify({ id, valueInvoice, valueStatus }),
       })
         .then((res) => res.json())
-        .then(({ mess, success, error }) => {
+        .then(({ mess, success, error,totalOrderLen,totalOrderHasInvoiceLen }) => {
           if (success) {
+            if (totalOrderHasInvoiceLen===totalOrderLen) {
+            document.getElementById("totalOrderHasInvoice").style.color="#80a710";
+            document.getElementById("totalOrder").style.color="#80a710";
+            document.getElementById("totalOrderHasInvoice").innerText=totalOrderHasInvoiceLen+" / ";
+            document.getElementById("totalOrder").innerText=totalOrderLen;
+            } else {
+            document.getElementById("totalOrderHasInvoice").style.color="red";
+            document.getElementById("totalOrder").style.color="red";
+            document.getElementById("totalOrderHasInvoice").innerText=totalOrderHasInvoiceLen+" / ";
+            document.getElementById("totalOrder").innerText=totalOrderLen;
+            }
+            
             alert("Thông báo", mess, "#80a710");
           } else {
             alert("Lỗi", `${mess}\n${error}`, "red");
@@ -2616,6 +2669,42 @@ tableOrder.addEventListener("click", async (e) => {
       });
   }
 });
+let arrChooseOrder=[]
+tableOrder.addEventListener("change",(e)=>{
+  const target=e.target;
+  if (target.classList.contains("chooseOrders")) {
+    const row=target.closest("tr");
+    const idOrder=row.getAttribute("data-idOrder");
+    if (target.checked) {
+      if (!arrChooseOrder.includes(idOrder)) {
+        arrChooseOrder.push(idOrder);
+      }
+    } else {
+      arrChooseOrder=arrChooseOrder.filter((id)=>id!==idOrder);
+    }
+    if (arrChooseOrder.length>0) {
+      document.getElementById("changeStatusOrders").style.display="inline";
+    } else {
+      document.getElementById("changeStatusOrders").style.display="none";
+    }
+  }
+})
+document.getElementById("changeStatusOrders").addEventListener("change",function(){
+  const statusChange=this.value;
+  fetch("/dashboard/changeStatusOrders",{
+      method:"PUT",
+      headers:{"Content-Type":"application/json;charset=UTF-8"},
+      body:JSON.stringify({arrChooseOrder,statusChange}),
+    })
+    .then(res=>res.json())
+    .then(({mess,success,error})=>{
+      if (success) {
+        alert("Thông báo",mess,"#80a710");
+      } else {
+        alert("Lỗi",`${mess}\n${error}`,"red");
+      }
+    });
+})
 const DocSoTienVietNam = (number) => {
   const digits = [
     "không",
@@ -2707,3 +2796,15 @@ const DocSoTienVietNam = (number) => {
   // Viết hoa chữ cái đầu tiên và thêm chữ "đồng" chuẩn hóa đơn kế toán
   return finalResult.charAt(0).toUpperCase() + finalResult.slice(1) + " đồng";
 };
+document.addEventListener("DOMContentLoaded",()=>{
+  const totalOrderHasInvoiceLen=document.getElementById("totalOrderHasInvoice").innerText;
+  const totalOrderLen=document.getElementById("totalOrder").innerText;
+  if (Number(totalOrderHasInvoiceLen.slice(0,1))===Number(totalOrderLen)) {
+      document.getElementById("totalOrderHasInvoice").style.color="#80a710";
+      document.getElementById("totalOrder").style.color="#80a710";
+  }
+})
+document.getElementById("btnOrderMng").addEventListener("click",function(){
+  const generatedOrder=this.querySelector("span");
+  generatedOrder.style.display="none";
+})

@@ -65,8 +65,15 @@ export const deleteProduct = async (req, res) => {
         0,
       );
     }
+    let totalDevice=0;
+    updateCart.products.forEach((product)=>{
+      if (product.category==="device") {
+        totalDevice+=1;
+      }
+    })
     const io = req.app.get("socketio");
     io.emit("update-totalItems", totalItems);
+    io.emit("updateCod",totalDevice);
     res.json({ mess: "Xóa sản phẩm thành công", success: true, totalItems });
   } catch (error) {
     res.json({
@@ -392,7 +399,9 @@ export const addOrder = async (req, res) => {
     sendOrderEmail(emailClient,nameClient,newOrder);
     const io = req.app.get("socketio");
     const totalItems=0;
+    const generatedOrder=1;
     io.emit("update-totalItems", totalItems);
+    io.emit("updateGeneratedOrder", generatedOrder);
     res.json({ mess: "Đặt hàng thành công", success: true });
   } catch (error) {
     res.json({

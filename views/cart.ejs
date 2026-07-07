@@ -171,10 +171,15 @@
             </div>
             <h3>Phương thức thanh toán</h3>
             <div id="divPaymentMethod">
-               <label for="cod">
+              <%for(let i=0;i<cart.products.length;i++){%>
+              <%if(cart.products[i].category==="device"){%>
+              <label for="cod">
               <input type="radio" name="paymentMethod" value="cod" id="cod" data-paymentMethod="Thanh toán khi nhận hàng">
               <p><img src="/img/cod.webp" alt="cod"><span>Thanh toán khi nhận hàng</span></p>
-            </label>
+              </label>
+              <%break;%>
+              <%}%>
+              <%}%>
             <label for="bank">
               <input type="radio" name="paymentMethod" value="bank" id="bank" data-paymentMethod="Chuyển khoản ngân hàng/thẻ tín dụng">
               <p><img src="/img/bank.webp" alt="bank"><span>Chuyển khoản ngân hàng/thẻ tín dụng</span></p>

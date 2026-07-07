@@ -952,6 +952,16 @@ header div:last-child #containerUserLogin #bagShopping span {
   font-size: 1rem;
   text-align: start;
 }
+#mainDashboard #navDashboard .navBtnDB span {
+  display: none;
+  width: 1.2rem;
+  height: 1.2rem;
+  border: none;
+  border-radius: 1000px;
+  color: #fafafa;
+  text-align: center;
+  background-color: #fd5e53;
+}
 #mainDashboard #navDashboard .navBtnDB.active {
   background-color: #80a710;
   color: #fafafa;
@@ -1020,6 +1030,17 @@ header div:last-child #containerUserLogin #bagShopping span {
 #mainDashboard #contentDashboard #registerAdmin #formDecentralize label {
   cursor: pointer;
 }
+#mainDashboard #contentDashboard #orderMng #headerOrderMng {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+#mainDashboard #contentDashboard #orderMng #headerOrderMng #changeStatusOrders {
+  display: none;
+  height: 2rem;
+  font-size: 1rem;
+}
 #mainDashboard #contentDashboard #orderMng table {
   width: 100%;
   border: 1px solid black;
@@ -1031,6 +1052,9 @@ header div:last-child #containerUserLogin #bagShopping span {
   border-collapse: collapse;
   padding: 0.5rem;
 }
+#mainDashboard #contentDashboard #orderMng table thead #totalOrderHasInvoice, #mainDashboard #contentDashboard #orderMng table thead #totalOrder {
+  color: red;
+}
 #mainDashboard #contentDashboard #orderMng table tbody {
   height: auto;
   max-height: 80%;
@@ -1038,6 +1062,13 @@ header div:last-child #containerUserLogin #bagShopping span {
 }
 #mainDashboard #contentDashboard #orderMng table tbody tr input {
   width: 5rem;
+  height: 1.5rem;
+}
+#mainDashboard #contentDashboard #orderMng table tbody tr td:last-child {
+  text-align: center;
+}
+#mainDashboard #contentDashboard #orderMng table tbody tr td:last-child .chooseOrders {
+  width: 1.5rem;
   height: 1.5rem;
 }
 #mainDashboard #contentDashboard #orderMng table tbody tr select {
@@ -1821,6 +1852,44 @@ header div:last-child #containerUserLogin #bagShopping span {
   padding: 0.5rem;
   background-color: red;
   color: #fafafa;
+}
+#mainDashboard #contentDashboard #deviceMng #divImportDevice {
+  width: -moz-fit-content;
+  width: fit-content;
+  height: 20rem;
+  margin-top: 1rem;
+  overflow-y: scroll;
+}
+#mainDashboard #contentDashboard #deviceMng #divImportDevice table, #mainDashboard #contentDashboard #deviceMng #divImportDevice td, #mainDashboard #contentDashboard #deviceMng #divImportDevice th {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 0.5rem;
+}
+#mainDashboard #contentDashboard #deviceMng #divImportDevice table .importQuantity, #mainDashboard #contentDashboard #deviceMng #divImportDevice td .importQuantity, #mainDashboard #contentDashboard #deviceMng #divImportDevice th .importQuantity {
+  width: 40%;
+}
+#mainDashboard #contentDashboard #deviceMng #divImportDevice table .cost, #mainDashboard #contentDashboard #deviceMng #divImportDevice td .cost, #mainDashboard #contentDashboard #deviceMng #divImportDevice th .cost {
+  width: 50%;
+}
+#mainDashboard #contentDashboard #deviceMng #divImportDevice table .btnImportDevice, #mainDashboard #contentDashboard #deviceMng #divImportDevice td .btnImportDevice, #mainDashboard #contentDashboard #deviceMng #divImportDevice th .btnImportDevice {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #80a710;
+  color: #fafafa;
+  border: none;
+  border-radius: 5px;
+}
+#mainDashboard #contentDashboard #deviceMng #divImportDevice table .btnCancleDevice, #mainDashboard #contentDashboard #deviceMng #divImportDevice td .btnCancleDevice, #mainDashboard #contentDashboard #deviceMng #divImportDevice th .btnCancleDevice {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: red;
+  color: #fafafa;
+  border: none;
+  border-radius: 5px;
 }
 #mainDashboard #contentDashboard #blogsMng #imgblogs::file-selector-button {
   border: none;
