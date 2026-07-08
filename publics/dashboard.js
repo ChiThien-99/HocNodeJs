@@ -81,6 +81,35 @@ socket.on("update-device", (data) => {
       `,
     );
   }
+  const existRowDevice = document.querySelector(`tr[data-idDeviceImport="${data._id}"]`);
+  if (existRowDevice) {
+    existRowDevice.cells[0].innerText = data.name;
+    existRowDevice.cells[1].innerText = `${Number(data.priceLE).toLocaleString("vi-VN")}đ`;
+    existRowDevice.cells[2].innerText = `${Number(data.priceSI).toLocaleString("vi-VN")}đ`;
+  } else {
+    document.querySelector("#tableImportDevice tbody").insertAdjacentHTML(
+      "afterbegin",
+      `
+      <tr data-idDeviceImport="${data._id}">
+        <td>${data.name}</td>
+        <td>${data.priceLE.toLocaleString('vi-VN')}đ</td>
+        <td>${data.priceSI.toLocaleString('vi-VN')}đ</td>
+        <td>
+          <input type="text" name="importQuantity" class="importQuantity">
+          <input type="hidden" name="importQuantityActual" class="importQuantityActual">
+        </td>
+        <td>
+          <input type="text" name="cost" class="cost">
+          <input type="hidden" name="costActual" class="costActual">
+        </td>
+        <td>
+          <button type="button" class="btnImportDevice">Nhập kho</button>
+          <button type="button" class="btnCancleDevice">Hủy</button>
+        </td>
+      </tr>
+      `,
+    );
+  }
 });
 socket.on("delete-device", (data) => {
   if (data && data._id) {
@@ -2807,4 +2836,155 @@ document.addEventListener("DOMContentLoaded",()=>{
 document.getElementById("btnOrderMng").addEventListener("click",function(){
   const generatedOrder=this.querySelector("span");
   generatedOrder.style.display="none";
+})
+document.getElementById("tableImportDevice").addEventListener("click",(e)=>{
+   const target=e.target;
+   if (target.classList.contains("btnImportDevice")) {
+    const row=target.closest("tr");
+    const importQuantityActual=row.querySelector(".importQuantityActual").value;
+    const costActual=row.querySelector(".costActual").value;
+    const idDeviceImport=row.getAttribute("data-idDeviceImport");
+    fetch("/dashboard/importDevice",{
+      method:"PUT",
+      headers:{"Content-Type":"application/json;charset=UTF-8"},
+      body:JSON.stringify({idDeviceImport,importQuantityActual,costActual}),
+    })
+    .then(res=>res.json())
+    .then(({mess,success,error})=>{
+      if (success) {
+        row.querySelector(".importQuantity").value="";
+        row.querySelector(".cost").value="";
+        alert("Thông báo",mess,"#80a710");
+      } else {
+        alert("Lỗi",`${mess}\n${error}`,"red");
+      }
+    })
+    .catch((error)=>{
+      alert("Lỗi",error,"red");
+    });
+   }
+   if (target.classList.contains("btnCancleDevice")) {
+    const row=target.closest("tr");
+    row.querySelector(".importQuantity").value="";
+    row.querySelector(".cost").value="";
+   }
+});
+document.getElementById("btnReloadOrder").addEventListener("click",()=>{
+  fetch("/dashboard/reloadOrder",{
+    method:"GET",
+    headers:{"Content-Type":"application/json;charset=UTF-8"},
+  })
+  .then(res=>res.json())
+  .then(({data})=>{
+    document.getElementById("generatedOrder").style.display="none";
+    document.querySelector("#tableOrder tbody").innerHTML="";
+    document.querySelector("#tableOrder tbody").innerHTML=data.map((order)=>`
+    <tr data-idOrder="${order._id}">
+      <td>${order.orderNumber}</td>
+      <td>${order.nameCompany==="--"?order.buyer:order.nameCompany}</td>
+      <td>
+        ${(order.products.reduce((total, p) => total + (p.quantity * p.price), 0) - order.voucherDiscount).toLocaleString("vi-VN")}đ
+      </td>
+      <td>
+        <input type="text" name="invoice" class="invoice" value="${order.invoice}" disabled>
+      </td>
+      <td>
+        <select name="status" class="status" disabled>
+          <option value="Đang xử lý" ${order.status==="Đang xử lý"?"selected":""}>Đang xử lý</option>
+          <option value="Đang vận chuyển" ${order.status==="Đang vận chuyển"?"selected":""}>Đang vận chuyển</option>
+          <option value="Đã nhận hàng" ${order.status==="Đã nhận hàng"?"selected":""}>Đã nhận hàng</option>
+          <option value="Hủy" ${order.status==="Hủy"?"selected":""}>Hủy</option>
+        </select>
+      </td>
+      <td>
+        <button type="button" class="btnEditOrder">Chỉnh sửa</button>
+        <button type="button" class="btnDetailOrder">Chi tiết</button>
+        <div class="modalDetailOrder">
+          <button type="button" class="btnCloseOrder"><i class="fa-solid fa-xmark"></i></button>
+          <button type="button" class="btnCaptureOrder">Copy đơn hàng</button>
+          <button type="button" class="btnDownloadOrder">Tải file pdf</button>
+        <div class="detailOrder invoiceArea">
+          <div class="headerOrder">
+            <img src="/img/logo_imzai_1.webp" alt="logo">
+          <div>
+            <p>CÔNG TY TNHH CÔNG NGHỆ IMZEN</p>
+            <p>MST: 0123456789</p>
+            <p>ĐỊA CHỈ: 236 LÊ THỊ NGAY, XÃ VĨNH LỘC, THÀNH PHỐ HỒ CHÍ MINH, VIỆT NAM</p>
+            <p>STK 0123456789 tại NGÂN HÀNG QUỐC TẾ (VIB)</p>
+          </div>
+          </div>
+          <div class="bodyOrder">
+            <div class="titleOrder">
+            <h2>Đơn hàng</h2>
+            <p>Thời gian: ${new Date(order.createAt).toLocaleDateString("vi-VN")}</p>
+            <p class="orderNumber">Số phiếu: ${order.orderNumber}</p>
+          </div>
+          <div>
+            <p>Người mua: ${order.buyer}</p>
+            ${order.nameCompany==="--"&&order.addressCompany==="--"&&order.mstCompany==="--"?`
+            <p>Tên người nhận: ${order.fullnameDelivery}</p>
+            <p>Số điện thoại: ${order.telDelivery}</p>
+            <p>Địa chỉ nhận hàng: ${order.addressDelivery}</p>  
+            `:`
+            <p>Tên công ty: ${order.nameCompany}</p>
+            <p>Địa chỉ công ty: ${order.addressCompany}</p>
+            <p>Mã số thuế: ${order.mstCompany}</p>
+            `}
+            <p>Diễn giải: VAT${order.mailInvoice==="--"?"":", "+order.mailInvoice}</p>
+            <p>Loại tiền: VNĐ</p>
+          </div>
+          <table>
+            <tr>
+              <th>STT</th>
+              <th>Tên hàng</th>
+              <th>Đơn vị</th>
+              <th>Số lượng</th>
+              <th>Đơn giá (bao gồm VAT)</th>
+              <th>Thành tiền</th>
+            </tr>
+            ${order.products.map((p,index)=>`
+              <tr>
+                <td>${index+1}</td>
+                <td>${p.productName}</td>
+                <td>Cái</td>
+                <td>${p.quantity}</td>
+                <td>${p.price.toLocaleString("vi-VN")}đ</td>
+                <td>${(p.quantity*p.price).toLocaleString("vi-VN")}đ</td>
+              </tr>
+            `).join("")}
+            </table>
+            <div class="divDiscountAndTotal">
+              <div>
+                <p><b>Chiết khấu:</b></p>
+                <p><b>Tổng tiền:</b></p>
+              </div>
+              <div>
+                <p>${order.voucherDiscount.toLocaleString("vi-VN")}đ</p>
+                <p>
+                  ${(order.products.reduce((total, p) => total + (p.quantity * p.price), 0) - order.voucherDiscount).toLocaleString("vi-VN")}đ
+                </p>
+              </div>
+              </div>
+                <p>Số tiền bằng chữ: ${DocSoTienVietNam((order.products.reduce((total, p) => total + (p.quantity * p.price), 0) - order.voucherDiscount))}</p>
+                <p>Hình thức thanh toán: ${order.paymentMethod}</p>
+                <div class="divSign">
+                  <div>
+                    <p>Người mua hàng</p>
+                    <p>(Ký và ghi rõ họ tên)</p>
+                  </div>
+                  <div>
+                    <p>Người bán hàng</p>
+                    <p>(Ký và ghi rõ họ tên)</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+                    </div>
+                  </td>
+                  <td>
+                    <input type="checkbox" name="chooseOrders" class="chooseOrders">
+                  </td>
+                </tr>
+    `).join("");
+  });
 })

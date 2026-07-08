@@ -22,6 +22,10 @@ const deviceSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  cost:{
+    type:Number,
+    required:true,
+  },
   priceLE: {
     type: Number,
     required: true,
@@ -29,6 +33,10 @@ const deviceSchema = mongoose.Schema({
   priceSI: {
     type: Number,
     required: true,
+  },
+  inventory:{
+    type:Number,
+    required:true,
   },
   func: {
     type: Array,

@@ -78,7 +78,9 @@ export const getDashboard = async (req, res) => {
   const listblogs = await blogsEntity.find().sort("-createAt");
   const listblogsdraft = await blogsDraftEntity.find();
   const problems = await problemEntity.find().sort("-createAt");
-  const orders = await orderEntity.find();
+  const now=new Date();
+  const thirtyDaysAgo=new Date(now.getTime()-30*24*60*60*1000);
+  const orders = await orderEntity.find({createAt:{$gte:thirtyDaysAgo}}).sort({createAt:-1});
   const io = req.app.get("socketio");
   res.render("dashboard.ejs", {
     jsonSystemInfo,
@@ -95,6 +97,7 @@ export const getDashboard = async (req, res) => {
     listblogsdraft,
     problems,
     orders,
+    DocSoTienVietNam,
   });
 };
 export const postRegisterAdmin = async (req, res) => {
@@ -859,8 +862,10 @@ export const addDevice = async (req, res) => {
       color: uploadedColorImages,
       name: nameDevice,
       info: infoDevice,
+      cost:0,
       priceLE: priceLEDeviceActual,
       priceSI: priceSIDeviceActual,
+      inventory:0,
       func: funcDevice,
       instruction: instrucDevice,
     });
@@ -1740,4 +1745,33 @@ export const changeStatusOrders=async(req,res)=>{
   } catch (error) {
   res.json({mess:"Cập nhật trạng thái đơn hàng thất bại",success:false,error:error.message});
   }
+}
+export const importDevice=async(req,res)=>{
+  try {
+    const {idDeviceImport,importQuantityActual,costActual}=req.body;
+  if (!importQuantityActual) {
+    return res.json({mess:"Vui lòng điền số lượng nhập",success:false});
+  }
+  if (!costActual) {
+    return res.json({mess:"Vui lòng điền giá vốn",success:false});
+  }
+  const device=await deviceEntity.findById(idDeviceImport);
+  let inventory=device.inventory;
+  let cost=device.cost;
+  inventory+=Number(importQuantityActual);
+  const averageCost=(cost+Number(costActual))/2;
+  await deviceEntity.findByIdAndUpdate(idDeviceImport,{
+    cost:averageCost,
+    inventory:inventory,
+  });
+  res.json({mess:"Nhập kho thành công",success:true});
+  } catch (error) {
+  res.json({mess:"Nhập kho thất bại",success:false,error:error.message});
+  }
+}
+export const reloadOrder=async(req,res)=>{
+  const now=new Date();
+  const thridDaysAgo=new Date(now.getTime()-30*24*60*60*1000);
+  const orders=await orderEntity.find({createAt:{$gte:thridDaysAgo}}).sort({createAt:-1});
+  res.json({data:orders});
 }

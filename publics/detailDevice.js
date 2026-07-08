@@ -222,6 +222,9 @@ document.getElementById("btnShareDevice").addEventListener("click", () => {
   divShareSocial.style.display = type;
 });
 document.getElementById("btnCartDevice").addEventListener("click", function () {
+  if (this.innerText==="Liên hệ") {
+    return;
+  }
   const token = getCookie("accessToken2");
   const decodedeUser = jwtDecode(token);
   const idClient = decodedeUser.id;

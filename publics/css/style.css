@@ -1036,7 +1036,17 @@ header div:last-child #containerUserLogin #bagShopping span {
   justify-content: space-between;
   align-items: center;
 }
-#mainDashboard #contentDashboard #orderMng #headerOrderMng #changeStatusOrders {
+#mainDashboard #contentDashboard #orderMng #headerOrderMng div #btnReloadOrder {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #80a710;
+  color: #fafafa;
+  border: none;
+  border-radius: 5px;
+}
+#mainDashboard #contentDashboard #orderMng #headerOrderMng div #changeStatusOrders {
   display: none;
   height: 2rem;
   font-size: 1rem;
@@ -4847,22 +4857,24 @@ header div:last-child #containerUserLogin #bagShopping span {
 #mainDetailDevice #detailDevice div #listOtherDevice {
   display: flex;
   flex-flow: row wrap;
+  justify-content: space-between;
   margin: 1rem 0;
 }
 #mainDetailDevice #detailDevice div #listOtherDevice a {
   color: black;
   text-decoration: none;
   display: inline-block;
+  border: 1px solid #bbb;
+  border-radius: 10px;
+  background-color: white;
   width: 48%;
   height: 15rem;
   margin: 1% 0;
+  overflow: hidden;
 }
 #mainDetailDevice #detailDevice div #listOtherDevice a .device {
   width: 100%;
   height: inherit;
-  border: 1px solid black;
-  border-radius: 5px;
-  background-color: #f5f5f5;
   display: flex;
   flex-flow: row nowrap;
   overflow: hidden;
@@ -4870,10 +4882,6 @@ header div:last-child #containerUserLogin #bagShopping span {
 }
 #mainDetailDevice #detailDevice div #listOtherDevice a .device .divImg {
   width: 50%;
-  display: flex;
-  flex-flow: column;
-  justify-content: space-between;
-  align-items: start;
 }
 #mainDetailDevice #detailDevice div #listOtherDevice a .device .divImg img {
   width: 100%;
@@ -4883,10 +4891,13 @@ header div:last-child #containerUserLogin #bagShopping span {
   margin: 0;
 }
 #mainDetailDevice #detailDevice div #listOtherDevice a .device .divImg p {
-  font-size: 1.2rem;
-  margin: 0.5rem;
-  color: #80a710;
-  font-weight: bold;
+  display: inline-block;
+  padding: 0.55rem;
+  margin: 0 0.5rem;
+  background-color: #80a710;
+  color: #fafafa;
+  border: none;
+  border-radius: 1000px;
 }
 #mainDetailDevice #detailDevice div #listOtherDevice a .device .device-content {
   width: 50%;

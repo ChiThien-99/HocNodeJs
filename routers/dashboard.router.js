@@ -82,6 +82,10 @@ dashboardRouter.get(
   `${prefix}/downloadOrder/:id`,
   dashboardController.downloadOrder,
 );
+dashboardRouter.get(
+  `${prefix}/reloadOrder`,
+  dashboardController.reloadOrder,
+);
 dashboardRouter.post(
   `${prefix}/registerAdmin`,
   authLimit,
@@ -234,6 +238,7 @@ dashboardRouter.put(
 );
 dashboardRouter.put(`${prefix}/updateOrder`, dashboardController.updateOrder);
 dashboardRouter.put(`${prefix}/changeStatusOrders`, dashboardController.changeStatusOrders);
+dashboardRouter.put(`${prefix}/importDevice`, dashboardController.importDevice);
 dashboardRouter.delete(
   `${prefix}/deleteUserAdmin/:idDelete`,
   authenticateToken,

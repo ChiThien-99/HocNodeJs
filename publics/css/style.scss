@@ -990,11 +990,20 @@ header {
         flex-flow: row nowrap;
         justify-content: space-between;
         align-items: center;
+        div{
+         #btnReloadOrder{
+          @include button(0.5rem);
+          background-color: $colorCTA;
+          color: $colorSecondaryText;
+          border: none;
+          border-radius: 5px;
+        }
         #changeStatusOrders{
         display: none;
         height: 2rem;
         font-size: 1rem;
       }
+        }
       }
       table {
         width: 100%;
@@ -4498,30 +4507,28 @@ header {
       #listOtherDevice {
         display: flex;
         flex-flow: row wrap;
+        justify-content: space-between;
         margin: 1rem 0;
         a {
           color: black;
           text-decoration: none;
           display: inline-block;
+          border: 1px solid #bbb;
+          border-radius: 10px;
+          background-color: white;
           width: 48%;
           height: 15rem;
           margin: 1% 0;
+          overflow: hidden;
           .device {
             width: 100%;
             height: inherit;
-            border: 1px solid black;
-            border-radius: 5px;
-            background-color: $colorPrimaryBG;
             display: flex;
             flex-flow: row nowrap;
             overflow: hidden;
             position: relative;
             .divImg {
               width: 50%;
-              display: flex;
-              flex-flow: column;
-              justify-content: space-between;
-              align-items: start;
               img {
                 width: 100%;
                 height: 80%;
@@ -4529,10 +4536,13 @@ header {
                 margin: 0;
               }
               p {
-                font-size: 1.2rem;
-                margin: 0.5rem;
-                color: $colorCTA;
-                font-weight: bold;
+              display: inline-block;
+              padding: 0.55rem;
+              margin: 0 0.5rem;
+              background-color: $colorCTA;
+              color: $colorSecondaryText;
+              border: none;
+              border-radius: 1000px;
               }
             }
             .device-content {

@@ -73,7 +73,10 @@
             <h3 id="roleAd">Chức vụ</h3>
             <em id="idAd"></em>
           </div>
-          <button data-target="orderMng" class="navBtnDB active" id="btnOrderMng">
+          <button data-target="overviewMng" class="navBtnDB active">
+            <i class="fa-solid fa-magnifying-glass-chart"></i> Tổng quan
+          </button>
+          <button data-target="orderMng" class="navBtnDB" id="btnOrderMng">
             <i class="fa-solid fa-boxes-packing"></i> Quản lý đơn hàng <span id="generatedOrder">0</span>
           </button>
           <button data-target="workMng" class="navBtnDB">
@@ -105,15 +108,21 @@
           </button>
         </div>
         <div id="contentDashboard">
-          <div id="orderMng" class="tabContent active">
+          <div id="overviewMng" class="tabContent active">
+            <p>Tổng quan</p>
+          </div>
+          <div id="orderMng" class="tabContent">
             <div id="headerOrderMng">
               <h2 class="flag-item">Quản lý đơn hàng</h2>
+              <div>
+                 <button type="button" id="btnReloadOrder"><i class="fa-solid fa-arrow-rotate-right"></i> Nạp</button>
             <select name="status" id="changeStatusOrders">
               <option value="Đang xử lý">Đang xử lý</option>
               <option value="Đang vận chuyển">Đang vận chuyển</option>
               <option value="Đã nhận hàng">Đã nhận hàng</option>
               <option value="Hủy">Hủy</option>
             </select>
+              </div>
             </div>
             <table id="tableOrder">
               <thead>
@@ -141,9 +150,7 @@
                   <td><%=order.orderNumber%></td>
                   <td><%=order.nameCompany==="--"?order.buyer:order.nameCompany%></td>
                   <td>
-                    <%let subtotal=0;%>
-                    <%order.products.forEach((p)=>{subtotal+=p.quantity*p.price;})%>
-                    <%=(subtotal-order.voucherDiscount).toLocaleString("vi-VN")%>
+                    <%= (order.products.reduce((total, p) => total + (p.quantity * p.price), 0) - order.voucherDiscount).toLocaleString("vi-VN")%>đ
                   </td>
                   <td>
                     <input type="text" name="invoice" class="invoice" value="<%=order.invoice%>" disabled>
@@ -227,7 +234,7 @@
                     </p>
                   </div>
                 </div>
-                <p>Số tiền bằng chữ: <span class="textMoney"></span></p>
+                <p>Số tiền bằng chữ: <%=DocSoTienVietNam(subtotal2-order.voucherDiscount)%></p>
                 <p>Hình thức thanh toán: <%=order.paymentMethod%></p>
                 <div class="divSign">
                   <div>
@@ -274,6 +281,13 @@
               <em>*Mật khẩu tối thiểu 1 chữ cái, 1 chữ số, 1 ký tự đặc biệt</em>
               <p>Phân quyền</p>
               <div id="formDecentralize">
+                <input
+                  type="checkbox"
+                  name="decentAdmin"
+                  id="decentOrder"
+                  value="overviewMng"
+                />
+                <label for="decentOrder">Tổng quan</label><br />
                 <input
                   type="checkbox"
                   name="decentAdmin"
@@ -797,7 +811,7 @@
               </thead>
               <tbody>
                 <%devices.forEach((device)=>{%>
-                <tr>
+                <tr data-idDeviceImport="<%=device._id%>">
                   <td><%=device.name%></td>
                   <td><%=device.priceLE.toLocaleString('vi-VN')%>đ</td>
                   <td><%=device.priceSI.toLocaleString('vi-VN')%>đ</td>

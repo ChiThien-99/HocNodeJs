@@ -149,7 +149,7 @@
                 <strong id="priceDevice" data-base-price="<%=device.priceLE%>"><%=device.priceLE.toLocaleString('vi-VN')%> đ</strong>
               </div>
               <div id="groupBtnDevice">
-                <button id="btnCartDevice" data-idDevice="<%=device._id%>" data-nameDevice="<%=device.name%>" data-priceDevice="<%=device.priceLE%>"><i class="fa-solid fa-cart-plus"></i> Mua ngay</button>
+                <button id="btnCartDevice" data-idDevice="<%=device._id%>" data-nameDevice="<%=device.name%>" data-priceDevice="<%=device.priceLE%>"><%-device.inventory===0?"Liên hệ":'<i class="fa-solid fa-cart-plus"></i> Mua ngay'%></button>
                 <button id="btnShareDevice"><i class="fa-solid fa-share-nodes"></i> Chia sẻ</button>
               </div>
             </div>
@@ -241,7 +241,7 @@
               <div class="device">
               <div class="divImg">
                 <img src="<%=device.images[0].url%>" alt="device">
-                <p><%=device.price.toLocaleString('vi-VN')%> đ</p>
+                <p><%=device.priceLE.toLocaleString('vi-VN')%> đ</p>
               </div>
               <div class="device-content">
                 <h4><%=device.name%></h4>
