@@ -1062,7 +1062,8 @@ header div:last-child #containerUserLogin #bagShopping span {
   border-collapse: collapse;
   padding: 0.5rem;
 }
-#mainDashboard #contentDashboard #orderMng table thead #totalOrderHasInvoice, #mainDashboard #contentDashboard #orderMng table thead #totalOrder {
+#mainDashboard #contentDashboard #orderMng table thead #totalOrderHasInvoice,
+#mainDashboard #contentDashboard #orderMng table thead #totalOrder {
   color: red;
 }
 #mainDashboard #contentDashboard #orderMng table tbody {
@@ -1074,10 +1075,10 @@ header div:last-child #containerUserLogin #bagShopping span {
   width: 5rem;
   height: 1.5rem;
 }
-#mainDashboard #contentDashboard #orderMng table tbody tr td:last-child {
+#mainDashboard #contentDashboard #orderMng table tbody tr .tdChooseOrders {
   text-align: center;
 }
-#mainDashboard #contentDashboard #orderMng table tbody tr td:last-child .chooseOrders {
+#mainDashboard #contentDashboard #orderMng table tbody tr .tdChooseOrders .chooseOrders {
   width: 1.5rem;
   height: 1.5rem;
 }
@@ -1870,18 +1871,26 @@ header div:last-child #containerUserLogin #bagShopping span {
   margin-top: 1rem;
   overflow-y: scroll;
 }
-#mainDashboard #contentDashboard #deviceMng #divImportDevice table, #mainDashboard #contentDashboard #deviceMng #divImportDevice td, #mainDashboard #contentDashboard #deviceMng #divImportDevice th {
+#mainDashboard #contentDashboard #deviceMng #divImportDevice table,
+#mainDashboard #contentDashboard #deviceMng #divImportDevice td,
+#mainDashboard #contentDashboard #deviceMng #divImportDevice th {
   border: 1px solid black;
   border-collapse: collapse;
   padding: 0.5rem;
 }
-#mainDashboard #contentDashboard #deviceMng #divImportDevice table .importQuantity, #mainDashboard #contentDashboard #deviceMng #divImportDevice td .importQuantity, #mainDashboard #contentDashboard #deviceMng #divImportDevice th .importQuantity {
+#mainDashboard #contentDashboard #deviceMng #divImportDevice table .importQuantity,
+#mainDashboard #contentDashboard #deviceMng #divImportDevice td .importQuantity,
+#mainDashboard #contentDashboard #deviceMng #divImportDevice th .importQuantity {
   width: 40%;
 }
-#mainDashboard #contentDashboard #deviceMng #divImportDevice table .cost, #mainDashboard #contentDashboard #deviceMng #divImportDevice td .cost, #mainDashboard #contentDashboard #deviceMng #divImportDevice th .cost {
+#mainDashboard #contentDashboard #deviceMng #divImportDevice table .cost,
+#mainDashboard #contentDashboard #deviceMng #divImportDevice td .cost,
+#mainDashboard #contentDashboard #deviceMng #divImportDevice th .cost {
   width: 50%;
 }
-#mainDashboard #contentDashboard #deviceMng #divImportDevice table .btnImportDevice, #mainDashboard #contentDashboard #deviceMng #divImportDevice td .btnImportDevice, #mainDashboard #contentDashboard #deviceMng #divImportDevice th .btnImportDevice {
+#mainDashboard #contentDashboard #deviceMng #divImportDevice table .btnImportDevice,
+#mainDashboard #contentDashboard #deviceMng #divImportDevice td .btnImportDevice,
+#mainDashboard #contentDashboard #deviceMng #divImportDevice th .btnImportDevice {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -1891,7 +1900,9 @@ header div:last-child #containerUserLogin #bagShopping span {
   border: none;
   border-radius: 5px;
 }
-#mainDashboard #contentDashboard #deviceMng #divImportDevice table .btnCancleDevice, #mainDashboard #contentDashboard #deviceMng #divImportDevice td .btnCancleDevice, #mainDashboard #contentDashboard #deviceMng #divImportDevice th .btnCancleDevice {
+#mainDashboard #contentDashboard #deviceMng #divImportDevice table .btnCancleDevice,
+#mainDashboard #contentDashboard #deviceMng #divImportDevice td .btnCancleDevice,
+#mainDashboard #contentDashboard #deviceMng #divImportDevice th .btnCancleDevice {
   border: none;
   border-radius: 5px;
   cursor: pointer;

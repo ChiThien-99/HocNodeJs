@@ -65,15 +65,15 @@ export const deleteProduct = async (req, res) => {
         0,
       );
     }
-    let totalDevice=0;
-    updateCart.products.forEach((product)=>{
-      if (product.category==="device") {
-        totalDevice+=1;
+    let totalDevice = 0;
+    updateCart.products.forEach((product) => {
+      if (product.category === "device") {
+        totalDevice += 1;
       }
-    })
+    });
     const io = req.app.get("socketio");
     io.emit("update-totalItems", totalItems);
-    io.emit("updateCod",totalDevice);
+    io.emit("updateCod", totalDevice);
     res.json({ mess: "Xóa sản phẩm thành công", success: true, totalItems });
   } catch (error) {
     res.json({
@@ -110,7 +110,7 @@ export const updateQuantity = async (req, res) => {
     });
   }
 };
-let activeVoucher=[];
+let activeVoucher = [];
 export const calMultiVouchers = async (req, res) => {
   try {
     const { selectedVoucherCode, idClient } = req.body;
@@ -207,10 +207,25 @@ export const addReceivingInfor = async (req, res) => {
       categoryAddress,
     } = req.body;
     const client = await clientEntity.findById(idClient);
-    fullname=fullname.trim().toUpperCase();
-    provinceCity=provinceCity.trim().toLowerCase().split(" ").map(word=>word.charAt(0).toUpperCase()+word.slice(1)).join(" ");
-    wardsCommunes=wardsCommunes.trim().toLowerCase().split(" ").map(word=>word.charAt(0).toUpperCase()+word.slice(1)).join(" ");
-    numberHouse=numberHouse.trim().toLowerCase().split(" ").map(word=>word.charAt(0).toUpperCase()+word.slice(1)).join(" ");
+    fullname = fullname.trim().toUpperCase();
+    provinceCity = provinceCity
+      .trim()
+      .toLowerCase()
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+    wardsCommunes = wardsCommunes
+      .trim()
+      .toLowerCase()
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+    numberHouse = numberHouse
+      .trim()
+      .toLowerCase()
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
     client.addressInfor.push({
       fullname: fullname,
       tel: tel,
@@ -274,10 +289,25 @@ export const addInfoInvoice = async (req, res) => {
       mailInvoice,
     } = req.body;
     const client = await clientEntity.findById(idClient);
-    nameCompany=nameCompany.trim().toUpperCase();
-    numberCompany=numberCompany.trim().toLowerCase().split(" ").map(word=>word.charAt(0).toUpperCase()+word.slice(1)).join(" ");
-    wardsCommunesInvoice=wardsCommunesInvoice.trim().toLowerCase().split(" ").map(word=>word.charAt(0).toUpperCase()+word.slice(1)).join(" ");
-    provinceCityInvoice=provinceCityInvoice.trim().toLowerCase().split(" ").map(word=>word.charAt(0).toUpperCase()+word.slice(1)).join(" ");
+    nameCompany = nameCompany.trim().toUpperCase();
+    numberCompany = numberCompany
+      .trim()
+      .toLowerCase()
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+    wardsCommunesInvoice = wardsCommunesInvoice
+      .trim()
+      .toLowerCase()
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+    provinceCityInvoice = provinceCityInvoice
+      .trim()
+      .toLowerCase()
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
     client.invoiceInfor.push({
       nameCompany: nameCompany,
       mstCompany: mstCompany,
@@ -326,20 +356,20 @@ export const deleteInvoiceInfor = async (req, res) => {
     });
   }
 };
-const generatedOrderCode=async()=>{
-  const now=new Date();
-  const year=now.getFullYear();
-  const month=String(now.getMonth()+1).padStart(2,"0");
-  const day=String(now.getDate()).padStart(2,"0");
-  const currentDateStr=`${year}${month}${day}`;
-  const counter=await orderCounterEntity.findOneAndUpdate(
-    {dateStr:currentDateStr},
-    {$inc:{count:1}},
-    {new:true,upsert:true},
-  )
-  const orderSequence=String(counter.count).padStart(4,"0");
+const generatedOrderCode = async () => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  const currentDateStr = `${year}${month}${day}`;
+  const counter = await orderCounterEntity.findOneAndUpdate(
+    { dateStr: currentDateStr },
+    { $inc: { count: 1 } },
+    { new: true, upsert: true },
+  );
+  const orderSequence = String(counter.count).padStart(4, "0");
   return `DH${currentDateStr}-${orderSequence}`;
-}
+};
 export const addOrder = async (req, res) => {
   try {
     let {
@@ -355,28 +385,48 @@ export const addOrder = async (req, res) => {
       addressCompanyOrder,
       mailInvoiceOrder,
     } = req.body;
-    if (paymentOrder==="--") {
-      return res.json({mess:"Vui lòng chọn phương thức thanh toán",success:false});
+    if (paymentOrder === "--") {
+      return res.json({
+        mess: "Vui lòng chọn phương thức thanh toán",
+        success: false,
+      });
     }
-    if (nameDelivery==="--" && telDelivery==="--" && addressDelivery==="--") {
-      return res.json({mess:"Vui lòng chọn thông tin nhận hàng",success:false});
+    if (
+      nameDelivery === "--" &&
+      telDelivery === "--" &&
+      addressDelivery === "--"
+    ) {
+      return res.json({
+        mess: "Vui lòng chọn thông tin nhận hàng",
+        success: false,
+      });
     }
     if (cbInvoice) {
-      if (nameCompanyOrder==="--" && mstCompanyOrder==="--" && addressCompanyOrder==="--" && mailInvoiceOrder==="--") {
-        return res.json({mess:"Vui lòng chọn thông tin xuất hóa đơn",success:false});
+      if (
+        nameCompanyOrder === "--" &&
+        mstCompanyOrder === "--" &&
+        addressCompanyOrder === "--" &&
+        mailInvoiceOrder === "--"
+      ) {
+        return res.json({
+          mess: "Vui lòng chọn thông tin xuất hóa đơn",
+          success: false,
+        });
       }
     }
     const cartOfClient = await cartEntity.findOne({ clientId: idClient });
     const productsCart = cartOfClient.products;
-    const numberDiscountAmount=Number(discountAmount);
-    const client=await clientEntity.findById(idClient);
-    const emailClient=client.email;
-    const nameClient=client.fullname;
-    const newOrder=await orderEntity.create({
-      orderNumber:await generatedOrderCode(),
-      status:"Đang xử lý",
+    const numberDiscountAmount = Number(discountAmount);
+    const client = await clientEntity.findById(idClient);
+    const emailClient = client.email;
+    const nameClient = client.fullname;
+    const mailClient = client.email;
+    const newOrder = await orderEntity.create({
+      orderNumber: await generatedOrderCode(),
+      status: "Đang xử lý",
       idClient: idClient,
-      buyer:nameClient,
+      buyer: nameClient,
+      mailClient: mailClient,
       products: productsCart,
       voucherDiscount: numberDiscountAmount,
       paymentMethod: paymentOrder,
@@ -390,16 +440,16 @@ export const addOrder = async (req, res) => {
     });
     await cartEntity.findByIdAndDelete(cartOfClient._id);
     console.log(`activeVoucher: ${activeVoucher}`);
-    activeVoucher.forEach(async(v)=>{
-      const usedVoucher=await voucherEntity.findOne({code:v.code});
+    activeVoucher.forEach(async (v) => {
+      const usedVoucher = await voucherEntity.findOne({ code: v.code });
       usedVoucher.usersUsed.push(idClient);
       usedVoucher.save();
       console.log(`usedVoucher: ${usedVoucher}`);
-    })
-    sendOrderEmail(emailClient,nameClient,newOrder);
+    });
+    sendOrderEmail(emailClient, nameClient, newOrder);
     const io = req.app.get("socketio");
-    const totalItems=0;
-    const generatedOrder=1;
+    const totalItems = 0;
+    const generatedOrder = 1;
     io.emit("update-totalItems", totalItems);
     io.emit("updateGeneratedOrder", generatedOrder);
     res.json({ mess: "Đặt hàng thành công", success: true });
@@ -411,6 +461,6 @@ export const addOrder = async (req, res) => {
     });
   }
 };
-export const getThank=async(req,res)=>{
+export const getThank = async (req, res) => {
   res.render("thank.ejs");
-}
+};

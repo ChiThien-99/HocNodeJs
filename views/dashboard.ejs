@@ -73,10 +73,10 @@
             <h3 id="roleAd">Chức vụ</h3>
             <em id="idAd"></em>
           </div>
-          <button data-target="overviewMng" class="navBtnDB active">
+          <button data-target="overviewMng" class="navBtnDB">
             <i class="fa-solid fa-magnifying-glass-chart"></i> Tổng quan
           </button>
-          <button data-target="orderMng" class="navBtnDB" id="btnOrderMng">
+          <button data-target="orderMng" class="navBtnDB active" id="btnOrderMng">
             <i class="fa-solid fa-boxes-packing"></i> Quản lý đơn hàng <span id="generatedOrder">0</span>
           </button>
           <button data-target="workMng" class="navBtnDB">
@@ -108,10 +108,10 @@
           </button>
         </div>
         <div id="contentDashboard">
-          <div id="overviewMng" class="tabContent active">
+          <div id="overviewMng" class="tabContent">
             <p>Tổng quan</p>
           </div>
-          <div id="orderMng" class="tabContent">
+          <div id="orderMng" class="tabContent active">
             <div id="headerOrderMng">
               <h2 class="flag-item">Quản lý đơn hàng</h2>
               <div>
@@ -197,7 +197,7 @@
                   <p>Địa chỉ công ty: <%=order.addressCompany%></p>
                   <p>Mã số thuế: <%=order.mstCompany%></p>
                   <%}%>
-                  <p>Diễn giải: VAT<%=order.mailInvoice==="--"?"":", "+order.mailInvoice%></p>
+                  <p>Diễn giải: VAT<%=order.mailInvoice==="--"?", "+order.mailClient:", "+order.mailInvoice%></p>
                   <p>Loại tiền: VNĐ</p>
                 </div>
                 <table>
@@ -250,7 +250,7 @@
             </div>
                     </div>
                   </td>
-                  <td>
+                  <td class="tdChooseOrders">
                     <input type="checkbox" name="chooseOrders" class="chooseOrders">
                   </td>
                 </tr>

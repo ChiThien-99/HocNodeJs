@@ -81,7 +81,9 @@ socket.on("update-device", (data) => {
       `,
     );
   }
-  const existRowDevice = document.querySelector(`tr[data-idDeviceImport="${data._id}"]`);
+  const existRowDevice = document.querySelector(
+    `tr[data-idDeviceImport="${data._id}"]`,
+  );
   if (existRowDevice) {
     existRowDevice.cells[0].innerText = data.name;
     existRowDevice.cells[1].innerText = `${Number(data.priceLE).toLocaleString("vi-VN")}đ`;
@@ -92,8 +94,8 @@ socket.on("update-device", (data) => {
       `
       <tr data-idDeviceImport="${data._id}">
         <td>${data.name}</td>
-        <td>${data.priceLE.toLocaleString('vi-VN')}đ</td>
-        <td>${data.priceSI.toLocaleString('vi-VN')}đ</td>
+        <td>${data.priceLE.toLocaleString("vi-VN")}đ</td>
+        <td>${data.priceSI.toLocaleString("vi-VN")}đ</td>
         <td>
           <input type="text" name="importQuantity" class="importQuantity">
           <input type="hidden" name="importQuantityActual" class="importQuantityActual">
@@ -472,22 +474,22 @@ socket.on("delete-problem", (data) => {
     }
   }
 });
-socket.on("updateStatusOrder",(data)=>{
-  data[0].forEach((id)=>{
-    const tr=document.querySelector(`tr[data-idOrder="${id}"]`);
-    tr.querySelector(".status").value=data[1];
-  })
-})
-socket.on("updateGeneratedOrder",(data)=>{
-  const generatedOrder=document.getElementById("generatedOrder");
-  const computedStyle=window.getComputedStyle(generatedOrder);
-  if (computedStyle.display==="none") {
-    generatedOrder.style.display="inline-block";
+socket.on("updateStatusOrder", (data) => {
+  data[0].forEach((id) => {
+    const tr = document.querySelector(`tr[data-idOrder="${id}"]`);
+    tr.querySelector(".status").value = data[1];
+  });
+});
+socket.on("updateGeneratedOrder", (data) => {
+  const generatedOrder = document.getElementById("generatedOrder");
+  const computedStyle = window.getComputedStyle(generatedOrder);
+  if (computedStyle.display === "none") {
+    generatedOrder.style.display = "inline-block";
   }
-  let totalGeneratedOrder=Number(generatedOrder.innerText);
-  totalGeneratedOrder+=Number(data);
-  generatedOrder.innerText=totalGeneratedOrder;
-})
+  let totalGeneratedOrder = Number(generatedOrder.innerText);
+  totalGeneratedOrder += Number(data);
+  generatedOrder.innerText = totalGeneratedOrder;
+});
 async function verifySession() {
   try {
     const response = await authFetch("/api/auth/me");
@@ -1686,31 +1688,31 @@ priceLEDevice.addEventListener("input", (e) => {
     priceSIDevice.value = "";
   }
 });
-document.querySelector("#tableImportDevice").addEventListener("input",(e)=>{
-  const target=e.target;
+document.querySelector("#tableImportDevice").addEventListener("input", (e) => {
+  const target = e.target;
   if (target.classList.contains("cost")) {
-  let rawValue = target.value.replace(/\D/g, "");
-  const cell=target.closest("td");
-  const costActual=cell.querySelector(".costActual");
-  costActual.value = rawValue;
-  if (rawValue) {
-    target.value = Number(rawValue).toLocaleString("vi-VN");
-  } else {
-    target.value = "";
-  }
+    let rawValue = target.value.replace(/\D/g, "");
+    const cell = target.closest("td");
+    const costActual = cell.querySelector(".costActual");
+    costActual.value = rawValue;
+    if (rawValue) {
+      target.value = Number(rawValue).toLocaleString("vi-VN");
+    } else {
+      target.value = "";
+    }
   }
   if (target.classList.contains("importQuantity")) {
-  let rawValue = target.value.replace(/\D/g, "");
-  const cell=target.closest("td");
-  const importQuantityActual=cell.querySelector(".importQuantityActual");
-  importQuantityActual.value = rawValue;
-  if (rawValue) {
-    target.value = Number(rawValue).toLocaleString("vi-VN");
-  } else {
-    target.value = "";
+    let rawValue = target.value.replace(/\D/g, "");
+    const cell = target.closest("td");
+    const importQuantityActual = cell.querySelector(".importQuantityActual");
+    importQuantityActual.value = rawValue;
+    if (rawValue) {
+      target.value = Number(rawValue).toLocaleString("vi-VN");
+    } else {
+      target.value = "";
+    }
   }
-  }
-})
+});
 document
   .querySelector("#tableDevice tbody")
   .addEventListener("click", async (e) => {
@@ -2571,25 +2573,37 @@ tableOrder.addEventListener("click", async (e) => {
         body: JSON.stringify({ id, valueInvoice, valueStatus }),
       })
         .then((res) => res.json())
-        .then(({ mess, success, error,totalOrderLen,totalOrderHasInvoiceLen }) => {
-          if (success) {
-            if (totalOrderHasInvoiceLen===totalOrderLen) {
-            document.getElementById("totalOrderHasInvoice").style.color="#80a710";
-            document.getElementById("totalOrder").style.color="#80a710";
-            document.getElementById("totalOrderHasInvoice").innerText=totalOrderHasInvoiceLen+" / ";
-            document.getElementById("totalOrder").innerText=totalOrderLen;
+        .then(
+          ({
+            mess,
+            success,
+            error,
+            totalOrderLen,
+            totalOrderHasInvoiceLen,
+          }) => {
+            if (success) {
+              if (totalOrderHasInvoiceLen === totalOrderLen) {
+                document.getElementById("totalOrderHasInvoice").style.color =
+                  "#80a710";
+                document.getElementById("totalOrder").style.color = "#80a710";
+                document.getElementById("totalOrderHasInvoice").innerText =
+                  totalOrderHasInvoiceLen + " / ";
+                document.getElementById("totalOrder").innerText = totalOrderLen;
+              } else {
+                document.getElementById("totalOrderHasInvoice").style.color =
+                  "red";
+                document.getElementById("totalOrder").style.color = "red";
+                document.getElementById("totalOrderHasInvoice").innerText =
+                  totalOrderHasInvoiceLen + " / ";
+                document.getElementById("totalOrder").innerText = totalOrderLen;
+              }
+
+              alert("Thông báo", mess, "#80a710");
             } else {
-            document.getElementById("totalOrderHasInvoice").style.color="red";
-            document.getElementById("totalOrder").style.color="red";
-            document.getElementById("totalOrderHasInvoice").innerText=totalOrderHasInvoiceLen+" / ";
-            document.getElementById("totalOrder").innerText=totalOrderLen;
+              alert("Lỗi", `${mess}\n${error}`, "red");
             }
-            
-            alert("Thông báo", mess, "#80a710");
-          } else {
-            alert("Lỗi", `${mess}\n${error}`, "red");
-          }
-        })
+          },
+        )
         .catch((error) => {
           alert("Lỗi", error, "red");
         });
@@ -2698,42 +2712,44 @@ tableOrder.addEventListener("click", async (e) => {
       });
   }
 });
-let arrChooseOrder=[]
-tableOrder.addEventListener("change",(e)=>{
-  const target=e.target;
+let arrChooseOrder = [];
+tableOrder.addEventListener("change", (e) => {
+  const target = e.target;
   if (target.classList.contains("chooseOrders")) {
-    const row=target.closest("tr");
-    const idOrder=row.getAttribute("data-idOrder");
+    const row = target.closest("tr");
+    const idOrder = row.getAttribute("data-idOrder");
     if (target.checked) {
       if (!arrChooseOrder.includes(idOrder)) {
         arrChooseOrder.push(idOrder);
       }
     } else {
-      arrChooseOrder=arrChooseOrder.filter((id)=>id!==idOrder);
+      arrChooseOrder = arrChooseOrder.filter((id) => id !== idOrder);
     }
-    if (arrChooseOrder.length>0) {
-      document.getElementById("changeStatusOrders").style.display="inline";
+    if (arrChooseOrder.length > 0) {
+      document.getElementById("changeStatusOrders").style.display = "inline";
     } else {
-      document.getElementById("changeStatusOrders").style.display="none";
+      document.getElementById("changeStatusOrders").style.display = "none";
     }
   }
-})
-document.getElementById("changeStatusOrders").addEventListener("change",function(){
-  const statusChange=this.value;
-  fetch("/dashboard/changeStatusOrders",{
-      method:"PUT",
-      headers:{"Content-Type":"application/json;charset=UTF-8"},
-      body:JSON.stringify({arrChooseOrder,statusChange}),
+});
+document
+  .getElementById("changeStatusOrders")
+  .addEventListener("change", function () {
+    const statusChange = this.value;
+    fetch("/dashboard/changeStatusOrders", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
+      body: JSON.stringify({ arrChooseOrder, statusChange }),
     })
-    .then(res=>res.json())
-    .then(({mess,success,error})=>{
-      if (success) {
-        alert("Thông báo",mess,"#80a710");
-      } else {
-        alert("Lỗi",`${mess}\n${error}`,"red");
-      }
-    });
-})
+      .then((res) => res.json())
+      .then(({ mess, success, error }) => {
+        if (success) {
+          alert("Thông báo", mess, "#80a710");
+        } else {
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        }
+      });
+  });
 const DocSoTienVietNam = (number) => {
   const digits = [
     "không",
@@ -2825,75 +2841,85 @@ const DocSoTienVietNam = (number) => {
   // Viết hoa chữ cái đầu tiên và thêm chữ "đồng" chuẩn hóa đơn kế toán
   return finalResult.charAt(0).toUpperCase() + finalResult.slice(1) + " đồng";
 };
-document.addEventListener("DOMContentLoaded",()=>{
-  const totalOrderHasInvoiceLen=document.getElementById("totalOrderHasInvoice").innerText;
-  const totalOrderLen=document.getElementById("totalOrder").innerText;
-  if (Number(totalOrderHasInvoiceLen.slice(0,1))===Number(totalOrderLen)) {
-      document.getElementById("totalOrderHasInvoice").style.color="#80a710";
-      document.getElementById("totalOrder").style.color="#80a710";
+document.addEventListener("DOMContentLoaded", () => {
+  const totalOrderHasInvoiceLen = document.getElementById(
+    "totalOrderHasInvoice",
+  ).innerText;
+  const totalOrderLen = document.getElementById("totalOrder").innerText;
+  if (Number(totalOrderHasInvoiceLen.slice(0, 1)) === Number(totalOrderLen)) {
+    document.getElementById("totalOrderHasInvoice").style.color = "#80a710";
+    document.getElementById("totalOrder").style.color = "#80a710";
   }
-})
-document.getElementById("btnOrderMng").addEventListener("click",function(){
-  const generatedOrder=this.querySelector("span");
-  generatedOrder.style.display="none";
-})
-document.getElementById("tableImportDevice").addEventListener("click",(e)=>{
-   const target=e.target;
-   if (target.classList.contains("btnImportDevice")) {
-    const row=target.closest("tr");
-    const importQuantityActual=row.querySelector(".importQuantityActual").value;
-    const costActual=row.querySelector(".costActual").value;
-    const idDeviceImport=row.getAttribute("data-idDeviceImport");
-    fetch("/dashboard/importDevice",{
-      method:"PUT",
-      headers:{"Content-Type":"application/json;charset=UTF-8"},
-      body:JSON.stringify({idDeviceImport,importQuantityActual,costActual}),
-    })
-    .then(res=>res.json())
-    .then(({mess,success,error})=>{
-      if (success) {
-        row.querySelector(".importQuantity").value="";
-        row.querySelector(".cost").value="";
-        alert("Thông báo",mess,"#80a710");
-      } else {
-        alert("Lỗi",`${mess}\n${error}`,"red");
-      }
-    })
-    .catch((error)=>{
-      alert("Lỗi",error,"red");
-    });
-   }
-   if (target.classList.contains("btnCancleDevice")) {
-    const row=target.closest("tr");
-    row.querySelector(".importQuantity").value="";
-    row.querySelector(".cost").value="";
-   }
 });
-document.getElementById("btnReloadOrder").addEventListener("click",()=>{
-  fetch("/dashboard/reloadOrder",{
-    method:"GET",
-    headers:{"Content-Type":"application/json;charset=UTF-8"},
+document.getElementById("btnOrderMng").addEventListener("click", function () {
+  const generatedOrder = this.querySelector("span");
+  generatedOrder.style.display = "none";
+});
+document.getElementById("tableImportDevice").addEventListener("click", (e) => {
+  const target = e.target;
+  if (target.classList.contains("btnImportDevice")) {
+    const row = target.closest("tr");
+    const importQuantityActual = row.querySelector(
+      ".importQuantityActual",
+    ).value;
+    const costActual = row.querySelector(".costActual").value;
+    const idDeviceImport = row.getAttribute("data-idDeviceImport");
+    fetch("/dashboard/importDevice", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
+      body: JSON.stringify({
+        idDeviceImport,
+        importQuantityActual,
+        costActual,
+      }),
+    })
+      .then((res) => res.json())
+      .then(({ mess, success, error }) => {
+        if (success) {
+          row.querySelector(".importQuantity").value = "";
+          row.querySelector(".cost").value = "";
+          alert("Thông báo", mess, "#80a710");
+        } else {
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        }
+      })
+      .catch((error) => {
+        alert("Lỗi", error, "red");
+      });
+  }
+  if (target.classList.contains("btnCancleDevice")) {
+    const row = target.closest("tr");
+    row.querySelector(".importQuantity").value = "";
+    row.querySelector(".cost").value = "";
+  }
+});
+document.getElementById("btnReloadOrder").addEventListener("click", () => {
+  fetch("/dashboard/reloadOrder", {
+    method: "GET",
+    headers: { "Content-Type": "application/json;charset=UTF-8" },
   })
-  .then(res=>res.json())
-  .then(({data})=>{
-    document.getElementById("generatedOrder").style.display="none";
-    document.querySelector("#tableOrder tbody").innerHTML="";
-    document.querySelector("#tableOrder tbody").innerHTML=data.map((order)=>`
+    .then((res) => res.json())
+    .then(({ data }) => {
+      document.getElementById("generatedOrder").style.display = "none";
+      document.querySelector("#tableOrder tbody").innerHTML = "";
+      document.querySelector("#tableOrder tbody").innerHTML = data
+        .map(
+          (order) => `
     <tr data-idOrder="${order._id}">
       <td>${order.orderNumber}</td>
-      <td>${order.nameCompany==="--"?order.buyer:order.nameCompany}</td>
+      <td>${order.nameCompany === "--" ? order.buyer : order.nameCompany}</td>
       <td>
-        ${(order.products.reduce((total, p) => total + (p.quantity * p.price), 0) - order.voucherDiscount).toLocaleString("vi-VN")}đ
+        ${(order.products.reduce((total, p) => total + p.quantity * p.price, 0) - order.voucherDiscount).toLocaleString("vi-VN")}đ
       </td>
       <td>
         <input type="text" name="invoice" class="invoice" value="${order.invoice}" disabled>
       </td>
       <td>
         <select name="status" class="status" disabled>
-          <option value="Đang xử lý" ${order.status==="Đang xử lý"?"selected":""}>Đang xử lý</option>
-          <option value="Đang vận chuyển" ${order.status==="Đang vận chuyển"?"selected":""}>Đang vận chuyển</option>
-          <option value="Đã nhận hàng" ${order.status==="Đã nhận hàng"?"selected":""}>Đã nhận hàng</option>
-          <option value="Hủy" ${order.status==="Hủy"?"selected":""}>Hủy</option>
+          <option value="Đang xử lý" ${order.status === "Đang xử lý" ? "selected" : ""}>Đang xử lý</option>
+          <option value="Đang vận chuyển" ${order.status === "Đang vận chuyển" ? "selected" : ""}>Đang vận chuyển</option>
+          <option value="Đã nhận hàng" ${order.status === "Đã nhận hàng" ? "selected" : ""}>Đã nhận hàng</option>
+          <option value="Hủy" ${order.status === "Hủy" ? "selected" : ""}>Hủy</option>
         </select>
       </td>
       <td>
@@ -2921,16 +2947,22 @@ document.getElementById("btnReloadOrder").addEventListener("click",()=>{
           </div>
           <div>
             <p>Người mua: ${order.buyer}</p>
-            ${order.nameCompany==="--"&&order.addressCompany==="--"&&order.mstCompany==="--"?`
+            ${
+              order.nameCompany === "--" &&
+              order.addressCompany === "--" &&
+              order.mstCompany === "--"
+                ? `
             <p>Tên người nhận: ${order.fullnameDelivery}</p>
             <p>Số điện thoại: ${order.telDelivery}</p>
             <p>Địa chỉ nhận hàng: ${order.addressDelivery}</p>  
-            `:`
+            `
+                : `
             <p>Tên công ty: ${order.nameCompany}</p>
             <p>Địa chỉ công ty: ${order.addressCompany}</p>
             <p>Mã số thuế: ${order.mstCompany}</p>
-            `}
-            <p>Diễn giải: VAT${order.mailInvoice==="--"?"":", "+order.mailInvoice}</p>
+            `
+            }
+            <p>Diễn giải: VAT${order.mailInvoice === "--" ? ", " + order.mailClient : ", " + order.mailInvoice}</p>
             <p>Loại tiền: VNĐ</p>
           </div>
           <table>
@@ -2942,16 +2974,20 @@ document.getElementById("btnReloadOrder").addEventListener("click",()=>{
               <th>Đơn giá (bao gồm VAT)</th>
               <th>Thành tiền</th>
             </tr>
-            ${order.products.map((p,index)=>`
+            ${order.products
+              .map(
+                (p, index) => `
               <tr>
-                <td>${index+1}</td>
+                <td>${index + 1}</td>
                 <td>${p.productName}</td>
                 <td>Cái</td>
                 <td>${p.quantity}</td>
                 <td>${p.price.toLocaleString("vi-VN")}đ</td>
-                <td>${(p.quantity*p.price).toLocaleString("vi-VN")}đ</td>
+                <td>${(p.quantity * p.price).toLocaleString("vi-VN")}đ</td>
               </tr>
-            `).join("")}
+            `,
+              )
+              .join("")}
             </table>
             <div class="divDiscountAndTotal">
               <div>
@@ -2961,11 +2997,11 @@ document.getElementById("btnReloadOrder").addEventListener("click",()=>{
               <div>
                 <p>${order.voucherDiscount.toLocaleString("vi-VN")}đ</p>
                 <p>
-                  ${(order.products.reduce((total, p) => total + (p.quantity * p.price), 0) - order.voucherDiscount).toLocaleString("vi-VN")}đ
+                  ${(order.products.reduce((total, p) => total + p.quantity * p.price, 0) - order.voucherDiscount).toLocaleString("vi-VN")}đ
                 </p>
               </div>
               </div>
-                <p>Số tiền bằng chữ: ${DocSoTienVietNam((order.products.reduce((total, p) => total + (p.quantity * p.price), 0) - order.voucherDiscount))}</p>
+                <p>Số tiền bằng chữ: ${DocSoTienVietNam(order.products.reduce((total, p) => total + p.quantity * p.price, 0) - order.voucherDiscount)}</p>
                 <p>Hình thức thanh toán: ${order.paymentMethod}</p>
                 <div class="divSign">
                   <div>
@@ -2981,10 +3017,12 @@ document.getElementById("btnReloadOrder").addEventListener("click",()=>{
             </div>
                     </div>
                   </td>
-                  <td>
+                  <td class="tdChooseOrders">
                     <input type="checkbox" name="chooseOrders" class="chooseOrders">
                   </td>
                 </tr>
-    `).join("");
-  });
-})
+    `,
+        )
+        .join("");
+    });
+});

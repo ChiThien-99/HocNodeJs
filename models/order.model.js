@@ -17,6 +17,10 @@ const orderSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  mailClient: {
+    type: String,
+    required: true,
+  },
   products: [
     {
       category: { type: String, enum: ["app", "device"], required: true },

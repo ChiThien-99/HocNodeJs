@@ -907,7 +907,7 @@ header {
       background-color: white;
       font-size: 1rem;
       text-align: start;
-      span{
+      span {
         display: none;
         width: 1.2rem;
         height: 1.2rem;
@@ -985,24 +985,24 @@ header {
       }
     }
     #orderMng {
-      #headerOrderMng{
+      #headerOrderMng {
         display: flex;
         flex-flow: row nowrap;
         justify-content: space-between;
         align-items: center;
-        div{
-         #btnReloadOrder{
-          @include button(0.5rem);
-          background-color: $colorCTA;
-          color: $colorSecondaryText;
-          border: none;
-          border-radius: 5px;
-        }
-        #changeStatusOrders{
-        display: none;
-        height: 2rem;
-        font-size: 1rem;
-      }
+        div {
+          #btnReloadOrder {
+            @include button(0.5rem);
+            background-color: $colorCTA;
+            color: $colorSecondaryText;
+            border: none;
+            border-radius: 5px;
+          }
+          #changeStatusOrders {
+            display: none;
+            height: 2rem;
+            font-size: 1rem;
+          }
         }
       }
       table {
@@ -1015,10 +1015,11 @@ header {
           border-collapse: collapse;
           padding: 0.5rem;
         }
-        thead{
-          #totalOrderHasInvoice,#totalOrder{
-              color: red;
-            }
+        thead {
+          #totalOrderHasInvoice,
+          #totalOrder {
+            color: red;
+          }
         }
         tbody {
           height: auto;
@@ -1029,12 +1030,12 @@ header {
               width: 5rem;
               height: 1.5rem;
             }
-            td:last-child{
+            .tdChooseOrders {
               text-align: center;
-             .chooseOrders{
-              width: 1.5rem;
-              height: 1.5rem;
-            }
+              .chooseOrders {
+                width: 1.5rem;
+                height: 1.5rem;
+              }
             }
             select {
               height: 1.5rem;
@@ -1656,29 +1657,31 @@ header {
           color: $colorSecondaryText;
         }
       }
-      #divImportDevice{
+      #divImportDevice {
         width: fit-content;
         height: 20rem;
         margin-top: 1rem;
         overflow-y: scroll;
-        table,td,th{
+        table,
+        td,
+        th {
           border: 1px solid black;
           border-collapse: collapse;
           padding: 0.5rem;
-          .importQuantity{
-            width:40%;
+          .importQuantity {
+            width: 40%;
           }
-          .cost{
+          .cost {
             width: 50%;
           }
-          .btnImportDevice{
+          .btnImportDevice {
             @include button(0.5rem);
             background-color: $colorCTA;
             color: $colorSecondaryText;
             border: none;
             border-radius: 5px;
           }
-          .btnCancleDevice{
+          .btnCancleDevice {
             @include button(0.5rem);
             background-color: red;
             color: $colorSecondaryText;
@@ -4536,13 +4539,13 @@ header {
                 margin: 0;
               }
               p {
-              display: inline-block;
-              padding: 0.55rem;
-              margin: 0 0.5rem;
-              background-color: $colorCTA;
-              color: $colorSecondaryText;
-              border: none;
-              border-radius: 1000px;
+                display: inline-block;
+                padding: 0.55rem;
+                margin: 0 0.5rem;
+                background-color: $colorCTA;
+                color: $colorSecondaryText;
+                border: none;
+                border-radius: 1000px;
               }
             }
             .device-content {
