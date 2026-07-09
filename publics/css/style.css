@@ -1262,6 +1262,140 @@ header div:last-child #containerUserLogin #bagShopping span {
   background-color: red;
   color: #fafafa;
 }
+#mainDashboard #contentDashboard #workMng form #titleJob {
+  width: 50%;
+  height: 2rem;
+  font-size: 1rem;
+}
+#mainDashboard #contentDashboard #workMng form #deadlineJob {
+  width: 20%;
+  height: 2rem;
+  font-size: 1rem;
+}
+#mainDashboard #contentDashboard #workMng form input[type=submit] {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #80a710;
+  color: #fafafa;
+  border: none;
+  border-radius: 5px;
+  margin-top: 1rem;
+}
+#mainDashboard #contentDashboard #workMng form select {
+  height: 2rem;
+  font-size: 1rem;
+}
+#mainDashboard #contentDashboard #workMng table {
+  width: 100%;
+  margin-top: 1rem;
+}
+#mainDashboard #contentDashboard #workMng table, #mainDashboard #contentDashboard #workMng th, #mainDashboard #contentDashboard #workMng td {
+  border: 1px solid #bbb;
+  border-collapse: collapse;
+  padding: 0.5rem;
+}
+#mainDashboard #contentDashboard #workMng td:last-child .btnWatchJob {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #80a710;
+  color: #fafafa;
+  border: none;
+  border-radius: 5px;
+}
+#mainDashboard #contentDashboard #workMng td:last-child .btnAssignJob {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: chocolate;
+  color: #fafafa;
+  border: none;
+  border-radius: 5px;
+}
+#mainDashboard #contentDashboard #workMng td:last-child .btnCompleteJob {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #1877f2;
+  color: #fafafa;
+  border: none;
+  border-radius: 5px;
+}
+#mainDashboard #contentDashboard #workMng td:last-child .btnUpdateJob {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: cadetblue;
+  color: #fafafa;
+  border: none;
+  border-radius: 5px;
+}
+#mainDashboard #contentDashboard #workMng td:last-child .btnDeleteJob {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: red;
+  color: #fafafa;
+  border: none;
+  border-radius: 5px;
+}
+#mainDashboard #contentDashboard #workMng td .divMindmap {
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  z-index: 900;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+#mainDashboard #contentDashboard #workMng td .divMindmap .mindmap {
+  position: fixed;
+  width: 95%;
+  height: 95%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #f5f5f5;
+  padding: 0.5rem;
+}
+#mainDashboard #contentDashboard #workMng td .divMindmap .mindmap .tool {
+  text-align: right;
+  margin-bottom: 0.5rem;
+}
+#mainDashboard #contentDashboard #workMng td .divMindmap .mindmap .tool .btnSaveMindmap {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #80a710;
+  color: #fafafa;
+  border: none;
+  border-radius: 5px;
+  margin: 0.5rem 0.2rem;
+}
+#mainDashboard #contentDashboard #workMng td .divMindmap .mindmap .tool .btnSaveMindmap:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+#mainDashboard #contentDashboard #workMng td .divMindmap .mindmap .tool .btnCloseMindmap {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: red;
+  color: #fafafa;
+  border: none;
+  border-radius: 5px;
+  margin: 0.5rem 0.2rem;
+}
 #mainDashboard #contentDashboard #homeMng input[type=text] {
   width: 50%;
   height: 2rem;

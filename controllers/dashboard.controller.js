@@ -18,6 +18,7 @@ import jwt from "jsonwebtoken";
 import { voucherEntity } from "../models/voucher.model.js";
 import { clientEntity } from "../models/client.model.js";
 import { orderEntity } from "../models/order.model.js";
+import { jobEntity } from "../models/job.model.js";
 import PDFDocument from "pdfkit";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -81,6 +82,30 @@ export const getDashboard = async (req, res) => {
   const now=new Date();
   const thirtyDaysAgo=new Date(now.getTime()-30*24*60*60*1000);
   const orders = await orderEntity.find({createAt:{$gte:thirtyDaysAgo}}).sort({createAt:-1});
+  const jobs=await jobEntity.aggregate([
+    {
+        $addFields: {
+          priorityOrder: {
+            $switch: {
+              branches: [
+                { case: { $eq: ["$level", "Gấp"] }, then: 1 },
+                { case: { $eq: ["$level", "Ưu tiên"] }, then: 2 },
+                { case: { $eq: ["$level", "Thong thả"] }, then: 3 }
+              ],
+              default: 4 // Phòng thủ nếu có trạng thái lạ lọt vào hệ thống
+            }
+          }
+        }
+      },
+      // Bước 2: Sắp xếp tăng dần theo trọng số (1 -> 2 -> 3) [cite: 2026-01-28]
+      {
+        $sort: { priorityOrder: 1, createdAt: -1 } // Nếu cùng mức độ ưu tiên, đơn mới hơn xếp lên trước [cite: 2026-01-28]
+      },
+      // Bước 3: Xóa bỏ trường tạm 'priorityOrder' trước khi trả về để giữ sạch dữ liệu đầu ra [cite: 2026-01-28]
+      {
+        $project: { priorityOrder: 0 }
+      }
+  ]);
   const io = req.app.get("socketio");
   res.render("dashboard.ejs", {
     jsonSystemInfo,
@@ -98,6 +123,7 @@ export const getDashboard = async (req, res) => {
     problems,
     orders,
     DocSoTienVietNam,
+    jobs,
   });
 };
 export const postRegisterAdmin = async (req, res) => {
@@ -1774,4 +1800,31 @@ export const reloadOrder=async(req,res)=>{
   const thridDaysAgo=new Date(now.getTime()-30*24*60*60*1000);
   const orders=await orderEntity.find({createAt:{$gte:thridDaysAgo}}).sort({createAt:-1});
   res.json({data:orders});
+}
+export const addJob=async(req,res)=>{
+  try {
+  let {titleJob,levelJob,deadlineJob}=req.body;
+  if (!titleJob) {
+    return res.json({mess:"Vui lòng điền tên công việc",success:false});
+  }
+  if (!levelJob) {
+    return res.json({mess:"Vui lòng điền cấp độ công việc",success:false});
+  }
+  if (!deadlineJob) {
+    return res.json({mess:"Vui lòng điền deadline",success:false});
+  }
+  const [day, month, year] = deadlineJob.split("/");
+  deadlineJob = new Date(year, month - 1, day);
+  const newJob=await jobEntity.create({
+    level:levelJob,
+    title:titleJob,
+    deadline:deadlineJob,
+    assigned:"--",
+  })
+  const io = req.app.get("socketio");
+  io.emit("update-job", newJob);
+  res.json({mess:"Tạo công việc thành công",success:true});
+  } catch (error) {
+  res.json({mess:"Tạo công việc thất bại",success:false,error:error.message});
+  }
 }

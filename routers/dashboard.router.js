@@ -168,6 +168,10 @@ dashboardRouter.post(
   upload.single("imgVoucher"),
   dashboardController.addVoucher,
 );
+dashboardRouter.post(
+  `${prefix}/addJob`,
+  dashboardController.addJob,
+);
 dashboardRouter.put(
   `${prefix}/updateAdmin/:idUpdate`,
   authenticateToken,

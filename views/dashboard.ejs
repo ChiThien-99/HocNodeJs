@@ -30,6 +30,9 @@
 <link href="https://cdn.jsdelivr.net/npm/quill-table-better@1/dist/quill-table-better.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/quill-table-better@1/dist/quill-table-better.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/regenerator-runtime/0.13.11/runtime.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mind-elixir/dist/mind-elixir.css">
+<script src="https://cdn.jsdelivr.net/npm/mind-elixir/dist/mind-elixir.js"></script>
   </head>
   <body>
     <div id="alert">
@@ -259,7 +262,57 @@
             </table>
           </div>
           <div id="workMng" class="tabContent">
-            <h2>Nội dung quản lý công việc</h2>
+            <h2 class="flag-item">Quản lý công việc</h2>
+            <form id="formJob">
+              <label for="titleJob">Tên công việc</label><br>
+              <input type="text" name="titleJob" id="titleJob"><br>
+              <label for="levelJob">Cấp độ</label><br>
+              <select name="levelJob" id="levelJob">
+                <option value="Gấp">Gấp</option>
+                <option value="Ưu tiên">Ưu tiên</option>
+                <option value="Thong thả">Thong thả</option>
+              </select><br>
+              <label for="deadlineJob">Deadline</label><br>
+              <input type="text" name="deadlineJob" id="deadlineJob"><br>
+              <input type="submit" value="Thêm công việc">
+            </form>
+            <table id="tableJob">
+              <thead>
+              <tr>
+                <th>Cấp độ</th>
+                <th>Tên công việc</th>
+                <th>Deadline</th>
+                <th>Đã giao</th>
+                <th>Thao tác</th>
+              </tr>
+              </thead>
+              <tbody>
+                <%jobs.forEach((job)=>{%>
+                  <tr data-idJob="<%=job._id%>">
+                  <td class="levelJob"><%=job.level%></td>
+                  <td class="titleJob"><%=job.title%></td>
+                  <td><%=job.deadline.toLocaleDateString("vi-VN")%></td>
+                  <td><%=job.assigned%></td>
+                  <td>
+                    <button type="button" class="btnWatchJob">Xem</button>
+                    <button type="button" class="btnAssignJob">Giao việc</button>
+                    <button type="button" class="btnCompleteJob">Hoàn thành</button>
+                    <button type="button" class="btnUpdateJob">Cập nhật</button>
+                    <button type="button" class="btnDeleteJob">Xóa</button>
+                    <div class="divMindmap">
+                      <div class="mindmap">
+                      <div class="tool">
+                        <button type="button" class="btnSaveMindmap">Lưu</button>
+                        <button type="button" class="btnCloseMindmap">Đóng</button>
+                      </div>
+                      <div class="map"></div>
+                    </div>
+                    </div>
+                  </td>
+                </tr>
+                <%})%>
+              </tbody>
+            </table>
           </div>
           <div id="serverMng" class="tabContent">
             <h2 class="flag-item">Thông tin server</h2>
@@ -958,6 +1011,7 @@
         </div>
       </main>
       <script src="/socket.io/socket.io.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js"></script>
   </body>
   <script type="module" src="/dashboard.js" defer></script>
 </html>
