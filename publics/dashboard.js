@@ -1,6 +1,7 @@
 import { alert, confirm } from "./alert.js";
 import { jwtDecode } from "https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/+esm";
 import { authFetch, setAccessToken } from "./authFetch.js";
+import MindElixir from "./mind-elixir/dist/MindElixir.js";
 const socket = io();
 socket.on("update-funcdevice", (data) => {
   const existRow = document.querySelector(`tr[data-rowId="${data._id}"]`);
@@ -496,7 +497,9 @@ socket.on("update-job", (data) => {
   if (existRow) {
     existRow.cells[0].innerText = data.level;
     existRow.cells[1].innerText = data.title;
-    existRow.cells[2].innerText = new Date(data.deadline).toLocaleDateString("vi-VN");
+    existRow.cells[2].innerText = new Date(data.deadline).toLocaleDateString(
+      "vi-VN",
+    );
     existRow.cells[3].innerText = data.assigned;
   } else {
     document.querySelector("#tableJob tbody").insertAdjacentHTML(
@@ -517,17 +520,17 @@ socket.on("update-job", (data) => {
       </tr>
       `,
     );
-    document.querySelectorAll(".levelJob").forEach((td)=>{
-      td.style.fontWeight="bold";
-      const levelJob=td.innerText;
-      if (levelJob==="Gấp") {
-        td.style.color="red";
-      }else if(levelJob==="Ưu tiên"){
-        td.style.color="#ffcc00";
-      }else if (levelJob==="Thong thả") {
-        td.style.color="#80a710";
+    document.querySelectorAll(".levelJob").forEach((td) => {
+      td.style.fontWeight = "bold";
+      const levelJob = td.innerText;
+      if (levelJob === "Gấp") {
+        td.style.color = "red";
+      } else if (levelJob === "Ưu tiên") {
+        td.style.color = "#ffcc00";
+      } else if (levelJob === "Thong thả") {
+        td.style.color = "#80a710";
       }
-    })
+    });
   }
 });
 async function verifySession() {
@@ -3071,89 +3074,66 @@ new Cleave("#deadlineJob", {
   delimiter: "/",
   datePattern: ["d", "m", "Y"], // Ép buộc cấu trúc gõ: ngày (d), tháng (m), năm (Y)
 });
-document.getElementById("formJob").addEventListener("submit",(e)=>{
+document.getElementById("formJob").addEventListener("submit", (e) => {
   e.preventDefault();
-  const titleJob=document.getElementById("titleJob").value;
-  const levelJob=document.getElementById("levelJob").value;
-  const deadlineJob=document.getElementById("deadlineJob").value;
-  fetch("/dashboard/addJob",{
-    method:"POST",
-    headers:{"Content-Type":"application/json;charset=UTF-8"},
-    body:JSON.stringify({titleJob,levelJob,deadlineJob}),
+  const titleJob = document.getElementById("titleJob").value;
+  const levelJob = document.getElementById("levelJob").value;
+  const deadlineJob = document.getElementById("deadlineJob").value;
+  fetch("/dashboard/addJob", {
+    method: "POST",
+    headers: { "Content-Type": "application/json;charset=UTF-8" },
+    body: JSON.stringify({ titleJob, levelJob, deadlineJob }),
   })
-  .then(res=>res.json())
-  .then(({mess,success,error})=>{
-    if (success) {
-      alert("Thông báo",mess,"#80a710");
-      document.getElementById("titleJob").value="";
-      document.getElementById("levelJob").value="Gấp";
-      document.getElementById("deadlineJob").value="";
-    } else {
-      if (!error) {
-        alert("Lỗi",mess,"red");
-      }else{
-        alert("Lỗi",`${mess}\n${error}`,"red");
-      }
-    }
-  })
-  .catch((error)=>{
-    alert("Lỗi",error,"red");
-  });
-})
-document.addEventListener("DOMContentLoaded",()=>{
-  const levelColor={
-    "Gấp":"red",
-    "Ưu tiên":"#ffcc00",
-    "Thong thả":"#80a710",
-  }
-  document.querySelectorAll(".levelJob").forEach((td)=>{
-      const levelJob=td.innerHTML.trim();
-      if (levelColor[levelJob]) {
-        td.style.color=levelColor[levelJob];
-        td.style.fontWeight="bold";
+    .then((res) => res.json())
+    .then(({ mess, success, error }) => {
+      if (success) {
+        alert("Thông báo", mess, "#80a710");
+        document.getElementById("titleJob").value = "";
+        document.getElementById("levelJob").value = "Gấp";
+        document.getElementById("deadlineJob").value = "";
+      } else {
+        if (!error) {
+          alert("Lỗi", mess, "red");
+        } else {
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        }
       }
     })
-})
-const initData={
-  nodedata:{
-    id:"root",
-    topic:"Mục tiêu",
-    root:true,
-    children:[
-      {
-        id:"node_1",
-        topic:"Công việc 1"
-      },
-      {
-        id:"node_2",
-        topic:"Công việc 2"
-      }
-    ]
-  }
-}
-const mind= new MindElixir({
+    .catch((error) => {
+      alert("Lỗi", error, "red");
+    });
+});
+document.addEventListener("DOMContentLoaded", () => {
+  const levelColor = {
+    Gấp: "red",
+    "Ưu tiên": "#ffcc00",
+    "Thong thả": "#80a710",
+  };
+  document.querySelectorAll(".levelJob").forEach((td) => {
+    const levelJob = td.innerHTML.trim();
+    if (levelColor[levelJob]) {
+      td.style.color = levelColor[levelJob];
+      td.style.fontWeight = "bold";
+    }
+  });
+});
+const mind = new MindElixir({
   el: ".map",
-  direction: MindElixir.SIDE, // Vẽ sang 2 bên (hoặc LEFT, RIGHT)
-  data: initData,
-  draggable: true, // Cho phép kéo thả node [cite: 2026-01-28]
-  contextMenu: true, // Click chuột phải để thêm/xóa/sửa node
-  toolBar: true, // Hiện thanh công cụ thu phóng zoom in/out
-  nodeMenu: true, // Hiện menu chỉnh màu sắc node
-})
-mind.init();
-document.querySelector("#tableJob tbody").addEventListener("click",(e)=>{
-  const target=e.target;
+});
+const data = MindElixir.new("new topic");
+mind.init(data);
+document.querySelector("#tableJob tbody").addEventListener("click", (e) => {
+  const target = e.target;
   if (target.classList.contains("btnWatchJob")) {
-    const row=target.closest("tr");
-    const mindmap=row.querySelector(".divMindmap");
-    const displayMindmap=mindmap.style.display==="block"?"none":"block";
-    mindmap.style.display=displayMindmap;
+    const row = target.closest("tr");
+    const mindmap = row.querySelector(".divMindmap");
+    const displayMindmap = mindmap.style.display === "block" ? "none" : "block";
+    mindmap.style.display = displayMindmap;
   }
   if (target.classList.contains("btnCloseMindmap")) {
-    const row=target.closest("tr");
-    const mindmap=row.querySelector(".divMindmap");
-    const displayMindmap=mindmap.style.display==="block"?"none":"block";
-    mindmap.style.display=displayMindmap;
+    const row = target.closest("tr");
+    const mindmap = row.querySelector(".divMindmap");
+    const displayMindmap = mindmap.style.display === "block" ? "none" : "block";
+    mindmap.style.display = displayMindmap;
   }
-})
-
+});
