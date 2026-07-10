@@ -172,6 +172,10 @@ dashboardRouter.post(
   `${prefix}/addJob`,
   dashboardController.addJob,
 );
+dashboardRouter.post(
+  `${prefix}/saveMindmap`,
+  dashboardController.saveMindmap,
+);
 dashboardRouter.put(
   `${prefix}/updateAdmin/:idUpdate`,
   authenticateToken,

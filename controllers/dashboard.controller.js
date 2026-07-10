@@ -1804,6 +1804,7 @@ export const reloadOrder=async(req,res)=>{
 export const addJob=async(req,res)=>{
   try {
   let {titleJob,levelJob,deadlineJob}=req.body;
+  const admins=await adminEntity.find();
   if (!titleJob) {
     return res.json({mess:"Vui lòng điền tên công việc",success:false});
   }
@@ -1820,11 +1821,42 @@ export const addJob=async(req,res)=>{
     title:titleJob,
     deadline:deadlineJob,
     assigned:"--",
+    mapId:titleJob,
+    mindmapStructure:{
+        nodeData:{
+        id:"root",
+        topic:titleJob,
+        root:true,
+        children:[]
+      }
+      }
   })
+  console.log(newJob.mindmapStructure);
   const io = req.app.get("socketio");
-  io.emit("update-job", newJob);
+  io.emit("update-job", [newJob,admins]);
   res.json({mess:"Tạo công việc thành công",success:true});
   } catch (error) {
   res.json({mess:"Tạo công việc thất bại",success:false,error:error.message});
+  }
+}
+export const saveMindmap=async(req,res)=>{
+  try {
+     const {payload}=req.body;
+  if (!payload||!Array.isArray(payload)) {
+    return res.json({mess:"Mindmap gửi lên không hợp lệ",success:false});
+  };
+  const bulkOps=payload.map((item)=>({
+    updateOne:{
+      filter:{mapId:payload.mapId},
+      update:{
+        $set:{mindmapStructure:payload.mapStructure}
+      },
+      upsert:true,
+    }
+  }));
+  await jobEntity.bulkWrite(bulkOps);
+  res.json({mess:"Lưu mindmap thành công",success:true});
+  } catch (error) {
+  res.json({mess:"Lưu mindmap thất bại",success:false,error:error.message});
   }
 }

@@ -492,30 +492,69 @@ socket.on("updateGeneratedOrder", (data) => {
   generatedOrder.innerText = totalGeneratedOrder;
 });
 socket.on("update-job", (data) => {
-  const existRow = document.querySelector(`tr[data-idJob="${data._id}"]`);
-  console.log(data);
+  const existRow = document.querySelector(`tr[data-idJob="${data[0]._id}"]`);
   if (existRow) {
-    existRow.cells[0].innerText = data.level;
-    existRow.cells[1].innerText = data.title;
-    existRow.cells[2].innerText = new Date(data.deadline).toLocaleDateString(
+    existRow.cells[0].innerText = data[0].level;
+    existRow.cells[1].innerText = data[0].title;
+    existRow.cells[2].innerText = new Date(data[0].deadline).toLocaleDateString(
       "vi-VN",
     );
-    existRow.cells[3].innerText = data.assigned;
+    existRow.cells[3].innerText = data[0].assigned;
   } else {
     document.querySelector("#tableJob tbody").insertAdjacentHTML(
       "afterbegin",
       `
-      <tr data-idJob="${data._id}">
-        <td class="levelJob">${data.level}</td>
-        <td>${data.title}</td>
-        <td>${new Date(data.deadline).toLocaleDateString("vi-VN")}</td>
-        <td>${data.assigned}</td>
+      <tr data-idJob="${data[0]._id}">
+        <td class="levelJob">${data[0].level}</td>
+        <td>${data[0].title}</td>
+        <td>${new Date(data[0].deadline).toLocaleDateString("vi-VN")}</td>
+        <td>${data[0].assigned}</td>
         <td>
         <button type="button" class="btnWatchJob">Xem</button>
         <button type="button" class="btnAssignJob">Giao việc</button>
         <button type="button" class="btnCompleteJob">Hoàn thành</button>
         <button type="button" class="btnUpdateJob">Cập nhật</button>
         <button type="button" class="btnDeleteJob">Xóa</button>
+        <div class="divMindmap">
+          <div class="mindmap">
+            <div class="tool">
+              <span><kbd>Enter</kbd>: Chèn nút cùng cấp <kbd>Tab</kbd>: Chèn nút con <kbd>F1</kbd>: Chuyển đến nút trung tâm <kbd>F2</kbd>: Chỉnh nội dung nút <kbd>Delete</kbd>: Xóa nút <kbd>Ctrl+C</kbd>: Copy <kbd>Ctrl+V</kbd>: Paste <kbd>Ctrl+Z</kbd>: Quay lại <kbd>Chuột trái</kbd>: Tô chọn nhiều node <kbd>Chuột phải</kbd>: Kéo màn hình</span>
+              <button type="button" class="btnSaveMindmap">Lưu</button>
+              <button type="button" class="btnCloseMindmap">Đóng</button>
+            </div>
+            <div class="map" data-title="${data[0].title}" data-mindmap="${JSON.stringify(data[0].mindmapStructure)}"></div>
+          </div>
+        </div>
+          <div class="divAssignAdmin">
+            <div class="assignAdmin">
+              <h2>Chọn thành viên giao việc</h2>
+              <table>
+                <tr>
+                  <th>Họ và tên</th>
+                  <th>Vị trí</th>
+                  <th>Email</th>
+                  <th>Thao tác</th>
+                </tr>
+                ${data[1].forEach((admin)=>{
+                  `
+                  <tr>
+                    <td>${admin.fullname}</td>
+                    <td>${admin.role}</td>
+                    <td>${admin.email}</td>
+                    <td>
+                      <input type="radio" name="assignAdmin" id="assignAdmin">
+                    </td>
+                  </tr>
+                `
+                })}
+                  
+              </table>
+              <div class="divBtnAssignAdmin">
+                <button type="button" class="btnConfirmAssignAdmin">Xác nhận</button>
+                <button type="button" class="btnCloseAssignAdmin">Đóng</button>
+              </div>
+            </div>
+          </div>
         </td>
       </tr>
       `,
@@ -531,6 +570,33 @@ socket.on("update-job", (data) => {
         td.style.color = "#80a710";
       }
     });
+    const getInitialData=(title)=>({
+  nodeData:{
+    id:"root",
+    topic:title||"new topic",
+    root:"true",
+    children:[],
+  }
+})
+let mindInstances=[]
+const maps=document.querySelectorAll(".map");
+if (maps.length===0) {
+  return;
+}
+maps.forEach((map)=>{
+const customTitle=map.getAttribute("data-title");
+const mind = new MindElixir({
+  el: map,
+  direction: MindElixir.SIDE,
+  draggable: true,
+  contextMenu: true,
+  toolBar: true,
+  nodeMenu: true,
+});
+// const data = MindElixir.new("new topic");
+mind.init(getInitialData(customTitle));
+mindInstances.push({mapId:customTitle,instance:mind});
+})
   }
 });
 async function verifySession() {
@@ -3105,7 +3171,7 @@ document.getElementById("formJob").addEventListener("submit", (e) => {
 });
 document.addEventListener("DOMContentLoaded", () => {
   const levelColor = {
-    Gấp: "red",
+    "Gấp": "red",
     "Ưu tiên": "#ffcc00",
     "Thong thả": "#80a710",
   };
@@ -3117,11 +3183,41 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+const getInitialData=(title)=>({
+  nodeData:{
+    id:"root",
+    topic:title||"new topic",
+    root:"true",
+    children:[],
+  }
+})
+let mindInstances=[]
+function runMap(){
+  const maps=document.querySelectorAll(".map");
+if (maps.length===0) {
+  return;
+}
+maps.forEach((map)=>{
+const customTitle=map.getAttribute("data-title");
+const rawData=map.getAttribute("data-mindmap");
+console.log(rawData);
+let mindMapSave=""
+if (rawData) {
+  mindMapSave=JSON.parse(rawData);
+}
 const mind = new MindElixir({
-  el: ".map",
+  el: map,
+  direction: MindElixir.SIDE,
+  draggable: true,
+  contextMenu: true,
+  toolBar: true,
+  nodeMenu: true,
 });
-const data = MindElixir.new("new topic");
-mind.init(data);
+mind.init(mindMapSave||getInitialData(customTitle));
+mindInstances.push({mapId:customTitle,instance:mind});
+})
+}
+runMap();
 document.querySelector("#tableJob tbody").addEventListener("click", (e) => {
   const target = e.target;
   if (target.classList.contains("btnWatchJob")) {
@@ -3135,5 +3231,46 @@ document.querySelector("#tableJob tbody").addEventListener("click", (e) => {
     const mindmap = row.querySelector(".divMindmap");
     const displayMindmap = mindmap.style.display === "block" ? "none" : "block";
     mindmap.style.display = displayMindmap;
+  }
+  if (target.classList.contains("btnSaveMindmap")) {
+    target.disabled=true;
+    mindInstances=[];
+    runMap();
+    const payload=mindInstances.map((item)=>({
+      mapId:item.mapId,
+      mapStructure:item.instance.getData(),
+    }))
+    fetch("/dashboard/saveMindmap",{
+      method:"POST",
+      headers:{"Content-Type":"application/json;charset=UTF-8"},
+      body:JSON.stringify({payload}),
+    })
+    .then(res=>res.json())
+    .then(({mess,success,error})=>{
+      if (success) {
+        alert("Thông báo",mess,"#80a710");
+      }else{
+        if (!error) {
+          alert("Lỗi",mess,"red");
+        }else{
+          alert("Lỗi",`${mess}\n${error}`,"red");
+        }
+      }
+    })
+    .finally(()=>{
+      target.disabled=false;
+    });
+  }
+  if (target.classList.contains("btnAssignJob")) {
+    const row = target.closest("tr");
+    const divAssignAdmin = row.querySelector(".divAssignAdmin");
+    const displayAssignAdmin = divAssignAdmin.style.display === "block" ? "none" : "block";
+    divAssignAdmin.style.display = displayAssignAdmin;
+  }
+  if (target.classList.contains("btnCloseAssignAdmin")) {
+    const row = target.closest("tr");
+    const divAssignAdmin = row.querySelector(".divAssignAdmin");
+    const displayAssignAdmin = divAssignAdmin.style.display === "block" ? "none" : "block";
+    divAssignAdmin.style.display = displayAssignAdmin;
   }
 });

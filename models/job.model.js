@@ -16,9 +16,14 @@ const jobSchema=mongoose.Schema({
         type:String,
         required:true,
     },
-    // mindmapStructure:{
-    //     type:mongoose.Schema.Types.Mixed,
-    //     required:true,
-    // },
+    mapId:{
+        type:String,
+        unique:true,
+        required:true,
+    },
+    mindmapStructure:{
+        type:mongoose.Schema.Types.Mixed,
+        required:true,
+    },
 },{timestamps:true})
 export const jobEntity= mongoose.model("jobEntity",jobSchema,"job");

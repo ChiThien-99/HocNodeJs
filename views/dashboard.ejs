@@ -300,11 +300,39 @@
                     <div class="divMindmap">
                       <div class="mindmap">
                       <div class="tool">
+                        <span><kbd>Enter</kbd>: Chèn nút cùng cấp <kbd>Tab</kbd>: Chèn nút con <kbd>F1</kbd>: Chuyển đến nút trung tâm <kbd>F2</kbd>: Chỉnh nội dung nút <kbd>Delete</kbd>: Xóa nút <kbd>Ctrl+C</kbd>: Copy <kbd>Ctrl+V</kbd>: Paste <kbd>Ctrl+Z</kbd>: Quay lại <kbd>Chuột trái</kbd>: Tô chọn nhiều node <kbd>Chuột phải</kbd>: Kéo màn hình</span>
                         <button type="button" class="btnSaveMindmap">Lưu</button>
                         <button type="button" class="btnCloseMindmap">Đóng</button>
                       </div>
-                      <div class="map"></div>
+                      <div class="map" data-title="<%=job.title%>" data-mindmap="<%=JSON.stringify(job.mindmapStructure)%>"></div>
                     </div>
+                    </div>
+                    <div class="divAssignAdmin">
+                      <div class="assignAdmin">
+                        <h2>Chọn thành viên giao việc</h2>
+                        <table>
+                        <tr>
+                          <th>Họ và tên</th>
+                          <th>Vị trí</th>
+                          <th>Email</th>
+                          <th>Thao tác</th>
+                        </tr>
+                        <%admins.forEach((admin)=>{%>
+                          <tr>
+                          <td><%=admin.fullname%></td>
+                          <td><%=admin.role%></td>
+                          <td><%=admin.email%></td>
+                          <td>
+                            <input type="radio" name="assignAdmin" id="assignAdmin">
+                          </td>
+                        </tr>
+                        <%})%>
+                      </table>
+                      <div class="divBtnAssignAdmin">
+                          <button type="button" class="btnConfirmAssignAdmin">Xác nhận</button>
+                          <button type="button" class="btnCloseAssignAdmin">Đóng</button>
+                      </div>
+                      </div>
                     </div>
                   </td>
                 </tr>
