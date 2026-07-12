@@ -499,16 +499,58 @@ socket.on("update-job", (data) => {
     existRow.cells[2].innerText = new Date(data[0].deadline).toLocaleDateString(
       "vi-VN",
     );
-    existRow.cells[3].innerText = data[0].assigned;
+    existRow.cells[3].innerText = data[0].assigned[1]
+      ? data[0].assigned[1].name
+      : "--";
+    if (existRow.cells[0].innerText === "Đã hoàn thành") {
+      existRow.cells[0].style.color = "#1877f2";
+      existRow.style.backgroundColor = "gainsboro";
+      existRow.style.color = "#bbb";
+      existRow.querySelector(".btnAssignJob").style.color = "#bbb";
+      existRow.querySelector(".btnCompleteJob").style.color = "#bbb";
+      existRow.querySelector(".btnUpdateJob").style.color = "#bbb";
+      existRow.querySelector(".btnAssignJob").disabled = "true";
+      existRow.querySelector(".btnCompleteJob").disabled = "true";
+      existRow.querySelector(".btnUpdateJob").disabled = "true";
+      existRow.querySelector(".btnCompleteJob").innerText = "Đã hoàn thành";
+    }
+    if (existRow.cells[0].innerText === "Gấp") {
+      existRow.cells[0].style.color = "red";
+    } else if (existRow.cells[0].innerText === "Ưu tiên") {
+      existRow.cells[0].style.color = "#ffcc00";
+    } else if (existRow.cells[0].innerText === "Thong thả") {
+      existRow.cells[0].style.color = "#80a710";
+    }
   } else {
-    document.querySelector("#tableJob tbody").insertAdjacentHTML(
+    const adminRowHtml = data[1]
+      .map(
+        (admin) => `
+      <tr>
+        <td>${admin.fullname}</td>
+        <td>${admin.role}</td>
+        <td>${admin.email}</td>
+        <td>
+          <input type="radio" name="assignAdmin" class="radioAssignAdmin" value="${admin._id}">
+        </td>
+      </tr>
+    `,
+      )
+      .join("");
+    const stringIdAdmin = JSON.stringify(
+      data[0].assigned.map((item) => item.id),
+    );
+    const tbody = document.querySelector("#tableJob tbody");
+    tbody.insertAdjacentHTML(
       "afterbegin",
       `
       <tr data-idJob="${data[0]._id}">
         <td class="levelJob">${data[0].level}</td>
         <td>${data[0].title}</td>
         <td>${new Date(data[0].deadline).toLocaleDateString("vi-VN")}</td>
-        <td>${data[0].assigned}</td>
+        <td>
+        ${data[0].assigned[1].name}
+        <div class="arrayIdAdminAssign" data-stringId='${stringIdAdmin}'></div>
+        </td>
         <td>
         <button type="button" class="btnWatchJob">Xem</button>
         <button type="button" class="btnAssignJob">Giao việc</button>
@@ -522,32 +564,24 @@ socket.on("update-job", (data) => {
               <button type="button" class="btnSaveMindmap">Lưu</button>
               <button type="button" class="btnCloseMindmap">Đóng</button>
             </div>
-            <div class="map" data-title="${data[0].title}" data-mindmap="${JSON.stringify(data[0].mindmapStructure)}"></div>
+            <div class="map" data-title="${data[0].title}" data-mindmap='${JSON.stringify(data[0].mindmapStructure)}'></div>
           </div>
         </div>
           <div class="divAssignAdmin">
             <div class="assignAdmin">
               <h2>Chọn thành viên giao việc</h2>
               <table>
+                <thead>
                 <tr>
                   <th>Họ và tên</th>
                   <th>Vị trí</th>
                   <th>Email</th>
                   <th>Thao tác</th>
                 </tr>
-                ${data[1].forEach((admin)=>{
-                  `
-                  <tr>
-                    <td>${admin.fullname}</td>
-                    <td>${admin.role}</td>
-                    <td>${admin.email}</td>
-                    <td>
-                      <input type="radio" name="assignAdmin" id="assignAdmin">
-                    </td>
-                  </tr>
-                `
-                })}
-                  
+                </thead>
+                <tbody>
+                 ${adminRowHtml}
+                </tbody>  
               </table>
               <div class="divBtnAssignAdmin">
                 <button type="button" class="btnConfirmAssignAdmin">Xác nhận</button>
@@ -559,44 +593,42 @@ socket.on("update-job", (data) => {
       </tr>
       `,
     );
-    document.querySelectorAll(".levelJob").forEach((td) => {
-      td.style.fontWeight = "bold";
-      const levelJob = td.innerText;
-      if (levelJob === "Gấp") {
-        td.style.color = "red";
-      } else if (levelJob === "Ưu tiên") {
-        td.style.color = "#ffcc00";
-      } else if (levelJob === "Thong thả") {
-        td.style.color = "#80a710";
+    const newlyInsertRow = tbody.firstElementChild;
+    const levelJob = newlyInsertRow.querySelector(".levelJob");
+    if (levelJob) {
+      levelJob.style.fontWeight = "bold";
+      const levelTitle = levelJob.innerText;
+      if (levelTitle === "Gấp") {
+        levelJob.style.color = "red";
+      } else if (levelTitle === "Ưu tiên") {
+        levelJob.style.color = "#ffcc00";
+      } else if (levelTitle === "Thong thả") {
+        levelJob.style.color = "#80a710";
       }
+    }
+    const map = newlyInsertRow.querySelector(".map");
+    const customTitle = map.getAttribute("data-title");
+    const mind = new MindElixir({
+      el: map,
     });
-    const getInitialData=(title)=>({
-  nodeData:{
-    id:"root",
-    topic:title||"new topic",
-    root:"true",
-    children:[],
+    mindInstances.push({
+      mapId: customTitle,
+      instance: mind,
+      isInitialized: false,
+    });
   }
-})
-let mindInstances=[]
-const maps=document.querySelectorAll(".map");
-if (maps.length===0) {
-  return;
-}
-maps.forEach((map)=>{
-const customTitle=map.getAttribute("data-title");
-const mind = new MindElixir({
-  el: map,
-  direction: MindElixir.SIDE,
-  draggable: true,
-  contextMenu: true,
-  toolBar: true,
-  nodeMenu: true,
 });
-// const data = MindElixir.new("new topic");
-mind.init(getInitialData(customTitle));
-mindInstances.push({mapId:customTitle,instance:mind});
-})
+socket.on("updateGeneratedJob", (data) => {
+  const idAd = document.getElementById("idAd").innerText.slice(3);
+  if (data[0].toString() === idAd.toString()) {
+    const generatedJob = document.getElementById("generatedJob");
+    const computedStyle = window.getComputedStyle(generatedJob);
+    if (computedStyle.display === "none") {
+      generatedJob.style.display = "inline-block";
+    }
+    let totalGeneratedOrder = Number(generatedJob.innerText);
+    totalGeneratedOrder += Number(data[1]);
+    generatedJob.innerText = totalGeneratedOrder;
   }
 });
 async function verifySession() {
@@ -3142,13 +3174,16 @@ new Cleave("#deadlineJob", {
 });
 document.getElementById("formJob").addEventListener("submit", (e) => {
   e.preventDefault();
+  const token = getCookie("accessToken");
+  const decodedUser = jwtDecode(token);
+  const idAdmin = decodedUser.id;
   const titleJob = document.getElementById("titleJob").value;
   const levelJob = document.getElementById("levelJob").value;
   const deadlineJob = document.getElementById("deadlineJob").value;
   fetch("/dashboard/addJob", {
     method: "POST",
     headers: { "Content-Type": "application/json;charset=UTF-8" },
-    body: JSON.stringify({ titleJob, levelJob, deadlineJob }),
+    body: JSON.stringify({ idAdmin, titleJob, levelJob, deadlineJob }),
   })
     .then((res) => res.json())
     .then(({ mess, success, error }) => {
@@ -3171,9 +3206,10 @@ document.getElementById("formJob").addEventListener("submit", (e) => {
 });
 document.addEventListener("DOMContentLoaded", () => {
   const levelColor = {
-    "Gấp": "red",
+    Gấp: "red",
     "Ưu tiên": "#ffcc00",
     "Thong thả": "#80a710",
+    "Đã hoàn thành": "#1877f2",
   };
   document.querySelectorAll(".levelJob").forEach((td) => {
     const levelJob = td.innerHTML.trim();
@@ -3181,41 +3217,37 @@ document.addEventListener("DOMContentLoaded", () => {
       td.style.color = levelColor[levelJob];
       td.style.fontWeight = "bold";
     }
+    if (levelJob === "Đã hoàn thành") {
+      const row = td.closest("tr");
+      row.style.backgroundColor = "gainsboro";
+      row.style.color = "#bbb";
+      row.querySelector(".btnAssignJob").style.color = "#bbb";
+      row.querySelector(".btnCompleteJob").style.color = "#bbb";
+      row.querySelector(".btnUpdateJob").style.color = "#bbb";
+      row.querySelector(".btnAssignJob").disabled = "true";
+      row.querySelector(".btnCompleteJob").disabled = "true";
+      row.querySelector(".btnUpdateJob").disabled = "true";
+      row.querySelector(".btnCompleteJob").innerText = "Đã hoàn thành";
+    }
   });
 });
-const getInitialData=(title)=>({
-  nodeData:{
-    id:"root",
-    topic:title||"new topic",
-    root:"true",
-    children:[],
+let mindInstances = [];
+function runMap() {
+  const maps = document.querySelectorAll(".map");
+  if (maps.length === 0) {
+    return;
   }
-})
-let mindInstances=[]
-function runMap(){
-  const maps=document.querySelectorAll(".map");
-if (maps.length===0) {
-  return;
-}
-maps.forEach((map)=>{
-const customTitle=map.getAttribute("data-title");
-const rawData=map.getAttribute("data-mindmap");
-console.log(rawData);
-let mindMapSave=""
-if (rawData) {
-  mindMapSave=JSON.parse(rawData);
-}
-const mind = new MindElixir({
-  el: map,
-  direction: MindElixir.SIDE,
-  draggable: true,
-  contextMenu: true,
-  toolBar: true,
-  nodeMenu: true,
-});
-mind.init(mindMapSave||getInitialData(customTitle));
-mindInstances.push({mapId:customTitle,instance:mind});
-})
+  maps.forEach((map) => {
+    const customTitle = map.getAttribute("data-title");
+    const mind = new MindElixir({
+      el: map,
+    });
+    mindInstances.push({
+      mapId: customTitle,
+      instance: mind,
+      isInitialized: false,
+    });
+  });
 }
 runMap();
 document.querySelector("#tableJob tbody").addEventListener("click", (e) => {
@@ -3225,6 +3257,28 @@ document.querySelector("#tableJob tbody").addEventListener("click", (e) => {
     const mindmap = row.querySelector(".divMindmap");
     const displayMindmap = mindmap.style.display === "block" ? "none" : "block";
     mindmap.style.display = displayMindmap;
+    const map = row.querySelector(".map");
+    const mapId = map.getAttribute("data-title");
+    const rawData = map.getAttribute("data-mindmap");
+    let mindMapSave = "";
+    if (rawData && rawData.trim !== "" && rawData !== "[object Object]") {
+      try {
+        mindMapSave = JSON.parse(rawData);
+      } catch (error) {
+        console.error(`Error: ${error}`);
+        mindMapSave = null;
+      }
+    }
+    const data = MindElixir.new(mapId);
+    if (displayMindmap === "block") {
+      const currentMap = mindInstances.find((item) => item.mapId === mapId);
+      if (currentMap && !currentMap.isInitialized) {
+        setTimeout(() => {
+          currentMap.instance.init(mindMapSave || data);
+          currentMap.isInitialized = true;
+        }, 100);
+      }
+    }
   }
   if (target.classList.contains("btnCloseMindmap")) {
     const row = target.closest("tr");
@@ -3233,44 +3287,227 @@ document.querySelector("#tableJob tbody").addEventListener("click", (e) => {
     mindmap.style.display = displayMindmap;
   }
   if (target.classList.contains("btnSaveMindmap")) {
-    target.disabled=true;
-    mindInstances=[];
-    runMap();
-    const payload=mindInstances.map((item)=>({
-      mapId:item.mapId,
-      mapStructure:item.instance.getData(),
-    }))
-    fetch("/dashboard/saveMindmap",{
-      method:"POST",
-      headers:{"Content-Type":"application/json;charset=UTF-8"},
-      body:JSON.stringify({payload}),
+    target.disabled = true;
+    const payload = mindInstances.map((item) => ({
+      mapId: item.mapId,
+      mapStructure: item.instance.getData(),
+    }));
+    fetch("/dashboard/saveMindmap", {
+      method: "POST",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
+      body: JSON.stringify({ payload }),
     })
-    .then(res=>res.json())
-    .then(({mess,success,error})=>{
-      if (success) {
-        alert("Thông báo",mess,"#80a710");
-      }else{
-        if (!error) {
-          alert("Lỗi",mess,"red");
-        }else{
-          alert("Lỗi",`${mess}\n${error}`,"red");
+      .then((res) => res.json())
+      .then(({ mess, success, error }) => {
+        if (success) {
+          alert("Thông báo", mess, "#80a710");
+        } else {
+          if (!error) {
+            alert("Lỗi", mess, "red");
+          } else {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          }
         }
-      }
-    })
-    .finally(()=>{
-      target.disabled=false;
-    });
+      })
+      .finally(() => {
+        target.disabled = false;
+      });
   }
   if (target.classList.contains("btnAssignJob")) {
     const row = target.closest("tr");
     const divAssignAdmin = row.querySelector(".divAssignAdmin");
-    const displayAssignAdmin = divAssignAdmin.style.display === "block" ? "none" : "block";
+    const displayAssignAdmin =
+      divAssignAdmin.style.display === "block" ? "none" : "block";
     divAssignAdmin.style.display = displayAssignAdmin;
+  }
+  if (target.classList.contains("btnConfirmAssignAdmin")) {
+    const row = target.closest("tr");
+    let idAssignAdmin = "";
+    document.querySelectorAll(".radioAssignAdmin").forEach((radio) => {
+      if (radio.checked) {
+        idAssignAdmin = radio.value;
+      }
+    });
+    const idJob = row.getAttribute("data-idJob");
+    fetch("/dashboard/assignAdmin", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
+      body: JSON.stringify({ idJob, idAssignAdmin }),
+    })
+      .then((res) => res.json())
+      .then(({ mess, success, error }) => {
+        if (success) {
+          alert("Thông báo", mess, "#80a710");
+        } else {
+          if (error) {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          } else {
+            alert("Lỗi", mess, "red");
+          }
+        }
+      });
   }
   if (target.classList.contains("btnCloseAssignAdmin")) {
     const row = target.closest("tr");
     const divAssignAdmin = row.querySelector(".divAssignAdmin");
-    const displayAssignAdmin = divAssignAdmin.style.display === "block" ? "none" : "block";
+    const displayAssignAdmin =
+      divAssignAdmin.style.display === "block" ? "none" : "block";
     divAssignAdmin.style.display = displayAssignAdmin;
   }
+  if (target.classList.contains("btnCompleteJob")) {
+    const row = target.closest("tr");
+    const idJob = row.getAttribute("data-idJob");
+    fetch(`/dashboard/updateStatusJob/${idJob}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
+    })
+      .then((res) => res.json())
+      .then(({ mess, success, error }) => {
+        if (success) {
+          alert("Thông báo", mess, "#80a710");
+        } else {
+          if (error) {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          } else {
+            alert("Lỗi", mess, "red");
+          }
+        }
+      })
+      .catch((error) => {
+        alert("Lỗi", error, "red");
+      });
+  }
+});
+document.getElementById("btnWorkMng").addEventListener("click", function () {
+  const generatedJob = this.querySelector("#generatedJob");
+  if (generatedJob.style.display === "inline-block") {
+    generatedJob.style.display = "none";
+  }
+  const idAd = document.getElementById("idAd").innerText.slice(3);
+  document.querySelectorAll("#tableJob tbody tr[data-idJob]").forEach((tr) => {
+    tr.style.display = "none";
+    const arrayIdAdminAssign = tr.querySelector(".arrayIdAdminAssign");
+    if (!arrayIdAdminAssign) {
+      return;
+    }
+    const rawData = arrayIdAdminAssign.getAttribute("data-stringId");
+    let idAdAssign = [];
+    if (rawData) {
+      idAdAssign = JSON.parse(rawData);
+    }
+    if (idAdAssign.includes(idAd)) {
+      tr.style.display = "table-row";
+    }
+  });
+});
+document.getElementById("btnReloadJob").addEventListener("click", () => {
+  const idAd = document.getElementById("idAd").innerText.slice(3);
+  fetch(`/dashboard/reloadJob/${idAd}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json;charset=UTF-8" },
+  })
+    .then((res) => res.json())
+    .then(({ jobAssign, admins }) => {
+      if (jobAssign && admins) {
+        document.getElementById("generatedJob").style.display = "none";
+        document.querySelector("#tableJob tbody").innerHTML = "";
+        const listRowAdmins = admins
+          .map(
+            (admin) => `
+        <tr>
+          <td>${admin.fullname}</td>
+          <td>${admin.role}</td>
+          <td>${admin.email}</td>
+          <td>
+            <input type="radio" name="assignAdmin" class="radioAssignAdmin" value="${admin._id}">
+          </td>
+        </tr>
+        `,
+          )
+          .join("");
+        document.querySelector("#tableJob tbody").innerHTML = jobAssign
+          .map(
+            (job) =>
+              `
+        <tr data-idJob="${job._id}">
+          <td class="levelJob">${job.level}</td>
+          <td class="titleJob">${job.title}</td>
+          <td>${new Date(job.deadline).toLocaleDateString("vi-VN")}</td>
+          <td>
+            ${job.assigned[1] ? job.assigned[1].name : "--"}
+            <div class="arrayIdAdminAssign" data-stringId='${JSON.stringify(job.assigned.map((item) => item.id))}'></div>
+          </td>
+          <td>
+            <button type="button" class="btnWatchJob">Xem</button>
+            <button type="button" class="btnAssignJob">Giao việc</button>
+            <button type="button" class="btnCompleteJob">Hoàn thành</button>
+            <button type="button" class="btnUpdateJob">Cập nhật</button>
+            <button type="button" class="btnDeleteJob">Xóa</button>
+            <div class="divMindmap">
+              <div class="mindmap">
+                <div class="tool">
+                  <span><kbd>Enter</kbd>: Chèn nút cùng cấp <kbd>Tab</kbd>: Chèn nút con <kbd>F1</kbd>: Chuyển đến nút trung tâm <kbd>F2</kbd>: Chỉnh nội dung nút <kbd>Delete</kbd>: Xóa nút <kbd>Ctrl+C</kbd>: Copy <kbd>Ctrl+V</kbd>: Paste <kbd>Ctrl+Z</kbd>: Quay lại <kbd>Chuột trái</kbd>: Tô chọn nhiều node <kbd>Chuột phải</kbd>: Kéo màn hình</span>
+                  <button type="button" class="btnSaveMindmap">Lưu</button>
+                  <button type="button" class="btnCloseMindmap">Đóng</button>
+                </div>
+                <div class="map" data-title="${job.title}" data-mindmap='${JSON.stringify(job.mindmapStructure)}'></div>
+              </div>
+            </div>
+            <div class="divAssignAdmin">
+              <div class="assignAdmin">
+                <h2>Chọn thành viên giao việc</h2>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Họ và tên</th>
+                      <th>Vị trí</th>
+                      <th>Email</th>
+                      <th>Thao tác</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${listRowAdmins}
+                  </tbody>
+                </table>
+                  <div class="divBtnAssignAdmin">
+                    <button type="button" class="btnConfirmAssignAdmin">Xác nhận</button>
+                    <button type="button" class="btnCloseAssignAdmin">Đóng</button>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        `,
+          )
+          .join("");
+        const levelJobs = document.querySelectorAll(".levelJob");
+        levelJobs.forEach((levelJob) => {
+          levelJob.style.fontWeight = "bold";
+          const levelTitle = levelJob.innerText;
+          if (levelTitle === "Gấp") {
+            levelJob.style.color = "red";
+          } else if (levelTitle === "Ưu tiên") {
+            levelJob.style.color = "#ffcc00";
+          } else if (levelTitle === "Thong thả") {
+            levelJob.style.color = "#80a710";
+          } else if (levelTitle === "Đã hoàn thành") {
+            levelJob.style.color = "#1877f2";
+          }
+          if (levelTitle === "Đã hoàn thành") {
+            const row = levelJob.closest("tr");
+            row.style.backgroundColor = "gainsboro";
+            row.style.color = "#bbb";
+            row.querySelector(".btnAssignJob").style.color = "#bbb";
+            row.querySelector(".btnCompleteJob").style.color = "#bbb";
+            row.querySelector(".btnUpdateJob").style.color = "#bbb";
+            row.querySelector(".btnAssignJob").disabled = "true";
+            row.querySelector(".btnCompleteJob").disabled = "true";
+            row.querySelector(".btnUpdateJob").disabled = "true";
+            row.querySelector(".btnCompleteJob").innerText = "Đã hoàn thành";
+          }
+        });
+        mindInstances = [];
+        runMap();
+      }
+    });
 });

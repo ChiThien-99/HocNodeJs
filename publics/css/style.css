@@ -1287,9 +1287,23 @@ header div:last-child #containerUserLogin #bagShopping span {
   height: 2rem;
   font-size: 1rem;
 }
+#mainDashboard #contentDashboard #workMng #divBtnRealoadJob {
+  text-align: right;
+}
+#mainDashboard #contentDashboard #workMng #divBtnRealoadJob #btnReloadJob {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #80a710;
+  color: #fafafa;
+}
 #mainDashboard #contentDashboard #workMng table {
   width: 100%;
   margin-top: 1rem;
+}
+#mainDashboard #contentDashboard #workMng table tbody tr[data-idJob] .arrayIdAdminAssign {
+  display: none;
 }
 #mainDashboard #contentDashboard #workMng table,
 #mainDashboard #contentDashboard #workMng th,
@@ -1305,8 +1319,6 @@ header div:last-child #containerUserLogin #bagShopping span {
   padding: 0.5rem;
   background-color: #80a710;
   color: #fafafa;
-  border: none;
-  border-radius: 5px;
 }
 #mainDashboard #contentDashboard #workMng td:last-child .btnAssignJob {
   border: none;
@@ -1315,8 +1327,6 @@ header div:last-child #containerUserLogin #bagShopping span {
   padding: 0.5rem;
   background-color: chocolate;
   color: #fafafa;
-  border: none;
-  border-radius: 5px;
 }
 #mainDashboard #contentDashboard #workMng td:last-child .btnCompleteJob {
   border: none;
@@ -1325,8 +1335,6 @@ header div:last-child #containerUserLogin #bagShopping span {
   padding: 0.5rem;
   background-color: #1877f2;
   color: #fafafa;
-  border: none;
-  border-radius: 5px;
 }
 #mainDashboard #contentDashboard #workMng td:last-child .btnUpdateJob {
   border: none;
@@ -1335,8 +1343,6 @@ header div:last-child #containerUserLogin #bagShopping span {
   padding: 0.5rem;
   background-color: cadetblue;
   color: #fafafa;
-  border: none;
-  border-radius: 5px;
 }
 #mainDashboard #contentDashboard #workMng td:last-child .btnDeleteJob {
   border: none;
@@ -1345,8 +1351,6 @@ header div:last-child #containerUserLogin #bagShopping span {
   padding: 0.5rem;
   background-color: red;
   color: #fafafa;
-  border: none;
-  border-radius: 5px;
 }
 #mainDashboard #contentDashboard #workMng td .divMindmap {
   display: none;
@@ -1469,7 +1473,9 @@ header div:last-child #containerUserLogin #bagShopping span {
 #mainDashboard #contentDashboard #workMng td .divAssignAdmin .assignAdmin table {
   width: 100%;
 }
-#mainDashboard #contentDashboard #workMng td .divAssignAdmin .assignAdmin table, #mainDashboard #contentDashboard #workMng td .divAssignAdmin .assignAdmin th, #mainDashboard #contentDashboard #workMng td .divAssignAdmin .assignAdmin td {
+#mainDashboard #contentDashboard #workMng td .divAssignAdmin .assignAdmin table,
+#mainDashboard #contentDashboard #workMng td .divAssignAdmin .assignAdmin th,
+#mainDashboard #contentDashboard #workMng td .divAssignAdmin .assignAdmin td {
   border: 1px solid #bbb;
   border-collapse: collapse;
   padding: 0.5rem;

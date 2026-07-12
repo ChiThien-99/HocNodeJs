@@ -1,29 +1,45 @@
 import mongoose from "mongoose";
-const jobSchema=mongoose.Schema({
-    level:{
-        type:String,
-        required:true,
+const jobSchema = mongoose.Schema(
+  {
+    status: {
+      type: String,
+      enum: ["progress", "completed"],
+      required: true,
     },
-    title:{
-        type:String,
-        required:true,
+    level: {
+      type: String,
+      required: true,
     },
-    deadline:{
-        type:Date,
-        required:true,
+    title: {
+      type: String,
+      required: true,
     },
-    assigned:{
-        type:String,
-        required:true,
+    deadline: {
+      type: Date,
+      required: true,
     },
-    mapId:{
-        type:String,
-        unique:true,
-        required:true,
+    assigned: [
+      {
+        id: {
+          type: String,
+          required: true,
+        },
+        name: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
+    mapId: {
+      type: String,
+      unique: true,
+      required: true,
     },
-    mindmapStructure:{
-        type:mongoose.Schema.Types.Mixed,
-        required:true,
+    mindmapStructure: {
+      type: mongoose.Schema.Types.Mixed,
+      required: true,
     },
-},{timestamps:true})
-export const jobEntity= mongoose.model("jobEntity",jobSchema,"job");
+  },
+  { timestamps: true },
+);
+export const jobEntity = mongoose.model("jobEntity", jobSchema, "job");

@@ -74,14 +74,14 @@
             <h3 id="roleAd">Chức vụ</h3>
             <em id="idAd"></em>
           </div>
-          <button data-target="overviewMng" class="navBtnDB">
+          <button data-target="overviewMng" class="navBtnDB active">
             <i class="fa-solid fa-magnifying-glass-chart"></i> Tổng quan
           </button>
-          <button data-target="orderMng" class="navBtnDB active" id="btnOrderMng">
+          <button data-target="orderMng" class="navBtnDB" id="btnOrderMng">
             <i class="fa-solid fa-boxes-packing"></i> Quản lý đơn hàng <span id="generatedOrder">0</span>
           </button>
-          <button data-target="workMng" class="navBtnDB">
-            <i class="fa-regular fa-clipboard"></i> Quản lý công việc
+          <button data-target="workMng" class="navBtnDB" id="btnWorkMng">
+            <i class="fa-regular fa-clipboard"></i> Quản lý công việc <span id="generatedJob">0</span>
           </button>
           <button data-target="serverMng" class="navBtnDB">
             <i class="fa-solid fa-server"></i> Quản lý server
@@ -109,10 +109,10 @@
           </button>
         </div>
         <div id="contentDashboard">
-          <div id="overviewMng" class="tabContent">
+          <div id="overviewMng" class="tabContent active">
             <p>Tổng quan</p>
           </div>
-          <div id="orderMng" class="tabContent active">
+          <div id="orderMng" class="tabContent">
             <div id="headerOrderMng">
               <h2 class="flag-item">Quản lý đơn hàng</h2>
               <div>
@@ -274,6 +274,9 @@
               <input type="text" name="deadlineJob" id="deadlineJob"><br>
               <input type="submit" value="Thêm công việc">
             </form>
+            <div id="divBtnRealoadJob">
+              <button type="button" id="btnReloadJob"><i class="fa-solid fa-arrow-rotate-right"></i> Nạp</button>
+            </div>
             <table id="tableJob">
               <thead>
               <tr>
@@ -289,8 +292,12 @@
                   <tr data-idJob="<%=job._id%>">
                   <td class="levelJob"><%=job.level%></td>
                   <td class="titleJob"><%=job.title%></td>
-                  <td><%=job.deadline.toLocaleDateString("vi-VN")%></td>
-                  <td><%=job.assigned%></td>
+                  <td><%=new Date(job.deadline).toLocaleDateString("vi-VN")%></td>
+                  <td>
+                    <%=job.assigned[1]?job.assigned[1].name:"--"%>
+                    <%const stringIdAdmin=JSON.stringify(job.assigned.map((item)=>item.id))%>
+                    <div class="arrayIdAdminAssign" data-stringId='<%=stringIdAdmin%>'></div>
+                  </td>
                   <td>
                     <button type="button" class="btnWatchJob">Xem</button>
                     <button type="button" class="btnAssignJob">Giao việc</button>
@@ -304,29 +311,33 @@
                         <button type="button" class="btnSaveMindmap">Lưu</button>
                         <button type="button" class="btnCloseMindmap">Đóng</button>
                       </div>
-                      <div class="map" data-title="<%=job.title%>" data-mindmap="<%=JSON.stringify(job.mindmapStructure)%>"></div>
+                      <div class="map" data-title="<%=job.title%>" data-mindmap='<%=JSON.stringify(job.mindmapStructure)%>'></div>
                     </div>
                     </div>
                     <div class="divAssignAdmin">
                       <div class="assignAdmin">
                         <h2>Chọn thành viên giao việc</h2>
                         <table>
+                        <thead>
                         <tr>
                           <th>Họ và tên</th>
                           <th>Vị trí</th>
                           <th>Email</th>
                           <th>Thao tác</th>
                         </tr>
-                        <%admins.forEach((admin)=>{%>
+                        </thead>
+                        <tbody>
+                          <%admins.forEach((admin)=>{%>
                           <tr>
                           <td><%=admin.fullname%></td>
                           <td><%=admin.role%></td>
                           <td><%=admin.email%></td>
                           <td>
-                            <input type="radio" name="assignAdmin" id="assignAdmin">
+                            <input type="radio" name="assignAdmin" class="radioAssignAdmin" value="<%=admin._id%>">
                           </td>
                         </tr>
                         <%})%>
+                        </tbody>
                       </table>
                       <div class="divBtnAssignAdmin">
                           <button type="button" class="btnConfirmAssignAdmin">Xác nhận</button>

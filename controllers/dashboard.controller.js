@@ -79,32 +79,34 @@ export const getDashboard = async (req, res) => {
   const listblogs = await blogsEntity.find().sort("-createAt");
   const listblogsdraft = await blogsDraftEntity.find();
   const problems = await problemEntity.find().sort("-createAt");
-  const now=new Date();
-  const thirtyDaysAgo=new Date(now.getTime()-30*24*60*60*1000);
-  const orders = await orderEntity.find({createAt:{$gte:thirtyDaysAgo}}).sort({createAt:-1});
-  const jobs=await jobEntity.aggregate([
+  const now = new Date();
+  const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+  const orders = await orderEntity
+    .find({ createAt: { $gte: thirtyDaysAgo } })
+    .sort({ createAt: -1 });
+  const jobs = await jobEntity.aggregate([
     {
-        $addFields: {
-          priorityOrder: {
-            $switch: {
-              branches: [
-                { case: { $eq: ["$level", "Gấp"] }, then: 1 },
-                { case: { $eq: ["$level", "Ưu tiên"] }, then: 2 },
-                { case: { $eq: ["$level", "Thong thả"] }, then: 3 }
-              ],
-              default: 4 // Phòng thủ nếu có trạng thái lạ lọt vào hệ thống
-            }
-          }
-        }
+      $addFields: {
+        priorityOrder: {
+          $switch: {
+            branches: [
+              { case: { $eq: ["$level", "Gấp"] }, then: 1 },
+              { case: { $eq: ["$level", "Ưu tiên"] }, then: 2 },
+              { case: { $eq: ["$level", "Thong thả"] }, then: 3 },
+            ],
+            default: 4, // Phòng thủ nếu có trạng thái lạ lọt vào hệ thống
+          },
+        },
       },
-      // Bước 2: Sắp xếp tăng dần theo trọng số (1 -> 2 -> 3) [cite: 2026-01-28]
-      {
-        $sort: { priorityOrder: 1, createdAt: -1 } // Nếu cùng mức độ ưu tiên, đơn mới hơn xếp lên trước [cite: 2026-01-28]
-      },
-      // Bước 3: Xóa bỏ trường tạm 'priorityOrder' trước khi trả về để giữ sạch dữ liệu đầu ra [cite: 2026-01-28]
-      {
-        $project: { priorityOrder: 0 }
-      }
+    },
+    // Bước 2: Sắp xếp tăng dần theo trọng số (1 -> 2 -> 3) [cite: 2026-01-28]
+    {
+      $sort: { priorityOrder: 1, createdAt: -1 }, // Nếu cùng mức độ ưu tiên, đơn mới hơn xếp lên trước [cite: 2026-01-28]
+    },
+    // Bước 3: Xóa bỏ trường tạm 'priorityOrder' trước khi trả về để giữ sạch dữ liệu đầu ra [cite: 2026-01-28]
+    {
+      $project: { priorityOrder: 0 },
+    },
   ]);
   const io = req.app.get("socketio");
   res.render("dashboard.ejs", {
@@ -888,10 +890,10 @@ export const addDevice = async (req, res) => {
       color: uploadedColorImages,
       name: nameDevice,
       info: infoDevice,
-      cost:0,
+      cost: 0,
       priceLE: priceLEDeviceActual,
       priceSI: priceSIDeviceActual,
-      inventory:0,
+      inventory: 0,
       func: funcDevice,
       instruction: instrucDevice,
     });
@@ -1480,11 +1482,17 @@ export const updateOrder = async (req, res) => {
       status: valueStatus,
       invoice: valueInvoice,
     });
-    const totalOrder=await orderEntity.find();
-    const totalOrderNotInvoice=await orderEntity.find({invoice:"--"});
-    const totalOrderHasInvoiceLen=totalOrder.length-totalOrderNotInvoice.length;
-    const totalOrderLen=totalOrder.length;
-    res.json({ mess: "Cập nhật đơn hàng thành công", success: true,totalOrderLen,totalOrderHasInvoiceLen });
+    const totalOrder = await orderEntity.find();
+    const totalOrderNotInvoice = await orderEntity.find({ invoice: "--" });
+    const totalOrderHasInvoiceLen =
+      totalOrder.length - totalOrderNotInvoice.length;
+    const totalOrderLen = totalOrder.length;
+    res.json({
+      mess: "Cập nhật đơn hàng thành công",
+      success: true,
+      totalOrderLen,
+      totalOrderHasInvoiceLen,
+    });
   } catch (error) {
     res.json({
       mess: "Cập nhật đơn hàng thất bại",
@@ -1584,15 +1592,18 @@ const DocSoTienVietNam = (number) => {
   // Viết hoa chữ cái đầu tiên và thêm chữ "đồng" chuẩn hóa đơn kế toán
   return finalResult.charAt(0).toUpperCase() + finalResult.slice(1) + " đồng";
 };
-export const downloadOrder=async(req,res)=>{
+export const downloadOrder = async (req, res) => {
   try {
-    const {id}=req.params;
-    const order=await orderEntity.findById(id);
-    const client=await clientEntity.findById(order.idClient);
-    const clientName=client.fullname;
+    const { id } = req.params;
+    const order = await orderEntity.findById(id);
+    const client = await clientEntity.findById(order.idClient);
+    const clientName = client.fullname;
     const doc = new PDFDocument({ size: "A4", margin: 50 });
-    res.setHeader("Content-Type","application/pdf");
-    res.setHeader("Content-Disposition",`attachment;filename=${order.orderNumber}.pdf`);
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader(
+      "Content-Disposition",
+      `attachment;filename=${order.orderNumber}.pdf`,
+    );
     doc.pipe(res);
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = path.dirname(__filename);
@@ -1625,7 +1636,10 @@ export const downloadOrder=async(req,res)=>{
     doc
       .font(fontRegular)
       .fontSize(10)
-      .text(`Thời gian: ${new Date(order.createAt).toLocaleDateString("vi-VN")}`, { align: "center" });
+      .text(
+        `Thời gian: ${new Date(order.createAt).toLocaleDateString("vi-VN")}`,
+        { align: "center" },
+      );
     doc.text(`Số phiếu: ${order.orderNumber}`, { align: "center" });
     doc.text(`Người mua: ${clientName}`, 50, headerTopY + 140);
     if (
@@ -1638,16 +1652,19 @@ export const downloadOrder=async(req,res)=>{
         50,
         headerTopY + 140 + 15,
       );
-      if (order.paymentMethod!="Thanh toán khi nhận hàng") {
-      const stampX=380;
-      const stampY=headerTopY+140+5;
-      doc.fillColor("#bbbbbb").strokeColor("#bbbbbb");
-      doc.font(fontBold).fontSize(15);
-      doc.text("ĐÃ THANH TOÁN",stampX+15,stampY+10,{width:150,align:"center"});
-      doc.lineWidth(3).rect(stampX,stampY,180,35).stroke();
-      doc.fillColor("#000000").strokeColor("#000000");
-      doc.font(fontRegular).fontSize(10);
-      doc.lineWidth(1);
+      if (order.paymentMethod != "Thanh toán khi nhận hàng") {
+        const stampX = 380;
+        const stampY = headerTopY + 140 + 5;
+        doc.fillColor("#bbbbbb").strokeColor("#bbbbbb");
+        doc.font(fontBold).fontSize(15);
+        doc.text("ĐÃ THANH TOÁN", stampX + 15, stampY + 10, {
+          width: 150,
+          align: "center",
+        });
+        doc.lineWidth(3).rect(stampX, stampY, 180, 35).stroke();
+        doc.fillColor("#000000").strokeColor("#000000");
+        doc.font(fontRegular).fontSize(10);
+        doc.lineWidth(1);
       }
       doc.text(
         `Số điện thoại: ${order.telDelivery}`,
@@ -1661,16 +1678,19 @@ export const downloadOrder=async(req,res)=>{
       );
     } else {
       doc.text(`Tên công ty: ${order.nameCompany}`, 50, headerTopY + 140 + 15);
-      if (order.paymentMethod!="Thanh toán khi nhận hàng") {
-      const stampX=380;
-      const stampY=headerTopY+140+5;
-      doc.fillColor("#bbbbbb").strokeColor("#bbbbbb");
-      doc.font(fontBold).fontSize(15);
-      doc.text("ĐÃ THANH TOÁN",stampX+15,stampY+10,{width:150,align:"center"});
-      doc.lineWidth(3).rect(stampX,stampY,180,35).stroke();
-      doc.fillColor("#000000").strokeColor("#000000");
-      doc.font(fontRegular).fontSize(10);
-      doc.lineWidth(1);
+      if (order.paymentMethod != "Thanh toán khi nhận hàng") {
+        const stampX = 380;
+        const stampY = headerTopY + 140 + 5;
+        doc.fillColor("#bbbbbb").strokeColor("#bbbbbb");
+        doc.font(fontBold).fontSize(15);
+        doc.text("ĐÃ THANH TOÁN", stampX + 15, stampY + 10, {
+          width: 150,
+          align: "center",
+        });
+        doc.lineWidth(3).rect(stampX, stampY, 180, 35).stroke();
+        doc.fillColor("#000000").strokeColor("#000000");
+        doc.font(fontRegular).fontSize(10);
+        doc.lineWidth(1);
       }
       doc.text(
         `Địa chỉ công ty: ${order.addressCompany}`,
@@ -1679,11 +1699,7 @@ export const downloadOrder=async(req,res)=>{
       );
       doc.text(`MST: ${order.mstCompany}`, 50, headerTopY + 140 + 45);
     }
-    doc.text(
-      "Diễn giải: VAT",
-      50,
-      headerTopY + 140 + 60,
-    );
+    doc.text("Diễn giải: VAT", 50, headerTopY + 140 + 60);
     doc.text("Loại tiền: VNĐ", 50, headerTopY + 140 + 75);
     const tableTop = headerTopY + 250;
     const colIndex = 50;
@@ -1751,112 +1767,278 @@ export const downloadOrder=async(req,res)=>{
     doc.font(fontRegular).text("(Ký và ghi rõ họ tên)", 430, itemY + 110);
     doc.end();
   } catch (error) {
-    res.setHeader("Content-Type","application/json;charset=UTF-8");
-    res.json({mess:"Không thể tạo file pdf từ đơn hàng này",success:false,error:error.message});
+    res.setHeader("Content-Type", "application/json;charset=UTF-8");
+    res.json({
+      mess: "Không thể tạo file pdf từ đơn hàng này",
+      success: false,
+      error: error.message,
+    });
   }
 };
-export const changeStatusOrders=async(req,res)=>{
+export const changeStatusOrders = async (req, res) => {
   try {
-    const {arrChooseOrder,statusChange}=req.body;
-  if(!arrChooseOrder||!Array.isArray(arrChooseOrder)||arrChooseOrder.length===0){
-    return res.json({mess:"Danh sách đơn hàng không hợp lệ",success:false});
-  }
-  await orderEntity.updateMany(
-    {_id:{$in:arrChooseOrder}},
-    {status:statusChange}
-  )
-  const io = req.app.get("socketio");
-  io.emit("updateStatusOrder", [arrChooseOrder,statusChange]);
-  res.json({mess:"Cập nhật trạng thái đơn hàng thành công",success:true});
-  } catch (error) {
-  res.json({mess:"Cập nhật trạng thái đơn hàng thất bại",success:false,error:error.message});
-  }
-}
-export const importDevice=async(req,res)=>{
-  try {
-    const {idDeviceImport,importQuantityActual,costActual}=req.body;
-  if (!importQuantityActual) {
-    return res.json({mess:"Vui lòng điền số lượng nhập",success:false});
-  }
-  if (!costActual) {
-    return res.json({mess:"Vui lòng điền giá vốn",success:false});
-  }
-  const device=await deviceEntity.findById(idDeviceImport);
-  let inventory=device.inventory;
-  let cost=device.cost;
-  inventory+=Number(importQuantityActual);
-  const averageCost=(cost+Number(costActual))/2;
-  await deviceEntity.findByIdAndUpdate(idDeviceImport,{
-    cost:averageCost,
-    inventory:inventory,
-  });
-  res.json({mess:"Nhập kho thành công",success:true});
-  } catch (error) {
-  res.json({mess:"Nhập kho thất bại",success:false,error:error.message});
-  }
-}
-export const reloadOrder=async(req,res)=>{
-  const now=new Date();
-  const thridDaysAgo=new Date(now.getTime()-30*24*60*60*1000);
-  const orders=await orderEntity.find({createAt:{$gte:thridDaysAgo}}).sort({createAt:-1});
-  res.json({data:orders});
-}
-export const addJob=async(req,res)=>{
-  try {
-  let {titleJob,levelJob,deadlineJob}=req.body;
-  const admins=await adminEntity.find();
-  if (!titleJob) {
-    return res.json({mess:"Vui lòng điền tên công việc",success:false});
-  }
-  if (!levelJob) {
-    return res.json({mess:"Vui lòng điền cấp độ công việc",success:false});
-  }
-  if (!deadlineJob) {
-    return res.json({mess:"Vui lòng điền deadline",success:false});
-  }
-  const [day, month, year] = deadlineJob.split("/");
-  deadlineJob = new Date(year, month - 1, day);
-  const newJob=await jobEntity.create({
-    level:levelJob,
-    title:titleJob,
-    deadline:deadlineJob,
-    assigned:"--",
-    mapId:titleJob,
-    mindmapStructure:{
-        nodeData:{
-        id:"root",
-        topic:titleJob,
-        root:true,
-        children:[]
-      }
-      }
-  })
-  console.log(newJob.mindmapStructure);
-  const io = req.app.get("socketio");
-  io.emit("update-job", [newJob,admins]);
-  res.json({mess:"Tạo công việc thành công",success:true});
-  } catch (error) {
-  res.json({mess:"Tạo công việc thất bại",success:false,error:error.message});
-  }
-}
-export const saveMindmap=async(req,res)=>{
-  try {
-     const {payload}=req.body;
-  if (!payload||!Array.isArray(payload)) {
-    return res.json({mess:"Mindmap gửi lên không hợp lệ",success:false});
-  };
-  const bulkOps=payload.map((item)=>({
-    updateOne:{
-      filter:{mapId:payload.mapId},
-      update:{
-        $set:{mindmapStructure:payload.mapStructure}
-      },
-      upsert:true,
+    const { arrChooseOrder, statusChange } = req.body;
+    if (
+      !arrChooseOrder ||
+      !Array.isArray(arrChooseOrder) ||
+      arrChooseOrder.length === 0
+    ) {
+      return res.json({
+        mess: "Danh sách đơn hàng không hợp lệ",
+        success: false,
+      });
     }
-  }));
-  await jobEntity.bulkWrite(bulkOps);
-  res.json({mess:"Lưu mindmap thành công",success:true});
+    await orderEntity.updateMany(
+      { _id: { $in: arrChooseOrder } },
+      { status: statusChange },
+    );
+    const io = req.app.get("socketio");
+    io.emit("updateStatusOrder", [arrChooseOrder, statusChange]);
+    res.json({
+      mess: "Cập nhật trạng thái đơn hàng thành công",
+      success: true,
+    });
   } catch (error) {
-  res.json({mess:"Lưu mindmap thất bại",success:false,error:error.message});
+    res.json({
+      mess: "Cập nhật trạng thái đơn hàng thất bại",
+      success: false,
+      error: error.message,
+    });
   }
-}
+};
+export const importDevice = async (req, res) => {
+  try {
+    const { idDeviceImport, importQuantityActual, costActual } = req.body;
+    if (!importQuantityActual) {
+      return res.json({ mess: "Vui lòng điền số lượng nhập", success: false });
+    }
+    if (!costActual) {
+      return res.json({ mess: "Vui lòng điền giá vốn", success: false });
+    }
+    const device = await deviceEntity.findById(idDeviceImport);
+    let inventory = device.inventory;
+    let cost = device.cost;
+    inventory += Number(importQuantityActual);
+    const averageCost = (cost + Number(costActual)) / 2;
+    await deviceEntity.findByIdAndUpdate(idDeviceImport, {
+      cost: averageCost,
+      inventory: inventory,
+    });
+    res.json({ mess: "Nhập kho thành công", success: true });
+  } catch (error) {
+    res.json({
+      mess: "Nhập kho thất bại",
+      success: false,
+      error: error.message,
+    });
+  }
+};
+export const reloadOrder = async (req, res) => {
+  const now = new Date();
+  const thridDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+  const orders = await orderEntity
+    .find({ createAt: { $gte: thridDaysAgo } })
+    .sort({ createAt: -1 });
+  res.json({ data: orders });
+};
+export const addJob = async (req, res) => {
+  try {
+    let { idAdmin, titleJob, levelJob, deadlineJob } = req.body;
+    const admins = await adminEntity.find();
+    if (!titleJob) {
+      return res.json({ mess: "Vui lòng điền tên công việc", success: false });
+    }
+    if (!levelJob) {
+      return res.json({
+        mess: "Vui lòng điền cấp độ công việc",
+        success: false,
+      });
+    }
+    if (!deadlineJob) {
+      return res.json({ mess: "Vui lòng điền deadline", success: false });
+    }
+    const [day, month, year] = deadlineJob.split("/");
+    deadlineJob = new Date(year, month - 1, day);
+    const adminAssigned = await adminEntity.findById(idAdmin);
+    const nameAdminAssigned = `${adminAssigned.fullname}(${adminAssigned.role})`;
+    const newJob = await jobEntity.create({
+      status: "progress",
+      level: levelJob,
+      title: titleJob,
+      deadline: deadlineJob,
+      assigned: [
+        {
+          id: idAdmin,
+          name: nameAdminAssigned,
+        },
+      ],
+      mapId: titleJob,
+      mindmapStructure: {
+        nodeData: {
+          id: "root",
+          topic: titleJob,
+          root: true,
+          children: [],
+        },
+      },
+    });
+    const io = req.app.get("socketio");
+    io.emit("update-job", [newJob, admins]);
+    res.json({ mess: "Tạo công việc thành công", success: true });
+  } catch (error) {
+    res.json({
+      mess: "Tạo công việc thất bại",
+      success: false,
+      error: error.message,
+    });
+  }
+};
+export const saveMindmap = async (req, res) => {
+  try {
+    const { payload } = req.body;
+    if (!payload || !Array.isArray(payload)) {
+      return res.json({ mess: "Mindmap gửi lên không hợp lệ", success: false });
+    }
+    console.log(payload);
+    const bulkOps = payload.map((item) => ({
+      updateOne: {
+        filter: { mapId: item.mapId },
+        update: {
+          $set: { mindmapStructure: item.mapStructure },
+        },
+        upsert: true,
+      },
+    }));
+    await jobEntity.bulkWrite(bulkOps);
+    res.json({ mess: "Lưu mindmap thành công", success: true });
+  } catch (error) {
+    res.json({
+      mess: "Lưu mindmap thất bại",
+      success: false,
+      error: error.message,
+    });
+  }
+};
+export const assignAdmin = async (req, res) => {
+  try {
+    const { idJob, idAssignAdmin } = req.body;
+    if (!idAssignAdmin) {
+      return res.json({
+        mess: "Vui lòng chọn admin cần giao việc",
+        success: false,
+      });
+    }
+    const job = await jobEntity.findById(idJob);
+    const isAssign = (job.assigned || []).some(
+      (item) => item.id.toString() === idAssignAdmin.toString(),
+    );
+    if (isAssign) {
+      return res.json({
+        mess: "Admin bạn chọn hiện tại đang xử lý việc này",
+        success: false,
+      });
+    }
+    const admin = await adminEntity.findById(idAssignAdmin);
+    const nameAdmin = `${admin.fullname}(${admin.role})`;
+    let updateJob = "";
+    if (!job.assigned[1]) {
+      updateJob = await jobEntity.findByIdAndUpdate(
+        idJob,
+        {
+          $push: {
+            assigned: [
+              {
+                id: idAssignAdmin,
+                name: nameAdmin,
+              },
+            ],
+          },
+        },
+        { new: true },
+      );
+    } else {
+      updateJob = await jobEntity.findByIdAndUpdate(
+        idJob,
+        {
+          $set: {
+            "assigned.1": [
+              {
+                id: idAssignAdmin,
+                name: nameAdmin,
+              },
+            ],
+          },
+        },
+        { new: true },
+      );
+    }
+    const io = req.app.get("socketio");
+    io.emit("update-job", [updateJob]);
+    const data = 1;
+    io.emit("updateGeneratedJob", [idAssignAdmin, data]);
+    res.json({ mess: "Giao việc thành công", success: true });
+  } catch (error) {
+    res.json({
+      mess: "Giao việc thất bại",
+      success: false,
+      error: error.message,
+    });
+  }
+};
+export const reloadJob = async (req, res) => {
+  const { idAdmin } = req.params;
+  const jobAssign = await jobEntity.aggregate([
+    { $match: { "assigned.id": idAdmin } },
+    {
+      $addFields: {
+        priorityOrder: {
+          $switch: {
+            branches: [
+              { case: { $eq: ["$level", "Gấp"] }, then: 1 },
+              { case: { $eq: ["$level", "Ưu tiên"] }, then: 2 },
+              { case: { $eq: ["$level", "Thong thả"] }, then: 3 },
+            ],
+            default: 4, // Phòng thủ nếu có trạng thái lạ lọt vào hệ thống
+          },
+        },
+      },
+    },
+    // Bước 2: Sắp xếp tăng dần theo trọng số (1 -> 2 -> 3) [cite: 2026-01-28]
+    {
+      $sort: { priorityOrder: 1, createdAt: -1 }, // Nếu cùng mức độ ưu tiên, đơn mới hơn xếp lên trước [cite: 2026-01-28]
+    },
+    // Bước 3: Xóa bỏ trường tạm 'priorityOrder' trước khi trả về để giữ sạch dữ liệu đầu ra [cite: 2026-01-28]
+    {
+      $project: { priorityOrder: 0 },
+    },
+  ]);
+  const admins = await adminEntity.find().lean();
+  res.json({ jobAssign, admins });
+};
+export const updateStatusJob = async (req, res) => {
+  try {
+    const { idJob } = req.params;
+    const updateJob = await jobEntity
+      .findByIdAndUpdate(
+        idJob,
+        {
+          status: "completed",
+          level: "Đã hoàn thành",
+        },
+        { new: true },
+      )
+      .lean();
+    const io = req.app.get("socketio");
+    io.emit("update-job", [updateJob]);
+    res.json({
+      mess: "Cập nhật tình trạng công việc thành công",
+      success: true,
+    });
+  } catch (error) {
+    res.json({
+      mess: "Cập nhật tình trạng công việc thất bại",
+      success: false,
+      error: error.message,
+    });
+  }
+};

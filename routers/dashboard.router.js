@@ -82,9 +82,14 @@ dashboardRouter.get(
   `${prefix}/downloadOrder/:id`,
   dashboardController.downloadOrder,
 );
+dashboardRouter.get(`${prefix}/reloadOrder`, dashboardController.reloadOrder);
 dashboardRouter.get(
-  `${prefix}/reloadOrder`,
-  dashboardController.reloadOrder,
+  `${prefix}/reloadJob/:idAdmin`,
+  dashboardController.reloadJob,
+);
+dashboardRouter.get(
+  `${prefix}/updateStatusJob/:idJob`,
+  dashboardController.updateStatusJob,
 );
 dashboardRouter.post(
   `${prefix}/registerAdmin`,
@@ -168,14 +173,8 @@ dashboardRouter.post(
   upload.single("imgVoucher"),
   dashboardController.addVoucher,
 );
-dashboardRouter.post(
-  `${prefix}/addJob`,
-  dashboardController.addJob,
-);
-dashboardRouter.post(
-  `${prefix}/saveMindmap`,
-  dashboardController.saveMindmap,
-);
+dashboardRouter.post(`${prefix}/addJob`, dashboardController.addJob);
+dashboardRouter.post(`${prefix}/saveMindmap`, dashboardController.saveMindmap);
 dashboardRouter.put(
   `${prefix}/updateAdmin/:idUpdate`,
   authenticateToken,
@@ -245,8 +244,12 @@ dashboardRouter.put(
   dashboardController.putEditBlogDraft,
 );
 dashboardRouter.put(`${prefix}/updateOrder`, dashboardController.updateOrder);
-dashboardRouter.put(`${prefix}/changeStatusOrders`, dashboardController.changeStatusOrders);
+dashboardRouter.put(
+  `${prefix}/changeStatusOrders`,
+  dashboardController.changeStatusOrders,
+);
 dashboardRouter.put(`${prefix}/importDevice`, dashboardController.importDevice);
+dashboardRouter.put(`${prefix}/assignAdmin`, dashboardController.assignAdmin);
 dashboardRouter.delete(
   `${prefix}/deleteUserAdmin/:idDelete`,
   authenticateToken,
