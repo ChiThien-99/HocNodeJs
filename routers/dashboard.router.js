@@ -91,6 +91,7 @@ dashboardRouter.get(
   `${prefix}/updateStatusJob/:idJob`,
   dashboardController.updateStatusJob,
 );
+dashboardRouter.get(`${prefix}/getUpdateJob/:idJob`, dashboardController.getUpdateJob);
 dashboardRouter.post(
   `${prefix}/registerAdmin`,
   authLimit,
@@ -250,6 +251,7 @@ dashboardRouter.put(
 );
 dashboardRouter.put(`${prefix}/importDevice`, dashboardController.importDevice);
 dashboardRouter.put(`${prefix}/assignAdmin`, dashboardController.assignAdmin);
+dashboardRouter.put(`${prefix}/updateJob`, dashboardController.updateJob);
 dashboardRouter.delete(
   `${prefix}/deleteUserAdmin/:idDelete`,
   authenticateToken,
@@ -335,4 +337,8 @@ dashboardRouter.delete(
 dashboardRouter.delete(
   `${prefix}/deleteProblemById/:id`,
   dashboardController.deleteProblemById,
+);
+dashboardRouter.delete(
+  `${prefix}/deleteJob/:idJob`,
+  dashboardController.deleteJob,
 );

@@ -262,6 +262,7 @@
           <div id="workMng" class="tabContent">
             <h2 class="flag-item">Quản lý công việc</h2>
             <form id="formJob">
+              <input type="hidden" name="idJob" id="idJob">
               <label for="titleJob">Tên công việc</label><br>
               <input type="text" name="titleJob" id="titleJob"><br>
               <label for="levelJob">Cấp độ</label><br>
@@ -272,7 +273,7 @@
               </select><br>
               <label for="deadlineJob">Deadline</label><br>
               <input type="text" name="deadlineJob" id="deadlineJob"><br>
-              <input type="submit" value="Thêm công việc">
+              <input type="submit" value="Thêm công việc" id="btnJob">
             </form>
             <div id="divBtnRealoadJob">
               <button type="button" id="btnReloadJob"><i class="fa-solid fa-arrow-rotate-right"></i> Nạp</button>

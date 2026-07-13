@@ -22,6 +22,8 @@ import { jobEntity } from "../models/job.model.js";
 import PDFDocument from "pdfkit";
 import path from "path";
 import { fileURLToPath } from "url";
+import webpush from "web-push";
+import cron from "node-cron";
 function getSystemInfo() {
   const info = {
     os: {
@@ -2042,3 +2044,71 @@ export const updateStatusJob = async (req, res) => {
     });
   }
 };
+export const getUpdateJob=async(req,res)=>{
+  const {idJob}=req.params;
+  const jobUpdate=await jobEntity.findById(idJob);
+  res.json({data:jobUpdate});
+}
+export const updateJob=async(req,res)=>{
+  try {
+    let {idJob,titleJob,levelJob,deadlineJob}=req.body;
+  const [day, month, year] = deadlineJob.split("/");
+  deadlineJob = new Date(year, month - 1, day);
+  const updateJob=await jobEntity.findByIdAndUpdate(idJob,{
+    title:titleJob,
+    level:levelJob,
+    deadline:deadlineJob,
+  },{new:true}).lean();
+  const io = req.app.get("socketio");
+  io.emit("update-job", [updateJob]);
+  res.json({mess:"Cập nhật công việc thành công",success:true});
+  } catch (error) {
+  res.json({mess:"Cập nhật c6ng việc thất bại",success:false,error:error.message});
+  }
+};
+export const deleteJob=async(req,res)=>{
+  try {
+    const {idJob}=req.params;
+    const deleteJob=await jobEntity.findByIdAndDelete(idJob);
+    const io = req.app.get("socketio");
+    io.emit("delete-job", deleteJob);
+    res.json({mess:"Xóa công việc thành công",success:true});
+  } catch (error) {
+    res.json({mess:"Xóa công việc thất bại",success:false,error:error.message});
+  }
+}
+webpush.setVapidDetails(
+  "mailto:thienphuc19992003@gmail.com",
+  process.env.VAPID_PUBLIC_KEY,
+  process.env.VAPID_PRIVATE_KEY,
+)
+export const subscribeNotification=async(req,res)=>{
+  try {
+  const {subscription,idAdmin}=req.body;
+  await adminEntity.findByIdAndUpdate(idAdmin,{pushSubscription:subscription});
+  res.json({mess:"Đăng ký nhận thông báo thành công",success:true});
+  } catch (error) {
+  res.json({mess:"Đăng ký nhận thông báo thất bại",success:false,error:error.message});
+  }
+}
+cron.schedule("* * * * *",async()=>{
+  const now=new Date();
+  const oneMinutedLater=new Date(now.getTime()+60000);
+  const urgentJobs=await jobEntity.find({deadline:{$gte:now,$lte:oneMinutedLater}}).populate("assigned").lean();
+  urgentJobs.forEach((job)=>{
+    (job.assigned||[]).forEach(async(admin)=>{
+      if (admin.pushSubscription) {
+        const payload=JSON.stringify({
+          title:`${job.title}`,
+          body:`Sắp đến deadline`,
+          icon:"/img/logo_imzai_1.png",
+        });
+        try {
+          await webpush.sendNotification(admin.pushSubscription,payload);
+        } catch (error) {
+          console.error(`Không thể đẩy thông báo cho admin`,error.message);
+        }
+      }
+    })
+  })
+})

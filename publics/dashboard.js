@@ -506,13 +506,9 @@ socket.on("update-job", (data) => {
       existRow.cells[0].style.color = "#1877f2";
       existRow.style.backgroundColor = "gainsboro";
       existRow.style.color = "#bbb";
-      existRow.querySelector(".btnAssignJob").style.color = "#bbb";
-      existRow.querySelector(".btnCompleteJob").style.color = "#bbb";
-      existRow.querySelector(".btnUpdateJob").style.color = "#bbb";
-      existRow.querySelector(".btnAssignJob").disabled = "true";
-      existRow.querySelector(".btnCompleteJob").disabled = "true";
-      existRow.querySelector(".btnUpdateJob").disabled = "true";
-      existRow.querySelector(".btnCompleteJob").innerText = "Đã hoàn thành";
+      existRow.querySelector(".btnAssignJob").style.display = "none";
+      existRow.querySelector(".btnCompleteJob").style.display = "none";
+      existRow.querySelector(".btnUpdateJob").style.display = "none";
     }
     if (existRow.cells[0].innerText === "Gấp") {
       existRow.cells[0].style.color = "red";
@@ -548,7 +544,7 @@ socket.on("update-job", (data) => {
         <td>${data[0].title}</td>
         <td>${new Date(data[0].deadline).toLocaleDateString("vi-VN")}</td>
         <td>
-        ${data[0].assigned[1].name}
+        ${data[0].assigned[1]?data[0].assigned[1].name:"--"}
         <div class="arrayIdAdminAssign" data-stringId='${stringIdAdmin}'></div>
         </td>
         <td>
@@ -631,6 +627,14 @@ socket.on("updateGeneratedJob", (data) => {
     generatedJob.innerText = totalGeneratedOrder;
   }
 });
+socket.on("delete-job",(data)=>{
+  if (data&&data._id) {
+    const rowDelete=document.querySelector(`tr[data-idJob="${data._id}"]`);
+  if (rowDelete) {
+    rowDelete.remove();
+  }
+  }
+})
 async function verifySession() {
   try {
     const response = await authFetch("/api/auth/me");
@@ -3180,7 +3184,35 @@ document.getElementById("formJob").addEventListener("submit", (e) => {
   const titleJob = document.getElementById("titleJob").value;
   const levelJob = document.getElementById("levelJob").value;
   const deadlineJob = document.getElementById("deadlineJob").value;
-  fetch("/dashboard/addJob", {
+  const idJob=document.getElementById("idJob").value;
+  if (idJob) {
+    fetch("/dashboard/updateJob",{
+      method:"PUT",
+      headers:{"Content-Type":"application/json;charset=UTF-8"},
+      body:JSON.stringify({idJob,titleJob,levelJob,deadlineJob}),
+    })
+    .then(res=>res.json())
+    .then(({mess,success,error})=>{
+      if (success) {
+        document.getElementById("idJob").value="";
+        document.getElementById("titleJob").value="";
+        document.getElementById("levelJob").value="Gấp";
+        document.getElementById("deadlineJob").value="";
+        document.getElementById("btnJob").value="Thêm công việc";
+        alert("Thông báo",mess,"#80a710");
+      } else {
+        if (error) {
+          alert("Lỗi",`${mess}\n${error}`,"red");
+        } else {
+          alert("Lỗi",mess,"red");
+        }
+      }
+    })
+    .catch((error)=>{
+      alert("Lỗi",error,"red");
+    });
+  } else {
+    fetch("/dashboard/addJob", {
     method: "POST",
     headers: { "Content-Type": "application/json;charset=UTF-8" },
     body: JSON.stringify({ idAdmin, titleJob, levelJob, deadlineJob }),
@@ -3203,6 +3235,7 @@ document.getElementById("formJob").addEventListener("submit", (e) => {
     .catch((error) => {
       alert("Lỗi", error, "red");
     });
+  }
 });
 document.addEventListener("DOMContentLoaded", () => {
   const levelColor = {
@@ -3221,13 +3254,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const row = td.closest("tr");
       row.style.backgroundColor = "gainsboro";
       row.style.color = "#bbb";
-      row.querySelector(".btnAssignJob").style.color = "#bbb";
-      row.querySelector(".btnCompleteJob").style.color = "#bbb";
-      row.querySelector(".btnUpdateJob").style.color = "#bbb";
-      row.querySelector(".btnAssignJob").disabled = "true";
-      row.querySelector(".btnCompleteJob").disabled = "true";
-      row.querySelector(".btnUpdateJob").disabled = "true";
-      row.querySelector(".btnCompleteJob").innerText = "Đã hoàn thành";
+      row.querySelector(".btnAssignJob").style.display = "none";
+      row.querySelector(".btnCompleteJob").style.display = "none";
+      row.querySelector(".btnUpdateJob").style.display = "none";
     }
   });
 });
@@ -3377,6 +3406,58 @@ document.querySelector("#tableJob tbody").addEventListener("click", (e) => {
         alert("Lỗi", error, "red");
       });
   }
+  if (target.classList.contains("btnUpdateJob")) {
+    const row=target.closest("tr");
+    const idJob=row.getAttribute("data-idJob");
+    fetch(`/dashboard/getUpdateJob/${idJob}`,{
+      method:"GET",
+      headers:{"Content-Type":"application/json;charset=UTF-8"},
+    })
+    .then(res=>res.json())
+    .then(({data})=>{
+      if (data) {
+      document.getElementById("idJob").value=data._id;
+      document.getElementById("titleJob").value=data.title;
+      document.getElementById("levelJob").value=data.level;
+      const deadline=new Date(data.deadline);
+      document.getElementById("deadlineJob").value=`${deadline.getDate()}/${deadline.getMonth()+1}/${deadline.getFullYear()}`;
+      document.getElementById("btnJob").value="Cập nhật";
+      } else {
+      alert("Lỗi","Không lấy được data job để cập nhật","red");
+      }
+    })
+    .catch((error)=>{
+      alert("Lỗi",error,"red");
+    });
+  }
+  if (target.classList.contains("btnDeleteJob")) {
+    confirm("Thông báo","Bạn có chắc chắn xóa công việc này?","#1877f2")
+    .then((result)=>{
+      if (result===true) {
+        const row=target.closest("tr");
+      const idJob=row.getAttribute("data-idJob");
+      fetch(`/dashboard/deleteJob/${idJob}`,{
+        method:"DELETE",
+        headers:{"Content-Type":"application/json;charset=UTF-8"},
+      })
+      .then(res=>res.json())
+      .then(({mess,success,error})=>{
+        if (success) {
+          alert("Thông báo",mess,"#80a710");
+        } else {
+          if (error) {
+            alert("Lỗi",`${mess}\n${error}`,"red");
+          } else {
+            alert("Lỗi",mess,"red");
+          }
+        }
+      })
+      .catch((error)=>{
+        alert("Lỗi",error,"red");
+      });
+      }
+    });
+  }
 });
 document.getElementById("btnWorkMng").addEventListener("click", function () {
   const generatedJob = this.querySelector("#generatedJob");
@@ -3402,6 +3483,9 @@ document.getElementById("btnWorkMng").addEventListener("click", function () {
 });
 document.getElementById("btnReloadJob").addEventListener("click", () => {
   const idAd = document.getElementById("idAd").innerText.slice(3);
+  const vapidKeys=webpush.generateVAPIDKeys();
+  console.log("Public key:",vapidKeys.publicKey);
+  console.log("Private key",vapidKeys.privateKey);
   fetch(`/dashboard/reloadJob/${idAd}`, {
     method: "GET",
     headers: { "Content-Type": "application/json;charset=UTF-8" },
@@ -3497,13 +3581,9 @@ document.getElementById("btnReloadJob").addEventListener("click", () => {
             const row = levelJob.closest("tr");
             row.style.backgroundColor = "gainsboro";
             row.style.color = "#bbb";
-            row.querySelector(".btnAssignJob").style.color = "#bbb";
-            row.querySelector(".btnCompleteJob").style.color = "#bbb";
-            row.querySelector(".btnUpdateJob").style.color = "#bbb";
-            row.querySelector(".btnAssignJob").disabled = "true";
-            row.querySelector(".btnCompleteJob").disabled = "true";
-            row.querySelector(".btnUpdateJob").disabled = "true";
-            row.querySelector(".btnCompleteJob").innerText = "Đã hoàn thành";
+            row.querySelector(".btnAssignJob").style.display = "none";
+            row.querySelector(".btnCompleteJob").style.display = "none";
+            row.querySelector(".btnUpdateJob").style.display = "none";
           }
         });
         mindInstances = [];
@@ -3511,3 +3591,58 @@ document.getElementById("btnReloadJob").addEventListener("click", () => {
       }
     });
 });
+const PUBLIC_VAPID_KEY="BMOeeNoHZ5ljM0pQWz6Swn8T0KFou36_32QO962yDyISqG5mugGPp95zBJHKd74VZU_xASkI2F4lIcyfcx4l-4I";
+function urlBase64ToUint8Array(base64String){
+  const padding="=".repeat((4-(base64String.length%4))%4);
+  const base64=(base64String+padding).replace(/\-/g,"+").replace(/_/g,"/");
+  const rawData=window.atob(base64);
+  const outputArray=new Uint8Array(rawData.length);
+  for(let i=0;i<rawData.length;++i){
+    outputArray[i]=rawData.charCodeAt(i);
+  }
+  return outputArray;
+}
+async function registerPushNotification(idAdmin){
+  if (!"serviceWorker" in navigator || !"PushManager" in window) {
+    return;
+  }
+  try {
+    const register=await navigator.serviceWorker.register("/sw.js");
+    const permission=await Notification.requestPermission();
+    if (permission!=="granted") {
+      console.warn("Người dùng từ chối cấp quyền thông báo");
+      return;
+    }
+    const subscription=await register.pushManager.subscribe({
+      userVisibleOnly:true,
+      applicationServerKey:urlBase64ToUint8Array(PUBLIC_VAPID_KEY),
+    });
+    await fetch("/dashboard/subscribe",{
+      method:"POST",
+      body:JSON.stringify({subscription,idAdmin}),
+      headers:{"Content-Type":"application/json"}
+    })
+    .then(res=>res.json())
+    .then(({mess,success,error})=>{
+      if (success) {
+        alert("Thông báo",mess,"#80a710");
+      } else {
+        if (error) {
+          alert("Lỗi",`${mess}\n${error}`,"red");
+        } else {
+          alert("Lỗi",mess,"red");
+        }
+      }
+    })
+    .catch((error)=>{
+      alert("Lỗi",error,"red");
+    });
+    console.log("Kết nối web push thành công");
+  } catch (error) {
+    console.error("Lỗi kết nối web push",error);
+  }
+}
+const currentAdminId=document.getElementById("idAd").innerText.slice(3).trim();
+if (currentAdminId) {
+  registerPushNotification(currentAdminId);
+}
