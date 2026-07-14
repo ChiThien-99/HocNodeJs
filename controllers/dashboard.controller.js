@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+dotenv.config();
 import os from "os";
 import { json } from "stream/consumers";
 import { adminEntity } from "../models/admin.model.js";
@@ -2077,11 +2079,21 @@ export const deleteJob=async(req,res)=>{
     res.json({mess:"Xóa công việc thất bại",success:false,error:error.message});
   }
 }
-webpush.setVapidDetails(
+if (!process.env.VAPID_PUBLIC_KEY&&!process.env.VAPID_PRIVATE_KEY) {
+  console.error("Lỗi lấy vapid key từ env")
+}else{
+  try {
+    webpush.setVapidDetails(
   "mailto:thienphuc19992003@gmail.com",
   process.env.VAPID_PUBLIC_KEY,
   process.env.VAPID_PRIVATE_KEY,
 )
+console.log("Cấu hình vapid detail thành công");
+  } catch (error) {
+    console.log("Cấu hình vapid detail thất bại");
+  }
+}
+
 export const subscribeNotification=async(req,res)=>{
   try {
   const {subscription,idAdmin}=req.body;
@@ -2092,6 +2104,7 @@ export const subscribeNotification=async(req,res)=>{
   }
 }
 cron.schedule("* * * * *",async()=>{
+  console.log(`[${new Date().toLocaleTimeString()}] Cron Job đang tự động quét các công việc sắp đến deadline`)
   const now=new Date();
   const oneMinutedLater=new Date(now.getTime()+60000);
   const urgentJobs=await jobEntity.find({deadline:{$gte:now,$lte:oneMinutedLater}}).populate("assigned").lean();

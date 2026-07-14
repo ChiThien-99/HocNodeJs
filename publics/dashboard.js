@@ -781,6 +781,12 @@ function getUserFromCookie() {
         });
       }
       applyPermission();
+      const currentAdminId=document.getElementById("idAd").innerText.slice(3).trim();
+console.log(currentAdminId);
+if (currentAdminId) {
+  registerPushNotification(currentAdminId);
+  console.log("ok");
+}
       return decodedUser;
     } catch (error) {
       console.error(`Token không hợp lệ hoặc đã bị can thiệp ${error}`);
@@ -3483,9 +3489,6 @@ document.getElementById("btnWorkMng").addEventListener("click", function () {
 });
 document.getElementById("btnReloadJob").addEventListener("click", () => {
   const idAd = document.getElementById("idAd").innerText.slice(3);
-  const vapidKeys=webpush.generateVAPIDKeys();
-  console.log("Public key:",vapidKeys.publicKey);
-  console.log("Private key",vapidKeys.privateKey);
   fetch(`/dashboard/reloadJob/${idAd}`, {
     method: "GET",
     headers: { "Content-Type": "application/json;charset=UTF-8" },
@@ -3604,9 +3607,15 @@ function urlBase64ToUint8Array(base64String){
 }
 async function registerPushNotification(idAdmin){
   if (!"serviceWorker" in navigator || !"PushManager" in window) {
+    console.warn("Trình duyệt không hỗ trợ web push");
+    return;
+  }
+  if (Notification.permission==="denied") {
+    console.error("Quyền thông báo đang bị chặn. Hãy bật lại quyền ở biểu tượng ổ khóa trên thanh địa chỉ");
     return;
   }
   try {
+    console.log("ok3")
     const register=await navigator.serviceWorker.register("/sw.js");
     const permission=await Notification.requestPermission();
     if (permission!=="granted") {
@@ -3642,7 +3651,4 @@ async function registerPushNotification(idAdmin){
     console.error("Lỗi kết nối web push",error);
   }
 }
-const currentAdminId=document.getElementById("idAd").innerText.slice(3).trim();
-if (currentAdminId) {
-  registerPushNotification(currentAdminId);
-}
+
