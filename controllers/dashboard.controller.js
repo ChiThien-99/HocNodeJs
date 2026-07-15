@@ -1861,7 +1861,10 @@ export const addJob = async (req, res) => {
       });
     }
     if (!startTimeJob) {
-      return res.json({ mess: "Vui lòng điền thời gian bắt đầu", success: false });
+      return res.json({
+        mess: "Vui lòng điền thời gian bắt đầu",
+        success: false,
+      });
     }
     if (!deadlineJob) {
       return res.json({ mess: "Vui lòng điền deadline", success: false });
@@ -1874,7 +1877,7 @@ export const addJob = async (req, res) => {
       status: "progress",
       level: levelJob,
       title: titleJob,
-      startTime:startTimeJob,
+      startTime: startTimeJob,
       deadline: deadlineJob,
       assigned: [
         {
@@ -1997,7 +2000,7 @@ export const assignAdmin = async (req, res) => {
 };
 export const reloadJob = async (req, res) => {
   const { idAdmin } = req.params;
-  const adminObjectId=new mongoose.Types.ObjectId(idAdmin);
+  const adminObjectId = new mongoose.Types.ObjectId(idAdmin);
   const jobAssign = await jobEntity.aggregate([
     { $match: { "assigned.id": adminObjectId } },
     {
@@ -2054,101 +2057,129 @@ export const updateStatusJob = async (req, res) => {
     });
   }
 };
-export const getUpdateJob=async(req,res)=>{
-  const {idJob}=req.params;
-  const jobUpdate=await jobEntity.findById(idJob);
-  res.json({data:jobUpdate});
-}
-export const updateJob=async(req,res)=>{
+export const getUpdateJob = async (req, res) => {
+  const { idJob } = req.params;
+  const jobUpdate = await jobEntity.findById(idJob);
+  res.json({ data: jobUpdate });
+};
+export const updateJob = async (req, res) => {
   try {
-  let {idJob,titleJob,levelJob,startTimeJob,deadlineJob}=req.body;
-  const updateJob=await jobEntity.findByIdAndUpdate(idJob,{
-    title:titleJob,
-    level:levelJob,
-    startTime:startTimeJob,
-    deadline:deadlineJob,
-  },{new:true}).lean();
-  const io = req.app.get("socketio");
-  io.emit("update-job", [updateJob]);
-  res.json({mess:"Cập nhật công việc thành công",success:true});
+    let { idJob, titleJob, levelJob, startTimeJob, deadlineJob } = req.body;
+    const updateJob = await jobEntity
+      .findByIdAndUpdate(
+        idJob,
+        {
+          title: titleJob,
+          level: levelJob,
+          startTime: startTimeJob,
+          deadline: deadlineJob,
+        },
+        { new: true },
+      )
+      .lean();
+    const io = req.app.get("socketio");
+    io.emit("update-job", [updateJob]);
+    res.json({ mess: "Cập nhật công việc thành công", success: true });
   } catch (error) {
-  res.json({mess:"Cập nhật c6ng việc thất bại",success:false,error:error.message});
+    res.json({
+      mess: "Cập nhật c6ng việc thất bại",
+      success: false,
+      error: error.message,
+    });
   }
 };
-export const deleteJob=async(req,res)=>{
+export const deleteJob = async (req, res) => {
   try {
-    const {idJob}=req.params;
-    const deleteJob=await jobEntity.findByIdAndDelete(idJob);
+    const { idJob } = req.params;
+    const deleteJob = await jobEntity.findByIdAndDelete(idJob);
     const io = req.app.get("socketio");
     io.emit("delete-job", deleteJob);
-    res.json({mess:"Xóa công việc thành công",success:true});
+    res.json({ mess: "Xóa công việc thành công", success: true });
   } catch (error) {
-    res.json({mess:"Xóa công việc thất bại",success:false,error:error.message});
+    res.json({
+      mess: "Xóa công việc thất bại",
+      success: false,
+      error: error.message,
+    });
   }
-}
-if (!process.env.VAPID_PUBLIC_KEY&&!process.env.VAPID_PRIVATE_KEY) {
-  console.error("Lỗi lấy vapid key từ env")
-}else{
+};
+if (!process.env.VAPID_PUBLIC_KEY && !process.env.VAPID_PRIVATE_KEY) {
+  console.error("Lỗi lấy vapid key từ env");
+} else {
   try {
     webpush.setVapidDetails(
-  "mailto:thienphuc19992003@gmail.com",
-  process.env.VAPID_PUBLIC_KEY,
-  process.env.VAPID_PRIVATE_KEY,
-)
-console.log("Cấu hình vapid detail thành công");
+      "mailto:thienphuc19992003@gmail.com",
+      process.env.VAPID_PUBLIC_KEY,
+      process.env.VAPID_PRIVATE_KEY,
+    );
+    console.log("Cấu hình vapid detail thành công");
   } catch (error) {
     console.log("Cấu hình vapid detail thất bại");
   }
 }
 
-export const subscribeNotification=async(req,res)=>{
+export const subscribeNotification = async (req, res) => {
   try {
-  const {subscription,idAdmin}=req.body;
-  await adminEntity.findByIdAndUpdate(idAdmin,{pushSubscription:subscription});
-  res.json({mess:"Đã kích hoạt thông báo",success:true});
+    const { subscription, idAdmin } = req.body;
+    await adminEntity.findByIdAndUpdate(idAdmin, {
+      pushSubscription: subscription,
+    });
+    res.json({ mess: "Đã kích hoạt thông báo", success: true });
   } catch (error) {
-  res.json({mess:"Kích hoạt thông báo thất bại",success:false,error:error.message});
+    res.json({
+      mess: "Kích hoạt thông báo thất bại",
+      success: false,
+      error: error.message,
+    });
   }
-}
-cron.schedule("* * * * *",async()=>{
-  console.log(`[${new Date().toLocaleTimeString()}] Cron Job đang tự động quét các công việc sắp đến deadline`);
-  const localNow=new Date();
-  const now=new Date(localNow.getTime());
-  const oneMinutedLater=new Date(localNow.getTime()+60000);
-  const urgentJobsDL=await jobEntity.find({deadline:{$gte:now,$lte:oneMinutedLater}}).populate({path:"assigned.id",model:"adminEntity"}).lean();
-  urgentJobsDL.forEach((job)=>{
-    (job.assigned||[]).forEach(async(admin)=>{
-      const adminId=admin.id;
-      if (adminId&&adminId.pushSubscription) {
-        const payload=JSON.stringify({
-          title:`📋 ${job.title}`,
-          body:`Đã đến deadline ⏰`,
-          icon:"/img/logo_imzai_1.png",
+};
+cron.schedule("* * * * *", async () => {
+  console.log(
+    `[${new Date().toLocaleTimeString()}] Cron Job đang tự động quét các công việc sắp đến deadline`,
+  );
+  const localNow = new Date();
+  const now = new Date(localNow.getTime());
+  const oneMinutedLater = new Date(localNow.getTime() + 60000);
+  const urgentJobsDL = await jobEntity
+    .find({ deadline: { $gte: now, $lte: oneMinutedLater } })
+    .populate({ path: "assigned.id", model: "adminEntity" })
+    .lean();
+  urgentJobsDL.forEach((job) => {
+    (job.assigned || []).forEach(async (admin) => {
+      const adminId = admin.id;
+      if (adminId && adminId.pushSubscription) {
+        const payload = JSON.stringify({
+          title: `📋 ${job.title}`,
+          body: `Đã đến deadline ⏰`,
+          icon: "/img/logo_imzai_1.png",
         });
         try {
-          await webpush.sendNotification(adminId.pushSubscription,payload);
+          await webpush.sendNotification(adminId.pushSubscription, payload);
         } catch (error) {
-          console.error(`Không thể đẩy thông báo cho admin`,error.message);
+          console.error(`Không thể đẩy thông báo cho admin`, error.message);
         }
       }
-    })
+    });
   });
-  const urgentJobsST=await jobEntity.find({startTime:{$gte:now,$lte:oneMinutedLater}}).populate({path:"assigned.id",model:"adminEntity"}).lean();
-  urgentJobsST.forEach((job)=>{
-    (job.assigned||[]).forEach(async(admin)=>{
-      const adminId=admin.id;
-      if (adminId&&adminId.pushSubscription) {
-        const payload=JSON.stringify({
-          title:`📋 ${job.title}`,
-          body:`Hãy bắt đầu công việc nào 🥊`,
-          icon:"/img/logo_imzai_1.png",
+  const urgentJobsST = await jobEntity
+    .find({ startTime: { $gte: now, $lte: oneMinutedLater } })
+    .populate({ path: "assigned.id", model: "adminEntity" })
+    .lean();
+  urgentJobsST.forEach((job) => {
+    (job.assigned || []).forEach(async (admin) => {
+      const adminId = admin.id;
+      if (adminId && adminId.pushSubscription) {
+        const payload = JSON.stringify({
+          title: `📋 ${job.title}`,
+          body: `Hãy bắt đầu công việc nào 🥊`,
+          icon: "/img/logo_imzai_1_tb.png",
         });
         try {
-          await webpush.sendNotification(adminId.pushSubscription,payload);
+          await webpush.sendNotification(adminId.pushSubscription, payload);
         } catch (error) {
-          console.error(`Không thể đẩy thông báo cho admin`,error.message);
+          console.error(`Không thể đẩy thông báo cho admin`, error.message);
         }
       }
-    })
-  })
-})
+    });
+  });
+});
