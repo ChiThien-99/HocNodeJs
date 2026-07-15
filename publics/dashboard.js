@@ -496,10 +496,9 @@ socket.on("update-job", (data) => {
   if (existRow) {
     existRow.cells[0].innerText = data[0].level;
     existRow.cells[1].innerText = data[0].title;
-    existRow.cells[2].innerText = new Date(data[0].deadline).toLocaleDateString(
-      "vi-VN",
-    );
-    existRow.cells[3].innerText = data[0].assigned[1]
+    existRow.cells[2].innerText = new Date(data[0].startTime).toLocaleString("vi-VN");
+    existRow.cells[3].innerText = new Date(data[0].deadline).toLocaleString("vi-VN");
+    existRow.cells[4].innerText = data[0].assigned[1]
       ? data[0].assigned[1].name
       : "--";
     if (existRow.cells[0].innerText === "Đã hoàn thành") {
@@ -542,7 +541,8 @@ socket.on("update-job", (data) => {
       <tr data-idJob="${data[0]._id}">
         <td class="levelJob">${data[0].level}</td>
         <td>${data[0].title}</td>
-        <td>${new Date(data[0].deadline).toLocaleDateString("vi-VN")}</td>
+        <td>${new Date(data[0].startTime).toLocaleString("vi-VN")}</td>
+        <td>${new Date(data[0].deadline).toLocaleString("vi-VN")}</td>
         <td>
         ${data[0].assigned[1]?data[0].assigned[1].name:"--"}
         <div class="arrayIdAdminAssign" data-stringId='${stringIdAdmin}'></div>
@@ -782,10 +782,8 @@ function getUserFromCookie() {
       }
       applyPermission();
       const currentAdminId=document.getElementById("idAd").innerText.slice(3).trim();
-console.log(currentAdminId);
 if (currentAdminId) {
   registerPushNotification(currentAdminId);
-  console.log("ok");
 }
       return decodedUser;
     } catch (error) {
@@ -3177,11 +3175,6 @@ document.getElementById("btnReloadOrder").addEventListener("click", () => {
         .join("");
     });
 });
-new Cleave("#deadlineJob", {
-  date: true,
-  delimiter: "/",
-  datePattern: ["d", "m", "Y"], // Ép buộc cấu trúc gõ: ngày (d), tháng (m), năm (Y)
-});
 document.getElementById("formJob").addEventListener("submit", (e) => {
   e.preventDefault();
   const token = getCookie("accessToken");
@@ -3189,13 +3182,14 @@ document.getElementById("formJob").addEventListener("submit", (e) => {
   const idAdmin = decodedUser.id;
   const titleJob = document.getElementById("titleJob").value;
   const levelJob = document.getElementById("levelJob").value;
+  const startTimeJob = document.getElementById("startTimeJob").value;
   const deadlineJob = document.getElementById("deadlineJob").value;
   const idJob=document.getElementById("idJob").value;
   if (idJob) {
     fetch("/dashboard/updateJob",{
       method:"PUT",
       headers:{"Content-Type":"application/json;charset=UTF-8"},
-      body:JSON.stringify({idJob,titleJob,levelJob,deadlineJob}),
+      body:JSON.stringify({idJob,titleJob,levelJob,startTimeJob,deadlineJob}),
     })
     .then(res=>res.json())
     .then(({mess,success,error})=>{
@@ -3203,6 +3197,7 @@ document.getElementById("formJob").addEventListener("submit", (e) => {
         document.getElementById("idJob").value="";
         document.getElementById("titleJob").value="";
         document.getElementById("levelJob").value="Gấp";
+        document.getElementById("startTimeJob").value="";
         document.getElementById("deadlineJob").value="";
         document.getElementById("btnJob").value="Thêm công việc";
         alert("Thông báo",mess,"#80a710");
@@ -3221,7 +3216,7 @@ document.getElementById("formJob").addEventListener("submit", (e) => {
     fetch("/dashboard/addJob", {
     method: "POST",
     headers: { "Content-Type": "application/json;charset=UTF-8" },
-    body: JSON.stringify({ idAdmin, titleJob, levelJob, deadlineJob }),
+    body: JSON.stringify({ idAdmin, titleJob, levelJob,startTimeJob, deadlineJob }),
   })
     .then((res) => res.json())
     .then(({ mess, success, error }) => {
@@ -3229,6 +3224,7 @@ document.getElementById("formJob").addEventListener("submit", (e) => {
         alert("Thông báo", mess, "#80a710");
         document.getElementById("titleJob").value = "";
         document.getElementById("levelJob").value = "Gấp";
+        document.getElementById("startTimeJob").value="";
         document.getElementById("deadlineJob").value = "";
       } else {
         if (!error) {
@@ -3425,8 +3421,18 @@ document.querySelector("#tableJob tbody").addEventListener("click", (e) => {
       document.getElementById("idJob").value=data._id;
       document.getElementById("titleJob").value=data.title;
       document.getElementById("levelJob").value=data.level;
-      const deadline=new Date(data.deadline);
-      document.getElementById("deadlineJob").value=`${deadline.getDate()}/${deadline.getMonth()+1}/${deadline.getFullYear()}`;
+      const rawStartTime=data.startTime;
+      const startTimeObj=new Date(rawStartTime);
+      const startTimeOffset=startTimeObj.getTimezoneOffset()*60000;
+      const startTimeLocalIsoTime=new Date(startTimeObj.getTime()-startTimeOffset).toISOString();
+      const startTimeFormatted=startTimeLocalIsoTime.slice(0,16);
+      document.getElementById("startTimeJob").value=startTimeFormatted;
+      const rawDeadline=data.deadline;
+      const deadlineObj=new Date(rawDeadline);
+      const deadlineOffset=deadlineObj.getTimezoneOffset()*60000;
+      const deadlineLocalIsoTime=new Date(deadlineObj.getTime()-deadlineOffset).toISOString();
+      const deadlineFormatted=deadlineLocalIsoTime.slice(0,16);
+      document.getElementById("deadlineJob").value=deadlineFormatted;
       document.getElementById("btnJob").value="Cập nhật";
       } else {
       alert("Lỗi","Không lấy được data job để cập nhật","red");
@@ -3519,7 +3525,8 @@ document.getElementById("btnReloadJob").addEventListener("click", () => {
         <tr data-idJob="${job._id}">
           <td class="levelJob">${job.level}</td>
           <td class="titleJob">${job.title}</td>
-          <td>${new Date(job.deadline).toLocaleDateString("vi-VN")}</td>
+          <td>${new Date(job.startTime).toLocaleString("vi-VN")}</td>
+          <td>${new Date(job.deadline).toLocaleString("vi-VN")}</td>
           <td>
             ${job.assigned[1] ? job.assigned[1].name : "--"}
             <div class="arrayIdAdminAssign" data-stringId='${JSON.stringify(job.assigned.map((item) => item.id))}'></div>
@@ -3615,7 +3622,6 @@ async function registerPushNotification(idAdmin){
     return;
   }
   try {
-    console.log("ok3")
     const register=await navigator.serviceWorker.register("/sw.js");
     const permission=await Notification.requestPermission();
     if (permission!=="granted") {

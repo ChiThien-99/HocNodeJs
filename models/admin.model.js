@@ -2,26 +2,26 @@ import mongoose from "mongoose";
 const adminSchema = mongoose.Schema({
   fullname: {
     type: String,
-    require: true,
+    required: true,
   },
   role: {
     type: String,
-    require: true,
+    required: true,
   },
   email: {
     type: String,
-    require: true,
+    required: true,
     unique: true,
     lowercase: true,
     trim: true,
   },
   password: {
     type: String,
-    require: true,
+    required: true,
   },
   decent: {
     type: Array,
-    require: true,
+    required: true,
   },
   pushSubscription: {
     endpoint: { type: String },

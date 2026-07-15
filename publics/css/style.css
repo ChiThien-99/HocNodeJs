@@ -1267,7 +1267,7 @@ header div:last-child #containerUserLogin #bagShopping span {
   height: 2rem;
   font-size: 1rem;
 }
-#mainDashboard #contentDashboard #workMng form #deadlineJob {
+#mainDashboard #contentDashboard #workMng form #deadlineJob, #mainDashboard #contentDashboard #workMng form #startTimeJob {
   width: 20%;
   height: 2rem;
   font-size: 1rem;

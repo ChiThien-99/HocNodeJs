@@ -271,8 +271,10 @@
                 <option value="Ưu tiên">Ưu tiên</option>
                 <option value="Thong thả">Thong thả</option>
               </select><br>
+              <label for="startTimeJob">Bắt đầu</label><br>
+              <input type="datetime-local" name="startTimeJob" id="startTimeJob"><br>
               <label for="deadlineJob">Deadline</label><br>
-              <input type="text" name="deadlineJob" id="deadlineJob"><br>
+              <input type="datetime-local" name="deadlineJob" id="deadlineJob"><br>
               <input type="submit" value="Thêm công việc" id="btnJob">
             </form>
             <div id="divBtnRealoadJob">
@@ -283,6 +285,7 @@
               <tr>
                 <th>Cấp độ</th>
                 <th>Tên công việc</th>
+                <th>Bắt đầu</th>
                 <th>Deadline</th>
                 <th>Đã giao</th>
                 <th>Thao tác</th>
@@ -293,7 +296,8 @@
                   <tr data-idJob="<%=job._id%>">
                   <td class="levelJob"><%=job.level%></td>
                   <td class="titleJob"><%=job.title%></td>
-                  <td><%=new Date(job.deadline).toLocaleDateString("vi-VN")%></td>
+                  <td><%=new Date(job.startTime).toLocaleString("vi-VN")%></td>
+                  <td><%=new Date(job.deadline).toLocaleString("vi-VN")%></td>
                   <td>
                     <%=job.assigned[1]?job.assigned[1].name:"--"%>
                     <%const stringIdAdmin=JSON.stringify(job.assigned.map((item)=>item.id))%>

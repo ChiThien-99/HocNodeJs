@@ -14,6 +14,10 @@ const jobSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    startTime:{
+      type:Date,
+      required:true,
+    },
     deadline: {
       type: Date,
       required: true,
@@ -21,7 +25,8 @@ const jobSchema = mongoose.Schema(
     assigned: [
       {
         id: {
-          type: String,
+          type: mongoose.Schema.Types.ObjectId,
+          ref:"admin",
           required: true,
         },
         name: {
