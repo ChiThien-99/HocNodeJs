@@ -3,9 +3,7 @@ import * as Sentry from "@sentry/node";
 import { nodeProfilingIntegration } from "@sentry/profiling-node";
 Sentry.init({
   dsn: "https://106b94187d05330fd301d57c60ae9182@o4511743489540096.ingest.us.sentry.io/4511743545049088",
-  integrations: [
-    nodeProfilingIntegration(),
-  ],
+  integrations: [nodeProfilingIntegration()],
 
   // Send structured logs to Sentry
   enableLogs: true,
@@ -14,7 +12,7 @@ Sentry.init({
   // Set sampling rate for profiling - this is evaluated only once per SDK.init call
   profileSessionSampleRate: 1.0,
   // Trace lifecycle automatically enables profiling during active traces
-  profileLifecycle: 'trace',
+  profileLifecycle: "trace",
   dataCollection: {
     // To disable sending user data and HTTP bodies, uncomment the lines below. For more info visit:
     // https://docs.sentry.io/platforms/javascript/guides/node/configuration/options/#dataCollection
@@ -25,8 +23,12 @@ Sentry.init({
 
 // Profiling happens automatically after setting it up with `Sentry.init()`.
 // All spans (unless those discarded by sampling) will have profiling data attached to them.
-Sentry.startSpan({
-  name: "My Span",
-}, () => {
-  // The code executed here will be profiled
-});
+Sentry.startSpan(
+  {
+    name: "My Span",
+  },
+  () => {
+    // The code executed here will be profiled
+  },
+);
+console.log("Sentry đã chạy thành công");

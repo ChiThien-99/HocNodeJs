@@ -1,4 +1,3 @@
-import "./publics/instrument.js";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 
@@ -8,7 +7,7 @@ const __dirname = dirname(__filename);
 
 // Bây giờ bạn có thể sử dụng __dirname bình thường
 // Ví dụ: express.static(path.join(__dirname, "publics"), { ... });
-import * as Sentry from "@sentry/node"
+import * as Sentry from "@sentry/node";
 import express from "express";
 import session from "express-session";
 import cors from "cors";
@@ -121,9 +120,6 @@ app.get("/api/status", (req, res) => {
     environment: process.env.NODE_ENV || "development",
     nodeVersion: process.version,
   });
-});
-app.get("/debug-sentry", function mainHandler(req, res) {
-  throw new Error("My first Sentry error!");
 });
 app.use("/", dashboardRouter);
 app.use("/", routerLoginAdmin);

@@ -24,6 +24,7 @@ const storage = new CloudinaryStorage({
   },
 });
 const upload = multer({ storage: storage });
+dashboardRouter.get(`${prefix}/debug-sentry`, dashboardController.debugSentry);
 dashboardRouter.get(
   `${prefix}`,
   generalLimit,
@@ -91,7 +92,10 @@ dashboardRouter.get(
   `${prefix}/updateStatusJob/:idJob`,
   dashboardController.updateStatusJob,
 );
-dashboardRouter.get(`${prefix}/getUpdateJob/:idJob`, dashboardController.getUpdateJob);
+dashboardRouter.get(
+  `${prefix}/getUpdateJob/:idJob`,
+  dashboardController.getUpdateJob,
+);
 dashboardRouter.post(
   `${prefix}/registerAdmin`,
   authLimit,
@@ -176,7 +180,10 @@ dashboardRouter.post(
 );
 dashboardRouter.post(`${prefix}/addJob`, dashboardController.addJob);
 dashboardRouter.post(`${prefix}/saveMindmap`, dashboardController.saveMindmap);
-dashboardRouter.post(`${prefix}/subscribe`, dashboardController.subscribeNotification);
+dashboardRouter.post(
+  `${prefix}/subscribe`,
+  dashboardController.subscribeNotification,
+);
 dashboardRouter.put(
   `${prefix}/updateAdmin/:idUpdate`,
   authenticateToken,

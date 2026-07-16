@@ -2183,3 +2183,6 @@ cron.schedule("* * * * *", async () => {
     });
   });
 });
+export const debugSentry = async (req, res) => {
+  throw new Error("My first Sentry error!");
+};

@@ -2,20 +2,6 @@ import { alert, confirm } from "./alert.js";
 import { jwtDecode } from "https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/+esm";
 import { authFetch, setAccessToken } from "./authFetch.js";
 import MindElixir from "./mind-elixir/dist/MindElixir.js";
-import * as Sentry from "@sentry/browser";
-Sentry.init({
-  dsn: "https://106b94187d05330fd301d57c60ae9182@o4511743489540096.ingest.us.sentry.io/4511743545049088",
-  integrations: [
-    Sentry.replayIntegration({
-      // "maskAllText: true" để bảo mật thông tin cá nhân của người dùng [cite: 2026-01-28]
-      maskAllText: true, 
-      blockAllMedia: true,
-    }),
-  ],
-  // Tỷ lệ quay video khi có lỗi nổ ra. 
-  // 🌟 Ép cấu hình 1.0 để luôn luôn quay phim lại phiên làm việc nếu xảy ra lỗi [cite: 2026-01-28]
-  replaysOnErrorSampleRate: 1.0, 
-});
 const socket = io();
 socket.on("update-funcdevice", (data) => {
   const existRow = document.querySelector(`tr[data-rowId="${data._id}"]`);
@@ -510,8 +496,12 @@ socket.on("update-job", (data) => {
   if (existRow) {
     existRow.cells[0].innerText = data[0].level;
     existRow.cells[1].innerText = data[0].title;
-    existRow.cells[2].innerText = new Date(data[0].startTime).toLocaleString("vi-VN");
-    existRow.cells[3].innerText = new Date(data[0].deadline).toLocaleString("vi-VN");
+    existRow.cells[2].innerText = new Date(data[0].startTime).toLocaleString(
+      "vi-VN",
+    );
+    existRow.cells[3].innerText = new Date(data[0].deadline).toLocaleString(
+      "vi-VN",
+    );
     existRow.cells[4].innerText = data[0].assigned[1]
       ? data[0].assigned[1].name
       : "--";
@@ -558,7 +548,7 @@ socket.on("update-job", (data) => {
         <td>${new Date(data[0].startTime).toLocaleString("vi-VN")}</td>
         <td>${new Date(data[0].deadline).toLocaleString("vi-VN")}</td>
         <td>
-        ${data[0].assigned[1]?data[0].assigned[1].name:"--"}
+        ${data[0].assigned[1] ? data[0].assigned[1].name : "--"}
         <div class="arrayIdAdminAssign" data-stringId='${stringIdAdmin}'></div>
         </td>
         <td>
@@ -641,14 +631,14 @@ socket.on("updateGeneratedJob", (data) => {
     generatedJob.innerText = totalGeneratedOrder;
   }
 });
-socket.on("delete-job",(data)=>{
-  if (data&&data._id) {
-    const rowDelete=document.querySelector(`tr[data-idJob="${data._id}"]`);
-  if (rowDelete) {
-    rowDelete.remove();
+socket.on("delete-job", (data) => {
+  if (data && data._id) {
+    const rowDelete = document.querySelector(`tr[data-idJob="${data._id}"]`);
+    if (rowDelete) {
+      rowDelete.remove();
+    }
   }
-  }
-})
+});
 async function verifySession() {
   try {
     const response = await authFetch("/api/auth/me");
@@ -795,10 +785,13 @@ function getUserFromCookie() {
         });
       }
       applyPermission();
-      const currentAdminId=document.getElementById("idAd").innerText.slice(3).trim();
-if (currentAdminId) {
-  registerPushNotification(currentAdminId);
-}
+      const currentAdminId = document
+        .getElementById("idAd")
+        .innerText.slice(3)
+        .trim();
+      if (currentAdminId) {
+        registerPushNotification(currentAdminId);
+      }
       return decodedUser;
     } catch (error) {
       console.error(`Token không hợp lệ hoặc đã bị can thiệp ${error}`);
@@ -3198,67 +3191,71 @@ document.getElementById("formJob").addEventListener("submit", (e) => {
   const levelJob = document.getElementById("levelJob").value;
   const startTimeJob = document.getElementById("startTimeJob").value;
   const deadlineJob = document.getElementById("deadlineJob").value;
-  const idJob=document.getElementById("idJob").value;
+  const idJob = document.getElementById("idJob").value;
   if (idJob) {
-    fetch("/dashboard/updateJob",{
-      method:"PUT",
-      headers:{"Content-Type":"application/json;charset=UTF-8"},
-      body:JSON.stringify({idJob,titleJob,levelJob,startTimeJob,deadlineJob}),
+    fetch("/dashboard/updateJob", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
+      body: JSON.stringify({
+        idJob,
+        titleJob,
+        levelJob,
+        startTimeJob,
+        deadlineJob,
+      }),
     })
-    .then(res=>res.json())
-    .then(({mess,success,error})=>{
-      if (success) {
-        document.getElementById("idJob").value="";
-        document.getElementById("titleJob").value="";
-        document.getElementById("levelJob").value="Gấp";
-        document.getElementById("startTimeJob").value="";
-        document.getElementById("deadlineJob").value="";
-        document.getElementById("btnJob").value="Thêm công việc";
-        alert("Thông báo",mess,"#80a710");
-      } else {
-        if (error) {
-          alert("Lỗi",`${mess}\n${error}`,"red");
+      .then((res) => res.json())
+      .then(({ mess, success, error }) => {
+        if (success) {
+          document.getElementById("idJob").value = "";
+          document.getElementById("titleJob").value = "";
+          document.getElementById("levelJob").value = "Gấp";
+          document.getElementById("startTimeJob").value = "";
+          document.getElementById("deadlineJob").value = "";
+          document.getElementById("btnJob").value = "Thêm công việc";
+          alert("Thông báo", mess, "#80a710");
         } else {
-          alert("Lỗi",mess,"red");
+          if (error) {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          } else {
+            alert("Lỗi", mess, "red");
+          }
         }
-      }
-    })
-    .catch((error)=>{
-      alert("Lỗi",error,"red");
-    });
+      })
+      .catch((error) => {
+        alert("Lỗi", error, "red");
+      });
   } else {
     fetch("/dashboard/addJob", {
-    method: "POST",
-    headers: { "Content-Type": "application/json;charset=UTF-8" },
-    body: JSON.stringify({ idAdmin, titleJob, levelJob,startTimeJob, deadlineJob }),
-  })
-    .then((res) => res.json())
-    .then(({ mess, success, error }) => {
-      if (success) {
-        alert("Thông báo", mess, "#80a710");
-        document.getElementById("titleJob").value = "";
-        document.getElementById("levelJob").value = "Gấp";
-        document.getElementById("startTimeJob").value="";
-        document.getElementById("deadlineJob").value = "";
-      } else {
-        if (!error) {
-          alert("Lỗi", mess, "red");
-          console.log(mess);
-          Sentry.captureMessage("User Validation Failed: Missing Job Title", {
-      level: "warning", // Đặt cấp độ cảnh báo thay vì lỗi sập nguồn [cite: 2026-01-28]
-      extra: {
-        formId: "create-job-form",
-        currentStep: "submit_deadline"
-      }
-    });
-        } else {
-          alert("Lỗi", `${mess}\n${error}`, "red");
-        }
-      }
+      method: "POST",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
+      body: JSON.stringify({
+        idAdmin,
+        titleJob,
+        levelJob,
+        startTimeJob,
+        deadlineJob,
+      }),
     })
-    .catch((error) => {
-      alert("Lỗi", error, "red");
-    });
+      .then((res) => res.json())
+      .then(({ mess, success, error }) => {
+        if (success) {
+          alert("Thông báo", mess, "#80a710");
+          document.getElementById("titleJob").value = "";
+          document.getElementById("levelJob").value = "Gấp";
+          document.getElementById("startTimeJob").value = "";
+          document.getElementById("deadlineJob").value = "";
+        } else {
+          if (!error) {
+            alert("Lỗi", mess, "red");
+          } else {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          }
+        }
+      })
+      .catch((error) => {
+        alert("Lỗi", error, "red");
+      });
   }
 });
 document.addEventListener("DOMContentLoaded", () => {
@@ -3431,66 +3428,71 @@ document.querySelector("#tableJob tbody").addEventListener("click", (e) => {
       });
   }
   if (target.classList.contains("btnUpdateJob")) {
-    const row=target.closest("tr");
-    const idJob=row.getAttribute("data-idJob");
-    fetch(`/dashboard/getUpdateJob/${idJob}`,{
-      method:"GET",
-      headers:{"Content-Type":"application/json;charset=UTF-8"},
+    const row = target.closest("tr");
+    const idJob = row.getAttribute("data-idJob");
+    fetch(`/dashboard/getUpdateJob/${idJob}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
     })
-    .then(res=>res.json())
-    .then(({data})=>{
-      if (data) {
-      document.getElementById("idJob").value=data._id;
-      document.getElementById("titleJob").value=data.title;
-      document.getElementById("levelJob").value=data.level;
-      const rawStartTime=data.startTime;
-      const startTimeObj=new Date(rawStartTime);
-      const startTimeOffset=startTimeObj.getTimezoneOffset()*60000;
-      const startTimeLocalIsoTime=new Date(startTimeObj.getTime()-startTimeOffset).toISOString();
-      const startTimeFormatted=startTimeLocalIsoTime.slice(0,16);
-      document.getElementById("startTimeJob").value=startTimeFormatted;
-      const rawDeadline=data.deadline;
-      const deadlineObj=new Date(rawDeadline);
-      const deadlineOffset=deadlineObj.getTimezoneOffset()*60000;
-      const deadlineLocalIsoTime=new Date(deadlineObj.getTime()-deadlineOffset).toISOString();
-      const deadlineFormatted=deadlineLocalIsoTime.slice(0,16);
-      document.getElementById("deadlineJob").value=deadlineFormatted;
-      document.getElementById("btnJob").value="Cập nhật";
-      } else {
-      alert("Lỗi","Không lấy được data job để cập nhật","red");
-      }
-    })
-    .catch((error)=>{
-      alert("Lỗi",error,"red");
-    });
-  }
-  if (target.classList.contains("btnDeleteJob")) {
-    confirm("Thông báo","Bạn có chắc chắn xóa công việc này?","#1877f2")
-    .then((result)=>{
-      if (result===true) {
-        const row=target.closest("tr");
-      const idJob=row.getAttribute("data-idJob");
-      fetch(`/dashboard/deleteJob/${idJob}`,{
-        method:"DELETE",
-        headers:{"Content-Type":"application/json;charset=UTF-8"},
-      })
-      .then(res=>res.json())
-      .then(({mess,success,error})=>{
-        if (success) {
-          alert("Thông báo",mess,"#80a710");
+      .then((res) => res.json())
+      .then(({ data }) => {
+        if (data) {
+          document.getElementById("idJob").value = data._id;
+          document.getElementById("titleJob").value = data.title;
+          document.getElementById("levelJob").value = data.level;
+          const rawStartTime = data.startTime;
+          const startTimeObj = new Date(rawStartTime);
+          const startTimeOffset = startTimeObj.getTimezoneOffset() * 60000;
+          const startTimeLocalIsoTime = new Date(
+            startTimeObj.getTime() - startTimeOffset,
+          ).toISOString();
+          const startTimeFormatted = startTimeLocalIsoTime.slice(0, 16);
+          document.getElementById("startTimeJob").value = startTimeFormatted;
+          const rawDeadline = data.deadline;
+          const deadlineObj = new Date(rawDeadline);
+          const deadlineOffset = deadlineObj.getTimezoneOffset() * 60000;
+          const deadlineLocalIsoTime = new Date(
+            deadlineObj.getTime() - deadlineOffset,
+          ).toISOString();
+          const deadlineFormatted = deadlineLocalIsoTime.slice(0, 16);
+          document.getElementById("deadlineJob").value = deadlineFormatted;
+          document.getElementById("btnJob").value = "Cập nhật";
         } else {
-          if (error) {
-            alert("Lỗi",`${mess}\n${error}`,"red");
-          } else {
-            alert("Lỗi",mess,"red");
-          }
+          alert("Lỗi", "Không lấy được data job để cập nhật", "red");
         }
       })
-      .catch((error)=>{
-        alert("Lỗi",error,"red");
+      .catch((error) => {
+        alert("Lỗi", error, "red");
       });
-      }
-    });
+  }
+  if (target.classList.contains("btnDeleteJob")) {
+    confirm("Thông báo", "Bạn có chắc chắn xóa công việc này?", "#1877f2").then(
+      (result) => {
+        if (result === true) {
+          const row = target.closest("tr");
+          const idJob = row.getAttribute("data-idJob");
+          fetch(`/dashboard/deleteJob/${idJob}`, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json;charset=UTF-8" },
+          })
+            .then((res) => res.json())
+            .then(({ mess, success, error }) => {
+              if (success) {
+                alert("Thông báo", mess, "#80a710");
+              } else {
+                if (error) {
+                  alert("Lỗi", `${mess}\n${error}`, "red");
+                } else {
+                  alert("Lỗi", mess, "red");
+                }
+              }
+            })
+            .catch((error) => {
+              alert("Lỗi", error, "red");
+            });
+        }
+      },
+    );
   }
 });
 document.getElementById("btnWorkMng").addEventListener("click", function () {
@@ -3623,60 +3625,64 @@ document.getElementById("btnReloadJob").addEventListener("click", () => {
       }
     });
 });
-const PUBLIC_VAPID_KEY="BMOeeNoHZ5ljM0pQWz6Swn8T0KFou36_32QO962yDyISqG5mugGPp95zBJHKd74VZU_xASkI2F4lIcyfcx4l-4I";
-function urlBase64ToUint8Array(base64String){
-  const padding="=".repeat((4-(base64String.length%4))%4);
-  const base64=(base64String+padding).replace(/\-/g,"+").replace(/_/g,"/");
-  const rawData=window.atob(base64);
-  const outputArray=new Uint8Array(rawData.length);
-  for(let i=0;i<rawData.length;++i){
-    outputArray[i]=rawData.charCodeAt(i);
+const PUBLIC_VAPID_KEY =
+  "BMOeeNoHZ5ljM0pQWz6Swn8T0KFou36_32QO962yDyISqG5mugGPp95zBJHKd74VZU_xASkI2F4lIcyfcx4l-4I";
+function urlBase64ToUint8Array(base64String) {
+  const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = (base64String + padding)
+    .replace(/\-/g, "+")
+    .replace(/_/g, "/");
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
   }
   return outputArray;
 }
-async function registerPushNotification(idAdmin){
-  if (!"serviceWorker" in navigator || !"PushManager" in window) {
+async function registerPushNotification(idAdmin) {
+  if ((!"serviceWorker") in navigator || (!"PushManager") in window) {
     console.warn("Trình duyệt không hỗ trợ web push");
     return;
   }
-  if (Notification.permission==="denied") {
-    console.error("Quyền thông báo đang bị chặn. Hãy bật lại quyền ở biểu tượng ổ khóa trên thanh địa chỉ");
+  if (Notification.permission === "denied") {
+    console.error(
+      "Quyền thông báo đang bị chặn. Hãy bật lại quyền ở biểu tượng ổ khóa trên thanh địa chỉ",
+    );
     return;
   }
   try {
-    const register=await navigator.serviceWorker.register("/sw.js");
-    const permission=await Notification.requestPermission();
-    if (permission!=="granted") {
+    const register = await navigator.serviceWorker.register("/sw.js");
+    const permission = await Notification.requestPermission();
+    if (permission !== "granted") {
       console.warn("Người dùng từ chối cấp quyền thông báo");
       return;
     }
-    const subscription=await register.pushManager.subscribe({
-      userVisibleOnly:true,
-      applicationServerKey:urlBase64ToUint8Array(PUBLIC_VAPID_KEY),
+    const subscription = await register.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlBase64ToUint8Array(PUBLIC_VAPID_KEY),
     });
-    await fetch("/dashboard/subscribe",{
-      method:"POST",
-      body:JSON.stringify({subscription,idAdmin}),
-      headers:{"Content-Type":"application/json"}
+    await fetch("/dashboard/subscribe", {
+      method: "POST",
+      body: JSON.stringify({ subscription, idAdmin }),
+      headers: { "Content-Type": "application/json" },
     })
-    .then(res=>res.json())
-    .then(({mess,success,error})=>{
-      if (success) {
-        alert("Thông báo",mess,"#80a710");
-      } else {
-        if (error) {
-          alert("Lỗi",`${mess}\n${error}`,"red");
+      .then((res) => res.json())
+      .then(({ mess, success, error }) => {
+        if (success) {
+          alert("Thông báo", mess, "#80a710");
         } else {
-          alert("Lỗi",mess,"red");
+          if (error) {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          } else {
+            alert("Lỗi", mess, "red");
+          }
         }
-      }
-    })
-    .catch((error)=>{
-      alert("Lỗi",error,"red");
-    });
+      })
+      .catch((error) => {
+        alert("Lỗi", error, "red");
+      });
     console.log("Kết nối web push thành công");
   } catch (error) {
-    console.error("Lỗi kết nối web push",error);
+    console.error("Lỗi kết nối web push", error);
   }
 }
-
