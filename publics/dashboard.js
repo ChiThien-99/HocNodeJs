@@ -2,6 +2,20 @@ import { alert, confirm } from "./alert.js";
 import { jwtDecode } from "https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/+esm";
 import { authFetch, setAccessToken } from "./authFetch.js";
 import MindElixir from "./mind-elixir/dist/MindElixir.js";
+import * as Sentry from "@sentry/browser";
+Sentry.init({
+  dsn: "https://106b94187d05330fd301d57c60ae9182@o4511743489540096.ingest.us.sentry.io/4511743545049088",
+  integrations: [
+    Sentry.replayIntegration({
+      // "maskAllText: true" để bảo mật thông tin cá nhân của người dùng [cite: 2026-01-28]
+      maskAllText: true, 
+      blockAllMedia: true,
+    }),
+  ],
+  // Tỷ lệ quay video khi có lỗi nổ ra. 
+  // 🌟 Ép cấu hình 1.0 để luôn luôn quay phim lại phiên làm việc nếu xảy ra lỗi [cite: 2026-01-28]
+  replaysOnErrorSampleRate: 1.0, 
+});
 const socket = io();
 socket.on("update-funcdevice", (data) => {
   const existRow = document.querySelector(`tr[data-rowId="${data._id}"]`);
@@ -3229,6 +3243,14 @@ document.getElementById("formJob").addEventListener("submit", (e) => {
       } else {
         if (!error) {
           alert("Lỗi", mess, "red");
+          console.log(mess);
+          Sentry.captureMessage("User Validation Failed: Missing Job Title", {
+      level: "warning", // Đặt cấp độ cảnh báo thay vì lỗi sập nguồn [cite: 2026-01-28]
+      extra: {
+        formId: "create-job-form",
+        currentStep: "submit_deadline"
+      }
+    });
         } else {
           alert("Lỗi", `${mess}\n${error}`, "red");
         }

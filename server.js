@@ -1,4 +1,4 @@
-
+import "./publics/instrument.js";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 
@@ -8,6 +8,7 @@ const __dirname = dirname(__filename);
 
 // Bây giờ bạn có thể sử dụng __dirname bình thường
 // Ví dụ: express.static(path.join(__dirname, "publics"), { ... });
+import * as Sentry from "@sentry/node"
 import express from "express";
 import session from "express-session";
 import cors from "cors";
@@ -121,7 +122,9 @@ app.get("/api/status", (req, res) => {
     nodeVersion: process.version,
   });
 });
-
+app.get("/debug-sentry", function mainHandler(req, res) {
+  throw new Error("My first Sentry error!");
+});
 app.use("/", dashboardRouter);
 app.use("/", routerLoginAdmin);
 app.use("/", authRouter);
@@ -135,10 +138,13 @@ app.use("/", clientRouter);
 app.use("/", dbClientRouter);
 app.use("/", cartRouter);
 
+Sentry.setupExpressErrorHandler(app);
 // Xử lý lỗi middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ error: "Something went wrong!" });
+app.use(function onError(err, req, res, next) {
+  // The error id is attached to `res.sentry` to be returned
+  // and optionally displayed to the user for support.
+  res.statusCode = 500;
+  res.end(res.sentry + "\n");
 });
 //Xử lý lỗi 404
 app.use((req, res) => {
