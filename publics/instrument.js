@@ -1,8 +1,8 @@
 // Import with `import * as Sentry from "@sentry/node"` if you are using ESM
-import * as Sentry from "@sentry/node";
+import * as SentryNode from "@sentry/node";
 import { nodeProfilingIntegration } from "@sentry/profiling-node";
-Sentry.init({
-  dsn: "https://106b94187d05330fd301d57c60ae9182@o4511743489540096.ingest.us.sentry.io/4511743545049088",
+SentryNode.init({
+  dsn: "https://c452ae28ac1b6d587fac9e46bf4412a4@o4511743489540096.ingest.us.sentry.io/4511748138991616",
   integrations: [nodeProfilingIntegration()],
 
   // Send structured logs to Sentry
@@ -23,7 +23,7 @@ Sentry.init({
 
 // Profiling happens automatically after setting it up with `Sentry.init()`.
 // All spans (unless those discarded by sampling) will have profiling data attached to them.
-Sentry.startSpan(
+SentryNode.startSpan(
   {
     name: "My Span",
   },
@@ -31,4 +31,15 @@ Sentry.startSpan(
     // The code executed here will be profiled
   },
 );
+import * as SentryBrowser from "@sentry/browser";
+
+SentryBrowser.init({
+  dsn: "https://89e39a930eb765b292bd72b18917188a@o4511743489540096.ingest.us.sentry.io/4511748271833088",
+  dataCollection: {
+    // To disable sending user data and HTTP bodies, uncomment the lines below. For more info visit:
+    // https://docs.sentry.io/platforms/javascript/configuration/options/#dataCollection
+    userInfo: false,
+    httpBodies: []
+  }
+});
 console.log("Sentry đã chạy thành công");

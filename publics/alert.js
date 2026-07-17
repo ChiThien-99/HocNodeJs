@@ -1,3 +1,4 @@
+// import * as SentryBrowser from "../node_modules/@sentry/browser";
 let alertTimeOut=null;
 export const alert = (heading, content, backgroundColor) => {
   const alert = document.getElementById("alert");
@@ -12,6 +13,16 @@ export const alert = (heading, content, backgroundColor) => {
   headingAlert.innerText = `${heading}:`;
   contentAlert.innerText = content;
   alert.style.transform = "translate(-50%,0)";
+  if (heading==="Lỗi") {
+    Sentry.captureMessage(`${heading}:${content}`,{
+      level:"error",
+      extra:{
+        alertTitle:heading,
+        alertMessage:content,
+        url:window.location.href,
+      }
+    })
+  }
   alertTimeOut=setTimeout(() => {
     alert.style.transform = "translate(-50%,-150%)";
     alertTimeOut=null;

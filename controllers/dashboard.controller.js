@@ -2135,7 +2135,7 @@ export const subscribeNotification = async (req, res) => {
 };
 cron.schedule("* * * * *", async () => {
   console.log(
-    `[${new Date().toLocaleTimeString()}] Cron Job đang tự động quét các công việc sắp đến deadline`,
+    `[${new Date().toLocaleTimeString()}] Cron Job đang tự động quét các công việc`,
   );
   const localNow = new Date();
   const now = new Date(localNow.getTime());

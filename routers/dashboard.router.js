@@ -24,7 +24,7 @@ const storage = new CloudinaryStorage({
   },
 });
 const upload = multer({ storage: storage });
-dashboardRouter.get(`${prefix}/debug-sentry`, dashboardController.debugSentry);
+dashboardRouter.get(`/debug-sentry`, dashboardController.debugSentry);
 dashboardRouter.get(
   `${prefix}`,
   generalLimit,
