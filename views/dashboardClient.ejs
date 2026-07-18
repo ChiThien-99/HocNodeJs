@@ -117,7 +117,7 @@
                 <%vouchers.forEach((voucher)=>{%>
               <div class="voucher-wrapper">
                 <div class="voucher-sawtooth-zigzag">
-                <a href="/app" target="_blank">
+                <a href="<%=voucher.applyToCategory==='app'?'/app':'/device'%>" target="_blank">">
                   <div class="voucher" data-codeVoucher="<%=voucher.code%>" data-discountVoucher="<%=voucher.discountPercentage%>">
                 <div>
                   <img src="<%=voucher.image%>" alt="imgVoucher">

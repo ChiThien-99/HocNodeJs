@@ -117,8 +117,10 @@ socket.on("update-device", (data) => {
 socket.on("delete-device", (data) => {
   if (data && data._id) {
     const rowToDelete = document.querySelector(`tr[data-rowId="${data._id}"]`);
-    if (rowToDelete) {
+    const rowImportToDelete=document.querySelector(`tr[data-idDeviceImport="${data._id}"]`);
+    if (rowToDelete&&rowImportToDelete) {
       rowToDelete.remove();
+      rowImportToDelete.remove();
     }
   }
 });
@@ -258,6 +260,14 @@ socket.on("delete-categoryblogs", (data) => {
     const rowToDelete = document.querySelector(
       `tr[data-idCategoryblogs="${data._id}"]`,
     );
+    if (rowToDelete) {
+      rowToDelete.remove();
+    }
+  }
+});
+socket.on("delete-voucher", (data) => {
+  if (data && data._id) {
+    const rowToDelete = document.querySelector(`tr[data-idVoucher="${data._id}"]`);
     if (rowToDelete) {
       rowToDelete.remove();
     }
@@ -449,32 +459,6 @@ socket.on("delete-notify", (data) => {
     }
   }
 });
-socket.on("update-problem", (data) => {
-  document.querySelector("#tableProblem tbody").insertAdjacentHTML(
-    "afterbegin",
-    `
-    <tr data-idProblem="${data._id}">
-      <td>${data.name}</td>
-      <td>${data.content}</td>
-      <td>${new Date(data.createAt).toLocaleString("vi-VN")}</td>
-      <td>
-        <button type="button" class="btnWatchProblem" data-idProblem="${data._id}">Xem</button>
-        <button type="button" class="btnDeleteProblem" data-idProblem="${data._id}">Xóa</button>
-      </td>
-    </tr>
-  `,
-  );
-});
-socket.on("delete-problem", (data) => {
-  if (data && data._id) {
-    const rowToDelete = document.querySelector(
-      `tr[data-idProblem="${data._id}"]`,
-    );
-    if (rowToDelete) {
-      rowToDelete.remove();
-    }
-  }
-});
 socket.on("updateStatusOrder", (data) => {
   data[0].forEach((id) => {
     const tr = document.querySelector(`tr[data-idOrder="${id}"]`);
@@ -639,6 +623,20 @@ socket.on("delete-job", (data) => {
     }
   }
 });
+socket.on("add-voucher",(data)=>{
+  document.querySelector("#tableVoucher tbody").insertAdjacentHTML("afterbegin",`
+    <tr data-idVoucher="${data._id}">
+      <td>${data.applyToCategory}</td>
+      <td>${data.clientIds.length}</td>
+      <td>${data.usersUsed.length}</td>
+      <td>${data.title}</td>
+      <td>${new Date(data.createdAt).toLocaleString("vi-VN")}</td>
+      <td>
+        <button type="button" class="btnDeleteVoucher">Xóa</button>
+      </td>
+    </tr>
+  `)
+})
 async function verifySession() {
   try {
     const response = await authFetch("/api/auth/me");
@@ -2035,8 +2033,8 @@ document
   });
 const formblogs = document.getElementById("formblogs");
 formblogs.addEventListener("input", () => {
-  checkFormEmptiness(formblogs, "idblogs", "btnCancleBlog");
-  checkFormEmptinessForSaveDraft(formblogs, "btnSaveDraft");
+  checkFormEmptiness(formblogs, "btnCancleBlog");
+  checkFormEmptiness(formblogs, "btnSaveDraft");
 });
 formblogs.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -2643,51 +2641,35 @@ formVoucher.addEventListener("submit", (e) => {
       alert("Lỗi", error, "red");
     });
 });
-document
-  .querySelector("#tableProblem tbody")
-  .addEventListener("click", async (e) => {
-    const target = e.target;
-    if (target.classList.contains("btnWatchProblem")) {
-      const id = target.getAttribute("data-idProblem");
-      fetch(`/dashboard/getProblemById/${id}`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json;charset=UTF-8" },
-      })
-        .then((res) => res.json())
-        .then(({ data }) => {
-          document.getElementById("name").value = data.name;
-          document.getElementById("contentProblem").value = data.content;
-        })
-        .catch((error) => {
-          alert("Lỗi", error, "red");
-        });
-    }
-    if (target.classList.contains("btnDeleteProblem")) {
-      const confirmDelete = await confirm(
-        "Thông báo",
-        "Bạn có chắc chắn xóa problem này",
-        "#1877f2",
-      );
-      if (confirmDelete) {
-        const id = target.getAttribute("data-idProblem");
-        fetch(`/dashboard/deleteProblemById/${id}`, {
-          method: "DELETE",
-          headers: { "Content-Type": "application/json;charset=UTF-8" },
-        })
-          .then((res) => res.json())
-          .then(({ mess, success, error }) => {
-            if (success) {
-              alert("Thông báo", mess, "#80a710");
-            } else {
-              alert("Lỗi", `${mess}\n${error}`, "red");
-            }
-          })
-          .catch((error) => {
-            alert("Lỗi", error, "red");
-          });
+document.querySelector("#tableVoucher").addEventListener("click",(e)=>{
+  const target=e.target;
+  if(target.classList.contains("btnDeleteVoucher")){
+    const confirmDelete=confirm("Thông báo","Bạn chắc chắn xóa voucher này?","#1877f2")
+    .then((res)=>{
+      if (res===true) {
+        const row=target.closest("tr");
+    const idVoucher=row.getAttribute("data-idVoucher");
+    fetch(`/dashboard/deleteVoucher/${idVoucher}`,{
+      method:"DELETE",
+      headers:{"Content-Type":"application/json;charset=UTF-8"},
+    })
+    .then(res=>res.json())
+    .then(({mess,success,error})=>{
+      if (success) {
+        alert("Thông báo",mess,"#80a710");
+      } else {
+        if (error) {
+          alert("Lỗi",`${mess}\n${error}`,"red");
+        } else {
+          alert("Lỗi",mess,"red");
+        }
+        
       }
-    }
-  });
+    });
+      }
+    });
+  }
+})
 function checkFormEmptiness(form, btn) {
   const formData = new FormData(form);
   let hasData = false;
@@ -2703,6 +2685,7 @@ function checkFormEmptiness(form, btn) {
     document.getElementById(btn).style.display = "none";
   }
 }
+
 const tableOrder = document.querySelector("#tableOrder");
 tableOrder.addEventListener("click", async (e) => {
   const target = e.target;

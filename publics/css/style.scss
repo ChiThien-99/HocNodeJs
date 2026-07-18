@@ -1504,49 +1504,6 @@ header {
           color: $colorSecondaryText;
         }
       }
-      #formProblem {
-        width: 50%;
-        label {
-          display: inline-block;
-          margin: 0.5rem 0;
-          font-weight: bold;
-        }
-        input[type="text"] {
-          width: 100%;
-          height: 2rem;
-          font-size: 1rem;
-        }
-        textarea {
-          width: 100%;
-          height: 20rem;
-          resize: none;
-          font-size: 1rem;
-        }
-      }
-      #divTableProblem {
-        width: fit-content;
-        height: 20rem;
-        overflow-y: scroll;
-        margin-top: 1rem;
-        #tableProblem,
-        th,
-        td {
-          border: 1px solid black;
-          border-collapse: collapse;
-          padding: 0.5rem;
-          text-align: left;
-          .btnWatchProblem {
-            @include button(0.5rem);
-            background-color: $colorCTA;
-            color: $colorSecondaryText;
-          }
-          .btnDeleteProblem {
-            @include button(0.5rem);
-            background-color: red;
-            color: $colorSecondaryText;
-          }
-        }
-      }
     }
     #marketingMng {
       width: 100%;
@@ -1623,6 +1580,22 @@ header {
           height: 2rem;
           font-size: 1rem;
         }
+      }
+      #tableVoucher{
+        width: fit-content;
+        td:last-child{
+          text-align: center;
+          .btnDeleteVoucher{
+          @include button(0.5rem);
+          background-color: red;
+          color: $colorSecondaryText;
+        }
+        }
+      }
+      #tableVoucher,th,td{
+        border: 1px solid black;
+        border-collapse: collapse;
+        padding: 0.5rem;
       }
     }
     #softwareMng {
@@ -3119,8 +3092,7 @@ header {
       }
     }
   }
-  .flag-item-problem,
-  .flag-item-opera {
+  .flag-item-opera,.flag-item-problem {
     margin-left: 0.5rem;
   }
   #operaSystem {
@@ -3181,54 +3153,6 @@ header {
       .active {
         display: flex;
         background-color: $colorPrimaryBG;
-      }
-    }
-  }
-  #problem {
-    width: 100%;
-    height: 40rem;
-    padding: 2rem 0 0 2rem;
-    margin: 1rem 0 2rem;
-    border: 1px solid black;
-    background-image: url("/img/bg_problem.webp");
-    background-repeat: no-repeat;
-    background-size: cover;
-    form {
-      width: 50%;
-      height: 15rem;
-      label {
-        display: inline-block;
-        color: $colorSecondaryText;
-        font-weight: bold;
-        margin: 0.5rem 0;
-      }
-      input[type="text"] {
-        width: 100%;
-        height: 2rem;
-        font-size: 1rem;
-      }
-      textarea {
-        width: 100%;
-        height: 20rem;
-        resize: none;
-        font-size: 1rem;
-      }
-      a {
-        top: auto !important;
-        right: 1rem !important;
-        bottom: 1rem !important;
-        svg {
-          width: 1.2rem !important;
-          height: 1.2rem !important;
-        }
-      }
-      input[type="submit"] {
-        width: 100%;
-        height: 2rem;
-        @include button(0.5rem);
-        background-color: $colorCTA;
-        color: $colorSecondaryText;
-        font-weight: bold;
       }
     }
   }
@@ -3390,7 +3314,7 @@ header {
         .blogs {
           width: 100%;
           height: inherit;
-          border: 1px solid black;
+          border: 1px solid #bbb;
           border-radius: 5px;
           background-color: $colorPrimaryBG;
           display: flex;
@@ -5486,13 +5410,6 @@ footer {
             width: 10rem;
           }
         }
-      }
-    }
-    #problem {
-      padding: 2rem 0.5rem 2rem !important;
-      form {
-        width: 100%;
-        height: 30rem;
       }
     }
   }

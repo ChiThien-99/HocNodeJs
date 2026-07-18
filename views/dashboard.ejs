@@ -580,38 +580,6 @@
               </tbody>
             </table>
             </div>
-            <h2 class="flag-item">Quản lý problem</h2>
-            <form id="formProblem">
-              <label for="name">Tên</label>
-              <input type="text" name="name" id="name">
-              <label for="contentProblem">Vấn đề</label>
-              <textarea name="contentProblem" id="contentProblem"></textarea>
-            </form>
-            <div id="divTableProblem">
-              <table id="tableProblem">
-                <thead>
-                  <tr>
-                    <th>Tên</th>
-                    <th>Vấn đề</th>
-                    <th>Ngày</th>
-                    <th>Thao tác</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <%problems.forEach((problem)=>{%>
-                  <tr data-idProblem="<%=problem._id%>">
-                    <td><%=problem.name%></td>
-                    <td><%=problem.content%></td>
-                    <td><%=new Date(problem.createAt).toLocaleString("vi-VN")%></td>
-                    <td>
-                      <button type="button" class="btnWatchProblem" data-idProblem="<%=problem._id%>">Xem</button>
-                      <button type="button" class="btnDeleteProblem" data-idProblem="<%=problem._id%>">Xóa</button>
-                    </td>
-                  </tr>
-                  <%})%>
-                </tbody>
-              </table>
-            </div>
           </div>
           <div id="marketingMng" class="tabContent">
             <h2 class="flag-item">Quản lý banner</h2>
@@ -681,6 +649,34 @@
               <input type="number" name="discountPerVoucher" id="discountPerVoucher"><br>
               <input type="submit" value="Tạo" id="btnAddVoucher">
             </form>
+            <div>
+              <table id="tableVoucher">
+                <thead>
+                  <tr>
+                    <th>Áp dụng</th>
+                    <th>SL lưu hành</th>
+                    <th>SL đã sử dụng</th>
+                    <th>Tên</th>
+                    <th>Ngày tạo</th>
+                    <th>Thao tác</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <%vouchers.forEach((voucher)=>{%>
+                  <tr data-idVoucher="<%=voucher._id%>">
+                  <td><%=voucher.applyToCategory%></td>
+                  <td><%=voucher.clientIds.length%></td>
+                  <td><%=voucher.usersUsed.length%></td>
+                  <td><%=voucher.title%></td>
+                  <td><%=voucher.createdAt.toLocaleString("vi-VN")%></td>
+                  <td>
+                    <button type="button" class="btnDeleteVoucher">Xóa</button>
+                  </td>
+                  </tr>
+                  <%})%>
+                </tbody>
+              </table>
+            </div>
           </div>
           <div id="softwareMng" class="tabContent">
             <h2 class="flag-item">Quản lý chức năng phần mềm</h2>
@@ -1045,7 +1041,7 @@
             <h2>Nội dung quản lý chia sẻ</h2>
           </div>
           <div id="passwordMng" class="tabContent">
-            <h2 class="flag-item">Thay đổi mật khẩu</h2>
+            <h2 class="flag-item">Thay đổi mật khẩu</h2><br>
             <from>
               <label for="pwAdminNew">Mật khẩu mới</label><br>
               <input type="password" id="pwAdminNew">

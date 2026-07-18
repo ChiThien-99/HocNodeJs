@@ -13,7 +13,6 @@ import { deviceEntity } from "../models/device.model.js";
 import { categoryblogsEntity } from "../models/categoryblogs.model.js";
 import { blogsEntity } from "../models/blogs.model.js";
 import { blogsDraftEntity } from "../models/blogDraft.model.js";
-import { problemEntity } from "../models/problem.model.js";
 import { v2 as cloudinary } from "cloudinary";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -80,10 +79,10 @@ export const getDashboard = async (req, res) => {
   const apps = await appEntity.find().sort("-createAt");
   const listFuncDevice = await funcDeviceEntity.find().sort("-createAt");
   const devices = await deviceEntity.find().sort("-createAt");
+  const vouchers=await voucherEntity.find().sort("-createdAt");
   const listCategoryblogs = await categoryblogsEntity.find().sort("-createAt");
   const listblogs = await blogsEntity.find().sort("-createAt");
   const listblogsdraft = await blogsDraftEntity.find();
-  const problems = await problemEntity.find().sort("-createAt");
   const now = new Date();
   const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
   const orders = await orderEntity
@@ -127,7 +126,7 @@ export const getDashboard = async (req, res) => {
     listCategoryblogs,
     listblogs,
     listblogsdraft,
-    problems,
+    vouchers,
     orders,
     DocSoTienVietNam,
     jobs,
@@ -1374,26 +1373,6 @@ export const uploadImage = async (req, res) => {
     console.error(`Không lấy được url image blogs: ${error.message}`);
   }
 };
-export const getProblemById = async (req, res) => {
-  const { id } = req.params;
-  const currentProblem = await problemEntity.findById(id);
-  res.json({ data: currentProblem });
-};
-export const deleteProblemById = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const deleteProblem = await problemEntity.findByIdAndDelete(id);
-    const io = req.app.get("socketio");
-    io.emit("delete-problem", deleteProblem);
-    res.json({ mess: "Xóa problem thành công", success: true });
-  } catch (error) {
-    res.json({
-      mess: "Xóa problem thất bại",
-      success: false,
-      error: error.message,
-    });
-  }
-};
 function generateRandomCode(length = 10) {
   const characters = "ABCDEFGHJKLMNOPQRSTUVWXYZ0123456789";
   let result = "";
@@ -1460,7 +1439,7 @@ export const addVoucher = async (req, res) => {
         success: false,
       });
     }
-    await voucherEntity.create({
+    const newVoucher=await voucherEntity.create({
       applyToCategory: categoryVoucher,
       code: uniqueCode,
       clientIds: clientsId,
@@ -1471,6 +1450,8 @@ export const addVoucher = async (req, res) => {
       discountPercentage: Number(discountPerVoucher),
       usersUsed: [],
     });
+    const io = req.app.get("socketio");
+    io.emit("add-voucher", newVoucher);
     res.json({ mess: "Tạo voucher thành công", success: true });
   } catch (error) {
     res.json({
@@ -2186,3 +2167,14 @@ cron.schedule("* * * * *", async () => {
 export const debugSentry = async (req, res) => {
   throw new Error("My first Sentry error!");
 };
+export const deleteVoucher=async(req,res)=>{
+  try {
+  const {idVoucher}=req.params;
+  const deleteVoucher=await voucherEntity.findByIdAndDelete(idVoucher);
+  const io = req.app.get("socketio");
+  io.emit("delete-voucher", deleteVoucher);
+  res.json({mess:"Xóa voucher thành công",success:true});
+  } catch (error) {
+  res.json({mess:"Xóa voucher thất bại",success:false,error:error.message});
+  }
+}

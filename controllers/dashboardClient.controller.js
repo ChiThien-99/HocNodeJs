@@ -12,7 +12,7 @@ export const getDashboardClient = async (req, res) => {
       clientIds: { $in: [idClient] },
       usersUsed: { $nin: [idClient] },
     })
-    .select("code image title content discountPercentage createdAt");
+    .select("applyToCategory code image title content discountPercentage createdAt");
   const orders=await orderEntity.find({idClient:idClient});
   res.render("dashboardClient.ejs", { vouchers,orders });
 };

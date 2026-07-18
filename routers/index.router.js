@@ -8,11 +8,6 @@ indexRouter.get("/", indexController.getIndex);
 indexRouter.get(`${prefix}/filterNotify`, indexController.filterTypeNotify);
 indexRouter.get(`${prefix}/loginClient`, indexController.loginClient);
 indexRouter.post(
-  `${prefix}/postProblem`,
-  generalLimit,
-  indexController.postProblem,
-);
-indexRouter.post(
   `${prefix}/postSubscribers`,
   generalLimit,
   validateSubscribers,

@@ -6,7 +6,6 @@ import { funcDeviceEntity } from "../models/funcDevice.model.js";
 import { deviceEntity } from "../models/device.model.js";
 import { categoryblogsEntity } from "../models/categoryblogs.model.js";
 import { blogsEntity } from "../models/blogs.model.js";
-import { problemEntity } from "../models/problem.model.js";
 import { subscribersEntity } from "../models/subscribers.model.js";
 import { clientEntity } from "../models/client.model.js";
 export const getIndex = async (req, res) => {
@@ -47,32 +46,6 @@ export const filterTypeNotify = async (req, res) => {
       success: false,
       error: error.message,
     });
-  }
-};
-export const postProblem = async (req, res) => {
-  try {
-    let { name, content } = req.body;
-    if (!name || name.trim() === "") {
-      name = "Ẩn danh";
-    }
-    if (!content || content.trim() === "") {
-      return res.json({
-        mess: `Vui lòng điền vấn đề của bạn vào khung nhập`,
-        success: true,
-      });
-    }
-    const newProblem = await problemEntity.create({
-      name: name,
-      content: content,
-    });
-    const io = req.app.get("socketio");
-    io.emit("update-problem", newProblem);
-    res.json({
-      mess: `Gửi thành công\nCảm ơn bạn rất nhiều \u{1F60A}`,
-      success: true,
-    });
-  } catch (error) {
-    res.json({ mess: "Gửi thất bại", success: false, error: error.message });
   }
 };
 export const postSubscribers = async (req, res) => {
@@ -125,6 +98,7 @@ export const handleSoftwareAccess=async(req,res)=>{
     return res.json({mess:"Không nhận được idClient và idApp",success:false});
   }
   const client=await clientEntity.findById(idClient);
+  console.log(idClient);
   if (!client) {
     return res.json({mess:"Không tìm được client từ id",success:false});
   }

@@ -95,7 +95,7 @@
             </li>
             <li><a href="/device">Thiết bị</a></li>
             <li><a href="/blogs">Blog</a></li>
-            <li><a href="#">Problem?</a></li>
+            <li><a href="#">Hợp tác</a></li>
           </ul>
         </nav>
         <div id="groupBtn">
@@ -120,9 +120,10 @@
     <main id="mainDetailblogs">
       <article>
         <p><%=new Date(blogs.createAt).toLocaleString()%></p>
+        <p>Danh mục: <%=blogs.category%></p>
         <h1><%=blogs.title%></h1>
         <div id="divCategoryAndShare">
-          <p>Danh mục: <%=blogs.category%></p>
+          <p></p>
           <div id="divShare">
             <div>
               <button id="btnShareFB"><img src="/img/logo_fb.webp" alt="facebook"></button>

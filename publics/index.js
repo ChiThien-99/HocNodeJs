@@ -352,29 +352,6 @@ document.querySelectorAll("#filterOpera button").forEach((btn) => {
     document.getElementById(operaActive).classList.add("active");
   });
 });
-document.getElementById("formProblem").addEventListener("submit", (e) => {
-  e.preventDefault();
-  const name = document.getElementById("name").value;
-  const content = document.getElementById("contentProblem").value;
-  fetch("/index/postProblem", {
-    method: "POST",
-    headers: { "Content-Type": "application/json;charset=UTF-8" },
-    body: JSON.stringify({ name, content }),
-  })
-    .then((res) => res.json())
-    .then(({ mess, success, error }) => {
-      if (success) {
-        document.getElementById("name").value = "";
-        document.getElementById("contentProblem").value = "";
-        alert("Thông báo", mess, "#80a710");
-      } else {
-        alert("Lỗi", `${mess}\n${error}`, "red");
-      }
-    })
-    .catch((error) => {
-      alert("Lỗi", error, "red");
-    });
-});
 document.getElementById("formSubscribers").addEventListener("submit", (e) => {
   e.preventDefault();
   const nameSubscribers = document.getElementById("nameSubscribers").value;

@@ -1624,60 +1624,6 @@ header div:last-child #containerUserLogin #bagShopping span {
   background-color: red;
   color: #fafafa;
 }
-#mainDashboard #contentDashboard #homeMng #formProblem {
-  width: 50%;
-}
-#mainDashboard #contentDashboard #homeMng #formProblem label {
-  display: inline-block;
-  margin: 0.5rem 0;
-  font-weight: bold;
-}
-#mainDashboard #contentDashboard #homeMng #formProblem input[type=text] {
-  width: 100%;
-  height: 2rem;
-  font-size: 1rem;
-}
-#mainDashboard #contentDashboard #homeMng #formProblem textarea {
-  width: 100%;
-  height: 20rem;
-  resize: none;
-  font-size: 1rem;
-}
-#mainDashboard #contentDashboard #homeMng #divTableProblem {
-  width: -moz-fit-content;
-  width: fit-content;
-  height: 20rem;
-  overflow-y: scroll;
-  margin-top: 1rem;
-}
-#mainDashboard #contentDashboard #homeMng #divTableProblem #tableProblem,
-#mainDashboard #contentDashboard #homeMng #divTableProblem th,
-#mainDashboard #contentDashboard #homeMng #divTableProblem td {
-  border: 1px solid black;
-  border-collapse: collapse;
-  padding: 0.5rem;
-  text-align: left;
-}
-#mainDashboard #contentDashboard #homeMng #divTableProblem #tableProblem .btnWatchProblem,
-#mainDashboard #contentDashboard #homeMng #divTableProblem th .btnWatchProblem,
-#mainDashboard #contentDashboard #homeMng #divTableProblem td .btnWatchProblem {
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  padding: 0.5rem;
-  background-color: #80a710;
-  color: #fafafa;
-}
-#mainDashboard #contentDashboard #homeMng #divTableProblem #tableProblem .btnDeleteProblem,
-#mainDashboard #contentDashboard #homeMng #divTableProblem th .btnDeleteProblem,
-#mainDashboard #contentDashboard #homeMng #divTableProblem td .btnDeleteProblem {
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  padding: 0.5rem;
-  background-color: red;
-  color: #fafafa;
-}
 #mainDashboard #contentDashboard #marketingMng {
   width: 100%;
 }
@@ -1777,6 +1723,26 @@ header div:last-child #containerUserLogin #bagShopping span {
   width: 3rem;
   height: 2rem;
   font-size: 1rem;
+}
+#mainDashboard #contentDashboard #marketingMng #tableVoucher {
+  width: -moz-fit-content;
+  width: fit-content;
+}
+#mainDashboard #contentDashboard #marketingMng #tableVoucher td:last-child {
+  text-align: center;
+}
+#mainDashboard #contentDashboard #marketingMng #tableVoucher td:last-child .btnDeleteVoucher {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: red;
+  color: #fafafa;
+}
+#mainDashboard #contentDashboard #marketingMng #tableVoucher, #mainDashboard #contentDashboard #marketingMng th, #mainDashboard #contentDashboard #marketingMng td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 0.5rem;
 }
 #mainDashboard #contentDashboard #softwareMng #imgApp::file-selector-button {
   border: none;
@@ -3439,8 +3405,7 @@ header div:last-child #containerUserLogin #bagShopping span {
 #mainIndex #divblogs #listblogs .blogs .blogs-content p {
   margin: 0.3rem 0;
 }
-#mainIndex .flag-item-problem,
-#mainIndex .flag-item-opera {
+#mainIndex .flag-item-opera, #mainIndex .flag-item-problem {
   margin-left: 0.5rem;
 }
 #mainIndex #operaSystem {
@@ -3509,57 +3474,6 @@ header div:last-child #containerUserLogin #bagShopping span {
 #mainIndex #operaSystem #contentOpera .active {
   display: flex;
   background-color: #f5f5f5;
-}
-#mainIndex #problem {
-  width: 100%;
-  height: 40rem;
-  padding: 2rem 0 0 2rem;
-  margin: 1rem 0 2rem;
-  border: 1px solid black;
-  background-image: url("/img/bg_problem.webp");
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-#mainIndex #problem form {
-  width: 50%;
-  height: 15rem;
-}
-#mainIndex #problem form label {
-  display: inline-block;
-  color: #fafafa;
-  font-weight: bold;
-  margin: 0.5rem 0;
-}
-#mainIndex #problem form input[type=text] {
-  width: 100%;
-  height: 2rem;
-  font-size: 1rem;
-}
-#mainIndex #problem form textarea {
-  width: 100%;
-  height: 20rem;
-  resize: none;
-  font-size: 1rem;
-}
-#mainIndex #problem form a {
-  top: auto !important;
-  right: 1rem !important;
-  bottom: 1rem !important;
-}
-#mainIndex #problem form a svg {
-  width: 1.2rem !important;
-  height: 1.2rem !important;
-}
-#mainIndex #problem form input[type=submit] {
-  width: 100%;
-  height: 2rem;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  padding: 0.5rem;
-  background-color: #80a710;
-  color: #fafafa;
-  font-weight: bold;
 }
 
 #mainDetailblogs {
@@ -3724,7 +3638,7 @@ header div:last-child #containerUserLogin #bagShopping span {
 #mainDetailblogs article #listblogs a .blogs {
   width: 100%;
   height: inherit;
-  border: 1px solid black;
+  border: 1px solid #bbb;
   border-radius: 5px;
   background-color: #f5f5f5;
   display: flex;
@@ -5752,13 +5666,6 @@ footer div:last-child input {
   }
   #mainIndex #operaSystem #contentOpera div button {
     width: 10rem;
-  }
-  #mainIndex #problem {
-    padding: 2rem 0.5rem 2rem !important;
-  }
-  #mainIndex #problem form {
-    width: 100%;
-    height: 30rem;
   }
   footer div {
     width: 50%;

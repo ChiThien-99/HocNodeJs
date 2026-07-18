@@ -76,10 +76,6 @@ dashboardRouter.get(
   dashboardController.getEditBlogDraft,
 );
 dashboardRouter.get(
-  `${prefix}/getProblemById/:id`,
-  dashboardController.getProblemById,
-);
-dashboardRouter.get(
   `${prefix}/downloadOrder/:id`,
   dashboardController.downloadOrder,
 );
@@ -343,10 +339,10 @@ dashboardRouter.delete(
   dashboardController.deleteBlogDraft,
 );
 dashboardRouter.delete(
-  `${prefix}/deleteProblemById/:id`,
-  dashboardController.deleteProblemById,
-);
-dashboardRouter.delete(
   `${prefix}/deleteJob/:idJob`,
   dashboardController.deleteJob,
+);
+dashboardRouter.delete(
+  `${prefix}/deleteVoucher/:idVoucher`,
+  dashboardController.deleteVoucher,
 );
