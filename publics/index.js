@@ -82,11 +82,11 @@ function getUserFromCookie() {
         window.open(`/cart/${idClient}`, "_blank");
       });
       document
-  .getElementById("btnDashboardUserLogin")
-  .addEventListener("click", (e) => {
-    e.preventDefault();
-    window.open(`/dashboardClient/${idClient}`, "_blank");
-  });
+        .getElementById("btnDashboardUserLogin")
+        .addEventListener("click", (e) => {
+          e.preventDefault();
+          window.open(`/dashboardClient/${idClient}`, "_blank");
+        });
       return decodedUser;
     } catch (error) {
       console.error(`Token không hợp lệ hoặc đã bị can thiệp ${error}`);
@@ -477,7 +477,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 document.addEventListener("DOMContentLoaded", () => {
   const hamburgerBtn = document.getElementById("hamburgerBtn");
-  const navMenu = document.getElementById("navMenu");
+  const navMenu = document.getElementById("divNavMenu");
   if (hamburgerBtn && navMenu) {
     hamburgerBtn.addEventListener("click", () => {
       hamburgerBtn.classList.toggle("active");

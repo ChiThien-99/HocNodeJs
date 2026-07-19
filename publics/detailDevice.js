@@ -45,11 +45,11 @@ function getUserFromCookie() {
         window.open(`/cart/${idClient}`, "_blank");
       });
       document
-  .getElementById("btnDashboardUserLogin")
-  .addEventListener("click", (e) => {
-    e.preventDefault();
-    window.open(`/dashboardClient/${idClient}`, "_blank");
-  });
+        .getElementById("btnDashboardUserLogin")
+        .addEventListener("click", (e) => {
+          e.preventDefault();
+          window.open(`/dashboardClient/${idClient}`, "_blank");
+        });
       return decodedUser;
     } catch (error) {
       console.error(`Token không hợp lệ hoặc đã bị can thiệp ${error}`);
@@ -222,7 +222,7 @@ document.getElementById("btnShareDevice").addEventListener("click", () => {
   divShareSocial.style.display = type;
 });
 document.getElementById("btnCartDevice").addEventListener("click", function () {
-  if (this.innerText==="Liên hệ") {
+  if (this.innerText === "Liên hệ") {
     return;
   }
   const token = getCookie("accessToken2");
@@ -233,7 +233,7 @@ document.getElementById("btnCartDevice").addEventListener("click", function () {
   const productPrice = this.getAttribute("data-priceDevice");
   const productQuantity = document.getElementById("quantityDevice").value;
   const productColor = document.getElementById("inpColorDevice").value;
-  const imgProductColor=document.querySelector(".colorDevice.active img").src;
+  const imgProductColor = document.querySelector(".colorDevice.active img").src;
   console.log(imgProductColor);
   this.disabled = true;
   this.style.cursor = "not-allowed";
@@ -569,7 +569,7 @@ function checkOrActivateTrial(idClient, idApp, app, isClientClick = false) {
 }
 document.addEventListener("DOMContentLoaded", () => {
   const hamburgerBtn = document.getElementById("hamburgerBtn");
-  const navMenu = document.getElementById("navMenu");
+  const navMenu = document.getElementById("divNavMenu");
   if (hamburgerBtn && navMenu) {
     hamburgerBtn.addEventListener("click", () => {
       hamburgerBtn.classList.toggle("active");

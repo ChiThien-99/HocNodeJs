@@ -22,55 +22,64 @@ async function verifySession() {
   }
 }
 verifySession();
-document.getElementById("btnAddCart").addEventListener("click", function () {
-  const token = getCookie("accessToken2");
-  const decodedeUser = jwtDecode(token);
-  const idClient = decodedeUser.id;
-  const productId = this.getAttribute("data-idApp");
-  const productName = this.getAttribute("data-nameApp");
-  const productPrice = this.getAttribute("data-priceApp");
-  const imgApp=document.getElementById("imgApp").value;
-  this.disabled = true;
-  this.style.cursor = "not-allowed";
-  fetch("/detailApp/cart/add", {
-    method: "POST",
-    headers: { "Content-Type": "application/json;charset=UTF-8" },
-    body: JSON.stringify({ idClient, productId, productName, productPrice,imgApp }),
-  })
-    .then((res) => res.json())
-    .then(({ success, mess, totalItems, error }) => {
-      this.disabled = false;
-      this.style.cursor = "pointer";
-      if (success) {
-        // alert("Thông báo",mess,"#80a710");
-        const countCart = document.querySelector("#bagShopping span");
-        countCart.innerText = totalItems;
-        countCart.classList.remove("bounce-animation");
-        void countCart.offsetWidth;
-        countCart.classList.add("bounce-animation");
-        setTimeout(() => {
-          countCart.classList.remove("bounce-animation");
-        }, 500);
-        const countCartHamburgerBtn = document.getElementById(
-          "countCartHamburgerBtn",
-        );
-        countCartHamburgerBtn.innerText = totalItems;
-        countCartHamburgerBtn.classList.remove("bounce-animation");
-        void countCartHamburgerBtn.offsetWidth;
-        countCartHamburgerBtn.classList.add("bounce-animation");
-        setTimeout(() => {
-          countCartHamburgerBtn.classList.remove("bounce-animation");
-        }, 500);
-      } else {
-        alert("Lỗi", `${mess}\n${error}`, "red");
-      }
+const btnAddCart = document.getElementById("btnAddCart");
+if (btnAddCart) {
+  btnAddCart.addEventListener("click", function () {
+    const token = getCookie("accessToken2");
+    const decodedeUser = jwtDecode(token);
+    const idClient = decodedeUser.id;
+    const productId = this.getAttribute("data-idApp");
+    const productName = this.getAttribute("data-nameApp");
+    const productPrice = this.getAttribute("data-priceApp");
+    const imgApp = document.getElementById("imgApp").value;
+    this.disabled = true;
+    this.style.cursor = "not-allowed";
+    fetch("/detailApp/cart/add", {
+      method: "POST",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
+      body: JSON.stringify({
+        idClient,
+        productId,
+        productName,
+        productPrice,
+        imgApp,
+      }),
     })
-    .catch((error) => {
-      this.disabled = false;
-      this.style.cursor = "pointer";
-      alert("Lỗi", error, "red");
-    });
-});
+      .then((res) => res.json())
+      .then(({ success, mess, totalItems, error }) => {
+        this.disabled = false;
+        this.style.cursor = "pointer";
+        if (success) {
+          // alert("Thông báo",mess,"#80a710");
+          const countCart = document.querySelector("#bagShopping span");
+          countCart.innerText = totalItems;
+          countCart.classList.remove("bounce-animation");
+          void countCart.offsetWidth;
+          countCart.classList.add("bounce-animation");
+          setTimeout(() => {
+            countCart.classList.remove("bounce-animation");
+          }, 500);
+          const countCartHamburgerBtn = document.getElementById(
+            "countCartHamburgerBtn",
+          );
+          countCartHamburgerBtn.innerText = totalItems;
+          countCartHamburgerBtn.classList.remove("bounce-animation");
+          void countCartHamburgerBtn.offsetWidth;
+          countCartHamburgerBtn.classList.add("bounce-animation");
+          setTimeout(() => {
+            countCartHamburgerBtn.classList.remove("bounce-animation");
+          }, 500);
+        } else {
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        }
+      })
+      .catch((error) => {
+        this.disabled = false;
+        this.style.cursor = "pointer";
+        alert("Lỗi", error, "red");
+      });
+  });
+}
 function getCookie(name) {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
@@ -170,7 +179,7 @@ document.getElementById("btnLoginClient").addEventListener("click", () => {
 });
 document.addEventListener("DOMContentLoaded", () => {
   const hamburgerBtn = document.getElementById("hamburgerBtn");
-  const navMenu = document.getElementById("navMenu");
+  const navMenu = document.getElementById("divNavMenu");
   if (hamburgerBtn && navMenu) {
     hamburgerBtn.addEventListener("click", () => {
       hamburgerBtn.classList.toggle("active");

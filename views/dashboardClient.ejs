@@ -68,8 +68,15 @@
         <h2>Dashboard</h2>
       </div>
     </header>
+      <div id="divMenuDBClient">
+        <button type="button" class="btnMenuDBClient" id="btnMenuDBClient">
+        <i class="fa-solid fa-grip"></i> Menu
+       </button>
+      </div>
       <main id="mainDashboardClient">
-        <div id="navDashboardClient">
+        <div id="divNavDashboardClient">
+          <div id="navDashboardClient">
+          <button type="button" id="btnCloseDBClient"><i class="fa-solid fa-xmark"></i></button>
           <div>
             <h2 id="fullnameClient">Tên user</h2>
             <em id="idClient"></em>
@@ -83,6 +90,7 @@
           <button data-target="historyMng" class="navBtnDB">
             <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử mua hàng
           </button>
+        </div>
         </div>
         <div id="contentDashboardClient">
           <div id="infoMng" class="tabContent active">
@@ -117,7 +125,7 @@
                 <%vouchers.forEach((voucher)=>{%>
               <div class="voucher-wrapper">
                 <div class="voucher-sawtooth-zigzag">
-                <a href="<%=voucher.applyToCategory==='app'?'/app':'/device'%>" target="_blank">">
+                <a href="<%=voucher.applyToCategory==='app'?'/app':'/device'%>" target="_blank">
                   <div class="voucher" data-codeVoucher="<%=voucher.code%>" data-discountVoucher="<%=voucher.discountPercentage%>">
                 <div>
                   <img src="<%=voucher.image%>" alt="imgVoucher">
@@ -151,7 +159,8 @@
                   </div>
                 </div>
                 <div class="bodyOrder">
-                  <table class="tableProduct">
+                  <div class="divTableProduct">
+                    <table class="tableProduct">
                     <tr>
                       <th>
                         Tên sản phẩm
@@ -184,6 +193,7 @@
                     </tr>
                     <%})%>
                   </table>
+                  </div>
                   <div>
                     <p>Chiết khấu: <%=order.voucherDiscount.toLocaleString("vi-VN")%>đ</p>
                     <p>Thành tiền: 

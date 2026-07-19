@@ -85,8 +85,8 @@
        </button>
        <span id="countCartHamburgerBtn">0</span>
       </div>
-      
-      <div id="navMenu">
+      <div id="divNavMenu">
+        <div id="navMenu">
         <nav>
           <ul>
             <li><a href="/">Trang chủ</a></li>
@@ -116,14 +116,16 @@
         </div>
         </div>
       </div>
+      </div>
     </header>
     <main id="mainDetailblogs">
       <article>
-        <p><%=new Date(blogs.createAt).toLocaleString()%></p>
-        <p>Danh mục: <%=blogs.category%></p>
+        <div id="divDateAndCategory">
+          <p>Danh mục: <%=blogs.category%></p>
+          <p><%=new Date(blogs.createAt).toLocaleString()%></p>
+        </div>
         <h1><%=blogs.title%></h1>
-        <div id="divCategoryAndShare">
-          <p></p>
+        <div id="divOnlyShare">
           <div id="divShare">
             <div>
               <button id="btnShareFB"><img src="/img/logo_fb.webp" alt="facebook"></button>
@@ -131,7 +133,6 @@
             </div>
             <button id="btnShare"><i class="fa-solid fa-share-nodes"></i> Chia sẻ</button>
           </div>
-          
         </div>
         <div id="divInfoblogs">
           <%let cleanContent = blogs.info.replace(/&nbsp;/g, ' ');%>

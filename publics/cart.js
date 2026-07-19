@@ -60,7 +60,8 @@ socket.on("updateCart", (data) => {
             `${subTotal.toLocaleString("vi-VN")}đ`;
           document.getElementById("discountAmount").innerText =
             `${totalDiscountAmount.toLocaleString("vi-VN")}đ`;
-          document.getElementById("discountAmount").dataset.discount=totalDiscountAmount;
+          document.getElementById("discountAmount").dataset.discount =
+            totalDiscountAmount;
           document.getElementById("finalTotal").innerText =
             `${finalTotal.toLocaleString("vi-VN")}đ`;
         } else {
@@ -121,14 +122,14 @@ socket.on("delete-inforInvoice", (data) => {
     deleteInforInvoice.remove();
   }
 });
-socket.on("updateCod",(data)=>{
-  const cod=document.querySelector("#divPaymentMethod label[for='cod']");
-  if (data>0) {
-    cod.style.display="flex";
+socket.on("updateCod", (data) => {
+  const cod = document.querySelector("#divPaymentMethod label[for='cod']");
+  if (data > 0) {
+    cod.style.display = "flex";
   } else {
-    cod.style.display="none";
+    cod.style.display = "none";
   }
-})
+});
 function getCookie(name) {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
@@ -225,9 +226,9 @@ document.getElementById("btnLoginClient").addEventListener("click", () => {
   const currentPath = window.location.pathname + window.location.search;
   window.location.href = `/index/loginClient?headerActive=loginClient&redirect=${encodeURIComponent(currentPath)}`;
 });
-document
-  .querySelector("#tableOrder tbody")
-  .addEventListener("click", async function (e) {
+const tableOrder = document.querySelector("#tableOrder tbody");
+if (tableOrder) {
+  tableOrder.addEventListener("click", async function (e) {
     const target = e.target;
     if (target.classList.contains("btnDeleteProduct")) {
       const confirmDelete = await confirm(
@@ -288,7 +289,9 @@ document
                         `${subTotal.toLocaleString("vi-VN")}đ`;
                       document.getElementById("discountAmount").innerText =
                         `${totalDiscountAmount.toLocaleString("vi-VN")}đ`;
-                      document.getElementById("discountAmount").dataset.discount=totalDiscountAmount;
+                      document.getElementById(
+                        "discountAmount",
+                      ).dataset.discount = totalDiscountAmount;
                       document.getElementById("finalTotal").innerText =
                         `${finalTotal.toLocaleString("vi-VN")}đ`;
                     } else {
@@ -306,6 +309,7 @@ document
       }
     }
   });
+}
 document.querySelectorAll(".quantityProduct").forEach((inp) => {
   inp.addEventListener("change", function () {
     const idProduct = this.getAttribute("data-idProduct");
@@ -353,7 +357,8 @@ document.querySelectorAll(".quantityProduct").forEach((inp) => {
                     `${subTotal.toLocaleString("vi-VN")}đ`;
                   document.getElementById("discountAmount").innerText =
                     `${totalDiscountAmount.toLocaleString("vi-VN")}đ`;
-                  document.getElementById("discountAmount").dataset.discount=totalDiscountAmount;
+                  document.getElementById("discountAmount").dataset.discount =
+                    totalDiscountAmount;
                   document.getElementById("finalTotal").innerText =
                     `${finalTotal.toLocaleString("vi-VN")}đ`;
                 } else {
@@ -372,7 +377,7 @@ document.querySelectorAll(".quantityProduct").forEach((inp) => {
 });
 document.addEventListener("DOMContentLoaded", () => {
   const hamburgerBtn = document.getElementById("hamburgerBtn");
-  const navMenu = document.getElementById("navMenu");
+  const navMenu = document.getElementById("divNavMenu");
   if (hamburgerBtn && navMenu) {
     hamburgerBtn.addEventListener("click", () => {
       hamburgerBtn.classList.toggle("active");
@@ -428,7 +433,8 @@ document.querySelectorAll(".voucher").forEach((v) => {
                 `${subTotal.toLocaleString("vi-VN")}đ`;
               document.getElementById("discountAmount").innerText =
                 `${totalDiscountAmount.toLocaleString("vi-VN")}đ`;
-              document.getElementById("discountAmount").dataset.discount=totalDiscountAmount;
+              document.getElementById("discountAmount").dataset.discount =
+                totalDiscountAmount;
               document.getElementById("finalTotal").innerText =
                 `${finalTotal.toLocaleString("vi-VN")}đ`;
             } else {
@@ -440,25 +446,27 @@ document.querySelectorAll(".voucher").forEach((v) => {
   });
 });
 const addReceivingInfor = document.getElementById("addReceivingInfor");
-addReceivingInfor.addEventListener("click", function () {
-  const displayFormReceivingInfor =
-    document.getElementById("formReceivingInfor");
-  const type =
-    displayFormReceivingInfor.style.display === "block" ? "none" : "block";
-  const textBtn =
-    displayFormReceivingInfor.style.display === "block"
-      ? `<i class="fa-solid fa-plus"></i> Thêm thông tin`
-      : "Đóng form";
-  displayFormReceivingInfor.style.display = type;
-  this.innerHTML = textBtn;
-  if (textBtn === "Đóng form") {
-    this.style.color = "red";
-    this.style.borderColor = "red";
-  } else {
-    this.style.color = "#80a710";
-    this.style.borderColor = "#80a710";
-  }
-});
+if (addReceivingInfor) {
+  addReceivingInfor.addEventListener("click", function () {
+    const displayFormReceivingInfor =
+      document.getElementById("formReceivingInfor");
+    const type =
+      displayFormReceivingInfor.style.display === "block" ? "none" : "block";
+    const textBtn =
+      displayFormReceivingInfor.style.display === "block"
+        ? `<i class="fa-solid fa-plus"></i> Thêm thông tin`
+        : "Đóng form";
+    displayFormReceivingInfor.style.display = type;
+    this.innerHTML = textBtn;
+    if (textBtn === "Đóng form") {
+      this.style.color = "red";
+      this.style.borderColor = "red";
+    } else {
+      this.style.color = "#80a710";
+      this.style.borderColor = "#80a710";
+    }
+  });
+}
 $(document).ready(function () {
   // Chỉ cần gọi hàm select2() là khung search tự động xuất hiện
   $("#provinceCity").select2({
@@ -567,9 +575,11 @@ $(document).ready(function () {
       });
   });
 });
-document
-  .getElementById("submitFormReceivingInfor")
-  .addEventListener("click", () => {
+const submitFormReceivingInfor = document.getElementById(
+  "submitFormReceivingInfor",
+);
+if (submitFormReceivingInfor) {
+  submitFormReceivingInfor.addEventListener("click", () => {
     const fullname = document.getElementById("fullname").value;
     const tel = document.getElementById("tel").value;
     const provinceCity = document.getElementById("provinceCity").value;
@@ -598,12 +608,12 @@ document
       .then((res) => res.json())
       .then(({ mess, success, error }) => {
         if (success) {
-          document.getElementById("fullname").value="";
-          document.getElementById("tel").value="";
-          $("#provinceCity").val(null).trigger("change"); 
+          document.getElementById("fullname").value = "";
+          document.getElementById("tel").value = "";
+          $("#provinceCity").val(null).trigger("change");
           $("#wardsCommunes").val(null).trigger("change");
-          document.getElementById("numberHouse").value="";
-          document.getElementById("categoryAddress").value="";
+          document.getElementById("numberHouse").value = "";
+          document.getElementById("categoryAddress").value = "";
           document.getElementById("addReceivingInfor").style.borderColor =
             "#80a710";
           document.getElementById("addReceivingInfor").style.color = "#80a710";
@@ -619,33 +629,42 @@ document
         alert("Lỗi", error, "red");
       });
   });
-const listDeliveryAddress = document.getElementById(
-  "contentReceivingInfor",
-);
-listDeliveryAddress.addEventListener("click",(e)=>{
-  const clickAddressDelivery=e.target.closest("div[data-idAddress]");
-  if (!clickAddressDelivery) {
-    return
-  }
-  if (e.target.closest(".btnDeleteAddress")) {
-    return
-  }
-  const addressDelivery=listDeliveryAddress.querySelectorAll("div[data-idAddress]");
-  addressDelivery.forEach((address)=>{
-    address.classList.remove("active");
-  });
-  clickAddressDelivery.classList.add("active");
-  addressDelivery.forEach((address)=>{
-    if (address.classList.contains("active")) {
-      document.getElementById("nameDelivery").innerText=address.querySelectorAll("p")[0].childNodes[1].textContent.trim();
-      document.getElementById("telDelivery").innerText=address.querySelectorAll("p")[1].childNodes[1].textContent.trim();
-      document.getElementById("addressDelivery").innerText=address.querySelectorAll("p")[2].childNodes[1].textContent.trim();
+}
+const listDeliveryAddress = document.getElementById("contentReceivingInfor");
+if (listDeliveryAddress) {
+  listDeliveryAddress.addEventListener("click", (e) => {
+    const clickAddressDelivery = e.target.closest("div[data-idAddress]");
+    if (!clickAddressDelivery) {
+      return;
     }
-  })
-})
-document
-  .getElementById("contentReceivingInfor")
-  .addEventListener("click", (e) => {
+    if (e.target.closest(".btnDeleteAddress")) {
+      return;
+    }
+    const addressDelivery = listDeliveryAddress.querySelectorAll(
+      "div[data-idAddress]",
+    );
+    addressDelivery.forEach((address) => {
+      address.classList.remove("active");
+    });
+    clickAddressDelivery.classList.add("active");
+    addressDelivery.forEach((address) => {
+      if (address.classList.contains("active")) {
+        document.getElementById("nameDelivery").innerText = address
+          .querySelectorAll("p")[0]
+          .childNodes[1].textContent.trim();
+        document.getElementById("telDelivery").innerText = address
+          .querySelectorAll("p")[1]
+          .childNodes[1].textContent.trim();
+        document.getElementById("addressDelivery").innerText = address
+          .querySelectorAll("p")[2]
+          .childNodes[1].textContent.trim();
+      }
+    });
+  });
+}
+const contentReceivingInfor = document.getElementById("contentReceivingInfor");
+if (contentReceivingInfor) {
+  contentReceivingInfor.addEventListener("click", (e) => {
     const target = e.target;
     const btnDeleteAddress = target.closest(".btnDeleteAddress");
     if (!btnDeleteAddress) {
@@ -675,195 +694,240 @@ document
         alert("Lỗi", error, "red");
       });
   });
-document.getElementById("cbInvoice").addEventListener("change", function () {
-  if (this.checked) {
-    document.getElementById("divInvoice").style.display = "block";
-  } else {
-    document.getElementById("divInvoice").style.display = "none";
-  }
-});
-const addIssueInvoice = document.getElementById("addIssueInvoice");
-addIssueInvoice.addEventListener("click", function () {
-  const formIssueInvoice = document.getElementById("formIssueInvoice");
-  const type = formIssueInvoice.style.display === "block" ? "none" : "block";
-  const textBtn =
-    formIssueInvoice.style.display === "block"
-      ? `<i class="fa-solid fa-plus"></i> Thêm thông tin`
-      : "Đóng form";
-  formIssueInvoice.style.display = type;
-  this.innerHTML = textBtn;
-  if (textBtn === "Đóng form") {
-    this.style.color = "red";
-    this.style.borderColor = "red";
-  } else {
-    this.style.color = "#80a710";
-    this.style.borderColor = "#80a710";
-  }
-});
-document.getElementById("submitIssueInvoice").addEventListener("click", () => {
-  const nameCompany = document.getElementById("nameCompany").value;
-  const mstCompany = document.getElementById("mstCompany").value;
-  const mailInvoice = document.getElementById("mailInvoice").value;
-  const provinceCityInvoice = document.getElementById(
-    "provinceCityInvoice",
-  ).value;
-  const wardsCommunesInvoice = document.getElementById(
-    "wardsCommunesInvoice",
-  ).value;
-  const numberCompany = document.getElementById("numberCompany").value;
-  const token = getCookie("accessToken2");
-  if (!token) {
-    return;
-  }
-  const decodedUser = jwtDecode(token);
-  const idClient = decodedUser.id;
-  fetch("/cart/addInfoInvoice", {
-    method: "POST",
-    headers: { "Content-Type": "application/json;charset=UTF-8" },
-    body: JSON.stringify({
-      idClient,
-      nameCompany,
-      mstCompany,
-      provinceCityInvoice,
-      wardsCommunesInvoice,
-      numberCompany,
-      mailInvoice,
-    }),
-  })
-    .then((res) => res.json())
-    .then(({ mess, success, error }) => {
-      if (success) {
-        document.getElementById("nameCompany").value="";
-        document.getElementById("mstCompany").value="";
-        document.getElementById("mailInvoice").value="";
-        $("#provinceCityInvoice").val(null).trigger("change"); 
-        $("#wardsCommunesInvoice").val(null).trigger("change");
-        document.getElementById("numberCompany").value="";
-        document.getElementById("addIssueInvoice").style.borderColor =
-          "#80a710";
-        document.getElementById("addIssueInvoice").style.color = "#80a710";
-        document.getElementById("addIssueInvoice").innerHTML =
-          `<i class="fa-solid fa-plus"></i> Thêm thông tin`;
-        document.getElementById("formIssueInvoice").style.display = "none";
-        alert("Thông báo", mess, "#80a710");
-      } else {
-        alert("Lỗi", `${mess}\n${error}`, "red");
-      }
-    })
-    .catch((error) => {
-      alert("Lỗi", error, "red");
-    });
-});
-const contentInvoice = document.getElementById(
-  "contentInvoice",
-);
-contentInvoice.addEventListener("click",(e)=>{
-  const clickContentInvoice=e.target.closest("div[data-idInvoiceInfor]");
-  if (!clickContentInvoice) {
-    return
-  }
-  if (e.target.closest(".btnDeleteInvoice")) {
-    return
-  }
-  const oneContentInvoice=contentInvoice.querySelectorAll("div[data-idInvoiceInfor]");
-  oneContentInvoice.forEach((inv)=>{
-    inv.classList.remove("active");
-  });
-  clickContentInvoice.classList.add("active");
-  oneContentInvoice.forEach((inv)=>{
-    if (inv.classList.contains("active")) {
-      document.getElementById("nameCompanyOrder").innerText=inv.querySelectorAll("p")[0].childNodes[1].textContent.trim();
-      document.getElementById("mstCompanyOrder").innerText=inv.querySelectorAll("p")[1].childNodes[1].textContent.trim();
-      document.getElementById("addressCompanyOrder").innerText=inv.querySelectorAll("p")[2].childNodes[1].textContent.trim();
-      document.getElementById("mailInvoiceOrder").innerText=inv.querySelectorAll("p")[3].childNodes[1].textContent.trim();
-    }
-  })
-})
-document.getElementById("contentInvoice").addEventListener("click", (e) => {
-  const target = e.target;
-  const btnDeleteInforInvoice = target.closest(".btnDeleteInvoice");
-  if (!btnDeleteInforInvoice) {
-    return;
-  }
-  const idInforInvoice = btnDeleteInforInvoice.getAttribute(
-    "data-idInvoiceInfor",
-  );
-  const token = getCookie("accessToken2");
-  if (!token) {
-    return;
-  }
-  const decodedUser = jwtDecode(token);
-  const idClient = decodedUser.id;
-  fetch(`/cart/deleteInvoiceInfor`, {
-    method: "DELETE",
-    headers: { "Content-Type": "application/json;charset=UTF-8" },
-    body: JSON.stringify({ idClient, idInforInvoice }),
-  })
-    .then((res) => res.json())
-    .then(({ mess, success, error }) => {
-      if (success) {
-        alert("Thông báo", mess, "#80a710");
-      } else {
-        alert("Lỗi", `${mess}\n${error}`, "red");
-      }
-    })
-    .catch((error) => {
-      alert("Lỗi", error, "red");
-    });
-});
-document.querySelectorAll('input[name="paymentMethod"]').forEach((radio)=>{
-  radio.addEventListener("change",function(){
+}
+const cbInvoice = document.getElementById("cbInvoice");
+if (cbInvoice) {
+  document.getElementById("cbInvoice").addEventListener("change", function () {
     if (this.checked) {
-      document.getElementById("paymentOrder").innerText=this.getAttribute("data-paymentMethod");
-      if (this.getAttribute("data-paymentMethod")==="Thanh toán khi nhận hàng") {
-        document.getElementById("btnOrder").innerText="Đặt hàng";
-      }else{
-        document.getElementById("btnOrder").innerText="Thanh toán";
-      }
-    }else{
-      return
-    } 
-  })
-});
-document.getElementById("btnOrder").addEventListener("click",()=>{
-  const token = getCookie("accessToken2");
-  if (!token) {
-    return;
-  }
-  const decodedUser = jwtDecode(token);
-  const idClient = decodedUser.id;
-  const discountAmount=document.getElementById("discountAmount").getAttribute("data-discount");
-  const paymentOrder=document.getElementById("paymentOrder").innerText;
-  const nameDelivery=document.getElementById("nameDelivery").innerText;
-  const telDelivery=document.getElementById("telDelivery").innerText;
-  const addressDelivery=document.getElementById("addressDelivery").innerText;
-  const cbInvoice=document.getElementById("cbInvoice").checked;
-  const nameCompanyOrder=document.getElementById("nameCompanyOrder").innerText;
-  const mstCompanyOrder=document.getElementById("mstCompanyOrder").innerText;
-  const addressCompanyOrder=document.getElementById("addressCompanyOrder").innerText;
-  const mailInvoiceOrder=document.getElementById("mailInvoiceOrder").innerText;
-  fetch("/cart/addOrder",{
-    method:"POST",
-    headers:{"Content-Type":"application/json;charset=UTF-8"},
-    body:JSON.stringify({idClient,discountAmount,paymentOrder,nameDelivery,telDelivery,addressDelivery,cbInvoice,nameCompanyOrder,mstCompanyOrder,addressCompanyOrder,mailInvoiceOrder}),
-  })
-  .then(res=>res.json())
-  .then(({mess,success,error})=>{
-    if (success) {
-      alert("Thông báo",mess,"#80a710");
-      setTimeout(() => {
-        window.location.href="/cart/thank";
-      }, 3000);
+      document.getElementById("divInvoice").style.display = "block";
     } else {
-      if (error) {
-        alert("Lỗi",`${mess}\n${error}`,"red");
-      }else{
-        alert("Lỗi",mess,"red");
-      }
-      
+      document.getElementById("divInvoice").style.display = "none";
     }
-  })
-  .catch((error)=>{
-    alert("Lỗi",error,"red");
   });
-})
+}
+const addIssueInvoice = document.getElementById("addIssueInvoice");
+if (addIssueInvoice) {
+  addIssueInvoice.addEventListener("click", function () {
+    const formIssueInvoice = document.getElementById("formIssueInvoice");
+    const type = formIssueInvoice.style.display === "block" ? "none" : "block";
+    const textBtn =
+      formIssueInvoice.style.display === "block"
+        ? `<i class="fa-solid fa-plus"></i> Thêm thông tin`
+        : "Đóng form";
+    formIssueInvoice.style.display = type;
+    this.innerHTML = textBtn;
+    if (textBtn === "Đóng form") {
+      this.style.color = "red";
+      this.style.borderColor = "red";
+    } else {
+      this.style.color = "#80a710";
+      this.style.borderColor = "#80a710";
+    }
+  });
+}
+const submitIssueInvoice = document.getElementById("submitIssueInvoice");
+if (submitIssueInvoice) {
+  submitIssueInvoice.addEventListener("click", () => {
+    const nameCompany = document.getElementById("nameCompany").value;
+    const mstCompany = document.getElementById("mstCompany").value;
+    const mailInvoice = document.getElementById("mailInvoice").value;
+    const provinceCityInvoice = document.getElementById(
+      "provinceCityInvoice",
+    ).value;
+    const wardsCommunesInvoice = document.getElementById(
+      "wardsCommunesInvoice",
+    ).value;
+    const numberCompany = document.getElementById("numberCompany").value;
+    const token = getCookie("accessToken2");
+    if (!token) {
+      return;
+    }
+    const decodedUser = jwtDecode(token);
+    const idClient = decodedUser.id;
+    fetch("/cart/addInfoInvoice", {
+      method: "POST",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
+      body: JSON.stringify({
+        idClient,
+        nameCompany,
+        mstCompany,
+        provinceCityInvoice,
+        wardsCommunesInvoice,
+        numberCompany,
+        mailInvoice,
+      }),
+    })
+      .then((res) => res.json())
+      .then(({ mess, success, error }) => {
+        if (success) {
+          document.getElementById("nameCompany").value = "";
+          document.getElementById("mstCompany").value = "";
+          document.getElementById("mailInvoice").value = "";
+          $("#provinceCityInvoice").val(null).trigger("change");
+          $("#wardsCommunesInvoice").val(null).trigger("change");
+          document.getElementById("numberCompany").value = "";
+          document.getElementById("addIssueInvoice").style.borderColor =
+            "#80a710";
+          document.getElementById("addIssueInvoice").style.color = "#80a710";
+          document.getElementById("addIssueInvoice").innerHTML =
+            `<i class="fa-solid fa-plus"></i> Thêm thông tin`;
+          document.getElementById("formIssueInvoice").style.display = "none";
+          alert("Thông báo", mess, "#80a710");
+        } else {
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        }
+      })
+      .catch((error) => {
+        alert("Lỗi", error, "red");
+      });
+  });
+}
+const contentInvoice = document.getElementById("contentInvoice");
+if (contentInvoice) {
+  contentInvoice.addEventListener("click", (e) => {
+    const clickContentInvoice = e.target.closest("div[data-idInvoiceInfor]");
+    if (!clickContentInvoice) {
+      return;
+    }
+    if (e.target.closest(".btnDeleteInvoice")) {
+      return;
+    }
+    const oneContentInvoice = contentInvoice.querySelectorAll(
+      "div[data-idInvoiceInfor]",
+    );
+    oneContentInvoice.forEach((inv) => {
+      inv.classList.remove("active");
+    });
+    clickContentInvoice.classList.add("active");
+    oneContentInvoice.forEach((inv) => {
+      if (inv.classList.contains("active")) {
+        document.getElementById("nameCompanyOrder").innerText = inv
+          .querySelectorAll("p")[0]
+          .childNodes[1].textContent.trim();
+        document.getElementById("mstCompanyOrder").innerText = inv
+          .querySelectorAll("p")[1]
+          .childNodes[1].textContent.trim();
+        document.getElementById("addressCompanyOrder").innerText = inv
+          .querySelectorAll("p")[2]
+          .childNodes[1].textContent.trim();
+        document.getElementById("mailInvoiceOrder").innerText = inv
+          .querySelectorAll("p")[3]
+          .childNodes[1].textContent.trim();
+      }
+    });
+  });
+  contentInvoice.addEventListener("click", (e) => {
+    const target = e.target;
+    const btnDeleteInforInvoice = target.closest(".btnDeleteInvoice");
+    if (!btnDeleteInforInvoice) {
+      return;
+    }
+    const idInforInvoice = btnDeleteInforInvoice.getAttribute(
+      "data-idInvoiceInfor",
+    );
+    const token = getCookie("accessToken2");
+    if (!token) {
+      return;
+    }
+    const decodedUser = jwtDecode(token);
+    const idClient = decodedUser.id;
+    fetch(`/cart/deleteInvoiceInfor`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
+      body: JSON.stringify({ idClient, idInforInvoice }),
+    })
+      .then((res) => res.json())
+      .then(({ mess, success, error }) => {
+        if (success) {
+          alert("Thông báo", mess, "#80a710");
+        } else {
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        }
+      })
+      .catch((error) => {
+        alert("Lỗi", error, "red");
+      });
+  });
+}
+const inpPayment = document.querySelectorAll('input[name="paymentMethod"]');
+inpPayment.forEach((radio) => {
+  radio.addEventListener("change", function () {
+    if (this.checked) {
+      document.getElementById("paymentOrder").innerText =
+        this.getAttribute("data-paymentMethod");
+      if (
+        this.getAttribute("data-paymentMethod") === "Thanh toán khi nhận hàng"
+      ) {
+        document.getElementById("btnOrder").innerText = "Đặt hàng";
+      } else {
+        document.getElementById("btnOrder").innerText = "Thanh toán";
+      }
+    } else {
+      return;
+    }
+  });
+});
+const btnOrder = document.getElementById("btnOrder");
+if (btnOrder) {
+  btnOrder.addEventListener("click", () => {
+    const token = getCookie("accessToken2");
+    if (!token) {
+      return;
+    }
+    const decodedUser = jwtDecode(token);
+    const idClient = decodedUser.id;
+    const discountAmount = document
+      .getElementById("discountAmount")
+      .getAttribute("data-discount");
+    const paymentOrder = document.getElementById("paymentOrder").innerText;
+    const nameDelivery = document.getElementById("nameDelivery").innerText;
+    const telDelivery = document.getElementById("telDelivery").innerText;
+    const addressDelivery =
+      document.getElementById("addressDelivery").innerText;
+    const cbInvoice = document.getElementById("cbInvoice").checked;
+    const nameCompanyOrder =
+      document.getElementById("nameCompanyOrder").innerText;
+    const mstCompanyOrder =
+      document.getElementById("mstCompanyOrder").innerText;
+    const addressCompanyOrder = document.getElementById(
+      "addressCompanyOrder",
+    ).innerText;
+    const mailInvoiceOrder =
+      document.getElementById("mailInvoiceOrder").innerText;
+    fetch("/cart/addOrder", {
+      method: "POST",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
+      body: JSON.stringify({
+        idClient,
+        discountAmount,
+        paymentOrder,
+        nameDelivery,
+        telDelivery,
+        addressDelivery,
+        cbInvoice,
+        nameCompanyOrder,
+        mstCompanyOrder,
+        addressCompanyOrder,
+        mailInvoiceOrder,
+      }),
+    })
+      .then((res) => res.json())
+      .then(({ mess, success, error }) => {
+        if (success) {
+          alert("Thông báo", mess, "#80a710");
+          setTimeout(() => {
+            window.location.href = "/cart/thank";
+          }, 3000);
+        } else {
+          if (error) {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          } else {
+            alert("Lỗi", mess, "red");
+          }
+        }
+      })
+      .catch((error) => {
+        alert("Lỗi", error, "red");
+      });
+  });
+}

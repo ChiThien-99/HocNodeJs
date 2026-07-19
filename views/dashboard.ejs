@@ -70,8 +70,15 @@
         <h2>Khu vực quản trị</h2>
       </div>
     </header>
+     <div id="divMenuDB">
+        <button type="button" class="btnMenuDB" id="btnMenuDB">
+        <i class="fa-solid fa-grip"></i> Menu
+       </button>
+      </div>
       <main id="mainDashboard">
-        <div id="navDashboard">
+        <div id="divNavDashboard">
+          <div id="navDashboard">
+          <button type="button" id="btnCloseDB"><i class="fa-solid fa-xmark"></i></button>
           <div>
             <h2 id="fullnameAd">Tên user</h2>
             <h3 id="roleAd">Chức vụ</h3>
@@ -111,6 +118,7 @@
             <i class="fa-solid fa-key"></i> Cập nhật mật khẩu
           </button>
         </div>
+        </div>
         <div id="contentDashboard">
           <div id="overviewMng" class="tabContent active">
             <p>Tổng quan</p>
@@ -128,7 +136,8 @@
             </select>
               </div>
             </div>
-            <table id="tableOrder">
+            <div id="divTableOrder">
+               <table id="tableOrder">
               <thead>
                  <tr>
                 <th>Đơn hàng</th>
@@ -261,6 +270,7 @@
                 <%})%>
               </tbody>
             </table>
+            </div>
           </div>
           <div id="workMng" class="tabContent">
             <h2 class="flag-item">Quản lý công việc</h2>
@@ -283,7 +293,8 @@
             <div id="divBtnRealoadJob">
               <button type="button" id="btnReloadJob"><i class="fa-solid fa-arrow-rotate-right"></i> Nạp</button>
             </div>
-            <table id="tableJob">
+            <div id="divtableJob">
+              <table id="tableJob">
               <thead>
               <tr>
                 <th>Cấp độ</th>
@@ -358,6 +369,7 @@
                 <%})%>
               </tbody>
             </table>
+            </div>
           </div>
           <div id="serverMng" class="tabContent">
             <h2 class="flag-item">Thông tin server</h2>

@@ -117,8 +117,10 @@ socket.on("update-device", (data) => {
 socket.on("delete-device", (data) => {
   if (data && data._id) {
     const rowToDelete = document.querySelector(`tr[data-rowId="${data._id}"]`);
-    const rowImportToDelete=document.querySelector(`tr[data-idDeviceImport="${data._id}"]`);
-    if (rowToDelete&&rowImportToDelete) {
+    const rowImportToDelete = document.querySelector(
+      `tr[data-idDeviceImport="${data._id}"]`,
+    );
+    if (rowToDelete && rowImportToDelete) {
       rowToDelete.remove();
       rowImportToDelete.remove();
     }
@@ -267,7 +269,9 @@ socket.on("delete-categoryblogs", (data) => {
 });
 socket.on("delete-voucher", (data) => {
   if (data && data._id) {
-    const rowToDelete = document.querySelector(`tr[data-idVoucher="${data._id}"]`);
+    const rowToDelete = document.querySelector(
+      `tr[data-idVoucher="${data._id}"]`,
+    );
     if (rowToDelete) {
       rowToDelete.remove();
     }
@@ -623,8 +627,10 @@ socket.on("delete-job", (data) => {
     }
   }
 });
-socket.on("add-voucher",(data)=>{
-  document.querySelector("#tableVoucher tbody").insertAdjacentHTML("afterbegin",`
+socket.on("add-voucher", (data) => {
+  document.querySelector("#tableVoucher tbody").insertAdjacentHTML(
+    "afterbegin",
+    `
     <tr data-idVoucher="${data._id}">
       <td>${data.applyToCategory}</td>
       <td>${data.clientIds.length}</td>
@@ -635,8 +641,9 @@ socket.on("add-voucher",(data)=>{
         <button type="button" class="btnDeleteVoucher">Xóa</button>
       </td>
     </tr>
-  `)
-})
+  `,
+  );
+});
 async function verifySession() {
   try {
     const response = await authFetch("/api/auth/me");
@@ -2641,35 +2648,37 @@ formVoucher.addEventListener("submit", (e) => {
       alert("Lỗi", error, "red");
     });
 });
-document.querySelector("#tableVoucher").addEventListener("click",(e)=>{
-  const target=e.target;
-  if(target.classList.contains("btnDeleteVoucher")){
-    const confirmDelete=confirm("Thông báo","Bạn chắc chắn xóa voucher này?","#1877f2")
-    .then((res)=>{
-      if (res===true) {
-        const row=target.closest("tr");
-    const idVoucher=row.getAttribute("data-idVoucher");
-    fetch(`/dashboard/deleteVoucher/${idVoucher}`,{
-      method:"DELETE",
-      headers:{"Content-Type":"application/json;charset=UTF-8"},
-    })
-    .then(res=>res.json())
-    .then(({mess,success,error})=>{
-      if (success) {
-        alert("Thông báo",mess,"#80a710");
-      } else {
-        if (error) {
-          alert("Lỗi",`${mess}\n${error}`,"red");
-        } else {
-          alert("Lỗi",mess,"red");
-        }
-        
-      }
-    });
+document.querySelector("#tableVoucher").addEventListener("click", (e) => {
+  const target = e.target;
+  if (target.classList.contains("btnDeleteVoucher")) {
+    const confirmDelete = confirm(
+      "Thông báo",
+      "Bạn chắc chắn xóa voucher này?",
+      "#1877f2",
+    ).then((res) => {
+      if (res === true) {
+        const row = target.closest("tr");
+        const idVoucher = row.getAttribute("data-idVoucher");
+        fetch(`/dashboard/deleteVoucher/${idVoucher}`, {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json;charset=UTF-8" },
+        })
+          .then((res) => res.json())
+          .then(({ mess, success, error }) => {
+            if (success) {
+              alert("Thông báo", mess, "#80a710");
+            } else {
+              if (error) {
+                alert("Lỗi", `${mess}\n${error}`, "red");
+              } else {
+                alert("Lỗi", mess, "red");
+              }
+            }
+          });
       }
     });
   }
-})
+});
 function checkFormEmptiness(form, btn) {
   const formData = new FormData(form);
   let hasData = false;
@@ -2772,6 +2781,7 @@ tableOrder.addEventListener("click", async (e) => {
       invoiceArea.style.top = "0px";
       invoiceArea.style.left = "0px";
       invoiceArea.style.height = "auto";
+      invoiceArea.style.width = "100%";
       invoiceArea.style.overflowY = "visible";
       const canvas = await html2canvas(invoiceArea, {
         useCORS: true,
@@ -3669,3 +3679,29 @@ async function registerPushNotification(idAdmin) {
     console.error("Lỗi kết nối web push", error);
   }
 }
+document.addEventListener("DOMContentLoaded", () => {
+  const btnMenuDBClient = document.getElementById("btnMenuDB");
+  const navMenu = document.getElementById("divNavDashboard");
+  if (btnMenuDBClient && navMenu) {
+    btnMenuDBClient.addEventListener("click", () => {
+      navMenu.classList.toggle("active");
+      if (navMenu.classList.contains("active")) {
+        document.body.classList.add("no-scroll");
+      } else {
+        document.body.classList.remove("no-scroll");
+      }
+    });
+    const navLink = navMenu.querySelectorAll("button");
+    navLink.forEach((link) => {
+      link.addEventListener("click", () => {
+        navMenu.classList.remove("active");
+        document.body.classList.remove("no-scroll");
+      });
+    });
+  }
+  const btnCloseDB = document.getElementById("btnCloseDB");
+  btnCloseDB.addEventListener("click", () => {
+    navMenu.classList.remove("active");
+    document.body.classList.remove("no-scroll");
+  });
+});

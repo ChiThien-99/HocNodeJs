@@ -927,22 +927,30 @@ header div:last-child #containerUserLogin #bagShopping span {
   overflow: hidden;
   margin-top: 6.5rem;
 }
-#mainDashboard #navDashboard {
+#mainDashboard #divNavDashboard {
   width: 20%;
+  height: 100%;
+}
+#mainDashboard #divNavDashboard #navDashboard {
+  width: 100%;
   height: 100%;
   overflow-y: auto;
   border: 1px solid #80a710;
 }
-#mainDashboard #navDashboard div {
+#mainDashboard #divNavDashboard #navDashboard #btnCloseDB {
+  display: none;
+}
+#mainDashboard #divNavDashboard #navDashboard div {
   padding: 0.5rem;
+  border-bottom: 1px solid black;
 }
-#mainDashboard #navDashboard div h2,
-#mainDashboard #navDashboard div h3,
-#mainDashboard #navDashboard div em {
+#mainDashboard #divNavDashboard #navDashboard div h2,
+#mainDashboard #divNavDashboard #navDashboard div h3,
+#mainDashboard #divNavDashboard #navDashboard div em {
+  color: black;
   margin: 0.5rem 0;
-  color: white;
 }
-#mainDashboard #navDashboard .navBtnDB {
+#mainDashboard #divNavDashboard #navDashboard .navBtnDB {
   width: 100%;
   padding: 1rem;
   border: 1px solid #80a710;
@@ -952,7 +960,7 @@ header div:last-child #containerUserLogin #bagShopping span {
   font-size: 1rem;
   text-align: start;
 }
-#mainDashboard #navDashboard .navBtnDB span {
+#mainDashboard #divNavDashboard #navDashboard .navBtnDB span {
   display: none;
   width: 1.2rem;
   height: 1.2rem;
@@ -962,7 +970,7 @@ header div:last-child #containerUserLogin #bagShopping span {
   text-align: center;
   background-color: #fd5e53;
 }
-#mainDashboard #navDashboard .navBtnDB.active {
+#mainDashboard #divNavDashboard #navDashboard .navBtnDB.active {
   background-color: #80a710;
   color: #fafafa;
 }
@@ -1051,41 +1059,45 @@ header div:last-child #containerUserLogin #bagShopping span {
   height: 2rem;
   font-size: 1rem;
 }
-#mainDashboard #contentDashboard #orderMng table {
+#mainDashboard #contentDashboard #orderMng #divTableOrder {
+  width: 100%;
+  overflow-x: scroll;
+}
+#mainDashboard #contentDashboard #orderMng #divTableOrder table {
   width: 100%;
   border: 1px solid black;
   border-collapse: collapse;
 }
-#mainDashboard #contentDashboard #orderMng table th,
-#mainDashboard #contentDashboard #orderMng table td {
+#mainDashboard #contentDashboard #orderMng #divTableOrder table th,
+#mainDashboard #contentDashboard #orderMng #divTableOrder table td {
   border: 1px solid black;
   border-collapse: collapse;
   padding: 0.5rem;
 }
-#mainDashboard #contentDashboard #orderMng table thead #totalOrderHasInvoice,
-#mainDashboard #contentDashboard #orderMng table thead #totalOrder {
+#mainDashboard #contentDashboard #orderMng #divTableOrder table thead #totalOrderHasInvoice,
+#mainDashboard #contentDashboard #orderMng #divTableOrder table thead #totalOrder {
   color: red;
 }
-#mainDashboard #contentDashboard #orderMng table tbody {
+#mainDashboard #contentDashboard #orderMng #divTableOrder table tbody {
   height: auto;
   max-height: 80%;
   overflow-y: scroll;
 }
-#mainDashboard #contentDashboard #orderMng table tbody tr input {
+#mainDashboard #contentDashboard #orderMng #divTableOrder table tbody tr input {
   width: 5rem;
   height: 1.5rem;
 }
-#mainDashboard #contentDashboard #orderMng table tbody tr .tdChooseOrders {
+#mainDashboard #contentDashboard #orderMng #divTableOrder table tbody tr .tdChooseOrders {
   text-align: center;
 }
-#mainDashboard #contentDashboard #orderMng table tbody tr .tdChooseOrders .chooseOrders {
+#mainDashboard #contentDashboard #orderMng #divTableOrder table tbody tr .tdChooseOrders .chooseOrders {
   width: 1.5rem;
   height: 1.5rem;
 }
-#mainDashboard #contentDashboard #orderMng table tbody tr select {
+#mainDashboard #contentDashboard #orderMng #divTableOrder table tbody tr select {
   height: 1.5rem;
 }
-#mainDashboard #contentDashboard #orderMng table tbody tr .btnEditOrder {
+#mainDashboard #contentDashboard #orderMng #divTableOrder table tbody tr .btnEditOrder {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -1095,7 +1107,7 @@ header div:last-child #containerUserLogin #bagShopping span {
   border: none;
   border-radius: 5px;
 }
-#mainDashboard #contentDashboard #orderMng table tbody tr .btnDetailOrder {
+#mainDashboard #contentDashboard #orderMng #divTableOrder table tbody tr .btnDetailOrder {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -1105,7 +1117,7 @@ header div:last-child #containerUserLogin #bagShopping span {
   border: none;
   border-radius: 5px;
 }
-#mainDashboard #contentDashboard #orderMng table tbody tr .modalDetailOrder {
+#mainDashboard #contentDashboard #orderMng #divTableOrder table tbody tr .modalDetailOrder {
   display: none;
   position: fixed;
   width: 100%;
@@ -1115,7 +1127,7 @@ header div:last-child #containerUserLogin #bagShopping span {
   z-index: 900;
   background-color: rgba(0, 0, 0, 0.5);
 }
-#mainDashboard #contentDashboard #orderMng table tbody tr .modalDetailOrder .btnCloseOrder {
+#mainDashboard #contentDashboard #orderMng #divTableOrder table tbody tr .modalDetailOrder .btnCloseOrder {
   position: fixed;
   top: 1rem;
   right: 1rem;
@@ -1128,7 +1140,7 @@ header div:last-child #containerUserLogin #bagShopping span {
   color: white;
   font-size: 2rem;
 }
-#mainDashboard #contentDashboard #orderMng table tbody tr .modalDetailOrder .btnCaptureOrder {
+#mainDashboard #contentDashboard #orderMng #divTableOrder table tbody tr .modalDetailOrder .btnCaptureOrder {
   position: fixed;
   top: 5rem;
   right: 1rem;
@@ -1142,7 +1154,7 @@ header div:last-child #containerUserLogin #bagShopping span {
   border: none;
   border-radius: 1000px;
 }
-#mainDashboard #contentDashboard #orderMng table tbody tr .modalDetailOrder .btnDownloadOrder {
+#mainDashboard #contentDashboard #orderMng #divTableOrder table tbody tr .modalDetailOrder .btnDownloadOrder {
   position: fixed;
   top: 8rem;
   right: 1rem;
@@ -1156,7 +1168,7 @@ header div:last-child #containerUserLogin #bagShopping span {
   border: none;
   border-radius: 1000px;
 }
-#mainDashboard #contentDashboard #orderMng table tbody tr .modalDetailOrder .detailOrder {
+#mainDashboard #contentDashboard #orderMng #divTableOrder table tbody tr .modalDetailOrder .detailOrder {
   width: 80%;
   height: 90%;
   overflow-y: scroll;
@@ -1167,42 +1179,42 @@ header div:last-child #containerUserLogin #bagShopping span {
   padding: 1rem;
   background-color: white;
 }
-#mainDashboard #contentDashboard #orderMng table tbody tr .modalDetailOrder .detailOrder p {
+#mainDashboard #contentDashboard #orderMng #divTableOrder table tbody tr .modalDetailOrder .detailOrder p {
   margin: 0.5rem 0;
 }
-#mainDashboard #contentDashboard #orderMng table tbody tr .modalDetailOrder .detailOrder .headerOrder {
+#mainDashboard #contentDashboard #orderMng #divTableOrder table tbody tr .modalDetailOrder .detailOrder .headerOrder {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
 }
-#mainDashboard #contentDashboard #orderMng table tbody tr .modalDetailOrder .detailOrder .headerOrder img {
+#mainDashboard #contentDashboard #orderMng #divTableOrder table tbody tr .modalDetailOrder .detailOrder .headerOrder img {
   width: 6rem;
   height: 6rem;
   margin-right: 1rem;
 }
-#mainDashboard #contentDashboard #orderMng table tbody tr .modalDetailOrder .detailOrder .bodyOrder .titleOrder {
+#mainDashboard #contentDashboard #orderMng #divTableOrder table tbody tr .modalDetailOrder .detailOrder .bodyOrder .titleOrder {
   text-align: center;
 }
-#mainDashboard #contentDashboard #orderMng table tbody tr .modalDetailOrder .detailOrder .bodyOrder .titleOrder h2 {
+#mainDashboard #contentDashboard #orderMng #divTableOrder table tbody tr .modalDetailOrder .detailOrder .bodyOrder .titleOrder h2 {
   margin: 0.5rem 0;
 }
-#mainDashboard #contentDashboard #orderMng table tbody tr .modalDetailOrder .detailOrder .bodyOrder table {
+#mainDashboard #contentDashboard #orderMng #divTableOrder table tbody tr .modalDetailOrder .detailOrder .bodyOrder table {
   width: 100%;
 }
-#mainDashboard #contentDashboard #orderMng table tbody tr .modalDetailOrder .detailOrder .bodyOrder table,
-#mainDashboard #contentDashboard #orderMng table tbody tr .modalDetailOrder .detailOrder .bodyOrder th,
-#mainDashboard #contentDashboard #orderMng table tbody tr .modalDetailOrder .detailOrder .bodyOrder td {
+#mainDashboard #contentDashboard #orderMng #divTableOrder table tbody tr .modalDetailOrder .detailOrder .bodyOrder table,
+#mainDashboard #contentDashboard #orderMng #divTableOrder table tbody tr .modalDetailOrder .detailOrder .bodyOrder th,
+#mainDashboard #contentDashboard #orderMng #divTableOrder table tbody tr .modalDetailOrder .detailOrder .bodyOrder td {
   border: 1px solid #bbb;
   border-collapse: collapse;
   padding: 0.5rem;
 }
-#mainDashboard #contentDashboard #orderMng table tbody tr .modalDetailOrder .detailOrder .bodyOrder .divDiscountAndTotal {
+#mainDashboard #contentDashboard #orderMng #divTableOrder table tbody tr .modalDetailOrder .detailOrder .bodyOrder .divDiscountAndTotal {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
 }
-#mainDashboard #contentDashboard #orderMng table tbody tr .modalDetailOrder .detailOrder .bodyOrder .divSign {
+#mainDashboard #contentDashboard #orderMng #divTableOrder table tbody tr .modalDetailOrder .detailOrder .bodyOrder .divSign {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-around;
@@ -1267,7 +1279,8 @@ header div:last-child #containerUserLogin #bagShopping span {
   height: 2rem;
   font-size: 1rem;
 }
-#mainDashboard #contentDashboard #workMng form #deadlineJob, #mainDashboard #contentDashboard #workMng form #startTimeJob {
+#mainDashboard #contentDashboard #workMng form #deadlineJob,
+#mainDashboard #contentDashboard #workMng form #startTimeJob {
   width: 20%;
   height: 2rem;
   font-size: 1rem;
@@ -1298,21 +1311,25 @@ header div:last-child #containerUserLogin #bagShopping span {
   background-color: #80a710;
   color: #fafafa;
 }
-#mainDashboard #contentDashboard #workMng table {
+#mainDashboard #contentDashboard #workMng #divtableJob {
+  width: 100%;
+  overflow-x: scroll;
+}
+#mainDashboard #contentDashboard #workMng #divtableJob table {
   width: 100%;
   margin-top: 1rem;
 }
-#mainDashboard #contentDashboard #workMng table tbody tr[data-idJob] .arrayIdAdminAssign {
+#mainDashboard #contentDashboard #workMng #divtableJob table tbody tr[data-idJob] .arrayIdAdminAssign {
   display: none;
 }
-#mainDashboard #contentDashboard #workMng table,
-#mainDashboard #contentDashboard #workMng th,
-#mainDashboard #contentDashboard #workMng td {
+#mainDashboard #contentDashboard #workMng #divtableJob table,
+#mainDashboard #contentDashboard #workMng #divtableJob th,
+#mainDashboard #contentDashboard #workMng #divtableJob td {
   border: 1px solid #bbb;
   border-collapse: collapse;
   padding: 0.5rem;
 }
-#mainDashboard #contentDashboard #workMng td:last-child .btnWatchJob {
+#mainDashboard #contentDashboard #workMng #divtableJob td:last-child .btnWatchJob {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -1320,7 +1337,7 @@ header div:last-child #containerUserLogin #bagShopping span {
   background-color: #80a710;
   color: #fafafa;
 }
-#mainDashboard #contentDashboard #workMng td:last-child .btnAssignJob {
+#mainDashboard #contentDashboard #workMng #divtableJob td:last-child .btnAssignJob {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -1328,7 +1345,7 @@ header div:last-child #containerUserLogin #bagShopping span {
   background-color: chocolate;
   color: #fafafa;
 }
-#mainDashboard #contentDashboard #workMng td:last-child .btnCompleteJob {
+#mainDashboard #contentDashboard #workMng #divtableJob td:last-child .btnCompleteJob {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -1336,7 +1353,7 @@ header div:last-child #containerUserLogin #bagShopping span {
   background-color: #1877f2;
   color: #fafafa;
 }
-#mainDashboard #contentDashboard #workMng td:last-child .btnUpdateJob {
+#mainDashboard #contentDashboard #workMng #divtableJob td:last-child .btnUpdateJob {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -1344,7 +1361,7 @@ header div:last-child #containerUserLogin #bagShopping span {
   background-color: cadetblue;
   color: #fafafa;
 }
-#mainDashboard #contentDashboard #workMng td:last-child .btnDeleteJob {
+#mainDashboard #contentDashboard #workMng #divtableJob td:last-child .btnDeleteJob {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -1352,7 +1369,7 @@ header div:last-child #containerUserLogin #bagShopping span {
   background-color: red;
   color: #fafafa;
 }
-#mainDashboard #contentDashboard #workMng td .divMindmap {
+#mainDashboard #contentDashboard #workMng #divtableJob td .divMindmap {
   display: none;
   position: fixed;
   width: 100%;
@@ -1362,7 +1379,7 @@ header div:last-child #containerUserLogin #bagShopping span {
   z-index: 900;
   background-color: rgba(0, 0, 0, 0.5);
 }
-#mainDashboard #contentDashboard #workMng td .divMindmap .mindmap {
+#mainDashboard #contentDashboard #workMng #divtableJob td .divMindmap .mindmap {
   position: fixed;
   width: 95%;
   height: 95%;
@@ -1372,22 +1389,22 @@ header div:last-child #containerUserLogin #bagShopping span {
   background-color: #f5f5f5;
   padding: 0.5rem;
 }
-#mainDashboard #contentDashboard #workMng td .divMindmap .mindmap .tool {
+#mainDashboard #contentDashboard #workMng #divtableJob td .divMindmap .mindmap .tool {
   text-align: right;
   margin-bottom: 0.5rem;
 }
-#mainDashboard #contentDashboard #workMng td .divMindmap .mindmap .tool span {
+#mainDashboard #contentDashboard #workMng #divtableJob td .divMindmap .mindmap .tool span {
   color: #bbb;
   font-size: 0.8rem;
 }
-#mainDashboard #contentDashboard #workMng td .divMindmap .mindmap .tool span kbd {
+#mainDashboard #contentDashboard #workMng #divtableJob td .divMindmap .mindmap .tool span kbd {
   color: #80a710;
   font-weight: bold;
   display: inline-block;
   border: 1px solid #80a710;
   padding: 0.1rem;
 }
-#mainDashboard #contentDashboard #workMng td .divMindmap .mindmap .tool .btnSaveMindmap {
+#mainDashboard #contentDashboard #workMng #divtableJob td .divMindmap .mindmap .tool .btnSaveMindmap {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -1398,11 +1415,11 @@ header div:last-child #containerUserLogin #bagShopping span {
   border-radius: 5px;
   margin: 0.5rem 0.2rem;
 }
-#mainDashboard #contentDashboard #workMng td .divMindmap .mindmap .tool .btnSaveMindmap:disabled {
+#mainDashboard #contentDashboard #workMng #divtableJob td .divMindmap .mindmap .tool .btnSaveMindmap:disabled {
   background-color: #cccccc;
   cursor: not-allowed;
 }
-#mainDashboard #contentDashboard #workMng td .divMindmap .mindmap .tool .btnCloseMindmap {
+#mainDashboard #contentDashboard #workMng #divtableJob td .divMindmap .mindmap .tool .btnCloseMindmap {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -1413,11 +1430,11 @@ header div:last-child #containerUserLogin #bagShopping span {
   border-radius: 5px;
   margin: 0.5rem 0.2rem;
 }
-#mainDashboard #contentDashboard #workMng td .divMindmap .mindmap .map {
+#mainDashboard #contentDashboard #workMng #divtableJob td .divMindmap .mindmap .map {
   width: 100%;
   height: 80%;
 }
-#mainDashboard #contentDashboard #workMng td .divAssignAdmin {
+#mainDashboard #contentDashboard #workMng #divtableJob td .divAssignAdmin {
   display: none;
   position: fixed;
   top: 0;
@@ -1427,7 +1444,7 @@ header div:last-child #containerUserLogin #bagShopping span {
   z-index: 900;
   background-color: rgba(0, 0, 0, 0.5);
 }
-#mainDashboard #contentDashboard #workMng td .divAssignAdmin .assignAdmin {
+#mainDashboard #contentDashboard #workMng #divtableJob td .divAssignAdmin .assignAdmin {
   position: fixed;
   width: 80%;
   height: 80%;
@@ -1437,7 +1454,7 @@ header div:last-child #containerUserLogin #bagShopping span {
   background-color: #f5f5f5;
   padding: 0.5rem;
 }
-#mainDashboard #contentDashboard #workMng td .divAssignAdmin .assignAdmin .divBtnAssignAdmin {
+#mainDashboard #contentDashboard #workMng #divtableJob td .divAssignAdmin .assignAdmin .divBtnAssignAdmin {
   text-align: right;
   position: absolute;
   bottom: 0;
@@ -1445,7 +1462,7 @@ header div:last-child #containerUserLogin #bagShopping span {
   width: 100%;
   padding: 0.5rem;
 }
-#mainDashboard #contentDashboard #workMng td .divAssignAdmin .assignAdmin .divBtnAssignAdmin .btnCloseAssignAdmin {
+#mainDashboard #contentDashboard #workMng #divtableJob td .divAssignAdmin .assignAdmin .divBtnAssignAdmin .btnCloseAssignAdmin {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -1456,7 +1473,7 @@ header div:last-child #containerUserLogin #bagShopping span {
   border-radius: 5px;
   margin: 0.2rem 0;
 }
-#mainDashboard #contentDashboard #workMng td .divAssignAdmin .assignAdmin .divBtnAssignAdmin .btnConfirmAssignAdmin {
+#mainDashboard #contentDashboard #workMng #divtableJob td .divAssignAdmin .assignAdmin .divBtnAssignAdmin .btnConfirmAssignAdmin {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -1467,21 +1484,21 @@ header div:last-child #containerUserLogin #bagShopping span {
   border-radius: 5px;
   margin: 0.2rem 0;
 }
-#mainDashboard #contentDashboard #workMng td .divAssignAdmin .assignAdmin h2 {
+#mainDashboard #contentDashboard #workMng #divtableJob td .divAssignAdmin .assignAdmin h2 {
   text-align: center;
 }
-#mainDashboard #contentDashboard #workMng td .divAssignAdmin .assignAdmin table {
+#mainDashboard #contentDashboard #workMng #divtableJob td .divAssignAdmin .assignAdmin table {
   width: 100%;
 }
-#mainDashboard #contentDashboard #workMng td .divAssignAdmin .assignAdmin table,
-#mainDashboard #contentDashboard #workMng td .divAssignAdmin .assignAdmin th,
-#mainDashboard #contentDashboard #workMng td .divAssignAdmin .assignAdmin td {
+#mainDashboard #contentDashboard #workMng #divtableJob td .divAssignAdmin .assignAdmin table,
+#mainDashboard #contentDashboard #workMng #divtableJob td .divAssignAdmin .assignAdmin th,
+#mainDashboard #contentDashboard #workMng #divtableJob td .divAssignAdmin .assignAdmin td {
   border: 1px solid #bbb;
   border-collapse: collapse;
   padding: 0.5rem;
   text-align: center;
 }
-#mainDashboard #contentDashboard #workMng td .divAssignAdmin .assignAdmin td input[type=radio] {
+#mainDashboard #contentDashboard #workMng #divtableJob td .divAssignAdmin .assignAdmin td input[type=radio] {
   width: 1rem;
   height: 1rem;
 }
@@ -1739,7 +1756,9 @@ header div:last-child #containerUserLogin #bagShopping span {
   background-color: red;
   color: #fafafa;
 }
-#mainDashboard #contentDashboard #marketingMng #tableVoucher, #mainDashboard #contentDashboard #marketingMng th, #mainDashboard #contentDashboard #marketingMng td {
+#mainDashboard #contentDashboard #marketingMng #tableVoucher,
+#mainDashboard #contentDashboard #marketingMng th,
+#mainDashboard #contentDashboard #marketingMng td {
   border: 1px solid black;
   border-collapse: collapse;
   padding: 0.5rem;
@@ -2307,6 +2326,10 @@ header div:last-child #containerUserLogin #bagShopping span {
   color: #fafafa;
 }
 
+#divMenuDBClient {
+  display: none;
+}
+
 #mainDashboardClient {
   display: flex;
   width: 100vw;
@@ -2315,21 +2338,28 @@ header div:last-child #containerUserLogin #bagShopping span {
   overflow: hidden;
   padding: 6.5rem 0.5rem 0 0.5rem;
 }
-#mainDashboardClient #navDashboardClient {
+#mainDashboardClient #divNavDashboardClient {
   width: 20%;
   height: 100%;
   overflow-y: auto;
   border: 1px solid #80a710;
 }
-#mainDashboardClient #navDashboardClient div {
+#mainDashboardClient #divNavDashboardClient #navDashboardClient {
+  width: 100%;
+  height: inherit;
+}
+#mainDashboardClient #divNavDashboardClient #navDashboardClient #btnCloseDBClient {
+  display: none;
+}
+#mainDashboardClient #divNavDashboardClient #navDashboardClient div {
   padding: 0.5rem;
 }
-#mainDashboardClient #navDashboardClient div h2,
-#mainDashboardClient #navDashboardClient div em {
+#mainDashboardClient #divNavDashboardClient #navDashboardClient div h2,
+#mainDashboardClient #divNavDashboardClient #navDashboardClient div em {
   color: black;
   margin: 0.5rem 0;
 }
-#mainDashboardClient #navDashboardClient .navBtnDB {
+#mainDashboardClient #divNavDashboardClient .navBtnDB {
   width: 100%;
   padding: 1rem;
   border: 1px solid #80a710;
@@ -2339,7 +2369,7 @@ header div:last-child #containerUserLogin #bagShopping span {
   font-size: 1rem;
   text-align: start;
 }
-#mainDashboardClient #navDashboardClient .navBtnDB.active {
+#mainDashboardClient #divNavDashboardClient .navBtnDB.active {
   background-color: #80a710;
   color: #fafafa;
 }
@@ -2363,7 +2393,6 @@ header div:last-child #containerUserLogin #bagShopping span {
   opacity: 1;
   visibility: visible;
   height: auto;
-  overflow: visible;
   padding: 1rem;
 }
 #mainDashboardClient #contentDashboardClient #infoMng label {
@@ -2506,6 +2535,10 @@ header div:last-child #containerUserLogin #bagShopping span {
   background-color: rgba(129, 167, 16, 0.6823529412);
   color: white;
   padding: 0.5rem;
+}
+#mainDashboardClient #contentDashboardClient #historyMng .divOrder .bodyOrder .divTableProduct {
+  width: 100%;
+  overflow-x: scroll;
 }
 #mainDashboardClient #contentDashboardClient #historyMng .divOrder .bodyOrder .tableProduct {
   width: 100%;
@@ -3405,7 +3438,8 @@ header div:last-child #containerUserLogin #bagShopping span {
 #mainIndex #divblogs #listblogs .blogs .blogs-content p {
   margin: 0.3rem 0;
 }
-#mainIndex .flag-item-opera, #mainIndex .flag-item-problem {
+#mainIndex .flag-item-opera,
+#mainIndex .flag-item-problem {
   margin-left: 0.5rem;
 }
 #mainIndex #operaSystem {
@@ -3486,22 +3520,25 @@ header div:last-child #containerUserLogin #bagShopping span {
   border-bottom: 1px solid #80a710;
   padding: 0.5rem;
 }
+#mainDetailblogs article #divDateAndCategory {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  overflow: hidden;
+}
 #mainDetailblogs article h1 {
   margin: 0.5rem 0;
 }
-#mainDetailblogs article #divCategoryAndShare {
+#mainDetailblogs article #divOnlyShare {
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-between;
+  justify-content: end;
 }
-#mainDetailblogs article #divCategoryAndShare p {
-  margin: 0.5rem 0;
-}
-#mainDetailblogs article #divCategoryAndShare #divShare {
+#mainDetailblogs article #divOnlyShare #divShare {
   display: flex;
   flex-flow: row nowrap;
 }
-#mainDetailblogs article #divCategoryAndShare #divShare #btnShare {
+#mainDetailblogs article #divOnlyShare #divShare #btnShare {
   background-color: #1877f2;
   color: #fafafa;
   border: none;
@@ -3510,18 +3547,18 @@ header div:last-child #containerUserLogin #bagShopping span {
   padding: 0.5rem;
   width: 7rem;
 }
-#mainDetailblogs article #divCategoryAndShare #divShare div {
+#mainDetailblogs article #divOnlyShare #divShare div {
   display: flex;
   flex-flow: row nowrap;
   width: 0px;
   transition: width 1s;
 }
-#mainDetailblogs article #divCategoryAndShare #divShare div button {
+#mainDetailblogs article #divOnlyShare #divShare div button {
   border: none;
   background: none;
   cursor: pointer;
 }
-#mainDetailblogs article #divCategoryAndShare #divShare div button img {
+#mainDetailblogs article #divOnlyShare #divShare div button img {
   width: 2rem;
   height: 2rem;
 }
@@ -5345,6 +5382,7 @@ footer div:last-child input {
     width: fit-content;
     height: -moz-fit-content;
     height: fit-content;
+    z-index: 100;
   }
   header div:nth-child(2) .hamburger-btn {
     display: flex;
@@ -5378,78 +5416,94 @@ footer div:last-child input {
     text-align: center;
     font-size: 0.9rem;
   }
-  header #navMenu {
+  header #divNavMenu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+  }
+  header #divNavMenu #navMenu {
     position: fixed;
     z-index: 100;
-    top: 5rem;
-    right: 0;
-    height: calc(100dvh - 4.5rem);
-    width: 70%;
-    background-color: #80a710;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 80%;
+    overflow-y: scroll;
+    width: 80%;
+    background-color: #f5f5f5;
     flex-direction: column-reverse;
     align-items: center;
     justify-content: start;
-    transform: translateX(100%);
-    transition: transform 0.3s ease-in-out;
+    margin: 0;
+    border: none;
+    border-radius: 10px;
   }
-  header #navMenu #containerUserLogin {
+  header #divNavMenu #navMenu #containerUserLogin {
     width: 100%;
     height: 5rem;
     justify-content: center;
     margin: 0;
+    background-color: #80a710;
   }
-  header #navMenu #containerUserLogin #infoUserLogin h3 {
+  header #divNavMenu #navMenu #containerUserLogin #infoUserLogin h3 {
     color: #fafafa;
   }
-  header #navMenu #containerUserLogin #infoUserLogin #groupBtnUserLogin #btnDashboardUserLogin {
+  header #divNavMenu #navMenu #containerUserLogin #infoUserLogin #groupBtnUserLogin #btnDashboardUserLogin {
     background-color: #1877f2;
   }
-  header #navMenu #containerUserLogin #bagShopping i {
+  header #divNavMenu #navMenu #containerUserLogin #bagShopping i {
     color: #fafafa;
   }
-  header #navMenu nav {
+  header #divNavMenu #navMenu nav {
     width: 100%;
   }
-  header #navMenu nav ul {
-    padding: 0;
+  header #divNavMenu #navMenu nav ul {
+    width: inherit;
   }
-  header #navMenu nav ul li {
-    width: 100%;
+  header #divNavMenu #navMenu nav ul li {
+    width: 90%;
+    border: 1px solid #80a710;
+    border-radius: 10px;
+    background-color: #80a710;
     padding: 0.5rem;
-    border-bottom: 1px solid #fafafa;
+    margin: 0.5rem 0;
   }
-  header #navMenu nav a {
+  header #divNavMenu #navMenu nav a {
     color: #fafafa;
   }
-  header #navMenu #groupBtn {
+  header #divNavMenu #navMenu #groupBtn {
     width: 100%;
     height: 3rem;
     margin-top: 1rem;
     padding: 0;
   }
-  header #navMenu #groupBtn button {
+  header #divNavMenu #navMenu #groupBtn button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
     padding: 0.5rem;
-    background-color: #fafafa;
-    color: #80a710;
     font-size: 1rem;
     width: 45%;
     height: 2.5rem;
   }
-  header #navMenu.active {
-    transform: translateX(0);
-    z-index: 100;
+  header #divNavMenu.active {
+    display: block;
+    z-index: 50;
   }
   header .hamburger-btn.active .bar:nth-child(1) {
     transform: translateY(0.4rem) rotate(45deg);
+    background-color: #fafafa;
   }
   header .hamburger-btn.active .bar:nth-child(2) {
     opacity: 0;
   }
   header .hamburger-btn.active .bar:nth-child(3) {
     transform: translateY(-0.4rem) rotate(-45deg);
+    background-color: #fafafa;
   }
   #loginClientContainer {
     width: 100%;
@@ -5770,5 +5824,193 @@ footer div:last-child input {
     width: 100%;
     position: relative;
     margin: 0.5rem 0;
+  }
+  #divMenuDBClient {
+    display: block;
+    margin: 6rem 0 1rem 0.5rem;
+  }
+  #divMenuDBClient #btnMenuDBClient {
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 0.5rem;
+    background-color: #80a710;
+    color: #fafafa;
+  }
+  #mainDashboardClient {
+    display: block;
+    padding: 0;
+    height: auto;
+  }
+  #mainDashboardClient #divNavDashboardClient {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+  }
+  #mainDashboardClient #divNavDashboardClient #navDashboardClient {
+    position: fixed;
+    z-index: 100;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 80%;
+    overflow-y: scroll;
+    width: 80%;
+    background-color: #f5f5f5;
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: start;
+    margin: 0;
+    border: none;
+    border-radius: 10px;
+  }
+  #mainDashboardClient #divNavDashboardClient #navDashboardClient #btnCloseDBClient {
+    display: inline-block;
+    background: none;
+    border: none;
+    color: red;
+    position: fixed;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+  #mainDashboardClient #divNavDashboardClient #navDashboardClient #btnCloseDBClient i {
+    font-size: 1.2rem;
+  }
+  #mainDashboardClient #divNavDashboardClient.active {
+    display: block;
+    z-index: 1000;
+  }
+  #mainDashboardClient #contentDashboardClient {
+    width: 100%;
+  }
+  #mainDashboardClient #contentDashboardClient #infoMng input:not([type=submit]) {
+    width: 80%;
+  }
+  #mainDashboardClient #contentDashboardClient #voucherMng #listVoucher {
+    grid-template-columns: 100%;
+  }
+  #mainDashboardClient #contentDashboardClient #voucherMng #listVoucher .voucher-wrapper .voucher-sawtooth-zigzag a .voucher div:nth-child(1) {
+    width: 40%;
+  }
+  #mainDashboardClient #contentDashboardClient #voucherMng #listVoucher .voucher-wrapper .voucher-sawtooth-zigzag a .voucher div:nth-child(2) {
+    width: 60%;
+  }
+  #mainDashboardClient #contentDashboardClient #historyMng .divOrder .headerOrder div:nth-child(2) {
+    flex: 1;
+    margin-left: 0.5rem;
+    text-align: center;
+  }
+  #mainDashboardClient #contentDashboardClient #historyMng .divOrder .headerOrder div:nth-child(2) .status {
+    font-size: 0.7rem;
+  }
+  #divMenuDB {
+    display: block;
+    margin: 6rem 0 1rem 0.5rem;
+  }
+  #divMenuDB #btnMenuDB {
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 0.5rem;
+    background-color: #80a710;
+    color: #fafafa;
+  }
+  #mainDashboard {
+    display: block;
+    margin: 0;
+    height: auto;
+  }
+  #mainDashboard #divNavDashboard {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+  }
+  #mainDashboard #divNavDashboard #navDashboard {
+    position: fixed;
+    z-index: 100;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 80%;
+    overflow-y: scroll;
+    width: 80%;
+    background-color: #f5f5f5;
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: start;
+    margin: 0;
+    border: none;
+    border-radius: 10px;
+  }
+  #mainDashboard #divNavDashboard #navDashboard #btnCloseDB {
+    display: inline-block;
+    background: none;
+    border: none;
+    color: red;
+    position: fixed;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+  #mainDashboard #divNavDashboard #navDashboard #btnCloseDB i {
+    font-size: 1.2rem;
+  }
+  #mainDashboard #divNavDashboard.active {
+    display: block;
+    z-index: 1000;
+  }
+  #mainDashboard #contentDashboard {
+    width: 100%;
+  }
+  #mainDashboard #contentDashboard #orderMng #divTableOrder table {
+    font-size: 0.8rem;
+  }
+  #mainDashboard #contentDashboard #orderMng #divTableOrder table tbody tr .btnEditOrder,
+  #mainDashboard #contentDashboard #orderMng #divTableOrder table tbody tr .btnDetailOrder {
+    font-size: 0.8rem;
+  }
+  #mainDashboard #contentDashboard #orderMng #divTableOrder table tbody tr .modalDetailOrder .btnCloseOrder {
+    top: 0;
+    right: 0;
+    font-size: 1.2rem;
+  }
+  #mainDashboard #contentDashboard #orderMng #divTableOrder table tbody tr .modalDetailOrder .btnCaptureOrder {
+    top: 0.2rem;
+    right: 2rem;
+    font-size: 0.7rem;
+  }
+  #mainDashboard #contentDashboard #orderMng #divTableOrder table tbody tr .modalDetailOrder .btnDownloadOrder {
+    top: 0.2rem;
+    right: 9rem;
+    font-size: 0.7rem;
+  }
+  #mainDashboard #contentDashboard #orderMng #divTableOrder table tbody tr .modalDetailOrder .detailOrder {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+  #mainDashboard #contentDashboard #workMng form #titleJob {
+    width: 100%;
+  }
+  #mainDashboard #contentDashboard #workMng form #startTimeJob,
+  #mainDashboard #contentDashboard #workMng form #deadlineJob {
+    width: 70%;
+  }
+  #mainDashboard #contentDashboard #workMng #divtableJob {
+    font-size: 0.8rem;
+  }
+  #mainDashboard #contentDashboard #workMng #divtableJob td:last-child button {
+    font-size: 0.8rem;
+    width: 100%;
+    margin-bottom: 0.2rem;
+  }
+  .flag-item {
+    font-size: 1rem;
   }
 }/*# sourceMappingURL=style.css.map */

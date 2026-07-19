@@ -146,9 +146,40 @@ formInfoClient.addEventListener("submit", function (e) {
       alert("Lỗi", error, "red");
     });
 });
-document.querySelectorAll(".btnBuyBack").forEach((btn)=>{
-  btn.addEventListener("click",()=>{
-    const id=btn.getAttribute("data-idProduct");
-    window.open(id,"_blank");
-  })
-})
+document.querySelectorAll(".btnBuyBack").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const id = btn.getAttribute("data-idProduct");
+    window.open(id, "_blank");
+  });
+});
+document.addEventListener("DOMContentLoaded", () => {
+  const btnMenuDBClient = document.getElementById("btnMenuDBClient");
+  const navMenu = document.getElementById("divNavDashboardClient");
+  if (btnMenuDBClient && navMenu) {
+    btnMenuDBClient.addEventListener("click", () => {
+      navMenu.classList.toggle("active");
+      if (navMenu.classList.contains("active")) {
+        document.body.classList.add("no-scroll");
+      } else {
+        document.body.classList.remove("no-scroll");
+      }
+    });
+    const navLink = navMenu.querySelectorAll("button");
+    navLink.forEach((link) => {
+      link.addEventListener("click", () => {
+        navMenu.classList.remove("active");
+        document.body.classList.remove("no-scroll");
+      });
+    });
+  }
+  const btnCloseDBClient = document.getElementById("btnCloseDBClient");
+  btnCloseDBClient.addEventListener("click", () => {
+    navMenu.classList.remove("active");
+    document.body.classList.remove("no-scroll");
+  });
+  document.querySelectorAll(".status").forEach((p) => {
+    if (p.innerHTML === "Hủy") {
+      p.style.backgroundColor = "red";
+    }
+  });
+});
