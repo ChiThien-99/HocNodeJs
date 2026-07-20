@@ -960,46 +960,46 @@ header {
       overflow: visible;
       padding: 1rem;
     }
-    #userMng{
+    #userMng {
       #registerAdmin {
-      border: 1px solid $colorCTA;
-      width: 50%;
-      height: auto;
-      padding: 1rem;
-      input[type="email"],
-      input[type="text"] {
-        width: 100%;
-        height: 2rem;
-        font-size: 1rem;
-        &:focus {
-          outline: none;
-          border: 2px solid $colorCTA;
-        }
-      }
-      #btnRegister {
-        @include button(0.5rem);
-        background-color: $colorCTA;
-        color: $colorSecondaryText;
-        margin: 1rem 0;
-      }
-      #btnCancleUser {
-        @include button(0.5rem);
-        background-color: red;
-        color: $colorSecondaryText;
-        margin: 1rem 0;
-        display: none;
-      }
-      #formDecentralize {
-        width: 100%;
-        height: auto;
         border: 1px solid $colorCTA;
-        padding: 0.5rem;
-        input[type="checkbox"],
-        label {
-          cursor: pointer;
+        width: 50%;
+        height: auto;
+        padding: 1rem;
+        input[type="email"],
+        input[type="text"] {
+          width: 100%;
+          height: 2rem;
+          font-size: 1rem;
+          &:focus {
+            outline: none;
+            border: 2px solid $colorCTA;
+          }
+        }
+        #btnRegister {
+          @include button(0.5rem);
+          background-color: $colorCTA;
+          color: $colorSecondaryText;
+          margin: 1rem 0;
+        }
+        #btnCancleUser {
+          @include button(0.5rem);
+          background-color: red;
+          color: $colorSecondaryText;
+          margin: 1rem 0;
+          display: none;
+        }
+        #formDecentralize {
+          width: 100%;
+          height: auto;
+          border: 1px solid $colorCTA;
+          padding: 0.5rem;
+          input[type="checkbox"],
+          label {
+            cursor: pointer;
+          }
         }
       }
-    }
     }
     #orderMng {
       #headerOrderMng {
@@ -1193,7 +1193,7 @@ header {
       overflow-x: auto;
       margin: 1rem 0;
     }
-    #tableUserAdmin{
+    #tableUserAdmin {
       width: max-content;
     }
     #tableUserAdmin,
@@ -1238,7 +1238,7 @@ header {
           color: $colorSecondaryText;
           margin-top: 1rem;
         }
-        #btnCancleJob{
+        #btnCancleJob {
           @include button(0.5rem);
           background-color: red;
           color: $colorSecondaryText;
@@ -1364,11 +1364,11 @@ header {
                 width: 100%;
                 height: 80%;
                 /* Chặn hoàn toàn hành vi chọn/bôi đen văn bản trên mọi trình duyệt di động */
-                -webkit-user-select: none;  /* Safari (iOS) */
-                -moz-user-select: none;     /* Firefox Mobile */
-                -ms-user-select: none;      /* IE/Edge cũ */
-                 user-select: none;          /* Chrome Mobile, Opera, Samsung Internet */
-  
+                -webkit-user-select: none; /* Safari (iOS) */
+                -moz-user-select: none; /* Firefox Mobile */
+                -ms-user-select: none; /* IE/Edge cũ */
+                user-select: none; /* Chrome Mobile, Opera, Samsung Internet */
+
                 /* Bổ sung thêm để chặn hiện menu phóng to ẩn của iOS Safari */
                 -webkit-touch-callout: none;
               }
@@ -1419,34 +1419,35 @@ header {
               h2 {
                 text-align: center;
               }
-              #divTableJobAssign{
+              #divTableJobAssign {
                 width: 100%;
                 overflow-x: scroll;
                 table {
-                width: max-content;
-              }
-              table,
-              th,
-              td {
-                border: 1px solid #bbb;
-                border-collapse: collapse;
-                padding: 0.5rem;
-                text-align: center;
-              }
-              td {
-                input[type="radio"] {
-                  width: 1rem;
-                  height: 1rem;
+                  width: max-content;
+                  margin: auto;
                 }
-              }
+                table,
+                th,
+                td {
+                  border: 1px solid #bbb;
+                  border-collapse: collapse;
+                  padding: 0.5rem;
+                  text-align: center;
+                }
+                td {
+                  input[type="radio"] {
+                    width: 1rem;
+                    height: 1rem;
+                  }
+                }
               }
             }
           }
         }
       }
     }
-    #serverMng{
-      #divInfoServer{
+    #serverMng {
+      #divInfoServer {
         width: 100%;
         overflow-x: scroll;
       }
@@ -1504,7 +1505,7 @@ header {
         overflow-x: scroll;
         margin: 1rem 0;
       }
-      #tableCarousel{
+      #tableCarousel {
         width: 100%;
       }
       #tableCarousel,
@@ -1536,7 +1537,7 @@ header {
         overflow-x: scroll;
         margin: 1rem 0;
       }
-      #tableNotify{
+      #tableNotify {
         width: max-content;
       }
       #tableNotify,
@@ -1597,7 +1598,7 @@ header {
         height: auto;
         overflow-x: scroll;
         margin-bottom: 1rem;
-        #tableBN{
+        #tableBN {
           width: max-content;
         }
         #tableBN,
@@ -1643,27 +1644,27 @@ header {
           font-size: 1rem;
         }
       }
-      #divTableVoucher{
+      #divTableVoucher {
         width: 100%;
         overflow-x: scroll;
         #tableVoucher {
-        width: max-content;
-        td:last-child {
-          text-align: center;
-          .btnDeleteVoucher {
-            @include button(0.5rem);
-            background-color: red;
-            color: $colorSecondaryText;
+          width: max-content;
+          td:last-child {
+            text-align: center;
+            .btnDeleteVoucher {
+              @include button(0.5rem);
+              background-color: red;
+              color: $colorSecondaryText;
+            }
           }
         }
-      }
-      #tableVoucher,
-      th,
-      td {
-        border: 1px solid black;
-        border-collapse: collapse;
-        padding: 0.5rem;
-      }
+        #tableVoucher,
+        th,
+        td {
+          border: 1px solid black;
+          border-collapse: collapse;
+          padding: 0.5rem;
+        }
       }
     }
     #softwareMng {
@@ -1750,7 +1751,7 @@ header {
         overflow-x: scroll;
         margin: 1rem 0;
       }
-      #tableApp{
+      #tableApp {
         width: max-content;
       }
       #tableApp,
@@ -1881,7 +1882,7 @@ header {
         overflow-x: scroll;
         margin: 1rem 0;
       }
-      #tableDevice{
+      #tableDevice {
         width: max-content;
       }
       #tableDevice,
@@ -1913,7 +1914,7 @@ header {
         height: auto;
         margin-top: 1rem;
         overflow-x: scroll;
-        table{
+        table {
           width: 100%;
         }
         table,
@@ -2039,7 +2040,7 @@ header {
         overflow-x: scroll;
         margin: 1rem 0;
       }
-      #tableBlogsDraft{
+      #tableBlogsDraft {
         width: max-content;
       }
       #tableBlogsDraft,
@@ -2077,7 +2078,7 @@ header {
         overflow-x: scroll;
         margin: 1rem 0;
       }
-      #tableblogs{
+      #tableblogs {
         width: max-content;
       }
       #tableblogs,
@@ -5054,6 +5055,7 @@ footer {
 .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="32px"]::before {
   content: "32px" !important;
 }
+// Mobile
 @media screen and (max-width: 768px) {
   header {
     height: 5rem;
@@ -5128,7 +5130,7 @@ footer {
         #containerUserLogin {
           width: 100%;
           height: 5rem;
-          justify-content: center;
+          justify-content: start;
           margin: 0;
           background-color: $colorCTA;
           #infoUserLogin {
@@ -5745,7 +5747,6 @@ footer {
         .divOrder {
           .headerOrder {
             div:nth-child(2) {
-              flex: 1;
               margin-left: 0.5rem;
               text-align: center;
               .status {
@@ -5864,85 +5865,86 @@ footer {
           }
         }
       }
-      #userMng{
-        #registerAdmin{
+      #userMng {
+        #registerAdmin {
           width: 100%;
         }
       }
-      #homeMng{
-        input[type="text"]{
+      #homeMng {
+        input[type="text"] {
           width: 100%;
         }
-        input[type="number"]{
+        input[type="number"] {
           width: 20%;
         }
-        input[type="datetime-local"]{
+        input[type="datetime-local"] {
           height: 2rem;
           font-size: 1rem;
         }
       }
-      #marketingMng{
-        input[type="text"]{
+      #marketingMng {
+        input[type="text"] {
           width: 100%;
         }
       }
-      #softwareMng{
-        input[type="text"]{
+      #softwareMng {
+        input[type="text"] {
           width: 100%;
         }
-        #optionPrice{
+        #optionPrice {
           width: 30%;
         }
-        #funcApp{
+        #funcApp {
           width: 100%;
         }
       }
-      #deviceMng{
-        input[type="text"]{
+      #deviceMng {
+        input[type="text"] {
           width: 100%;
         }
-        #color-container{
-          .color-row{
+        #color-container {
+          .color-row {
             flex-flow: row wrap;
           }
-          input[type="text"]{
+          input[type="text"] {
             width: 50%;
           }
-          input[type="number"]{
+          input[type="number"] {
             width: 40%;
           }
         }
-        select{
+        select {
           width: 100%;
         }
-        #divImportDevice{
-          table{
+        #divImportDevice {
+          table {
             width: max-content;
-            td{
-            .importQuantity{
-              width: 40%;
+            td {
+              .importQuantity {
+                width: 40%;
+              }
+              .cost {
+                width: 50%;
+              }
+              .btnImportDevice,
+              .btnCancleDevice {
+                width: fit-content;
+                margin-bottom: 0.2rem;
+              }
             }
-            .cost{
-              width: 50%;
-            }
-            .btnImportDevice,.btnCancleDevice{
-              width: fit-content;
-              margin-bottom: 0.2rem;
-            }
-          }
           }
         }
       }
-      #blogsMng{
-        input[type="text"]{
+      #blogsMng {
+        input[type="text"] {
           width: 100%;
         }
-        select{
+        select {
           width: 100%;
         }
       }
-      #passwordMng{
-        input{
+      #passwordMng {
+        input {
           width: 80%;
         }
       }
@@ -5951,11 +5953,17 @@ footer {
   .flag-item {
     font-size: 1rem;
   }
-  #mainThank{
-    div{
-      p{
+  #mainThank {
+    div {
+      p {
         font-size: 1rem;
       }
     }
   }
+}
+// Tablet nhỏ, tiêu chuẩn
+@media screen and (min-width: 769px) and (max-width: 991px) {
+}
+//Tablet lớn
+@media screen and (min-width: 992px) and (max-width: 1200px) {
 }
