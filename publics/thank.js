@@ -99,7 +99,7 @@ document.getElementById("btnLoginClient").addEventListener("click", () => {
 });
 document.addEventListener("DOMContentLoaded", () => {
   const hamburgerBtn = document.getElementById("hamburgerBtn");
-  const navMenu = document.getElementById("navMenu");
+  const navMenu = document.getElementById("divNavMenu");
   if (hamburgerBtn && navMenu) {
     hamburgerBtn.addEventListener("click", () => {
       hamburgerBtn.classList.toggle("active");

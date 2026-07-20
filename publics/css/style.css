@@ -39,7 +39,8 @@ body.no-scroll {
   transform: translate(-50%, -150%);
   transition: transform 1s;
   opacity: 0.9;
-  width: auto;
+  width: -moz-max-content;
+  width: max-content;
   height: auto;
   padding: 0.7rem;
   background-color: #80a710;
@@ -59,7 +60,8 @@ body.no-scroll {
   transform: translate(-50%, -150%);
   transition: transform 1s;
   opacity: 0.9;
-  width: auto;
+  width: -moz-max-content;
+  width: max-content;
   height: auto;
   padding: 0.7rem;
   background-color: #1877f2;
@@ -947,8 +949,8 @@ header div:last-child #containerUserLogin #bagShopping span {
 #mainDashboard #divNavDashboard #navDashboard div h2,
 #mainDashboard #divNavDashboard #navDashboard div h3,
 #mainDashboard #divNavDashboard #navDashboard div em {
-  color: black;
   margin: 0.5rem 0;
+  color: white;
 }
 #mainDashboard #divNavDashboard #navDashboard .navBtnDB {
   width: 100%;
@@ -1002,24 +1004,24 @@ header div:last-child #containerUserLogin #bagShopping span {
   overflow: visible;
   padding: 1rem;
 }
-#mainDashboard #contentDashboard #registerAdmin {
+#mainDashboard #contentDashboard #userMng #registerAdmin {
   border: 1px solid #80a710;
   width: 50%;
   height: auto;
   padding: 1rem;
 }
-#mainDashboard #contentDashboard #registerAdmin input[type=email],
-#mainDashboard #contentDashboard #registerAdmin input[type=text] {
+#mainDashboard #contentDashboard #userMng #registerAdmin input[type=email],
+#mainDashboard #contentDashboard #userMng #registerAdmin input[type=text] {
   width: 100%;
   height: 2rem;
   font-size: 1rem;
 }
-#mainDashboard #contentDashboard #registerAdmin input[type=email]:focus,
-#mainDashboard #contentDashboard #registerAdmin input[type=text]:focus {
+#mainDashboard #contentDashboard #userMng #registerAdmin input[type=email]:focus,
+#mainDashboard #contentDashboard #userMng #registerAdmin input[type=text]:focus {
   outline: none;
   border: 2px solid #80a710;
 }
-#mainDashboard #contentDashboard #registerAdmin button {
+#mainDashboard #contentDashboard #userMng #registerAdmin #btnRegister {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -1028,14 +1030,24 @@ header div:last-child #containerUserLogin #bagShopping span {
   color: #fafafa;
   margin: 1rem 0;
 }
-#mainDashboard #contentDashboard #registerAdmin #formDecentralize {
+#mainDashboard #contentDashboard #userMng #registerAdmin #btnCancleUser {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: red;
+  color: #fafafa;
+  margin: 1rem 0;
+  display: none;
+}
+#mainDashboard #contentDashboard #userMng #registerAdmin #formDecentralize {
   width: 100%;
   height: auto;
   border: 1px solid #80a710;
   padding: 0.5rem;
 }
-#mainDashboard #contentDashboard #registerAdmin #formDecentralize input[type=checkbox],
-#mainDashboard #contentDashboard #registerAdmin #formDecentralize label {
+#mainDashboard #contentDashboard #userMng #registerAdmin #formDecentralize input[type=checkbox],
+#mainDashboard #contentDashboard #userMng #registerAdmin #formDecentralize label {
   cursor: pointer;
 }
 #mainDashboard #contentDashboard #orderMng #headerOrderMng {
@@ -1064,7 +1076,8 @@ header div:last-child #containerUserLogin #bagShopping span {
   overflow-x: scroll;
 }
 #mainDashboard #contentDashboard #orderMng #divTableOrder table {
-  width: 100%;
+  width: -moz-max-content;
+  width: max-content;
   border: 1px solid black;
   border-collapse: collapse;
 }
@@ -1239,6 +1252,10 @@ header div:last-child #containerUserLogin #bagShopping span {
   overflow-x: auto;
   margin: 1rem 0;
 }
+#mainDashboard #contentDashboard #tableUserAdmin {
+  width: -moz-max-content;
+  width: max-content;
+}
 #mainDashboard #contentDashboard #tableUserAdmin,
 #mainDashboard #contentDashboard th,
 #mainDashboard #contentDashboard td {
@@ -1292,9 +1309,17 @@ header div:last-child #containerUserLogin #bagShopping span {
   padding: 0.5rem;
   background-color: #80a710;
   color: #fafafa;
+  margin-top: 1rem;
+}
+#mainDashboard #contentDashboard #workMng form #btnCancleJob {
   border: none;
   border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: red;
+  color: #fafafa;
   margin-top: 1rem;
+  display: none;
 }
 #mainDashboard #contentDashboard #workMng form select {
   height: 2rem;
@@ -1316,7 +1341,8 @@ header div:last-child #containerUserLogin #bagShopping span {
   overflow-x: scroll;
 }
 #mainDashboard #contentDashboard #workMng #divtableJob table {
-  width: 100%;
+  width: -moz-max-content;
+  width: max-content;
   margin-top: 1rem;
 }
 #mainDashboard #contentDashboard #workMng #divtableJob table tbody tr[data-idJob] .arrayIdAdminAssign {
@@ -1433,6 +1459,12 @@ header div:last-child #containerUserLogin #bagShopping span {
 #mainDashboard #contentDashboard #workMng #divtableJob td .divMindmap .mindmap .map {
   width: 100%;
   height: 80%;
+  /* Chặn hoàn toàn hành vi chọn/bôi đen văn bản trên mọi trình duyệt di động */
+  -webkit-user-select: none; /* Safari (iOS) */
+  -moz-user-select: none; /* Firefox Mobile */ /* IE/Edge cũ */
+  user-select: none; /* Chrome Mobile, Opera, Samsung Internet */
+  /* Bổ sung thêm để chặn hiện menu phóng to ẩn của iOS Safari */
+  -webkit-touch-callout: none;
 }
 #mainDashboard #contentDashboard #workMng #divtableJob td .divAssignAdmin {
   display: none;
@@ -1446,8 +1478,8 @@ header div:last-child #containerUserLogin #bagShopping span {
 }
 #mainDashboard #contentDashboard #workMng #divtableJob td .divAssignAdmin .assignAdmin {
   position: fixed;
-  width: 80%;
-  height: 80%;
+  width: 90%;
+  height: 90%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -1487,20 +1519,29 @@ header div:last-child #containerUserLogin #bagShopping span {
 #mainDashboard #contentDashboard #workMng #divtableJob td .divAssignAdmin .assignAdmin h2 {
   text-align: center;
 }
-#mainDashboard #contentDashboard #workMng #divtableJob td .divAssignAdmin .assignAdmin table {
+#mainDashboard #contentDashboard #workMng #divtableJob td .divAssignAdmin .assignAdmin #divTableJobAssign {
   width: 100%;
+  overflow-x: scroll;
 }
-#mainDashboard #contentDashboard #workMng #divtableJob td .divAssignAdmin .assignAdmin table,
-#mainDashboard #contentDashboard #workMng #divtableJob td .divAssignAdmin .assignAdmin th,
-#mainDashboard #contentDashboard #workMng #divtableJob td .divAssignAdmin .assignAdmin td {
+#mainDashboard #contentDashboard #workMng #divtableJob td .divAssignAdmin .assignAdmin #divTableJobAssign table {
+  width: -moz-max-content;
+  width: max-content;
+}
+#mainDashboard #contentDashboard #workMng #divtableJob td .divAssignAdmin .assignAdmin #divTableJobAssign table,
+#mainDashboard #contentDashboard #workMng #divtableJob td .divAssignAdmin .assignAdmin #divTableJobAssign th,
+#mainDashboard #contentDashboard #workMng #divtableJob td .divAssignAdmin .assignAdmin #divTableJobAssign td {
   border: 1px solid #bbb;
   border-collapse: collapse;
   padding: 0.5rem;
   text-align: center;
 }
-#mainDashboard #contentDashboard #workMng #divtableJob td .divAssignAdmin .assignAdmin td input[type=radio] {
+#mainDashboard #contentDashboard #workMng #divtableJob td .divAssignAdmin .assignAdmin #divTableJobAssign td input[type=radio] {
   width: 1rem;
   height: 1rem;
+}
+#mainDashboard #contentDashboard #serverMng #divInfoServer {
+  width: 100%;
+  overflow-x: scroll;
 }
 #mainDashboard #contentDashboard #homeMng input[type=text] {
   width: 50%;
@@ -1558,11 +1599,13 @@ header div:last-child #containerUserLogin #bagShopping span {
   color: red;
 }
 #mainDashboard #contentDashboard #homeMng #divTableCarousel {
-  width: -moz-fit-content;
-  width: fit-content;
-  height: 20rem;
-  overflow-y: scroll;
+  width: 100%;
+  height: auto;
+  overflow-x: scroll;
   margin: 1rem 0;
+}
+#mainDashboard #contentDashboard #homeMng #tableCarousel {
+  width: 100%;
 }
 #mainDashboard #contentDashboard #homeMng #tableCarousel,
 #mainDashboard #contentDashboard #homeMng th,
@@ -1600,11 +1643,14 @@ header div:last-child #containerUserLogin #bagShopping span {
   color: #fafafa;
 }
 #mainDashboard #contentDashboard #homeMng #divTableNotify {
-  width: -moz-fit-content;
-  width: fit-content;
-  height: 20rem;
-  overflow-y: scroll;
+  width: 100%;
+  height: auto;
+  overflow-x: scroll;
   margin: 1rem 0;
+}
+#mainDashboard #contentDashboard #homeMng #tableNotify {
+  width: -moz-max-content;
+  width: max-content;
 }
 #mainDashboard #contentDashboard #homeMng #tableNotify,
 #mainDashboard #contentDashboard #homeMng th,
@@ -1681,10 +1727,14 @@ header div:last-child #containerUserLogin #bagShopping span {
   height: 2rem;
 }
 #mainDashboard #contentDashboard #marketingMng #divTableBN {
-  width: -moz-fit-content;
-  width: fit-content;
+  width: 100%;
   height: auto;
+  overflow-x: scroll;
   margin-bottom: 1rem;
+}
+#mainDashboard #contentDashboard #marketingMng #divTableBN #tableBN {
+  width: -moz-max-content;
+  width: max-content;
 }
 #mainDashboard #contentDashboard #marketingMng #divTableBN #tableBN,
 #mainDashboard #contentDashboard #marketingMng #divTableBN th,
@@ -1741,14 +1791,18 @@ header div:last-child #containerUserLogin #bagShopping span {
   height: 2rem;
   font-size: 1rem;
 }
-#mainDashboard #contentDashboard #marketingMng #tableVoucher {
-  width: -moz-fit-content;
-  width: fit-content;
+#mainDashboard #contentDashboard #marketingMng #divTableVoucher {
+  width: 100%;
+  overflow-x: scroll;
 }
-#mainDashboard #contentDashboard #marketingMng #tableVoucher td:last-child {
+#mainDashboard #contentDashboard #marketingMng #divTableVoucher #tableVoucher {
+  width: -moz-max-content;
+  width: max-content;
+}
+#mainDashboard #contentDashboard #marketingMng #divTableVoucher #tableVoucher td:last-child {
   text-align: center;
 }
-#mainDashboard #contentDashboard #marketingMng #tableVoucher td:last-child .btnDeleteVoucher {
+#mainDashboard #contentDashboard #marketingMng #divTableVoucher #tableVoucher td:last-child .btnDeleteVoucher {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -1756,9 +1810,9 @@ header div:last-child #containerUserLogin #bagShopping span {
   background-color: red;
   color: #fafafa;
 }
-#mainDashboard #contentDashboard #marketingMng #tableVoucher,
-#mainDashboard #contentDashboard #marketingMng th,
-#mainDashboard #contentDashboard #marketingMng td {
+#mainDashboard #contentDashboard #marketingMng #divTableVoucher #tableVoucher,
+#mainDashboard #contentDashboard #marketingMng #divTableVoucher th,
+#mainDashboard #contentDashboard #marketingMng #divTableVoucher td {
   border: 1px solid black;
   border-collapse: collapse;
   padding: 0.5rem;
@@ -1863,11 +1917,14 @@ header div:last-child #containerUserLogin #bagShopping span {
   color: #fafafa;
 }
 #mainDashboard #contentDashboard #softwareMng #divTableApp {
-  width: -moz-fit-content;
-  width: fit-content;
-  height: 20rem;
-  overflow-y: scroll;
+  width: 100%;
+  height: auto;
+  overflow-x: scroll;
   margin: 1rem 0;
+}
+#mainDashboard #contentDashboard #softwareMng #tableApp {
+  width: -moz-max-content;
+  width: max-content;
 }
 #mainDashboard #contentDashboard #softwareMng #tableApp,
 #mainDashboard #contentDashboard #softwareMng th,
@@ -2030,11 +2087,14 @@ header div:last-child #containerUserLogin #bagShopping span {
   color: #fafafa;
 }
 #mainDashboard #contentDashboard #deviceMng #divTableDevice {
-  width: -moz-fit-content;
-  width: fit-content;
-  height: 20rem;
-  overflow: scroll;
+  width: 100%;
+  height: auto;
+  overflow-x: scroll;
   margin: 1rem 0;
+}
+#mainDashboard #contentDashboard #deviceMng #tableDevice {
+  width: -moz-max-content;
+  width: max-content;
 }
 #mainDashboard #contentDashboard #deviceMng #tableDevice,
 #mainDashboard #contentDashboard #deviceMng th,
@@ -2073,11 +2133,13 @@ header div:last-child #containerUserLogin #bagShopping span {
   color: #fafafa;
 }
 #mainDashboard #contentDashboard #deviceMng #divImportDevice {
-  width: -moz-fit-content;
-  width: fit-content;
-  height: 20rem;
+  width: 100%;
+  height: auto;
   margin-top: 1rem;
-  overflow-y: scroll;
+  overflow-x: scroll;
+}
+#mainDashboard #contentDashboard #deviceMng #divImportDevice table {
+  width: 100%;
 }
 #mainDashboard #contentDashboard #deviceMng #divImportDevice table,
 #mainDashboard #contentDashboard #deviceMng #divImportDevice td,
@@ -2236,11 +2298,14 @@ header div:last-child #containerUserLogin #bagShopping span {
   background-color: #80a710;
 }
 #mainDashboard #contentDashboard #blogsMng #divTableBlogsDraft {
-  width: -moz-fit-content;
-  width: fit-content;
-  height: 10rem;
-  overflow-y: scroll;
+  width: 100%;
+  height: auto;
+  overflow-x: scroll;
   margin: 1rem 0;
+}
+#mainDashboard #contentDashboard #blogsMng #tableBlogsDraft {
+  width: -moz-max-content;
+  width: max-content;
 }
 #mainDashboard #contentDashboard #blogsMng #tableBlogsDraft,
 #mainDashboard #contentDashboard #blogsMng th,
@@ -2284,11 +2349,14 @@ header div:last-child #containerUserLogin #bagShopping span {
   background-color: #80a710;
 }
 #mainDashboard #contentDashboard #blogsMng #divTableblogs {
-  width: -moz-fit-content;
-  width: fit-content;
-  height: 20rem;
-  overflow-y: scroll;
+  width: 100%;
+  height: auto;
+  overflow-x: scroll;
   margin: 1rem 0;
+}
+#mainDashboard #contentDashboard #blogsMng #tableblogs {
+  width: -moz-max-content;
+  width: max-content;
 }
 #mainDashboard #contentDashboard #blogsMng #tableblogs,
 #mainDashboard #contentDashboard #blogsMng th,
@@ -5969,13 +6037,6 @@ footer div:last-child input {
   #mainDashboard #contentDashboard {
     width: 100%;
   }
-  #mainDashboard #contentDashboard #orderMng #divTableOrder table {
-    font-size: 0.8rem;
-  }
-  #mainDashboard #contentDashboard #orderMng #divTableOrder table tbody tr .btnEditOrder,
-  #mainDashboard #contentDashboard #orderMng #divTableOrder table tbody tr .btnDetailOrder {
-    font-size: 0.8rem;
-  }
   #mainDashboard #contentDashboard #orderMng #divTableOrder table tbody tr .modalDetailOrder .btnCloseOrder {
     top: 0;
     right: 0;
@@ -6002,15 +6063,79 @@ footer div:last-child input {
   #mainDashboard #contentDashboard #workMng form #deadlineJob {
     width: 70%;
   }
-  #mainDashboard #contentDashboard #workMng #divtableJob {
-    font-size: 0.8rem;
-  }
   #mainDashboard #contentDashboard #workMng #divtableJob td:last-child button {
-    font-size: 0.8rem;
-    width: 100%;
+    width: -moz-fit-content;
+    width: fit-content;
     margin-bottom: 0.2rem;
   }
+  #mainDashboard #contentDashboard #userMng #registerAdmin {
+    width: 100%;
+  }
+  #mainDashboard #contentDashboard #homeMng input[type=text] {
+    width: 100%;
+  }
+  #mainDashboard #contentDashboard #homeMng input[type=number] {
+    width: 20%;
+  }
+  #mainDashboard #contentDashboard #homeMng input[type=datetime-local] {
+    height: 2rem;
+    font-size: 1rem;
+  }
+  #mainDashboard #contentDashboard #marketingMng input[type=text] {
+    width: 100%;
+  }
+  #mainDashboard #contentDashboard #softwareMng input[type=text] {
+    width: 100%;
+  }
+  #mainDashboard #contentDashboard #softwareMng #optionPrice {
+    width: 30%;
+  }
+  #mainDashboard #contentDashboard #softwareMng #funcApp {
+    width: 100%;
+  }
+  #mainDashboard #contentDashboard #deviceMng input[type=text] {
+    width: 100%;
+  }
+  #mainDashboard #contentDashboard #deviceMng #color-container .color-row {
+    flex-flow: row wrap;
+  }
+  #mainDashboard #contentDashboard #deviceMng #color-container input[type=text] {
+    width: 50%;
+  }
+  #mainDashboard #contentDashboard #deviceMng #color-container input[type=number] {
+    width: 40%;
+  }
+  #mainDashboard #contentDashboard #deviceMng select {
+    width: 100%;
+  }
+  #mainDashboard #contentDashboard #deviceMng #divImportDevice table {
+    width: -moz-max-content;
+    width: max-content;
+  }
+  #mainDashboard #contentDashboard #deviceMng #divImportDevice table td .importQuantity {
+    width: 40%;
+  }
+  #mainDashboard #contentDashboard #deviceMng #divImportDevice table td .cost {
+    width: 50%;
+  }
+  #mainDashboard #contentDashboard #deviceMng #divImportDevice table td .btnImportDevice, #mainDashboard #contentDashboard #deviceMng #divImportDevice table td .btnCancleDevice {
+    width: -moz-fit-content;
+    width: fit-content;
+    margin-bottom: 0.2rem;
+  }
+  #mainDashboard #contentDashboard #blogsMng input[type=text] {
+    width: 100%;
+  }
+  #mainDashboard #contentDashboard #blogsMng select {
+    width: 100%;
+  }
+  #mainDashboard #contentDashboard #passwordMng input {
+    width: 80%;
+  }
   .flag-item {
+    font-size: 1rem;
+  }
+  #mainThank div p {
     font-size: 1rem;
   }
 }/*# sourceMappingURL=style.css.map */

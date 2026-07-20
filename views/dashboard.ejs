@@ -289,6 +289,7 @@
               <label for="deadlineJob">Deadline</label><br>
               <input type="datetime-local" name="deadlineJob" id="deadlineJob"><br>
               <input type="submit" value="Thêm công việc" id="btnJob">
+              <button type="button" id="btnCancleJob">Hủy</button>
             </form>
             <div id="divBtnRealoadJob">
               <button type="button" id="btnReloadJob"><i class="fa-solid fa-arrow-rotate-right"></i> Nạp</button>
@@ -336,7 +337,8 @@
                     <div class="divAssignAdmin">
                       <div class="assignAdmin">
                         <h2>Chọn thành viên giao việc</h2>
-                        <table>
+                        <div id="divTableJobAssign">
+                          <table>
                         <thead>
                         <tr>
                           <th>Họ và tên</th>
@@ -358,6 +360,7 @@
                         <%})%>
                         </tbody>
                       </table>
+                        </div>
                       <div class="divBtnAssignAdmin">
                           <button type="button" class="btnConfirmAssignAdmin">Xác nhận</button>
                           <button type="button" class="btnCloseAssignAdmin">Đóng</button>
@@ -373,7 +376,9 @@
           </div>
           <div id="serverMng" class="tabContent">
             <h2 class="flag-item">Thông tin server</h2>
-            <pre><%=jsonSystemInfo%></pre>
+            <div id="divInfoServer">
+              <pre><%=jsonSystemInfo%></pre>
+            </div>
           </div>
           <div id="userMng" class="tabContent">
             <h2 class="flag-item">Tài khoản quản trị</h2>
@@ -470,6 +475,7 @@
                 <label for="decentChangePW">Thay đổi mật khẩu</label><br />
               </div>
               <button type="submit" id="btnRegister">Đăng ký</button>
+              <button type="button" id="btnCancleUser">Hủy</button>
             </form>
             <div id="divTableUserAdmin">
               <table id="tableUserAdmin">
@@ -661,7 +667,7 @@
               <input type="number" name="discountPerVoucher" id="discountPerVoucher"><br>
               <input type="submit" value="Tạo" id="btnAddVoucher">
             </form>
-            <div>
+            <div id="divTableVoucher">
               <table id="tableVoucher">
                 <thead>
                   <tr>

@@ -50,7 +50,7 @@ body.no-scroll {
   transform: translate(-50%, -150%);
   transition: transform 1s;
   opacity: 0.9;
-  width: auto;
+  width: max-content;
   height: auto;
   padding: 0.7rem;
   background-color: $colorCTA;
@@ -69,7 +69,7 @@ body.no-scroll {
   transform: translate(-50%, -150%);
   transition: transform 1s;
   opacity: 0.9;
-  width: auto;
+  width: max-content;
   height: auto;
   padding: 0.7rem;
   background-color: #1877f2;
@@ -900,9 +900,9 @@ header {
         h2,
         h3,
         em {
-          color: black;
+          // color: black;
           margin: 0.5rem 0;
-          // color: white;
+          color: white;
         }
       }
       .navBtnDB {
@@ -960,7 +960,8 @@ header {
       overflow: visible;
       padding: 1rem;
     }
-    #registerAdmin {
+    #userMng{
+      #registerAdmin {
       border: 1px solid $colorCTA;
       width: 50%;
       height: auto;
@@ -975,11 +976,18 @@ header {
           border: 2px solid $colorCTA;
         }
       }
-      button {
+      #btnRegister {
         @include button(0.5rem);
         background-color: $colorCTA;
         color: $colorSecondaryText;
         margin: 1rem 0;
+      }
+      #btnCancleUser {
+        @include button(0.5rem);
+        background-color: red;
+        color: $colorSecondaryText;
+        margin: 1rem 0;
+        display: none;
       }
       #formDecentralize {
         width: 100%;
@@ -991,6 +999,7 @@ header {
           cursor: pointer;
         }
       }
+    }
     }
     #orderMng {
       #headerOrderMng {
@@ -1017,7 +1026,7 @@ header {
         width: 100%;
         overflow-x: scroll;
         table {
-          width: 100%;
+          width: max-content;
           border: 1px solid black;
           border-collapse: collapse;
           th,
@@ -1184,6 +1193,9 @@ header {
       overflow-x: auto;
       margin: 1rem 0;
     }
+    #tableUserAdmin{
+      width: max-content;
+    }
     #tableUserAdmin,
     th,
     td {
@@ -1224,9 +1236,14 @@ header {
           @include button(0.5rem);
           background-color: $colorCTA;
           color: $colorSecondaryText;
-          border: none;
-          border-radius: 5px;
           margin-top: 1rem;
+        }
+        #btnCancleJob{
+          @include button(0.5rem);
+          background-color: red;
+          color: $colorSecondaryText;
+          margin-top: 1rem;
+          display: none;
         }
         select {
           height: 2rem;
@@ -1245,7 +1262,7 @@ header {
         width: 100%;
         overflow-x: scroll;
         table {
-          width: 100%;
+          width: max-content;
           margin-top: 1rem;
           tbody {
             tr[data-idJob] {
@@ -1346,6 +1363,14 @@ header {
               .map {
                 width: 100%;
                 height: 80%;
+                /* Chặn hoàn toàn hành vi chọn/bôi đen văn bản trên mọi trình duyệt di động */
+                -webkit-user-select: none;  /* Safari (iOS) */
+                -moz-user-select: none;     /* Firefox Mobile */
+                -ms-user-select: none;      /* IE/Edge cũ */
+                 user-select: none;          /* Chrome Mobile, Opera, Samsung Internet */
+  
+                /* Bổ sung thêm để chặn hiện menu phóng to ẩn của iOS Safari */
+                -webkit-touch-callout: none;
               }
             }
           }
@@ -1360,8 +1385,8 @@ header {
             background-color: rgba(0, 0, 0, 0.5);
             .assignAdmin {
               position: fixed;
-              width: 80%;
-              height: 80%;
+              width: 90%;
+              height: 90%;
               top: 50%;
               left: 50%;
               transform: translate(-50%, -50%);
@@ -1394,8 +1419,11 @@ header {
               h2 {
                 text-align: center;
               }
-              table {
+              #divTableJobAssign{
                 width: 100%;
+                overflow-x: scroll;
+                table {
+                width: max-content;
               }
               table,
               th,
@@ -1411,9 +1439,16 @@ header {
                   height: 1rem;
                 }
               }
+              }
             }
           }
         }
+      }
+    }
+    #serverMng{
+      #divInfoServer{
+        width: 100%;
+        overflow-x: scroll;
       }
     }
     #homeMng {
@@ -1464,10 +1499,13 @@ header {
         color: red;
       }
       #divTableCarousel {
-        width: fit-content;
-        height: 20rem;
-        overflow-y: scroll;
+        width: 100%;
+        height: auto;
+        overflow-x: scroll;
         margin: 1rem 0;
+      }
+      #tableCarousel{
+        width: 100%;
       }
       #tableCarousel,
       th,
@@ -1493,10 +1531,13 @@ header {
         }
       }
       #divTableNotify {
-        width: fit-content;
-        height: 20rem;
-        overflow-y: scroll;
+        width: 100%;
+        height: auto;
+        overflow-x: scroll;
         margin: 1rem 0;
+      }
+      #tableNotify{
+        width: max-content;
       }
       #tableNotify,
       th,
@@ -1552,9 +1593,13 @@ header {
         height: 2rem;
       }
       #divTableBN {
-        width: fit-content;
+        width: 100%;
         height: auto;
+        overflow-x: scroll;
         margin-bottom: 1rem;
+        #tableBN{
+          width: max-content;
+        }
         #tableBN,
         th,
         td {
@@ -1598,8 +1643,11 @@ header {
           font-size: 1rem;
         }
       }
-      #tableVoucher {
-        width: fit-content;
+      #divTableVoucher{
+        width: 100%;
+        overflow-x: scroll;
+        #tableVoucher {
+        width: max-content;
         td:last-child {
           text-align: center;
           .btnDeleteVoucher {
@@ -1615,6 +1663,7 @@ header {
         border: 1px solid black;
         border-collapse: collapse;
         padding: 0.5rem;
+      }
       }
     }
     #softwareMng {
@@ -1696,10 +1745,13 @@ header {
         }
       }
       #divTableApp {
-        width: fit-content;
-        height: 20rem;
-        overflow-y: scroll;
+        width: 100%;
+        height: auto;
+        overflow-x: scroll;
         margin: 1rem 0;
+      }
+      #tableApp{
+        width: max-content;
       }
       #tableApp,
       th,
@@ -1824,10 +1876,13 @@ header {
         }
       }
       #divTableDevice {
-        width: fit-content;
-        height: 20rem;
-        overflow: scroll;
+        width: 100%;
+        height: auto;
+        overflow-x: scroll;
         margin: 1rem 0;
+      }
+      #tableDevice{
+        width: max-content;
       }
       #tableDevice,
       th,
@@ -1854,10 +1909,13 @@ header {
         }
       }
       #divImportDevice {
-        width: fit-content;
-        height: 20rem;
+        width: 100%;
+        height: auto;
         margin-top: 1rem;
-        overflow-y: scroll;
+        overflow-x: scroll;
+        table{
+          width: 100%;
+        }
         table,
         td,
         th {
@@ -1976,10 +2034,13 @@ header {
         background-color: $colorCTA;
       }
       #divTableBlogsDraft {
-        width: fit-content;
-        height: 10rem;
-        overflow-y: scroll;
+        width: 100%;
+        height: auto;
+        overflow-x: scroll;
         margin: 1rem 0;
+      }
+      #tableBlogsDraft{
+        width: max-content;
       }
       #tableBlogsDraft,
       th,
@@ -2011,10 +2072,13 @@ header {
         background-color: $colorCTA;
       }
       #divTableblogs {
-        width: fit-content;
-        height: 20rem;
-        overflow-y: scroll;
+        width: 100%;
+        height: auto;
+        overflow-x: scroll;
         margin: 1rem 0;
+      }
+      #tableblogs{
+        width: max-content;
       }
       #tableblogs,
       th,
@@ -5753,13 +5817,8 @@ footer {
       #orderMng {
         #divTableOrder {
           table {
-            font-size: 0.8rem;
             tbody {
               tr {
-                .btnEditOrder,
-                .btnDetailOrder {
-                  font-size: 0.8rem;
-                }
                 .modalDetailOrder {
                   .btnCloseOrder {
                     top: 0;
@@ -5797,19 +5856,106 @@ footer {
           }
         }
         #divtableJob {
-          font-size: 0.8rem;
           td:last-child {
             button {
-              font-size: 0.8rem;
-              width: 100%;
+              width: fit-content;
               margin-bottom: 0.2rem;
             }
           }
+        }
+      }
+      #userMng{
+        #registerAdmin{
+          width: 100%;
+        }
+      }
+      #homeMng{
+        input[type="text"]{
+          width: 100%;
+        }
+        input[type="number"]{
+          width: 20%;
+        }
+        input[type="datetime-local"]{
+          height: 2rem;
+          font-size: 1rem;
+        }
+      }
+      #marketingMng{
+        input[type="text"]{
+          width: 100%;
+        }
+      }
+      #softwareMng{
+        input[type="text"]{
+          width: 100%;
+        }
+        #optionPrice{
+          width: 30%;
+        }
+        #funcApp{
+          width: 100%;
+        }
+      }
+      #deviceMng{
+        input[type="text"]{
+          width: 100%;
+        }
+        #color-container{
+          .color-row{
+            flex-flow: row wrap;
+          }
+          input[type="text"]{
+            width: 50%;
+          }
+          input[type="number"]{
+            width: 40%;
+          }
+        }
+        select{
+          width: 100%;
+        }
+        #divImportDevice{
+          table{
+            width: max-content;
+            td{
+            .importQuantity{
+              width: 40%;
+            }
+            .cost{
+              width: 50%;
+            }
+            .btnImportDevice,.btnCancleDevice{
+              width: fit-content;
+              margin-bottom: 0.2rem;
+            }
+          }
+          }
+        }
+      }
+      #blogsMng{
+        input[type="text"]{
+          width: 100%;
+        }
+        select{
+          width: 100%;
+        }
+      }
+      #passwordMng{
+        input{
+          width: 80%;
         }
       }
     }
   }
   .flag-item {
     font-size: 1rem;
+  }
+  #mainThank{
+    div{
+      p{
+        font-size: 1rem;
+      }
+    }
   }
 }

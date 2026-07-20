@@ -598,6 +598,10 @@ socket.on("update-job", (data) => {
     const customTitle = map.getAttribute("data-title");
     const mind = new MindElixir({
       el: map,
+      contextMenu:true,
+      toolBar:true,
+      draggable:true,
+      mobileMultiSelect:true,
     });
     mindInstances.push({
       mapId: customTitle,
@@ -710,16 +714,6 @@ document.getElementById("registerAdmin").addEventListener("submit", (e) => {
           alert("Thông báo", mess, "#80a710");
           window.location.reload();
         } else {
-          document.getElementById("idAdminHidden").value = "";
-          document.getElementById("fullnameAdmin").value = "";
-          document.getElementById("roleAdmin").value = "";
-          document.getElementById("emailAdmin").value = "";
-          document.getElementById("pwAdmin").value = "";
-          document.getElementById("btnRegister").value = "Tạo";
-          const allCheckbox = document.querySelectorAll(
-            "input[name='decentAdmin']",
-          );
-          allCheckbox.forEach((item) => (item.checked = false));
           alert("Lỗi", `${mess}\n${error}`, "red");
         }
       });
@@ -750,18 +744,23 @@ document.getElementById("registerAdmin").addEventListener("submit", (e) => {
           window.location.reload();
         } else {
           alert("Lỗi", `${mess}\n${err ? err : ""}`, "red");
-          document.getElementById("fullnameAdmin").value = "";
-          document.getElementById("roleAdmin").value = "";
-          document.getElementById("emailAdmin").value = "";
-          document.getElementById("pwAdmin").value = "";
-          const allCheckbox = document.querySelectorAll(
-            "input[name='decentAdmin']",
-          );
-          allCheckbox.forEach((item) => (item.checked = false));
         }
       });
   }
 });
+document.getElementById("btnCancleUser").addEventListener("click",function(){
+  document.getElementById("idAdminHidden").value = "";
+  document.getElementById("fullnameAdmin").value = "";
+  document.getElementById("roleAdmin").value = "";
+  document.getElementById("emailAdmin").value = "";
+  document.getElementById("pwAdmin").value = "";
+  document.getElementById("btnRegister").value = "Tạo";
+  const allCheckbox = document.querySelectorAll(
+    "input[name='decentAdmin']",
+  );
+  allCheckbox.forEach((item) => (item.checked = false));
+  this.style.display="none";
+})
 function getCookie(name) {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
@@ -839,6 +838,7 @@ document.querySelectorAll(".btnEditUserAdmin").forEach((btn) => {
               item.checked = true;
             }
           });
+          document.getElementById("btnCancleUser").style.display="inline-block";
         } else {
           console.error(error);
         }
@@ -3251,6 +3251,15 @@ document.getElementById("formJob").addEventListener("submit", (e) => {
       });
   }
 });
+document.getElementById("btnCancleJob").addEventListener("click",function(){
+  document.getElementById("idJob").value = "";
+  document.getElementById("titleJob").value = "";
+  document.getElementById("levelJob").value = "Gấp";
+  document.getElementById("startTimeJob").value = "";
+  document.getElementById("deadlineJob").value = "";
+  document.getElementById("btnJob").value = "Thêm công việc";
+  this.style.display="none";
+})
 document.addEventListener("DOMContentLoaded", () => {
   const levelColor = {
     Gấp: "red",
@@ -3284,12 +3293,19 @@ function runMap() {
     const customTitle = map.getAttribute("data-title");
     const mind = new MindElixir({
       el: map,
+      contextMenu:true,
+      toolBar:true,
+      draggable:true,
+      mobileMultiSelect:true,
     });
     mindInstances.push({
       mapId: customTitle,
       instance: mind,
       isInitialized: false,
     });
+    map.addEventListener("contextmenu",(e)=>{
+      e.preventDefault();
+    })
   });
 }
 runMap();
@@ -3450,6 +3466,7 @@ document.querySelector("#tableJob tbody").addEventListener("click", (e) => {
           const deadlineFormatted = deadlineLocalIsoTime.slice(0, 16);
           document.getElementById("deadlineJob").value = deadlineFormatted;
           document.getElementById("btnJob").value = "Cập nhật";
+          document.getElementById("btnCancleJob").style.display="inline-block";
         } else {
           alert("Lỗi", "Không lấy được data job để cập nhật", "red");
         }
@@ -3567,7 +3584,8 @@ document.getElementById("btnReloadJob").addEventListener("click", () => {
             <div class="divAssignAdmin">
               <div class="assignAdmin">
                 <h2>Chọn thành viên giao việc</h2>
-                <table>
+                <div id="divtableJob">
+                  <table>
                   <thead>
                     <tr>
                       <th>Họ và tên</th>
@@ -3580,6 +3598,7 @@ document.getElementById("btnReloadJob").addEventListener("click", () => {
                     ${listRowAdmins}
                   </tbody>
                 </table>
+                </div>
                   <div class="divBtnAssignAdmin">
                     <button type="button" class="btnConfirmAssignAdmin">Xác nhận</button>
                     <button type="button" class="btnCloseAssignAdmin">Đóng</button>
