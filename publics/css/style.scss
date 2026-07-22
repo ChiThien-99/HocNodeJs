@@ -152,39 +152,25 @@ header {
     height: inherit;
     display: inline-block;
     margin: 0.1rem 0 0 0.8rem;
-    .brand-group {
-      transform: translate(4rem, 1rem);
-    }
-    .logo-link {
-      display: block;
+    h1{
+      margin: 0;
       width: 100%;
       height: 100%;
-    }
-    svg {
+      .logo-link {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: start;
+      align-items: center;
       width: 100%;
       height: 100%;
-      overflow: visible;
-    }
-    #circlePath {
-      fill: none;
-      stroke: transparent;
-    }
-    .rotating-text {
-      font-size: 18px;
+      color: $colorCTA;
       font-weight: bold;
-      font-family: "fontLogo";
-      fill: $colorCTA;
-      letter-spacing: 12px;
-      transform-origin: -125px 90px;
-      animation: spinAround 5s linear;
+      text-decoration: none;
+      img{
+        width: 4rem;
+        height: 4rem;
+      }
     }
-    @keyframes spinAround {
-      from {
-        transform: rotate(180deg);
-      }
-      to {
-        transform: rotate(360deg);
-      }
     }
   }
   .hamburger-btn,
@@ -192,9 +178,9 @@ header {
     display: none;
   }
   #navMenu{
-    padding-right: 1rem;
     h2{
       color: $colorCTA;
+      margin-right: 1rem;
     }
   }
   #divNavMenu{
@@ -2375,44 +2361,30 @@ header {
 }
 //**CSS Login
 #logoLogin {
-  width: 20%;
+  width: max-content;
   height: 8rem;
   margin: auto;
   padding-top: 1rem;
-  .brand-group {
-    transform: translate(4rem, 1rem);
-  }
-  .logo-link {
-    display: block;
-    width: 100%;
-    height: 100%;
-  }
-  svg {
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-  }
-  #circlePath {
-    fill: none;
-    stroke: transparent;
-  }
-  .rotating-text {
-    font-size: 18px;
-    font-weight: bold;
-    font-family: "fontLogo";
-    fill: $colorCTA;
-    letter-spacing: 12px;
-    transform-origin: 36px 75px;
-    animation: spinAround 5s linear;
-  }
-  @keyframes spinAround {
-    from {
-      transform: rotate(180deg);
+  h1{
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      .logo-link {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: start;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      color: $colorCTA;
+      font-weight: bold;
+      text-decoration: none;
+      img{
+        width: 4rem;
+        height: 4rem;
+      }
     }
-    to {
-      transform: rotate(360deg);
     }
-  }
 }
 #loginContainer {
   width: 100%;
@@ -5071,8 +5043,15 @@ footer {
     height: 5rem;
     // margin: 0.5rem;
     div:first-child {
-      .brand-group {
-        transform: translate(12rem, 1rem);
+      width: 40%;
+      h1{
+        font-size: 1.5rem;
+        .logo-link{
+          img{
+            width: 3rem;
+            height: 3rem;
+          }
+        }
       }
     }
     div:nth-child(2) {
@@ -5182,11 +5161,12 @@ footer {
           height: 3rem;
           margin-top: 1rem;
           padding: 0;
+          text-align: center;
           button {
             @include button(0.5rem);
             font-size: 1rem;
-            width: 45%;
-            height: 2.5rem;
+            width: 45% !important;
+            height: 100% !important;
           }
         }
       }
@@ -5207,6 +5187,17 @@ footer {
       transform: translateY(-0.4rem) rotate(-45deg);
       background-color: $colorSecondaryText;
     }
+  }
+  #logoLogin{
+    h1{
+        font-size: 1.5rem;
+        .logo-link{
+          img{
+            width: 3rem;
+            height: 3rem;
+          }
+        }
+      }
   }
   #loginClientContainer {
     width: 100%;

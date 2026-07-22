@@ -19,10 +19,10 @@ export const sendVerificationEmail = async (
     const mailOptions = {
       from: `"Hệ thống Imzen" <${process.env.EMAIL_USER}>`,
       to: clientEmail,
-      subject: "Mã xác nhận đăng ký tài khoản-Imzen",
+      subject: "Mã xác nhận đăng ký tài khoản-VÂN HY",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px;">
-        <h2 style="color: #1877f2; text-align: center;">Chào mừng ${clientName} đến với Imzen!</h2>
+        <h2 style="color: #1877f2; text-align: center;">Chào mừng ${clientName} đến với VÂN HY!</h2>
         <p>Cảm ơn bạn đã đăng ký tài khoản. Dưới đây là mã xác nhận (OTP) của bạn để hoàn tất quy trình đăng ký:</p>
         <div style="background-color: #f0f2f5; padding: 15px; text-align: center; font-size: 24px; font-weight: bold; letter-spacing: 5px; color: #333; margin: 20px 0; border-radius: 4px;">
             ${otpCode}
@@ -156,11 +156,11 @@ const generateInvoicePDFBuffer = (order, nameClient) => {
       "../publics/OpenSans-Regular.ttf",
     );
     const fontBold = path.resolve(__dirname, "../publics/OpenSans-Bold.ttf");
-    const logoPath = path.resolve(__dirname, "../publics/img/logo_imzai_1.png");
+    const logoPath = path.resolve(__dirname, "../publics/img/logo_imzen01-final.png");
     const headerTopY = doc.y;
     doc.image(logoPath, 50, headerTopY, { width: 60 });
     doc.font(fontRegular).fontSize(10);
-    doc.text("CÔNG TY TNHH CÔNG NGHỆ IMZEN", 130, headerTopY);
+    doc.text("CÔNG TY TNHH CÔNG NGHỆ VÂN HY", 130, headerTopY);
     doc.text("MST: 0123456789", 130, headerTopY + 15);
     doc.text(
       "ĐỊA CHỈ: 236 LÊ THỊ NGAY, XÃ VĨNH LỘC, THÀNH PHỐ HỒ CHÍ MINH, VIỆT NAM",
@@ -311,14 +311,14 @@ export const sendOrderEmail = async (emailClient, nameClient, newOrder) => {
   try {
     const pdfBuffer = await generateInvoicePDFBuffer(newOrder, nameClient);
     const mailOptions = {
-      from: `"Hệ thống Imzen" <${process.env.EMAIL_USER}>`,
+      from: `"Hệ thống VANHY" <${process.env.EMAIL_USER}>`,
       to: emailClient,
-      subject: "IMZEN - Xác nhận đơn hàng",
+      subject: "VÂN HY - Xác nhận đơn hàng",
       html: `
         <div style="font-family: Arial, sans-serif; width:fit-content;margin: 0 auto; padding: 1rem; border: 1px solid #e0e0e0; border-radius: 5px;">
-        <img src="https://res.cloudinary.com/doigxmzte/image/upload/v1782977806/logoImzenEmail_qkcq4s.webp" alt="logoImzenEmail">
+        <img src="https://res.cloudinary.com/doigxmzte/image/upload/v1784701803/logo_imzen01-final_r9ghv3.png" alt="logoImzenEmail" style="width:3rem; height:3rem;">
         <p style="font-size: 1.1rem; margin:0.5rem 0">Xin chào <b>${nameClient}</b></p>
-        <p style="font-size: 1.1rem; margin:0.5rem 0">Đơn hàng của bạn đã được đặt thành công. Cảm ơn bạn đã mua sắm tại <span style="color: #80a710;letter-spacing:0.1rem">IMZEN</span></p>
+        <p style="font-size: 1.1rem; margin:0.5rem 0">Đơn hàng của bạn đã được đặt thành công. Cảm ơn bạn đã mua sắm tại <span style="color: #80a710;letter-spacing:0.1rem">VÂN HY</span></p>
         <p style="font-size: 1.1rem; margin:0.5rem 0">Vui lòng kiểm tra file đơn hàng được đính kèm trong mail</p>
         <p style="font-size: 1.1rem; margin:0.5rem 0">Mọi thắc mắc cần hỗ trợ xin liên hệ 0966159722</p>
         </div>
