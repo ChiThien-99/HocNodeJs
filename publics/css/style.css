@@ -1,7 +1,7 @@
 @charset "UTF-8";
 @font-face {
   font-family: "fontLogo";
-  src: url("/Minecraft.woff2") format("woff2"), url("/Minecraft.woff") format("woff");
+  src: url("/Geomini-Regular.woff2") format("woff2"), url("/Geomini-Regular.woff") format("woff");
   font-display: swap;
 }
 @font-face {
@@ -170,6 +170,7 @@ header div:first-child h1 .logo-link {
   color: #80a710;
   font-weight: bold;
   text-decoration: none;
+  font-family: "fontLogo";
 }
 header div:first-child h1 .logo-link img {
   width: 4rem;
@@ -2668,6 +2669,7 @@ header #divNavMenu #navMenu #containerUserLogin #bagShopping span {
   height: 100%;
   color: #80a710;
   font-weight: bold;
+  font-family: "fontLogo";
   text-decoration: none;
 }
 #logoLogin h1 .logo-link img {
@@ -3238,16 +3240,15 @@ header #divNavMenu #navMenu #containerUserLogin #bagShopping span {
   text-decoration: none;
   background-color: #80a710;
   color: #fafafa;
-  font-size: 1.1rem;
+  font-size: 0.7rem;
   font-weight: bold;
-  height: 2.4rem;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   padding: 0.5rem;
 }
 #mainIndex #divApp #headerApp a:nth-child(2) i {
-  font-size: 0.9rem;
+  font-size: 0.6rem;
 }
 #mainIndex #divApp #listApp {
   display: flex;
@@ -3322,16 +3323,15 @@ header #divNavMenu #navMenu #containerUserLogin #bagShopping span {
   text-decoration: none;
   background-color: #80a710;
   color: #fafafa;
-  font-size: 1.1rem;
+  font-size: 0.7rem;
   font-weight: bold;
-  height: 2.4rem;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   padding: 0.5rem;
 }
 #mainIndex #divDeviceIndex #headerDeviceIndex a:nth-child(2) i {
-  font-size: 0.9rem;
+  font-size: 0.6rem;
 }
 #mainIndex #divDeviceIndex #listDeviceIndex {
   display: flex;
@@ -3409,16 +3409,15 @@ header #divNavMenu #navMenu #containerUserLogin #bagShopping span {
   text-decoration: none;
   background-color: #80a710;
   color: #fafafa;
-  font-size: 1.1rem;
+  font-size: 0.7rem;
   font-weight: bold;
-  height: 2.4rem;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   padding: 0.5rem;
 }
 #mainIndex #divblogs #headerblogs a:nth-child(2) i {
-  font-size: 0.9rem;
+  font-size: 0.6rem;
 }
 #mainIndex #divblogs #groupFilterCategoryblogs {
   display: flex;
@@ -6138,7 +6137,8 @@ footer div:last-child input {
   }
 }
 @media screen and (min-width: 821px) and (max-width: 1200px) {
-  #mainDashboard #contentDashboard #workMng form #startTimeJob, #mainDashboard #contentDashboard #workMng form #deadlineJob {
+  #mainDashboard #contentDashboard #workMng form #startTimeJob,
+  #mainDashboard #contentDashboard #workMng form #deadlineJob {
     width: 30%;
   }
   #mainDashboard #contentDashboard #passwordMng input {

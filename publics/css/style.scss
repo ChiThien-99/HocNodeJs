@@ -13,8 +13,8 @@ $colorSecondaryText: #fafafa;
 @font-face {
   font-family: "fontLogo";
   src:
-    url("/Minecraft.woff2") format("woff2"),
-    url("/Minecraft.woff") format("woff");
+    url("/Geomini-Regular.woff2") format("woff2"),
+    url("/Geomini-Regular.woff") format("woff");
   font-display: swap;
 }
 @font-face {
@@ -152,166 +152,167 @@ header {
     height: inherit;
     display: inline-block;
     margin: 0.1rem 0 0 0.8rem;
-    h1{
+    h1 {
       margin: 0;
       width: 100%;
       height: 100%;
       .logo-link {
-      display: flex;
-      flex-flow: row nowrap;
-      justify-content: start;
-      align-items: center;
-      width: 100%;
-      height: 100%;
-      color: $colorCTA;
-      font-weight: bold;
-      text-decoration: none;
-      img{
-        width: 4rem;
-        height: 4rem;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: start;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        color: $colorCTA;
+        font-weight: bold;
+        text-decoration: none;
+        font-family: "fontLogo";
+        img {
+          width: 4rem;
+          height: 4rem;
+        }
       }
-    }
     }
   }
   .hamburger-btn,
   #countCartHamburgerBtn {
     display: none;
   }
-  #navMenu{
-    h2{
-      color: $colorCTA;
-      margin-right: 1rem;
-    }
-  }
-  #divNavMenu{
-    width: 80%;
-    height: inherit;
-    #navMenu {
-    width: 100%;
-    height: inherit;
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: end;
-    align-items: center;
-    nav {
-      width: 70%;
-      ul {
-        list-style: none;
-        text-align: center;
-        height: inherit;
-        padding: 0;
-      }
-      li {
-        display: inline-block;
-        width: 8rem;
-        padding: 0.2rem;
-        border-bottom: 2px solid $colorCTA;
-        margin: 0.2rem;
-        cursor: pointer;
-        &:hover {
-          background-color: $colorSecondaryBG;
-          border: none;
-          border-radius: 5px;
-          a:only-child {
-            color: $colorSecondaryText;
-          }
-        }
-        a {
-          text-decoration: none;
-          color: $colorCTA;
-          font-weight: bold;
-          font-size: 1.2rem;
-          display: inline-block;
-          width: 100%;
-        }
-      }
-    }
-    #groupBtn {
-      width: 30%;
-      text-align: end;
-      padding-right: 1rem;
-      button {
-        @include button(0.7rem);
-        color: $colorSecondaryText;
-        font-weight: bold;
-        font-size: 1rem;
-        margin: 0 0.3rem;
-        text-align: center;
-        &:first-child {
-          background-color: #bbb;
-          width: 30%;
-          height: 40%;
-        }
-        &:last-child {
-          background-color: $colorCTA;
-          width: 37%;
-          height: 40%;
-        }
-      }
-    }
+  #navMenu {
     h2 {
       color: $colorCTA;
       margin-right: 1rem;
     }
-    #containerUserLogin {
-      width: 30%;
-      text-align: end;
-      display: none;
-      position: relative;
+  }
+  #divNavMenu {
+    width: 80%;
+    height: inherit;
+    #navMenu {
+      width: 100%;
+      height: inherit;
+      display: flex;
       flex-flow: row nowrap;
       justify-content: end;
-      margin-right: 1rem;
-      #infoUserLogin {
-        width: fit-content;
-        height: 4rem;
-        display: flex;
-        flex-flow: column;
-        align-items: start;
-        padding-right: 1rem;
-        h3 {
-          margin: 0.5rem 0;
+      align-items: center;
+      nav {
+        width: 70%;
+        ul {
+          list-style: none;
+          text-align: center;
+          height: inherit;
+          padding: 0;
         }
-        #groupBtnUserLogin {
-          width: 100%;
-          #btnDashboardUserLogin {
-            @include button(0.4rem);
-            background-color: $colorCTA;
-            color: $colorSecondaryText;
-            margin-right: 0.5rem;
-            font-size: 0.7rem;
+        li {
+          display: inline-block;
+          width: 8rem;
+          padding: 0.2rem;
+          border-bottom: 2px solid $colorCTA;
+          margin: 0.2rem;
+          cursor: pointer;
+          &:hover {
+            background-color: $colorSecondaryBG;
+            border: none;
+            border-radius: 5px;
+            a:only-child {
+              color: $colorSecondaryText;
+            }
           }
-          #btnLogoutUserLogin {
-            @include button(0.4rem);
-            background-color: red;
-            color: $colorSecondaryText;
-            font-size: 0.7rem;
+          a {
+            text-decoration: none;
+            color: $colorCTA;
+            font-weight: bold;
+            font-size: 1.2rem;
+            display: inline-block;
+            width: 100%;
           }
         }
       }
-      #bagShopping {
-        width: fit-content;
-        height: 4rem;
-        position: relative;
-        cursor: pointer;
-        i {
-          font-size: 2.5rem;
-          color: $colorCTA;
-        }
-        span {
-          width: 1.2rem;
-          height: 1.2rem;
-          position: absolute;
-          top: 0;
-          right: 0;
-          border: none;
-          border-radius: 1000px;
-          background-color: #fd5e53;
+      #groupBtn {
+        width: 30%;
+        text-align: end;
+        padding-right: 1rem;
+        button {
+          @include button(0.7rem);
           color: $colorSecondaryText;
+          font-weight: bold;
+          font-size: 1rem;
+          margin: 0 0.3rem;
           text-align: center;
+          &:first-child {
+            background-color: #bbb;
+            width: 30%;
+            height: 40%;
+          }
+          &:last-child {
+            background-color: $colorCTA;
+            width: 37%;
+            height: 40%;
+          }
+        }
+      }
+      h2 {
+        color: $colorCTA;
+        margin-right: 1rem;
+      }
+      #containerUserLogin {
+        width: 30%;
+        text-align: end;
+        display: none;
+        position: relative;
+        flex-flow: row nowrap;
+        justify-content: end;
+        margin-right: 1rem;
+        #infoUserLogin {
+          width: fit-content;
+          height: 4rem;
+          display: flex;
+          flex-flow: column;
+          align-items: start;
+          padding-right: 1rem;
+          h3 {
+            margin: 0.5rem 0;
+          }
+          #groupBtnUserLogin {
+            width: 100%;
+            #btnDashboardUserLogin {
+              @include button(0.4rem);
+              background-color: $colorCTA;
+              color: $colorSecondaryText;
+              margin-right: 0.5rem;
+              font-size: 0.7rem;
+            }
+            #btnLogoutUserLogin {
+              @include button(0.4rem);
+              background-color: red;
+              color: $colorSecondaryText;
+              font-size: 0.7rem;
+            }
+          }
+        }
+        #bagShopping {
+          width: fit-content;
+          height: 4rem;
+          position: relative;
+          cursor: pointer;
+          i {
+            font-size: 2.5rem;
+            color: $colorCTA;
+          }
+          span {
+            width: 1.2rem;
+            height: 1.2rem;
+            position: absolute;
+            top: 0;
+            right: 0;
+            border: none;
+            border-radius: 1000px;
+            background-color: #fd5e53;
+            color: $colorSecondaryText;
+            text-align: center;
+          }
         }
       }
     }
-  }
   }
 }
 #mainCart {
@@ -2365,11 +2366,11 @@ header {
   height: 8rem;
   margin: auto;
   padding-top: 1rem;
-  h1{
-      margin: 0;
-      width: 100%;
-      height: 100%;
-      .logo-link {
+  h1 {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    .logo-link {
       display: flex;
       flex-flow: row nowrap;
       justify-content: start;
@@ -2378,13 +2379,14 @@ header {
       height: 100%;
       color: $colorCTA;
       font-weight: bold;
+      font-family: "fontLogo";
       text-decoration: none;
-      img{
+      img {
         width: 4rem;
         height: 4rem;
       }
     }
-    }
+  }
 }
 #loginContainer {
   width: 100%;
@@ -2923,12 +2925,11 @@ header {
         text-decoration: none;
         background-color: $colorCTA;
         color: $colorSecondaryText;
-        font-size: 1.1rem;
+        font-size: 0.7rem;
         font-weight: bold;
-        height: 2.4rem;
         @include button(0.5rem);
         i {
-          font-size: 0.9rem;
+          font-size: 0.6rem;
         }
       }
     }
@@ -3009,12 +3010,11 @@ header {
         text-decoration: none;
         background-color: $colorCTA;
         color: $colorSecondaryText;
-        font-size: 1.1rem;
+        font-size: 0.7rem;
         font-weight: bold;
-        height: 2.4rem;
         @include button(0.5rem);
         i {
-          font-size: 0.9rem;
+          font-size: 0.6rem;
         }
       }
     }
@@ -3092,12 +3092,11 @@ header {
         text-decoration: none;
         background-color: $colorCTA;
         color: $colorSecondaryText;
-        font-size: 1.1rem;
+        font-size: 0.7rem;
         font-weight: bold;
-        height: 2.4rem;
         @include button(0.5rem);
         i {
-          font-size: 0.9rem;
+          font-size: 0.6rem;
         }
       }
     }
@@ -5044,10 +5043,10 @@ footer {
     // margin: 0.5rem;
     div:first-child {
       width: 40%;
-      h1{
+      h1 {
         font-size: 1.5rem;
-        .logo-link{
-          img{
+        .logo-link {
+          img {
             width: 3rem;
             height: 3rem;
           }
@@ -5149,9 +5148,9 @@ footer {
               background-color: $colorCTA;
               padding: 0.5rem;
               margin: 0.5rem 0;
-               a {
-            color: $colorSecondaryText;
-          }
+              a {
+                color: $colorSecondaryText;
+              }
             }
           }
         }
@@ -5188,16 +5187,16 @@ footer {
       background-color: $colorSecondaryText;
     }
   }
-  #logoLogin{
-    h1{
-        font-size: 1.5rem;
-        .logo-link{
-          img{
-            width: 3rem;
-            height: 3rem;
-          }
+  #logoLogin {
+    h1 {
+      font-size: 1.5rem;
+      .logo-link {
+        img {
+          width: 3rem;
+          height: 3rem;
         }
       }
+    }
   }
   #loginClientContainer {
     width: 100%;
@@ -5964,104 +5963,105 @@ footer {
 }
 //Tablet lớn
 @media screen and (min-width: 821px) and (max-width: 1200px) {
-  #mainDashboard{
-    #contentDashboard{
-      #workMng{
-        form{
-          #startTimeJob,#deadlineJob{
+  #mainDashboard {
+    #contentDashboard {
+      #workMng {
+        form {
+          #startTimeJob,
+          #deadlineJob {
             width: 30%;
           }
         }
       }
-      #passwordMng{
-        input{
+      #passwordMng {
+        input {
           width: 30%;
         }
       }
     }
   }
-  #mainDashboardClient{
-    #contentDashboardClient{
-      #voucherMng{
-        #listVoucher{
-          grid-template-columns:100%;
+  #mainDashboardClient {
+    #contentDashboardClient {
+      #voucherMng {
+        #listVoucher {
+          grid-template-columns: 100%;
         }
       }
     }
   }
-  header{
-    div:first-child{
-      .brand-group{
-        transform: translate(8rem,1rem);
+  header {
+    div:first-child {
+      .brand-group {
+        transform: translate(8rem, 1rem);
       }
     }
-    #divNavMenu{
-      #navMenu{
-        nav{
-          li{
+    #divNavMenu {
+      #navMenu {
+        nav {
+          li {
             width: 6rem;
           }
         }
-        #groupBtn{
-          button:first-child{
+        #groupBtn {
+          button:first-child {
             width: 40%;
           }
-          button:last-child{
+          button:last-child {
             width: 48%;
           }
         }
       }
     }
   }
-  #mainApp{
-    #listApp{
+  #mainApp {
+    #listApp {
       width: 70%;
     }
-    aside{
+    aside {
       width: 30%;
     }
   }
-  #mainDevice{
-    #listDevice{
+  #mainDevice {
+    #listDevice {
       width: 70%;
     }
-    aside{
+    aside {
       width: 30%;
     }
   }
-  #mainBlogs{
-    #listBlog{
+  #mainBlogs {
+    #listBlog {
       width: 70%;
     }
-    aside{
+    aside {
       width: 30%;
     }
   }
-  #mainDetailblogs{
-    article{
+  #mainDetailblogs {
+    article {
       width: 70%;
     }
-    aside{
+    aside {
       width: 30%;
     }
   }
-  #mainDetailDevice{
-    #detailDevice{
+  #mainDetailDevice {
+    #detailDevice {
       width: 70%;
-      #headerDetailDevice{
-        #overViewDevice{
-          #groupBtnDevice{
-            #btnCartDevice{
+      #headerDetailDevice {
+        #overViewDevice {
+          #groupBtnDevice {
+            #btnCartDevice {
               width: 60%;
             }
-            #btnShareDevice{
+            #btnShareDevice {
               width: 39%;
             }
           }
         }
       }
     }
-    aside{
+    aside {
       width: 30%;
     }
   }
