@@ -180,8 +180,20 @@ header .hamburger-btn,
 header #countCartHamburgerBtn {
   display: none;
 }
+header #navMenu {
+  text-align: end;
+}
 header #navMenu h2 {
   color: #80a710;
+  margin: 0.5rem 1rem 1rem 0;
+}
+header #navMenu #btnLogoutDB {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: red;
+  color: #fafafa;
   margin-right: 1rem;
 }
 header #divNavMenu {
@@ -946,6 +958,9 @@ header #divNavMenu #navMenu #containerUserLogin #bagShopping span {
 #mainDashboard #divNavDashboard #navDashboard div em {
   margin: 0.5rem 0;
   color: white;
+}
+#mainDashboard #divNavDashboard #navDashboard div em {
+  display: none;
 }
 #mainDashboard #divNavDashboard #navDashboard .navBtnDB {
   width: 100%;
@@ -5472,6 +5487,14 @@ footer div:last-child input {
     color: #fafafa;
     text-align: center;
     font-size: 0.9rem;
+  }
+  header #navMenu h2 {
+    margin: 0.5rem 1rem 0.5rem 0;
+    font-size: 1rem;
+  }
+  header #navMenu #btnLogoutDB {
+    padding: 0.4rem;
+    font-size: 0.6rem;
   }
   header #divNavMenu {
     position: fixed;

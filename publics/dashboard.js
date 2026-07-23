@@ -3,6 +3,49 @@ import { jwtDecode } from "https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/+esm";
 import { authFetch, setAccessToken } from "./authFetch.js";
 import MindElixir from "./mind-elixir/dist/MindElixir.js";
 const socket = io();
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) {
+    return parts.pop().split(";").shift();
+  }
+  return null;
+}
+let idAd="";
+function getUserFromCookie() {
+  const token = getCookie("accessToken");
+  if (token) {
+    try {
+      const decodedUser = jwtDecode(token);
+      idAd=decodedUser.id;
+      document.getElementById("fullnameAd").innerText = decodedUser.fullname;
+      document.getElementById("roleAd").innerText =
+        `Chức vụ: ${decodedUser.role}`;
+      const decent = decodedUser.decent;
+      function applyPermission() {
+        const buttons = document.querySelectorAll(".navBtnDB");
+        buttons.forEach((btn) => {
+          const target = btn.getAttribute("data-target");
+          if (!decent.includes(target)) {
+            btn.remove();
+          }
+        });
+      }
+      applyPermission();
+      if (decodedUser) {
+        registerPushNotification(decodedUser.id);
+      }
+      return decodedUser;
+    } catch (error) {
+      console.error(`Token không hợp lệ hoặc đã bị can thiệp ${error}`);
+      return null;
+    }
+  } else {
+    console.error("Không thấy token trong cookie");
+    return null;
+  }
+}
+window.onload = getUserFromCookie;
 socket.on("update-funcdevice", (data) => {
   const existRow = document.querySelector(`tr[data-rowId="${data._id}"]`);
   if (existRow) {
@@ -611,7 +654,6 @@ socket.on("update-job", (data) => {
   }
 });
 socket.on("updateGeneratedJob", (data) => {
-  const idAd = document.getElementById("idAd").innerText.slice(3);
   if (data[0].toString() === idAd.toString()) {
     const generatedJob = document.getElementById("generatedJob");
     const computedStyle = window.getComputedStyle(generatedJob);
@@ -761,52 +803,6 @@ document.getElementById("btnCancleUser").addEventListener("click",function(){
   allCheckbox.forEach((item) => (item.checked = false));
   this.style.display="none";
 })
-function getCookie(name) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) {
-    return parts.pop().split(";").shift();
-  }
-  return null;
-}
-function getUserFromCookie() {
-  const token = getCookie("accessToken");
-  if (token) {
-    try {
-      const decodedUser = jwtDecode(token);
-      document.getElementById("idAd").innerText = `ID:${decodedUser.id}`;
-      document.getElementById("fullnameAd").innerText = decodedUser.fullname;
-      document.getElementById("roleAd").innerText =
-        `Chức vụ: ${decodedUser.role}`;
-      const decent = decodedUser.decent;
-      function applyPermission() {
-        const buttons = document.querySelectorAll(".navBtnDB");
-        buttons.forEach((btn) => {
-          const target = btn.getAttribute("data-target");
-          if (!decent.includes(target)) {
-            btn.remove();
-          }
-        });
-      }
-      applyPermission();
-      const currentAdminId = document
-        .getElementById("idAd")
-        .innerText.slice(3)
-        .trim();
-      if (currentAdminId) {
-        registerPushNotification(currentAdminId);
-      }
-      return decodedUser;
-    } catch (error) {
-      console.error(`Token không hợp lệ hoặc đã bị can thiệp ${error}`);
-      return null;
-    }
-  } else {
-    console.error("Không thấy token trong cookie");
-    return null;
-  }
-}
-window.onload = getUserFromCookie;
 const idAdminHidden = document.getElementById("idAdminHidden");
 const fullnameAdmin = document.getElementById("fullnameAdmin");
 const roleAdmin = document.getElementById("roleAdmin");
@@ -820,7 +816,7 @@ document.querySelectorAll(".btnEditUserAdmin").forEach((btn) => {
       headers: { "Content-Type": "application/json;charset=UTF-8" },
     })
       .then((res) => res.json())
-      .then(({ data, success, error }) => {
+      .then(({ data, success, error, mess }) => {
         if (success) {
           idAdminHidden.value = data._id;
           fullnameAdmin.value = data.fullname;
@@ -840,7 +836,11 @@ document.querySelectorAll(".btnEditUserAdmin").forEach((btn) => {
           });
           document.getElementById("btnCancleUser").style.display="inline-block";
         } else {
-          console.error(error);
+          if (error) {
+            alert("Lỗi",`${mess}\n${error}`,"red");
+          }else{
+            alert("Lỗi",mess,"red");
+          }
         }
       });
   });
@@ -885,9 +885,6 @@ btnTogglePW.addEventListener("click", function (e) {
 const btnUpdatePW = document.getElementById("btnUpdatePW");
 btnUpdatePW.addEventListener("click", (e) => {
   e.preventDefault();
-  let idAd = document.getElementById("idAd").innerHTML;
-  idAd = idAd.slice(3);
-  console.log(idAd);
   const valuePwAdminNew = pwAdminNew.value;
   fetch(`/dashboard/updatePWAdmin/${idAd}`, {
     method: "PUT",
@@ -3177,9 +3174,7 @@ document.getElementById("btnReloadOrder").addEventListener("click", () => {
 });
 document.getElementById("formJob").addEventListener("submit", (e) => {
   e.preventDefault();
-  const token = getCookie("accessToken");
-  const decodedUser = jwtDecode(token);
-  const idAdmin = decodedUser.id;
+  const idAdmin = idAd;
   const titleJob = document.getElementById("titleJob").value;
   const levelJob = document.getElementById("levelJob").value;
   const startTimeJob = document.getElementById("startTimeJob").value;
@@ -3510,7 +3505,6 @@ document.getElementById("btnWorkMng").addEventListener("click", function () {
   if (generatedJob.style.display === "inline-block") {
     generatedJob.style.display = "none";
   }
-  const idAd = document.getElementById("idAd").innerText.slice(3);
   document.querySelectorAll("#tableJob tbody tr[data-idJob]").forEach((tr) => {
     tr.style.display = "none";
     const arrayIdAdminAssign = tr.querySelector(".arrayIdAdminAssign");
@@ -3528,14 +3522,13 @@ document.getElementById("btnWorkMng").addEventListener("click", function () {
   });
 });
 document.getElementById("btnReloadJob").addEventListener("click", () => {
-  const idAd = document.getElementById("idAd").innerText.slice(3);
   fetch(`/dashboard/reloadJob/${idAd}`, {
     method: "GET",
     headers: { "Content-Type": "application/json;charset=UTF-8" },
   })
     .then((res) => res.json())
-    .then(({ jobAssign, admins }) => {
-      if (jobAssign && admins) {
+    .then(({ jobAssign, admins, success, mess }) => {
+      if (jobAssign && admins && success===true) {
         document.getElementById("generatedJob").style.display = "none";
         document.querySelector("#tableJob tbody").innerHTML = "";
         const listRowAdmins = admins
@@ -3634,6 +3627,8 @@ document.getElementById("btnReloadJob").addEventListener("click", () => {
         });
         mindInstances = [];
         runMap();
+      }else{
+        alert("Lỗi",mess,"red");
       }
     });
 });
@@ -3723,4 +3718,27 @@ document.addEventListener("DOMContentLoaded", () => {
     navMenu.classList.remove("active");
     document.body.classList.remove("no-scroll");
   });
+});
+document.getElementById("btnLogoutDB").addEventListener("click", (e) => {
+  e.preventDefault();
+  fetch("/api/auth/logoutDB", {
+    method: "POST",
+    credentials: "include",
+  })
+    .then((res) => res.json())
+    .then(({ mess, error, success }) => {
+      if (success) {
+        setAccessToken(null);
+        const currentPath = window.location.pathname + window.location.search;
+        window.location.href = `/loginAdmin?redirect=${encodeURIComponent(currentPath)}`;
+      } else {
+        alert("Lỗi", `${mess}\n${error}`, red);
+      }
+    })
+    .catch((error) => {
+      alert("Lỗi", error, red);
+      setAccessToken(null);
+      const currentPath = window.location.pathname + window.location.search;
+      window.location.href = `/loginAdmin?redirect=${encodeURIComponent(currentPath)}`;
+    });
 });

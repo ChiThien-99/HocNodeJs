@@ -179,8 +179,15 @@ header {
     display: none;
   }
   #navMenu {
+    text-align: end;
     h2 {
       color: $colorCTA;
+      margin: 0.5rem 1rem 1rem 0;
+    }
+    #btnLogoutDB{
+      @include button(0.5rem);
+      background-color: red;
+      color: $colorSecondaryText;
       margin-right: 1rem;
     }
   }
@@ -900,6 +907,9 @@ header {
           // color: black;
           margin: 0.5rem 0;
           color: white;
+        }
+        em{
+          display: none;
         }
       }
       .navBtnDB {
@@ -5089,6 +5099,16 @@ footer {
         color: $colorSecondaryText;
         text-align: center;
         font-size: 0.9rem;
+      }
+    }
+    #navMenu{
+      h2{
+        margin: 0.5rem 1rem 0.5rem 0;
+        font-size: 1rem;
+      }
+      #btnLogoutDB{
+        padding: 0.4rem;
+        font-size: 0.6rem;
       }
     }
     #divNavMenu {

@@ -234,3 +234,21 @@ export const logout=async(req,res)=>{
     return res.json({mess:"Đăng xuất thất bại",success:false,error:error.message});
   }
 }
+export const logoutDB=async(req,res)=>{
+  try {
+    const refreshToken=req.cookies.refreshToken;
+    if (!refreshToken) {
+      return res.json({mess:"Đã đăng xuất",success:true})
+    }
+    await clientEntity.updateOne({refreshToken:refreshToken},{$pull:{refreshToken:refreshToken}});
+    res.clearCookie("refreshToken",{
+      httpOnly:true,
+      secure:true,
+      sameSite:"none",
+      path:"/",
+    })
+    return res.json({mess:"Đã đăng xuất",success:true});
+  } catch (error) {
+    return res.json({mess:"Đăng xuất thất bại",success:false,error:error.message});
+  }
+}

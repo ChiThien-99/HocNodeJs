@@ -21,7 +21,6 @@ export const authenticateToken = (req, res, next) => {
       });
     }
     req.user = decodedUser;
-    console.log(decodedUser);
     next();
   });
 };
@@ -49,7 +48,6 @@ export const authenticateToken2 = (req, res, next) => {
       });
     }
     req.user = decodedUser;
-    console.log(decodedUser);
     next();
   });
 };

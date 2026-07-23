@@ -136,6 +136,13 @@ export const postRegisterAdmin = async (req, res) => {
   try {
     let { fullnameAdmin, roleAdmin, emailAdmin, pwAdmin, valueDecentAdmin } =
       req.body;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("userMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+    }
     const salt = await bcrypt.genSalt(10);
     pwAdmin = await bcrypt.hash(pwAdmin, salt);
     let registerAdmin = new adminEntity({
@@ -158,16 +165,30 @@ export const postRegisterAdmin = async (req, res) => {
 export const getUserAdminById = async (req, res) => {
   try {
     const { id } = req.params;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("userMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+    }
     const admin = await adminEntity.findById(id);
     res.json({ data: admin, success: true });
   } catch (error) {
-    res.json({ success: false, error: error.message });
+    res.json({ mess:"Không lấy được thông tin admin",success: false, error: error.message });
   }
 };
 
 export const putUpdateAdminById = async (req, res) => {
   try {
     const { idUpdate } = req.params;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("userMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+    }
     const idUserCurrent = req.user.id;
     const roleUserCurrent = req.user.role;
     let { fullnameAdmin, roleAdmin, emailAdmin, pwAdmin, valueDecentAdmin } =
@@ -222,11 +243,18 @@ export const putUpdateAdminById = async (req, res) => {
 export const putUpdatePWAdmin = async (req, res) => {
   try {
     const { idUpdate } = req.params;
-    const idUserCurrent = req.user.id;
     let { valuePwAdminNew } = req.body;
-    if (idUpdate != idUserCurrent) {
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("passwordMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+    }
+    const admin=adminEntity.findById(idUpdate);
+    if (!admin) {
       return res.status(403).json({
-        mess: "Bạn không đủ quyền thực hiện hành động này!",
+        mess: "Id admin không tồn tại!",
         success: false,
       });
     }
@@ -269,6 +297,13 @@ export const deleteUserAdminById = async (req, res) => {
 export const postCarousel = async (req, res) => {
   try {
     const { captionCarousel, urlCarousel, orderCarousel } = req.body;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("homeMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+    }
     const newCarousel = await carouselEntity.create({
       caption: captionCarousel,
       url: urlCarousel,
@@ -291,6 +326,13 @@ export const postCarousel = async (req, res) => {
 export const getBannerById = async (req, res) => {
   try {
     const { id } = req.params;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("homeMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+    }
     const banner = await carouselEntity.findById(id);
     res.json({ data: banner });
   } catch (error) {
@@ -300,6 +342,13 @@ export const getBannerById = async (req, res) => {
 export const putUpdateCarousel = async (req, res) => {
   try {
     const { id } = req.params;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("homeMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+    }
     const currentCarousel = await carouselEntity.findById(id);
     const { captionCarousel, urlCarousel, orderCarousel } = req.body;
     let image = "";
@@ -370,8 +419,14 @@ export const deleteCarousel = async (req, res) => {
 };
 export const addNotify = async (req, res) => {
   try {
-    console.log(req.body);
     const { typeNotify, contentNotify, urlNotify, expiredNotify } = req.body;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("homeMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+    }
     const expiredDate = new Date(expiredNotify);
     if (isNaN(expiredDate.getTime())) {
       return res.json({
@@ -394,11 +449,9 @@ export const addNotify = async (req, res) => {
     const io = req.app.get("socketio");
     io.emit("update-notify", newNotify);
     const delay = expiredDate.getTime() - Date.now();
-    console.log(delay);
     setTimeout(async () => {
       const allNotify = await notifyEntity.find().sort("-createAt");
       io.emit("update-notify", allNotify);
-      console.log("Đã cập nhật lại thông báo");
     }, delay + 60000);
     res.json({ mess: "Tạo thông báo thành công", success: true });
   } catch (error) {
@@ -412,6 +465,13 @@ export const addNotify = async (req, res) => {
 export const getUpdateNotify = async (req, res) => {
   try {
     const { id } = req.params;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("homeMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+    }
     const notify = await notifyEntity.findById(id);
     res.json({ data: notify });
   } catch (error) {
@@ -422,6 +482,13 @@ export const putUpdateNotify = async (req, res) => {
   try {
     const { typeNotify, contentNotify, urlNotify, expiredNotify } = req.body;
     const { id } = req.params;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("homeMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+    }
     const expiredDate = new Date(expiredNotify);
     if (isNaN(expiredDate.getTime())) {
       return res.json({
@@ -480,6 +547,13 @@ export const deleteNotify = async (req, res) => {
 export const addBanner = async (req, res) => {
   try {
     const { pageBanner, urlBN } = req.body;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("marketingMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+    }
     const newBanner = await bannerEntity.create({
       page: pageBanner,
       image: req.file.path,
@@ -499,6 +573,13 @@ export const addBanner = async (req, res) => {
 };
 export const getUpdateBanner = async (req, res) => {
   const { id } = req.params;
+  if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("marketingMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+}
   const updateBanner = await bannerEntity.findById(id);
   res.json({ data: updateBanner });
 };
@@ -526,6 +607,13 @@ export const putUpdateBN = async (req, res) => {
   try {
     const { id } = req.params;
     const { pageBanner, urlBN } = req.body;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("marketingMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+   }
     const currentBanner = await bannerEntity.findById(id);
     let image = "";
     let cloudinary_id = "";
@@ -577,6 +665,13 @@ export const deleteBN = async (req, res) => {
 export const addListFuncApp = async (req, res) => {
   try {
     const { listFuncApp } = req.body;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("softwareMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+    }
     const newFuncApp = await funcAppEntity.create({ name: listFuncApp });
     const io = req.app.get("socketio");
     io.emit("update-funcapp", newFuncApp);
@@ -592,6 +687,13 @@ export const addListFuncApp = async (req, res) => {
 export const getupdateFuncApp = async (req, res) => {
   try {
     const { id } = req.params;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("softwareMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+}
     const funcApp = await funcAppEntity.findById(id);
     res.json({ data: funcApp });
   } catch (error) {
@@ -602,6 +704,13 @@ export const putUpdateFuncApp = async (req, res) => {
   try {
     const { id } = req.params;
     const { listFuncApp } = req.body;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("softwareMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+    }
     const updateFuncApp = await funcAppEntity.findByIdAndUpdate(
       id,
       {
@@ -646,6 +755,13 @@ export const addApp = async (req, res) => {
       priceSIActualApp,
       instructionApp,
     } = req.body;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("softwareMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+}
     let priceLE = "";
     let priceSI = "";
     if (optionPrice === "freeApp") {
@@ -679,6 +795,13 @@ export const addApp = async (req, res) => {
 export const getUpdateApp = async (req, res) => {
   try {
     const { id } = req.params;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("softwareMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+}
     const app = await appEntity.findById(id);
     res.json({ data: app });
   } catch (error) {
@@ -688,6 +811,13 @@ export const getUpdateApp = async (req, res) => {
 export const putUpdateApp = async (req, res) => {
   try {
     const { id } = req.params;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("softwareMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+    }
     const currentApp = await appEntity.findById(id);
     let image = "";
     let cloudinary_id = "";
@@ -786,6 +916,13 @@ export const deleteApp = async (req, res) => {
 export const addListFuncDevice = async (req, res) => {
   try {
     const { listFuncDevice } = req.body;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("deviceMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+    }
     const newFuncDevice = await funcDeviceEntity.create({
       name: listFuncDevice,
     });
@@ -803,6 +940,13 @@ export const addListFuncDevice = async (req, res) => {
 export const getUploadFuncDevice = async (req, res) => {
   try {
     const { id } = req.params;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("deviceMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+}
     const funcDevice = await funcDeviceEntity.findById(id);
     res.json({ data: funcDevice });
   } catch (error) {
@@ -813,6 +957,13 @@ export const putUpdateFuncDevice = async (req, res) => {
   try {
     const { id } = req.params;
     const { listFuncDevice } = req.body;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("deviceMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+    }
     const updateFuncDevice = await funcDeviceEntity.findByIdAndUpdate(
       id,
       { name: listFuncDevice },
@@ -857,6 +1008,13 @@ export const addDevice = async (req, res) => {
       funcDevice,
       instrucDevice,
     } = req.body;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("deviceMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+    }
     if (!req.files || req.files.length === 0) {
       return res.json({
         mess: "Vui lòng chọn ít nhất một ảnh",
@@ -915,6 +1073,13 @@ export const addDevice = async (req, res) => {
 export const getUpdateDevice = async (req, res) => {
   try {
     const { id } = req.params;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("deviceMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+}
     const device = await deviceEntity.findById(id);
     res.json({ data: device });
   } catch (error) {
@@ -924,6 +1089,13 @@ export const getUpdateDevice = async (req, res) => {
 export const putUpdateDevice = async (req, res) => {
   try {
     const { id } = req.params;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("deviceMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+    }
     const currentDevice = deviceEntity.findById(id);
     if (!currentDevice) {
       return res.json({
@@ -1086,6 +1258,13 @@ export const deleteDevice = async (req, res) => {
 export const addblogs = async (req, res) => {
   try {
     const { titleblogs, infoblogs, categoryblogs } = req.body;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("blogsMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+    }
     const newBlog = await blogsEntity.create({
       image: req.file.path,
       cloudinary_id: req.file.filename,
@@ -1107,6 +1286,13 @@ export const addblogs = async (req, res) => {
 export const postDraft = async (req, res) => {
   try {
     const { id } = req.params;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("blogsMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+    }
     const blogsDraft = await blogsDraftEntity.findById(id);
     if (!blogsDraft) {
       return res.json({
@@ -1147,6 +1333,13 @@ export const postDraft = async (req, res) => {
 export const addBlogDraft = async (req, res) => {
   try {
     const { titleblogs, infoblogs, categoryblogs } = req.body;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("blogsMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+    }
     const newBlog = await blogsDraftEntity.create({
       image: req.file.path,
       cloudinary_id: req.file.filename,
@@ -1167,12 +1360,26 @@ export const addBlogDraft = async (req, res) => {
 };
 export const getEditBlogDraft = async (req, res) => {
   const { id } = req.params;
+  if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("blogsMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+}
   const editBlog = await blogsDraftEntity.findById(id);
   res.json({ data: editBlog });
 };
 export const putEditBlogDraft = async (req, res) => {
   try {
     const { id } = req.params;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("blogsMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+   }
     const currentBlog = await blogsDraftEntity.findById(id);
     const { titleblogs, infoblogs, categoryblogs } = req.body;
     let image = "";
@@ -1232,6 +1439,13 @@ export const deleteBlogDraft = async (req, res) => {
 export const addCategoryblogs = async (req, res) => {
   try {
     const { categoryblogs } = req.body;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("blogsMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+    }
     const newCategoryBlog = await categoryblogsEntity.create({
       name: categoryblogs,
     });
@@ -1249,6 +1463,13 @@ export const addCategoryblogs = async (req, res) => {
 export const getUpdateCategoryblogs = async (req, res) => {
   try {
     const { id } = req.params;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("blogsMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+}
     const categoryblogs = await categoryblogsEntity.findById(id);
     res.json({ data: categoryblogs });
   } catch (error) {
@@ -1259,6 +1480,13 @@ export const putUpdateCategoryblogs = async (req, res) => {
   try {
     const { id } = req.params;
     const { categoryblogs } = req.body;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("blogsMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+    }
     const updateCategoryBlog = await categoryblogsEntity.findByIdAndUpdate(
       id,
       { name: categoryblogs },
@@ -1293,6 +1521,13 @@ export const deleteCategoryblogs = async (req, res) => {
 export const getUpdateblogs = async (req, res) => {
   try {
     const { id } = req.params;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("userMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+}
     const blogs = await blogsEntity.findById(id);
     res.json({ data: blogs });
   } catch (error) {
@@ -1302,6 +1537,13 @@ export const getUpdateblogs = async (req, res) => {
 export const putUpdateblogs = async (req, res) => {
   try {
     const { id } = req.params;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("blogsMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+    }
     const currentBlog = await blogsEntity.findById(id);
     const { titleblogs, infoblogs, categoryblogs } = req.body;
     let image = "";
@@ -1391,6 +1633,13 @@ export const addVoucher = async (req, res) => {
       contentVoucher,
       discountPerVoucher,
     } = req.body;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("marketingMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+    }
     let uniqueCode = "";
     let isDuplicate = true;
     while (isDuplicate) {
@@ -1464,6 +1713,13 @@ export const addVoucher = async (req, res) => {
 export const updateOrder = async (req, res) => {
   try {
     const { id, valueInvoice, valueStatus } = req.body;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("orderMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+    }
     await orderEntity.findByIdAndUpdate(id, {
       status: valueStatus,
       invoice: valueInvoice,
@@ -1581,6 +1837,13 @@ const DocSoTienVietNam = (number) => {
 export const downloadOrder = async (req, res) => {
   try {
     const { id } = req.params;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("orderMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+    }
     const order = await orderEntity.findById(id);
     const client = await clientEntity.findById(order.idClient);
     const clientName = client.fullname;
@@ -1764,6 +2027,13 @@ export const downloadOrder = async (req, res) => {
 export const changeStatusOrders = async (req, res) => {
   try {
     const { arrChooseOrder, statusChange } = req.body;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("orderMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+    }
     if (
       !arrChooseOrder ||
       !Array.isArray(arrChooseOrder) ||
@@ -1795,6 +2065,13 @@ export const changeStatusOrders = async (req, res) => {
 export const importDevice = async (req, res) => {
   try {
     const { idDeviceImport, importQuantityActual, costActual } = req.body;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("deviceMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+    }
     if (!importQuantityActual) {
       return res.json({ mess: "Vui lòng điền số lượng nhập", success: false });
     }
@@ -1820,6 +2097,13 @@ export const importDevice = async (req, res) => {
   }
 };
 export const reloadOrder = async (req, res) => {
+  if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("orderMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+    }
   const now = new Date();
   const thridDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
   const orders = await orderEntity
@@ -1830,7 +2114,13 @@ export const reloadOrder = async (req, res) => {
 export const addJob = async (req, res) => {
   try {
     let { idAdmin, titleJob, levelJob, startTimeJob, deadlineJob } = req.body;
-    console.log(startTimeJob);
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("workMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+    }
     const admins = await adminEntity.find();
     if (!titleJob) {
       return res.json({ mess: "Vui lòng điền tên công việc", success: false });
@@ -1890,6 +2180,13 @@ export const addJob = async (req, res) => {
 export const saveMindmap = async (req, res) => {
   try {
     const { payload } = req.body;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("workMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+    }
     if (!payload || !Array.isArray(payload)) {
       return res.json({ mess: "Mindmap gửi lên không hợp lệ", success: false });
     }
@@ -1916,6 +2213,13 @@ export const saveMindmap = async (req, res) => {
 export const assignAdmin = async (req, res) => {
   try {
     const { idJob, idAssignAdmin } = req.body;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("workMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+   }
     if (!idAssignAdmin) {
       return res.json({
         mess: "Vui lòng chọn admin cần giao việc",
@@ -1981,6 +2285,17 @@ export const assignAdmin = async (req, res) => {
 };
 export const reloadJob = async (req, res) => {
   const { idAdmin } = req.params;
+  if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("workMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+}
+  const admin=adminEntity.findById(idAdmin);
+  if (!admin) {
+    return res.json({mess:"Id admin không tồn tại!",success:false});
+  }
   const adminObjectId = new mongoose.Types.ObjectId(idAdmin);
   const jobAssign = await jobEntity.aggregate([
     { $match: { "assigned.id": adminObjectId } },
@@ -2008,12 +2323,18 @@ export const reloadJob = async (req, res) => {
     },
   ]);
   const admins = await adminEntity.find().lean();
-  console.log(jobAssign);
-  res.json({ jobAssign, admins });
+  res.json({ jobAssign, admins,success:true });
 };
 export const updateStatusJob = async (req, res) => {
   try {
     const { idJob } = req.params;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("workMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+    }
     const updateJob = await jobEntity
       .findByIdAndUpdate(
         idJob,
@@ -2040,12 +2361,26 @@ export const updateStatusJob = async (req, res) => {
 };
 export const getUpdateJob = async (req, res) => {
   const { idJob } = req.params;
+  if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("workMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+}
   const jobUpdate = await jobEntity.findById(idJob);
   res.json({ data: jobUpdate });
 };
 export const updateJob = async (req, res) => {
   try {
     let { idJob, titleJob, levelJob, startTimeJob, deadlineJob } = req.body;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("workMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+    }
     const updateJob = await jobEntity
       .findByIdAndUpdate(
         idJob,
@@ -2102,6 +2437,13 @@ if (!process.env.VAPID_PUBLIC_KEY && !process.env.VAPID_PRIVATE_KEY) {
 export const subscribeNotification = async (req, res) => {
   try {
     const { subscription, idAdmin } = req.body;
+    if (!req.user) {
+      return res.json({mess:"Không tìm thấy tài khoản admin\nVui lòng đăng nhập",success:false});
+    }
+    const decents=req.user.decent;
+    if (!decents.includes("workMng")) {
+      return res.json({mess:"Bạn chưa được phân quyền",success:false});
+   }
     await adminEntity.findByIdAndUpdate(idAdmin, {
       pushSubscription: subscription,
     });
