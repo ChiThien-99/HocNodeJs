@@ -11,13 +11,13 @@ function getCookie(name) {
   }
   return null;
 }
-let idAd="";
+let idAd = "";
 function getUserFromCookie() {
   const token = getCookie("accessToken");
   if (token) {
     try {
       const decodedUser = jwtDecode(token);
-      idAd=decodedUser.id;
+      idAd = decodedUser.id;
       document.getElementById("fullnameAd").innerText = decodedUser.fullname;
       document.getElementById("roleAd").innerText =
         `Chức vụ: ${decodedUser.role}`;
@@ -641,10 +641,10 @@ socket.on("update-job", (data) => {
     const customTitle = map.getAttribute("data-title");
     const mind = new MindElixir({
       el: map,
-      contextMenu:true,
-      toolBar:true,
-      draggable:true,
-      mobileMultiSelect:true,
+      contextMenu: true,
+      toolBar: true,
+      draggable: true,
+      mobileMultiSelect: true,
     });
     mindInstances.push({
       mapId: customTitle,
@@ -756,7 +756,11 @@ document.getElementById("registerAdmin").addEventListener("submit", (e) => {
           alert("Thông báo", mess, "#80a710");
           window.location.reload();
         } else {
-          alert("Lỗi", `${mess}\n${error}`, "red");
+          if (error) {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          } else {
+            alert("Lỗi", mess, "red");
+          }
         }
       });
   } else {
@@ -785,24 +789,26 @@ document.getElementById("registerAdmin").addEventListener("submit", (e) => {
           allCheckbox.forEach((item) => (item.checked = false));
           window.location.reload();
         } else {
-          alert("Lỗi", `${mess}\n${err ? err : ""}`, "red");
+          if (error) {
+            alert("Lỗi", `${mess}\n${err}`, "red");
+          } else {
+            alert("Lỗi", mess, "red");
+          }
         }
       });
   }
 });
-document.getElementById("btnCancleUser").addEventListener("click",function(){
+document.getElementById("btnCancleUser").addEventListener("click", function () {
   document.getElementById("idAdminHidden").value = "";
   document.getElementById("fullnameAdmin").value = "";
   document.getElementById("roleAdmin").value = "";
   document.getElementById("emailAdmin").value = "";
   document.getElementById("pwAdmin").value = "";
   document.getElementById("btnRegister").value = "Tạo";
-  const allCheckbox = document.querySelectorAll(
-    "input[name='decentAdmin']",
-  );
+  const allCheckbox = document.querySelectorAll("input[name='decentAdmin']");
   allCheckbox.forEach((item) => (item.checked = false));
-  this.style.display="none";
-})
+  this.style.display = "none";
+});
 const idAdminHidden = document.getElementById("idAdminHidden");
 const fullnameAdmin = document.getElementById("fullnameAdmin");
 const roleAdmin = document.getElementById("roleAdmin");
@@ -834,12 +840,13 @@ document.querySelectorAll(".btnEditUserAdmin").forEach((btn) => {
               item.checked = true;
             }
           });
-          document.getElementById("btnCancleUser").style.display="inline-block";
+          document.getElementById("btnCancleUser").style.display =
+            "inline-block";
         } else {
           if (error) {
-            alert("Lỗi",`${mess}\n${error}`,"red");
-          }else{
-            alert("Lỗi",mess,"red");
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          } else {
+            alert("Lỗi", mess, "red");
           }
         }
       });
@@ -864,7 +871,11 @@ document.querySelectorAll(".btnDeleteUserAdmin").forEach((btn) => {
           if (success) {
             alert("Thông báo", mess, "#80a710");
           } else {
-            alert("Lỗi", `${mess}\n${error}`, "red");
+            if (error) {
+              alert("Lỗi", `${mess}\n${error}`, "red");
+            } else {
+              alert("Lỗi", mess, "red");
+            }
           }
         });
     }
@@ -896,7 +907,11 @@ btnUpdatePW.addEventListener("click", (e) => {
       if (success) {
         alert("Thông báo", mess, "#80a710");
       } else {
-        alert("Lỗi", `${mess}\n${error}`, "red");
+        if (error) {
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        } else {
+          alert("Lỗi", mess, "red");
+        }
       }
     });
 });
@@ -926,7 +941,11 @@ formCarousel.addEventListener("submit", (e) => {
               "none";
             alert("Thông báo", mess, "#80a710");
           } else {
-            alert("Lỗi", `${mess}\n${error}`, "red");
+            if (error) {
+              alert("Lỗi", `${mess}\n${error}`, "red");
+            } else {
+              alert("Lỗi", mess, "red");
+            }
           }
         });
     } catch (error) {
@@ -945,7 +964,11 @@ formCarousel.addEventListener("submit", (e) => {
             document.getElementById("btnCancelCarousel").style.display = "none";
             alert("Thông báo", mess, "#80a710");
           } else {
-            alert("Lỗi", `${mess}\n${error}`, "red");
+            if (error) {
+              alert("Lỗi", `${mess}\n${error}`, "red");
+            } else {
+              alert("Lỗi", mess, "red");
+            }
           }
         });
     } catch (error) {
@@ -981,7 +1004,11 @@ document
           if (success) {
             alert("Thông báo", mess, "#80a710");
           } else {
-            alert("Lỗi", `${mess}\n${error}`, "red");
+            if (error) {
+              alert("Lỗi", `${mess}\n${error}`, "red");
+            } else {
+              alert("Lỗi", mess, "red");
+            }
           }
         })
         .catch((error) => {
@@ -1029,7 +1056,11 @@ document
             if (success) {
               alert("Thông báo", mess, "#80a710");
             } else {
-              alert("Lỗi", `${mess}\n${error}`, "red");
+              if (error) {
+                alert("Lỗi", `${mess}\n${error}`, "red");
+              } else {
+                alert("Lỗi", mess, "red");
+              }
             }
           })
           .catch((error) => {
@@ -1069,7 +1100,11 @@ formAddNotify.addEventListener("submit", (e) => {
           document.getElementById("btnCancelNotify").style.display = "none";
           alert("Thông báo", mess, "#80a710");
         } else {
-          alert("Lỗi", `${mess}\n${error}`, "red");
+          if (error) {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          } else {
+            alert("Lỗi", mess, "red");
+          }
         }
       })
       .catch((error) => {
@@ -1093,7 +1128,11 @@ formAddNotify.addEventListener("submit", (e) => {
           document.getElementById("btnCancelNotify").style.display = "none";
           alert("Thông báo", mess, "#80a710");
         } else {
-          alert("Lỗi", `${mess}\n${error}`, "red");
+          if (error) {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          } else {
+            alert("Lỗi", mess, "red");
+          }
         }
       })
       .catch((error) => {
@@ -1152,7 +1191,11 @@ document
             if (success) {
               alert("Thông báo", mess, "#80a710");
             } else {
-              alert("Lỗi", `${mess}\n${error}`, "red");
+              if (error) {
+                alert("Lỗi", `${mess}\n${error}`, "red");
+              } else {
+                alert("Lỗi", mess, "red");
+              }
             }
           })
           .catch((error) => {
@@ -1192,7 +1235,11 @@ formFuncApp.addEventListener("submit", (e) => {
           document.getElementById("btnCancelFuncApp").style.display = "none";
           alert("Thông báo", mess, "#80a710");
         } else {
-          alert("Lỗi", `${mess}\n${error}`, "red");
+          if (error) {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          } else {
+            alert("Lỗi", mess, "red");
+          }
         }
       })
       .catch(() => {
@@ -1211,7 +1258,11 @@ formFuncApp.addEventListener("submit", (e) => {
           document.getElementById("btnCancelFuncApp").style.display = "none";
           alert("Thông báo", mess, "#80a710");
         } else {
-          alert("Lỗi", `${mess}\n${error}`, "red");
+          if (error) {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          } else {
+            alert("Lỗi", mess, "red");
+          }
         }
       })
       .catch((error) => {
@@ -1262,7 +1313,11 @@ document
             if (success) {
               alert("Thông báo", mess, "#80a710");
             } else {
-              alert("Lỗi", `${mess}\n${error}`, "red");
+              if (error) {
+                alert("Lỗi", `${mess}\n${error}`, "red");
+              } else {
+                alert("Lỗi", mess, "red");
+              }
             }
           })
           .catch((error) => {
@@ -1471,7 +1526,11 @@ formApp.addEventListener("submit", (e) => {
           document.getElementById("btnCancelApp").style.display = "none";
           alert("Thông báo", mess, "#80a710");
         } else {
-          alert("Lỗi", `${mess}\n${error}`, "red");
+          if (error) {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          } else {
+            alert("Lỗi", mess, "red");
+          }
         }
       })
       .catch((error) => {
@@ -1497,7 +1556,11 @@ formApp.addEventListener("submit", (e) => {
           document.getElementById("btnCancelApp").style.display = "none";
           alert("Thông báo", mess, "#80a710");
         } else {
-          alert("Lỗi", `${mess}\n${error}`, "red");
+          if (error) {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          } else {
+            alert("Lỗi", mess, "red");
+          }
         }
       })
       .catch((error) => {
@@ -1586,7 +1649,11 @@ document
             if (success) {
               alert("Thông báo", mess, "#80a710");
             } else {
-              alert("Lỗi", `${mess}\n${error}`, "red");
+              if (error) {
+                alert("Lỗi", `${mess}\n${error}`, "red");
+              } else {
+                alert("Lỗi", mess, "red");
+              }
             }
           })
           .catch((error) => {
@@ -1606,7 +1673,11 @@ document.getElementById("btnDeleteImgApp").addEventListener("click", () => {
       if (success) {
         alert("Thông báo", mess, "#80a710");
       } else {
-        alert("Lỗi", `${mess}\n${error}`, "red");
+        if (error) {
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        } else {
+          alert("Lỗi", mess, "red");
+        }
       }
     })
     .catch((error) => {
@@ -1664,7 +1735,11 @@ formFuncDevice.addEventListener("submit", (e) => {
           document.getElementById("btnCancleFuncDevice").style.display = "none";
           alert("Thông báo", mess, "#80a710");
         } else {
-          alert("Lỗi", `${mess}\n${error}`, "red");
+          if (error) {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          } else {
+            alert("Lỗi", mess, "red");
+          }
         }
       })
       .catch((error) => {
@@ -1683,7 +1758,11 @@ formFuncDevice.addEventListener("submit", (e) => {
           document.getElementById("btnCancleFuncDevice").style.display = "none";
           alert("Thông báo", mess, "#80a710");
         } else {
-          alert("Lỗi", `${mess}\n${error}`, "red");
+          if (error) {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          } else {
+            alert("Lỗi", mess, "red");
+          }
         }
       })
       .catch((error) => {
@@ -1748,7 +1827,11 @@ document
           if (success) {
             alert("Thông báo", mess, "#80a710");
           } else {
-            alert("Lỗi", `${mess}\n${error}`, "red");
+            if (error) {
+              alert("Lỗi", `${mess}\n${error}`, "red");
+            } else {
+              alert("Lỗi", mess, "red");
+            }
           }
         })
         .catch((error) => {
@@ -1786,7 +1869,11 @@ formDevice.addEventListener("submit", (e) => {
           document.getElementById("deleteImageColor").style.display = "none";
           alert("Thông báo", mess, "#80a710");
         } else {
-          alert("Lỗi", `${mess}\n${error}`, "red");
+          if (error) {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          } else {
+            alert("Lỗi", mess, "red");
+          }
         }
       })
       .catch((error) => {
@@ -1809,7 +1896,11 @@ formDevice.addEventListener("submit", (e) => {
           document.getElementById("btnCancelDevice").style.display = "none";
           alert("Thông báo", mess, "#80a710");
         } else {
-          alert("Lỗi", `${mess}\n${error}`, "red");
+          if (error) {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          } else {
+            alert("Lỗi", mess, "red");
+          }
         }
       })
       .catch((error) => {
@@ -1961,7 +2052,11 @@ document
             if (success) {
               alert("Thông báo", mess, "#80a710");
             } else {
-              alert("Lỗi", `${mess}\n${error}`, "red");
+              if (error) {
+                alert("Lỗi", `${mess}\n${error}`, "red");
+              } else {
+                alert("Lỗi", mess, "red");
+              }
             }
           })
           .catch((error) => {
@@ -1978,11 +2073,15 @@ document.getElementById("deleteImageDevice").addEventListener("click", () => {
     headers: { "Content-Type": "application/json;charset=UTF-8" },
   })
     .then((res) => res.json())
-    .then(({ mess, success }) => {
+    .then(({ mess, success, error }) => {
       if (success) {
         alert("Thông báo", mess, "#80a710");
       } else {
-        alert("Lỗi", mess, "red");
+        if (error) {
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        } else {
+          alert("Lỗi", mess, "red");
+        }
       }
     })
     .catch((error) => {
@@ -1997,11 +2096,15 @@ document.getElementById("deleteImageColor").addEventListener("click", () => {
     headers: { "Content-Type": "application/json;charset=UTF-8" },
   })
     .then((res) => res.json())
-    .then(({ mess, success }) => {
+    .then(({ mess, success, error }) => {
       if (success) {
         alert("Thông báo", mess, "#80a710");
       } else {
-        alert("Lỗi", mess, "red");
+        if (error) {
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        } else {
+          alert("Lỗi", mess, "red");
+        }
       }
     })
     .catch((error) => {
@@ -2067,7 +2170,11 @@ formblogs.addEventListener("submit", (e) => {
           document.getElementById("btnCancleBlog").style.display = "none";
           alert("Thông báo", mess, "#80a710");
         } else {
-          alert("Lỗi", `${mess}\n${error}`, "red");
+          if (error) {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          } else {
+            alert("Lỗi", mess, "red");
+          }
         }
       })
       .catch((error) => {
@@ -2091,7 +2198,11 @@ formblogs.addEventListener("submit", (e) => {
           document.getElementById("btnSaveDraft").style.display = "none";
           alert("Thông báo", mess, "#80a710");
         } else {
-          alert("Lỗi", `${mess}\n${error}`, "red");
+          if (error) {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          } else {
+            alert("Lỗi", mess, "red");
+          }
         }
       })
       .catch((error) => {
@@ -2125,7 +2236,11 @@ document.getElementById("btnSaveDraft").addEventListener("click", function () {
           this.style.display = "none";
           alert("Thông báo", mess, "#80a710");
         } else {
-          alert("Lỗi", `${mess}\n${error}`, "red");
+          if (error) {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          } else {
+            alert("Lỗi", mess, "red");
+          }
         }
       });
   } else {
@@ -2146,7 +2261,11 @@ document.getElementById("btnSaveDraft").addEventListener("click", function () {
           this.style.display = "none";
           alert("Thông báo", mess, "#80a710");
         } else {
-          alert("Lỗi", `${mess}\n${error}`, "red");
+          if (error) {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          } else {
+            alert("Lỗi", mess, "red");
+          }
         }
       })
       .catch((error) => {
@@ -2180,7 +2299,11 @@ document.getElementById("btnPostDraft").addEventListener("click", function () {
         this.style.display = "none";
         alert("Thông báo", mess, "#80a710");
       } else {
-        alert("Lỗi", `${mess}\n${error}`, "red");
+        if (error) {
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        } else {
+          alert("Lỗi", mess, "red");
+        }
       }
     })
     .catch((error) => {
@@ -2239,7 +2362,11 @@ document
             if (success) {
               alert("Thông báo", mess, "#80a710");
             } else {
-              alert("Lỗi", `${mess}\n${error}`, "red");
+              if (error) {
+                alert("Lỗi", `${mess}\n${error}`, "red");
+              } else {
+                alert("Lỗi", mess, "red");
+              }
             }
           })
           .catch((error) => {
@@ -2285,7 +2412,11 @@ formCategoryblogs.addEventListener("submit", (e) => {
           document.getElementById("btnCancleUDCategory").style.display = "none";
           alert("Thông báo", mess, "#80a710");
         } else {
-          alert("Lỗi", `${mess}\n${error}`, "red");
+          if (error) {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          } else {
+            alert("Lỗi", mess, "red");
+          }
         }
       })
       .catch((error) => {
@@ -2304,7 +2435,11 @@ formCategoryblogs.addEventListener("submit", (e) => {
           document.getElementById("btnCancleUDCategory").style.display = "none";
           alert("Thông báo", mess, "#80a710");
         } else {
-          alert("Lỗi", `${mess}\n${error}`, "red");
+          if (error) {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          } else {
+            alert("Lỗi", mess, "red");
+          }
         }
       })
       .catch((error) => {
@@ -2355,7 +2490,11 @@ document
             if (success) {
               alert("Thông báo", mess, "#80a710");
             } else {
-              alert("Lỗi", `${mess}\n${error}`, "red");
+              if (error) {
+                alert("Lỗi", `${mess}\n${error}`, "red");
+              } else {
+                alert("Lỗi", mess, "red");
+              }
             }
           })
           .catch((error) => {
@@ -2427,7 +2566,11 @@ document
             if (success) {
               alert("Thông báo", mess, "#80a710");
             } else {
-              alert("Lỗi", `${mess}\n${error}`, "red");
+              if (error) {
+                alert("Lỗi", `${mess}\n${error}`, "red");
+              } else {
+                alert("Lỗi", mess, "red");
+              }
             }
           })
           .catch((error) => {
@@ -2455,7 +2598,11 @@ document
           if (success) {
             alert("Thông báo", mess, "#80a710");
           } else {
-            alert("Lỗi", `${mess}\n${error}`, "red");
+            if (error) {
+              alert("Lỗi", `${mess}\n${error}`, "red");
+            } else {
+              alert("Lỗi", mess, "red");
+            }
           }
         })
         .catch((error) => {
@@ -2501,7 +2648,11 @@ formBanner.addEventListener("submit", (e) => {
           document.getElementById("btnCancleBN").style.display = "none";
           alert("Thông báo", mess, "#80a710");
         } else {
-          alert("Lỗi", `${mess}\n${error}`, "red");
+          if (error) {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          } else {
+            alert("Lỗi", mess, "red");
+          }
         }
       })
       .catch((error) => {
@@ -2513,13 +2664,17 @@ formBanner.addEventListener("submit", (e) => {
       body: formData,
     })
       .then((res) => res.json())
-      .then(({ mess, success }) => {
+      .then(({ mess, success, error }) => {
         if (success) {
           formBanner.reset();
           document.getElementById("btnCancleBN").style.display = "none";
           alert("Thông báo", mess, "#80a710");
         } else {
-          alert("Lỗi", mess, "red");
+          if (error) {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          } else {
+            alert("Lỗi", mess, "red");
+          }
         }
       })
       .catch((error) => {
@@ -2570,7 +2725,11 @@ document
             if (success) {
               alert("Thông báo", mess, "#80a710");
             } else {
-              alert("Lỗi", `${mess}\n${error}`, "red");
+              if (error) {
+                alert("Lỗi", `${mess}\n${error}`, "red");
+              } else {
+                alert("Lỗi", mess, "red");
+              }
             }
           })
           .catch((error) => {
@@ -2607,7 +2766,11 @@ document
           if (success) {
             alert("Thông báo", mess, "#80a710");
           } else {
-            alert("Lỗi", `${mess}\n${error}`, "red");
+            if (error) {
+              alert("Lỗi", `${mess}\n${error}`, "red");
+            } else {
+              alert("Lỗi", mess, "red");
+            }
           }
         })
         .catch((error) => {
@@ -2638,7 +2801,11 @@ formVoucher.addEventListener("submit", (e) => {
         }
         alert("Thông báo", mess, "#80a710");
       } else {
-        alert("Lỗi", `${mess}\n${error}`, "red");
+        if (error) {
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        } else {
+          alert("Lỗi", mess, "red");
+        }
       }
     })
     .catch((error) => {
@@ -2745,7 +2912,11 @@ tableOrder.addEventListener("click", async (e) => {
 
               alert("Thông báo", mess, "#80a710");
             } else {
-              alert("Lỗi", `${mess}\n${error}`, "red");
+              if (error) {
+                alert("Lỗi", `${mess}\n${error}`, "red");
+              } else {
+                alert("Lỗi", mess, "red");
+              }
             }
           },
         )
@@ -2892,7 +3063,11 @@ document
         if (success) {
           alert("Thông báo", mess, "#80a710");
         } else {
-          alert("Lỗi", `${mess}\n${error}`, "red");
+          if (error) {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          } else {
+            alert("Lỗi", mess, "red");
+          }
         }
       });
   });
@@ -3026,7 +3201,11 @@ document.getElementById("tableImportDevice").addEventListener("click", (e) => {
           row.querySelector(".cost").value = "";
           alert("Thông báo", mess, "#80a710");
         } else {
-          alert("Lỗi", `${mess}\n${error}`, "red");
+          if (error) {
+            alert("Lỗi", `${mess}\n${error}`, "red");
+          } else {
+            alert("Lỗi", mess, "red");
+          }
         }
       })
       .catch((error) => {
@@ -3246,15 +3425,15 @@ document.getElementById("formJob").addEventListener("submit", (e) => {
       });
   }
 });
-document.getElementById("btnCancleJob").addEventListener("click",function(){
+document.getElementById("btnCancleJob").addEventListener("click", function () {
   document.getElementById("idJob").value = "";
   document.getElementById("titleJob").value = "";
   document.getElementById("levelJob").value = "Gấp";
   document.getElementById("startTimeJob").value = "";
   document.getElementById("deadlineJob").value = "";
   document.getElementById("btnJob").value = "Thêm công việc";
-  this.style.display="none";
-})
+  this.style.display = "none";
+});
 document.addEventListener("DOMContentLoaded", () => {
   const levelColor = {
     Gấp: "red",
@@ -3288,19 +3467,19 @@ function runMap() {
     const customTitle = map.getAttribute("data-title");
     const mind = new MindElixir({
       el: map,
-      contextMenu:true,
-      toolBar:true,
-      draggable:true,
-      mobileMultiSelect:true,
+      contextMenu: true,
+      toolBar: true,
+      draggable: true,
+      mobileMultiSelect: true,
     });
     mindInstances.push({
       mapId: customTitle,
       instance: mind,
       isInitialized: false,
     });
-    map.addEventListener("contextmenu",(e)=>{
+    map.addEventListener("contextmenu", (e) => {
       e.preventDefault();
-    })
+    });
   });
 }
 runMap();
@@ -3461,7 +3640,8 @@ document.querySelector("#tableJob tbody").addEventListener("click", (e) => {
           const deadlineFormatted = deadlineLocalIsoTime.slice(0, 16);
           document.getElementById("deadlineJob").value = deadlineFormatted;
           document.getElementById("btnJob").value = "Cập nhật";
-          document.getElementById("btnCancleJob").style.display="inline-block";
+          document.getElementById("btnCancleJob").style.display =
+            "inline-block";
         } else {
           alert("Lỗi", "Không lấy được data job để cập nhật", "red");
         }
@@ -3527,8 +3707,8 @@ document.getElementById("btnReloadJob").addEventListener("click", () => {
     headers: { "Content-Type": "application/json;charset=UTF-8" },
   })
     .then((res) => res.json())
-    .then(({ jobAssign, admins, success, mess }) => {
-      if (jobAssign && admins && success===true) {
+    .then(({ jobAssign, admins, success, mess, error }) => {
+      if (jobAssign && admins && success === true) {
         document.getElementById("generatedJob").style.display = "none";
         document.querySelector("#tableJob tbody").innerHTML = "";
         const listRowAdmins = admins
@@ -3627,8 +3807,12 @@ document.getElementById("btnReloadJob").addEventListener("click", () => {
         });
         mindInstances = [];
         runMap();
-      }else{
-        alert("Lỗi",mess,"red");
+      } else {
+        if (error) {
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        } else {
+          alert("Lỗi", mess, "red");
+        }
       }
     });
 });
@@ -3732,7 +3916,11 @@ document.getElementById("btnLogoutDB").addEventListener("click", (e) => {
         const currentPath = window.location.pathname + window.location.search;
         window.location.href = `/loginAdmin?redirect=${encodeURIComponent(currentPath)}`;
       } else {
-        alert("Lỗi", `${mess}\n${error}`, red);
+        if (error) {
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        } else {
+          alert("Lỗi", mess, "red");
+        }
       }
     })
     .catch((error) => {

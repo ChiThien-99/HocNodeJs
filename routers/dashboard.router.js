@@ -91,7 +91,11 @@ dashboardRouter.get(
   authenticateToken,
   dashboardController.downloadOrder,
 );
-dashboardRouter.get(`${prefix}/reloadOrder`,authenticateToken, dashboardController.reloadOrder);
+dashboardRouter.get(
+  `${prefix}/reloadOrder`,
+  authenticateToken,
+  dashboardController.reloadOrder,
+);
 dashboardRouter.get(
   `${prefix}/reloadJob/:idAdmin`,
   authenticateToken,
@@ -191,8 +195,16 @@ dashboardRouter.post(
   upload.single("imgVoucher"),
   dashboardController.addVoucher,
 );
-dashboardRouter.post(`${prefix}/addJob`,authenticateToken, dashboardController.addJob);
-dashboardRouter.post(`${prefix}/saveMindmap`,authenticateToken, dashboardController.saveMindmap);
+dashboardRouter.post(
+  `${prefix}/addJob`,
+  authenticateToken,
+  dashboardController.addJob,
+);
+dashboardRouter.post(
+  `${prefix}/saveMindmap`,
+  authenticateToken,
+  dashboardController.saveMindmap,
+);
 dashboardRouter.post(
   `${prefix}/subscribe`,
   authenticateToken,
@@ -267,15 +279,31 @@ dashboardRouter.put(
   upload.single("imgblogs"),
   dashboardController.putEditBlogDraft,
 );
-dashboardRouter.put(`${prefix}/updateOrder`,authenticateToken, dashboardController.updateOrder);
+dashboardRouter.put(
+  `${prefix}/updateOrder`,
+  authenticateToken,
+  dashboardController.updateOrder,
+);
 dashboardRouter.put(
   `${prefix}/changeStatusOrders`,
   authenticateToken,
   dashboardController.changeStatusOrders,
 );
-dashboardRouter.put(`${prefix}/importDevice`, authenticateToken,dashboardController.importDevice);
-dashboardRouter.put(`${prefix}/assignAdmin`, authenticateToken,dashboardController.assignAdmin);
-dashboardRouter.put(`${prefix}/updateJob`, authenticateToken,dashboardController.updateJob);
+dashboardRouter.put(
+  `${prefix}/importDevice`,
+  authenticateToken,
+  dashboardController.importDevice,
+);
+dashboardRouter.put(
+  `${prefix}/assignAdmin`,
+  authenticateToken,
+  dashboardController.assignAdmin,
+);
+dashboardRouter.put(
+  `${prefix}/updateJob`,
+  authenticateToken,
+  dashboardController.updateJob,
+);
 dashboardRouter.delete(
   `${prefix}/deleteUserAdmin/:idDelete`,
   authenticateToken,
@@ -348,21 +376,26 @@ dashboardRouter.delete(
 );
 dashboardRouter.delete(
   `${prefix}/deleteCategoryblogs/:id`,
+  authenticateToken,
   dashboardController.deleteCategoryblogs,
 );
 dashboardRouter.delete(
   `${prefix}/deleteblogs/:id`,
+  authenticateToken,
   dashboardController.deleteblogs,
 );
 dashboardRouter.delete(
   `${prefix}/deleteBlogDraft/:id`,
+  authenticateToken,
   dashboardController.deleteBlogDraft,
 );
 dashboardRouter.delete(
   `${prefix}/deleteJob/:idJob`,
+  authenticateToken,
   dashboardController.deleteJob,
 );
 dashboardRouter.delete(
   `${prefix}/deleteVoucher/:idVoucher`,
+  authenticateToken,
   dashboardController.deleteVoucher,
 );
