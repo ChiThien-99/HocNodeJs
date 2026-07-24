@@ -601,7 +601,8 @@ socket.on("update-job", (data) => {
           <div class="divAssignAdmin">
             <div class="assignAdmin">
               <h2>Chọn thành viên giao việc</h2>
-              <table>
+              <div id="divTableJobAssign">
+               <table>
                 <thead>
                 <tr>
                   <th>Họ và tên</th>
@@ -614,6 +615,7 @@ socket.on("update-job", (data) => {
                  ${adminRowHtml}
                 </tbody>  
               </table>
+              </div>
               <div class="divBtnAssignAdmin">
                 <button type="button" class="btnConfirmAssignAdmin">Xác nhận</button>
                 <button type="button" class="btnCloseAssignAdmin">Đóng</button>
@@ -689,6 +691,14 @@ socket.on("add-voucher", (data) => {
     </tr>
   `,
   );
+});
+socket.on("delete-admin", (data) => {
+  if (data && data._id) {
+    const rowToDelete = document.querySelector(`tr[data-idAdmin="${data._id}"]`);
+    if (rowToDelete) {
+      rowToDelete.remove();
+    }
+  }
 });
 async function verifySession() {
   try {
@@ -789,7 +799,7 @@ document.getElementById("registerAdmin").addEventListener("submit", (e) => {
           allCheckbox.forEach((item) => (item.checked = false));
           window.location.reload();
         } else {
-          if (error) {
+          if (err) {
             alert("Lỗi", `${mess}\n${err}`, "red");
           } else {
             alert("Lỗi", mess, "red");
@@ -905,6 +915,7 @@ btnUpdatePW.addEventListener("click", (e) => {
     .then((res) => res.json())
     .then(({ mess, success, error }) => {
       if (success) {
+        pwAdminNew.value="";
         alert("Thông báo", mess, "#80a710");
       } else {
         if (error) {
@@ -3256,7 +3267,7 @@ document.getElementById("btnReloadOrder").addEventListener("click", () => {
           <button type="button" class="btnDownloadOrder">Tải file pdf</button>
         <div class="detailOrder invoiceArea">
           <div class="headerOrder">
-            <img src="/img/logo_imzai_1.webp" alt="logo">
+            <img src="/img/logo_imzen01-final.webp" alt="logo">
           <div>
             <p>CÔNG TY TNHH CÔNG NGHỆ IMZEN</p>
             <p>MST: 0123456789</p>
@@ -3380,6 +3391,7 @@ document.getElementById("formJob").addEventListener("submit", (e) => {
           document.getElementById("startTimeJob").value = "";
           document.getElementById("deadlineJob").value = "";
           document.getElementById("btnJob").value = "Thêm công việc";
+          document.getElementById("btnCancleJob").style.display="none";
           alert("Thông báo", mess, "#80a710");
         } else {
           if (error) {
@@ -3757,7 +3769,7 @@ document.getElementById("btnReloadJob").addEventListener("click", () => {
             <div class="divAssignAdmin">
               <div class="assignAdmin">
                 <h2>Chọn thành viên giao việc</h2>
-                <div id="divtableJob">
+                <div id="divTableJobAssign">
                   <table>
                   <thead>
                     <tr>

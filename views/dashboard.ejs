@@ -384,8 +384,8 @@
               <label for="pwAdmin">Password</label><br />
               <input type="text" name="pwAdmin" id="pwAdmin" /><br />
               <em>*Mật khẩu tối thiểu 8 ký tự</em><br />
-              <em>*Mật khẩu tối thiểu 1 chữ cái, 1 chữ số, 1 ký tự đặc biệt</em>
-              <p>Phân quyền</p>
+              <em>*Mật khẩu tối thiểu 1 chữ cái, 1 chữ số, 1 ký tự đặc biệt</em><br>
+              <label>Phân quyền</label>
               <div id="formDecentralize">
                 <input
                   type="checkbox"
@@ -478,7 +478,7 @@
                 <th>Thao tác</th>
               </tr>
               <%admins.forEach(admin=>{%>
-              <tr>
+              <tr data-idAdmin="<%=admin._id%>">
                 <td><%=admin.fullname%></td>
                 <td><%=admin.role%></td>
                 <td><%=admin.email%></td>
