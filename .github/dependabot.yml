@@ -1,0 +1,7 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly" # Quét hàng tuần (hoặc daily, monthly)
+    open-pull-requests-limit: 10

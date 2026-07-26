@@ -1,0 +1,41 @@
+name: Node.js CI Pipeline
+
+# Luồng CI sẽ chạy mỗi khi có Push hoặc Pull Request vào branch main
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    # Tạo môi trường chạy thử nghiệm (Matrix) trên nhiều phiên bản Node.js
+    strategy:
+      matrix:
+        node-version: [24.x]
+
+    steps:
+      # 1. Lấy code từ GitHub về máy server ảo của GitHub
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Khởi tạo môi trường Node.js
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm" # Caching node_modules để lần chạy sau nhanh hơn
+
+      # 3. Cài đặt các package phụ thuộc
+      - name: Install dependencies
+        run: npm ci
+
+      # 4. Chạy kiểm tra Cú pháp (Linter)
+      - name: Run Linter
+        run: npm run lint --if-present
+
+      # 5. Chạy các bài Unit Test
+      - name: Run Tests
+        run: npm test
