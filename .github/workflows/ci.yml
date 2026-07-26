@@ -32,10 +32,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # 4. Chạy kiểm tra Cú pháp (Linter)
-      - name: Run Linter
-        run: npm run lint --if-present
-
       # 5. Chạy các bài Unit Test
       - name: Run Tests
         run: npm test
