@@ -2,8 +2,7 @@
   "type": "module",
   "scripts": {
     "start": "nodemon --import ./publics/instrument.js server.js",
-    "test": "jest",
-    "lint": "eslint ."
+    "test": "jest"
   },
   "dependencies": {
     "@sentry/browser": "^10.66.0",
@@ -31,8 +30,5 @@
     "pdfkit": "^0.19.1",
     "socket.io": "^4.8.3",
     "web-push": "^3.6.7"
-  },
-  "devDependencies": {
-    "eslint": "^10.8.0"
   }
 }
