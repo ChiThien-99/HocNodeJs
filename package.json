@@ -2,7 +2,7 @@
   "type": "module",
   "scripts": {
     "start": "nodemon --import ./publics/instrument.js server.js",
-    "test": "jest"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@sentry/browser": "^10.68.0",
