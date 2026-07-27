@@ -2368,6 +2368,55 @@ header {
         }
       }
     }
+    #securityMng{
+      #mfaDiv{
+        width: 100%;
+        height: auto;
+        background-color: white;
+        border: 1px solid #bbb;
+        border-radius: 5px;
+        #mfaHeader{
+          display: flex;
+          flex-flow: row nowrap;
+          justify-content: space-between;
+          align-items: center;
+          width: 100%;
+          height: 5rem;
+          padding: 0 0.5rem;
+          div{
+            h3,p{
+              margin: 0.5rem 0;
+            }
+          }
+          #btnSetupMfa{
+            @include button(0.5rem);
+            background-color: $colorCTA;
+            color: $colorSecondaryText;
+          }
+        }
+        #mfaBody{
+          display: none;
+          padding: 1rem;
+          #qrSetupMfa{
+            width: 10rem;
+            height: 10rem;
+          }
+          form{
+            margin-top: 0.5rem;
+           #otpMfaSetup{
+            width: 20%;
+            height: 2rem;
+            font-size: 1rem;
+          }
+          #btnEnableMfa{
+            @include button(0.5rem);
+            background-color: $colorCTA;
+            color: $colorSecondaryText;
+          }
+          }
+        }
+      }
+    }
   }
 }
 //**CSS Login

@@ -2662,6 +2662,57 @@ header #divNavMenu #navMenu #containerUserLogin #bagShopping span {
   flex-flow: row nowrap;
   justify-content: space-between;
 }
+#mainDashboardClient #contentDashboardClient #securityMng #mfaDiv {
+  width: 100%;
+  height: auto;
+  background-color: white;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+}
+#mainDashboardClient #contentDashboardClient #securityMng #mfaDiv #mfaHeader {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 5rem;
+  padding: 0 0.5rem;
+}
+#mainDashboardClient #contentDashboardClient #securityMng #mfaDiv #mfaHeader div h3, #mainDashboardClient #contentDashboardClient #securityMng #mfaDiv #mfaHeader div p {
+  margin: 0.5rem 0;
+}
+#mainDashboardClient #contentDashboardClient #securityMng #mfaDiv #mfaHeader #btnSetupMfa {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #80a710;
+  color: #fafafa;
+}
+#mainDashboardClient #contentDashboardClient #securityMng #mfaDiv #mfaBody {
+  display: none;
+  padding: 1rem;
+}
+#mainDashboardClient #contentDashboardClient #securityMng #mfaDiv #mfaBody #qrSetupMfa {
+  width: 10rem;
+  height: 10rem;
+}
+#mainDashboardClient #contentDashboardClient #securityMng #mfaDiv #mfaBody form {
+  margin-top: 0.5rem;
+}
+#mainDashboardClient #contentDashboardClient #securityMng #mfaDiv #mfaBody form #otpMfaSetup {
+  width: 20%;
+  height: 2rem;
+  font-size: 1rem;
+}
+#mainDashboardClient #contentDashboardClient #securityMng #mfaDiv #mfaBody form #btnEnableMfa {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #80a710;
+  color: #fafafa;
+}
 
 #logoLogin {
   width: -moz-max-content;

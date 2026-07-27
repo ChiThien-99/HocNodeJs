@@ -40,6 +40,15 @@ function getUserFromCookie() {
       );
       document.getElementById("tel").value = decodedUser.tel;
       document.getElementById("email").value = decodedUser.email;
+      const btnSetupMfa=document.getElementById("btnSetupMfa");
+      console.log(decodedUser);
+      if (decodedUser.mfa.isEnabled===true) {
+        btnSetupMfa.innerText="Tắt";
+        btnSetupMfa.style.backgroundColor="red";
+      } else {
+        btnSetupMfa.innerText="Thiết lập";
+        btnSetupMfa.style.backgroundColor="#80a710";
+      }
       return decodedUser;
     } catch (error) {
       console.error(`Token không hợp lệ hoặc đã bị can thiệp ${error}`);
@@ -183,3 +192,55 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+document.getElementById("btnSetupMfa").addEventListener("click",function(){
+  if (this.innerText==="Thiết lập") {
+    fetch("/dashboardClient/mfa/setup",{
+    method:"GET",
+    headers:{"Content-Type":"application/json;charset=UTF-8"}
+  })
+  .then(res=>res.json())
+  .then(({mess,error,success,qrCode})=>{
+    if (success) {
+    document.getElementById("qrSetupMfa").src=qrCode;
+    document.getElementById("mfaBody").style.display="block";
+    this.innerText="Tắt"
+    this.style.backgroundColor="red";
+    }else{
+      if (error) {
+        alert("Lỗi",`${mess}\n${error}`,"red");
+      } else {
+        alert("Lỗi",mess,"red");
+      }
+    }
+  })
+  .catch((error)=>{
+    alert("Lỗi",error,"red");
+  });
+  } else {
+    
+  }
+});
+document.getElementById("btnEnableMfa").addEventListener("click",()=>{
+  const otpMfa=document.getElementById("otpMfaSetup").value;
+  fetch("/dashboardClient/enableMfa",{
+    method:"POST",
+    headers:{"Content-Type":"application/json;charset=UTF-8"},
+    body:JSON.stringify({otpMfa}),
+  })
+  .then(res=>res.json())
+  .then(({mess,success,error})=>{
+    if (success) {
+      document.getElementById("mfaBody").style.display="none";
+      alert("Thông báo",mess,"#80a710");
+    } else {
+      if (error) {
+        alert("Lỗi",`${mess}\n${error}`,"red");
+      } else {
+        alert("Lỗi",mess,"red");
+      }
+    }
+  })
+  .catch((error)=>{
+    alert("Lỗi",error,"red");
+  });
+})

@@ -4,6 +4,8 @@ import jwt from "jsonwebtoken";
 import "dotenv/config";
 import { voucherEntity } from "../models/voucher.model.js";
 import {orderEntity} from "../models/order.model.js";
+import { generateSecret, generateURI, verify } from "otplib";
+import QRCode from "qrcode";
 export const getDashboardClient = async (req, res) => {
   const {idClient}=req.params;
   const vouchers = await voucherEntity
@@ -74,3 +76,50 @@ export const putInfoClient = async (req, res) => {
     });
   }
 };
+export const mfaSetup=async(req,res)=>{
+  try {
+  const idClient=req.user.id;
+  const client=await clientEntity.findById(idClient);
+  if (!client) {
+    return res.json({mess:"Không tìm được client",success:false});
+  }
+  const secret=generateSecret();
+  console.log(`Secret: ${secret}`);
+  const otpAuth=generateURI({
+    issuer:"VanHyTech",
+    label:client.email,
+    secret,
+  });
+  client.mfa.secret=secret;
+  await client.save();
+  const qrCodeImgUrl=await QRCode.toDataURL(otpAuth);
+  return res.json({qrCode:qrCodeImgUrl,success:true});
+  } catch (error) {
+  return res.json({mess:"Kích hoạt MFA thất bại",success:false,error:error.message});
+  }
+}
+export const enableMfa=async(req,res)=>{
+  try {
+  const {otpMfa}=req.body;
+  const idClient=req.user.id;
+  const client=await clientEntity.findById(idClient);
+  if (!client) {
+    return res.json({mess:"Không tìm được client",success:false});
+  }
+  const secret=client.mfa.secret;
+  const otp=otpMfa;
+  console.log(`otp:${otp}`);
+  console.log(`otpMfa:${otpMfa}`);
+  const result=verify({secret,otp});
+  console.log(`result:${result}`);
+  console.log(`resultValid:${result.valid}`);
+  if (result.valid===false) {
+    return res.json({mess:"Mã OTP không đúng hoặc đã hết hạn",success:false});
+  }
+  client.mfa.isEnabled=true;
+  await client.save();
+  return res.json({mess:"Kích hoạt xác thực 2 lớp thành công",success:true});
+  } catch (error) {
+  return res.json({mess:"Kích hoạt xác thực thất bại",success:false,error:error.message});
+  }
+}

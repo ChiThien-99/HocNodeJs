@@ -8,6 +8,16 @@ dbClientRouter.get(
   `${prefix}/:idClient`,
   dbClientController.getDashboardClient,
 );
+dbClientRouter.get(
+  `${prefix}/mfa/setup`,
+  authenticateToken2,
+  dbClientController.mfaSetup,
+);
+dbClientRouter.post(
+  `${prefix}/enableMfa`,
+  authenticateToken2,
+  dbClientController.enableMfa,
+);
 dbClientRouter.put(
   `${prefix}/updateInfo/:id`,
   validateUpdateClient,

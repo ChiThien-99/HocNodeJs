@@ -65,6 +65,11 @@ const clientScheme = mongoose.Schema({
       mailInvoice: { type: String, required: true },
     },
   ],
+  mfa:{
+    isEnabled:{type:Boolean,default:false},
+    secret:{type:String,default:null},
+    backupCodes:[{type:String}],
+  }
 });
 export const clientEntity = mongoose.model(
   "clientEntity",

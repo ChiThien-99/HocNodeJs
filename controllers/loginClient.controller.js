@@ -138,6 +138,7 @@ export const loginClient = async (req, res) => {
         datebirth: client.datebirth,
         tel: client.tel,
         email: client.email,
+        mfa:client.mfa,
       },
       process.env.ACCESS_SECRET,
       { expiresIn: "8h" },

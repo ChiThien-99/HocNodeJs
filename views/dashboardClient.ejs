@@ -81,6 +81,9 @@
           <button data-target="historyMng" class="navBtnDB">
             <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử mua hàng
           </button>
+          <button data-target="securityMng" class="navBtnDB">
+            <i class="fa-solid fa-shield"></i> Bảo mật
+          </button>
         </div>
         </div>
         <div id="contentDashboardClient">
@@ -202,6 +205,27 @@
               </div>
             <%})%>
             <%}%>
+          </div>
+          <div id="securityMng" class="tabContent">
+            <div id="mfaDiv">
+              <div id="mfaHeader">
+                <div>
+                  <h3>Xác thực 2 lớp</h3>
+                  <p>Nhận mã OTP từ Google Authenticator hoặc Microsoft Authenticator để xác thực khi đăng nhập</p>
+                </div>
+                <button id="btnSetupMfa">Thiết lập</button>
+              </div>
+              <div id="mfaBody">
+                <b>B1.Vui lòng quét mã QR dưới bằng Google Authenticator hoặc Microsoft Authenticator để kích hoạt</b><br>
+                <img src="" alt="qrSetupMfa" id="qrSetupMfa"><br>
+                <b>B2.Điền mã OTP trong ứng dụng Google Authenticator hoặc Microsoft Authenticator</b><br>
+                <form>
+                  <input type="text" name="otpMfaSetup" id="otpMfaSetup" placeholder="Mã OTP">
+                  <button type="button" id="btnEnableMfa">Kích hoạt</button>
+                </form>
+              </div>
+            </div>
+          </div>
           </div>
       </main>
       <script src="/socket.io/socket.io.js"></script>
