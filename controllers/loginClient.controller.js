@@ -31,13 +31,13 @@ export const postClient = async (req, res) => {
     }
     const [day, month, year] = dateBirthClient.split("/");
     dateBirthClient = new Date(year, month - 1, day);
-    fullNameClient=fullNameClient.toUpperCase();
+    fullNameClient = fullNameClient.toUpperCase();
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const otpExpired = new Date(Date.now() + 5 * 60 * 1000);
     await clientEntity.create({
       fullname: fullNameClient,
       datebirth: dateBirthClient,
-      gender:genderClient,
+      gender: genderClient,
       tel: telClient,
       email: emailClient,
       password: pwClient,
@@ -92,34 +92,36 @@ export const checkOtp = async (req, res) => {
     });
   }
 };
-export const resendOtp=async(req,res)=>{
+export const resendOtp = async (req, res) => {
   try {
-     let {email}=req.body;
-  if (!email) {
-    return res.json({mess:"Không tìm thấy email",success:false});
-  }
-  email=email.trim().toLowerCase();
-  const client=await clientEntity.findOne({email:email});
-  if (!client) {
-    return res.json({mess:"Không tìm thấy client từ email",success:false});
-  }
-  const fullnameClient=client.fullname;
-  const otp = Math.floor(100000 + Math.random() * 900000).toString();
-  const otpExpired = new Date(Date.now() + 5 * 60 * 1000);
-  client.otpCode=otp;
-  client.otpExpired=otpExpired;
-  await client.save();
-  const emailSend = await sendVerificationEmail(
-      email,
-      fullnameClient,
-      otp,
-    );
-  res.json({mess:"Mã OTP đã được gửi lại qua mail",success:true});
+    let { email } = req.body;
+    if (!email) {
+      return res.json({ mess: "Không tìm thấy email", success: false });
+    }
+    email = email.trim().toLowerCase();
+    const client = await clientEntity.findOne({ email: email });
+    if (!client) {
+      return res.json({
+        mess: "Không tìm thấy client từ email",
+        success: false,
+      });
+    }
+    const fullnameClient = client.fullname;
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otpExpired = new Date(Date.now() + 5 * 60 * 1000);
+    client.otpCode = otp;
+    client.otpExpired = otpExpired;
+    await client.save();
+    const emailSend = await sendVerificationEmail(email, fullnameClient, otp);
+    res.json({ mess: "Mã OTP đã được gửi lại qua mail", success: true });
   } catch (error) {
-  res.json({mess:"Mã OTP gửi lại thất bại",success:false,error:error.message});
+    res.json({
+      mess: "Mã OTP gửi lại thất bại",
+      success: false,
+      error: error.message,
+    });
   }
- 
-}
+};
 export const loginClient = async (req, res) => {
   try {
     const { emailClient2, pwClient2, rememberMe } = req.body;
@@ -130,7 +132,11 @@ export const loginClient = async (req, res) => {
         .json({ mess: "Sai thông tin đăng nhập", success: false });
     }
     if (client.mfa.isEnabled) {
-      return res.json({requiredMfa:true,clientId:client._id,success:true});
+      return res.json({
+        requiredMfa: true,
+        clientId: client._id,
+        success: true,
+      });
     }
     console.log(rememberMe);
     const cookieMaxAge = rememberMe === true ? 30 * 24 * 60 * 60 * 1000 : 0;
@@ -142,7 +148,7 @@ export const loginClient = async (req, res) => {
         datebirth: client.datebirth,
         tel: client.tel,
         email: client.email,
-        mfa:client.mfa,
+        mfa: client.mfa,
       },
       process.env.ACCESS_SECRET,
       { expiresIn: "8h" },
@@ -188,63 +194,77 @@ export const loginClient = async (req, res) => {
 };
 export const checkOtpLogin = async (req, res) => {
   try {
-    const { otp,clientIdRemember } = req.body;
-    const arrayIdRemember=clientIdRemember.split(",");
+    const { otp, clientIdRemember } = req.body;
+    const arrayIdRemember = clientIdRemember.split(",");
     const client = await clientEntity.findById(arrayIdRemember[0]);
-    let isAuthorized=false;
-    if (otp.length===6&&!otp.includes("-")) {
-      isAuthorized=true;
+    let isAuthorized = false;
+    if (otp.length === 6 && !otp.includes("-")) {
+      const result = await verify({ secret: client.mfa.secret, token: otp });
+      if (result.valid) {
+        isAuthorized = true;
+      }
     } else {
-      isAuthorized=true;
+      for (let i = 0; i < client.mfa.backupCodes.length; i++) {
+        const match = await bcrypt.compare(otp, client.mfa.backupCodes[i]);
+        if (match) {
+          isAuthorized = true;
+          client.mfa.backupCodes.splice(i, 1);
+          await client.save();
+          break;
+        }
+      }
     }
-    const result=await verify({secret:client.mfa.secret, token:otp});
-    if (result.valid) {
-    const cookieMaxAge = arrayIdRemember[1] === true ? 30 * 24 * 60 * 60 * 1000 : 0;
-    const accessToken = jwt.sign(
-      {
-        id: client._id,
-        fullname: client.fullname,
-        datebirth: client.datebirth,
-        tel: client.tel,
-        email: client.email,
-        mfa:client.mfa,
-      },
-      process.env.ACCESS_SECRET,
-      { expiresIn: "8h" },
-    );
-    const refreshToken = jwt.sign(
-      {
-        id: client._id,
-      },
-      process.env.REFRESH_SECRET,
-      { expiresIn: "7d" },
-    );
-    await clientEntity.updateOne(
-      { _id: client._id },
-      { $set: { refreshToken: refreshToken } },
-    );
-    res.cookie("refreshToken2", refreshToken, {
-      httpOnly: true,
-      secure: true,
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-      sameSite: "none",
-      path: "/",
-    });
-    res.cookie("accessToken2", accessToken, {
-      httpOnly: false,
-      secure: true,
-      maxAge: cookieMaxAge,
-      sameSite: "none",
-      path: "/",
-    });
-    res.json({
-      mess: "Đăng nhập thành công",
-      success: true,
-      accessToken,
-      cookieMaxAge,
-    });
+    if (isAuthorized) {
+      const cookieMaxAge =
+        arrayIdRemember[1] === true ? 30 * 24 * 60 * 60 * 1000 : 0;
+      const accessToken = jwt.sign(
+        {
+          id: client._id,
+          fullname: client.fullname,
+          datebirth: client.datebirth,
+          tel: client.tel,
+          email: client.email,
+          mfa: client.mfa,
+        },
+        process.env.ACCESS_SECRET,
+        { expiresIn: "8h" },
+      );
+      const refreshToken = jwt.sign(
+        {
+          id: client._id,
+        },
+        process.env.REFRESH_SECRET,
+        { expiresIn: "7d" },
+      );
+      await clientEntity.updateOne(
+        { _id: client._id },
+        { $set: { refreshToken: refreshToken } },
+      );
+      res.cookie("refreshToken2", refreshToken, {
+        httpOnly: true,
+        secure: true,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        sameSite: "none",
+        path: "/",
+      });
+      res.cookie("accessToken2", accessToken, {
+        httpOnly: false,
+        secure: true,
+        maxAge: cookieMaxAge,
+        sameSite: "none",
+        path: "/",
+      });
+      res.json({
+        mess: "Đăng nhập thành công",
+        success: true,
+        accessToken,
+        cookieMaxAge,
+      });
     } else {
-    res.json({mess:"Mã OTP không chính xác hoặc đã hết hạn",success:false});
+      res.json({
+        mess: "Mã OTP/Mã dự phòng không chính xác hoặc đã hết hạn",
+        success: false,
+      });
     }
   } catch (error) {
     res.json({
@@ -254,36 +274,39 @@ export const checkOtpLogin = async (req, res) => {
     });
   }
 };
-export const checkMailForgotPW=async(req,res)=>{
+export const checkMailForgotPW = async (req, res) => {
   try {
-    let {emailForgotPass}=req.body;
-  if (!emailForgotPass) {
-    return res.json({mess:"Vui lòng điền email để lấy lại mật khẩu",success:false})
-  }
-  emailForgotPass=emailForgotPass.trim().toLowerCase();
-  const client = await clientEntity.findOne({email:emailForgotPass});
-  if (!client) {
-    return res.json({mess:"Email chưa được đăng ký",success:false})
-  }
-  const fullnameClient=client.fullname;
-  const otp = Math.floor(100000 + Math.random() * 900000).toString();
-  const otpExpired = new Date(Date.now() + 5 * 60 * 1000);
-  client.otpCode=otp;
-  client.otpExpired=otpExpired;
-  await client.save();
-  const emailSend = await sendVerificationEmail(
+    let { emailForgotPass } = req.body;
+    if (!emailForgotPass) {
+      return res.json({
+        mess: "Vui lòng điền email để lấy lại mật khẩu",
+        success: false,
+      });
+    }
+    emailForgotPass = emailForgotPass.trim().toLowerCase();
+    const client = await clientEntity.findOne({ email: emailForgotPass });
+    if (!client) {
+      return res.json({ mess: "Email chưa được đăng ký", success: false });
+    }
+    const fullnameClient = client.fullname;
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otpExpired = new Date(Date.now() + 5 * 60 * 1000);
+    client.otpCode = otp;
+    client.otpExpired = otpExpired;
+    await client.save();
+    const emailSend = await sendVerificationEmail(
       emailForgotPass,
       fullnameClient,
       otp,
     );
-  res.json({mess:"Điền mã OTP được gửi về email của bạn",success:true});
+    res.json({ mess: "Điền mã OTP được gửi về email của bạn", success: true });
   } catch (error) {
-  res.json({mess:"Có lỗi xảy ra",success:false,error:error.message});
+    res.json({ mess: "Có lỗi xảy ra", success: false, error: error.message });
   }
-}
-export const checkOtpForgotPW=async(req,res)=>{
+};
+export const checkOtpForgotPW = async (req, res) => {
   try {
-    let { emailForgotPass,otpCode } = req.body;
+    let { emailForgotPass, otpCode } = req.body;
     if (emailForgotPass) {
       emailForgotPass = emailForgotPass.trim().toLowerCase();
     }
@@ -310,9 +333,9 @@ export const checkOtpForgotPW=async(req,res)=>{
     });
   }
 };
-export const changeForgotPW=async(req,res)=>{
+export const changeForgotPW = async (req, res) => {
   try {
-    let {emailForgotPass,newPass}=req.body;
+    let { emailForgotPass, newPass } = req.body;
     if (emailForgotPass) {
       emailForgotPass = emailForgotPass.trim().toLowerCase();
     }
@@ -322,10 +345,17 @@ export const changeForgotPW=async(req,res)=>{
     }
     const salt = await bcrypt.genSalt(10);
     newPass = await bcrypt.hash(newPass, salt);
-    client.password=newPass;
+    client.password = newPass;
     client.save();
-    res.json({mess:"Tạo mật khẩu mới thành công\nĐã chuyển qua form đăng nhập",success:true});
+    res.json({
+      mess: "Tạo mật khẩu mới thành công\nĐã chuyển qua form đăng nhập",
+      success: true,
+    });
   } catch (error) {
-    res.json({mess:"Tạo mật khẩu mới thất bại",success:false,error:error.message});
+    res.json({
+      mess: "Tạo mật khẩu mới thất bại",
+      success: false,
+      error: error.message,
+    });
   }
-}
+};

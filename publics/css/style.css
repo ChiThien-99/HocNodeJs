@@ -2678,7 +2678,8 @@ header #divNavMenu #navMenu #containerUserLogin #bagShopping span {
   height: 5rem;
   padding: 0 0.5rem;
 }
-#mainDashboardClient #contentDashboardClient #securityMng #mfaDiv #mfaHeader div h3, #mainDashboardClient #contentDashboardClient #securityMng #mfaDiv #mfaHeader div p {
+#mainDashboardClient #contentDashboardClient #securityMng #mfaDiv #mfaHeader div h3,
+#mainDashboardClient #contentDashboardClient #securityMng #mfaDiv #mfaHeader div p {
   margin: 0.5rem 0;
 }
 #mainDashboardClient #contentDashboardClient #securityMng #mfaDiv #mfaHeader #btnSetupMfa {
@@ -2874,7 +2875,7 @@ header #divNavMenu #navMenu #containerUserLogin #bagShopping span {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   position: fixed;
 }
-#myModalLogin #modalContentLogin input[type=number] {
+#myModalLogin #modalContentLogin input[type=text] {
   width: 30%;
   height: 2rem;
   font-size: 1rem;

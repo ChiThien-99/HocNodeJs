@@ -13,6 +13,11 @@ dbClientRouter.get(
   authenticateToken2,
   dbClientController.mfaSetup,
 );
+dbClientRouter.get(
+  `${prefix}/disable/mfa`,
+  authenticateToken2,
+  dbClientController.disableMfa,
+);
 dbClientRouter.post(
   `${prefix}/enableMfa`,
   authenticateToken2,

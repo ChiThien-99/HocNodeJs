@@ -156,7 +156,10 @@ const generateInvoicePDFBuffer = (order, nameClient) => {
       "../publics/OpenSans-Regular.ttf",
     );
     const fontBold = path.resolve(__dirname, "../publics/OpenSans-Bold.ttf");
-    const logoPath = path.resolve(__dirname, "../publics/img/logo_imzen01-final.png");
+    const logoPath = path.resolve(
+      __dirname,
+      "../publics/img/logo_imzen01-final.png",
+    );
     const headerTopY = doc.y;
     doc.image(logoPath, 50, headerTopY, { width: 60 });
     doc.font(fontRegular).fontSize(10);
@@ -193,16 +196,19 @@ const generateInvoicePDFBuffer = (order, nameClient) => {
         50,
         headerTopY + 140 + 15,
       );
-      if (order.paymentMethod!="Thanh toán khi nhận hàng") {
-      const stampX=380;
-      const stampY=headerTopY+140+5;
-      doc.fillColor("#bbbbbb").strokeColor("#bbbbbb");
-      doc.font(fontBold).fontSize(15);
-      doc.text("ĐÃ THANH TOÁN",stampX+15,stampY+10,{width:150,align:"center"});
-      doc.lineWidth(3).rect(stampX,stampY,180,35).stroke();
-      doc.fillColor("#000000").strokeColor("#000000");
-      doc.font(fontRegular).fontSize(10);
-      doc.lineWidth(1);
+      if (order.paymentMethod != "Thanh toán khi nhận hàng") {
+        const stampX = 380;
+        const stampY = headerTopY + 140 + 5;
+        doc.fillColor("#bbbbbb").strokeColor("#bbbbbb");
+        doc.font(fontBold).fontSize(15);
+        doc.text("ĐÃ THANH TOÁN", stampX + 15, stampY + 10, {
+          width: 150,
+          align: "center",
+        });
+        doc.lineWidth(3).rect(stampX, stampY, 180, 35).stroke();
+        doc.fillColor("#000000").strokeColor("#000000");
+        doc.font(fontRegular).fontSize(10);
+        doc.lineWidth(1);
       }
       doc.text(
         `Số điện thoại: ${order.telDelivery}`,
@@ -216,16 +222,19 @@ const generateInvoicePDFBuffer = (order, nameClient) => {
       );
     } else {
       doc.text(`Tên công ty: ${order.nameCompany}`, 50, headerTopY + 140 + 15);
-      if (order.paymentMethod!="Thanh toán khi nhận hàng") {
-      const stampX=380;
-      const stampY=headerTopY+140+5;
-      doc.fillColor("#bbbbbb").strokeColor("#bbbbbb");
-      doc.font(fontBold).fontSize(15);
-      doc.text("ĐÃ THANH TOÁN",stampX+15,stampY+10,{width:150,align:"center"});
-      doc.lineWidth(3).rect(stampX,stampY,180,35).stroke();
-      doc.fillColor("#000000").strokeColor("#000000");
-      doc.font(fontRegular).fontSize(10);
-      doc.lineWidth(1);
+      if (order.paymentMethod != "Thanh toán khi nhận hàng") {
+        const stampX = 380;
+        const stampY = headerTopY + 140 + 5;
+        doc.fillColor("#bbbbbb").strokeColor("#bbbbbb");
+        doc.font(fontBold).fontSize(15);
+        doc.text("ĐÃ THANH TOÁN", stampX + 15, stampY + 10, {
+          width: 150,
+          align: "center",
+        });
+        doc.lineWidth(3).rect(stampX, stampY, 180, 35).stroke();
+        doc.fillColor("#000000").strokeColor("#000000");
+        doc.font(fontRegular).fontSize(10);
+        doc.lineWidth(1);
       }
       doc.text(
         `Địa chỉ công ty: ${order.addressCompany}`,
@@ -234,11 +243,7 @@ const generateInvoicePDFBuffer = (order, nameClient) => {
       );
       doc.text(`MST: ${order.mstCompany}`, 50, headerTopY + 140 + 45);
     }
-    doc.text(
-      "Diễn giải: VAT",
-      50,
-      headerTopY + 140 + 60,
-    );
+    doc.text("Diễn giải: VAT", 50, headerTopY + 140 + 60);
     doc.text("Loại tiền: VNĐ", 50, headerTopY + 140 + 75);
     const tableTop = headerTopY + 250;
     const colIndex = 50;
@@ -341,7 +346,11 @@ export const sendOrderEmail = async (emailClient, nameClient, newOrder) => {
     return false;
   }
 };
-export const sendEnableMfaEmail = async (emailClient,nameClient,backupCodes) => {
+export const sendEnableMfaEmail = async (
+  emailClient,
+  nameClient,
+  backupCodes,
+) => {
   try {
     const mailOptions = {
       from: `"Hệ thống VANHY" <${process.env.EMAIL_USER}>`,
@@ -360,7 +369,7 @@ export const sendEnableMfaEmail = async (emailClient,nameClient,backupCodes) => 
         <b style="font-size: 1.1rem; margin:0.5rem 0; letter-spacing:0.1rem">${backupCodes[4]}</b><br>
         <p style="font-size: 1.1rem; margin:0.5rem 0">Lưu ý: Mỗi mã chỉ sử dụng 1 lần</p>
         </div>
-      `
+      `,
     };
     const info = await transporter.sendMail(mailOptions);
     console.log(
@@ -368,7 +377,38 @@ export const sendEnableMfaEmail = async (emailClient,nameClient,backupCodes) => 
     );
     return true;
   } catch (error) {
-    console.error("[Email Servive] Lỗi thực thi gửi mail xác nhận kích hoạt bảo mật 2 lớp:", error);
+    console.error(
+      "[Email Servive] Lỗi thực thi gửi mail xác nhận kích hoạt bảo mật 2 lớp:",
+      error,
+    );
+    return false;
+  }
+};
+export const sendDisableMfaEmail = async (emailClient, nameClient) => {
+  try {
+    const mailOptions = {
+      from: `"Hệ thống VANHY" <${process.env.EMAIL_USER}>`,
+      to: emailClient,
+      subject: "Tài khoản của bạn đã tắt kích hoạt xác thực 2 lớp",
+      html: `
+        <div style="font-family: Arial, sans-serif; width:fit-content;margin: 0 auto; padding: 1rem; border: 1px solid #e0e0e0; border-radius: 5px;">
+        <img src="https://res.cloudinary.com/doigxmzte/image/upload/v1784701803/logo_imzen01-final_r9ghv3.png" alt="logoImzenEmail" style="width:3rem; height:3rem;">
+        <p style="font-size: 1.1rem; margin:0.5rem 0">Xin chào <b>${nameClient}</b></p>
+        <p style="font-size: 1.1rem; margin:0.5rem 0">Tài khoản của bạn đã tắt xác thực 2 lớp</p>
+        <p style="font-size: 1.1rem; margin:0.5rem 0">Nếu không phải bạn tắt vui lòng phản hồi lại email này để chúng tôi can thiệp kịp thời bạn nhé!</p>
+        </div>
+      `,
+    };
+    const info = await transporter.sendMail(mailOptions);
+    console.log(
+      `[Email Service] Thư xác nhận tắt bảo mật 2 lớp đã gửi thành công tới:${emailClient}.MessageId:${info.messageId}`,
+    );
+    return true;
+  } catch (error) {
+    console.error(
+      "[Email Servive] Lỗi thực thi gửi mail tắt kích hoạt bảo mật 2 lớp:",
+      error,
+    );
     return false;
   }
 };
