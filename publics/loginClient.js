@@ -241,8 +241,16 @@ loginForm.addEventListener("submit", (e) => {
   axios
     .post("/loginClient/login", { emailClient2, pwClient2, rememberMe })
     .then((res) => {
-      const { mess, success, error, accessToken, cookieMaxAge } = res.data;
-      if ((success && accessToken) || cookieMaxAge) {
+      const { mess, success, error, accessToken, cookieMaxAge,requiredMfa,clientId } = res.data;
+      if (success && requiredMfa && clientId) {
+        document.getElementById("myModalLogin").style.display="block";
+        const otpCodeLogin=document.getElementById("otpCodeLogin");
+        if (otpCodeLogin) {
+          otpCodeLogin.focus();
+        }
+        document.getElementById("clientIdRemember").value=`${clientId},${rememberMe}`;
+      } else {
+        if ((success && accessToken) || cookieMaxAge) {
         setAccessToken2(accessToken, cookieMaxAge);
         const urlParams = new URLSearchParams(window.location.search);
         const redirectTo = urlParams.get("redirect");
@@ -258,12 +266,38 @@ loginForm.addEventListener("submit", (e) => {
           alert("Lỗi", mess, "red");
         }
       }
+      }
     })
     .catch((err) => {
       const mess = err.response?.data?.mess || "Có lỗi xảy ra";
       alert("Lỗi", mess, "red");
     });
 });
+document.getElementById("formOtpLogin").addEventListener("submit",(e)=>{
+  e.preventDefault();
+  const otp=document.getElementById("otpCodeLogin").value;
+  const clientIdRemember=document.getElementById("clientIdRemember").value;
+  axios.post("/loginClient/checkOtpLogin",{otp,clientIdRemember})
+  .then((res)=>{
+    const {mess, success, error, accessToken, cookieMaxAge}=res.data;
+    if ((success && accessToken) || cookieMaxAge) {
+        setAccessToken2(accessToken, cookieMaxAge);
+        const urlParams = new URLSearchParams(window.location.search);
+        const redirectTo = urlParams.get("redirect");
+        if (redirectTo && redirectTo.startsWith("/")) {
+          window.location.href = decodeURIComponent(redirectTo);
+        } else {
+          window.location.href = "/index";
+        }
+      } else {
+        if (error) {
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        } else {
+          alert("Lỗi", mess, "red");
+        }
+      }
+  })
+})
 const updateRateLimitUI = (limitHeader, remainingHeader) => {
   document.getElementById("messLoginClient").style.display = "inline";
   document.getElementById("limitRate").innerText = limitHeader;

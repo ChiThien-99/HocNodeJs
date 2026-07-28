@@ -40,15 +40,15 @@ function getUserFromCookie() {
       );
       document.getElementById("tel").value = decodedUser.tel;
       document.getElementById("email").value = decodedUser.email;
-      const btnSetupMfa=document.getElementById("btnSetupMfa");
-      console.log(decodedUser);
-      if (decodedUser.mfa.isEnabled===true) {
-        btnSetupMfa.innerText="Tắt";
-        btnSetupMfa.style.backgroundColor="red";
-      } else {
-        btnSetupMfa.innerText="Thiết lập";
-        btnSetupMfa.style.backgroundColor="#80a710";
-      }
+      // const btnSetupMfa=document.getElementById("btnSetupMfa");
+      // console.log(decodedUser);
+      // if (decodedUser.mfa.isEnabled===true) {
+      //   btnSetupMfa.innerText="Tắt";
+      //   btnSetupMfa.style.backgroundColor="red";
+      // } else {
+      //   btnSetupMfa.innerText="Thiết lập";
+      //   btnSetupMfa.style.backgroundColor="#80a710";
+      // }
       return decodedUser;
     } catch (error) {
       console.error(`Token không hợp lệ hoặc đã bị can thiệp ${error}`);
@@ -220,7 +220,8 @@ document.getElementById("btnSetupMfa").addEventListener("click",function(){
     
   }
 });
-document.getElementById("btnEnableMfa").addEventListener("click",()=>{
+document.getElementById("formMfa").addEventListener("submit",(e)=>{
+  e.preventDefault();
   const otpMfa=document.getElementById("otpMfaSetup").value;
   fetch("/dashboardClient/enableMfa",{
     method:"POST",
@@ -228,7 +229,7 @@ document.getElementById("btnEnableMfa").addEventListener("click",()=>{
     body:JSON.stringify({otpMfa}),
   })
   .then(res=>res.json())
-  .then(({mess,success,error})=>{
+  .then(({mess,success,error,backupCodes})=>{
     if (success) {
       document.getElementById("mfaBody").style.display="none";
       alert("Thông báo",mess,"#80a710");

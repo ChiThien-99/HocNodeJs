@@ -36,6 +36,7 @@ import { dbClientRouter } from "./routers/dashboardClient.router.js";
 import { cartRouter } from "./routers/cart.router.js";
 import { adminEntity } from "./models/admin.model.js";
 
+app.set("trust proxy", 1); 
 app.use(
   session({
     secret: "9h80n0h0m960m0a8ul2p8ha1aii03umin1l",

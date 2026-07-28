@@ -341,3 +341,34 @@ export const sendOrderEmail = async (emailClient, nameClient, newOrder) => {
     return false;
   }
 };
+export const sendEnableMfaEmail = async (emailClient,nameClient,backupCodes) => {
+  try {
+    const mailOptions = {
+      from: `"Hệ thống VANHY" <${process.env.EMAIL_USER}>`,
+      to: emailClient,
+      subject: "Tài khoản của bạn đã được kích hoạt xác thực 2 lớp",
+      html: `
+        <div style="font-family: Arial, sans-serif; width:fit-content;margin: 0 auto; padding: 1rem; border: 1px solid #e0e0e0; border-radius: 5px;">
+        <img src="https://res.cloudinary.com/doigxmzte/image/upload/v1784701803/logo_imzen01-final_r9ghv3.png" alt="logoImzenEmail" style="width:3rem; height:3rem;">
+        <p style="font-size: 1.1rem; margin:0.5rem 0">Xin chào <b>${nameClient}</b></p>
+        <p style="font-size: 1.1rem; margin:0.5rem 0">Tài khoản của bạn đã được bảo vệ bằng xác thực 2 lớp</p>
+        <p style="font-size: 1.1rem; margin:0.5rem 0">Dưới đây là 5 mã dự phòng dùng để đăng nhập trong trường hợp bạn mất điện thoại hoặc lỡ xóa phần mềm Google Authenticator/Microsoft Authenticator</p>
+        <b style="font-size: 1.1rem; margin:0.5rem 0; letter-spacing:0.1rem">${backupCodes[0]}</b><br>
+        <b style="font-size: 1.1rem; margin:0.5rem 0; letter-spacing:0.1rem">${backupCodes[1]}</b><br>
+        <b style="font-size: 1.1rem; margin:0.5rem 0; letter-spacing:0.1rem">${backupCodes[2]}</b><br>
+        <b style="font-size: 1.1rem; margin:0.5rem 0; letter-spacing:0.1rem">${backupCodes[3]}</b><br>
+        <b style="font-size: 1.1rem; margin:0.5rem 0; letter-spacing:0.1rem">${backupCodes[4]}</b><br>
+        <p style="font-size: 1.1rem; margin:0.5rem 0">Lưu ý: Mỗi mã chỉ sử dụng 1 lần</p>
+        </div>
+      `
+    };
+    const info = await transporter.sendMail(mailOptions);
+    console.log(
+      `[Email Service] Thư xác nhận kích hoạt bảo mật 2 lớp đã gửi thành công tới:${emailClient}.MessageId:${info.messageId}`,
+    );
+    return true;
+  } catch (error) {
+    console.error("[Email Servive] Lỗi thực thi gửi mail xác nhận kích hoạt bảo mật 2 lớp:", error);
+    return false;
+  }
+};

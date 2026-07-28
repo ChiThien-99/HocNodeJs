@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 import { sendVerificationEmail } from "../services/email.service.js";
+import { verify, verifySync } from "otplib";
 export const postClient = async (req, res) => {
   try {
     let {
@@ -128,6 +129,9 @@ export const loginClient = async (req, res) => {
         .status(401)
         .json({ mess: "Sai thông tin đăng nhập", success: false });
     }
+    if (client.mfa.isEnabled) {
+      return res.json({requiredMfa:true,clientId:client._id,success:true});
+    }
     console.log(rememberMe);
     const cookieMaxAge = rememberMe === true ? 30 * 24 * 60 * 60 * 1000 : 0;
     console.log(cookieMaxAge);
@@ -174,6 +178,74 @@ export const loginClient = async (req, res) => {
       accessToken,
       cookieMaxAge,
     });
+  } catch (error) {
+    res.json({
+      mess: "Lỗi máy chủ nội bộ",
+      success: false,
+      error: error.message,
+    });
+  }
+};
+export const checkOtpLogin = async (req, res) => {
+  try {
+    const { otp,clientIdRemember } = req.body;
+    const arrayIdRemember=clientIdRemember.split(",");
+    const client = await clientEntity.findById(arrayIdRemember[0]);
+    let isAuthorized=false;
+    if (otp.length===6&&!otp.includes("-")) {
+      isAuthorized=true;
+    } else {
+      isAuthorized=true;
+    }
+    const result=await verify({secret:client.mfa.secret, token:otp});
+    if (result.valid) {
+    const cookieMaxAge = arrayIdRemember[1] === true ? 30 * 24 * 60 * 60 * 1000 : 0;
+    const accessToken = jwt.sign(
+      {
+        id: client._id,
+        fullname: client.fullname,
+        datebirth: client.datebirth,
+        tel: client.tel,
+        email: client.email,
+        mfa:client.mfa,
+      },
+      process.env.ACCESS_SECRET,
+      { expiresIn: "8h" },
+    );
+    const refreshToken = jwt.sign(
+      {
+        id: client._id,
+      },
+      process.env.REFRESH_SECRET,
+      { expiresIn: "7d" },
+    );
+    await clientEntity.updateOne(
+      { _id: client._id },
+      { $set: { refreshToken: refreshToken } },
+    );
+    res.cookie("refreshToken2", refreshToken, {
+      httpOnly: true,
+      secure: true,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      sameSite: "none",
+      path: "/",
+    });
+    res.cookie("accessToken2", accessToken, {
+      httpOnly: false,
+      secure: true,
+      maxAge: cookieMaxAge,
+      sameSite: "none",
+      path: "/",
+    });
+    res.json({
+      mess: "Đăng nhập thành công",
+      success: true,
+      accessToken,
+      cookieMaxAge,
+    });
+    } else {
+    res.json({mess:"Mã OTP không chính xác hoặc đã hết hạn",success:false});
+    }
   } catch (error) {
     res.json({
       mess: "Lỗi máy chủ nội bộ",
