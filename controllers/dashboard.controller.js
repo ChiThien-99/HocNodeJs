@@ -15,6 +15,7 @@ import { blogsEntity } from "../models/blogs.model.js";
 import { blogsDraftEntity } from "../models/blogDraft.model.js";
 import { v2 as cloudinary } from "cloudinary";
 import bcrypt from "bcryptjs";
+import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import { voucherEntity } from "../models/voucher.model.js";
 import { clientEntity } from "../models/client.model.js";
@@ -26,6 +27,9 @@ import { fileURLToPath } from "url";
 import webpush from "web-push";
 import cron from "node-cron";
 import mongoose from "mongoose";
+import { generateSecret, generateURI, verify } from "otplib";
+import QRCode from "qrcode";
+import { sendEmailNewEmployee } from "../services/email.service.js";
 function getSystemInfo() {
   const info = {
     os: {
@@ -147,30 +151,59 @@ export const postRegisterAdmin = async (req, res) => {
       return res.json({ mess: "Bạn chưa được phân quyền", success: false });
     }
     if (!fullnameAdmin) {
-      return res.json({mess:"Vui lòng điền tên admin",success:false});
+      return res.json({ mess: "Vui lòng điền tên admin", success: false });
     }
     if (!roleAdmin) {
-      return res.json({mess:"Vui lòng điền chức vụ admin",success:false});
+      return res.json({ mess: "Vui lòng điền chức vụ admin", success: false });
     }
     if (!emailAdmin) {
-      return res.json({mess:"Vui lòng điền email admin",success:false});
+      return res.json({ mess: "Vui lòng điền email admin", success: false });
     }
     if (!pwAdmin) {
-      return res.json({mess:"Vui lòng điền mật khẩu admin",success:false});
+      return res.json({ mess: "Vui lòng điền mật khẩu admin", success: false });
     }
-    if (!Array.isArray(valueDecentAdmin)||valueDecentAdmin.length===0) {
-      return res.json({mess:"Vui lòng phân quyền cho admin",success:false});
+    if (!Array.isArray(valueDecentAdmin) || valueDecentAdmin.length === 0) {
+      return res.json({
+        mess: "Vui lòng phân quyền cho admin",
+        success: false,
+      });
     }
+    const plainPwAdmin = pwAdmin;
     const salt = await bcrypt.genSalt(10);
     pwAdmin = await bcrypt.hash(pwAdmin, salt);
+    const secret = generateSecret();
+    const otpAuth = generateURI({
+      issuer: "VanHyTech_NoiBo",
+      label: emailAdmin,
+      secret,
+    });
+    const qrCodeImgUrl = await QRCode.toDataURL(otpAuth);
+    const plainBackupCode = [];
+    const hashedBackupCode = [];
+    for (let i = 0; i < 5; i++) {
+      const code = crypto.randomBytes(4).toString("hex");
+      const formattedCode = `${code.slice(0, 4)}-${code.slice(4)}`;
+      plainBackupCode.push(formattedCode);
+      const salt = await bcrypt.genSalt(10);
+      const hash = await bcrypt.hash(formattedCode, salt);
+      hashedBackupCode.push(hash);
+    }
     let registerAdmin = new adminEntity({
       fullname: fullnameAdmin,
       role: roleAdmin,
       email: emailAdmin,
       password: pwAdmin,
       decent: valueDecentAdmin,
+      mfa: { isEnabled: true, secret: secret, backupCodes: hashedBackupCode },
     });
-    registerAdmin.save();
+    await registerAdmin.save();
+    await sendEmailNewEmployee(
+      emailAdmin,
+      fullnameAdmin,
+      plainPwAdmin,
+      qrCodeImgUrl,
+      plainBackupCode,
+    );
     res.json({ mess: "Đăng ký tài khoản admin thành công", success: true });
   } catch (error) {
     res.json({
@@ -236,16 +269,19 @@ export const putUpdateAdminById = async (req, res) => {
       });
     }
     if (!fullnameAdmin) {
-      return res.json({mess:"Vui lòng điền tên admin",success:false});
+      return res.json({ mess: "Vui lòng điền tên admin", success: false });
     }
     if (!roleAdmin) {
-      return res.json({mess:"Vui lòng điền chức vụ admin",success:false});
+      return res.json({ mess: "Vui lòng điền chức vụ admin", success: false });
     }
     if (!emailAdmin) {
-      return res.json({mess:"Vui lòng điền email admin",success:false});
+      return res.json({ mess: "Vui lòng điền email admin", success: false });
     }
-    if (!Array.isArray(valueDecentAdmin)||valueDecentAdmin.length===0) {
-      return res.json({mess:"Vui lòng phân quyền cho admin",success:false});
+    if (!Array.isArray(valueDecentAdmin) || valueDecentAdmin.length === 0) {
+      return res.json({
+        mess: "Vui lòng phân quyền cho admin",
+        success: false,
+      });
     }
     const updateAdmin = await adminEntity.findByIdAndUpdate(idUpdate, {
       fullname: fullnameAdmin,
@@ -301,7 +337,7 @@ export const putUpdatePWAdmin = async (req, res) => {
       });
     }
     if (!valuePwAdminNew) {
-      return res.json({mess:"Vui lòng điền mật khẩu mới",success:false});
+      return res.json({ mess: "Vui lòng điền mật khẩu mới", success: false });
     }
     const salt = await bcrypt.genSalt(10);
     valuePwAdminNew = await bcrypt.hash(valuePwAdminNew, salt);
@@ -364,7 +400,10 @@ export const postCarousel = async (req, res) => {
       return res.json({ mess: "Bạn chưa được phân quyền", success: false });
     }
     if (!req.file) {
-      return res.json({mess:"Vui lòng thêm hình ảnh carousel",success:false});
+      return res.json({
+        mess: "Vui lòng thêm hình ảnh carousel",
+        success: false,
+      });
     }
     const newCarousel = await carouselEntity.create({
       caption: captionCarousel,
@@ -519,10 +558,16 @@ export const addNotify = async (req, res) => {
       return res.json({ mess: "Bạn chưa được phân quyền", success: false });
     }
     if (!contentNotify) {
-      return res.json({mess:"Vui lòng điền nội dung thông báo",success:false});
+      return res.json({
+        mess: "Vui lòng điền nội dung thông báo",
+        success: false,
+      });
     }
     if (!urlNotify) {
-      return res.json({mess:"Vui lòng điền đường dẫn thông báo",success:false});
+      return res.json({
+        mess: "Vui lòng điền đường dẫn thông báo",
+        success: false,
+      });
     }
     const expiredDate = new Date(expiredNotify);
     if (isNaN(expiredDate.getTime())) {
@@ -593,10 +638,16 @@ export const putUpdateNotify = async (req, res) => {
       return res.json({ mess: "Bạn chưa được phân quyền", success: false });
     }
     if (!contentNotify) {
-      return res.json({mess:"Vui lòng điền nội dung thông báo",success:false});
+      return res.json({
+        mess: "Vui lòng điền nội dung thông báo",
+        success: false,
+      });
     }
     if (!urlNotify) {
-      return res.json({mess:"Vui lòng điền đường dẫn thông báo",success:false});
+      return res.json({
+        mess: "Vui lòng điền đường dẫn thông báo",
+        success: false,
+      });
     }
     const expiredDate = new Date(expiredNotify);
     if (isNaN(expiredDate.getTime())) {
@@ -676,10 +727,13 @@ export const addBanner = async (req, res) => {
       return res.json({ mess: "Bạn chưa được phân quyền", success: false });
     }
     if (!req.file) {
-      return res.json({mess:"Vui lòng chọn hình ảnh banner",success:false});
+      return res.json({
+        mess: "Vui lòng chọn hình ảnh banner",
+        success: false,
+      });
     }
     if (!urlBN) {
-      return res.json({mess:"Vui lòng điền URL banner", success:false});
+      return res.json({ mess: "Vui lòng điền URL banner", success: false });
     }
     const newBanner = await bannerEntity.create({
       page: pageBanner,
@@ -829,7 +883,7 @@ export const addListFuncApp = async (req, res) => {
       return res.json({ mess: "Bạn chưa được phân quyền", success: false });
     }
     if (!listFuncApp) {
-      return res.json({mess:"Vui lòng điền chức năng",success:false});
+      return res.json({ mess: "Vui lòng điền chức năng", success: false });
     }
     const newFuncApp = await funcAppEntity.create({ name: listFuncApp });
     const io = req.app.get("socketio");
@@ -877,7 +931,7 @@ export const putUpdateFuncApp = async (req, res) => {
       return res.json({ mess: "Bạn chưa được phân quyền", success: false });
     }
     if (!listFuncApp) {
-      return res.json({mess:"Vui lòng điền chức năng",success:false});
+      return res.json({ mess: "Vui lòng điền chức năng", success: false });
     }
     const updateFuncApp = await funcAppEntity.findByIdAndUpdate(
       id,
@@ -944,19 +998,31 @@ export const addApp = async (req, res) => {
       return res.json({ mess: "Bạn chưa được phân quyền", success: false });
     }
     if (!req.file) {
-      return res.json({mess:"Vui lòng chọn hình ảnh phần mềm",success:false});
+      return res.json({
+        mess: "Vui lòng chọn hình ảnh phần mềm",
+        success: false,
+      });
     }
     if (!nameApp) {
-      return res.json({mess:"Vui lòng điền tên phần mềm",success:false});
+      return res.json({ mess: "Vui lòng điền tên phần mềm", success: false });
     }
-    if (infoApp==="<p></p>") {
-      return res.json({mess:"Vui lòng điền nội dung phần mềm",success:false});
+    if (infoApp === "<p></p>") {
+      return res.json({
+        mess: "Vui lòng điền nội dung phần mềm",
+        success: false,
+      });
     }
     if (!funcApp) {
-      return res.json({mess:"Vui lòng chọn chức năng phần mềm",success:false});
+      return res.json({
+        mess: "Vui lòng chọn chức năng phần mềm",
+        success: false,
+      });
     }
     if (!instructionApp) {
-      return res.json({mess:"Vui lòng điền url video hướng dẫn",success:false});
+      return res.json({
+        mess: "Vui lòng điền url video hướng dẫn",
+        success: false,
+      });
     }
     let priceLE = "";
     let priceSI = "";
@@ -1048,17 +1114,26 @@ export const putUpdateApp = async (req, res) => {
       priceLE = priceLEActualApp;
       priceSI = priceSIActualApp;
     }
-     if (!nameApp) {
-      return res.json({mess:"Vui lòng điền tên phần mềm",success:false});
+    if (!nameApp) {
+      return res.json({ mess: "Vui lòng điền tên phần mềm", success: false });
     }
-    if (infoApp==="<p></p>") {
-      return res.json({mess:"Vui lòng điền nội dung phần mềm",success:false});
+    if (infoApp === "<p></p>") {
+      return res.json({
+        mess: "Vui lòng điền nội dung phần mềm",
+        success: false,
+      });
     }
     if (!funcApp) {
-      return res.json({mess:"Vui lòng chọn chức năng phần mềm",success:false});
+      return res.json({
+        mess: "Vui lòng chọn chức năng phần mềm",
+        success: false,
+      });
     }
     if (!instructionApp) {
-      return res.json({mess:"Vui lòng điền url video hướng dẫn",success:false});
+      return res.json({
+        mess: "Vui lòng điền url video hướng dẫn",
+        success: false,
+      });
     }
     const updateApp = await appEntity.findByIdAndUpdate(
       id,
@@ -1161,7 +1236,7 @@ export const addListFuncDevice = async (req, res) => {
       return res.json({ mess: "Bạn chưa được phân quyền", success: false });
     }
     if (!listFuncDevice) {
-      return res.json({mess:"Vui lòng điền chức năng",success:false});
+      return res.json({ mess: "Vui lòng điền chức năng", success: false });
     }
     const newFuncDevice = await funcDeviceEntity.create({
       name: listFuncDevice,
@@ -1211,7 +1286,7 @@ export const putUpdateFuncDevice = async (req, res) => {
       return res.json({ mess: "Bạn chưa được phân quyền", success: false });
     }
     if (!listFuncDevice) {
-      return res.json({mess:"Vui lòng điền chức năng",success:false});
+      return res.json({ mess: "Vui lòng điền chức năng", success: false });
     }
     const updateFuncDevice = await funcDeviceEntity.findByIdAndUpdate(
       id,
@@ -1284,28 +1359,43 @@ export const addDevice = async (req, res) => {
       });
     }
     if (!nameDevice) {
-      return res.json({mess:"Vui lòng điền tên thiết bị",success:false});
+      return res.json({ mess: "Vui lòng điền tên thiết bị", success: false });
     }
-    if (infoDevice==="<p></p>") {
-      return res.json({mess:"Vui lòng điền nội dung thiết bị",success:false});
+    if (infoDevice === "<p></p>") {
+      return res.json({
+        mess: "Vui lòng điền nội dung thiết bị",
+        success: false,
+      });
     }
     if (!colorNames) {
-      return res.json({mess:"Vui lòng điền tên màu",success:false});
+      return res.json({ mess: "Vui lòng điền tên màu", success: false });
     }
     if (!colorIndex) {
-      return res.json({mess:"Vui lòng điền index màu",success:false});
+      return res.json({ mess: "Vui lòng điền index màu", success: false });
     }
     if (!priceLEDeviceActual) {
-      return res.json({mess:"Vui lòng điền giá lẻ thiết bị",success:false});
+      return res.json({
+        mess: "Vui lòng điền giá lẻ thiết bị",
+        success: false,
+      });
     }
     if (!priceSIDeviceActual) {
-      return res.json({mess:"Vui lòng điền giá sỉ thiết bị",success:false});
+      return res.json({
+        mess: "Vui lòng điền giá sỉ thiết bị",
+        success: false,
+      });
     }
     if (!funcDevice) {
-      return res.json({mess:"Vui lòng chọn chức năng thiết bị",success:false});
+      return res.json({
+        mess: "Vui lòng chọn chức năng thiết bị",
+        success: false,
+      });
     }
     if (!instrucDevice) {
-      return res.json({mess:"Vui lòng điền url video hướng dẫn",success:false});
+      return res.json({
+        mess: "Vui lòng điền url video hướng dẫn",
+        success: false,
+      });
     }
     const colorFiles = req.files["colorImg"] || [];
     const deviceFiles = req.files["imgDevice"] || [];
@@ -1406,28 +1496,43 @@ export const putUpdateDevice = async (req, res) => {
       instrucDevice,
     } = req.body;
     if (!nameDevice) {
-      return res.json({mess:"Vui lòng điền tên thiết bị",success:false});
+      return res.json({ mess: "Vui lòng điền tên thiết bị", success: false });
     }
-    if (infoDevice==="<p></p>") {
-      return res.json({mess:"Vui lòng điền nội dung thiết bị",success:false});
+    if (infoDevice === "<p></p>") {
+      return res.json({
+        mess: "Vui lòng điền nội dung thiết bị",
+        success: false,
+      });
     }
     if (!colorNames) {
-      return res.json({mess:"Vui lòng điền tên màu",success:false});
+      return res.json({ mess: "Vui lòng điền tên màu", success: false });
     }
     if (!colorIndex) {
-      return res.json({mess:"Vui lòng điền index màu",success:false});
+      return res.json({ mess: "Vui lòng điền index màu", success: false });
     }
     if (!priceLEDeviceActual) {
-      return res.json({mess:"Vui lòng điền giá lẻ thiết bị",success:false});
+      return res.json({
+        mess: "Vui lòng điền giá lẻ thiết bị",
+        success: false,
+      });
     }
     if (!priceSIDeviceActual) {
-      return res.json({mess:"Vui lòng điền giá sỉ thiết bị",success:false});
+      return res.json({
+        mess: "Vui lòng điền giá sỉ thiết bị",
+        success: false,
+      });
     }
     if (!funcDevice) {
-      return res.json({mess:"Vui lòng chọn chức năng thiết bị",success:false});
+      return res.json({
+        mess: "Vui lòng chọn chức năng thiết bị",
+        success: false,
+      });
     }
     if (!instrucDevice) {
-      return res.json({mess:"Vui lòng điền url video hướng dẫn",success:false});
+      return res.json({
+        mess: "Vui lòng điền url video hướng dẫn",
+        success: false,
+      });
     }
     const colorFiles = req.files["colorImg"] || [];
     const deviceFiles = req.files["imgDevice"] || [];
@@ -1611,16 +1716,16 @@ export const addblogs = async (req, res) => {
       return res.json({ mess: "Bạn chưa được phân quyền", success: false });
     }
     if (!req.file) {
-      return res.json({mess:"Vui lòng chọn hình ảnh blog",success:false});
+      return res.json({ mess: "Vui lòng chọn hình ảnh blog", success: false });
     }
     if (!titleblogs) {
-      return res.json({mess:"Vui lòng điền tiêu đề blog",success:false});
+      return res.json({ mess: "Vui lòng điền tiêu đề blog", success: false });
     }
-    if (infoblogs==="<p></p>") {
-      return res.json({mess:"Vui lòng điền nội dung blog",success:false});
+    if (infoblogs === "<p></p>") {
+      return res.json({ mess: "Vui lòng điền nội dung blog", success: false });
     }
     if (!categoryblogs) {
-      return res.json({mess:"Vui lòng chọn danh mục blog",success:false});
+      return res.json({ mess: "Vui lòng chọn danh mục blog", success: false });
     }
     const newBlog = await blogsEntity.create({
       image: req.file.path,
@@ -1671,13 +1776,13 @@ export const postDraft = async (req, res) => {
       cloudinary_id = blogsDraft.cloudinary_id;
     }
     if (!titleblogs) {
-      return res.json({mess:"Vui lòng điền tiêu đề blog",success:false});
+      return res.json({ mess: "Vui lòng điền tiêu đề blog", success: false });
     }
-    if (infoblogs==="<p></p>") {
-      return res.json({mess:"Vui lòng điền nội dung blog",success:false});
+    if (infoblogs === "<p></p>") {
+      return res.json({ mess: "Vui lòng điền nội dung blog", success: false });
     }
     if (!categoryblogs) {
-      return res.json({mess:"Vui lòng chọn danh mục blog",success:false});
+      return res.json({ mess: "Vui lòng chọn danh mục blog", success: false });
     }
     const newBlog = await blogsEntity.create({
       image: image,
@@ -1713,16 +1818,16 @@ export const addBlogDraft = async (req, res) => {
       return res.json({ mess: "Bạn chưa được phân quyền", success: false });
     }
     if (!req.file) {
-      return res.json({mess:"Vui lòng chọn hình ảnh blog",success:false});
+      return res.json({ mess: "Vui lòng chọn hình ảnh blog", success: false });
     }
     if (!titleblogs) {
-      return res.json({mess:"Vui lòng điền tiêu đề blog",success:false});
+      return res.json({ mess: "Vui lòng điền tiêu đề blog", success: false });
     }
-    if (infoblogs==="<p></p>") {
-      return res.json({mess:"Vui lòng điền nội dung blog",success:false});
+    if (infoblogs === "<p></p>") {
+      return res.json({ mess: "Vui lòng điền nội dung blog", success: false });
     }
     if (!categoryblogs) {
-      return res.json({mess:"Vui lòng chọn danh mục blog",success:false});
+      return res.json({ mess: "Vui lòng chọn danh mục blog", success: false });
     }
     const newBlog = await blogsDraftEntity.create({
       image: req.file.path,
@@ -1782,13 +1887,13 @@ export const putEditBlogDraft = async (req, res) => {
       cloudinary_id = currentBlog.cloudinary_id;
     }
     if (!titleblogs) {
-      return res.json({mess:"Vui lòng điền tiêu đề blog",success:false});
+      return res.json({ mess: "Vui lòng điền tiêu đề blog", success: false });
     }
-    if (infoblogs==="<p></p>") {
-      return res.json({mess:"Vui lòng điền nội dung blog",success:false});
+    if (infoblogs === "<p></p>") {
+      return res.json({ mess: "Vui lòng điền nội dung blog", success: false });
     }
     if (!categoryblogs) {
-      return res.json({mess:"Vui lòng chọn danh mục blog",success:false});
+      return res.json({ mess: "Vui lòng chọn danh mục blog", success: false });
     }
     const updateBlogDraft = await blogsDraftEntity.findByIdAndUpdate(
       id,
@@ -1859,7 +1964,7 @@ export const addCategoryblogs = async (req, res) => {
       return res.json({ mess: "Bạn chưa được phân quyền", success: false });
     }
     if (!categoryblogs) {
-      return res.json({mess:"Vui lòng điền danh mục blog",success:false});
+      return res.json({ mess: "Vui lòng điền danh mục blog", success: false });
     }
     const newCategoryBlog = await categoryblogsEntity.create({
       name: categoryblogs,
@@ -1909,7 +2014,7 @@ export const putUpdateCategoryblogs = async (req, res) => {
       return res.json({ mess: "Bạn chưa được phân quyền", success: false });
     }
     if (!categoryblogs) {
-      return res.json({mess:"Vui lòng điền danh mục blog",success:false});
+      return res.json({ mess: "Vui lòng điền danh mục blog", success: false });
     }
     const updateCategoryBlog = await categoryblogsEntity.findByIdAndUpdate(
       id,
@@ -1987,13 +2092,13 @@ export const putUpdateblogs = async (req, res) => {
     const currentBlog = await blogsEntity.findById(id);
     const { titleblogs, infoblogs, categoryblogs } = req.body;
     if (!titleblogs) {
-      return res.json({mess:"Vui lòng điền tiêu đề blog",success:false});
+      return res.json({ mess: "Vui lòng điền tiêu đề blog", success: false });
     }
-    if (infoblogs==="<p></p>") {
-      return res.json({mess:"Vui lòng điền nội dung blog",success:false});
+    if (infoblogs === "<p></p>") {
+      return res.json({ mess: "Vui lòng điền nội dung blog", success: false });
     }
     if (!categoryblogs) {
-      return res.json({mess:"Vui lòng chọn danh mục blog",success:false});
+      return res.json({ mess: "Vui lòng chọn danh mục blog", success: false });
     }
     let image = "";
     let cloudinary_id = "";
@@ -2149,7 +2254,7 @@ export const addVoucher = async (req, res) => {
       });
     }
     console.log(`contentVoucher: ${contentVoucher}`);
-    if (contentVoucher==="<p></p>") {
+    if (contentVoucher === "<p></p>") {
       return res.json({
         mess: "Vui lòng điền nội dung voucher",
         success: false,
@@ -2631,10 +2736,13 @@ export const addJob = async (req, res) => {
     if (!deadlineJob) {
       return res.json({ mess: "Vui lòng điền deadline", success: false });
     }
-    const startTimeJobDate=new Date(startTimeJob);
-    const deadlineJobDate=new Date(deadlineJob);
-    if (startTimeJobDate>deadlineJobDate) {
-      return res.json({mess:"Thời gian bắt đầu phải nhỏ hơn deadline",success:false});
+    const startTimeJobDate = new Date(startTimeJob);
+    const deadlineJobDate = new Date(deadlineJob);
+    if (startTimeJobDate > deadlineJobDate) {
+      return res.json({
+        mess: "Thời gian bắt đầu phải nhỏ hơn deadline",
+        success: false,
+      });
     }
     const adminAssigned = await adminEntity.findById(idAdmin);
     const nameAdminAssigned = `${adminAssigned.fullname}(${adminAssigned.role})`;
@@ -2918,10 +3026,13 @@ export const updateJob = async (req, res) => {
     if (!deadlineJob) {
       return res.json({ mess: "Vui lòng điền deadline", success: false });
     }
-    const startTimeJobDate=new Date(startTimeJob);
-    const deadlineJobDate=new Date(deadlineJob);
-    if (startTimeJobDate>deadlineJobDate) {
-      return res.json({mess:"Thời gian bắt đầu phải nhỏ hơn deadline",success:false});
+    const startTimeJobDate = new Date(startTimeJob);
+    const deadlineJobDate = new Date(deadlineJob);
+    if (startTimeJobDate > deadlineJobDate) {
+      return res.json({
+        mess: "Thời gian bắt đầu phải nhỏ hơn deadline",
+        success: false,
+      });
     }
     const updateJob = await jobEntity
       .findByIdAndUpdate(
