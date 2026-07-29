@@ -463,3 +463,30 @@ toggleNewPW.addEventListener("click", function (e) {
       ? "<i class='fa-solid fa-eye'></i>"
       : "<i class='fa-solid fa-eye-slash'></i>";
 });
+document.getElementById("btnSendMailDisableMFA").addEventListener("click",()=>{
+  const clientIdRemember=document.getElementById("clientIdRemember").value;
+  fetch("/loginClient/sendMailDisableMFA",{
+    method:"POST",
+    headers:{"Content-Type":"application/json;charset=UTF-8"},
+    body:JSON.stringify({clientIdRemember}),
+  })
+  .then(res=>res.json())
+  .then(({mess,success,error})=>{
+    if (success) {
+      const newParagraph=document.createElement("p");
+      newParagraph.textContent=mess;
+      newParagraph.style.margin="0.5rem 0";
+      newParagraph.style.color="blue";
+      document.getElementById("formOtpLogin").appendChild(newParagraph);
+    } else {
+      const newParagraph=document.createElement("p");
+      newParagraph.textContent=`${mess}${error?','+error:''}`;
+      newParagraph.style.margin="0.5rem 0";
+      newParagraph.style.color="red";
+      document.getElementById("formOtpLogin").appendChild(newParagraph);
+    }
+  })
+  .catch((error)=>{
+    alert("Lỗi",error,"red");
+  });
+})

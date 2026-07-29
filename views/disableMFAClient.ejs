@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cảm ơn bạn</title>
+    <title>Thông báo tắt xác thực</title>
     <link rel="stylesheet" href="/css/style.css" />
     <link
       rel="icon"
@@ -117,11 +117,12 @@
         </div>
       </div>
     </header>
-    <main id="mainThank">
+    <main id="mainDisableMFAClient">
       <div>
-        <p>Bạn đã đặt hàng thành công &#127881;</p>
-        <p>Đơn hàng đã được gửi qua mail</p>
-        <p>Cảm ơn bạn đã mua sắm tại <span>VANHY</span></p>
+        <p><%=mess%></p>
+        <%if(success===true){%>
+          <a href="/index/loginClient?headerActive=loginClient&redirect=%2F" id="linkLoginClient">Đăng nhập</a>
+        <%}%>
       </div>
     </main>
     <footer>

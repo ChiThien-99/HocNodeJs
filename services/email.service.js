@@ -412,3 +412,33 @@ export const sendDisableMfaEmail = async (emailClient, nameClient) => {
     return false;
   }
 };
+export const sendReqDisableMfaEmail = async (emailClient, nameClient, disableToken) => {
+  try {
+    const mailOptions = {
+      from: `"Hệ thống VANHY" <${process.env.EMAIL_USER}>`,
+      to: emailClient,
+      subject: "Yêu cầu tắt kích hoạt xác thực 2 lớp tài khoản",
+      html: `
+        <div style="font-family: Arial, sans-serif; width:fit-content;margin: 0 auto; padding: 1rem; border: 1px solid #e0e0e0; border-radius: 5px;">
+        <img src="https://res.cloudinary.com/doigxmzte/image/upload/v1784701803/logo_imzen01-final_r9ghv3.png" alt="logoImzenEmail" style="width:3rem; height:3rem;">
+        <p style="font-size: 1.1rem; margin:0.5rem 0">Xin chào <b>${nameClient}</b></p>
+        <p style="font-size: 1.1rem; margin:0.5rem 0">Chúng tôi nhận được yêu cầu tắt kích hoạt 2 lớp tài khoản của bạn, nếu chính xác là bạn hãy nhấn nút tắt bên dưới nhé</p>
+        <a href="https://confider-bronzing-manlike.ngrok-free.dev/loginClient/verifyDisableLink?token=${disableToken}" target="_blank" style="display:inline-block;padding:0.5rem;border:none;border-radius:5px;background-color:#80a710;color:#fafafa;text-decoration:none;">Tắt xác thực 2 lớp</a>
+        <p style="font-size: 1.1rem; margin:0.5rem 0;color:red">Lưu ý: Có hiệu lực trong 15 phút</p>
+        <p style="font-size: 1.1rem; margin:0.5rem 0">Nếu không phải bạn yêu cầu vui lòng thay đổi mật khẩu tài khoản mạnh hơn và không nhấn nút trên bạn nhé!</p>
+        </div>
+      `,
+    };
+    const info = await transporter.sendMail(mailOptions);
+    console.log(
+      `[Email Service] Thư yêu cầu tắt bảo mật 2 lớp đã gửi thành công tới:${emailClient}.MessageId:${info.messageId}`,
+    );
+    return true;
+  } catch (error) {
+    console.error(
+      "[Email Servive] Lỗi thực thi gửi mail yêu cầu tắt kích hoạt bảo mật 2 lớp:",
+      error,
+    );
+    return false;
+  }
+};

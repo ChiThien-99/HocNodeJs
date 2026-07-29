@@ -2,7 +2,7 @@ import { clientEntity } from "../models/client.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
-import { sendVerificationEmail } from "../services/email.service.js";
+import { sendVerificationEmail,sendReqDisableMfaEmail } from "../services/email.service.js";
 import { verify, verifySync } from "otplib";
 export const postClient = async (req, res) => {
   try {
@@ -359,3 +359,36 @@ export const changeForgotPW = async (req, res) => {
     });
   }
 };
+export const sendMailDisableMFA=async(req,res)=>{
+  try {
+  const {clientIdRemember}=req.body;
+  const arrayIdRemember=clientIdRemember.split(",");
+  const client=await clientEntity.findById(arrayIdRemember[0]);
+  if (!client) {
+    return res.json({mess:"Không tìm thấy client",success:false});
+  }
+  const disableToken=jwt.sign({clientId:client._id},process.env.JWT_MFA_SECRET,{expiresIn:"15m"});
+  await sendReqDisableMfaEmail(client.email,client.fullname,disableToken);
+  res.json({mess:"Kiểm tra email để tắt xác thực bạn nhé!",success:true});
+  } catch (error) {
+  res.json({mess:"Có lỗi gửi mail tắt xác thực",success:false,error:error.message});
+  }
+};
+export const verifyDisableLink=async(req,res)=>{
+  try {
+    const {token}=req.query;
+    if (!token) {
+        return res.render("disableMFAClient.ejs",{mess:"Đường dẫn không hợp lệ",success:false});
+    }
+    const decoded=jwt.verify(token,process.env.JWT_MFA_SECRET);
+    const clientId=decoded.clientId;
+    const client=await clientEntity.findById(clientId);
+    client.mfa.isEnabled=false;
+    client.mfa.secret=null;
+    client.mfa.backupCodes=[];
+    await client.save();
+    res.render("disableMFAClient.ejs",{mess:"Tài khoản đã tắt xác thực 2 lớp",success:true});
+  } catch (error) {
+    res.render("disableMFAClient.ejs",{mess:"Lỗi tắt xác thực 2 lớp",success:false});
+  }
+}

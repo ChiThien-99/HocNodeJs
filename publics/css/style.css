@@ -2888,6 +2888,12 @@ header #divNavMenu #navMenu #containerUserLogin #bagShopping span {
   background-color: #80a710;
   color: white;
 }
+#myModalLogin #modalContentLogin #btnSendMailDisableMFA {
+  margin: 0.5rem 0;
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
 
 #loginClientContainer {
   width: 70%;
@@ -5403,6 +5409,31 @@ header #divNavMenu #navMenu #containerUserLogin #bagShopping span {
   font-family: fontLogo;
   color: #80a710;
   letter-spacing: 0.2rem;
+}
+
+#mainDisableMFAClient div {
+  margin: 7.5rem auto 1rem;
+  padding: 1rem;
+  width: -moz-fit-content;
+  width: fit-content;
+  background-color: white;
+  border: 1px solid #80a710;
+  border-radius: 10px;
+  text-align: center;
+}
+#mainDisableMFAClient div p {
+  margin: 0.5rem 0;
+  font-size: 1.2rem;
+}
+#mainDisableMFAClient div #linkLoginClient {
+  display: inline-block;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #80a710;
+  color: #fafafa;
+  text-decoration: none;
 }
 
 footer {

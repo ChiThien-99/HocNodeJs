@@ -2574,6 +2574,12 @@ header {
       background-color: $colorCTA;
       color: white;
     }
+    #btnSendMailDisableMFA{
+      margin: 0.5rem 0;
+      color: blue;
+      text-decoration: underline;
+      cursor: pointer;
+    }
   }
 }
 #loginClientContainer {
@@ -5019,6 +5025,28 @@ header {
         color: $colorCTA;
         letter-spacing: 0.2rem;
       }
+    }
+  }
+}
+#mainDisableMFAClient {
+  div {
+    margin: 7.5rem auto 1rem;
+    padding: 1rem;
+    width: fit-content;
+    background-color: white;
+    border: 1px solid $colorCTA;
+    border-radius: 10px;
+    text-align: center;
+    p {
+      margin: 0.5rem 0;
+      font-size: 1.2rem;
+    }
+    #linkLoginClient{
+      display: inline-block;
+      @include button(0.5rem);
+      background-color: $colorCTA;
+      color: $colorSecondaryText;
+      text-decoration: none;
     }
   }
 }

@@ -92,7 +92,6 @@ export const mfaSetup = async (req, res) => {
       return res.json({ mess: "Không tìm được client", success: false });
     }
     const secret = generateSecret();
-    console.log(`Secret: ${secret}`);
     const otpAuth = generateURI({
       issuer: "VanHyTech",
       label: client.email,

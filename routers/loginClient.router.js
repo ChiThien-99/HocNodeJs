@@ -5,6 +5,10 @@ import { validateLoginClient } from "./middleware/validateLoginClient.js";
 import { authLimit } from "./middleware/rateLimiter.js";
 export const clientRouter = express.Router();
 const prefix = "/loginClient";
+clientRouter.get(
+  `${prefix}/verifyDisableLink`,
+  clientController.verifyDisableLink,
+);
 clientRouter.post(
   `${prefix}/postClient`,
   validateRegisterClient,
@@ -22,6 +26,10 @@ clientRouter.post(`${prefix}/resendOtp`, clientController.resendOtp);
 clientRouter.post(`${prefix}/checkMailForgotPW`, clientController.checkMailForgotPW);
 clientRouter.post(`${prefix}/checkOtpForgotPW`, clientController.checkOtpForgotPW);
 clientRouter.post(`${prefix}/changeForgotPW`, clientController.changeForgotPW);
+clientRouter.post(
+  `${prefix}/sendMailDisableMFA`,
+  clientController.sendMailDisableMFA,
+);
 
 
 
