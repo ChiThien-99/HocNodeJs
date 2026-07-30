@@ -11,3 +11,4 @@ routerLoginAdmin.post(
   validate,
   controllerLoginAdmin.postLoginAdmin,
 );
+routerLoginAdmin.post(`${prefix}/checkOtpLoginAdmin`, controllerLoginAdmin.checkOtpLoginAdmin);

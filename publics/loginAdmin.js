@@ -73,10 +73,10 @@ document.getElementById("loginForm").addEventListener("submit", (e) => {
   axios
     .post("/loginAdmin/login", { emailAdmin, pwAdmin })
     .then((res) => {
-      const { mess, success, accessToken } = res.data;
-      if (success && accessToken) {
-        setAccessToken(accessToken);
-        window.location.href = "/dashboard";
+      const { mess, success, idClient } = res.data;
+      if (success && idClient) {
+        document.getElementById("myModalLoginAdmin").style.display="block";
+        document.getElementById("adminId").value=idClient;
       } else {
         alert("Lỗi", mess, "red");
       }
@@ -98,3 +98,22 @@ togglePwAdmin.addEventListener("click", function (e) {
       ? "<i class='fa-solid fa-eye'></i>"
       : "<i class='fa-solid fa-eye-slash'></i>";
 });
+document.getElementById("formOtpLoginAdmin").addEventListener("submit",(e)=>{
+  e.preventDefault();
+  const otp=document.getElementById("otpCodeLoginAdmin").value;
+  const adminId=document.getElementById("adminId").value;
+  axios.post("/loginAdmin/checkOtpLoginAdmin",{otp,adminId})
+  .then((res)=>{
+    const {mess, success, error, accessToken}=res.data;
+    if (success && accessToken) {
+        setAccessToken(accessToken);
+        window.location.href = "/dashboard";
+      } else {
+        if (error) {
+          alert("Lỗi", `${mess}\n${error}`, "red");
+        } else {
+          alert("Lỗi", mess, "red");
+        }
+      }
+  })
+})

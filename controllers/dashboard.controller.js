@@ -29,7 +29,7 @@ import cron from "node-cron";
 import mongoose from "mongoose";
 import { generateSecret, generateURI, verify } from "otplib";
 import QRCode from "qrcode";
-import { sendEmailNewEmployee } from "../services/email.service.js";
+import { sendEmailNewEmployee,sendEmailRestoreMFA } from "../services/email.service.js";
 function getSystemInfo() {
   const info = {
     os: {
@@ -3200,3 +3200,43 @@ export const deleteVoucher = async (req, res) => {
     });
   }
 };
+export const resetMFA=async(req,res)=>{
+  try {
+    const {idAdmin}=req.body;
+  if (!req.user) {
+      return res.json({
+        mess: "Không tìm thấy tài khoản admin\nVui lòng đăng nhập",
+        success: false,
+      });
+    }
+    const decents = req.user.decent;
+    if (!decents.includes("userMng")) {
+      return res.json({ mess: "Bạn chưa được phân quyền", success: false });
+    }
+    const admin=await adminEntity.findById(idAdmin);
+    const secret = generateSecret();
+    const otpAuth = generateURI({
+      issuer: "VanHyTech_NoiBo",
+      label: admin.email,
+      secret,
+    });
+    const qrCodeImgUrl = await QRCode.toDataURL(otpAuth);
+    const plainBackupCode = [];
+    const hashedBackupCode = [];
+    for (let i = 0; i < 5; i++) {
+      const code = crypto.randomBytes(4).toString("hex");
+      const formattedCode = `${code.slice(0, 4)}-${code.slice(4)}`;
+      plainBackupCode.push(formattedCode);
+      const salt = await bcrypt.genSalt(10);
+      const hash = await bcrypt.hash(formattedCode, salt);
+      hashedBackupCode.push(hash);
+    }
+    admin.mfa.secret=secret;
+    admin.mfa.backupCodes=hashedBackupCode;
+    await admin.save();
+    await sendEmailRestoreMFA(admin.email,admin.fullname,qrCodeImgUrl,plainBackupCode);
+    res.json({mess:"Reset MFA thành công",success:true});
+  } catch (error) {
+    res.json({mess:"Reset MFA thất bại",success:false,error:error.message});
+  }
+}

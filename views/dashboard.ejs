@@ -390,10 +390,10 @@
                 <input
                   type="checkbox"
                   name="decentAdmin"
-                  id="decentOrder"
+                  id="decentOverview"
                   value="overviewMng"
                 />
-                <label for="decentOrder">Tổng quan</label><br />
+                <label for="decentOverview">Tổng quan</label><br />
                 <input
                   type="checkbox"
                   name="decentAdmin"
@@ -475,6 +475,7 @@
                 <th>Chức vụ</th>
                 <th>Email</th>
                 <th>Phân quyền</th>
+                <th>MFA</th>
                 <th>Thao tác</th>
               </tr>
               <%admins.forEach(admin=>{%>
@@ -483,6 +484,11 @@
                 <td><%=admin.role%></td>
                 <td><%=admin.email%></td>
                 <td><%=admin.decent%></td>
+                <td>
+                  <div class="divResetMFA">
+                    <button type="button" class="btnResetMFA" data-idAdmin="<%=admin._id%>">Reset MFA</button>
+                  </div>
+                </td>
                 <td>
                   <div class="btnGroup">
                   <button class="btnEditUserAdmin" data-idAdmin="<%=admin._id%>">Cập nhật</button>

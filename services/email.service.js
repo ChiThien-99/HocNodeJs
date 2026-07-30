@@ -465,10 +465,10 @@ export const sendEmailNewEmployee = async (
         <p style="font-size: 1.1rem; margin:0.5rem 0">Chúc mừng bạn trở thành thành viên của Vân Hy dưới đây là thông tin tài khoản đăng nhập hệ thống của bạn</p>
         <p style="font-size: 1.1rem; margin:0.5rem 0">Email: <b>${emailClient}</b></p>
         <p style="font-size: 1.1rem; margin:0.5rem 0">Mật khẩu: <b>${pwClient}</b></p>
-        <p style="font-size: 1.1rem; margin:0.5rem 0">Mỗi lần đăng nhập hệ thống sẽ yêu cầu mã OTP để xác thực. Bạn hãy thực hiện theo các bước sau nhé</p>
+        <p style="font-size: 1.1rem; margin:0.5rem 0">Mỗi lần đăng nhập hệ thống sẽ yêu cầu mã OTP để xác thực. Bạn hãy thực hiện theo các bước sau nhé:</p>
         <p style="font-size: 1.1rem; margin:0.5rem 0">B1.Tải phần mềm Google Authenticator hoặc Microsoft Authenticator trên CH Play hoặc App Store</p>
         <p style="font-size: 1.1rem; margin:0.5rem 0">B2.Vui lòng quét mã QR dưới bằng Google Authenticator hoặc Microsoft Authenticator để kích hoạt</p>
-        <img src="${QRCode}" style="width:10rem;height:10rem">
+        <img src="cid:mfa_qrcode_img" style="width:10rem;height:10rem" alt="qrcode">
         <p style="font-size: 1.1rem; margin:0.5rem 0">**Mã dự phòng dùng để đăng nhập trong trường hợp bạn mất điện thoại hoặc lỡ xóa Google Authenticator/Microsoft Authenticator</p>
         <b style="font-size: 1.1rem; margin:0.5rem 0; letter-spacing:0.1rem">${backupCodes[0]}</b><br>
         <b style="font-size: 1.1rem; margin:0.5rem 0; letter-spacing:0.1rem">${backupCodes[1]}</b><br>
@@ -480,6 +480,13 @@ export const sendEmailNewEmployee = async (
         <p style="font-size: 1.1rem; margin:0.5rem 0">Thanks & Best regards</p>
         </div>
       `,
+      attachments:[
+        {
+          filename:"qrcode.png",
+          path:QRCode,
+          cid:"mfa_qrcode_img",
+        }
+      ]
     };
     const info = await transporter.sendMail(mailOptions);
     console.log(
@@ -489,6 +496,57 @@ export const sendEmailNewEmployee = async (
   } catch (error) {
     console.error(
       "[Email Servive] Lỗi thực thi gửi mail chúc mừng nhân viên mới:",
+      error,
+    );
+    return false;
+  }
+};
+export const sendEmailRestoreMFA = async (
+  emailClient,
+  nameClient,
+  QRCode,
+  backupCodes,
+) => {
+  try {
+    const mailOptions = {
+      from: `"Hệ thống VANHY" <${process.env.EMAIL_USER}>`,
+      to: emailClient,
+      subject: `Khôi phục chức năng xác thực OTP của tài khoản ${nameClient}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; width:fit-content;margin: 0 auto; padding: 1rem; border: 1px solid #e0e0e0; border-radius: 5px;">
+        <img src="https://res.cloudinary.com/doigxmzte/image/upload/v1784701803/logo_imzen01-final_r9ghv3.png" alt="logoImzenEmail" style="width:3rem; height:3rem;">
+        <p style="font-size: 1.1rem; margin:0.5rem 0">Xin chào <b>${nameClient}</b></p>
+        <p style="font-size: 1.1rem; margin:0.5rem 0">Chúng tôi nhận được thông báo khôi phục lại chức năng xác thực OTP tài khoản của bạn, vui lòng thực hiện theo các bước sau bạn nhé</p>
+        <p style="font-size: 1.1rem; margin:0.5rem 0">B1.Tải phần mềm Google Authenticator hoặc Microsoft Authenticator trên CH Play hoặc App Store</p>
+        <p style="font-size: 1.1rem; margin:0.5rem 0">B2.Vui lòng quét mã QR dưới bằng Google Authenticator hoặc Microsoft Authenticator để kích hoạt</p>
+        <img src="cid:mfa_qrcode_img" style="width:10rem;height:10rem" alt="qrcode">
+        <p style="font-size: 1.1rem; margin:0.5rem 0">**Mã dự phòng dùng để đăng nhập trong trường hợp bạn mất điện thoại hoặc lỡ xóa Google Authenticator/Microsoft Authenticator</p>
+        <b style="font-size: 1.1rem; margin:0.5rem 0; letter-spacing:0.1rem">${backupCodes[0]}</b><br>
+        <b style="font-size: 1.1rem; margin:0.5rem 0; letter-spacing:0.1rem">${backupCodes[1]}</b><br>
+        <b style="font-size: 1.1rem; margin:0.5rem 0; letter-spacing:0.1rem">${backupCodes[2]}</b><br>
+        <b style="font-size: 1.1rem; margin:0.5rem 0; letter-spacing:0.1rem">${backupCodes[3]}</b><br>
+        <b style="font-size: 1.1rem; margin:0.5rem 0; letter-spacing:0.1rem">${backupCodes[4]}</b><br>
+        <p style="font-size: 1.1rem; margin:0.5rem 0">Lưu ý: Mỗi mã chỉ sử dụng 1 lần</p>
+        <p style="font-size: 1.1rem; margin:0.5rem 0">Truy cập <a href="https://confider-bronzing-manlike.ngrok-free.dev/loginAdmin">https://confider-bronzing-manlike.ngrok-free.dev/loginAdmin</a> bắt đầu công việc bạn nhé</p>
+        <p style="font-size: 1.1rem; margin:0.5rem 0">Thanks & Best regards</p>
+        </div>
+      `,
+      attachments:[
+        {
+          filename:"qrcode.png",
+          path:QRCode,
+          cid:"mfa_qrcode_img",
+        }
+      ]
+    };
+    const info = await transporter.sendMail(mailOptions);
+    console.log(
+      `[Email Service] Thư khôi phục chức năng OTP đã gửi thành công tới:${emailClient}.MessageId:${info.messageId}`,
+    );
+    return true;
+  } catch (error) {
+    console.error(
+      "[Email Servive] Lỗi thực thi gửi mail khôi phục chức năng OTP:",
       error,
     );
     return false;

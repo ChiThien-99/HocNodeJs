@@ -891,6 +891,34 @@ document.querySelectorAll(".btnDeleteUserAdmin").forEach((btn) => {
     }
   });
 });
+document.querySelectorAll(".btnResetMFA").forEach((btn)=>{
+  btn.addEventListener("click",async function(){
+    const confirmReset=await confirm("Thông báo","Bạn chắc chắn reset MFA của admin này","#1877f2");
+    if (confirmReset) {
+      const idAdmin=this.getAttribute("data-idAdmin");
+    fetch("/dashboard/resetMFA",{
+      method:"POST",
+      headers:{"Content-Type":"application/json;charset=UTF-8"},
+      body:JSON.stringify({idAdmin}),
+    })
+    .then(res=>res.json())
+    .then(({mess,success,error})=>{
+      if (success) {
+        alert("Thông báo",mess,"#80a710");
+      } else {
+        if (error) {
+          alert("Lỗi",`${mess}\n${error}`,"red");
+        } else {
+          alert("Lỗi",mess,"red");
+        }
+      }
+    })
+    .catch((error)=>{
+      alert("Lỗi",error,"red");
+    });
+    }
+  })
+})
 const pwAdminNew = document.getElementById("pwAdminNew");
 const btnTogglePW = document.getElementById("btnTogglePW");
 btnTogglePW.addEventListener("click", function (e) {

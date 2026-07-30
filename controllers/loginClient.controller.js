@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 import { sendVerificationEmail,sendReqDisableMfaEmail } from "../services/email.service.js";
-import { verify, verifySync } from "otplib";
+import { verify} from "otplib";
 export const postClient = async (req, res) => {
   try {
     let {

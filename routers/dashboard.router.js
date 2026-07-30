@@ -210,6 +210,11 @@ dashboardRouter.post(
   authenticateToken,
   dashboardController.subscribeNotification,
 );
+dashboardRouter.post(
+  `${prefix}/resetMFA`,
+  authenticateToken,
+  dashboardController.resetMFA,
+);
 dashboardRouter.put(
   `${prefix}/updateAdmin/:idUpdate`,
   authenticateToken,
