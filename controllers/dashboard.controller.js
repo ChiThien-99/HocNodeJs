@@ -30,6 +30,7 @@ import mongoose from "mongoose";
 import { generateSecret, generateURI, verify } from "otplib";
 import QRCode from "qrcode";
 import { sendEmailNewEmployee,sendEmailRestoreMFA } from "../services/email.service.js";
+import logger from "../config/logger.js";
 function getSystemInfo() {
   const info = {
     os: {
@@ -75,6 +76,12 @@ const systemInfo = getSystemInfo();
 const jsonSystemInfo = JSON.stringify(systemInfo, null, 2);
 
 export const getDashboard = async (req, res) => {
+  if (!req.user) {
+      return res.json({
+        mess: "Không tìm thấy tài khoản admin\nVui lòng đăng nhập",
+        success: false,
+      });
+    }
   const admins = await adminEntity.find();
   const carousels = await carouselEntity.find().sort("order");
   const notifys = await notifyEntity.find().sort("-createAt");
@@ -117,6 +124,7 @@ export const getDashboard = async (req, res) => {
     },
   ]);
   const io = req.app.get("socketio");
+  logger.info(`${req.user.email} truy cập vào dashboard`);
   res.render("dashboard.ejs", {
     jsonSystemInfo,
     admins,

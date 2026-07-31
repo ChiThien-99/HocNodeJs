@@ -29,6 +29,7 @@ dashboardRouter.get(
   `${prefix}`,
   generalLimit,
   checkTokens,
+  authenticateToken,
   dashboardController.getDashboard,
 );
 dashboardRouter.get(

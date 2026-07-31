@@ -9,6 +9,8 @@ const __dirname = dirname(__filename);
 // Ví dụ: express.static(path.join(__dirname, "publics"), { ... });
 import * as Sentry from "@sentry/node";
 import express from "express";
+import morgan from "morgan";
+import logger from "./config/logger.js";
 import session from "express-session";
 import cors from "cors";
 import crypto from "crypto";
@@ -83,6 +85,10 @@ app.use(
 );
 
 app.use(express.json());
+const morganStream={
+  write:(message)=>logger.info(message.trim())
+};
+app.use(morgan("combined",{stream:morganStream}));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
