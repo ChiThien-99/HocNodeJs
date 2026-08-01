@@ -32,7 +32,7 @@ const transports=[
     }),
 ];
 if (process.env.LOGTAIL_SOURCE_TOKEN) {
-    const logtail=new Logtail(process.env.LOGTAIL_SOURCE_TOKEN);
+    const logtail=new Logtail(process.env.LOGTAIL_SOURCE_TOKEN,{endpoint:'https://s2640015.eu-central-1a.betterstackdata.com'});
     transports.push(new LogtailTransport(logtail));
 } else {
     console.warn("Không tim thấy LOGTAIL_SOURCE_TOKEN trong .env, ứng dụng chỉ ghi log cục bộ");

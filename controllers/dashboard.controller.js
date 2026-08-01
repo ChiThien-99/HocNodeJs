@@ -212,8 +212,10 @@ export const postRegisterAdmin = async (req, res) => {
       qrCodeImgUrl,
       plainBackupCode,
     );
+    logger.info(`${req.user.email} tạo tài khoản admin email ${registerAdmin.email}`);
     res.json({ mess: "Đăng ký tài khoản admin thành công", success: true });
   } catch (error) {
+    logger.error(`${req.user.email} tạo tài khoản admin thất bại.Lỗi:${error.message}`);
     res.json({
       mess: "Đăng ký tài khoản admin thất bại",
       success: false,
@@ -309,6 +311,7 @@ export const putUpdateAdminById = async (req, res) => {
       process.env.ACCESS_SECRET,
       { expiresIn: "15m" },
     );
+    logger.info(`${req.user.email} cập nhập tài khoản admin ${updateAdmin.email}`);
     res.json({
       mess: "Cập nhật thành công",
       success: true,
@@ -316,6 +319,7 @@ export const putUpdateAdminById = async (req, res) => {
       id: updateAdmin._id,
     });
   } catch (error) {
+    logger.error(`${req.user.email} cập nhập tài khoản admin thất bại.Lỗi:${error.message}`);
     res.json({
       mess: "Cập nhật thất bại",
       success: false,
@@ -385,8 +389,10 @@ export const deleteUserAdminById = async (req, res) => {
     const deleteUserAdmin = await adminEntity.findByIdAndDelete(idDelete);
     const io = req.app.get("socketio");
     io.emit("delete-admin", deleteUserAdmin);
+    logger.info(`${req.user.email} xóa tài khoản admin ${deleteUserAdmin.email}`);
     res.json({ mess: "Xóa user thành công", success: true });
   } catch (error) {
+    logger.error(`${req.user.email} xóa tài khoản admin thất bại.Lỗi:${error.message}`);
     res.json({
       mess: "Xóa user thất bại",
       success: false,
@@ -423,8 +429,10 @@ export const postCarousel = async (req, res) => {
     const io = req.app.get("socketio");
     const allCarousel = await carouselEntity.find();
     io.emit("update-carousel", allCarousel);
+    logger.info(`${req.user.email} tạo banner cho carousel tiêu để ${newCarousel.caption}`);
     res.json({ mess: "Tạo banner thành công", success: "true" });
   } catch (error) {
+    logger.error(`${req.user.email} tạo banner cho carousel thất bại.Lỗi:${error.message}`);
     res.json({
       mess: "Tạo banner thất bại",
       success: false,
@@ -488,8 +496,10 @@ export const putUpdateCarousel = async (req, res) => {
     );
     const io = req.app.get("socketio");
     io.emit("update-carousel", updateBanner);
+    logger.info(`${req.user.email} cập nhật banner cho carousel tên ${updateBanner.caption}`);
     res.json({ mess: "Cập nhật carousel thành công", success: true });
   } catch (error) {
+    logger.error(`${req.user.email} cập nhật banner cho carousel thất bại.Lỗi:${error.message}`);
     res.json({
       mess: "Cập nhật carousel thất bại",
       success: false,
@@ -543,8 +553,10 @@ export const deleteCarousel = async (req, res) => {
     const allCarousel = await carouselEntity.find();
     const io = req.app.get("socketio");
     io.emit("delete-carousel", { allCarousel, deleteCarousel });
+    logger.info(`${req.user.email} xóa banner cho carousel tiêu đề ${deleteCarousel.caption}`);
     res.json({ mess: "Xóa carousel thành công", success: true });
   } catch (error) {
+    logger.error(`${req.user.email} xóa banner cho carousel thất bại.Lỗi:${error}`);
     res.json({
       mess: "Xóa carousel thất bại",
       success: false,
@@ -603,8 +615,10 @@ export const addNotify = async (req, res) => {
       const allNotify = await notifyEntity.find().sort("-createAt");
       io.emit("update-notify", allNotify);
     }, delay + 60000);
+    logger.info(`${req.user.email} tạo thông báo tiêu đề ${newNotify.content} hết hạn ${expiredDate}`);
     res.json({ mess: "Tạo thông báo thành công", success: true });
   } catch (error) {
+    logger.error(`${req.user.email} tạo thông báo thất bại.Lỗi:${error.message}`);
     res.json({
       mess: "Tạo thông báo thất bại",
       success: false,
@@ -687,8 +701,10 @@ export const putUpdateNotify = async (req, res) => {
       const allNotify = await notifyEntity.find().sort("-createAt");
       io.emit("update-notify", allNotify);
     }, delay + 180000);
+    logger.info(`${req.user.email} cập nhật thông báo với thông tin mới: tiêu đề ${updateNotify.content} hạn ${updateNotify.expireAt}`);
     res.json({ mess: "Cập nhật thông báo thành công", success: true });
   } catch (error) {
+    logger.info(`${req.user.email} cập nhật thông báo thất bại.Lỗi:${error.message}`);
     res.json({
       mess: "Cập nhật thông báo thất bại",
       success: false,
@@ -712,8 +728,10 @@ export const deleteNotify = async (req, res) => {
     const delNotify = await notifyEntity.findByIdAndDelete(id);
     const io = req.app.get("socketio");
     io.emit("delete-notify", delNotify);
+    logger.info(`${req.user.email} xóa thông báo tiêu đề ${delNotify.content}`);
     res.json({ mess: "Xóa thông báo thành công", success: true });
   } catch (error) {
+    logger.error(`${req.user.email} xóa thông báo thất bại.Lỗi:${error.message}`);
     res.json({
       mess: "Xóa thông báo thất bại",
       success: false,
@@ -751,8 +769,10 @@ export const addBanner = async (req, res) => {
     });
     const io = req.app.get("socketio");
     io.emit("update-banner", newBanner);
+    logger.info(`${req.user.email} tạo banner marketing cho trang ${newBanner.page}`);
     res.json({ mess: "Tạo banner thành công", success: true });
   } catch (error) {
+    logger.error(`${req.user.email} tạo banner marketing thất bại.Lỗi:${error.message}`);
     res.json({
       mess: "Tạo banner thất bại",
       success: false,
@@ -841,8 +861,10 @@ export const putUpdateBN = async (req, res) => {
     );
     const io = req.app.get("socketio");
     io.emit("update-banner", updateBanner);
+    logger.info(`${req.user.email} cập nhật banner marketing cho trang ${updateBanner.page}`);
     res.json({ mess: "Cập nhật banner thành công", success: true });
   } catch (error) {
+    logger.error(`${req.user.email} cập nhật banner marketing thất bại.Lỗi:${error.message}`);
     res.json({
       mess: "Cập nhật banner thất bại",
       success: false,
@@ -868,8 +890,10 @@ export const deleteBN = async (req, res) => {
     const deleteBanner = await bannerEntity.findByIdAndDelete(id);
     const io = req.app.get("socketio");
     io.emit("delete-banner", deleteBanner);
+    logger.info(`${req.user.email} xóa banner marketing cho trang ${deleteBanner.page}`);
     res.json({ mess: "Xóa banner thành công", success: true });
   } catch (error) {
+    logger.error(`${req.user.email} xóa banner marketing thất bại.Lỗi:${error.message}`);
     res.json({
       mess: "Xóa banner thất bại",
       success: false,
@@ -896,8 +920,10 @@ export const addListFuncApp = async (req, res) => {
     const newFuncApp = await funcAppEntity.create({ name: listFuncApp });
     const io = req.app.get("socketio");
     io.emit("update-funcapp", newFuncApp);
+    logger.info(`${req.user.email} tạo chức năng ${newFuncApp.name} cho phẩn mềm`);
     res.json({ mess: "Chức năng phần mềm tạo thành công", success: true });
   } catch (error) {
+    logger.error(`${req.user.email} tạo chức năng cho phần mềm thất bại.Lỗi:${error.message}`);
     res.json({
       mess: "Chức năng phần mềm tạo thất bại",
       success: false,
@@ -950,8 +976,10 @@ export const putUpdateFuncApp = async (req, res) => {
     );
     const io = req.app.get("socketio");
     io.emit("update-funcapp", updateFuncApp);
+    logger.info(`${req.user.email} cập nhật chức năng ${updateFuncApp.name} cho phần mềm`);
     res.json({ mess: "Cập nhật chức năng phần mềm thành công", success: true });
   } catch (error) {
+    logger.error(`${req.user.email} cập nhật chức năng cho phần mềm thất bại.Lỗi:${error.message}`);
     res.json({
       mess: "Cập nhật chức năng phần mềm thất bại",
       success: false,
@@ -975,8 +1003,10 @@ export const deleteFuncApp = async (req, res) => {
     const deleteFuncApp = await funcAppEntity.findByIdAndDelete(id);
     const io = req.app.get("socketio");
     io.emit("delete-funcapp", deleteFuncApp);
+    logger.info(`${req.user.email} xóa chức năng ${deleteFuncApp.name} của phẩn mềm`);
     res.json({ mess: "Xóa chức năng phần mềm thành công", success: true });
   } catch (error) {
+    logger.error(`${req.user.email} xóa chức năng thất bại.Lỗi:${error.message}`);
     res.json({
       mess: "Xóa chức năng phần mềm thất bại",
       success: false,
@@ -1053,8 +1083,10 @@ export const addApp = async (req, res) => {
     });
     const io = req.app.get("socketio");
     io.emit("update-app", newApp);
+    logger.info(`${req.user.email} tạo phần mềm ${newApp.name}`);
     res.json({ mess: "Tạo phần mềm thành công", success: true });
   } catch (error) {
+    logger.error(`${req.user.email} tạo phần mềm thất bại.Lỗi:${error}`);
     res.json({
       mess: "Tạo phần mềm thất bại",
       success: false,
@@ -1159,8 +1191,10 @@ export const putUpdateApp = async (req, res) => {
     );
     const io = req.app.get("socketio");
     io.emit("update-app", updateApp);
+    logger.info(`${req.user.email} cập nhật phần mềm ${updateApp.name}`);
     res.json({ mess: "Cập nhật phần mềm thành công", success: true });
   } catch (error) {
+    logger.error(`${req.user.email} cập nhật phần mềm thất bại.Lỗi:${error.message}`);
     res.json({
       mess: "Cập nhật phần mềm thất bại",
       success: false,
@@ -1221,8 +1255,10 @@ export const deleteApp = async (req, res) => {
     const deleteApp = await appEntity.findByIdAndDelete(id);
     const io = req.app.get("socketio");
     io.emit("delete-app", deleteApp);
+    logger.info(`${res.user.email} xóa phần mềm ${deleteApp.name}`);
     res.json({ mess: "Xóa phần mềm thành công", success: true });
   } catch (error) {
+    logger.error(`${res.user.email} xóa phần mềm thất bại.Lỗi:${error.message}`);
     res.json({
       mess: "Xóa phần mềm thất bại",
       success: false,
@@ -1251,8 +1287,10 @@ export const addListFuncDevice = async (req, res) => {
     });
     const io = req.app.get("socketio");
     io.emit("update-funcdevice", newFuncDevice);
+    logger.info(`${req.user.email} tạo chức năng ${newFuncDevice.name} cho thiết bị`);
     res.json({ mess: "Tạo chức năng thiết bị thành công", success: true });
   } catch (error) {
+    logger.error(`${req.user.email} tạo chức năng cho thiết bị thất bại.Lỗi:${error.message}`);
     res.json({
       mess: "Tạo chức năng thiết bị thất bại",
       success: false,
@@ -1328,8 +1366,10 @@ export const deleteFuncDevice = async (req, res) => {
     const deleteFuncDevice = await funcDeviceEntity.findByIdAndDelete(id);
     const io = req.app.get("socketio");
     io.emit("delete-funcdevice", deleteFuncDevice);
+    logger.info(`${req.user.email} xóa chức năng ${deleteFuncDevice.name} của thiết bị`);
     res.json({ mess: "Xóa chức năng thiết bị thành công", success: true });
   } catch (error) {
+    logger.error(`${req.user.email} xóa chức năng của thiết bị thất bại.Lỗi:${error.message}`);
     res.json({
       mess: "Xóa chức năng thiết bị thất bại",
       success: false,
@@ -1445,8 +1485,10 @@ export const addDevice = async (req, res) => {
     });
     const io = req.app.get("socketio");
     io.emit("update-device", newDevice);
+    logger.info(`${req.user.email} tạo thiết bị ${newDevice.name}`);
     res.json({ mess: "Tạo thiết bị thành công", success: true });
   } catch (error) {
+    logger.error(`${req.user.email} tạo thiết bị thất bại.Lỗi:${error.message}`);
     res.json({
       mess: "Tạo thiết bị thất bại",
       success: false,
@@ -1592,8 +1634,10 @@ export const putUpdateDevice = async (req, res) => {
     const io = req.app.get("socketio");
     io.emit("update-detailDevice", updateDevice);
     io.emit("update-device", updateDevice);
+    logger.info(`${req.user.email} cập nhật thiết bị ${updateDevice.name}`);
     res.json({ mess: "Cập nhật thiết bị thành công", success: true });
   } catch (error) {
+    logger.info(`${req.user.email} cập nhật thiết bị thất bại.Lỗi:${error.message}`);
     res.json({
       mess: "Cập nhật thiết bị thất bại",
       success: false,
@@ -1701,8 +1745,10 @@ export const deleteDevice = async (req, res) => {
     const io = req.app.get("socketio");
     const allDevice = await deviceEntity.find().sort("-createAt");
     io.emit("delete-device", deleteDevice);
+    logger.info(`${req.user.email} xóa thiết bị ${deleteDevice.name}`);
     res.json({ mess: "Xóa thiết bị thành công", success: true });
   } catch (error) {
+    logger.error(`${req.user.email} xóa thiết bị thất bại.Lỗi:${error.message}`);
     res.json({
       mess: "Xóa thiết bị thất bại",
       success: false,
@@ -2287,8 +2333,10 @@ export const addVoucher = async (req, res) => {
     });
     const io = req.app.get("socketio");
     io.emit("add-voucher", newVoucher);
+    logger.info(`${req.user.email} tạo voucher giảm ${newVoucher.discountPercentage}% áp dụng cho ${newVoucher.applyToCategory}`);
     res.json({ mess: "Tạo voucher thành công", success: true });
   } catch (error) {
+    logger.error(`${req.user.email} tạo voucher thất bại.Lỗi:${error.message}`);
     res.json({
       mess: "Tạo voucher thất bại",
       success: false,
@@ -2309,15 +2357,16 @@ export const updateOrder = async (req, res) => {
     if (!decents.includes("orderMng")) {
       return res.json({ mess: "Bạn chưa được phân quyền", success: false });
     }
-    await orderEntity.findByIdAndUpdate(id, {
+    const updateOrder=await orderEntity.findByIdAndUpdate(id, {
       status: valueStatus,
       invoice: valueInvoice,
-    });
+    },{new:true});
     const totalOrder = await orderEntity.find();
     const totalOrderNotInvoice = await orderEntity.find({ invoice: "--" });
     const totalOrderHasInvoiceLen =
       totalOrder.length - totalOrderNotInvoice.length;
     const totalOrderLen = totalOrder.length;
+    logger.info(`${req.user.email} đã chỉnh sửa đơn hàng ${updateOrder.orderNumber}: tình trạng ${updateOrder.status}, hóa đơn ${updateOrder.invoice}`);
     res.json({
       mess: "Cập nhật đơn hàng thành công",
       success: true,
@@ -2607,8 +2656,10 @@ export const downloadOrder = async (req, res) => {
     doc.font(fontRegular).text("(Ký và ghi rõ họ tên)", 90, itemY + 110);
     doc.font(fontRegular).text("(Ký và ghi rõ họ tên)", 430, itemY + 110);
     doc.end();
+    logger.info(`${req.user.email} đã tải đơn ${order.orderNumber} về máy`);
   } catch (error) {
     res.setHeader("Content-Type", "application/json;charset=UTF-8");
+    logger.error(`${req.user.email} tải đơn hàng về máy thất bại.Lỗi:${error.message}`);
     res.json({
       mess: "Không thể tạo file pdf từ đơn hàng này",
       success: false,
@@ -2645,11 +2696,13 @@ export const changeStatusOrders = async (req, res) => {
     );
     const io = req.app.get("socketio");
     io.emit("updateStatusOrder", [arrChooseOrder, statusChange]);
+    logger.info(`${req.user.email} cập nhập đơn hàng hàng loạt`);
     res.json({
       mess: "Cập nhật trạng thái đơn hàng thành công",
       success: true,
     });
   } catch (error) {
+    logger.error(`${req.user.email} cập nhập đơn hàng hàng loạt thất bại.Lỗi:${error.message}`);
     res.json({
       mess: "Cập nhật trạng thái đơn hàng thất bại",
       success: false,
@@ -2681,12 +2734,14 @@ export const importDevice = async (req, res) => {
     let cost = device.cost;
     inventory += Number(importQuantityActual);
     const averageCost = (cost + Number(costActual)) / 2;
-    await deviceEntity.findByIdAndUpdate(idDeviceImport, {
+    const updateDevice=await deviceEntity.findByIdAndUpdate(idDeviceImport, {
       cost: averageCost,
       inventory: inventory,
     });
+    logger.info(`${req.user.email} nhập kho số lượng ${updateDevice.inventory}`);
     res.json({ mess: "Nhập kho thành công", success: true });
   } catch (error) {
+    logger.error(`${req.user.email} nhập kho thất bại.Lỗi:${error.message}`);
     res.json({
       mess: "Nhập kho thất bại",
       success: false,
@@ -2778,8 +2833,10 @@ export const addJob = async (req, res) => {
     });
     const io = req.app.get("socketio");
     io.emit("update-job", [newJob, admins]);
+    logger.info(`${req.user.email} tạo công việc ${newJob.title} bắt đầu ${startTimeJobDate} kết thúc ${deadlineJobDate}`);
     res.json({ mess: "Tạo công việc thành công", success: true });
   } catch (error) {
+    logger.error(`${req.user.email} tạo công việc thất bại.Lỗi:${error.message}`);
     res.json({
       mess: "Tạo công việc thất bại",
       success: false,
@@ -2888,9 +2945,11 @@ export const assignAdmin = async (req, res) => {
     const io = req.app.get("socketio");
     io.emit("update-job", [updateJob]);
     const data = 1;
+    logger.info(`${req.user.email} đã giao việc ${updateJob.title} cho ${updateJob.assigned[1].name}`);
     io.emit("updateGeneratedJob", [idAssignAdmin, data]);
     res.json({ mess: "Giao việc thành công", success: true });
   } catch (error) {
+    logger.error(`${req.user.email} giao việc thất bại.Lỗi:${error.message}`);
     res.json({
       mess: "Giao việc thất bại",
       success: false,
@@ -2976,11 +3035,13 @@ export const updateStatusJob = async (req, res) => {
       .lean();
     const io = req.app.get("socketio");
     io.emit("update-job", [updateJob]);
+    logger.info(`${req.user.email} hoàn thành công việc ${updateJob.title}`);
     res.json({
       mess: "Cập nhật tình trạng công việc thành công",
       success: true,
     });
   } catch (error) {
+    logger.error(`${req.user.email} hoàn thành công việc thất bại.Lỗi:${error.message}`);
     res.json({
       mess: "Cập nhật tình trạng công việc thất bại",
       success: false,
@@ -3056,10 +3117,12 @@ export const updateJob = async (req, res) => {
       .lean();
     const io = req.app.get("socketio");
     io.emit("update-job", [updateJob]);
+    logger.info(`${req.user.email} cập nhật công việc với thông tin mới ${updateJob.title} bắt đầu ${startTimeJobDate} kết thúc ${deadlineJobDate}`);
     res.json({ mess: "Cập nhật công việc thành công", success: true });
   } catch (error) {
+    logger.error(`${req.user.email} cập nhật công việc thất bại.Lỗi:${error.message}`);
     res.json({
-      mess: "Cập nhật c6ng việc thất bại",
+      mess: "Cập nhật công việc thất bại",
       success: false,
       error: error.message,
     });
@@ -3081,8 +3144,10 @@ export const deleteJob = async (req, res) => {
     const deleteJob = await jobEntity.findByIdAndDelete(idJob);
     const io = req.app.get("socketio");
     io.emit("delete-job", deleteJob);
+    logger.info(`${req.user.email} xóa công việc ${deleteJob.title}`);
     res.json({ mess: "Xóa công việc thành công", success: true });
   } catch (error) {
+    logger.error(`${req.user.email} xóa công việc thất bại.Lỗi:${error.message}`);
     res.json({
       mess: "Xóa công việc thất bại",
       success: false,
@@ -3199,8 +3264,10 @@ export const deleteVoucher = async (req, res) => {
     const deleteVoucher = await voucherEntity.findByIdAndDelete(idVoucher);
     const io = req.app.get("socketio");
     io.emit("delete-voucher", deleteVoucher);
+    logger.info(`${req.user.email} xóa voucher giảm ${deleteVoucher.discountPercentage}% áp dụng cho ${deleteVoucher.applyToCategory}`);
     res.json({ mess: "Xóa voucher thành công", success: true });
   } catch (error) {
+    logger.error(`${req.user.email} xóa voucher thất bại.Lỗi:${error.message}`);
     res.json({
       mess: "Xóa voucher thất bại",
       success: false,
@@ -3243,8 +3310,10 @@ export const resetMFA=async(req,res)=>{
     admin.mfa.backupCodes=hashedBackupCode;
     await admin.save();
     await sendEmailRestoreMFA(admin.email,admin.fullname,qrCodeImgUrl,plainBackupCode);
+    logger.info(`${req.user.email} đã reset MFA ${admin.email}`);
     res.json({mess:"Reset MFA thành công",success:true});
   } catch (error) {
+    logger.error(`${req.user.email} reset MFA thất bại.Lỗi:${error.message}`);
     res.json({mess:"Reset MFA thất bại",success:false,error:error.message});
   }
 }
