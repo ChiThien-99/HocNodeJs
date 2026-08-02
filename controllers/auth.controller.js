@@ -1,6 +1,7 @@
 import { adminEntity } from "../models/admin.model.js";
 import { clientEntity } from "../models/client.model.js";
 import jwt from "jsonwebtoken";
+import logger from "../config/logger.js";
 export const authTokens = async (req, res) => {
   const oldRefreshToken = req.cookies.refreshToken;
   if (!oldRefreshToken) {
@@ -136,7 +137,9 @@ export const authTokens2 = async (req, res) => {
       return res.status(401).json("Chưa đăng nhập");
     }
 
-    const client = await clientEntity.findOne({ refreshToken: oldRefreshToken });
+    const client = await clientEntity.findOne({
+      refreshToken: oldRefreshToken,
+    });
     if (!client) {
       return res.status(403).json("Refresh Token không hợp lệ hoặc đã sử dụng");
     }
@@ -144,7 +147,7 @@ export const authTokens2 = async (req, res) => {
     // CHUYỂN SANG DÙNG TRY/CATCH ĐỂ XỬ LÝ ĐỒNG BỘ JWT VERIFY
     try {
       const decodes = jwt.verify(oldRefreshToken, process.env.REFRESH_SECRET);
-      
+
       // Nếu token hợp lệ, tiến hành tạo cặp token mới
       const newAccessToken = jwt.sign(
         {
@@ -155,19 +158,19 @@ export const authTokens2 = async (req, res) => {
           email: client.email,
         },
         process.env.ACCESS_SECRET,
-        { expiresIn: "15m" } // Thời gian sống an toàn cho Access Token
+        { expiresIn: "15m" }, // Thời gian sống an toàn cho Access Token
       );
 
       const newRefreshToken = jwt.sign(
         { id: client._id },
         process.env.REFRESH_SECRET,
-        { expiresIn: "7d" }
+        { expiresIn: "7d" },
       );
 
       // Cập nhật Refresh Token mới vào mảng trong Database
       await clientEntity.updateOne(
         { _id: client._id, refreshToken: oldRefreshToken },
-          { $set: { "refreshToken.$": newRefreshToken } }
+        { $set: { "refreshToken.$": newRefreshToken } },
       );
 
       // Cấu hình lưu trữ Refresh Token mới vào Cookie
@@ -180,16 +183,14 @@ export const authTokens2 = async (req, res) => {
       });
 
       return res.json({ accessToken: newAccessToken });
-
     } catch (jwtError) {
       // Bắt lỗi nếu Refresh Token bị hết hạn hoặc sai chữ ký
       await clientEntity.updateOne(
         { _id: client._id },
-        { $pull: { refreshToken: oldRefreshToken } }
+        { $pull: { refreshToken: oldRefreshToken } },
       );
       return res.status(403).json("Token đã hết hạn hoặc sai");
     }
-
   } catch (error) {
     return res.status(500).json({ mess: "Lỗi hệ thống", error: error.message });
   }
@@ -216,39 +217,61 @@ export const getme2 = async (req, res) => {
     });
   }
 };
-export const logout=async(req,res)=>{
+export const logout = async (req, res) => {
   try {
-    const refreshToken=req.cookies.refreshToken2;
+    const refreshToken = req.cookies.refreshToken2;
     if (!refreshToken) {
-      return res.json({mess:"Đã đăng xuất",success:true})
+      return res.json({ mess: "Đã đăng xuất", success: true });
     }
-    await clientEntity.updateOne({refreshToken:refreshToken},{$pull:{refreshToken:refreshToken}});
-    res.clearCookie("refreshToken2",{
-      httpOnly:true,
-      secure:true,
-      sameSite:"none",
-      path:"/",
-    })
-    return res.json({mess:"Đã đăng xuất",success:true});
+    await clientEntity.updateOne(
+      { refreshToken: refreshToken },
+      { $pull: { refreshToken: refreshToken } },
+    );
+    res.clearCookie("refreshToken2", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      path: "/",
+    });
+    return res.json({ mess: "Đã đăng xuất", success: true });
   } catch (error) {
-    return res.json({mess:"Đăng xuất thất bại",success:false,error:error.message});
+    return res.json({
+      mess: "Đăng xuất thất bại",
+      success: false,
+      error: error.message,
+    });
   }
-}
-export const logoutDB=async(req,res)=>{
+};
+export const logoutDB = async (req, res) => {
   try {
-    const refreshToken=req.cookies.refreshToken;
-    if (!refreshToken) {
-      return res.json({mess:"Đã đăng xuất",success:true})
+    const refreshToken = req.cookies.refreshToken;
+    if (!req.user) {
+      return res.json({
+        mess: "Không tìm thấy tài khoản admin\nVui lòng đăng nhập",
+        success: false,
+      });
     }
-    await clientEntity.updateOne({refreshToken:refreshToken},{$pull:{refreshToken:refreshToken}});
-    res.clearCookie("refreshToken",{
-      httpOnly:true,
-      secure:true,
-      sameSite:"none",
-      path:"/",
-    })
-    return res.json({mess:"Đã đăng xuất",success:true});
+    if (!refreshToken) {
+      return res.json({ mess: "Đã đăng xuất", success: true });
+    }
+    await clientEntity.updateOne(
+      { refreshToken: refreshToken },
+      { $pull: { refreshToken: refreshToken } },
+    );
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      path: "/",
+    });
+    logger.info(`${req.user.email} đã đăng xuất`);
+    return res.json({ mess: "Đã đăng xuất", success: true });
   } catch (error) {
-    return res.json({mess:"Đăng xuất thất bại",success:false,error:error.message});
+    logger.error(`${req.user.email} đăng xuất thất bại.Lỗi:${error.message}`);
+    return res.json({
+      mess: "Đăng xuất thất bại",
+      success: false,
+      error: error.message,
+    });
   }
-}
+};

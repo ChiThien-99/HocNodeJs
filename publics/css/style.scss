@@ -1225,8 +1225,8 @@ header {
         background-color: red;
         color: $colorSecondaryText;
       }
-      .divResetMFA{
-        .btnResetMFA{
+      .divResetMFA {
+        .btnResetMFA {
           @include button(0.5rem);
           background-color: #0000ff;
           color: $colorSecondaryText;
@@ -2002,6 +2002,7 @@ header {
       }
       select {
         width: 50%;
+        height: 6rem;
       }
       .quill-editor {
         width: 100%;
@@ -2614,7 +2615,7 @@ header {
       background-color: $colorCTA;
       color: white;
     }
-    #btnSendMailDisableMFA{
+    #btnSendMailDisableMFA {
       margin: 0.5rem 0;
       color: blue;
       text-decoration: underline;
@@ -5081,7 +5082,7 @@ header {
       margin: 0.5rem 0;
       font-size: 1.2rem;
     }
-    #linkLoginClient{
+    #linkLoginClient {
       display: inline-block;
       @include button(0.5rem);
       background-color: $colorCTA;

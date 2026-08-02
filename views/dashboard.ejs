@@ -157,7 +157,7 @@
                     <%= (order.products.reduce((total, p) => total + (p.quantity * p.price), 0) - order.voucherDiscount).toLocaleString("vi-VN")%>đ
                   </td>
                   <td>
-                    <input type="text" name="invoice" class="invoice" value="<%=order.invoice%>" disabled>
+                    <input type="text" name="invoice" class="invoice" value="<%=order.invoice%>" disabled autocomplete="new-password">
                   </td>
                   <td>
                     <select name="status" class="status" disabled>
@@ -319,7 +319,7 @@
                       <div class="mindmap">
                       <div class="tool">
                         <span><kbd>Enter</kbd>: Chèn nút cùng cấp <kbd>Tab</kbd>: Chèn nút con <kbd>F1</kbd>: Chuyển đến nút trung tâm <kbd>F2</kbd>: Chỉnh nội dung nút <kbd>Delete</kbd>: Xóa nút <kbd>Ctrl+C</kbd>: Copy <kbd>Ctrl+V</kbd>: Paste <kbd>Ctrl+Z</kbd>: Quay lại <kbd>Chuột trái</kbd>: Tô chọn nhiều node <kbd>Chuột phải</kbd>: Kéo màn hình</span>
-                        <button type="button" class="btnSaveMindmap">Lưu</button>
+                        <button type="button" class="btnSaveMindmap" data-title="<%=job.title%>">Lưu</button>
                         <button type="button" class="btnCloseMindmap">Đóng</button>
                       </div>
                       <div class="map" data-title="<%=job.title%>" data-mindmap='<%=JSON.stringify(job.mindmapStructure)%>'></div>
@@ -929,8 +929,10 @@
                     <input type="hidden" name="importQuantityActual" class="importQuantityActual">
                   </td>
                   <td>
+                     <input type="text" style="display:none;" aria-hidden="true">
+                     <input type="password" style="display:none;" aria-hidden="true">
+                    <input type="hidden" name="costActual" class="costActual" autocomplete="new-password">
                     <input type="text" name="cost" class="cost">
-                    <input type="hidden" name="costActual" class="costActual">
                   </td>
                   <td>
                     <button type="button" class="btnImportDevice">Nhập kho</button>

@@ -1,0 +1,8 @@
+[2026-08-02 10:46:00] [ERROR]: lchithien2819@gmail.com nhập kho thất bại.Lỗi:Cast to Number failed for value "NaN" (type number) at path "cost"
+[2026-08-02 10:46:07] [ERROR]: lchithien2819@gmail.com nhập kho thất bại.Lỗi:Cast to Number failed for value "NaN" (type number) at path "cost"
+[2026-08-02 10:46:15] [ERROR]: lchithien2819@gmail.com nhập kho thất bại.Lỗi:Cast to Number failed for value "NaN" (type number) at path "cost"
+[2026-08-02 15:53:37] [ERROR]: lchithien2819@gmail.com tải đơn hàng về máy thất bại.Lỗi:Cannot read properties of null (reading 'fullname')
+[2026-08-02 15:55:42] [ERROR]: lchithien2819@gmail.com tải đơn hàng về máy thất bại.Lỗi:Cannot read properties of null (reading 'fullname')
+[2026-08-02 16:01:29] [ERROR]: lchithien2819@gmail.com tải đơn hàng về máy thất bại.Lỗi:Cannot read properties of null (reading 'fullname')
+[2026-08-02 16:21:04] [ERROR]: lchithien2819@gmail.com tải đơn hàng về máy thất bại.Lỗi:ENOENT: no such file or directory, open 'D:\HocNodeJs\publics\img\logo_imzai_1.png'
+[2026-08-02 16:25:22] [ERROR]: lchithien2819@gmail.com tải đơn hàng về máy thất bại.Lỗi:ENOENT: no such file or directory, open 'D:\HocNodeJs\publics\OpenSans-Bold.ttf'

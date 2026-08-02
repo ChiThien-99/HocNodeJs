@@ -145,8 +145,10 @@ socket.on("update-device", (data) => {
           <input type="hidden" name="importQuantityActual" class="importQuantityActual">
         </td>
         <td>
+          <input type="text" style="display:none;" aria-hidden="true">
+          <input type="password" style="display:none;" aria-hidden="true">
+          <input type="hidden" name="costActual" class="costActual" autocomplete="new-password">
           <input type="text" name="cost" class="cost">
-          <input type="hidden" name="costActual" class="costActual">
         </td>
         <td>
           <button type="button" class="btnImportDevice">Nhập kho</button>
@@ -694,7 +696,9 @@ socket.on("add-voucher", (data) => {
 });
 socket.on("delete-admin", (data) => {
   if (data && data._id) {
-    const rowToDelete = document.querySelector(`tr[data-idAdmin="${data._id}"]`);
+    const rowToDelete = document.querySelector(
+      `tr[data-idAdmin="${data._id}"]`,
+    );
     if (rowToDelete) {
       rowToDelete.remove();
     }
@@ -891,34 +895,38 @@ document.querySelectorAll(".btnDeleteUserAdmin").forEach((btn) => {
     }
   });
 });
-document.querySelectorAll(".btnResetMFA").forEach((btn)=>{
-  btn.addEventListener("click",async function(){
-    const confirmReset=await confirm("Thông báo","Bạn chắc chắn reset MFA của admin này","#1877f2");
+document.querySelectorAll(".btnResetMFA").forEach((btn) => {
+  btn.addEventListener("click", async function () {
+    const confirmReset = await confirm(
+      "Thông báo",
+      "Bạn chắc chắn reset MFA của admin này",
+      "#1877f2",
+    );
     if (confirmReset) {
-      const idAdmin=this.getAttribute("data-idAdmin");
-    fetch("/dashboard/resetMFA",{
-      method:"POST",
-      headers:{"Content-Type":"application/json;charset=UTF-8"},
-      body:JSON.stringify({idAdmin}),
-    })
-    .then(res=>res.json())
-    .then(({mess,success,error})=>{
-      if (success) {
-        alert("Thông báo",mess,"#80a710");
-      } else {
-        if (error) {
-          alert("Lỗi",`${mess}\n${error}`,"red");
-        } else {
-          alert("Lỗi",mess,"red");
-        }
-      }
-    })
-    .catch((error)=>{
-      alert("Lỗi",error,"red");
-    });
+      const idAdmin = this.getAttribute("data-idAdmin");
+      fetch("/dashboard/resetMFA", {
+        method: "POST",
+        headers: { "Content-Type": "application/json;charset=UTF-8" },
+        body: JSON.stringify({ idAdmin }),
+      })
+        .then((res) => res.json())
+        .then(({ mess, success, error }) => {
+          if (success) {
+            alert("Thông báo", mess, "#80a710");
+          } else {
+            if (error) {
+              alert("Lỗi", `${mess}\n${error}`, "red");
+            } else {
+              alert("Lỗi", mess, "red");
+            }
+          }
+        })
+        .catch((error) => {
+          alert("Lỗi", error, "red");
+        });
     }
-  })
-})
+  });
+});
 const pwAdminNew = document.getElementById("pwAdminNew");
 const btnTogglePW = document.getElementById("btnTogglePW");
 btnTogglePW.addEventListener("click", function (e) {
@@ -943,7 +951,7 @@ btnUpdatePW.addEventListener("click", (e) => {
     .then((res) => res.json())
     .then(({ mess, success, error }) => {
       if (success) {
-        pwAdminNew.value="";
+        pwAdminNew.value = "";
         alert("Thông báo", mess, "#80a710");
       } else {
         if (error) {
@@ -2423,6 +2431,10 @@ document.getElementById("btnCancleBlog").addEventListener("click", function () {
     console.error("Biến quill không tồn tại");
   }
   document.getElementById("btnblogs").value = "Tạo";
+  if (document.getElementById("btnblogs").style.display === "none") {
+    document.getElementById("btnblogs").style.display = "inline-block";
+  }
+  document.getElementById("btnPostDraft").style.display = "none";
   document.getElementById("btnSaveDraft").style.display = "none";
   document.getElementById("btnDeleteImgBlog").style.display = "none";
   this.style.display = "none";
@@ -3419,7 +3431,7 @@ document.getElementById("formJob").addEventListener("submit", (e) => {
           document.getElementById("startTimeJob").value = "";
           document.getElementById("deadlineJob").value = "";
           document.getElementById("btnJob").value = "Thêm công việc";
-          document.getElementById("btnCancleJob").style.display="none";
+          document.getElementById("btnCancleJob").style.display = "none";
           alert("Thông báo", mess, "#80a710");
         } else {
           if (error) {
@@ -3565,10 +3577,11 @@ document.querySelector("#tableJob tbody").addEventListener("click", (e) => {
       mapId: item.mapId,
       mapStructure: item.instance.getData(),
     }));
+    const titleJob = target.getAttribute("data-title");
     fetch("/dashboard/saveMindmap", {
       method: "POST",
       headers: { "Content-Type": "application/json;charset=UTF-8" },
-      body: JSON.stringify({ payload }),
+      body: JSON.stringify({ payload, titleJob }),
     })
       .then((res) => res.json())
       .then(({ mess, success, error }) => {
