@@ -1616,6 +1616,11 @@ header #divNavMenu #navMenu #containerUserLogin #bagShopping span {
   height: 2.5rem;
   font-size: 1rem;
 }
+#mainDashboard #contentDashboard #homeMng #expiredNotify {
+  width: 20%;
+  height: 2rem;
+  font-size: 1rem;
+}
 #mainDashboard #contentDashboard #homeMng em {
   color: red;
 }
@@ -2260,6 +2265,7 @@ header #divNavMenu #navMenu #containerUserLogin #bagShopping span {
 }
 #mainDashboard #contentDashboard #blogsMng select {
   width: 50%;
+  height: 6rem;
 }
 #mainDashboard #contentDashboard #blogsMng .quill-editor {
   width: 100%;

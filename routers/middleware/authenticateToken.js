@@ -3,11 +3,12 @@ import "dotenv/config";
 export const authenticateToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const tokenFromHeader = authHeader && authHeader.split(" ")[1];
-  const tokenFromCookie=req.cookies?req.cookies.accessToken:null;
-  const token=tokenFromHeader||tokenFromCookie;
-  console.log(`Token: ${token}`);
+  const tokenFromCookie = req.cookies ? req.cookies.accessToken : null;
+  const token = tokenFromHeader || tokenFromCookie;
   if (!token) {
-    return res.status(401).json({success:false,mess:"Không tìm thấy token"});
+    return res
+      .status(401)
+      .json({ success: false, mess: "Không tìm thấy token" });
   }
   jwt.verify(token, process.env.ACCESS_SECRET, (err, decodedUser) => {
     if (err) {
@@ -27,13 +28,12 @@ export const authenticateToken = (req, res, next) => {
 export const authenticateToken2 = (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const tokenFromHeader = authHeader && authHeader.split(" ")[1];
-  console.log(authHeader);
-  const tokenFromCookie=req.cookies?req.cookies.accessToken2:null;
-  console.log(`tokenFromCookie: ${tokenFromCookie}`);
-  const token=tokenFromHeader||tokenFromCookie;
-  console.log(`Token: ${token}`);
+  const tokenFromCookie = req.cookies ? req.cookies.accessToken2 : null;
+  const token = tokenFromHeader || tokenFromCookie;
   if (!token) {
-    return res.status(401).json({success:false,mess:"Không tìm thấy token"});
+    return res
+      .status(401)
+      .json({ success: false, mess: "Không tìm thấy token" });
   }
   jwt.verify(token, process.env.ACCESS_SECRET, (err, decodedUser) => {
     if (err) {

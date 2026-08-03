@@ -52,7 +52,7 @@ export const checkOtpLoginAdmin = async (req, res) => {
           decent: admin.decent,
         },
         process.env.ACCESS_SECRET,
-        { expiresIn: "15m" },
+        { expiresIn: "8h" },
       );
       const refreshToken = jwt.sign(
         {
