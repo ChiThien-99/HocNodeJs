@@ -1,3 +1,12 @@
+window.addEventListener("load",function(){
+  const preloader=document.getElementById("preloader");
+  if (preloader) {
+    preloader.classList.add("preloader-hidden");
+    setTimeout(() => {
+      preloader.remove();
+    }, 500);
+  }
+})
 import { authFetch2, setAccessToken2 } from "./authFetch.js";
 import { jwtDecode } from "https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/+esm";
 import { alert, confirm } from "./alert.js";

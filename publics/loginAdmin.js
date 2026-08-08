@@ -1,3 +1,12 @@
+window.addEventListener("load",function(){
+  const preloader=document.getElementById("preloader");
+  if (preloader) {
+    preloader.classList.add("preloader-hidden");
+    setTimeout(() => {
+      preloader.remove();
+    }, 500);
+  }
+})
 import axios from "https://cdn.jsdelivr.net/npm/axios@1.6.7/+esm";
 import { alert } from "./alert.js";
 import { authFetch, setAccessToken } from "./authFetch.js";
