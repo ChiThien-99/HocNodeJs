@@ -38,7 +38,7 @@ import { dbClientRouter } from "./routers/dashboardClient.router.js";
 import { cartRouter } from "./routers/cart.router.js";
 import { adminEntity } from "./models/admin.model.js";
 
-app.set("trust proxy", 1); 
+app.set("trust proxy", 1);
 app.use(
   session({
     secret: "9h80n0h0m960m0a8ul2p8ha1aii03umin1l",
@@ -85,10 +85,10 @@ app.use(
 );
 
 app.use(express.json());
-const morganStream={
-  write:(message)=>logger.info(message.trim())
+const morganStream = {
+  write: (message) => logger.info(message.trim()),
 };
-app.use(morgan("combined",{stream:morganStream}));
+app.use(morgan("combined", { stream: morganStream }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
@@ -141,17 +141,21 @@ app.use("/", clientRouter);
 app.use("/", dbClientRouter);
 app.use("/", cartRouter);
 
+//Xử lý lỗi 404
+app.use((req, res, next) => {
+  res.status(404).render("404");
+  logger.error(`Người dùng truy cập ${req.originalUrl} báo lỗi 404`);
+});
+
 Sentry.setupExpressErrorHandler(app);
 // Xử lý lỗi middleware
 app.use(function onError(err, req, res, next) {
   // The error id is attached to `res.sentry` to be returned
   // and optionally displayed to the user for support.
-  res.statusCode = 500;
-  res.end(res.sentry + "\n");
-});
-//Xử lý lỗi 404
-app.use((req, res) => {
-  res.status(404).json({ error: "Not Found" });
+  res.status(500).render("500");
+  logger.error(
+    `Người dùng truy cập ${req.originalUrl} báo lỗi 500. Mã lỗi Sentry: ${res.sentry}`,
+  );
 });
 
 const sslOption = {

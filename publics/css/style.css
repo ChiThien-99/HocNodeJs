@@ -5530,6 +5530,58 @@ header #divNavMenu #navMenu #containerUserLogin #bagShopping span {
   text-decoration: none;
 }
 
+#main404 {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+#main404 #divError404 {
+  margin: 7.5rem auto 1rem;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 1rem;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  text-align: center;
+}
+#main404 #divError404 #btnBackHome {
+  display: inline-block;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #80a710;
+  color: #fafafa;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+#main500 {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+#main500 #divError500 {
+  margin: 7.5rem auto 1rem;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 1rem;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  text-align: center;
+}
+#main500 #divError500 #btnBackHome {
+  display: inline-block;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #80a710;
+  color: #fafafa;
+  text-decoration: none;
+  font-weight: bold;
+}
+
 footer {
   width: 100%;
   overflow: hidden;

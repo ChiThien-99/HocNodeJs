@@ -248,18 +248,24 @@
           <a href="/"><img src="/img/logo_bank.webp" alt="logo_bank" /></a>
         </div>
         <div>
-          <h3>Sản phẩm</h3>
-          <a href="/app">Phần mềm</a><br />
-          <a href="/device">Thiết bị</a><br />
-          <h3><a href="/blogs">Blog</a></h3>
+          <h3>Danh mục</h3>
+          <a href="/" target="_blank">Trang chủ</a><br />
+          <a href="/app" target="_blank">Phần mềm</a><br />
+          <a href="/device" target="_blank">Thiết bị</a><br />
+          <a href="/blogs" target="_blank">Blogs</a><br />
         </div>
         <div>
           <h3>Đăng ký nhận tin khuyến mãi</h3>
-          <p>Email</p>
-          <input type="text" /><br />
-          <p>Số điện thoại</p>
-          <input type="text" /><br />
-          <button>Đăng ký</button>
+          <form id="formSubscribers">
+          <label for="nameSubscribers">Tên</label><br>
+          <input type="text" name="nameSubscribers" id="nameSubscribers"><br>
+          <label for="emailSubscribers">Email</label><br>
+          <input type="email" name="emailSubscribers" id="emailSubscribers"><br>
+          <p>Hoặc</p>
+          <label for="telSubscribers">Số điện thoại</label><br>
+          <input type="tel" name="telSubscribers" id="telSubscribers"><br>
+          <input type="submit" value="Đăng ký">
+          </form>
         </div>
       </footer>
 <script src="/socket.io/socket.io.js"></script>

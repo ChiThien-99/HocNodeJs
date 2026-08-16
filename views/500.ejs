@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cảm ơn bạn</title>
+    <title>500 Lỗi hệ thống</title>
     <link rel="stylesheet" href="/css/style.css" />
     <link
       rel="icon"
@@ -41,12 +41,6 @@
       type="font/woff2"
       crossorigin
     />
-    <link
-      href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
-      rel="stylesheet"
-    />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script
       src="https://kit.fontawesome.com/c1f12001f0.js"
       crossorigin="anonymous"
@@ -121,11 +115,16 @@
         </div>
       </div>
     </header>
-    <main id="mainThank">
-      <div>
-        <p>Bạn đã đặt hàng thành công &#127881;</p>
-        <p>Đơn hàng đã được gửi qua mail</p>
-        <p>Cảm ơn bạn đã mua sắm tại <span>VANHY</span></p>
+    <main id="main500">
+      <div id="divError500">
+        <h2><i class="fa-solid fa-server"></i> 500 Lỗi hệ thống</h2>
+        <p>
+          Đã xảy ra sự cố phía máy chủ. Chúng tôi đang xử lý vui lòng thử lại
+          sau.
+        </p>
+        <a href="/" id="btnBackHome"
+          ><i class="fa-solid fa-house"></i> Quay lại trang chủ</a
+        >
       </div>
     </main>
     <footer>
@@ -190,6 +189,7 @@
         </form>
       </div>
     </footer>
+    <script src="/socket.io/socket.io.js"></script>
   </body>
-  <script type="module" src="/thank.js" defer></script>
+  <script type="module" src="/app.js" defer></script>
 </html>

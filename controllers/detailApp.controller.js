@@ -14,7 +14,7 @@ export const getDetailApp = async (req, res) => {
 };
 export const addCart = async (req, res) => {
   try {
-    const { idClient, productId, productName, productPrice,imgApp } = req.body;
+    const { idClient, productId, productName, productPrice, imgApp } = req.body;
     const numericPrice = Number(productPrice);
     if (!idClient || !productId) {
       return res.json({
@@ -29,13 +29,13 @@ export const addCart = async (req, res) => {
         clientId: idClient,
         products: [
           {
-            category:"app",
+            category: "app",
             productId: productId,
             productName: productName,
             price: numericPrice,
             quantity: 1,
             color: "-",
-            img:imgApp,
+            img: imgApp,
           },
         ],
       });
@@ -44,18 +44,17 @@ export const addCart = async (req, res) => {
       productIndex = cart.products.findIndex(
         (p) => p.productId.toString() === `${productId}`,
       );
-      console.log(productIndex);
       if (productIndex > -1) {
         cart.products[productIndex].quantity += 1;
       } else {
         cart.products.push({
-          category:"app",
+          category: "app",
           productId: productId,
           productName: productName,
           price: numericPrice,
           quantity: 1,
           color: "-",
-          img:imgApp,
+          img: imgApp,
         });
       }
       cart.updateAt = new Date();
