@@ -25,7 +25,7 @@
     "mind-elixir": "^5.15.1",
     "mongoose": "^9.9.4",
     "morgan": "^1.11.0",
-    "multer": "^2.1.1",
+    "multer": "^2.3.0",
     "multer-storage-cloudinary": "^4.0.0",
     "node-cron": "^4.6.0",
     "nodemailer": "^8.0.11",
