@@ -5,7 +5,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@logtail/node": "^0.5.8",
+    "@logtail/node": "^0.5.10",
     "@logtail/winston": "^0.5.8",
     "@sentry/browser": "^10.75.0",
     "@sentry/node": "^10.74.0",
